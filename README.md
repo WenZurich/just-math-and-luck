@@ -4,7 +4,7 @@
 
 內容僅供參考，不是投資建議，也不會真實下單。
 
-網站：[每日數學選股](https://WenZurich.github.io/Just-Math-and-Luck/)
+網站：[每日數學選股](https://WenZurich.github.io/just-math-and-luck/)
 
 ## 加到主畫面
 
