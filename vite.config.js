@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/Just-Math-and-Luck/',
+  base: '/just-math-and-luck/',
   build: {
     outDir: 'dist',
     emptyOutDir: true,

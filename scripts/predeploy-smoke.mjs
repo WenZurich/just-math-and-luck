@@ -36,7 +36,7 @@ function setupDom() {
       <div id="xq-root"></div>
     </body></html>`,
     {
-      url: "http://localhost/Just-Math-and-Luck/",
+      url: "http://localhost/just-math-and-luck/",
       pretendToBeVisual: true,
     }
   );
