@@ -1,9 +1,9 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-02T09:18:56+08:00",
+    "updated": "2026-10-05T09:30:00+08:00",
     "timezone": "Asia/Taipei",
-    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-02)",
+    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-05)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
     "mathGate": "正式納入策略需數學閘門通過（目前未過）— 僅候選",
     "updateScript": "scripts/update-research-library.mjs",
@@ -7602,6 +7602,173 @@
         "machine-learning",
         "anomalies",
         "screening",
+        "candidate"
+      ]
+    },
+    {
+      "id": "paper-fomc-guidance-volume-premium-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "Monetary Policy Surprises and the Cross Sectional Stock Return Predictability in Volume Sorted Portfolios",
+      "authors": [
+        "Zijun Wang"
+      ],
+      "year": 2026,
+      "summary": "Asks whether Fed policy news predicts a specific stock-return anomaly rather than just the overall market. The anomaly is the high-volume return premium: stocks that recently had an unusually large jump in trading volume tend to earn higher average returns afterward. The study finds that surprises in the Fed's forward guidance (what it signals about the future rate path) help predict this premium, while surprises in the current rate decision do not. The link is about twice as strong after unscheduled FOMC meetings, and it disappears in the zero-lower-bound era. Takeaway for the site: a volume-shock screen may be worth tilting toward or away from depending on the latest guidance surprise — an interest-rate-aware overlay to watch, not a live rule.",
+      "formulas": [
+        "volume_shock(stock) ← recent volume unusually high vs its own trailing history (study's volume-sort definition)",
+        "premium_t ← return(high-volume-shock portfolio) − return(low-volume-shock portfolio)",
+        "guidance_surprise ← FOMC forward-guidance (path) surprise; action_surprise ← current-rate surprise",
+        "regress premium_{t+1} on guidance_surprise_t and action_surprise_t; only guidance is significant in study",
+        "flags: unscheduled meeting ≈ 2× effect; no effect in zero-lower-bound period",
+        "gate: US-only candidate overlay; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "美股：近期成交量突然放大的股票，之後平均報酬偏高（高量溢酬）",
+        "聯準會「對未來利率路徑的暗示」出乎意料時，能幫助預測這個高量溢酬；當次升降息本身的意外則不行",
+        "臨時加開的利率會議影響約為例行會議的兩倍；利率貼近零的年代則看不到效果",
+        "僅作「量能選股 × 利率訊號」觀察候選；數學閘門通過前不上線"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "美股：近期成交量突然放大的股票，之後平均報酬偏高（高量溢酬）",
+          "聯準會「對未來利率路徑的暗示」出乎意料時，能幫助預測這個高量溢酬；當次升降息本身的意外則不行",
+          "臨時加開的利率會議影響約為例行會議的兩倍；利率貼近零的年代則看不到效果",
+          "僅作「量能選股 × 利率訊號」觀察候選；數學閘門通過前不上線"
+        ],
+        "en": [
+          "US: stocks with a recent sudden volume jump tend to earn higher average returns afterward (high-volume premium)",
+          "Surprises in the Fed's guidance about the future rate path help predict that premium; surprises in the current rate decision do not",
+          "Unscheduled FOMC meetings show roughly twice the effect; no effect when rates sat near zero",
+          "Watch-only candidate for a volume screen with a rate-signal overlay — no live rule before the math gate"
+        ],
+        "zh-Hans": [
+          "美股：近期成交量突然放大的股票，之后平均报酬偏高（高量溢酬）",
+          "美联储「对未来利率路径的暗示」出乎意料时，能帮助预测这个高量溢酬；当次升降息本身的意外则不行",
+          "临时加开的利率会议影响约为例行会议的两倍；利率贴近零的年代则看不到效果",
+          "仅作「量能选股 × 利率信号」观察候选；数学闸门通过前不上线"
+        ],
+        "ja": [
+          "米国株：直近で出来高が急増した銘柄は、その後の平均リターンが高い傾向（高出来高プレミアム）",
+          "FRBの将来の金利経路に関するガイダンスのサプライズがこのプレミアムを予測；当日の金利決定のサプライズは予測しない",
+          "臨時FOMCでは効果が約2倍；ゼロ金利期には効果なし",
+          "出来高スクリーニング×金利シグナルの監視候補のみ；数学ゲート前は本番不採用"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — US FOMC-guidance × volume-premium overlay stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://ideas.repec.org/a/eee/finana/v113y2026ics105752192600061x.html",
+        "https://doi.org/10.1016/j.irfa.2026.105134"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "貨幣政策意外與成交量排序組合的橫斷面報酬可預測性",
+        "en": "Monetary Policy Surprises and the Cross Sectional Stock Return Predictability in Volume Sorted Portfolios",
+        "zh-Hans": "货币政策意外与成交量排序组合的横断面报酬可预测性",
+        "ja": "金融政策サプライズと出来高ソート・ポートフォリオの横断的リターン予測可能性"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "近期爆量股之後報酬偏高；聯準會前瞻指引的意外能預測這個高量溢酬，當次利率決策的意外則不能。臨時會議效果約兩倍，零利率時期不顯著。僅候選。",
+        "en": "Recent volume-shock stocks earn a premium; Fed forward-guidance surprises predict it, current-rate surprises do not. Unscheduled meetings ~2× stronger; insignificant at the zero lower bound. Candidate only.",
+        "zh-Hans": "近期爆量股之后报酬偏高；美联储前瞻指引的意外能预测这个高量溢酬，当次利率决策的意外则不能。临时会议效果约两倍，零利率时期不显著。仅候选。",
+        "ja": "直近の出来高急増銘柄にはプレミアムがあり、FRBのフォワードガイダンスのサプライズがそれを予測、当日の金利サプライズは予測しない。臨時会合で約2倍、ゼロ金利期は有意でない。候補のみ。"
+      },
+      "shelf": "econ_analysis",
+      "tags": [
+        "us",
+        "interest-rates",
+        "fomc",
+        "volume",
+        "anomalies",
+        "screening",
+        "candidate"
+      ]
+    },
+    {
+      "id": "paper-tw-continuous-trading-biases-2026",
+      "market": "TW",
+      "type": "paper",
+      "title": "The impact of trading mechanism reforms on behavioral biases: Evidence from Taiwan stock market",
+      "authors": [
+        "Jui-Cheng Hung",
+        "Chien-Liang Chiu",
+        "Chien-Ming Huang",
+        "Chun-Pin Liao"
+      ],
+      "year": 2026,
+      "summary": "Uses the Taiwan Stock Exchange's March 2020 switch from periodic call auctions to continuous trading as a natural experiment. Working from daily margin buy and sell data for 768 listed firms (margin trading in Taiwan is overwhelmingly retail), it builds stock-level measures of two retail biases: the disposition effect (selling winners too early, holding losers too long) and overconfidence (chasing past returns). Both biases rose clearly after the reform, and the rise was largest in stocks that retail investors already dominated; return-based checks agree. Takeaway for the site: in retail-heavy, margin-heavy Taiwan names, crowd behavior has become more reactive since 2020 — a psychology/crowding flag to watch alongside Kostolany-style sentiment rules, not a live rule.",
+      "formulas": [
+        "universe ← TWSE listed firms with daily margin buy/sell data",
+        "retail_dominance(stock) ← pre-reform margin usage ratio (margin balance relative to shares/turnover)",
+        "disposition / overconfidence ← stock-level coefficients of margin selling and buying on past gains/returns (Weber–Camerer, Dhar–Zhu style proxies)",
+        "DiD: bias_post2020 − bias_pre2020, high vs low retail_dominance → larger rise in retail-heavy stocks",
+        "gate: TW-only crowding/psychology candidate; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "台股 2020 年 3 月改為逐筆交易後，散戶「賺一點就賣、虧了死抱」與「追漲」兩種偏誤都明顯變強",
+        "研究用 768 檔上市股的每日融資買賣資料衡量（融資交易九成八以上是散戶）",
+        "原本就以散戶為主、融資使用率高的股票，偏誤增加得最多",
+        "僅作台股「融資擁擠／群眾心理」觀察候選；數學閘門通過前不上線"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "台股 2020 年 3 月改為逐筆交易後，散戶「賺一點就賣、虧了死抱」與「追漲」兩種偏誤都明顯變強",
+          "研究用 768 檔上市股的每日融資買賣資料衡量（融資交易九成八以上是散戶）",
+          "原本就以散戶為主、融資使用率高的股票，偏誤增加得最多",
+          "僅作台股「融資擁擠／群眾心理」觀察候選；數學閘門通過前不上線"
+        ],
+        "en": [
+          "After Taiwan moved to continuous trading in March 2020, retail selling-winners-early/holding-losers and return-chasing both grew stronger",
+          "Measured with daily margin buy/sell data for 768 TWSE stocks (margin trading is about 98%+ retail)",
+          "The increase was largest in stocks that were already retail- and margin-heavy",
+          "Watch-only TW margin-crowding / crowd-psychology candidate — no live rule before the math gate"
+        ],
+        "zh-Hans": [
+          "台股 2020 年 3 月改为逐笔交易后，散户「赚一点就卖、亏了死抱」与「追涨」两种偏误都明显变强",
+          "研究用 768 档上市股的每日融资买卖数据衡量（融资交易九成八以上是散户）",
+          "原本就以散户为主、融资使用率高的股票，偏误增加得最多",
+          "仅作台股「融资拥挤／群众心理」观察候选；数学闸门通过前不上线"
+        ],
+        "ja": [
+          "台湾が2020年3月にザラバ方式へ移行後、個人の「利益は早売り・損は塩漬け」と「リターン追随」がともに強まった",
+          "TWSE上場768銘柄の日次信用買い・売りデータで測定（信用取引の98%超が個人）",
+          "もともと個人・信用比率が高い銘柄ほど増加が大きい",
+          "台湾の信用取引の過熱／群集心理の監視候補のみ；数学ゲート前は本番不採用"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — TW margin-crowding / retail-bias flag stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://ideas.repec.org/a/eee/riibaf/v89y2026ics0275531926002011.html",
+        "https://doi.org/10.1016/j.ribaf.2026.103474",
+        "https://www.sciencedirect.com/science/article/abs/pii/S0275531926002011"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "交易機制改革對行為偏誤的影響：台股實證",
+        "en": "The impact of trading mechanism reforms on behavioral biases: Evidence from Taiwan stock market",
+        "zh-Hans": "交易机制改革对行为偏误的影响：台股实证",
+        "ja": "取引メカニズム改革が行動バイアスに与える影響：台湾株の実証"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "以 2020 年台股改逐筆交易為自然實驗，用 768 檔上市股融資資料衡量散戶處分效果與過度自信，兩者改制後皆上升，散戶主導股最明顯。僅候選。",
+        "en": "Uses Taiwan's 2020 switch to continuous trading as a natural experiment; margin data on 768 TWSE stocks show retail disposition effect and overconfidence both rose, most in retail-dominated stocks. Candidate only.",
+        "zh-Hans": "以 2020 年台股改逐笔交易为自然实验，用 768 档上市股融资数据衡量散户处分效果与过度自信，两者改制后皆上升，散户主导股最明显。仅候选。",
+        "ja": "2020年の台湾ザラバ移行を自然実験とし、上場768銘柄の信用データで個人の気質効果と過信がともに上昇、個人主導銘柄で顕著。候補のみ。"
+      },
+      "shelf": "psych_randomness",
+      "tags": [
+        "tw",
+        "margin",
+        "retail",
+        "behavioral",
+        "disposition-effect",
+        "market-structure",
         "candidate"
       ]
     }
