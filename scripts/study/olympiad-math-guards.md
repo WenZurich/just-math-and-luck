@@ -23,3 +23,4 @@ Daily drills live outside the site repo: `/workspace/stock-ops-study/math-drills
 
 | Paper options intrinsic/extrinsic + premium×100 cash | `optionIntrinsic` / `optionPremiumCashImpact` reject neg premium & non-int contracts |
 | TX/MTX P&L points×mult×contracts + margin hold | `futuresPnlTwd` / `futuresMarginHold`; unknown codes → null (never invent) |
+| Paper add-to-position blended cost | `avgCostAfterBuy` result stays between the two prices, avg×qty = total cost; live BUY/SELL replay must match avgCostAtSale and open positions |

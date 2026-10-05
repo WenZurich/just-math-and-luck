@@ -1,11 +1,11 @@
 {
-  "asOf": "2026-09-25T19:02:44.182Z",
+  "asOf": "2026-10-05T00:08:24.796Z",
   "market": "TW",
   "timezone": "Asia/Taipei",
   "timezoneLabel": "台北時間",
   "window": {
-    "from": "2026-09-26",
-    "to": "2026-10-31"
+    "from": "2026-10-05",
+    "to": "2026-11-09"
   },
   "source": {
     "name": "DGBAS / CBC / TWSE / MOEA",
@@ -23,19 +23,6 @@
   "stale": false,
   "events": [
     {
-      "id": "twseHoliday-2026-09-28",
-      "eventKey": "twseHoliday",
-      "eventName": "台股休市 · 孔子誕辰紀念日/ 教師節",
-      "shortName": "台股休市 · 孔子誕辰紀念日/ 教師節",
-      "importance": "med",
-      "highImpact": false,
-      "scheduledAt": "2026-09-28T01:00:00.000Z",
-      "dayTw": "2026-09-28",
-      "periodLabel": "依規定放假1日。",
-      "source": "twse",
-      "officialUrl": "https://www.twse.com.tw/zh/trading/holiday.html"
-    },
-    {
       "id": "dgbasCpi-2026-10-07T16:00:00+08:00",
       "eventKey": "dgbasCpi",
       "eventName": "消費者物價指數",
@@ -44,7 +31,7 @@
       "highImpact": true,
       "scheduledAt": "2026-10-07T08:00:00.000Z",
       "dayTw": "2026-10-07",
-      "periodLabel": "(11509)",
+      "periodLabel": "(11606)",
       "source": "行政院主計總處",
       "officialUrl": "https://www.stat.gov.tw/cl.aspx?n=2663"
     },
@@ -83,20 +70,20 @@
       "highImpact": true,
       "scheduledAt": "2026-10-20T08:00:00.000Z",
       "dayTw": "2026-10-20",
-      "periodLabel": "(11509)",
+      "periodLabel": "(11606)",
       "source": "經濟部",
       "officialUrl": "https://www.moea.gov.tw/mns/dos/bulletin/bulletin.aspx?kind=5&html=1&menu_id=6724"
     },
     {
-      "id": "dgbasUnemployment-2026-10-23T16:00:00+08:00",
+      "id": "dgbasUnemployment-2026-10-22T16:00:00+08:00",
       "eventKey": "dgbasUnemployment",
       "eventName": "勞動力、就業人數、失業人數、非勞動力、失業率、勞動力參與率",
       "shortName": "失業率",
       "importance": "high",
       "highImpact": true,
-      "scheduledAt": "2026-10-23T08:00:00.000Z",
-      "dayTw": "2026-10-23",
-      "periodLabel": "(11509)",
+      "scheduledAt": "2026-10-22T08:00:00.000Z",
+      "dayTw": "2026-10-22",
+      "periodLabel": "(11606)",
       "source": "行政院主計總處",
       "officialUrl": "https://www.stat.gov.tw/cl.aspx?n=2700"
     },
@@ -109,7 +96,7 @@
       "highImpact": true,
       "scheduledAt": "2026-10-23T08:00:00.000Z",
       "dayTw": "2026-10-23",
-      "periodLabel": "(11509)",
+      "periodLabel": "(11606)",
       "source": "經濟部",
       "officialUrl": "https://www.moea.gov.tw/mns/dos/bulletin/bulletin.aspx?kind=6&html=1&menu_id=6725"
     },
@@ -148,9 +135,22 @@
       "highImpact": true,
       "scheduledAt": "2026-10-30T08:00:00.000Z",
       "dayTw": "2026-10-30",
-      "periodLabel": "(115Q3)",
+      "periodLabel": "(116Q2)",
       "source": "行政院主計總處",
       "officialUrl": "https://www.stat.gov.tw/News.aspx?n=2677&sms=10980"
+    },
+    {
+      "id": "dgbasCpi-2026-11-06T16:00:00+08:00",
+      "eventKey": "dgbasCpi",
+      "eventName": "消費者物價指數",
+      "shortName": "CPI 消費者物價",
+      "importance": "high",
+      "highImpact": true,
+      "scheduledAt": "2026-11-06T08:00:00.000Z",
+      "dayTw": "2026-11-06",
+      "periodLabel": "(11607)",
+      "source": "行政院主計總處",
+      "officialUrl": "https://www.stat.gov.tw/cl.aspx?n=2663"
     }
   ],
   "refreshHint": "npm run fetch-tw-macro  （可選 FETCH_TW_MACRO=1 接在 daily-scan 後）"

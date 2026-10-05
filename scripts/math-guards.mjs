@@ -22,6 +22,7 @@ import {
   compoundRet,
   weightedMean,
   logReturn,
+  avgCostAfterBuy,
 } from "./math-core.mjs";
 import { temperatureScore } from "./market-regime.mjs";
 import {
@@ -623,6 +624,67 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
     }
   }
   ok("paper-portfolio sell realized identities + book totals");
+}
+
+
+// avgCostAfterBuy: blended cost, convex-hull invariant, total-cost identity, domain refusals
+{
+  assert(avgCostAfterBuy(0, null, 10, 50) === 50, "fresh open → addPrice");
+  assert(approx(avgCostAfterBuy(100, 10, 100, 20), 15), "equal qty → midpoint 15");
+  assert(approx(avgCostAfterBuy(30, 10, 10, 50), 20), "(300+500)/40 = 20");
+  assert(avgCostAfterBuy(10, 10, 0, 20) === null, "addQty 0 → null");
+  assert(avgCostAfterBuy(-1, 10, 1, 20) === null, "oldQty neg → null");
+  assert(avgCostAfterBuy(10, 0, 1, 20) === null, "oldAvg 0 with qty>0 → null");
+  assert(avgCostAfterBuy(10, 10, 1, -5) === null, "neg price → null");
+  assert(avgCostAfterBuy(10, NaN, 1, 5) === null, "NaN avg → null");
+  assert(avgCostAfterBuy(10, 10, 1, Infinity) === null, "Inf price → null");
+  // randomized: convexity + total cost identity (deterministic LCG, no Math.random)
+  let seed = 20261005;
+  const rnd = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
+  for (let i = 0; i < 500; i++) {
+    const q0 = 1 + Math.floor(rnd() * 5000), a0 = 1 + rnd() * 900;
+    const q1 = 1 + Math.floor(rnd() * 5000), p1 = 1 + rnd() * 900;
+    const r = avgCostAfterBuy(q0, a0, q1, p1);
+    assert(r != null && r >= Math.min(a0, p1) - 1e-9 && r <= Math.max(a0, p1) + 1e-9, `convex hull #${i}`);
+    assert(approx(r * (q0 + q1), a0 * q0 + p1 * q1, 1e-6 * (a0 * q0 + p1 * q1)), `total cost identity #${i}`);
+  }
+  ok("avgCostAfterBuy domain + convexity + total-cost identity");
+}
+
+// Live paper-portfolio.json: replay logged BUY/SELL per ticker → avgCost must match
+// open positions and each SELL's avgCostAtSale (skip tickers whose opening BUY was trimmed).
+{
+  const folio = JSON.parse(readFileSync(join(ROOT_MG, "public/data/paper-portfolio.json"), "utf8"));
+  let checked = 0;
+  for (const [mid, book] of Object.entries(folio.books || {})) {
+    const st = new Map();
+    for (const tr of book.trades || []) {
+      let s = st.get(tr.ticker);
+      if (tr.side === "BUY") {
+        if (!s) { s = { qty: 0, avg: null, complete: true }; st.set(tr.ticker, s); }
+        const nAvg = avgCostAfterBuy(s.qty, s.avg, tr.qty, tr.price);
+        assert(nAvg != null, `${mid} ${tr.ticker} ${tr.date} replay buy in-domain`);
+        s.avg = nAvg; s.qty += tr.qty;
+      } else if (tr.side === "SELL") {
+        if (!s) { st.set(tr.ticker, { qty: 0, avg: null, complete: false }); continue; }
+        if (s.complete && tr.avgCostAtSale != null) {
+          assert(approx(s.avg, tr.avgCostAtSale, 0.006), `${mid} ${tr.ticker} ${tr.date} replay avg ${s.avg} = avgCostAtSale ${tr.avgCostAtSale}`);
+          checked++;
+        }
+        s.qty -= tr.qty;
+        assert(s.qty >= -1e-9 || !s.complete, `${mid} ${tr.ticker} sell qty ≤ held`);
+        if (s.qty <= 1e-9) st.delete(tr.ticker);
+      }
+    }
+    for (const pos of book.positions || []) {
+      const s = st.get(pos.ticker);
+      if (!s || !s.complete) continue;
+      assert(approx(s.qty, pos.qty, 1e-6), `${mid} ${pos.ticker} replay qty ${s.qty} = position ${pos.qty}`);
+      assert(approx(s.avg, pos.avgCost, 0.006), `${mid} ${pos.ticker} replay avg ${s.avg} = position ${pos.avgCost}`);
+      checked++;
+    }
+  }
+  ok(`paper-portfolio avgCost replay (${checked} checks)`);
 }
 
 console.log("——");

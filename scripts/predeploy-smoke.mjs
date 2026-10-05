@@ -8,11 +8,35 @@
  * Exits non-zero on any failure. Do not push until this passes.
  */
 import fs from "node:fs";
+import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { JSDOM } from "jsdom";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+/** Return parsed JSON of relPath (current working copy, else committed versions newest-first) matching pred. */
+function findSourceAtFill(relPath, pred, maxVersions = 120) {
+  const abs = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", relPath);
+  try {
+    if (fs.existsSync(abs)) {
+      const cur = JSON.parse(fs.readFileSync(abs, "utf8"));
+      if (pred(cur)) return cur;
+    }
+  } catch {}
+  try {
+    const cwd = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+    const hashes = execFileSync("git", ["log", `-n${maxVersions}`, "--format=%H", "--", relPath], { cwd, encoding: "utf8" })
+      .split("\n").filter(Boolean);
+    for (const h of hashes) {
+      try {
+        const j = JSON.parse(execFileSync("git", ["show", `${h}:${relPath}`], { cwd, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 }));
+        if (pred(j)) return j;
+      } catch {}
+    }
+  } catch {}
+  return null;
+}
+
 const ROOT = path.resolve(__dirname, "..");
 const SCREENER =
   process.env.SMOKE_SCREENER ||
@@ -1282,25 +1306,33 @@ async function main() {
         if (!(usFill.qtySigned > 0) || book.US?.cashAdj !== -debit) {
           fail("US paper option cash debit must equal premium×100×qty");
         } else ok(`US option debit US$${debit}`);
-        const txfNow = JSON.parse(fs.readFileSync(txfPath, "utf8"));
-        const spec = txfNow.contracts?.[twFill.code];
-        const monthRow =
-          (spec?.near?.month === twFill.month && spec.near) ||
-          (spec?.next?.month === twFill.month && spec.next) ||
-          null;
+        // Fills are verified against the source snapshot that existed at fill time
+        // (current file first, then committed history), so a held position stays
+        // checkable after the daily refresh rotates prices/tickers.
+        const twMonthRow = (j) => {
+          const sp = j?.contracts?.[twFill.code];
+          return (sp?.near?.month === twFill.month && sp.near) || (sp?.next?.month === twFill.month && sp.next) || null;
+        };
+        const txfAtFill = findSourceAtFill("public/data/txf-desk.json", (j) =>
+          j?.sessionDate === twFill.sessionDate && twMonthRow(j) != null);
+        const spec = (txfAtFill || JSON.parse(fs.readFileSync(txfPath, "utf8"))).contracts?.[twFill.code];
+        const monthRow = txfAtFill ? twMonthRow(txfAtFill) : null;
         if (!monthRow || monthRow.last !== twFill.avgPrice) {
-          fail("TW futures fill price must equal txf-desk last for that month");
-        } else ok(`TW ${twFill.code} fill matches desk last ${monthRow.last}`);
+          fail("TW futures fill price must equal txf-desk last for that month (fill-session snapshot)");
+        } else ok(`TW ${twFill.code} fill matches desk last ${monthRow.last} (session ${twFill.sessionDate})`);
         const hold = spec.margin.initial * Math.abs(twFill.qtySigned);
         if (book.TW?.marginHold !== hold) fail(`TW margin hold ${book.TW?.marginHold} != official initial×qty ${hold}`);
         else ok(`TW margin hold ${hold}`);
-        const nv = (optSnap.tickers || []).find((r) => r.ticker === usFill.underlying);
+        const optAtFill = findSourceAtFill("public/data/us-options-snapshot.json", (j) =>
+          j?.asOf === usFill.openedAsOf);
+        if (!optAtFill) fail(`US option fill: no us-options snapshot with asOf ${usFill.openedAsOf} (current or git history)`);
+        const nv = (optAtFill?.tickers || []).find((r) => r.ticker === usFill.underlying);
         const chain = nv?.options?.paperChain;
         const list = (usFill.right === "put" ? chain?.puts : chain?.calls) || [];
         const hit = list.find((c) => c.strike === usFill.strike);
-        if (!hit || hit.premium !== usFill.avgPremium) fail("US option fill premium must equal paperChain");
-        else ok("US option fill matches paperChain premium");
-        if (chain?.expiration && usFill.expiry !== chain.expiration) fail("US option expiry must match paperChain");
+        if (!hit || hit.premium !== usFill.avgPremium) fail("US option fill premium must equal paperChain (fill-time snapshot)");
+        else ok(`US option fill matches paperChain premium ${hit.premium} (snapshot ${usFill.openedAsOf})`);
+        if (!chain?.expiration || usFill.expiry !== chain.expiration) fail("US option expiry must match paperChain");
         else ok("US option expiry matches paperChain");
       }
     }

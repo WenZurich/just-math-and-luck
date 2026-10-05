@@ -210,3 +210,22 @@ export function logReturn(p0, p1) {
   const r = Math.log(p1 / p0);
   return isFiniteNumber(r) ? r : null;
 }
+
+/**
+ * Blended average cost after adding to a position:
+ *   (oldAvg·oldQty + addPrice·addQty) / (oldQty + addQty).
+ * Domain: oldQty ≥ 0 (0 ⇒ fresh open, result = addPrice), addQty > 0, prices finite & > 0;
+ * oldAvg must be > 0 whenever oldQty > 0. Invariant (convexity): result ∈ [min, max] of the
+ * two prices, and result·newQty = total cost. Returns null off-domain.
+ */
+export function avgCostAfterBuy(oldQty, oldAvg, addQty, addPrice) {
+  if (!isFiniteNumber(oldQty) || !isFiniteNumber(addQty) || !isFiniteNumber(addPrice)) return null;
+  if (oldQty < 0 || !(addQty > 0) || !(addPrice > 0)) return null;
+  if (oldQty === 0) return addPrice;
+  if (!isFiniteNumber(oldAvg) || !(oldAvg > 0)) return null;
+  const newQty = oldQty + addQty;
+  const r = (oldAvg * oldQty + addPrice * addQty) / newQty;
+  if (!isFiniteNumber(r)) return null;
+  // clamp float drift back into the convex hull (never outside [min,max] of inputs)
+  return Math.min(Math.max(r, Math.min(oldAvg, addPrice)), Math.max(oldAvg, addPrice));
+}

@@ -61,6 +61,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { avgCostAfterBuy } from "./math-core.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -427,8 +428,11 @@ function sizeShares({ market, price, equity, cash, volRatio, existingQty }) {
 function buyFill(book, stock, qty, reason, reasonText, date, asOf) {
   const cost = qty * stock.price;
   if (cost > book.cash + 1e-9 || qty <= 0) return null;
-  book.cash = roundMoney(book.cash - cost);
   let pos = book.positions.find((p) => p.ticker === stock.ticker);
+  // Blend cost via guarded math-core before touching cash; refuse the fill off-domain.
+  const blendedAvg = pos ? avgCostAfterBuy(pos.qty, pos.avgCost, qty, stock.price) : null;
+  if (pos && blendedAvg == null) return null;
+  book.cash = roundMoney(book.cash - cost);
   const limitUp = isLimitUpStyle(stock);
   if (!pos) {
     pos = {
@@ -445,7 +449,7 @@ function buyFill(book, stock, qty, reason, reasonText, date, asOf) {
     book.positions.push(pos);
   } else {
     const newQty = pos.qty + qty;
-    pos.avgCost = (pos.avgCost * pos.qty + stock.price * qty) / newQty;
+    pos.avgCost = blendedAvg;
     pos.qty = newQty;
     pos.mark = stock.price;
     pos.lastAddDate = date;
