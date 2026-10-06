@@ -13,6 +13,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { annualizedHistVol } from "./math-core.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -382,17 +383,9 @@ async function fetchHistoricalVol(session, ticker) {
   if (!res.ok) return null;
   const r = res.data?.chart?.result?.[0];
   const closes = (r?.indicators?.quote?.[0]?.close || []).filter((c) => c != null);
-  if (closes.length < 22) return null;
-  const rets = [];
-  for (let i = 1; i < closes.length; i++) {
-    if (closes[i - 1] > 0) rets.push(Math.log(closes[i] / closes[i - 1]));
-  }
-  if (rets.length < 20) return null;
-  const slice = rets.slice(-21);
-  const mean = slice.reduce((a, b) => a + b, 0) / slice.length;
-  const varSum = slice.reduce((a, b) => a + (b - mean) ** 2, 0) / (slice.length - 1);
-  const daily = Math.sqrt(varSum);
-  return round(daily * Math.sqrt(252), 4);
+  // 21 daily log returns, sample stdev, ×√252 — single source of truth in math-core (guarded by test:math).
+  const hv = annualizedHistVol(closes, { window: 21, periodsPerYear: 252, minCloses: 22, minReturns: 20 });
+  return hv == null ? null : round(hv, 4);
 }
 
 async function fetchOptions(session, ticker, spotHint) {

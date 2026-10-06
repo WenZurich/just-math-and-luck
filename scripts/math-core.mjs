@@ -229,3 +229,30 @@ export function avgCostAfterBuy(oldQty, oldAvg, addQty, addPrice) {
   // clamp float drift back into the convex hull (never outside [min,max] of inputs)
   return Math.min(Math.max(r, Math.min(oldAvg, addPrice)), Math.max(oldAvg, addPrice));
 }
+
+/**
+ * Annualized historical (realized) volatility from daily closes.
+ *   r_i = ln(c_i / c_{i−1}) over consecutive valid pairs (both finite & > 0; others skipped),
+ *   take the last `window` returns, sample stdev with (n − 1) denominator, × √periodsPerYear.
+ * Units: fraction per year (0.25 = 25 %/yr), same unit as Yahoo implied vol.
+ * Domain: needs ≥ minCloses valid closes and ≥ minReturns returns; result finite & ≥ 0, else null.
+ * Invariants: price-scale invariant (c → k·c), drift-free on geometric paths (constant r ⇒ 0),
+ * time-reversal invariant (r → −r leaves stdev unchanged).
+ */
+export function annualizedHistVol(closes, { window = 21, periodsPerYear = 252, minCloses = 22, minReturns = 20 } = {}) {
+  if (!Array.isArray(closes)) return null;
+  const c = closes.filter((x) => isFiniteNumber(x) && x > 0);
+  if (c.length < minCloses) return null;
+  const rets = [];
+  for (let i = 1; i < c.length; i++) {
+    const r = logReturn(c[i - 1], c[i]);
+    if (r != null) rets.push(r);
+  }
+  if (rets.length < minReturns || rets.length < 2) return null;
+  const slice = rets.slice(-window);
+  if (slice.length < 2) return null;
+  const mean = slice.reduce((a, b) => a + b, 0) / slice.length;
+  const variance = slice.reduce((a, b) => a + (b - mean) ** 2, 0) / (slice.length - 1);
+  const out = Math.sqrt(Math.max(0, variance)) * Math.sqrt(periodsPerYear);
+  return isFiniteNumber(out) && out >= 0 ? out : null;
+}

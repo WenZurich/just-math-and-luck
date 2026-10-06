@@ -23,6 +23,7 @@ import {
   weightedMean,
   logReturn,
   avgCostAfterBuy,
+  annualizedHistVol,
 } from "./math-core.mjs";
 import { temperatureScore } from "./market-regime.mjs";
 import {
@@ -727,6 +728,67 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
     n += 3;
   }
   ok(`paper-portfolio accounting identities (${n} book checks)`);
+}
+
+// annualizedHistVol (options desk HV20): hand closed form, invariants, independent re-implementation,
+// domain refusals, and live us-options-snapshot consistency (ivHvRatio = atmIv / HV).
+{
+  const HV = (c) => annualizedHistVol(c, { window: 21, periodsPerYear: 252, minCloses: 22, minReturns: 20 });
+  const rel = (a, b) => Math.abs(a - b) <= 1e-12 * Math.max(1, Math.abs(b));
+  // (a) constant & geometric paths ⇒ 0 (drift does not count as volatility)
+  assert(HV(Array(30).fill(100)) === 0, "HV constant closes = 0");
+  const geo = Array.from({ length: 30 }, (_, i) => 50 * 1.01 ** i);
+  assert(HV(geo) != null && HV(geo) < 1e-12, `HV geometric path ≈ 0 (got ${HV(geo)})`);
+  // (b) hand closed form: 22 closes alternating 100,110 ⇒ 21 returns (11×+L, 10×−L), L = ln 1.1
+  //     mean = L/21, sample var = L²·(21 − 1/21)/20 = L²·22/21 ⇒ HV = L·√(22/21)·√252
+  const alt = Array.from({ length: 22 }, (_, i) => (i % 2 === 0 ? 100 : 110));
+  const L = Math.log(1.1);
+  assert(rel(HV(alt), L * Math.sqrt(22 / 21) * Math.sqrt(252)), `HV alternating closed form ${HV(alt)}`);
+  // (c) invariants: price scale, time reversal (exactly 22 closes ⇒ same return set, negated)
+  let s = 20261007 >>> 0;
+  const rnd = () => ((s = (Math.imul(s, 1664525) + 1013904223) >>> 0) / 4294967296);
+  let nRand = 0;
+  for (let t = 0; t < 400; t++) {
+    const n = 22 + Math.floor(rnd() * 40);
+    const c = [80 + rnd() * 40];
+    for (let i = 1; i < n; i++) c.push(c[i - 1] * Math.exp((rnd() - 0.5) * 0.08));
+    const h = HV(c);
+    assert(h != null && Number.isFinite(h) && h >= 0, `HV random finite ≥ 0 (t=${t})`);
+    assert(rel(HV(c.map((x) => x * 37.5)), h) || Math.abs(HV(c.map((x) => x * 37.5)) - h) < 1e-12, `HV scale-invariant (t=${t})`);
+    // independent re-implementation: Welford one-pass over the last 21 log returns
+    const r = [];
+    for (let i = 1; i < c.length; i++) r.push(Math.log(c[i] / c[i - 1]));
+    const w = r.slice(-21);
+    let m = 0, M2 = 0;
+    w.forEach((x, k) => { const d = x - m; m += d / (k + 1); M2 += d * (x - m); });
+    const ind = Math.sqrt(M2 / (w.length - 1)) * Math.sqrt(252);
+    assert(Math.abs(ind - h) < 1e-12, `HV matches Welford re-implementation (t=${t}, ${h} vs ${ind})`);
+    if (n === 22) assert(Math.abs(HV([...c].reverse()) - h) < 1e-12, `HV time-reversal invariant (t=${t})`);
+    nRand++;
+  }
+  // (d) domain refusals: too short, non-array, garbage never leaks a non-finite number
+  assert(HV(Array(21).fill(100)) === null, "HV < 22 closes → null");
+  assert(HV(null) === null && HV("x") === null, "HV non-array → null");
+  const dirty = [...alt, NaN, Infinity, -5, 0, null, 105];
+  const hd = HV(dirty);
+  assert(hd != null && Number.isFinite(hd) && hd >= 0, `HV skips NaN/∞/≤0/null bars, stays finite (got ${hd})`);
+  assert(HV([...Array(25).fill(0)]) === null, "HV all-zero closes → null");
+  // (e) live snapshot: historicalVol in (0, 5], ivHvRatio = round(atmIv/hv, 3)
+  let nLive = 0;
+  try {
+    const snap = JSON.parse(readFileSync(join(ROOT_MG, "public/data/us-options-snapshot.json"), "utf8"));
+    for (const row of snap.tickers || []) {
+      const o = row.options || {};
+      if (o.historicalVol == null) continue;
+      assert(Number.isFinite(o.historicalVol) && o.historicalVol > 0 && o.historicalVol <= 5, `${row.ticker} historicalVol ${o.historicalVol} ∈ (0,5] (annual fraction, not %)`);
+      if (o.atmIv != null && o.ivHvRatio != null)
+        assert(Math.abs(o.ivHvRatio - o.atmIv / o.historicalVol) <= 0.0005 + 1e-9, `${row.ticker} ivHvRatio ${o.ivHvRatio} = atmIv/HV ${o.atmIv / o.historicalVol}`);
+      nLive++;
+    }
+  } catch (e) {
+    fail(`us-options-snapshot.json unreadable for HV guard: ${e.message}`);
+  }
+  ok(`annualizedHistVol (closed form, ${nRand} random invariant/re-impl cases, domain, ${nLive} live rows)`);
 }
 
 console.log("——");
