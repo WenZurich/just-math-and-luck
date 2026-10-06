@@ -687,6 +687,48 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
   ok(`paper-portfolio avgCost replay (${checked} checks)`);
 }
 
+// Live paper-portfolio.json: accounting identities (no fees in the paper model).
+//   (1) positionsValue = Σ mark·qty, equity = cash + positionsValue
+//   (2) cash ledger: startCash − Σ BUY qty·price + Σ SELL qty·price = cash (only when trade log untrimmed)
+//   (3) P&L decomposition: equity − startCash = realizedPnl + Σ (mark − avgCost)·qty
+//   (4) metrics.totalPnl / totalPnlPct consistent; cash ≥ 0; every qty > 0, prices > 0
+{
+  const folio = JSON.parse(readFileSync(join(ROOT_MG, "public/data/paper-portfolio.json"), "utf8"));
+  let n = 0;
+  for (const [mid, book] of Object.entries(folio.books || {})) {
+    const fin = (x) => typeof x === "number" && Number.isFinite(x);
+    assert(fin(book.startCash) && book.startCash > 0, `${mid} startCash finite > 0`);
+    assert(fin(book.cash) && book.cash >= -0.005, `${mid} cash ${book.cash} ≥ 0`);
+    let pv = 0, upnl = 0;
+    for (const p of book.positions || []) {
+      assert(fin(p.qty) && p.qty > 0 && fin(p.mark) && p.mark > 0 && fin(p.avgCost) && p.avgCost > 0, `${mid} ${p.ticker} position fields finite & > 0`);
+      pv += p.mark * p.qty;
+      upnl += (p.mark - p.avgCost) * p.qty;
+    }
+    const tolPv = 0.01 * Math.max(1, (book.positions || []).length);
+    assert(approx(pv, book.positionsValue, tolPv), `${mid} positionsValue ${book.positionsValue} = Σ mark·qty ${pv}`);
+    assert(approx(book.cash + book.positionsValue, book.equity, 0.02), `${mid} equity = cash + positionsValue`);
+    const trades = book.trades || [];
+    for (const tr of trades) assert(fin(tr.qty) && tr.qty > 0 && fin(tr.price) && tr.price > 0, `${mid} ${tr.ticker} ${tr.date} trade qty/price > 0`);
+    if (trades.length < 400) {
+      let c = book.startCash;
+      for (const tr of trades) c += tr.side === "BUY" ? -tr.qty * tr.price : tr.side === "SELL" ? tr.qty * tr.price : 0;
+      assert(approx(c, book.cash, 0.01 * Math.max(1, trades.length)), `${mid} cash ledger replay ${c} = cash ${book.cash}`);
+      n++;
+    }
+    const lhs = book.equity - book.startCash, rhs = book.realizedPnl + upnl;
+    assert(approx(lhs, rhs, 0.02 * Math.max(1, trades.length)), `${mid} P&L decomposition equity−start ${lhs} = realized+unrealized ${rhs}`);
+    const m = folio.metrics?.[mid];
+    if (m && m.totalPnl != null) {
+      assert(approx(m.totalPnl, lhs, 0.05), `${mid} metrics.totalPnl ${m.totalPnl} = equity−start ${lhs}`);
+      assert(approx(m.totalPnlPct, (m.totalPnl / book.startCash) * 100, 0.001), `${mid} totalPnlPct is percent of startCash`);
+      if (m.unrealizedPnl != null) assert(approx(m.realizedPnl + m.unrealizedPnl, m.totalPnl, 0.05), `${mid} metrics realized+unrealized = total`);
+    }
+    n += 3;
+  }
+  ok(`paper-portfolio accounting identities (${n} book checks)`);
+}
+
 console.log("——");
 if (failures.length) {
   console.error(`▶ math-guards: ${failures.length} failure(s)`);
