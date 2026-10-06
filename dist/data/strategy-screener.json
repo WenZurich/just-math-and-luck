@@ -19829,16 +19829,16 @@
       ],
       "hits": [
         {
-          "ticker": "3037.TW",
-          "name": "欣興",
+          "ticker": "1303.TW",
+          "name": "南亞",
           "market": "TW",
           "currency": "TWD",
           "metrics": {
-            "price": 1305,
-            "dayPct": 7.41,
-            "pct5d": 12.5,
-            "pct1m": 34.4,
-            "volRatio": 1.01,
+            "price": 286,
+            "dayPct": 10,
+            "pct5d": 20.17,
+            "pct1m": 20.42,
+            "volRatio": 1.33,
             "aboveSma20": true,
             "aboveSma50": true,
             "aboveSma200": true,
@@ -19850,16 +19850,289 @@
           }
         },
         {
-          "ticker": "ARM",
-          "name": "Arm Holdings",
+          "ticker": "3008.TW",
+          "name": "大立光",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 6730,
+            "dayPct": 7,
+            "pct5d": 7.77,
+            "pct1m": -13.83,
+            "volRatio": 1.24,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "2308.TW",
+          "name": "台達電",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 2005,
+            "dayPct": 6.37,
+            "pct5d": 4.97,
+            "pct1m": 15.9,
+            "volRatio": 1.46,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "2345.TW",
+          "name": "智邦",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 2075,
+            "dayPct": 5.6,
+            "pct5d": 9.5,
+            "pct1m": -3.04,
+            "volRatio": 1.6,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "firm_hands",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "3017.TW",
+          "name": "奇鋐",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 3585,
+            "dayPct": 4.22,
+            "pct5d": 0.84,
+            "pct1m": 8.31,
+            "volRatio": 1.51,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "3711.TW",
+          "name": "日月光投控",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 742,
+            "dayPct": 4.07,
+            "pct5d": 6.15,
+            "pct1m": 25.98,
+            "volRatio": 1.12,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "3661.TW",
+          "name": "世芯-KY",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 3950,
+            "dayPct": 3.67,
+            "pct5d": 4.77,
+            "pct1m": -5.95,
+            "volRatio": 1.29,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "2330.TW",
+          "name": "台積電",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 2575,
+            "dayPct": 3,
+            "pct5d": 4.04,
+            "pct1m": 7.97,
+            "volRatio": 1.26,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "QLYS",
+          "name": "Qualys",
           "market": "US",
           "currency": "USD",
           "metrics": {
-            "price": 311.65,
-            "dayPct": 6.61,
-            "pct5d": 0.43,
-            "pct1m": 32.7,
-            "volRatio": 1.01,
+            "price": 198.68,
+            "dayPct": 2.94,
+            "pct5d": 14.3,
+            "pct1m": 13.95,
+            "volRatio": 1.06,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "TSM",
+          "name": "TSMC (ADR)",
+          "market": "US",
+          "currency": "USD",
+          "metrics": {
+            "price": 485.8,
+            "dayPct": 2.75,
+            "pct5d": 7.27,
+            "pct1m": 16.5,
+            "volRatio": 1.07,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "NVDA",
+          "name": "NVIDIA",
+          "market": "US",
+          "currency": "USD",
+          "metrics": {
+            "price": 238.9,
+            "dayPct": 2.12,
+            "pct5d": 4.39,
+            "pct1m": 4.57,
+            "volRatio": 1.15,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "3037.TW",
+          "name": "欣興",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 1325,
+            "dayPct": 1.53,
+            "pct5d": 11.81,
+            "pct1m": 36.18,
+            "volRatio": 1.55,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "MSFT",
+          "name": "Microsoft",
+          "market": "US",
+          "currency": "USD",
+          "metrics": {
+            "price": 525.18,
+            "dayPct": 1.48,
+            "pct5d": 3.13,
+            "pct1m": 2.95,
+            "volRatio": 1.24,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "ESTC",
+          "name": "Elastic",
+          "market": "US",
+          "currency": "USD",
+          "metrics": {
+            "price": 94.91,
+            "dayPct": 1.03,
+            "pct5d": 7.93,
+            "pct1m": -1.27,
+            "volRatio": 1.33,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "3035.TW",
+          "name": "智原",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 216,
+            "dayPct": 0.23,
+            "pct5d": 4.6,
+            "pct1m": 17.07,
+            "volRatio": 1.48,
             "aboveSma20": true,
             "aboveSma50": true,
             "aboveSma200": true,
@@ -19877,10 +20150,10 @@
           "currency": "TWD",
           "metrics": {
             "price": 626,
-            "dayPct": 3.99,
-            "pct5d": 9.25,
-            "pct1m": 10.21,
-            "volRatio": 2.89,
+            "dayPct": 0,
+            "pct5d": 7.93,
+            "pct1m": 15.93,
+            "volRatio": 1.53,
             "aboveSma20": true,
             "aboveSma50": true,
             "aboveSma200": true,
@@ -19892,100 +20165,16 @@
           }
         },
         {
-          "ticker": "SMCI",
-          "name": "Super Micro",
+          "ticker": "ASML",
+          "name": "ASML",
           "market": "US",
           "currency": "USD",
           "metrics": {
-            "price": 44.05,
-            "dayPct": 5.08,
-            "pct5d": 1.83,
-            "pct1m": 19.05,
-            "volRatio": 1.17,
-            "aboveSma20": true,
-            "aboveSma50": true,
-            "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
-            "liquidityBias": "risk_off",
-            "tags": "screen_A",
-            "sizeMult": 0.5
-          }
-        },
-        {
-          "ticker": "6226.TW",
-          "name": "光鼎",
-          "market": "TW",
-          "currency": "TWD",
-          "metrics": {
-            "price": 46.4,
-            "dayPct": -3.33,
-            "pct5d": 8.67,
-            "pct1m": 36.47,
-            "volRatio": 1.95,
-            "aboveSma20": true,
-            "aboveSma50": true,
-            "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
-            "liquidityBias": "risk_off",
-            "tags": "screen_A",
-            "sizeMult": 0.5
-          }
-        },
-        {
-          "ticker": "MSTR",
-          "name": "MicroStrategy",
-          "market": "US",
-          "currency": "USD",
-          "metrics": {
-            "price": 164.6,
-            "dayPct": 2.55,
-            "pct5d": 3.78,
-            "pct1m": 33.61,
-            "volRatio": 1.16,
-            "aboveSma20": true,
-            "aboveSma50": true,
-            "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
-            "liquidityBias": "risk_off",
-            "tags": "screen_A",
-            "sizeMult": 0.5
-          }
-        },
-        {
-          "ticker": "NVDA",
-          "name": "NVIDIA",
-          "market": "US",
-          "currency": "USD",
-          "metrics": {
-            "price": 235.35,
-            "dayPct": 1.94,
-            "pct5d": 4.57,
-            "pct1m": 4.88,
-            "volRatio": 1.23,
-            "aboveSma20": true,
-            "aboveSma50": true,
-            "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
-            "liquidityBias": "risk_off",
-            "tags": "screen_A",
-            "sizeMult": 0.5
-          }
-        },
-        {
-          "ticker": "3035.TW",
-          "name": "智原",
-          "market": "TW",
-          "currency": "TWD",
-          "metrics": {
-            "price": 215.5,
-            "dayPct": 1.17,
-            "pct5d": 5.64,
-            "pct1m": 17.44,
-            "volRatio": 1.14,
+            "price": 1859.86,
+            "dayPct": -0.4,
+            "pct5d": 4.99,
+            "pct1m": 12.98,
+            "volRatio": 1.02,
             "aboveSma20": true,
             "aboveSma50": true,
             "aboveSma200": true,
@@ -20000,7 +20189,7 @@
       "blockers": [],
       "incomplete": false,
       "notes": [
-        "US phase=euphoric stance=defensive liq=risk_off temp=1.25",
+        "US phase=euphoric stance=defensive liq=risk_off temp=2",
         "TW phase=euphoric stance=defensive liq=risk_off temp=2"
       ],
       "regimeSnapshot": {
@@ -20008,12 +20197,12 @@
           "psychologyPhase": "euphoric",
           "cycleStance": "defensive",
           "liquidityBias": "risk_off",
-          "temperatureScore": 1.25,
+          "temperatureScore": 2,
           "implications": [
             "R2：美債殖利率 20 日上升偏快，流動性偏緊／防禦",
             "Kostolany 心理相位近似：euphoric → 篩選姿態 defensive（US）",
             "Marks 偏熱／偏高：提高品質與趨勢門檻、縮小可進場宇宙",
-            "指數距 252 日高點約 -1.2%"
+            "指數距 252 日高點約 -0.5%"
           ],
           "dataGaps": []
         },
@@ -20026,7 +20215,7 @@
             "R2：美債殖利率 20 日上升偏快，流動性偏緊／防禦",
             "Kostolany 心理相位近似：euphoric → 篩選姿態 defensive（TW）",
             "Marks 偏熱／偏高：提高品質與趨勢門檻、縮小可進場宇宙",
-            "指數距 252 日高點約 -0.3%"
+            "指數距 252 日高點約 -0.1%"
           ],
           "dataGaps": []
         }
@@ -20046,5 +20235,5 @@
   ],
   "glossaryHint": "名詞（本益比、營益率、毛利率、外資、投信、自營商、均線多頭、RSI、振幅、張）見站內名詞小辭典。",
   "exportNote": "可複製本 JSON（strategy-screener.json）自行回測；站內不提供券商下單。",
-  "kostolanyRegimeAsOf": "2026-10-05T00:07:51.998Z"
+  "kostolanyRegimeAsOf": "2026-10-06T00:10:24.566Z"
 }
