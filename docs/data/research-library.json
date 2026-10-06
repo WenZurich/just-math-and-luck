@@ -1,9 +1,9 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-05T09:30:00+08:00",
+    "updated": "2026-10-06T09:30:00+08:00",
     "timezone": "Asia/Taipei",
-    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-05)",
+    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-06)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
     "mathGate": "正式納入策略需數學閘門通過（目前未過）— 僅候選",
     "updateScript": "scripts/update-research-library.mjs",
@@ -7769,6 +7769,251 @@
         "behavioral",
         "disposition-effect",
         "market-structure",
+        "candidate"
+      ]
+    },
+    {
+      "type": "paper",
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "shelf": "market_analysis",
+      "id": "paper-asymmetric-reversals-2026",
+      "market": "US",
+      "title": "Asymmetric Reversals",
+      "authors": [
+        "Federico Baldi-Lanfranchi",
+        "Pierre Collin-Dufresne",
+        "Kent D. Daniel"
+      ],
+      "year": 2026,
+      "summary": "Splits each stock's short-term return into two pieces: the part explained by systematic risk and public news (SYS) and the leftover firm-specific residual (RES). The SYS part tends to keep going, while the RES part reverses. The reversal is lopsided: residual drops bounce back faster than residual jumps fade. A factor built on this asymmetric residual reversal absorbs the idiosyncratic-volatility effect and several other short-horizon anomalies. Takeaway for the site: a big one-month move with no news behind it — especially a drop — is more likely to retrace than a news-driven move, so the existing chase-high and pullback rules could someday check whether a move was news-backed. Watch-only candidate.",
+      "formulas": [
+        "r_i,t = SYS_i,t + RES_i,t  (SYS ← fitted part from factor exposures + public-information/news days; RES ← residual)",
+        "signal_cont ← +SYS_i,t−1  (continuation)",
+        "signal_rev ← −RES_i,t−1, scaled more strongly when RES_i,t−1 < 0 (negative residual shocks revert faster)",
+        "AIR factor ← long/short on asymmetric residual reversal; reported to subsume IVOL and other short-horizon anomalies",
+        "gate: US-only short-horizon candidate; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "把個股短期漲跌拆成兩塊：一塊是大盤、產業與公開消息能解釋的，另一塊是公司自己「說不出原因」的波動",
+        "有消息撐腰的那一塊傾向繼續走；沒原因的那一塊傾向回吐",
+        "回吐不對稱：沒原因的大跌比沒原因的大漲更快彈回來",
+        "對本站的意義：追高或拉回規則未來可多問一句「這波有沒有消息支撐」；數學閘門通過前只觀察，不上線"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Splits a stock's short-term return into a part explained by the market, factors and public news, and an unexplained firm-specific residual",
+          "The news-backed part tends to continue; the unexplained part tends to reverse",
+          "Reversal is lopsided: unexplained drops bounce back faster than unexplained jumps fade",
+          "For the site: chase-high/pullback rules could later ask whether a move was news-backed — watch-only before the math gate"
+        ],
+        "zh-Hans": [
+          "把个股短期涨跌拆成两块：一块是大盘、产业与公开消息能解释的，另一块是公司自己「说不出原因」的波动",
+          "有消息撑腰的那一块倾向继续走；没原因的那一块倾向回吐",
+          "回吐不对称：没原因的大跌比没原因的大涨更快弹回来",
+          "对本站的意义：追高或拉回规则未来可多问一句「这波有没有消息支撑」；数学闸门通过前只观察，不上线"
+        ],
+        "ja": [
+          "短期リターンを市場・ファクター・公開ニュースで説明できる部分と、説明できない個別残差に分解",
+          "ニュースに裏付けられた部分は継続しやすく、説明できない部分は反転しやすい",
+          "反転は非対称：理由なき急落は理由なき急騰より早く戻る",
+          "サイトへの示唆：高値追い／押し目ルールに「ニュースの裏付け」確認を将来追加し得る。数学ゲート前は監視のみ"
+        ],
+        "zh-Hant": [
+          "把個股短期漲跌拆成兩塊：一塊是大盤、產業與公開消息能解釋的，另一塊是公司自己「說不出原因」的波動",
+          "有消息撐腰的那一塊傾向繼續走；沒原因的那一塊傾向回吐",
+          "回吐不對稱：沒原因的大跌比沒原因的大漲更快彈回來",
+          "對本站的意義：追高或拉回規則未來可多問一句「這波有沒有消息支撐」；數學閘門通過前只觀察，不上線"
+        ]
+      },
+      "mathGateNote": "Olympiad gold-gate passedGate=false — US asymmetric residual-reversal signal stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7523679"
+      ],
+      "titleLocalized": {
+        "zh-Hant": "不對稱反轉",
+        "en": "Asymmetric Reversals",
+        "zh-Hans": "不对称反转",
+        "ja": "非対称な反転"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "把個股短期報酬拆成「大盤與公開消息能解釋的部分」與「公司特有的剩餘波動」；前者延續、後者回吐，且無消息的下跌回彈得比無消息的上漲回落更快。僅候選。",
+        "en": "Splits short-term returns into a systematic/news part that continues and a firm-specific residual that reverses — with unexplained drops rebounding faster than unexplained jumps fade. Candidate only.",
+        "zh-Hans": "把个股短期报酬拆成「大盘与公开消息能解释的部分」与「公司特有的剩余波动」；前者延续、后者回吐，且无消息的下跌回弹得比无消息的上涨回落更快。仅候选。",
+        "ja": "短期リターンを継続するシステマティック／ニュース部分と反転する個別残差に分解。理由なき下落は理由なき上昇より早く戻る。候補のみ。"
+      },
+      "tags": [
+        "us",
+        "short-term-reversal",
+        "idiosyncratic",
+        "news",
+        "factor",
+        "candidate"
+      ]
+    },
+    {
+      "type": "paper",
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "shelf": "market_analysis",
+      "id": "paper-industry-adjusted-reversal-2026",
+      "market": "BOTH",
+      "title": "Short-Term Reversal Persists Globally — If Properly Measured",
+      "authors": [
+        "Jan Stosik",
+        "Adam Zaremba"
+      ],
+      "year": 2026,
+      "summary": "Asks why the classic one-month reversal effect (last month's losers beat last month's winners) seems to have faded in stock markets worldwide. Across 64 countries, the plain version earns almost nothing, but measuring each stock's move relative to its own industry brings it back: the industry-adjusted version earns about 0.53% a month with a Sharpe ratio around 0.74. The reason is that industry moves tend to persist while a single company's move against its peers tends to undo itself; mixing the two hides the effect. Takeaway for the site, in both the US and Taiwan books: when judging whether a stock is 'overextended' or 'oversold', compare it with its own sector, not just with its own past price. Watch-only candidate.",
+      "formulas": [
+        "raw_rev_i ← −r_i,t−1 (prior-month return)",
+        "ind_adj_rev_i ← −(r_i,t−1 − r_industry(i),t−1)",
+        "sort by ind_adj_rev within each market (US and TW computed separately, never pooled)",
+        "reported: raw ≈ 0; industry-adjusted ≈ 0.53%/month, Sharpe ≈ 0.74 (64 countries)",
+        "gate: per-market candidate; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "「上個月跌最多的下個月反彈」這個老現象看似失效，其實是量法錯了",
+        "改成跟同產業比（個股漲跌減掉產業漲跌）後，64 國資料中反轉效果仍在，約每月 0.53%",
+        "原因：整個產業的漲跌會延續，但個股相對同業的超漲超跌會修正，兩者混在一起就互相抵消",
+        "對本站的意義：判斷美股或台股「漲過頭／跌過頭」時，應跟同產業比；美台分開計算，數學閘門通過前只觀察"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "The classic 'last month's biggest losers rebound' effect looked dead — it was measured wrong",
+          "Measured against the stock's own industry, reversal survives across 64 countries, about 0.53% a month",
+          "Industry moves persist while a stock's over- or under-reaction versus peers corrects; mixing them cancels out",
+          "For the site: judge 'overextended/oversold' versus the sector, US and TW computed separately — watch-only before the math gate"
+        ],
+        "zh-Hans": [
+          "「上个月跌最多的下个月反弹」这个老现象看似失效，其实是量法错了",
+          "改成跟同产业比（个股涨跌减掉产业涨跌）后，64 国数据中反转效果仍在，约每月 0.53%",
+          "原因：整个产业的涨跌会延续，但个股相对同业的超涨超跌会修正，两者混在一起就互相抵消",
+          "对本站的意义：判断美股或台股「涨过头／跌过头」时，应跟同产业比；美台分开计算，数学闸门通过前只观察"
+        ],
+        "ja": [
+          "「先月の下落上位が翌月反発」という古典的効果は消えたように見えたが、測り方の問題だった",
+          "同業種との差で測ると64か国で反転が残り、月約0.53%",
+          "業種全体の動きは継続し、同業比の行き過ぎは修正されるため、混ぜると打ち消し合う",
+          "サイトへの示唆：買われ過ぎ／売られ過ぎは業種比で判断し、米台は別計算。数学ゲート前は監視のみ"
+        ],
+        "zh-Hant": [
+          "「上個月跌最多的下個月反彈」這個老現象看似失效，其實是量法錯了",
+          "改成跟同產業比（個股漲跌減掉產業漲跌）後，64 國資料中反轉效果仍在，約每月 0.53%",
+          "原因：整個產業的漲跌會延續，但個股相對同業的超漲超跌會修正，兩者混在一起就互相抵消",
+          "對本站的意義：判斷美股或台股「漲過頭／跌過頭」時，應跟同產業比；美台分開計算，數學閘門通過前只觀察"
+        ]
+      },
+      "mathGateNote": "Olympiad gold-gate passedGate=false — Industry-adjusted reversal (US and TW computed separately) stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6630998"
+      ],
+      "titleLocalized": {
+        "zh-Hant": "短期反轉全球依然存在——只要量對方法",
+        "en": "Short-Term Reversal Persists Globally — If Properly Measured",
+        "zh-Hans": "短期反转全球依然存在——只要量对方法",
+        "ja": "短期反転は世界的に存続する——正しく測れば"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "64 國資料顯示，傳統一個月反轉已近乎無效，但改用「相對同產業」的漲跌衡量後，每月約 0.53%、夏普約 0.74。美台分開觀察，僅候選。",
+        "en": "Across 64 countries the plain one-month reversal is near zero, but industry-adjusted reversal earns about 0.53%/month (Sharpe ~0.74). US and TW tracked separately; candidate only.",
+        "zh-Hans": "64 国数据显示，传统一个月反转已近乎无效，但改用「相对同产业」的涨跌衡量后，每月约 0.53%、夏普约 0.74。美台分开观察，仅候选。",
+        "ja": "64か国で通常の1か月反転はほぼゼロだが、業種調整後は月約0.53%（シャープ約0.74）。米台は別々に監視、候補のみ。"
+      },
+      "tags": [
+        "us",
+        "tw",
+        "short-term-reversal",
+        "industry-adjusted",
+        "international",
+        "candidate"
+      ]
+    },
+    {
+      "type": "paper",
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "shelf": "market_analysis",
+      "id": "paper-tw-day-trading-relaxation-2023",
+      "market": "TW",
+      "title": "The impact and profitability of day trading following the relaxation of day trading restrictions in Taiwan",
+      "authors": [
+        "Wan-Hsiu Cheng",
+        "Yuhsin Chen",
+        "Paoyu Huang",
+        "Yensen Ni",
+        "Mei-Chu Liang"
+      ],
+      "year": 2023,
+      "summary": "Studies Taiwan after day-trading limits were loosened at the start of 2016, when day-trading volume rose sharply. Using time-series models, it finds that heavy overall market volume draws in day traders, but heavy day trading does not pull in broader market volume. Day trading turned out more profitable when the VIX was high, likely because volatile markets widen intraday price ranges. Unexpected surges in day-trading volume were more likely than unexpected market-volume surges to raise volatility and returns. Takeaway for the site: a sudden spike in a Taiwan stock's day-trading share signals speculative, short-lived heat rather than lasting demand — a crowding flag to watch, not a buy reason.",
+      "formulas": [
+        "dt_ratio_t ← day-trading volume / total volume (TWSE public daily statistics)",
+        "expected vs unexpected dt volume ← time-series model fit; unexpected = actual − fitted",
+        "high market volume → higher dt volume (one-directional); not the reverse",
+        "dt profitability conditioned on VIX level (higher when VIX high)",
+        "gate: TW-only speculative-heat flag; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "台股 2016 年初放寬當沖後，當沖量大增",
+        "大盤量大會吸引當沖客進場，但當沖量大並不會帶動大盤成交",
+        "VIX 恐慌指數高時當沖反而較好賺，因為盤中波動變大",
+        "意外暴增的當沖量比意外暴增的大盤量更容易推高波動；本站僅作台股「投機過熱」觀察，不當買進理由"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Taiwan loosened day-trading rules in early 2016 and day-trading volume jumped",
+          "High market volume attracts day traders, but heavy day trading does not lift overall market volume",
+          "Day trading was more profitable when the VIX was high, as intraday swings widened",
+          "Unexpected day-trading surges raise volatility more than unexpected market-volume surges — a TW speculative-heat flag only, not a buy reason"
+        ],
+        "zh-Hans": [
+          "台股 2016 年初放宽当冲后，当冲量大增",
+          "大盘量大会吸引当冲客进场，但当冲量大并不会带动大盘成交",
+          "VIX 恐慌指数高时当冲反而较好赚，因为盘中波动变大",
+          "意外暴增的当冲量比意外暴增的大盘量更容易推高波动；本站仅作台股「投机过热」观察，不当买进理由"
+        ],
+        "ja": [
+          "台湾は2016年初めにデイトレ規制を緩和し、デイトレ出来高が急増",
+          "市場全体の出来高が多いとデイトレーダーが集まるが、逆は成り立たない",
+          "VIXが高いとザラバ変動が広がり、デイトレの収益性が上がった",
+          "予想外のデイトレ急増は予想外の市場出来高急増より変動を高めやすい。台湾の投機過熱フラグとしてのみ監視"
+        ],
+        "zh-Hant": [
+          "台股 2016 年初放寬當沖後，當沖量大增",
+          "大盤量大會吸引當沖客進場，但當沖量大並不會帶動大盤成交",
+          "VIX 恐慌指數高時當沖反而較好賺，因為盤中波動變大",
+          "意外暴增的當沖量比意外暴增的大盤量更容易推高波動；本站僅作台股「投機過熱」觀察，不當買進理由"
+        ]
+      },
+      "mathGateNote": "Olympiad gold-gate passedGate=false — TW day-trading-ratio speculative-heat flag stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC10102421/",
+        "https://doi.org/10.1016/j.heliyon.2023.e14939"
+      ],
+      "titleLocalized": {
+        "zh-Hant": "台股放寬當沖後的影響與獲利性",
+        "en": "The impact and profitability of day trading following the relaxation of day trading restrictions in Taiwan",
+        "zh-Hans": "台股放宽当冲后的影响与获利性",
+        "ja": "台湾のデイトレ規制緩和後の影響と収益性"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "台股 2016 年放寬當沖後，大盤量大帶動當沖、反之不成立；VIX 高時當沖較賺；意外的當沖暴量更易推高波動。僅作投機過熱觀察。",
+        "en": "After Taiwan's 2016 day-trading relaxation, market volume drives day trading but not vice versa; day trading paid more when VIX was high; unexpected day-trading surges raise volatility. Watch-only heat flag.",
+        "zh-Hans": "台股 2016 年放宽当冲后，大盘量大带动当冲、反之不成立；VIX 高时当冲较赚；意外的当冲暴量更易推高波动。仅作投机过热观察。",
+        "ja": "2016年の台湾デイトレ緩和後、市場出来高がデイトレを促すが逆はない。VIX高時に収益性上昇、予想外のデイトレ急増は変動を高める。過熱監視のみ。"
+      },
+      "tags": [
+        "tw",
+        "day-trading",
+        "speculation",
+        "volatility",
+        "vix",
         "candidate"
       ]
     }
