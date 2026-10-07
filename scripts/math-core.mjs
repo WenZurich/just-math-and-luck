@@ -256,3 +256,34 @@ export function annualizedHistVol(closes, { window = 21, periodsPerYear = 252, m
   const out = Math.sqrt(Math.max(0, variance)) * Math.sqrt(periodsPerYear);
   return isFiniteNumber(out) && out >= 0 ? out : null;
 }
+
+/**
+ * Index-futures basis vs cash index.
+ *   basisPoints = fut − spot (index points, rounded to 0.01)
+ *   basisPct    = (fut − spot) / spot × 100 (percent of spot, rounded to 1e-4; computed from the
+ *                 unrounded difference so rounding never compounds)
+ * Sign: positive ⇒ futures premium (正價差), negative ⇒ discount (逆價差).
+ * Domain: both finite, spot > 0, fut > 0; otherwise null (never 0, never ±∞).
+ */
+export function futuresBasis(fut, spot) {
+  if (!isFiniteNumber(fut) || !isFiniteNumber(spot) || spot <= 0 || fut <= 0) return null;
+  const d = fut - spot;
+  const basisPoints = Math.round(d * 100) / 100;
+  const basisPct = Math.round((d / spot) * 100 * 1e4) / 1e4;
+  if (!isFiniteNumber(basisPoints) || !isFiniteNumber(basisPct)) return null;
+  return { basisPoints: Object.is(basisPoints, -0) ? 0 : basisPoints, basisPct: Object.is(basisPct, -0) ? 0 : basisPct };
+}
+
+/**
+ * Third Wednesday of a Gregorian month as "YYYY-MM-DD" (TAIFEX TX/MTX/TMF monthly last trading day,
+ * before any holiday adjustment). first weekday w (0=Sun) ⇒ first Wed = 1 + (3 − w + 7) mod 7 ∈ [1,7],
+ * third Wed = that + 14 ∈ [15,21]. Domain: integer year 1..9999, month 1..12; else null.
+ */
+export function thirdWednesdayYmd(year, month) {
+  if (!Number.isInteger(year) || !Number.isInteger(month) || year < 1 || year > 9999 || month < 1 || month > 12) return null;
+  const first = new Date(Date.UTC(2000, month - 1, 1));
+  first.setUTCFullYear(year);
+  const w = first.getUTCDay();
+  const day = 1 + ((3 - w + 7) % 7) + 14;
+  return `${String(year).padStart(4, "0")}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+}

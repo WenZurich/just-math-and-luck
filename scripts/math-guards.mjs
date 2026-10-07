@@ -24,6 +24,8 @@ import {
   logReturn,
   avgCostAfterBuy,
   annualizedHistVol,
+  futuresBasis,
+  thirdWednesdayYmd,
 } from "./math-core.mjs";
 import { temperatureScore } from "./market-regime.mjs";
 import {
@@ -789,6 +791,101 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
     fail(`us-options-snapshot.json unreadable for HV guard: ${e.message}`);
   }
   ok(`annualizedHistVol (closed form, ${nRand} random invariant/re-impl cases, domain, ${nLive} live rows)`);
+}
+
+// —— TXF futures basis + third-Wednesday last trading day (olympiad practice 2026-10-08) ——
+{
+  const FB = futuresBasis;
+  // (a) hand cases: premium, discount, flat; units = index points and percent of spot
+  let b = FB(50060, 49822.55);
+  assert(b && b.basisPoints === 237.45 && b.basisPct === 0.4766, `basis hand premium ${JSON.stringify(b)}`);
+  b = FB(19900, 20000);
+  assert(b && b.basisPoints === -100 && b.basisPct === -0.5, `basis hand discount ${JSON.stringify(b)}`);
+  b = FB(20000, 20000);
+  assert(b && b.basisPoints === 0 && b.basisPct === 0 && !Object.is(b.basisPct, -0), "basis flat = +0");
+  // (b) invariants over 2000 LCG cases: sign agreement, |pct| ≈ |pts|/spot·100, scale-invariance of pct,
+  //     fut = spot·(1 + pct/100) round-trip within rounding, rounding granularity
+  let s = 20261008 >>> 0;
+  const rnd = () => ((s = (Math.imul(s, 1664525) + 1013904223) >>> 0) / 4294967296);
+  let nB = 0;
+  for (let t = 0; t < 2000; t++) {
+    const spot = 5000 + rnd() * 60000;
+    const fut = spot * (1 + (rnd() - 0.5) * 0.04);
+    const r = FB(fut, spot);
+    assert(r && Number.isFinite(r.basisPoints) && Number.isFinite(r.basisPct), `basis finite t=${t}`);
+    const d = fut - spot;
+    assert(Math.abs(r.basisPoints - d) <= 0.005 + 1e-9, `basisPoints within ½ cent of fut−spot t=${t}`);
+    assert(Math.abs(r.basisPct - (d / spot) * 100) <= 0.00005 + 1e-12, `basisPct within ½e−4 of exact t=${t}`);
+    assert(Math.sign(r.basisPoints) * Math.sign(r.basisPct) >= 0, `basis sign agreement t=${t}`);
+    assert(Math.abs(Math.round(r.basisPoints * 100) - r.basisPoints * 100) < 1e-6, `basisPoints on 0.01 grid t=${t}`);
+    const k = 0.5 + rnd() * 3;
+    const rk = FB(fut * k, spot * k);
+    assert(Math.abs(rk.basisPct - r.basisPct) <= 0.0001 + 1e-12, `basisPct scale-invariant t=${t}`);
+    // antisymmetry of the raw difference: swapping roles negates points exactly (before % normalisation)
+    const sw = FB(spot, fut);
+    assert(Math.abs(sw.basisPoints + r.basisPoints) <= 0.01 + 1e-9, `basisPoints antisymmetric t=${t}`);
+    nB++;
+  }
+  // (c) domain refusals: never 0/∞ on bad input
+  for (const [f, sp] of [[null, 1], [1, null], [NaN, 1], [1, Infinity], [100, 0], [100, -5], [0, 100], ["1", 1]])
+    assert(FB(f, sp) === null, `basis refuses (${f}, ${sp})`);
+
+  // (d) third Wednesday: brute day-scan for every month 1900–2200 (3612 months)
+  const TW = thirdWednesdayYmd;
+  let nW = 0;
+  for (let y = 1900; y <= 2200; y++) {
+    for (let m = 1; m <= 12; m++) {
+      let cnt = 0, want = null;
+      for (let dd = 1; dd <= 31; dd++) {
+        const dt = new Date(Date.UTC(y, m - 1, dd));
+        if (dt.getUTCMonth() !== m - 1) break;
+        if (dt.getUTCDay() === 3 && ++cnt === 3) { want = dd; break; }
+      }
+      const got = TW(y, m);
+      const exp = `${y}-${String(m).padStart(2, "0")}-${String(want).padStart(2, "0")}`;
+      if (got !== exp) assert(false, `thirdWednesday ${y}-${m}: ${got} ≠ brute ${exp}`);
+      const day = Number(got.slice(8, 10));
+      if (!(day >= 15 && day <= 21)) assert(false, `thirdWednesday day ∈ [15,21] (${got})`);
+      nW++;
+    }
+  }
+  assert(TW(2026, 10) === "2026-10-21" && TW(2026, 11) === "2026-11-18" && TW(2027, 3) === "2027-03-17", "thirdWednesday hand cases 2026-10/11, 2027-03");
+  for (const [y, m] of [[2026, 0], [2026, 13], [2026.5, 1], [null, 1], [2026, "10"]])
+    assert(TW(y, m) === null, `thirdWednesday refuses (${y}, ${m})`);
+
+  // (e) live replay: txf-desk.json basis = futuresBasis(futLast, spot); every monthly contract's
+  //     lastTradingDay = thirdWednesday(month) and is a Wednesday; change/changePct consistent.
+  let nLive = 0;
+  try {
+    const desk = JSON.parse(readFileSync(join(ROOT_MG, "public/data/txf-desk.json"), "utf8"));
+    if (desk.basis) {
+      const lb = FB(desk.basis.futuresLast, desk.basis.spotLast);
+      assert(lb && Math.abs(lb.basisPoints - desk.basis.basisPoints) <= 0.01 + 1e-9, `live basisPoints ${desk.basis.basisPoints} vs ${lb?.basisPoints}`);
+      assert(lb && Math.abs(lb.basisPct - desk.basis.basisPct) <= 0.0001 + 1e-9, `live basisPct ${desk.basis.basisPct} vs ${lb?.basisPct}`);
+      nLive++;
+    }
+    for (const c of Object.values(desk.contracts || {})) {
+      for (const row of [c.near, c.next, ...(c.listed || [])].filter(Boolean)) {
+        if (/^\d{6}$/.test(row.month)) {
+          const exp = TW(Number(row.month.slice(0, 4)), Number(row.month.slice(4, 6)));
+          assert(row.lastTradingDay === exp, `${c.code} ${row.month} lastTradingDay ${row.lastTradingDay} = 3rd Wed ${exp}`);
+          assert(new Date(`${row.lastTradingDay}T00:00:00Z`).getUTCDay() === 3, `${c.code} ${row.month} LTD is a Wednesday`);
+        }
+        if (Number.isFinite(row.last) && Number.isFinite(row.change) && Number.isFinite(row.changePct) && row.last - row.change > 0) {
+          const pct = (row.change / (row.last - row.change)) * 100;
+          assert(Math.abs(pct - row.changePct) <= 0.006, `${c.code} ${row.month} changePct ${row.changePct} ≈ change/prev ${pct.toFixed(4)}`);
+          assert(Math.sign(row.change) * Math.sign(row.changePct) >= 0, `${c.code} ${row.month} change/changePct sign agree`);
+        }
+        nLive++;
+      }
+    }
+    const sp = desk.spot || {};
+    if (Number.isFinite(sp.change) && Number.isFinite(sp.changePct))
+      assert(Math.sign(sp.change) * Math.sign(sp.changePct) >= 0, `spot change ${sp.change} / changePct ${sp.changePct} sign agree`);
+  } catch (e) {
+    fail(`txf-desk.json unreadable for basis/LTD guard: ${e.message}`);
+  }
+  ok(`futuresBasis + thirdWednesdayYmd (hand, ${nB} random invariant cases, ${nW} months brute-scanned, domain, ${nLive} live rows)`);
 }
 
 console.log("——");

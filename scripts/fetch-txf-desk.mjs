@@ -22,6 +22,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { futuresBasis, thirdWednesdayYmd } from "./math-core.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -126,15 +127,9 @@ function taipeiNowIso() {
   return `${get("year")}-${get("month")}-${get("day")}T${get("hour")}:${get("minute")}:${get("second")}+08:00`;
 }
 
-/** Third Wednesday of calendar month (official TX monthly last-trading-day rule). */
+/** Third Wednesday of calendar month (official TX monthly last-trading-day rule) — single source in math-core. */
 function thirdWednesday(year, month) {
-  const first = new Date(Date.UTC(year, month - 1, 1));
-  const wedOffset = (3 - first.getUTCDay() + 7) % 7; // Wed=3
-  const day = 1 + wedOffset + 14;
-  const y = String(year);
-  const m = String(month).padStart(2, "0");
-  const d = String(day).padStart(2, "0");
-  return `${y}-${m}-${d}`;
+  return thirdWednesdayYmd(year, month);
 }
 
 function lastTradingDayForMonthToken(monthToken) {
@@ -429,8 +424,9 @@ async function main() {
   const futLast = near?.last ?? near?.settle ?? null;
   let basis = null;
   if (spotLast != null && futLast != null) {
-    const basisPoints = round(futLast - spotLast, 2);
-    const basisPct = spotLast !== 0 ? round((basisPoints / spotLast) * 100, 4) : null;
+    const fb = futuresBasis(futLast, spotLast);
+    const basisPoints = fb ? fb.basisPoints : null;
+    const basisPct = fb ? fb.basisPct : null;
     basis = {
       nearMonth: near.month,
       futuresLast: futLast,
