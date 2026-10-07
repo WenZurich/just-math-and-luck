@@ -1,9 +1,9 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-06T09:30:00+08:00",
+    "updated": "2026-10-07T09:30:00+08:00",
     "timezone": "Asia/Taipei",
-    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-06)",
+    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-07)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
     "mathGate": "正式納入策略需數學閘門通過（目前未過）— 僅候選",
     "updateScript": "scripts/update-research-library.mjs",
@@ -8014,6 +8014,171 @@
         "speculation",
         "volatility",
         "vix",
+        "candidate"
+      ]
+    },
+    {
+      "type": "paper",
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "shelf": "market_analysis",
+      "id": "paper-fq1-pead-persistence-cliff-2026",
+      "market": "US",
+      "title": "Earnings Persistence Cliff and Post-Earnings-Announcement Drift",
+      "authors": [
+        "Liyao Wang",
+        "Ming Zeng"
+      ],
+      "year": 2026,
+      "summary": "Finds that how much one quarter's earnings surprise carries into the next is steady within a fiscal year but drops sharply from the fourth fiscal quarter to the next year's first quarter. Investors learn to treat first-quarter surprises as less lasting than they really are, so prices underreact and the drift after first-quarter reports is roughly 83% larger than after other quarters. That first-quarter drift is still meaningful after the mid-2000s, when the overall post-earnings drift has largely faded, and it is not explained by microcaps, surprise streaks, calendar effects, or earnings management. Takeaway for the site: if earnings-drift ideas are ever used for US picks, a first-fiscal-quarter beat deserves more weight than a beat in other quarters — a watch item only.",
+      "formulas": [
+        "SUE_q ← (actual EPS − consensus or seasonal-random-walk EPS) / σ(past surprises) (from public earnings data)",
+        "fq ← fiscal quarter of the report (FQ1 = first quarter after fiscal year end)",
+        "persistence ← slope of SUE_q on SUE_{q−1}; stable within year, sharply lower for FQ4→FQ1",
+        "drift window ← cumulative abnormal return over days +2…+60 after the announcement, by SUE bucket",
+        "candidate rule: weight FQ1 positive surprises above other-quarter surprises",
+        "gate: US-only earnings-drift watch; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "同一財年內，一季財報的「意外」對下一季很有延續性，但從第四季跨到隔年第一季時延續性明顯斷掉",
+        "投資人因此低估第一季意外的持續性，股價反應不足，第一季財報後的漂移比其他季大約多 83%",
+        "整體財報後漂移在 2000 年代中期後大多消失，但第一季這段仍明顯存在",
+        "本站僅作美股觀察：若未來用財報漂移選股，第一財季優於預期的權重可較高，目前不當買進理由"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Within a fiscal year, an earnings surprise carries into the next quarter steadily, but that carry-over breaks from Q4 to the next year's Q1",
+          "Investors therefore underrate how lasting Q1 surprises are; prices underreact and post-Q1 drift is about 83% larger than other quarters",
+          "Overall post-earnings drift mostly faded after the mid-2000s, but the Q1 portion is still clearly present",
+          "US watch item only: if earnings drift is ever used, a first-fiscal-quarter beat could carry more weight — not a buy reason today"
+        ],
+        "zh-Hans": [
+          "同一财年内，一季财报的“意外”对下一季很有延续性，但从第四季跨到次年第一季时延续性明显断掉",
+          "投资人因此低估第一季意外的持续性，股价反应不足，第一季财报后的漂移比其他季大约多 83%",
+          "整体财报后漂移在 2000 年代中期后大多消失，但第一季这段仍明显存在",
+          "本站仅作美股观察：若未来用财报漂移选股，第一财季优于预期的权重可较高，目前不当买进理由"
+        ],
+        "ja": [
+          "同一会計年度内では決算サプライズが次の四半期へ安定して持続するが、第4四半期から翌年第1四半期へは大きく途切れる",
+          "投資家は第1四半期サプライズの持続性を過小評価し、株価が過小反応。第1四半期決算後のドリフトは他の四半期より約83%大きい",
+          "全体の決算後ドリフトは2000年代半ば以降ほぼ消えたが、第1四半期分は依然として明確",
+          "米国の監視項目のみ：将来決算ドリフトを使う場合、第1会計四半期の上振れを重視。現時点で買い理由ではない"
+        ],
+        "zh-Hant": [
+          "同一財年內，一季財報的「意外」對下一季很有延續性，但從第四季跨到隔年第一季時延續性明顯斷掉",
+          "投資人因此低估第一季意外的持續性，股價反應不足，第一季財報後的漂移比其他季大約多 83%",
+          "整體財報後漂移在 2000 年代中期後大多消失，但第一季這段仍明顯存在",
+          "本站僅作美股觀察：若未來用財報漂移選股，第一財季優於預期的權重可較高，目前不當買進理由"
+        ]
+      },
+      "mathGateNote": "Olympiad gold-gate passedGate=false — US FQ1 earnings-drift weighting stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7116238",
+        "https://doi.org/10.2139/ssrn.7116238"
+      ],
+      "titleLocalized": {
+        "zh-Hant": "財報意外持續性斷崖與財報後股價漂移",
+        "en": "Earnings Persistence Cliff and Post-Earnings-Announcement Drift",
+        "zh-Hans": "财报意外持续性断崖与财报后股价漂移",
+        "ja": "決算サプライズ持続性の断崖と決算後ドリフト"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "財報意外的延續性在第四季跨第一季時驟降，投資人低估第一季意外，第一季財報後漂移約大 83%，且近年仍存在。僅作美股觀察。",
+        "en": "Earnings-surprise persistence drops sharply from fiscal Q4 to Q1; investors underrate Q1 news, so post-Q1 drift is about 83% larger and survives after the mid-2000s. US watch only.",
+        "zh-Hans": "财报意外的延续性在第四季跨第一季时骤降，投资人低估第一季意外，第一季财报后漂移约大 83%，且近年仍存在。仅作美股观察。",
+        "ja": "決算サプライズの持続性は第4→第1四半期で急低下。投資家が第1四半期を過小評価し、決算後ドリフトは約83%大きく近年も残存。米国の監視のみ。"
+      },
+      "tags": [
+        "us",
+        "earnings",
+        "pead",
+        "underreaction",
+        "fiscal-quarter",
+        "candidate"
+      ]
+    },
+    {
+      "type": "paper",
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "shelf": "market_analysis",
+      "id": "paper-tw-year-end-window-dressing-2026",
+      "market": "TW",
+      "title": "Detecting price manipulation in the Taiwan stock market using intraday equity returns",
+      "authors": [
+        "Donald Lien",
+        "Ching-I Chen",
+        "Pi-Hsia Hung",
+        "Yu Hung Liang"
+      ],
+      "year": 2026,
+      "summary": "Uses Taiwan Stock Exchange intraday data to look for prices being pushed up at period ends to make portfolios look better. It finds a clear seasonal pattern of end-of-period price lifts followed by reversals, strongest at the turn of the year, and stronger in riskier stocks. Mutual funds that dress up their holdings the most show the sharpest reversals afterward. Order imbalances from foreign investors and investment trusts (投信) near the session close and open line up with the size of the reversals, and investment trusts show the strongest year-end inflation, while individual investors do not. Takeaway for the site: a sharp late-December closing run-up in a Taiwan stock heavily held by 投信 may be window dressing that tends to give back, so treat it as a caution flag rather than real strength.",
+      "formulas": [
+        "close-to-open reversal_t ← (open_{t+1} − close_t) / close_t, measured at quarter-end and year-end sessions",
+        "year-end flag ← last trading days of December vs other quarter-ends (stronger at year-end)",
+        "inst. net buy near close ← 投信／外資 daily net buy (TWSE public 三大法人 data) on period-end days",
+        "caution rule: large period-end close-up + heavy 投信 net buy → expect partial reversal early next period",
+        "gate: TW-only window-dressing caution flag; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "台股在季底、尤其年底，常出現收盤被拉高、隔期開盤又跌回的「作帳」現象",
+        "風險較高的股票年底作帳更明顯，作帳最多的股票型基金之後回吐也最大",
+        "投信與外資在收盤前後的買賣失衡和回吐幅度高度相關，其中投信年底作帳最明顯，散戶則沒有",
+        "本站僅作台股觀察：年底尾盤急拉、又是投信重倉的個股，應視為可能回吐的警訊，不當作真正轉強"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Taiwan stocks often get closing prices pushed up at quarter-ends, especially year-end, then fall back at the next open",
+          "Riskier stocks show stronger year-end inflation, and the funds that dress up most see the biggest give-backs",
+          "Foreign and investment-trust order imbalances around the close match the reversal size; investment trusts inflate most at year-end, individuals do not",
+          "TW watch only: a sharp late-December closing run-up in a stock heavily held by investment trusts is a give-back warning, not real strength"
+        ],
+        "zh-Hans": [
+          "台股在季底、尤其年底，常出现收盘被拉高、下期开盘又跌回的“做账”现象",
+          "风险较高的股票年底做账更明显，做账最多的股票型基金之后回吐也最大",
+          "投信与外资在收盘前后的买卖失衡和回吐幅度高度相关，其中投信年底做账最明显，散户则没有",
+          "本站仅作台股观察：年底尾盘急拉、又是投信重仓的个股，应视为可能回吐的警讯，不当作真正转强"
+        ],
+        "ja": [
+          "台湾株は四半期末、特に年末に終値が押し上げられ、翌期の寄り付きで戻る「お化粧買い」が見られる",
+          "リスクの高い銘柄ほど年末の押し上げが強く、お化粧の多い株式ファンドほど後の反落が大きい",
+          "外国人と投信の引け前後の売買不均衡が反落幅と強く連動。投信が年末に最も顕著で、個人投資家は見られない",
+          "台湾の監視のみ：投信保有比率の高い銘柄の12月末の引け急騰は反落警戒で、本当の強さとは見なさない"
+        ],
+        "zh-Hant": [
+          "台股在季底、尤其年底，常出現收盤被拉高、隔期開盤又跌回的「作帳」現象",
+          "風險較高的股票年底作帳更明顯，作帳最多的股票型基金之後回吐也最大",
+          "投信與外資在收盤前後的買賣失衡和回吐幅度高度相關，其中投信年底作帳最明顯，散戶則沒有",
+          "本站僅作台股觀察：年底尾盤急拉、又是投信重倉的個股，應視為可能回吐的警訊，不當作真正轉強"
+        ]
+      },
+      "mathGateNote": "Olympiad gold-gate passedGate=false — TW year-end window-dressing caution flag stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://link.springer.com/article/10.1007/s11156-026-01553-2",
+        "https://doi.org/10.1007/s11156-026-01553-2"
+      ],
+      "titleLocalized": {
+        "zh-Hant": "用盤中報酬偵測台股價格操縱（年底作帳）",
+        "en": "Detecting price manipulation in the Taiwan stock market using intraday equity returns",
+        "zh-Hans": "用盘中报酬侦测台股价格操纵（年底做账）",
+        "ja": "日中リターンによる台湾株の価格操作検出（年末お化粧買い）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "台股季底、尤其年底有尾盤拉抬後回吐的作帳現象，高風險股與投信最明顯，外資與投信收盤前後買賣失衡與回吐相關。僅作台股警訊觀察。",
+        "en": "Taiwan shows period-end, especially year-end, closing run-ups that later reverse; strongest in risky stocks and among investment trusts, tied to foreign and trust order imbalances. TW caution flag only.",
+        "zh-Hans": "台股季底、尤其年底有尾盘拉抬后回吐的做账现象，高风险股与投信最明显，外资与投信收盘前后买卖失衡与回吐相关。仅作台股警讯观察。",
+        "ja": "台湾株は期末、特に年末に引けの押し上げと反落が見られ、高リスク株と投信で顕著。外国人・投信の売買不均衡と連動。台湾の警戒フラグのみ。"
+      },
+      "tags": [
+        "tw",
+        "window-dressing",
+        "investment-trust",
+        "foreign-investors",
+        "reversal",
         "candidate"
       ]
     }
