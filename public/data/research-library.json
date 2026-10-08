@@ -1,9 +1,9 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-07T09:30:00+08:00",
+    "updated": "2026-10-08T09:30:00+08:00",
     "timezone": "Asia/Taipei",
-    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-07)",
+    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
     "mathGate": "正式納入策略需數學閘門通過（目前未過）— 僅候選",
     "updateScript": "scripts/update-research-library.mjs",
@@ -8179,6 +8179,167 @@
         "investment-trust",
         "foreign-investors",
         "reversal",
+        "candidate"
+      ]
+    },
+    {
+      "type": "paper",
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "shelf": "market_analysis",
+      "id": "paper-equity-anomaly-capacity-2026",
+      "market": "US",
+      "title": "The Capacity of Equity Anomalies",
+      "authors": [
+        "Doron Avramov",
+        "Dion Bongaerts",
+        "Julio A. Crego",
+        "Jens Soerlie Kvaerner"
+      ],
+      "year": 2026,
+      "summary": "Measures how much money can be put into 35 well-known US stock anomalies before trading costs wipe out their market-hedged returns above cash, using daily estimates of bid-ask spreads, price impact and how fast liquidity comes back. The strategies with the highest paper returns hold up only at small scale, while lower-return profitability strategies can absorb far more money. Price impact, driven by how often a strategy trades and how liquid its stocks are, explains most of the difference. Trading more slowly, rather than rebalancing fully every time, raises typical capacity many times over. Takeaway for the site: a strategy's paper return overstates what it keeps after costs; favoring liquid names and lower turnover in the paper-trading book is the honest way to evaluate US candidates.",
+      "formulas": [
+        "net return ← gross anomaly return − (half-spread + price impact) × turnover",
+        "capacity ← largest capital where market-hedged net return over cash stays > 0",
+        "partial adjustment: trade only a fraction of the gap to the target weight each rebalance to cut turnover",
+        "candidate rule for US paper book: report turnover and estimated cost per strategy; prefer liquid, lower-turnover variants when gross edges are similar",
+        "gate: evaluation/cost-model candidate only; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "研究 35 種美股常見選股異常，算出扣掉交易成本後，各策略最多能放多少錢還賺得到超額報酬",
+        "帳面報酬最高的策略，往往只能小規模操作；報酬較低的獲利能力類策略反而能容納更多資金",
+        "差異主要來自價格衝擊：換股越頻繁、個股越不流通，成本吃掉越多",
+        "放慢換股、每次只調整一部分，可大幅提高可操作規模；本站美股僅作觀察，模擬單評估應計入週轉與成本"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Measures, for 35 common US stock anomalies, how much money each can hold after trading costs and still beat cash",
+          "The highest paper-return strategies only work at small size; lower-return profitability strategies absorb far more money",
+          "Most of the gap is price impact: more frequent trading and less liquid stocks mean higher costs",
+          "Trading more slowly and adjusting only part of the way greatly raises capacity; US watch only, and paper-book evaluation should count turnover and costs"
+        ],
+        "zh-Hans": [
+          "研究 35 种美股常见选股异常，算出扣掉交易成本后，各策略最多能放多少钱还赚得到超额报酬",
+          "账面报酬最高的策略，往往只能小规模操作；报酬较低的获利能力类策略反而能容纳更多资金",
+          "差异主要来自价格冲击：换股越频繁、个股越不流通，成本吃掉越多",
+          "放慢换股、每次只调整一部分，可大幅提高可操作规模；本站美股仅作观察，模拟单评估应计入周转与成本"
+        ],
+        "ja": [
+          "米国株の代表的な35のアノマリーについて、取引コスト控除後も現金を上回れる最大資金量を測定",
+          "紙上リターンが最も高い戦略は小規模でしか機能せず、リターンの低い収益性系戦略の方がはるかに多くの資金を吸収できる",
+          "差の大半は価格インパクト：売買頻度が高く流動性が低いほどコストが膨らむ",
+          "売買を遅くし一部だけ調整すれば容量は大きく増える。米国の監視のみ、模擬売買の評価には回転率とコストを含めるべき"
+        ],
+        "zh-Hant": [
+          "研究 35 種美股常見選股異常，算出扣掉交易成本後，各策略最多能放多少錢還賺得到超額報酬",
+          "帳面報酬最高的策略，往往只能小規模操作；報酬較低的獲利能力類策略反而能容納更多資金",
+          "差異主要來自價格衝擊：換股越頻繁、個股越不流通，成本吃掉越多",
+          "放慢換股、每次只調整一部分，可大幅提高可操作規模；本站美股僅作觀察，模擬單評估應計入週轉與成本"
+        ]
+      },
+      "mathGateNote": "Olympiad gold-gate passedGate=false — US anomaly-capacity cost model stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7524338"
+      ],
+      "titleLocalized": {
+        "zh-Hant": "美股選股異常能容納多少資金",
+        "en": "The Capacity of Equity Anomalies",
+        "zh-Hans": "美股选股异常能容纳多少资金",
+        "ja": "株式アノマリーの容量"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "計算 35 種美股異常扣除價差與價格衝擊後的可操作規模：高報酬策略規模小、獲利能力類策略容量大，放慢換股可大幅提高容量。美股僅作成本評估觀察。",
+        "en": "Estimates how much capital 35 US anomalies can take after spreads and price impact: high-alpha strategies are small, profitability strategies are large, and slower rebalancing raises capacity a lot. US cost-evaluation watch only.",
+        "zh-Hans": "计算 35 种美股异常扣除价差与价格冲击后的可操作规模：高报酬策略规模小、获利能力类策略容量大，放慢换股可大幅提高容量。美股仅作成本评估观察。",
+        "ja": "35の米国アノマリーのスプレッドと価格インパクト控除後の容量を推計：高アルファ戦略は小さく、収益性戦略は大きく、緩やかなリバランスで容量が大幅増。米国のコスト評価監視のみ。"
+      },
+      "tags": [
+        "us",
+        "anomalies",
+        "trading-costs",
+        "capacity",
+        "turnover",
+        "candidate"
+      ]
+    },
+    {
+      "type": "paper",
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "shelf": "market_analysis",
+      "id": "paper-tw-turnover-anomaly-2026",
+      "market": "TW",
+      "title": "Is There a Turnover Anomaly in the Taiwan Stock Market?",
+      "authors": [
+        "Tsung-Yu Chen"
+      ],
+      "year": 2026,
+      "summary": "Studies whether trading turnover predicts future returns in Taiwan. Stocks that change hands the least earn higher later returns than the most heavily traded ones, and the gap lasts up to about two years. Standard risk factors, liquidity measures, trading costs, industry effects and the January effect do not explain it. Most of the gap comes from the heavily traded stocks doing badly afterward, and the effect is stronger when short selling is harder and when investor sentiment runs hot, which points to overpricing of popular names. Takeaway for the site: in Taiwan, unusually high turnover is a caution sign for future returns rather than a sign of strength, which matters because the screener rewards high volume ratios.",
+      "formulas": [
+        "turnover_i ← average daily shares traded / shares outstanding over a trailing window (TWSE/TPEx public data)",
+        "rank stocks by turnover each month; compare lowest-turnover bucket vs highest-turnover bucket forward returns",
+        "caution rule: top-decile turnover in TW → down-weight as overpricing risk, especially when 融券 constraints bind or sentiment is high",
+        "interaction check vs live volume-ratio rule: a volume spike is not the same as persistently high turnover",
+        "gate: TW-only caution flag; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "台股中成交週轉率最低的股票，之後報酬比週轉率最高的股票好，差距可延續約兩年",
+        "這個現象用常見風險因子、流動性、交易成本、產業或一月效應都解釋不了",
+        "差距主要來自「交易最熱的股票之後表現差」，放空受限或市場情緒高時更明顯",
+        "本站僅作台股觀察：長期週轉率異常高的熱門股要當作過熱警訊，不能只因量大就視為轉強"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "In Taiwan, the least-traded stocks later beat the most-traded ones, and the gap can last about two years",
+          "Common risk factors, liquidity, trading costs, industry and the January effect do not explain it",
+          "The gap mostly comes from heavily traded stocks doing poorly later, more so when shorting is hard or sentiment is high",
+          "TW watch only: persistently very high turnover is an overheating warning, not proof of strength just because volume is big"
+        ],
+        "zh-Hans": [
+          "台股中成交周转率最低的股票，之后报酬比周转率最高的股票好，差距可延续约两年",
+          "这个现象用常见风险因子、流动性、交易成本、产业或一月效应都解释不了",
+          "差距主要来自“交易最热的股票之后表现差”，放空受限或市场情绪高时更明显",
+          "本站仅作台股观察：长期周转率异常高的热门股要当作过热警讯，不能只因量大就视为转强"
+        ],
+        "ja": [
+          "台湾株では売買回転率が最も低い銘柄が、最も高い銘柄より後のリターンが高く、その差は約2年続く",
+          "一般的なリスクファクター、流動性、取引コスト、業種、1月効果では説明できない",
+          "差の大半は売買が過熱した銘柄の後の不振によるもので、空売り制約や投資家心理が強い時に顕著",
+          "台湾の監視のみ：回転率が持続的に非常に高い人気株は過熱の警告であり、出来高が大きいだけで強さとは見なさない"
+        ],
+        "zh-Hant": [
+          "台股中成交週轉率最低的股票，之後報酬比週轉率最高的股票好，差距可延續約兩年",
+          "這個現象用常見風險因子、流動性、交易成本、產業或一月效應都解釋不了",
+          "差距主要來自「交易最熱的股票之後表現差」，放空受限或市場情緒高時更明顯",
+          "本站僅作台股觀察：長期週轉率異常高的熱門股要當作過熱警訊，不能只因量大就視為轉強"
+        ]
+      },
+      "mathGateNote": "Olympiad gold-gate passedGate=false — TW turnover-anomaly caution flag stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://www.airitilibrary.com/Article/Detail/10222898-N202606190009-00003"
+      ],
+      "titleLocalized": {
+        "zh-Hant": "臺灣股市是否存在週轉率異常現象？",
+        "en": "Is There a Turnover Anomaly in the Taiwan Stock Market?",
+        "zh-Hans": "台湾股市是否存在周转率异常现象？",
+        "ja": "台湾株式市場に売買回転率アノマリーは存在するか"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "台股低週轉率股票之後報酬高於高週轉率股票，差距可達兩年，主因是熱門高週轉股之後表現差；放空受限、情緒高時更明顯。僅作台股過熱警訊觀察。",
+        "en": "In Taiwan, low-turnover stocks later outperform high-turnover ones for up to two years, mainly because hot high-turnover names lag; stronger when shorting is constrained or sentiment is high. TW overheating flag only.",
+        "zh-Hans": "台股低周转率股票之后报酬高于高周转率股票，差距可达两年，主因是热门高周转股之后表现差；放空受限、情绪高时更明显。仅作台股过热警讯观察。",
+        "ja": "台湾株は低回転率銘柄が高回転率銘柄を最大2年上回り、主因は人気の高回転銘柄の不振。空売り制約や強気心理で顕著。台湾の過熱フラグのみ。"
+      },
+      "tags": [
+        "tw",
+        "turnover",
+        "overpricing",
+        "sentiment",
+        "short-sale-constraints",
         "candidate"
       ]
     }
