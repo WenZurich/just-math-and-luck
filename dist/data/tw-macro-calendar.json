@@ -1,11 +1,11 @@
 {
-  "asOf": "2026-10-07T00:07:54.208Z",
+  "asOf": "2026-10-08T00:13:15.008Z",
   "market": "TW",
   "timezone": "Asia/Taipei",
   "timezoneLabel": "台北時間",
   "window": {
-    "from": "2026-10-07",
-    "to": "2026-11-11"
+    "from": "2026-10-08",
+    "to": "2026-11-12"
   },
   "source": {
     "name": "DGBAS / CBC / TWSE / MOEA",
@@ -22,19 +22,6 @@
   },
   "stale": false,
   "events": [
-    {
-      "id": "dgbasCpi-2026-10-07T16:00:00+08:00",
-      "eventKey": "dgbasCpi",
-      "eventName": "消費者物價指數",
-      "shortName": "CPI 消費者物價",
-      "importance": "high",
-      "highImpact": true,
-      "scheduledAt": "2026-10-07T08:00:00.000Z",
-      "dayTw": "2026-10-07",
-      "periodLabel": "(11606)",
-      "source": "行政院主計總處",
-      "officialUrl": "https://www.stat.gov.tw/cl.aspx?n=2663"
-    },
     {
       "id": "twseHoliday-2026-10-09",
       "eventKey": "twseHoliday",
