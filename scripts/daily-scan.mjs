@@ -116,7 +116,7 @@ async function yahooChart(symbol) {
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(
     symbol
   )}?interval=1d&period1=${p1}&period2=${p2}`;
-  const res = await fetch(url, { headers: { "User-Agent": UA } });
+  const res = await fetch(url, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(30000) });
   if (!res.ok) {
     // try .TWO for TW OTC
     return null;
@@ -809,6 +809,7 @@ async function main() {
       const er = spawnSync(process.execPath, [join(__dirname, "fetch-earnings.mjs")], {
         stdio: "inherit",
         cwd: ROOT,
+        timeout: 300000, // 5 min cap so a stalled source cannot hang the whole run
       });
       if (er.status !== 0) console.warn("fetch-earnings exited", er.status);
     } catch (e) {
@@ -825,6 +826,7 @@ async function main() {
       const mr = spawnSync(process.execPath, [join(__dirname, "fetch-us-macro-calendar.mjs")], {
         stdio: "inherit",
         cwd: ROOT,
+        timeout: 300000, // 5 min cap so a stalled source cannot hang the whole run
       });
       if (mr.status !== 0) console.warn("fetch-us-macro exited", mr.status);
     } catch (e) {
@@ -841,6 +843,7 @@ async function main() {
       const tr = spawnSync(process.execPath, [join(__dirname, "fetch-tw-macro-calendar.mjs")], {
         stdio: "inherit",
         cwd: ROOT,
+        timeout: 300000, // 5 min cap so a stalled source cannot hang the whole run
       });
       if (tr.status !== 0) console.warn("fetch-tw-macro exited", tr.status);
     } catch (e) {
@@ -858,6 +861,7 @@ async function main() {
       const xr = spawnSync(process.execPath, [join(__dirname, "fetch-txf-desk.mjs")], {
         stdio: "inherit",
         cwd: ROOT,
+        timeout: 300000, // 5 min cap so a stalled source cannot hang the whole run
       });
       if (xr.status !== 0) console.warn("fetch-txf exited", xr.status);
     } catch (e) {
