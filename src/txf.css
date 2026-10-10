@@ -5,9 +5,9 @@
 .txf-disclaimer {
   margin: 0.5rem 0 0.85rem;
   padding: 0.55rem 0.75rem;
-  border-radius: 10px;
-  border: 1px solid color-mix(in srgb, #f59e0b 35%, var(--border));
-  background: color-mix(in srgb, #fff7ed 90%, white);
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--warn) 35%, var(--border));
+  background: color-mix(in srgb, var(--warn-bg) 90%, white);
   font-size: 0.84rem;
   line-height: 1.45;
   font-weight: 600;
@@ -21,9 +21,9 @@
   gap: 0.85rem;
   grid-template-columns: 1.35fr 1fr;
   padding: 0.9rem 1rem;
-  border-radius: 14px;
+  border-radius: var(--radius);
   border: 1px solid var(--border);
-  background: linear-gradient(180deg, #fff 0%, #f8fafc 100%);
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
   margin-bottom: 0.85rem;
 }
 .txf-symbol-row {
@@ -43,9 +43,9 @@
   font-size: 0.72rem;
   font-weight: 800;
   padding: 0.12rem 0.45rem;
-  border-radius: 999px;
-  background: #dbeafe;
-  color: #1e40af;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 .txf-fund { color: var(--text-muted); font-size: 0.82rem; }
 .txf-price-row {
@@ -58,8 +58,8 @@
 }
 .txf-price { font-size: 2rem; line-height: 1.1; color: var(--text); }
 .txf-chg, .txf-chgp { font-size: 1.15rem; }
-.txf-up { color: #dc2626; }
-.txf-down { color: #16a34a; }
+.txf-up { color: var(--up); }
+.txf-down { color: var(--ok); }
 .txf-flat { color: var(--text-muted); }
 .txf-session {
   margin: 0.35rem 0 0;
@@ -73,8 +73,8 @@
   gap: 0.45rem;
   justify-content: center;
   padding: 0.55rem 0.7rem;
-  border-radius: 10px;
-  background: #f1f5f9;
+  border-radius: var(--radius);
+  background: var(--surface-2);
   border: 1px solid var(--border);
   font-size: 0.82rem;
   line-height: 1.45;
@@ -100,16 +100,16 @@
 .txf-panel {
   margin: 0 0 1rem;
   padding: 0.85rem 1rem 1rem;
-  border-radius: 12px;
+  border-radius: var(--radius);
   border: 1px solid var(--border);
-  background: var(--bg-elevated, #fff);
+  background: var(--bg-elevated, var(--surface));
 }
 .txf-contract-card, .txf-inst-card, .txf-cal-card {
   margin: 0.65rem 0 0;
   padding: 0.65rem 0.75rem;
-  border-radius: 10px;
+  border-radius: var(--radius);
   border: 1px solid var(--border);
-  background: #f8fafc;
+  background: var(--surface-2);
 }
 .txf-contract-head h4, .txf-inst-card h4, .txf-cal-card h4 {
   margin: 0 0 0.35rem;
@@ -120,9 +120,9 @@
   font-size: 0.68rem;
   font-weight: 800;
   padding: 0.08rem 0.35rem;
-  border-radius: 999px;
-  background: #e0e7ff;
-  color: #3730a3;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent);
   margin-right: 0.25rem;
 }
 .txf-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -153,7 +153,7 @@
 .txf-explain { margin: 0; padding-left: 1.15rem; font-size: 0.88rem; line-height: 1.5; }
 .txf-explain li { margin: 0.35rem 0; }
 .txf-src-list { margin: 0; padding-left: 1.15rem; font-size: 0.82rem; line-height: 1.5; }
-.txf-src-list a { color: var(--link, #1d4ed8); }
+.txf-src-list a { color: var(--link, var(--accent)); }
 .txf-footnote { margin: 0.55rem 0 0; font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; }
 .txf-empty { padding: 1rem; color: var(--text-muted); }
 

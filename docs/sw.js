@@ -4,7 +4,7 @@
  * - Network-first for data/*.json so daily updates prefer fresh
  */
 const BASE = "/just-math-and-luck/";
-const SHELL_CACHE = "jml-shell-v12";
+const SHELL_CACHE = "jml-shell-v13";
 const DATA_CACHE = "jml-data-v3";
 
 const PRECACHE_URLS = [

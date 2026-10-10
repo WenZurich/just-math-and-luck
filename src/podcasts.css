@@ -4,9 +4,9 @@
 .pc-disclaimer {
   margin: 0.5rem 0 0.95rem;
   padding: 0.55rem 0.75rem;
-  border-radius: 10px;
-  border: 1px solid color-mix(in srgb, #6366f1 28%, var(--border));
-  background: color-mix(in srgb, #eef2ff 88%, white);
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
+  background: color-mix(in srgb, var(--accent-soft) 88%, white);
   font-size: 0.84rem;
   line-height: 1.45;
   font-weight: 600;
@@ -19,28 +19,28 @@
 
 .pc-card {
   border: 1px solid var(--border);
-  border-radius: 14px;
-  background: var(--bg-elevated, #fff);
+  border-radius: var(--radius);
+  background: var(--bg-elevated, var(--surface));
   overflow: hidden;
 }
 
 .pc-card-featured {
-  border-color: color-mix(in srgb, #4338ca 32%, var(--border));
-  box-shadow: 0 1px 0 color-mix(in srgb, #4338ca 8%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 32%, var(--border));
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--accent) 8%, transparent);
 }
 
 .pc-card-stub {
-  border-color: color-mix(in srgb, #0ea5e9 28%, var(--border));
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
 }
 
 .pc-card-head {
   padding: 0.95rem 1.05rem 0.75rem;
-  background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+  background: linear-gradient(135deg, var(--surface-2) 0%, var(--accent-soft) 100%);
   border-bottom: 1px solid var(--border);
 }
 
 .pc-card-stub .pc-card-head {
-  background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+  background: linear-gradient(135deg, var(--surface-2) 0%, var(--accent-soft) 100%);
 }
 
 .pc-card-identity {
@@ -54,17 +54,17 @@
   font-size: 0.7rem;
   font-weight: 700;
   padding: 0.15rem 0.5rem;
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   white-space: nowrap;
 }
 
-.pc-badge-featured { background: #4338ca; color: #fff; }
-.pc-badge-stub { background: #0369a1; color: #fff; }
-.pc-badge-us { background: #dbeafe; color: #1e40af; }
-.pc-badge-tw { background: #cffafe; color: #155e75; }
-.pc-badge-cn { background: #fae8ff; color: #86198f; }
-.pc-badge-candidate { background: #e0e7ff; color: #3730a3; }
-.pc-badge-watch { background: #fef3c7; color: #92400e; }
+.pc-badge-featured { background: var(--accent); color: var(--surface); }
+.pc-badge-stub { background: var(--accent); color: var(--surface); }
+.pc-badge-us { background: var(--accent-soft); color: var(--accent); }
+.pc-badge-tw { background: var(--accent-soft); color: var(--accent); }
+.pc-badge-cn { background: var(--accent-soft); color: var(--accent); }
+.pc-badge-candidate { background: var(--accent-soft); color: var(--accent); }
+.pc-badge-watch { background: var(--warn-bg); color: var(--warn); }
 
 .pc-card-title {
   margin: 0 0 0.2rem;
@@ -77,7 +77,7 @@
   margin: 0 0 0.4rem;
   font-size: 0.82rem;
   font-weight: 650;
-  color: #4338ca;
+  color: var(--accent);
   letter-spacing: 0.01em;
 }
 
@@ -117,7 +117,7 @@
 .pc-link {
   font-size: 0.86rem;
   font-weight: 650;
-  color: #1d4ed8;
+  color: var(--accent);
   text-decoration: none;
 }
 
@@ -129,11 +129,11 @@
 }
 
 .pc-card-jensen {
-  border-color: color-mix(in srgb, #047857 32%, var(--border));
-  box-shadow: 0 1px 0 color-mix(in srgb, #047857 8%, transparent);
+  border-color: color-mix(in srgb, var(--ok) 32%, var(--border));
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--ok) 8%, transparent);
 }
 .pc-card-head-jensen {
-  background: linear-gradient(135deg, #f8fafc 0%, #ecfdf5 100%);
+  background: linear-gradient(135deg, var(--surface-2) 0%, var(--ok-bg) 100%);
 }
 
 
@@ -144,7 +144,7 @@
   z-index: 5;
   margin: 0 0 0.85rem;
   padding: 0.35rem 0 0.45rem;
-  background: color-mix(in srgb, var(--bg, #fff) 92%, transparent);
+  background: color-mix(in srgb, var(--bg, var(--surface)) 92%, transparent);
   backdrop-filter: blur(8px);
 }
 .pc-tabs {
@@ -159,30 +159,30 @@
 .pc-tab {
   flex: 0 0 auto;
   appearance: none;
-  border: 1px solid var(--border, #e2e8f0);
-  background: #f3f5f8;
-  color: var(--text-muted, #64748b);
+  border: 1px solid var(--border, var(--border));
+  background: var(--surface-2);
+  color: var(--text-muted, var(--text-muted));
   font: inherit;
   font-size: 0.82rem;
   font-weight: 650;
   padding: 0.4rem 0.85rem;
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   min-height: 36px;
   white-space: nowrap;
 }
-.pc-tab:hover { color: var(--text, #0f172a); background: #fff; }
+.pc-tab:hover { color: var(--text, var(--text)); background: var(--surface); }
 .pc-tab.is-active {
-  color: #4338ca;
-  background: #fff;
-  border-color: color-mix(in srgb, #4338ca 45%, var(--border, #e2e8f0));
-  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  color: var(--accent);
+  background: var(--surface);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border, var(--border)));
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--ink-shadow) 6%, transparent);
 }
 .pc-menu-lead {
   margin: 0 0 0.75rem;
   font-size: 0.9rem;
   line-height: 1.5;
-  color: var(--text-muted, #64748b);
+  color: var(--text-muted, var(--text-muted));
 }
 .pc-menu-grid {
   display: grid;
@@ -203,40 +203,40 @@
   text-align: left;
   width: 100%;
   appearance: none;
-  border: 1px solid var(--border, #e2e8f0);
-  border-radius: 14px;
-  background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+  border: 1px solid var(--border, var(--border));
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--surface-2) 0%, var(--accent-soft) 100%);
   padding: 0.95rem 1rem;
   cursor: pointer;
   min-height: 44px;
 }
 .pc-menu-card:hover {
-  border-color: color-mix(in srgb, #4338ca 35%, var(--border, #e2e8f0));
-  box-shadow: 0 2px 8px rgba(67, 56, 202, 0.08);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border, var(--border)));
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 8%, transparent);
 }
 .pc-menu-badges { display: flex; flex-wrap: wrap; gap: 0.3rem; }
 .pc-menu-title {
   margin: 0.15rem 0 0;
   font-size: 1.05rem;
   font-weight: 750;
-  color: #0f172a;
+  color: var(--text);
 }
 .pc-menu-handle {
   margin: 0;
   font-size: 0.8rem;
   font-weight: 650;
-  color: #4338ca;
+  color: var(--accent);
 }
 .pc-menu-blurb {
   margin: 0;
   font-size: 0.86rem;
   line-height: 1.45;
-  color: var(--text-muted, #64748b);
+  color: var(--text-muted, var(--text-muted));
 }
 .pc-menu-cta {
   margin-top: 0.35rem;
   font-size: 0.82rem;
   font-weight: 700;
-  color: #1d4ed8;
+  color: var(--accent);
 }
 .pc-panel { min-height: 2rem; }

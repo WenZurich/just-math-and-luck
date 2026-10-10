@@ -68,14 +68,14 @@
   font-size: 0.78rem;
   font-weight: 650;
   color: var(--text-muted);
-  background: #eef0f3;
-  border-radius: 999px;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
   padding: 0.1rem 0.45rem;
   min-width: 1.6rem;
   text-align: center;
 }
 .xq-side-item.active .xq-side-n {
-  background: rgba(0, 120, 212, 0.16);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
   color: var(--accent-strong);
 }
 
@@ -106,9 +106,9 @@
   align-items: center;
   gap: 0.4rem;
   border: 1px solid var(--border);
-  background: #ffffff;
+  background: var(--surface);
   color: var(--text);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   padding: 0.45rem 0.8rem;
   font: inherit;
   font-size: 0.84rem;
@@ -119,8 +119,8 @@
   transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s;
 }
 .xq-chip:hover {
-  background: #f7f8fa;
-  border-color: #d0d5dd;
+  background: var(--surface-2);
+  border-color: var(--border);
 }
 .xq-chip.active {
   border-color: var(--accent);
@@ -135,8 +135,8 @@
   font-size: 0.72rem;
   font-weight: 650;
   color: var(--text-muted);
-  background: #eef0f3;
-  border-radius: 999px;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
   padding: 0.1rem 0.45rem;
   line-height: 1.2;
 }
@@ -146,7 +146,7 @@
 }
 .xq-chip.active .xq-chip-n {
   color: var(--accent-strong);
-  background: rgba(0, 120, 212, 0.16);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
 }
 
 .xq-panel {
@@ -171,7 +171,7 @@
 .xq-tag {
   font-size: 0.7rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   padding: 0.12rem 0.45rem;
   color: var(--text-muted);
   background: var(--bg-card);
@@ -236,7 +236,7 @@
   font-size: 0.75rem;
   color: var(--accent);
   background: var(--accent-soft);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   width: 1.35rem;
   height: 1.35rem;
   display: inline-flex;
@@ -246,7 +246,7 @@
 }
 .xq-cond-st {
   font-size: 0.68rem;
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   padding: 0.12rem 0.4rem;
   white-space: nowrap;
 }
@@ -292,7 +292,7 @@
 
 .xq-incomplete {
   background: var(--warn-bg);
-  border: 1px dashed rgba(245, 158, 11, 0.45);
+  border: 1px dashed color-mix(in srgb, var(--warn) 45%, transparent);
   border-radius: var(--radius-sm);
   padding: 0.85rem;
   margin-top: 0.5rem;
@@ -349,7 +349,7 @@
   .xq-hit-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 .xq-m {
-  background: #f5f7fa;
+  background: var(--surface-2);
   border: 1px solid var(--border-soft);
   border-radius: 6px;
   padding: 0.35rem 0.45rem;
@@ -382,7 +382,7 @@
     position: sticky;
     top: 0;
     z-index: 5;
-    background: rgba(245, 247, 250, 0.96);
+    background: color-mix(in srgb, var(--bg) 96%, transparent);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 0.5rem 0 0.65rem;
@@ -418,7 +418,7 @@
   color: var(--text-muted);
   background: var(--accent-soft);
   border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
-  border-radius: 8px;
+  border-radius: var(--radius);
 }
 .xq-cal-m { color: var(--accent); }
 .xq-cal-d { color: var(--text-muted); }
@@ -444,7 +444,7 @@
   margin: 0.75rem 0 1rem;
   padding: 0.85rem 1rem;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius);
   background: var(--bg-card);
   box-shadow: var(--shadow-soft);
 }
@@ -463,8 +463,8 @@
   font-size: 0.84rem;
   line-height: 1.45;
   padding: 0.75rem 0.85rem;
-  border-radius: 10px;
-  background: #f7f8fa;
+  border-radius: var(--radius);
+  background: var(--surface-2);
   border: 1px solid var(--border);
   color: var(--text);
 }
@@ -539,8 +539,8 @@
   min-height: 44px;
   padding: 0.45rem 0.85rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
-  background: #fff;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
   color: var(--text);
   font: inherit;
   font-size: 0.88rem;
@@ -552,7 +552,7 @@
   scroll-snap-align: start;
   white-space: nowrap;
 }
-.xq-tab:hover { background: #f7f8fa; }
+.xq-tab:hover { background: var(--surface-2); }
 .xq-tab.active {
   border-color: var(--accent);
   background: var(--accent-soft);
@@ -563,14 +563,14 @@
   font-size: 0.72rem;
   font-weight: 650;
   color: var(--text-muted);
-  background: #eef0f3;
-  border-radius: 999px;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
   padding: 0.1rem 0.4rem;
   min-width: 1.4rem;
   text-align: center;
 }
 .xq-tab.active .xq-tab-n {
-  background: rgba(0, 120, 212, 0.16);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
   color: var(--accent-strong);
 }
 
@@ -579,7 +579,7 @@
     position: sticky;
     top: 0;
     z-index: 6;
-    background: rgba(245, 247, 250, 0.97);
+    background: color-mix(in srgb, var(--bg) 97%, transparent);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     margin-left: 0;
@@ -629,7 +629,7 @@
 .xq-mkt-btn {
   appearance: none;
   border: 1px solid var(--border);
-  background: #fff;
+  background: var(--surface);
   color: var(--text);
   border-radius: var(--radius-sm);
   padding: 0.45rem 0.85rem;
@@ -668,12 +668,12 @@
   z-index: 60;
   max-width: min(92vw, 360px);
   padding: 0.65rem 1rem;
-  border-radius: 10px;
-  background: rgba(20, 24, 32, 0.92);
-  color: #fff;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--ink-shadow) 92%, transparent);
+  color: var(--surface);
   font-size: 0.85rem;
   font-weight: 600;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--ink-shadow) 18%, transparent);
   pointer-events: none;
   text-align: center;
 }
@@ -691,3 +691,6 @@
   position: relative;
   z-index: 2;
 }
+
+/* Design system v2 */
+.xq-side-n { white-space: nowrap; font-family: var(--font); font-size: var(--fs-2xs); font-weight: 600; }

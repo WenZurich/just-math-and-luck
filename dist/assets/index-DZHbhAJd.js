@@ -2061,7 +2061,7 @@
         </div>
         <div class="flags" style="margin-bottom:0.4rem">${Ia(t)}${qa(t.screens)}</div>
         ${t.why?`<p class="lc-why">${s(t.why)}</p>`:""}
-        ${t.risk&&t.risk!=="—"?`<p class="lc-why" style="color:#fbbf24">${s(n("risk"))}：${wn(t.risk)}</p>`:""}
+        ${t.risk&&t.risk!=="—"?`<p class="lc-why lc-risk">${s(n("risk"))}：${wn(t.risk)}</p>`:""}
       </div>`}).join("")}function md(){return`
     <tr>
       <th>${T("ticker",n("ticker"))}</th>
@@ -2125,7 +2125,7 @@
     <header class="site-chrome">
       <div class="chrome-row">
         <div class="chrome-brand">
-          <img class="brand-mark" src="/just-math-and-luck/logo.svg?v=4" width="40" height="40" alt="每日數學選股" decoding="async" />
+          <img class="brand-mark" src="/just-math-and-luck/logo.svg?v=5" width="40" height="40" alt="每日數學選股" decoding="async" />
           <div class="brand-text">
             <h1>${s(n("siteTitle"))}</h1>
             <p class="brand-meta"><span id="brand-asof">${s(n("dataAsOf"))} ${pd(e.asOf)}</span><span id="lq-live-suffix" class="lq-live-suffix" hidden aria-live="polite"></span></p>

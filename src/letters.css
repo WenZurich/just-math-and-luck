@@ -15,7 +15,7 @@
   margin: 0 0 0.6rem;
   border: 1px solid var(--border);
   background: var(--bg-elevated);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   padding: 0.3rem 0.75rem;
   font-weight: 700;
   cursor: pointer;
@@ -30,7 +30,7 @@
 .lt-linkonly { margin: 0 0 0.6rem; color: var(--text-muted); font-size: 0.88rem; }
 .lt-year { margin: 0 0 1rem; }
 .lt-year h4 { margin: 0 0 0.35rem; font-size: 0.95rem; }
-.lt-pro-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-elevated); }
+.lt-pro-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-elevated); }
 .lt-pro-row {
   display: flex;
   flex-direction: column;
@@ -53,7 +53,7 @@
   border: 1px solid var(--border);
   background: var(--bg-elevated);
   color: var(--text);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   padding: 0.28rem 0.7rem;
   font-weight: 700;
   font-size: 0.86rem;
@@ -62,11 +62,11 @@
 .lt-year-chip.is-on {
   background: var(--accent);
   border-color: var(--accent);
-  color: #fff;
+  color: var(--surface);
 }
 .lt-reader {
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius);
   background: var(--bg-elevated);
   padding: 1rem 1rem 1.15rem;
 }
@@ -76,7 +76,7 @@
 .lt-reader-stage {
   margin-top: 0.85rem;
   min-height: 220px;
-  border-radius: 14px;
+  border-radius: var(--radius);
   border: 1px dashed var(--border);
   background: var(--bg);
   padding: 1.15rem 1rem 1.25rem;
@@ -95,9 +95,9 @@
   align-items: center;
   justify-content: center;
   min-height: 3.5rem;
-  border-radius: 12px;
+  border-radius: var(--radius);
   background: var(--accent);
-  color: #fff;
+  color: var(--surface);
   font-weight: 800;
   font-size: 1.08rem;
   text-decoration: none;

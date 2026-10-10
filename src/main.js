@@ -375,7 +375,7 @@ function mobileCards(list) {
         </div>
         <div class="flags" style="margin-bottom:0.4rem">${smaBadges(s)}${screenBadges(s.screens)}</div>
         ${s.why ? `<p class="lc-why">${escapeHtml(s.why)}</p>` : ""}
-        ${s.risk && s.risk !== "—" ? `<p class="lc-why" style="color:#fbbf24">${escapeHtml(t("risk"))}：${linkRiskText(s.risk)}</p>` : ""}
+        ${s.risk && s.risk !== "—" ? `<p class="lc-why lc-risk">${escapeHtml(t("risk"))}：${linkRiskText(s.risk)}</p>` : ""}
       </div>`;
     })
     .join("");
@@ -693,7 +693,7 @@ function renderApp(data, paper) {
   const tw = data.tw || [];
   const disclaimer = escapeHtml(t("disclaimer"));
   const headers = renderListHeaders();
-  const logoUrl = `${import.meta.env.BASE_URL}logo.svg?v=4`;
+  const logoUrl = `${import.meta.env.BASE_URL}logo.svg?v=5`;
 
   return `
     <header class="site-chrome">

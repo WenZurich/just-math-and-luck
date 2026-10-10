@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="每日數學選股">
-  <rect width="64" height="64" rx="12" fill="#1C1915"/>
-  <rect x="3.25" y="3.25" width="57.5" height="57.5" rx="10" fill="none" stroke="#A34B38" stroke-width="1.15"/>
+  <rect width="64" height="64" rx="12" fill="#15181D"/>
+  <rect x="3.25" y="3.25" width="57.5" height="57.5" rx="10" fill="none" stroke="#4A7CC9" stroke-width="1.15"/>
   <!-- frontal bull: two horns and a block head. Geometry only, no eyes or mouth. -->
-  <path fill="#F3EDE4" d="M9 34 L16 12 H26 L21 28 L31 35 H15 Z"/>
-  <path fill="#F3EDE4" d="M55 34 L48 12 H38 L43 28 L33 35 H49 Z"/>
-  <path fill="#F3EDE4" d="M20 30 H44 L41 52 H23 Z"/>
+  <path fill="#F2F3F5" d="M9 34 L16 12 H26 L21 28 L31 35 H15 Z"/>
+  <path fill="#F2F3F5" d="M55 34 L48 12 H38 L43 28 L33 35 H49 Z"/>
+  <path fill="#F2F3F5" d="M20 30 H44 L41 52 H23 Z"/>
 </svg>
