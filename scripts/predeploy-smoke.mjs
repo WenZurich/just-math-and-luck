@@ -1452,6 +1452,30 @@ async function main() {
     else ok("docs/data strategy ids match public/data");
   }
 
+  // 櫃買 index: official TPEx source, never 資料不全 on the 熱門 strip
+  {
+    const { parseTpexIndexRows } = await import(pathToFileURL(path.join(ROOT, "scripts/tpex-index.mjs")).href);
+    const r = parseTpexIndexRows([
+      { Date: "20261007", Close: "430.46", Change: "-0.40" },
+      { Date: "20261008", Close: "426.71", Change: "-3.75" },
+    ]);
+    if (!r || r.date !== "2026-10-08" || r.value !== 426.71 || r.dayPct !== -0.87) fail(`parseTpexIndexRows wrong: ${JSON.stringify(r)}`);
+    else ok("parseTpexIndexRows picks newest row and derives dayPct from prior close");
+    if (parseTpexIndexRows([{ Date: "x", Close: "" }]) !== null) fail("parseTpexIndexRows must return null on garbage (never invent)");
+    else ok("parseTpexIndexRows returns null on garbage");
+    const mainSrcOtc = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+    if (/t\("dataIncomplete"\)/.test(mainSrcOtc.slice(mainSrcOtc.indexOf("function renderIndexStrip"), mainSrcOtc.indexOf("function renderIndexStrip") + 2500))) {
+      fail("熱門 strip must not render 資料不全");
+    } else ok("熱門 strip never renders 資料不全");
+    const latest = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/latest.json"), "utf8"));
+    const otc = latest.indices?.otc;
+    if (!otc || otc.value == null || !/^\d{4}-\d{2}-\d{2}$/.test(otc.date || "")) fail("latest.json indices.otc must carry value + date");
+    else ok(`indices.otc ${otc.value} (${otc.date})`);
+    const lqSrc = fs.readFileSync(path.join(ROOT, "src/live-quotes.js"), "utf8");
+    if (!/liveQuotesClosed/.test(lqSrc)) fail("live suffix must say 休市 when both markets are closed");
+    else ok("live suffix shows 休市 outside TW/US sessions");
+  }
+
   if (errors.length) {
     for (const e of errors) fail(`window error: ${e}`);
   }

@@ -1,0 +1,10 @@
+{
+  "name": "櫃買",
+  "date": "2026-10-08",
+  "value": 426.71,
+  "dayAbs": -3.75,
+  "dayPct": -0.87,
+  "source": "TPEx OpenAPI tpex_index",
+  "sourceUrl": "https://www.tpex.org.tw/zh-tw/mainboard/trading/info/daily-indices.html",
+  "fetchedAt": "2026-10-10T10:29:54.975Z"
+}

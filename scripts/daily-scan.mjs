@@ -3,6 +3,7 @@
  * 每日數學選股掃描（美股＋台股）
  * 寫入 stock-ops-study raw + opportunity report，以及 public/data/latest.json（+dated）
  */
+import { fetchTpexIndex } from "./tpex-index.mjs";
 import { writeFileSync, mkdirSync, existsSync, readFileSync, copyFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -680,6 +681,7 @@ async function main() {
     };
   }
 
+  const otcIdx = await fetchTpexIndex().catch(() => null);
   const indices = {
     tw: {
       name: "台灣加權 TAIEX",
@@ -687,12 +689,8 @@ async function main() {
       dayPct: bySym["^TWII"].dayPct,
       dayAbs: bySym["^TWII"].dayAbs,
     },
-    otc: {
-      name: "櫃買",
-      dayPct: null,
-      value: null,
-      incomplete: true,
-    },
+    // 櫃買: official TPEx OpenAPI close; last good row (with its date) if the API is down.
+    otc: otcIdx || { name: "櫃買", dayPct: null, value: null, incomplete: true },
     spx: {
       name: "S&P 500",
       value: bySym["^GSPC"].price,
@@ -980,7 +978,11 @@ function buildReport(ctx) {
   lines.push(
     `| 台灣加權 TAIEX (^TWII) | **${fmtNum(indices.tw.value)}**，日漲跌 **${fmtPct(indices.tw.dayPct)}**（${indices.tw.dayAbs} 點） | Yahoo 收盤序列 |`
   );
-  lines.push("| 櫃買 OTC | **未取得**（incomplete） | — |");
+  lines.push(
+    indices.otc?.value != null
+      ? `| 櫃買 OTC | **${fmtNum(indices.otc.value)}**，日漲跌 **${fmtPct(indices.otc.dayPct)}**（${indices.otc.dayAbs} 點，${indices.otc.date}${indices.otc.stale ? "，上次成功值" : ""}） | TPEx OpenAPI |`
+      : "| 櫃買 OTC | 官方 API 與上次成功值皆無 | TPEx OpenAPI |"
+  );
   lines.push("");
   lines.push("### 美股（2026-09-15 收盤）");
   lines.push("");

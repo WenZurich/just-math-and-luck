@@ -447,6 +447,16 @@ function applyIndexChip(root, key, quote, fxExtra) {
     chip.classList.remove("incomplete");
     const valEl = chip.querySelector("[data-lq-field='value'], .value");
     patchText(valEl, fmtNum(quote.price, digits), { flash: true });
+    // Keep the chip's session date honest when a live quote replaces the close
+    const dateEl = chip.querySelector("[data-lq-field='date']");
+    if (dateEl && quote.asOfMs) {
+      try {
+        const md = new Date(quote.asOfMs).toLocaleDateString("en-US", {
+          timeZone: "Asia/Taipei", month: "2-digit", day: "2-digit",
+        });
+        dateEl.textContent = md;
+      } catch { /* keep server date */ }
+    }
     let pctEl = chip.querySelector("[data-lq-field='dayPct'], .pct");
     if (key === "usdTwd") {
       // Keep CBC taipeiClose line; refresh Yahoo leg when known
@@ -627,6 +637,16 @@ function paintStatus(root, { ok, stale }) {
   const el = root.querySelector("#lq-live-suffix");
   if (!el) return;
   const clock = lastSuccessAt ? fmtClockTaipei(lastSuccessAt) : "";
+  // Both TW and US cash sessions closed (nights, weekends): nothing is live,
+  // so say 休市 instead of 即時 / 暫緩. 暫緩 is reserved for a failed fetch while a market is open.
+  const { twOpen, usOpen } = marketSessions();
+  if (!twOpen && !usOpen) {
+    el.hidden = false;
+    el.dataset.state = "closed";
+    el.title = t("liveQuotesClosedTitle");
+    el.textContent = ` · ${t("liveQuotesClosed")}`;
+    return;
+  }
   if (ok && !stale && clock) {
     el.hidden = false;
     el.dataset.state = "live";

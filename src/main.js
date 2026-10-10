@@ -182,12 +182,11 @@ function renderIndexStrip(indices) {
   const pushPct = (key, labelHtml, item) => {
     if (!item) return;
     const incomplete = item.incomplete;
-    const val =
-      item.value != null
-        ? fmtNum(item.value, 2)
-        : incomplete
-          ? escapeHtml(t("dataIncomplete"))
-          : "—";
+    // Never print 資料不全 on the strip: show the value (with its own date) or a plain dash.
+    const val = item.value != null ? fmtNum(item.value, 2) : "—";
+    const dateTag = item.date && /^\d{4}-\d{2}-\d{2}$/.test(item.date)
+      ? `<span class="asof-tag" data-lq-field="date">${item.date.slice(5, 7)}/${item.date.slice(8, 10)}</span>`
+      : "";
     const pct =
       item.dayPct != null
         ? `<div data-lq-field="dayPct" class="pct ${pctClass(item.dayPct)}">${fmtPct(item.dayPct)}</div>`
@@ -197,14 +196,20 @@ function renderIndexStrip(indices) {
         ? ` · ${term("intraday", t("intraday"))}`
         : "";
     const href = INDEX_OFFICIAL_URLS[key];
-    const title = href ? `title="${escapeHtml((item.name || key) + " · official ↗")}"` : "";
+    const tip = [
+      item.name || key,
+      item.date ? `${t("dataAsOf")} ${item.date}${item.stale ? "（上次成功值）" : ""}` : null,
+      item.source || null,
+      "official ↗",
+    ].filter(Boolean).join(" · ");
+    const title = href ? `title="${escapeHtml(tip)}"` : "";
     const inner = `
-        <div class="label">${labelHtml}${session}</div>
+        <div class="label">${labelHtml}${session}${dateTag}</div>
         <div class="value" data-lq-field="value">${val}</div>
         ${pct}`;
     if (href) {
       chips.push(`
-      <a class="index-chip ${incomplete ? "incomplete" : ""}" data-lq="index" data-lq-key="${escapeHtml(key)}" href="${escapeHtml(href)}"
+      <a class="index-chip ${incomplete && item.value == null ? "incomplete" : ""}" data-lq="index" data-lq-key="${escapeHtml(key)}" href="${escapeHtml(href)}"
          target="_blank" rel="noopener noreferrer" ${title}>${inner}
       </a>`);
     } else {

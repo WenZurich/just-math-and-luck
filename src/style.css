@@ -3713,3 +3713,12 @@ a.macro-chip:focus-visible { box-shadow: none; border-color: var(--accent); }
 .nav-bottom .nav-label { font-size: var(--fs-2xs) !important; }
 .market-strip-label,
 .macro-strip-side { background: transparent; }
+
+/* Session date on strip chips (e.g. 櫃買 10/08) */
+.index-chip .asof-tag {
+  margin-left: 4px;
+  font-size: var(--fs-2xs);
+  color: var(--text-dim);
+  font-weight: 400;
+}
+.lq-live-suffix[data-state="closed"] { color: var(--text-dim); }
