@@ -25,11 +25,13 @@
     "fetch-whynottv": "node scripts/fetch-whynottv-episodes.mjs",
     "listen-xiaojun": "node scripts/listen-xiaojun-episodes.mjs",
     "listen-whynottv": "node scripts/listen-whynottv-episodes.mjs",
-    "fetch-zhang-junan": "node scripts/fetch-zhang-junan-posts.mjs"
+    "fetch-zhang-junan": "node scripts/fetch-zhang-junan-posts.mjs",
+    "check:live": "node scripts/site-check.mjs"
   },
   "devDependencies": {
     "happy-dom": "^20.14.5",
     "jsdom": "^25.0.1",
+    "playwright-core": "^1.59.1",
     "vite": "^6.2.0",
     "ws": "^8.21.3"
   }

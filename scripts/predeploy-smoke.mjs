@@ -1474,6 +1474,16 @@ async function main() {
     const lqSrc = fs.readFileSync(path.join(ROOT, "src/live-quotes.js"), "utf8");
     if (!/liveQuotesClosed/.test(lqSrc)) fail("live suffix must say 休市 when both markets are closed");
     else ok("live suffix shows 休市 outside TW/US sessions");
+    // timezoneNote is generated from asOf + real close dates, never a fixed date.
+    const { buildTimezoneNote } = await import(pathToFileURL(path.join(ROOT, "scripts/timezone-note.mjs")).href);
+    const sample = buildTimezoneNote({ asOf: "2026-10-08T00:12:28Z", twCloseDate: "2026-10-07", usCloseDate: "2026-10-07" });
+    if (!sample.includes("2026-10-08 08:12（台北）") || !sample.includes("台股為 2026-10-07 收盤") || !sample.includes("美股為 2026-10-07 收盤")) fail(`buildTimezoneNote wrong: ${sample}`);
+    const tzNote = String(latest.timezoneNote || "");
+    const asOfTpe = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" }).format(new Date(latest.asOf));
+    if (/9\/1[56]|2026-09-15/.test(tzNote) || !tzNote.includes(asOfTpe)) fail(`latest.json timezoneNote stale or not from asOf: ${tzNote}`);
+    else ok(`timezoneNote from asOf: ${tzNote}`);
+    const scanSrc = fs.readFileSync(path.join(ROOT, "scripts/daily-scan.mjs"), "utf8");
+    if (/9\/16 開盤前|美股用 9\/15 收盤/.test(scanSrc)) fail("daily-scan still hard-codes 9/15–9/16 in site notes");
   }
 
   if (errors.length) {

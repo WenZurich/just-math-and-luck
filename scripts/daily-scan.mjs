@@ -4,6 +4,7 @@
  * 寫入 stock-ops-study raw + opportunity report，以及 public/data/latest.json（+dated）
  */
 import { fetchTpexIndex } from "./tpex-index.mjs";
+import { buildTimezoneNote, closeLabel } from "./timezone-note.mjs";
 import { writeFileSync, mkdirSync, existsSync, readFileSync, copyFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -677,7 +678,7 @@ async function main() {
       tsm: tsm.price,
       impliedUsdTaipeiFx: round(implied, 2),
       premiumPct: round(premiumPct, 2),
-      note: `FX 用 Yahoo USDTWD=X ${round(yahooFx, 3)}（台北外匯官價未另取）；台股用最新收盤、美股用 9/15 收盤；非套利指令。`,
+      note: `FX 用 Yahoo USDTWD=X ${round(yahooFx, 3)}（台北外匯官價未另取）；台股用 ${closeLabel(bySym["^TWII"]?.lastBarDate)}、美股用 ${closeLabel(bySym["^GSPC"]?.lastBarDate)}；非套利指令。`,
     };
   }
 
@@ -727,8 +728,11 @@ async function main() {
     asOf: asOfIso,
     disclaimer:
       "本站內容為依公開行情的數學篩選候選，不是投資建議，亦不保證獲利。",
-    timezoneNote:
-      "台股為最新收盤（本機 9/16 開盤前＝9/15 收）；美股為 2026-09-15 收盤。以 asOf 為準。",
+    timezoneNote: buildTimezoneNote({
+      asOf: asOfIso,
+      twCloseDate: bySym["^TWII"]?.lastBarDate,
+      usCloseDate: bySym["^GSPC"]?.lastBarDate,
+    }),
     indices,
     marketRegime,
     top5,
