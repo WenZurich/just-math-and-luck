@@ -871,6 +871,23 @@ async function main() {
     }
   }
 
+  // Official company profiles for 查股「公司在做什麼」fallback (TWSE/TPEx OpenAPI + MOPS + SEC).
+  // On by default; SKIP_COMPANY_PROFILES=1 to skip. 5 min cap; keeps the previous snapshot on failure.
+  if (process.env.SKIP_COMPANY_PROFILES !== "1") {
+    try {
+      const { spawnSync } = await import("node:child_process");
+      console.log("\n▶ fetch-company-profiles…");
+      const cp = spawnSync(process.execPath, [join(__dirname, "fetch-company-profiles.mjs")], {
+        stdio: "inherit",
+        cwd: ROOT,
+        timeout: 300000,
+      });
+      if (cp.status !== 0) console.warn("fetch-company-profiles exited", cp.status);
+    } catch (e) {
+      console.warn("fetch-company-profiles skipped:", e?.message || e);
+    }
+  }
+
 console.log("\nWrote latest.json");
   console.log("Top5:", top5.map((t) => `${t.ticker} ${t.dayPct}%`).join(", "));
   console.log("US", usPicks.length, "TW", twPicks.length);

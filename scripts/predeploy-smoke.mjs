@@ -1104,6 +1104,39 @@ async function main() {
   }
 
 
+  // 查股「公司在做什麼」 official fallback: never 「資料不足」 when public data exists.
+  {
+    const lookupSrc = fs.readFileSync(path.join(ROOT, "src/lookup.js"), "utf8");
+    if (/earningsDataMissing|資料不足/.test(lookupSrc)) fail("lookup.js must not render 資料不足 for 公司在做什麼");
+    else ok("lookup never renders 資料不足 for 公司在做什麼");
+    const profPath = path.join(ROOT, "public/data/company-profiles.json");
+    if (!fs.existsSync(profPath)) fail("public/data/company-profiles.json missing");
+    else {
+      const prof = JSON.parse(fs.readFileSync(profPath, "utf8"));
+      const twN = Object.keys(prof.tw || {}).length;
+      const tsmc = prof.tw?.["2330"];
+      if (twN < 1500) fail(`company-profiles TW basics too small (${twN})`);
+      else if (!tsmc?.biz || !/積體電路/.test(tsmc.biz) || tsmc.ind !== "半導體業") fail(`company-profiles 2330 missing MOPS 主要經營業務: ${JSON.stringify(tsmc)}`);
+      else ok(`company-profiles: TW ${twN}, 2330 主要經營業務 from MOPS`);
+      const latest = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/latest.json"), "utf8"));
+      const missingTw = (latest.tw || []).map((p) => String(p.ticker).replace(/\.TWO?$/, "")).filter((c) => !prof.tw?.[c]);
+      if (missingTw.length) fail(`TW picks without official profile: ${missingTw.join(",")}`);
+      else ok("every TW pick has an official profile row");
+      const { officialBusiness } = await import(pathToFileURL(path.join(ROOT, "src/lookup.js")).href);
+      const offTw = officialBusiness({ market: "TW", symbol: "2330.TW", profiles: prof });
+      if (!offTw?.text || offTw.text !== tsmc?.biz || !/mops/i.test(offTw.srcUrl)) fail(`officialBusiness 2330 => ${JSON.stringify(offTw)}`);
+      else ok("officialBusiness 2330 → MOPS text + source link");
+      const basicsOnly = officialBusiness({ market: "TW", symbol: "9999", profiles: { tw: { 9999: { n: "測試", f: "測試股份有限公司", mk: "上櫃", ind: "其他" } } } });
+      if (!basicsOnly?.text?.includes("測試股份有限公司") || !basicsOnly.text.includes("上櫃")) fail(`officialBusiness basics => ${JSON.stringify(basicsOnly)}`);
+      else ok("officialBusiness falls back to TWSE/TPEx basics");
+      const offUs = officialBusiness({ market: "US", symbol: "NVDA", profiles: { tw: {}, us: {} }, secProfile: { cik: "0001045810", sic: "3674", sicDescription: "Semiconductors & Related Devices", exchanges: "Nasdaq" } });
+      if (!offUs?.text?.includes("Semiconductors & Related Devices") || !/sec\.gov/.test(offUs.srcUrl)) fail(`officialBusiness US SEC => ${JSON.stringify(offUs)}`);
+      else ok("officialBusiness US → SEC SIC description + EDGAR link");
+      if (officialBusiness({ market: "US", symbol: "ZZZZ", profiles: { tw: {}, us: {} } }) !== null) fail("officialBusiness must return null (not invent) without official data");
+      else ok("officialBusiness returns null when no official data");
+    }
+  }
+
   // Official filings deep-links (US SEC / TW MOPS) — pure, no network
   {
     const lookupSrc = fs.readFileSync(path.join(ROOT, "src/lookup.js"), "utf8");

@@ -149,11 +149,14 @@ async function checkLookup(page, where, { market, q }) {
   const r = await page.evaluate(() => {
     const root = document.querySelector("#lk-root");
     return { empty: root.querySelector(".lk-empty")?.innerText?.trim() || null,
+      biz: root.querySelector(".lk-biz")?.innerText?.trim() || "",
       badge: root.querySelector(".lk-badge")?.className || "", textLen: (root.innerText || "").trim().length };
   });
   if (r.empty) fail(where, `lookup ${market} ${q} error: ${r.empty}`);
   else if (!r.badge.includes(market === "TW" ? "lk-badge-tw" : "lk-badge-us")) fail(where, `lookup ${market} ${q} wrong/missing market badge`);
   else if (r.textLen < 40) fail(where, `lookup ${market} ${q} result looks blank`);
+  // 公司在做什麼 must carry text (Yahoo, digest, or the official TWSE/TPEx/MOPS/SEC fallback).
+  if (!r.empty && r.biz.length < 8) fail(where, `lookup ${market} ${q}: 公司在做什麼 has no text`);
 }
 
 async function checkMarquees(page, where) {

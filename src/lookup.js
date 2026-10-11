@@ -8,6 +8,10 @@ import { escapeHtml } from "./glossary.js";
 import { t, numberLocale } from "./i18n.js";
 
 const DIGEST_URL = "./data/earnings-digest.json";
+/** Official company-profile snapshot (TWSE/TPEx OpenAPI + MOPS 主要經營業務 + SEC SIC), refreshed by the daily scan. */
+const PROFILES_URL = "./data/company-profiles.json";
+const MOPS_T05ST03 = "https://mops.twse.com.tw/mops/#/web/t05st03";
+const TW_OPENAPI_DOC = "https://openapi.twse.com.tw/";
 const YAHOO_HOSTS = [
   "https://query2.finance.yahoo.com",
   "https://query1.finance.yahoo.com",
@@ -30,6 +34,8 @@ const QS_MODULES = [
 
 let digestCache = null;
 let digestPromise = null;
+let profilesCache = null;
+let profilesPromise = null;
 let cikMapCache = null;
 let cikMapPromise = null;
 
@@ -458,6 +464,64 @@ async function loadDigest() {
   return digestPromise;
 }
 
+async function loadProfiles() {
+  if (profilesCache) return profilesCache;
+  if (profilesPromise) return profilesPromise;
+  profilesPromise = (async () => {
+    try {
+      const res = await fetch(PROFILES_URL, { cache: "no-cache" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      profilesCache = await res.json();
+    } catch {
+      profilesCache = { tw: {}, us: {} };
+    }
+    return profilesCache;
+  })();
+  return profilesPromise;
+}
+
+/**
+ * Official 「公司在做什麼」 fallback — only official fields, never invented.
+ * TW: MOPS 主要經營業務 (snapshot) → else TWSE/TPEx basics (name, 上市/上櫃, 產業類別).
+ * US: SEC EDGAR SIC description (snapshot, else the live SEC submissions the lookup already fetched).
+ * @returns {{ text: string, industry: string|null, srcKey: string, srcUrl: string } | null}
+ */
+export function officialBusiness({ market, symbol, profiles, secProfile } = {}) {
+  const p = profiles || { tw: {}, us: {} };
+  if (market === "TW") {
+    const code = String(symbol || "").replace(/\.(TW|TWO)$/i, "");
+    const row = p.tw?.[code];
+    if (!row) return null;
+    if (row.biz) {
+      return { text: String(row.biz), industry: row.ind || null, srcKey: "lookupBizSrcMops", srcUrl: MOPS_T05ST03 };
+    }
+    if (row.n || row.f) {
+      return {
+        text: t("lookupBizTwBasics", { n: row.n || row.f, f: row.f || row.n, mk: row.mk || "", ind: row.ind || "—" }),
+        industry: row.ind || null,
+        srcKey: "lookupBizSrcTwOpenApi",
+        srcUrl: TW_OPENAPI_DOC,
+      };
+    }
+    return null;
+  }
+  const key = String(symbol || "").toUpperCase().replace(/\./g, "-");
+  const row = p.us?.[key];
+  const sicDesc = row?.sicDesc || secProfile?.sicDescription || null;
+  const sic = row?.sic || secProfile?.sic || null;
+  if (!sicDesc) return null;
+  const cik = row?.cik || secProfile?.cik || null;
+  const ex = row?.ex || secProfile?.exchanges || "";
+  return {
+    text: t("lookupBizUsSic", { desc: sicDesc, sic: sic || "—", ex: ex ? ` · ${ex}` : "" }),
+    industry: sicDesc,
+    srcKey: "lookupBizSrcSec",
+    srcUrl: cik
+      ? `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${encodeURIComponent(cik)}&type=&dateb=&owner=include&count=40`
+      : `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${encodeURIComponent(key)}&type=&dateb=&owner=include&count=40`,
+  };
+}
+
 function digestMatch(symbol) {
   const dig = digestCache;
   if (!dig) return null;
@@ -679,6 +743,9 @@ async function fetchSecRecentFilings(cik10) {
     filings,
     companyName: res.data?.name || null,
     investorWebsite,
+    sic: res.data?.sic ? String(res.data.sic) : null,
+    sicDescription: res.data?.sicDescription || null,
+    exchanges: Array.isArray(res.data?.exchanges) ? res.data.exchanges.filter(Boolean).join("/") : null,
     via: res.via,
   };
 }
@@ -720,6 +787,9 @@ export async function fetchOfficialFilings({ market, symbol, display, website } 
         out.status = sub.filings.length ? "filings_ok" : "filings_empty";
         out.noteKey = sub.filings.length ? null : "lookupFilingsListEmpty";
         if (sub.via) out.sources.push(`SEC submissions (${sub.via})`);
+        if (sub.sicDescription) {
+          out.secProfile = { cik: cikRes.cik, sic: sub.sic, sicDescription: sub.sicDescription, exchanges: sub.exchanges };
+        }
         if (sub.investorWebsite) {
           const already = out.links.some((l) => l.href === sub.investorWebsite);
           if (!already) {
@@ -813,7 +883,7 @@ export async function lookupStock(input, marketHint = "US") {
     return { ok: false, error: norm.error || "invalid", snapshot: null };
   }
 
-  await loadDigest();
+  await Promise.all([loadDigest(), loadProfiles()]);
 
   const trySymbols = [norm.symbol];
   if (norm.alt) trySymbols.push(norm.alt);
@@ -884,6 +954,21 @@ export async function lookupStock(input, marketHint = "US") {
   snapshot.filings = filings;
   if (Array.isArray(filings?.sources)) {
     for (const s of filings.sources) sources.push(s);
+  }
+  // 「公司在做什麼」 official fallback when Yahoo / digest have nothing (e.g. proxy blocked).
+  if (!snapshot.business) {
+    const off = officialBusiness({
+      market: norm.market,
+      symbol: usedSymbol,
+      profiles: profilesCache,
+      secProfile: filings?.secProfile || null,
+    });
+    if (off) {
+      snapshot.business = off.text;
+      snapshot.businessSource = { key: off.srcKey, url: off.srcUrl };
+      if (!snapshot.industry && off.industry) snapshot.industry = off.industry;
+      sources.push(t(off.srcKey));
+    }
   }
   snapshot.sources = sources;
 
@@ -1001,9 +1086,18 @@ function paintResult(root, result) {
       ? `<span class="lk-badge lk-badge-tw">${escapeHtml(t("twStock"))}</span>`
       : `<span class="lk-badge lk-badge-us">${escapeHtml(t("usStock"))}</span>`;
 
-  const biz = s.business
-    ? `<p class="lk-biz">${escapeHtml(s.business.length > 520 ? `${s.business.slice(0, 520)}…` : s.business)}</p>`
+  const bizSrc = s.businessSource
+    ? `<p class="lk-muted">${escapeHtml(t("lookupBizSourceLabel"))}<a href="${escapeHtml(s.businessSource.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t(s.businessSource.key))}</a></p>`
     : "";
+  const biz = s.business
+    ? `<p class="lk-biz">${escapeHtml(s.business.length > 520 ? `${s.business.slice(0, 520)}…` : s.business)}</p>${bizSrc}`
+    : "";
+  // No public text reachable right now: point to the official source instead of a "data missing" placeholder.
+  const bizOfficialHref =
+    s.market === "TW"
+      ? MOPS_T05ST03
+      : `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${encodeURIComponent(s.symbol)}&type=&dateb=&owner=include&count=40`;
+  const bizFallback = `<p class="lk-muted">${escapeHtml(t("lookupBizOfficialOnly"))}<a href="${escapeHtml(bizOfficialHref)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t(s.market === "TW" ? "lookupBizSrcMops" : "lookupBizSrcSec"))}</a></p>`;
 
   const asOf = fmtAsOf(s.marketTime);
 
@@ -1034,7 +1128,7 @@ function paintResult(root, result) {
 
       <section class="lk-block" aria-label="${escapeHtml(t("lookupBusiness"))}">
         <h4 class="lk-h4">${escapeHtml(t("lookupBusiness"))}</h4>
-        ${biz || `<p class="lk-muted">${escapeHtml(t("earningsDataMissing"))}</p>`}
+        ${biz || bizFallback}
       </section>
 
       <section class="lk-block" aria-label="${escapeHtml(t("lookupQuoteStats"))}">
