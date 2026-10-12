@@ -8,6 +8,7 @@
  */
 import {
   isFiniteNumber,
+  finiteOrNull,
   sma,
   pctChange,
   retChange,
@@ -886,6 +887,49 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
     fail(`txf-desk.json unreadable for basis/LTD guard: ${e.message}`);
   }
   ok(`futuresBasis + thirdWednesdayYmd (hand, ${nB} random invariant cases, ${nW} months brute-scanned, domain, ${nLive} live rows)`);
+}
+
+// ── isFiniteNumber / finiteOrNull truth table + cross-module agreement + live data token scan (2026-10-13)
+{
+  const good = [0, -0, 1, -1, 1e-300, -1e308, Number.MAX_VALUE, Number.MIN_VALUE, 0.1 + 0.2];
+  const bad = [NaN, Infinity, -Infinity, "1", "", "NaN", null, undefined, true, false, [], [1], {}, () => 1, 10n, new Number(1)];
+  let n = 0;
+  for (const v of good) {
+    if (!(isFiniteNumber(v) && pdFinite(v))) fail(`isFiniteNumber accepts finite ${String(v)}`);
+    if (!Object.is(finiteOrNull(v), v)) fail(`finiteOrNull(${String(v)}) returns input unchanged`);
+    n++;
+  }
+  for (const v of bad) {
+    if (isFiniteNumber(v) || pdFinite(v)) fail(`isFiniteNumber rejects ${typeof v} ${String(v)}`);
+    if (finiteOrNull(v) !== null) fail(`finiteOrNull(${typeof v} ${String(v)}) → null`);
+    n++;
+  }
+  // idempotence + range property on a random mix
+  let seed = 20261013;
+  const rnd = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
+  for (let i = 0; i < 2000; i++) {
+    const r = rnd();
+    const v = r < 0.2 ? NaN : r < 0.3 ? (rnd() < 0.5 ? Infinity : -Infinity) : r < 0.4 ? String(rnd()) : (rnd() - 0.5) * 10 ** Math.floor(rnd() * 40 - 20);
+    const f = finiteOrNull(v);
+    if (!(f === null || isFiniteNumber(f))) fail(`finiteOrNull range violated for ${String(v)}`);
+    if (!Object.is(finiteOrNull(f), f) && f !== null) fail(`finiteOrNull not idempotent at ${String(v)}`);
+    if (isFiniteNumber(v) !== pdFinite(v)) fail(`math-core vs paper-derivatives isFiniteNumber disagree at ${String(v)}`);
+    n++;
+  }
+  // Live public data: no stringified non-finite tokens anywhere a number belongs
+  let files = 0;
+  try {
+    const { readdirSync } = await import("node:fs");
+    const dir = join(ROOT_MG, "public", "data");
+    for (const f of readdirSync(dir).filter((x) => x.endsWith(".json"))) {
+      const txt = readFileSync(join(dir, f), "utf8");
+      if (/:\s*(NaN|-?Infinity)\b|"(NaN|-?Infinity|undefined)"/.test(txt)) fail(`public/data/${f} contains a NaN/Infinity/undefined token`);
+      files++;
+    }
+  } catch (e) {
+    fail(`public/data unreadable for non-finite token scan: ${e.message}`);
+  }
+  ok(`isFiniteNumber/finiteOrNull (${n} truth-table/random cases, cross-module agreement, ${files} live data files token-clean)`);
 }
 
 console.log("——");
