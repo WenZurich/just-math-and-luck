@@ -8342,6 +8342,99 @@
         "short-sale-constraints",
         "candidate"
       ]
+    },
+    {
+      "type": "paper",
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "shelf": "market_analysis",
+      "market": "US",
+      "year": 2026,
+      "mathGateNote": "數學金牌門檻 passedGate=false，僅列候選，不進即時選股。",
+      "id": "paper-momentum-persistence-innovation-2026",
+      "title": "Decomposing the momentum signal into persistence and innovation: Behavioral evidence",
+      "authors": [
+        "Hyeonjun Kim",
+        "Doojin Ryu"
+      ],
+      "summary": "把動能訊號拆成兩部分：穩定延續的部分，以及意料之外的新變化。延續部分符合「溫水煮青蛙」說法（資訊一點一點來、投資人反應不足）；但意外變化也有報酬，約占動能溢酬三分之一，且集中在財報公布前後、套利困難的股票最明顯。",
+      "formulas": [
+        "動能 = 過去12個月扣除最近1個月報酬",
+        "延續部分 = 依過去動能序列預測的本期動能；意外部分 = 實際動能 − 預測值",
+        "觀察：財報週前後，意外部分為正的強勢股"
+      ],
+      "sources": [
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7243088"
+      ],
+      "plainTakeaways": [
+        "動能可拆成「穩定延續」和「意外新變化」兩部分，兩者合起來幾乎解釋全部動能報酬",
+        "意外變化約占動能報酬三分之一，集中在財報公布前後",
+        "本站僅作美股觀察：財報週前後動能突然轉強的股票值得留意，尚未納入選股"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Momentum splits into a persistent part and a surprise part, together explaining nearly all of the premium",
+          "The surprise part is about a third of the premium and clusters around earnings",
+          "Watch-only on this site: stocks whose momentum jumps around earnings; not in the screener"
+        ]
+      },
+      "titleLocalized": {
+        "zh-Hant": "把動能訊號拆成延續與意外：行為面證據",
+        "en": "Decomposing the momentum signal into persistence and innovation: Behavioral evidence",
+        "zh-Hans": "把动能信号拆成延续与意外：行为面证据",
+        "ja": "モメンタム信号の持続成分とイノベーション成分への分解"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "把動能訊號拆成兩部分：穩定延續的部分，以及意料之外的新變化。延續部分符合「溫水煮青蛙」說法（資訊一點一點來、投資人反應不足）；但意外變化也有報酬，約占動能溢酬三分之一，且集中在財報公布前後、套利困難的股票最明顯。",
+        "en": "Splits momentum into a persistent part and an unexpected part; the surprise part earns about a third of the premium, concentrated around earnings and in hard-to-arbitrage stocks."
+      }
+    },
+    {
+      "type": "paper",
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "shelf": "market_analysis",
+      "market": "US",
+      "year": 2026,
+      "mathGateNote": "數學金牌門檻 passedGate=false，僅列候選，不進即時選股。",
+      "id": "paper-10k-llm-post-filing-2026",
+      "title": "The Return Impact of Form 10-K Releases: Evidence from a Large Language Model",
+      "authors": [
+        "Jonas Frey",
+        "Hongtao Qiu",
+        "Xiaoxu Zhao"
+      ],
+      "summary": "用微調過的大型語言模型讀美股年報（10-K），能預測公布後20個交易日的報酬，表示市場沒有立刻消化年報全部內容；影響最大的是財報說明與研發（特別是臨床試驗）段落。需要大模型與全文資料，目前僅供參考。",
+      "formulas": [],
+      "sources": [
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7441259"
+      ],
+      "plainTakeaways": [
+        "用大型語言模型讀美股年報，可預測公布後約20個交易日的報酬",
+        "代表市場沒有立刻消化年報全部內容，研發與臨床試驗段落最有影響",
+        "本站不採用：需要大模型與年報全文，僅供參考"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "An LLM reading 10-K filings predicts returns over the next ~20 trading days",
+          "Markets do not absorb the whole filing at once; R&D and clinical sections matter most",
+          "Not adopted here: needs a large model and full filing text; reference only"
+        ]
+      },
+      "titleLocalized": {
+        "zh-Hant": "美股年報（10-K）公布對報酬的影響：大型語言模型的證據",
+        "en": "The Return Impact of Form 10-K Releases: Evidence from a Large Language Model",
+        "zh-Hans": "美股年报（10-K）公布对报酬的影响：大型语言模型的证据",
+        "ja": "10-K公表のリターンへの影響：大規模言語モデルによる証拠"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "用微調過的大型語言模型讀美股年報（10-K），能預測公布後20個交易日的報酬，表示市場沒有立刻消化年報全部內容；影響最大的是財報說明與研發（特別是臨床試驗）段落。需要大模型與全文資料，目前僅供參考。",
+        "en": "A fine-tuned LLM on 10-K text predicts 20-day post-filing returns, showing incomplete market reaction; R&D and clinical sections drive it."
+      }
     }
   ]
 }
