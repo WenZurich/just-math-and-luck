@@ -19829,16 +19829,163 @@
       ],
       "hits": [
         {
-          "ticker": "1303.TW",
-          "name": "南亞",
+          "ticker": "SNOW",
+          "name": "Snowflake",
+          "market": "US",
+          "currency": "USD",
+          "metrics": {
+            "price": 371.8,
+            "dayPct": 8.27,
+            "pct5d": 9.02,
+            "pct1m": 12.76,
+            "volRatio": 2,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "ZS",
+          "name": "Zscaler",
+          "market": "US",
+          "currency": "USD",
+          "metrics": {
+            "price": 235.03,
+            "dayPct": 8.4,
+            "pct5d": 19.55,
+            "pct1m": 43.77,
+            "volRatio": 1.15,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "PLTR",
+          "name": "Palantir",
+          "market": "US",
+          "currency": "USD",
+          "metrics": {
+            "price": 210.35,
+            "dayPct": 5.82,
+            "pct5d": 11.44,
+            "pct1m": 26.82,
+            "volRatio": 1.64,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "3653.TW",
+          "name": "健策",
           "market": "TW",
           "currency": "TWD",
           "metrics": {
-            "price": 314,
-            "dayPct": 7.17,
-            "pct5d": 22.9,
-            "pct1m": 39.25,
-            "volRatio": 1.71,
+            "price": 7165,
+            "dayPct": 5.29,
+            "pct5d": 4.22,
+            "pct1m": 26.7,
+            "volRatio": 1.36,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "5274.TWO",
+          "name": "ASPEED TECHNOLOGY INC",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 17485,
+            "dayPct": -1.49,
+            "pct5d": -8.17,
+            "pct1m": -9,
+            "volRatio": 5,
+            "aboveSma20": false,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "firm_hands",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "3661.TW",
+          "name": "世芯-KY",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 4345,
+            "dayPct": 3.7,
+            "pct5d": 15.41,
+            "pct1m": 7.55,
+            "volRatio": 1.89,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "2408.TW",
+          "name": "南亞科",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 532,
+            "dayPct": 3.5,
+            "pct5d": 2.5,
+            "pct1m": 2.9,
+            "volRatio": 1.48,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "2345.TW",
+          "name": "智邦",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 2070,
+            "dayPct": 2.73,
+            "pct5d": 8.95,
+            "pct1m": -1.43,
+            "volRatio": 1.05,
             "aboveSma20": true,
             "aboveSma50": true,
             "aboveSma200": true,
@@ -19855,94 +20002,10 @@
           "market": "TW",
           "currency": "TWD",
           "metrics": {
-            "price": 647,
-            "dayPct": 3.52,
-            "pct5d": 18.07,
-            "pct1m": 15.12,
-            "volRatio": 2.28,
-            "aboveSma20": true,
-            "aboveSma50": true,
-            "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
-            "liquidityBias": "risk_off",
-            "tags": "screen_A",
-            "sizeMult": 0.5
-          }
-        },
-        {
-          "ticker": "MU",
-          "name": "Micron",
-          "market": "US",
-          "currency": "USD",
-          "metrics": {
-            "price": 1091.06,
-            "dayPct": 4.35,
-            "pct5d": 2.44,
-            "pct1m": 9.08,
-            "volRatio": 1.2,
-            "aboveSma20": true,
-            "aboveSma50": true,
-            "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
-            "liquidityBias": "risk_off",
-            "tags": "screen_A",
-            "sizeMult": 0.5
-          }
-        },
-        {
-          "ticker": "SMCI",
-          "name": "Super Micro",
-          "market": "US",
-          "currency": "USD",
-          "metrics": {
-            "price": 45.01,
-            "dayPct": 3.57,
-            "pct5d": 9.59,
-            "pct1m": 11.8,
-            "volRatio": 1.11,
-            "aboveSma20": true,
-            "aboveSma50": true,
-            "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
-            "liquidityBias": "risk_off",
-            "tags": "screen_A",
-            "sizeMult": 0.5
-          }
-        },
-        {
-          "ticker": "LLY",
-          "name": "Eli Lilly",
-          "market": "US",
-          "currency": "USD",
-          "metrics": {
-            "price": 1188.72,
-            "dayPct": 2.7,
-            "pct5d": 2.73,
-            "pct1m": 5.77,
-            "volRatio": 1.03,
-            "aboveSma20": true,
-            "aboveSma50": true,
-            "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
-            "liquidityBias": "risk_off",
-            "tags": "screen_A",
-            "sizeMult": 0.5
-          }
-        },
-        {
-          "ticker": "2882.TW",
-          "name": "國泰金",
-          "market": "TW",
-          "currency": "TWD",
-          "metrics": {
-            "price": 113,
-            "dayPct": 0.89,
-            "pct5d": 1.8,
-            "pct1m": -1.74,
+            "price": 635,
+            "dayPct": -1.85,
+            "pct5d": 5.48,
+            "pct1m": 7.81,
             "volRatio": 1.13,
             "aboveSma20": true,
             "aboveSma50": true,
@@ -19955,16 +20018,16 @@
           }
         },
         {
-          "ticker": "3661.TW",
-          "name": "世芯-KY",
+          "ticker": "3231.TW",
+          "name": "緯創",
           "market": "TW",
           "currency": "TWD",
           "metrics": {
-            "price": 4190,
-            "dayPct": 0.24,
-            "pct5d": 12.03,
-            "pct1m": -0.71,
-            "volRatio": 1.4,
+            "price": 188.5,
+            "dayPct": 1.89,
+            "pct5d": -1.05,
+            "pct1m": -4.31,
+            "volRatio": 1.05,
             "aboveSma20": true,
             "aboveSma50": true,
             "aboveSma200": true,
@@ -19976,16 +20039,37 @@
           }
         },
         {
-          "ticker": "3008.TW",
-          "name": "大立光",
+          "ticker": "3711.TW",
+          "name": "日月光投控",
           "market": "TW",
           "currency": "TWD",
           "metrics": {
-            "price": 6845,
-            "dayPct": -0.15,
-            "pct5d": 15.14,
-            "pct1m": -7.5,
-            "volRatio": 1.04,
+            "price": 744,
+            "dayPct": 1.64,
+            "pct5d": 4.79,
+            "pct1m": 19.81,
+            "volRatio": 1.07,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "defensive",
+            "psychologyPhase": "euphoric",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 0.5
+          }
+        },
+        {
+          "ticker": "1303.TW",
+          "name": "南亞",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 310,
+            "dayPct": -1.27,
+            "pct5d": 22.05,
+            "pct1m": 34.49,
+            "volRatio": 1.01,
             "aboveSma20": true,
             "aboveSma50": true,
             "aboveSma200": true,
@@ -20001,7 +20085,7 @@
       "incomplete": false,
       "notes": [
         "US phase=euphoric stance=defensive liq=risk_off temp=2",
-        "TW phase=euphoric stance=defensive liq=risk_off temp=2"
+        "TW phase=euphoric stance=defensive liq=risk_off temp=1.75"
       ],
       "regimeSnapshot": {
         "us": {
@@ -20013,7 +20097,7 @@
             "R2：美債殖利率 20 日上升偏快，流動性偏緊／防禦",
             "Kostolany 心理相位近似：euphoric → 篩選姿態 defensive（US）",
             "Marks 偏熱／偏高：提高品質與趨勢門檻、縮小可進場宇宙",
-            "指數距 252 日高點約 -0.5%"
+            "指數距 252 日高點約 -0.4%"
           ],
           "dataGaps": []
         },
@@ -20021,12 +20105,12 @@
           "psychologyPhase": "euphoric",
           "cycleStance": "defensive",
           "liquidityBias": "risk_off",
-          "temperatureScore": 2,
+          "temperatureScore": 1.75,
           "implications": [
             "R2：美債殖利率 20 日上升偏快，流動性偏緊／防禦",
             "Kostolany 心理相位近似：euphoric → 篩選姿態 defensive（TW）",
             "Marks 偏熱／偏高：提高品質與趨勢門檻、縮小可進場宇宙",
-            "指數距 252 日高點約 -0.3%"
+            "指數距 252 日高點約 -1.3%"
           ],
           "dataGaps": []
         }
@@ -20046,5 +20130,5 @@
   ],
   "glossaryHint": "名詞（本益比、營益率、毛利率、外資、投信、自營商、均線多頭、RSI、振幅、張）見站內名詞小辭典。",
   "exportNote": "可複製本 JSON（strategy-screener.json）自行回測；站內不提供券商下單。",
-  "kostolanyRegimeAsOf": "2026-10-08T00:12:39.301Z"
+  "kostolanyRegimeAsOf": "2026-10-12T00:16:10.071Z"
 }
