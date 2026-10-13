@@ -153,7 +153,57 @@ function lastTradingDayForMonthToken(monthToken) {
   };
 }
 
-async function fetchJson(url, { timeoutMs = 45000 } = {}) {
+/** TAIFEX 三大法人 CSV headers → the OpenAPI JSON keys parseInstitutional() reads. */
+const INST_CSV_MAP = {
+  日期: "Date",
+  商品名稱: "ContractCode",
+  身份別: "Item",
+  多方交易口數: "TradingVolume(Long)",
+  空方交易口數: "TradingVolume(Short)",
+  多空交易口數淨額: "TradingVolume(Net)",
+  多方未平倉口數: "OpenInterest(Long)",
+  空方未平倉口數: "OpenInterest(Short)",
+  多空未平倉口數淨額: "OpenInterest(Net)",
+};
+
+function splitCsvLine(line) {
+  const out = [];
+  let cur = "";
+  let q = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (q) {
+      if (c === '"' && line[i + 1] === '"') { cur += '"'; i++; }
+      else if (c === '"') q = false;
+      else cur += c;
+    } else if (c === '"') q = true;
+    else if (c === ",") { out.push(cur); cur = ""; }
+    else cur += c;
+  }
+  out.push(cur);
+  return out.map((x) => x.trim());
+}
+
+/** Parse CSV text into objects keyed by csvMap; returns null unless every mapped header is present. */
+function csvToRows(text, csvMap) {
+  const lines = String(text).replace(/^\uFEFF/, "").split(/\r?\n/).filter((l) => l.trim());
+  if (lines.length < 2) return null;
+  const header = splitCsvLine(lines[0]).map((h) => h.replace(/^\uFEFF/, ""));
+  const idx = {};
+  for (const [zh, key] of Object.entries(csvMap)) {
+    const i = header.indexOf(zh);
+    if (i < 0) return null;
+    idx[key] = i;
+  }
+  return lines.slice(1).map((l) => {
+    const cells = splitCsvLine(l);
+    const o = {};
+    for (const [key, i] of Object.entries(idx)) o[key] = cells[i] ?? "";
+    return o;
+  });
+}
+
+async function fetchJson(url, { timeoutMs = 45000, csvMap = null } = {}) {
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), timeoutMs);
   try {
@@ -167,7 +217,16 @@ async function fetchJson(url, { timeoutMs = 45000 } = {}) {
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const text = await res.text();
-    const data = JSON.parse(text);
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (jsonErr) {
+      // TAIFEX OpenAPI sometimes serves the same dataset as CSV (Chinese headers).
+      // Only accept it when the caller supplied an explicit header→key map.
+      const rows = csvMap ? csvToRows(text, csvMap) : null;
+      if (!rows || !rows.length) throw jsonErr;
+      data = rows;
+    }
     return { ok: true, data, url };
   } catch (e) {
     return { ok: false, error: `${url}: ${e.message || e}`, url };
@@ -369,7 +428,7 @@ async function main() {
 
   const [dailyFut, inst, margin, pcr, fsp, twse] = await Promise.all([
     fetchJson(URL_DAILY_FUT),
-    fetchJson(URL_INST),
+    fetchJson(URL_INST, { csvMap: INST_CSV_MAP }),
     fetchJson(URL_MARGIN),
     fetchJson(URL_PCR),
     fetchJson(URL_FSP),
