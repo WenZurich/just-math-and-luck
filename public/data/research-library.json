@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-08T09:30:00+08:00",
+    "updated": "2026-10-13T10:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -8435,6 +8435,165 @@
         "zh-Hant": "用微調過的大型語言模型讀美股年報（10-K），能預測公布後20個交易日的報酬，表示市場沒有立刻消化年報全部內容；影響最大的是財報說明與研發（特別是臨床試驗）段落。需要大模型與全文資料，目前僅供參考。",
         "en": "A fine-tuned LLM on 10-K text predicts 20-day post-filing returns, showing incomplete market reaction; R&D and clinical sections drive it."
       }
+    },
+    {
+      "type": "paper",
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "shelf": "psych_randomness",
+      "id": "paper-tw-left-tail-risk-anomaly-2025",
+      "market": "TW",
+      "title": "Left Tail Risk Without Reward: Evidence from Taiwan's Stock Market",
+      "authors": [
+        "Yi-Heng You (游宜恆)"
+      ],
+      "year": 2025,
+      "summary": "National Taiwan University master's thesis (advisor 廖咸興) on Taiwan listed stocks from 2000 to 2024. It measures each stock's left-tail risk, meaning how badly it tends to fall on its worst days (Value-at-Risk), and finds that the stocks with the worst left tails do not pay investors back: after adjusting for market risk they underperform the stocks with mild left tails, more clearly over longer holding periods. Whether tail risk has recently risen or fallen does not change this. The effect is concentrated in stocks with low institutional ownership, i.e. the retail-heavy part of the market, and fades in the most institution-held names. Takeaway for the site: in Taiwan, a history of sharp single-day crashes is a reason for caution, not a sign of higher expected reward.",
+      "formulas": [
+        "left_tail_i ← how large stock i's worst daily losses are over a trailing window (Value-at-Risk); site choice for testing: 5th-percentile daily return over the past ~250 trading days — the thesis's exact window is not in the public abstract",
+        "each month sort TW stocks by left_tail into groups; compare the worst-tail group vs the mildest-tail group on market-adjusted forward returns",
+        "split the comparison by institutional ownership (三大法人 / 外資持股比例, public TWSE data): expect the gap mainly in low-ownership stocks",
+        "caution rule candidate: TW stock in worst left-tail group AND low institutional ownership → down-weight, do not treat as higher-reward",
+        "gate: TW-only watch flag; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "台股中「最差的幾天跌得特別兇」的股票，長期並沒有因為風險高而給更多報酬，扣掉大盤影響後反而比較差",
+        "持有越久，這個落差越明顯；最近風險變大或變小，結論都不變",
+        "這個現象主要出現在法人持股低、散戶為主的股票，法人持股最高的那群就不明顯",
+        "本站僅作台股觀察：常出現單日重挫的散戶股要當作警訊，不能把「波動大」當成「機會大」"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "台股中「最差的幾天跌得特別兇」的股票，長期並沒有因為風險高而給更多報酬，扣掉大盤影響後反而比較差",
+          "持有越久，這個落差越明顯；最近風險變大或變小，結論都不變",
+          "這個現象主要出現在法人持股低、散戶為主的股票，法人持股最高的那群就不明顯",
+          "本站僅作台股觀察：常出現單日重挫的散戶股要當作警訊，不能把「波動大」當成「機會大」"
+        ],
+        "zh-Hans": [
+          "台股中“最差的几天跌得特别凶”的股票，长期并没有因为风险高而给更多报酬，扣掉大盘影响后反而比较差",
+          "持有越久，这个落差越明显；最近风险变大或变小，结论都不变",
+          "这个现象主要出现在法人持股低、散户为主的股票，法人持股最高的那群就不明显",
+          "本站仅作台股观察：常出现单日重挫的散户股要当作警讯，不能把“波动大”当成“机会大”"
+        ],
+        "en": [
+          "Taiwan stocks whose worst days are especially severe do not reward investors for that risk; after adjusting for the market they do worse",
+          "The gap grows with longer holding periods, and it holds whether tail risk recently rose or fell",
+          "It shows up mainly in low-institutional-ownership, retail-heavy stocks and fades in the most institution-held names",
+          "TW watch only: retail-heavy stocks prone to sharp one-day drops are a warning sign, not a bigger opportunity"
+        ],
+        "ja": [
+          "台湾株で最悪の日の下落が特に大きい銘柄は、そのリスクに見合うリターンがなく、市場調整後はむしろ劣る",
+          "保有期間が長いほど差は明確で、直近のリスク増減にかかわらず結論は同じ",
+          "主に機関投資家の保有比率が低い個人主体の銘柄で見られ、機関保有が最も高い群では目立たない",
+          "台湾の監視のみ：急落しやすい個人主体の銘柄は警告であり、値動きの大きさを好機とは見なさない"
+        ]
+      },
+      "mathGateNote": "Olympiad gold-gate passedGate=false — TW left-tail-risk caution flag stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://www.airitilibrary.com/Article/Detail/U0001-0308250623093052"
+      ],
+      "titleLocalized": {
+        "zh-Hant": "當風險不再帶來報酬：左尾風險與台灣股市表現的關係",
+        "en": "Left Tail Risk Without Reward: Evidence from Taiwan's Stock Market",
+        "zh-Hans": "当风险不再带来报酬：左尾风险与台湾股市表现的关系",
+        "ja": "リスクが報われないとき：台湾株式市場における左裾リスクとリターン"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "台大財金碩士論文（2000–2024 台股上市公司）：最差日子跌得特別兇的股票，扣掉大盤影響後報酬反而較差，持有越久越明顯，主要出現在法人持股低的散戶股。僅作台股警訊觀察。",
+        "zh-Hans": "台大财金硕士论文（2000–2024 台股上市公司）：最差日子跌得特别凶的股票，扣掉大盘影响后报酬反而较差，持有越久越明显，主要出现在法人持股低的散户股。仅作台股警讯观察。",
+        "en": "NTU thesis (TW listed stocks 2000–2024): stocks with the most severe worst-day losses underperform after market adjustment, more so over longer holds, mainly among low-institutional-ownership names. TW warning flag only.",
+        "ja": "台湾大学修士論文（2000–2024年の台湾上場株）：最悪日の下落が大きい銘柄は市場調整後に劣後し、長期保有ほど顕著、主に機関保有の低い銘柄。台湾の警告フラグのみ。"
+      },
+      "tags": [
+        "tw",
+        "left-tail-risk",
+        "value-at-risk",
+        "institutional-ownership",
+        "retail",
+        "candidate"
+      ]
+    },
+    {
+      "type": "paper",
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "shelf": "market_analysis",
+      "id": "paper-forecast-accuracy-not-profit-2026",
+      "market": "US",
+      "title": "Forecast Accuracy Is Not Trading Profit: Evolving Small Recurrent Networks for Stock Return Prediction",
+      "authors": [
+        "Jonathan Chang",
+        "Zimeng Lyu"
+      ],
+      "year": 2026,
+      "summary": "Compares many stock-forecasting models (a linear model, standard recurrent networks, several transformers and a mixing model) against tiny recurrent networks found by an evolutionary search, on four 50-stock US mid-cap portfolios from S&P 500 names, tested on 2022, 2023 and 2024. Each model's forecasts drive the same daily long/short book (top 10 long, bottom 10 short) with half the bid-ask spread charged on every trade. The key lesson: the model with the second-best forecast accuracy still lost money once trades and costs were counted, so accuracy alone is the wrong yardstick. The tiny evolved networks (about 66 weights) did best on accuracy, net return, Sharpe and drawdown, and their edge survived controls for short-term reversal, but the confidence range is wide and the stock lists carry survivorship bias. Takeaway for the site: judge any new rule by after-cost paper-trading results and check it is not just short-term reversal in disguise.",
+      "formulas": [
+        "net_return ← strategy return after charging half the quoted spread, ½ × (ask − bid), on every buy and sell",
+        "rebalance gate: only trade when all K long picks have positive forecasts and all K short picks negative; otherwise keep holding (fewer trades, lower cost)",
+        "rank IC ← correlation between forecast ranking and actual return ranking across stocks, checked at 1-day and 10-day horizons",
+        "reversal check: regress strategy daily returns on market + 1-day and 5-day reversal portfolios; alpha must survive",
+        "site use: validation checklist for paper books only; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "預測準不等於賺錢：準確度第二高的模型，扣掉買賣成本後反而虧錢",
+        "只有幾十個參數的小模型，在準確度、扣成本後報酬、風險調整報酬與最大回撤上都最好，大模型沒有比較強",
+        "這個優勢不是單純的「短線跌深反彈」換個名字，但信賴區間很寬，選股名單也有存活者偏差",
+        "本站借用的是驗證方法：新規則要看扣成本後的模擬交易成績，並檢查是否只是短線反轉效果"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "預測準不等於賺錢：準確度第二高的模型，扣掉買賣成本後反而虧錢",
+          "只有幾十個參數的小模型，在準確度、扣成本後報酬、風險調整報酬與最大回撤上都最好，大模型沒有比較強",
+          "這個優勢不是單純的「短線跌深反彈」換個名字，但信賴區間很寬，選股名單也有存活者偏差",
+          "本站借用的是驗證方法：新規則要看扣成本後的模擬交易成績，並檢查是否只是短線反轉效果"
+        ],
+        "zh-Hans": [
+          "预测准不等于赚钱：准确度第二高的模型，扣掉买卖成本后反而亏钱",
+          "只有几十个参数的小模型，在准确度、扣成本后报酬、风险调整报酬与最大回撤上都最好，大模型没有比较强",
+          "这个优势不是单纯的“短线跌深反弹”换个名字，但置信区间很宽，选股名单也有存活者偏差",
+          "本站借用的是验证方法：新规则要看扣成本后的模拟交易成绩，并检查是否只是短线反转效果"
+        ],
+        "en": [
+          "Accurate forecasts are not the same as profits: the second-most-accurate model lost money after trading costs",
+          "Tiny models with a few dozen weights did best on accuracy, after-cost return, Sharpe and drawdown; bigger models were not stronger",
+          "The edge is not just short-term reversal relabeled, but the confidence range is wide and the stock lists have survivorship bias",
+          "What the site borrows is the test: judge new rules by after-cost paper trading and check they are not just reversal"
+        ],
+        "ja": [
+          "予測精度と利益は別物：精度2位のモデルは取引コスト控除後に損失",
+          "数十個のパラメータしかない小型モデルが精度・コスト控除後リターン・シャープレシオ・最大ドローダウンで最良、大型モデルは優位でない",
+          "優位性は短期リバーサルの言い換えではないが、信頼区間は広く銘柄リストに生存者バイアスがある",
+          "本サイトが借りるのは検証方法：新ルールはコスト控除後のペーパートレードで評価し、短期反転効果でないか確認"
+        ]
+      },
+      "mathGateNote": "Olympiad gold-gate passedGate=false — used only as a validation checklist (after-cost results, reversal control); stays candidate/watch, never status=adopted into live screener.",
+      "sources": [
+        "https://arxiv.org/abs/2610.07825"
+      ],
+      "titleLocalized": {
+        "zh-Hant": "預測準確不等於交易獲利：以演化小型遞迴網路預測股票報酬",
+        "en": "Forecast Accuracy Is Not Trading Profit: Evolving Small Recurrent Networks for Stock Return Prediction",
+        "zh-Hans": "预测准确不等于交易获利：以演化小型递归网络预测股票报酬",
+        "ja": "予測精度は取引利益ではない：進化的小型RNNによる株式リターン予測"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "美股中型股（2022–2024 測試）比較多種預測模型：準確度第二高的模型扣成本後虧錢，只有約 66 個參數的演化小模型表現最好且不只是短線反轉效果。本站借用其驗證方法，不改即時選股。",
+        "zh-Hans": "美股中型股（2022–2024 测试）比较多种预测模型：准确度第二高的模型扣成本后亏钱，只有约 66 个参数的演化小模型表现最好且不只是短线反转效果。本站借用其验证方法，不改实时选股。",
+        "en": "US mid-caps (tested 2022–2024): the second-most-accurate model lost money after costs, while ~66-weight evolved networks did best and were not just reversal. The site borrows the validation method only.",
+        "ja": "米国中型株（2022–2024年検証）：精度2位のモデルはコスト後に損失、約66パラメータの進化モデルが最良で短期反転だけではない。検証方法のみ採用。"
+      },
+      "tags": [
+        "us",
+        "validation",
+        "transaction-costs",
+        "machine-learning",
+        "short-term-reversal",
+        "candidate"
+      ]
     }
   ]
 }
