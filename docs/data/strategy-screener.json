@@ -19829,150 +19829,87 @@
       ],
       "hits": [
         {
-          "ticker": "3008.TW",
-          "name": "大立光",
+          "ticker": "3661.TW",
+          "name": "世芯-KY",
           "market": "TW",
           "currency": "TWD",
           "metrics": {
-            "price": 7325,
-            "dayPct": 9.98,
-            "pct5d": 16.45,
-            "pct1m": 12.69,
-            "volRatio": 3.1,
+            "price": 4055,
+            "dayPct": -7.74,
+            "pct5d": 2.66,
+            "pct1m": 3.84,
+            "volRatio": 2.12,
             "aboveSma20": true,
             "aboveSma50": true,
             "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
             "liquidityBias": "risk_off",
             "tags": "screen_A",
-            "sizeMult": 0.5
+            "sizeMult": 1.1
           }
         },
         {
-          "ticker": "2891.TW",
-          "name": "中信金",
+          "ticker": "2408.TW",
+          "name": "南亞科",
           "market": "TW",
           "currency": "TWD",
           "metrics": {
-            "price": 69.8,
-            "dayPct": 3.71,
-            "pct5d": 3.71,
-            "pct1m": 2.35,
-            "volRatio": 1.34,
-            "aboveSma20": true,
-            "aboveSma50": true,
-            "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
-            "liquidityBias": "risk_off",
-            "tags": "screen_A",
-            "sizeMult": 0.5
-          }
-        },
-        {
-          "ticker": "2881.TW",
-          "name": "富邦金",
-          "market": "TW",
-          "currency": "TWD",
-          "metrics": {
-            "price": 158.5,
-            "dayPct": 3.59,
-            "pct5d": 5.32,
-            "pct1m": 6.38,
-            "volRatio": 1.14,
-            "aboveSma20": true,
-            "aboveSma50": true,
-            "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
-            "liquidityBias": "risk_off",
-            "tags": "screen_A",
-            "sizeMult": 0.5
-          }
-        },
-        {
-          "ticker": "META",
-          "name": "Meta Platforms",
-          "market": "US",
-          "currency": "USD",
-          "metrics": {
-            "price": 742.14,
-            "dayPct": 3.27,
-            "pct5d": 0.03,
-            "pct1m": 14.52,
-            "volRatio": 1.14,
-            "aboveSma20": true,
-            "aboveSma50": true,
-            "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
-            "liquidityBias": "risk_off",
-            "tags": "screen_A",
-            "sizeMult": 0.5
-          }
-        },
-        {
-          "ticker": "2345.TW",
-          "name": "智邦",
-          "market": "TW",
-          "currency": "TWD",
-          "metrics": {
-            "price": 2130,
-            "dayPct": 2.9,
-            "pct5d": 8.4,
-            "pct1m": 8.95,
-            "volRatio": 1.17,
-            "aboveSma20": true,
-            "aboveSma50": true,
-            "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
-            "liquidityBias": "risk_off",
-            "tags": "screen_A",
-            "sizeMult": 0.5
-          }
-        },
-        {
-          "ticker": "3711.TW",
-          "name": "日月光投控",
-          "market": "TW",
-          "currency": "TWD",
-          "metrics": {
-            "price": 762,
-            "dayPct": 2.42,
-            "pct5d": 6.87,
-            "pct1m": 23.3,
-            "volRatio": 1.12,
-            "aboveSma20": true,
-            "aboveSma50": true,
-            "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
-            "liquidityBias": "risk_off",
-            "tags": "screen_A",
-            "sizeMult": 0.5
-          }
-        },
-        {
-          "ticker": "2317.TW",
-          "name": "鴻海",
-          "market": "TW",
-          "currency": "TWD",
-          "metrics": {
-            "price": 244.5,
-            "dayPct": -1.81,
-            "pct5d": -2.59,
-            "pct1m": -2.78,
-            "volRatio": 1.6,
+            "price": 488,
+            "dayPct": -7.4,
+            "pct5d": -7.92,
+            "pct1m": -6.69,
+            "volRatio": 2.21,
             "aboveSma20": false,
             "aboveSma50": false,
             "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
             "liquidityBias": "risk_off",
             "tags": "firm_hands",
-            "sizeMult": 0.5
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "2327.TW",
+          "name": "國巨",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 599,
+            "dayPct": -5.82,
+            "pct5d": -4.31,
+            "pct1m": 6.02,
+            "volRatio": 1.41,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "3037.TW",
+          "name": "欣興",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 1180,
+            "dayPct": -5.98,
+            "pct5d": -10.94,
+            "pct1m": 18.83,
+            "volRatio": 1.1,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 1.1
           }
         },
         {
@@ -19981,32 +19918,116 @@
           "market": "TW",
           "currency": "TWD",
           "metrics": {
-            "price": 303,
-            "dayPct": -2.26,
-            "pct5d": 16.54,
-            "pct1m": 28.94,
-            "volRatio": 1,
+            "price": 319,
+            "dayPct": 5.28,
+            "pct5d": 11.54,
+            "pct1m": 34.88,
+            "volRatio": 1.68,
             "aboveSma20": true,
             "aboveSma50": true,
             "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
             "liquidityBias": "risk_off",
             "tags": "screen_A",
-            "sizeMult": 0.5
+            "sizeMult": 1.1
           }
         },
         {
-          "ticker": "3661.TW",
-          "name": "世芯-KY",
+          "ticker": "2468.TW",
+          "name": "華經",
           "market": "TW",
           "currency": "TWD",
           "metrics": {
-            "price": 4395,
-            "dayPct": 1.15,
-            "pct5d": 15.35,
-            "pct1m": 9.06,
-            "volRatio": 1.42,
+            "price": 46.35,
+            "dayPct": 3.69,
+            "pct5d": 11.69,
+            "pct1m": 42.84,
+            "volRatio": 2.52,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "2891.TW",
+          "name": "中信金",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 71.6,
+            "dayPct": 2.58,
+            "pct5d": 6.23,
+            "pct1m": 7.51,
+            "volRatio": 2.03,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "6669.TW",
+          "name": "緯穎",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 2195,
+            "dayPct": -3.52,
+            "pct5d": 2.09,
+            "pct1m": -5.59,
+            "volRatio": 0.69,
+            "aboveSma20": true,
+            "aboveSma50": false,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "3711.TW",
+          "name": "日月光投控",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 740,
+            "dayPct": -2.89,
+            "pct5d": -0.27,
+            "pct1m": 15.63,
+            "volRatio": 1.11,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "META",
+          "name": "Meta Platforms",
+          "market": "US",
+          "currency": "USD",
+          "metrics": {
+            "price": 763,
+            "dayPct": 2.7,
+            "pct5d": 3.26,
+            "pct1m": 14.63,
+            "volRatio": 1.03,
             "aboveSma20": true,
             "aboveSma50": true,
             "aboveSma200": true,
@@ -20018,41 +20039,271 @@
           }
         },
         {
-          "ticker": "PLTR",
-          "name": "Palantir",
-          "market": "US",
-          "currency": "USD",
+          "ticker": "3653.TW",
+          "name": "健策",
+          "market": "TW",
+          "currency": "TWD",
           "metrics": {
-            "price": 207.29,
-            "dayPct": -0.84,
-            "pct5d": 9.45,
-            "pct1m": 23.96,
-            "volRatio": 1.01,
+            "price": 6990,
+            "dayPct": -2.37,
+            "pct5d": -2.98,
+            "pct1m": 21.35,
+            "volRatio": 0.8,
             "aboveSma20": true,
             "aboveSma50": true,
             "aboveSma200": true,
-            "cycleStance": "defensive",
-            "psychologyPhase": "euphoric",
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
             "liquidityBias": "risk_off",
             "tags": "screen_A",
-            "sizeMult": 0.5
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "3008.TW",
+          "name": "大立光",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 7275,
+            "dayPct": -0.68,
+            "pct5d": 8.1,
+            "pct1m": 5.9,
+            "volRatio": 2.41,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "2379.TW",
+          "name": "瑞昱",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 758,
+            "dayPct": 1.61,
+            "pct5d": 0.4,
+            "pct1m": 7.52,
+            "volRatio": 0.96,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "2882.TW",
+          "name": "國泰金",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 114.5,
+            "dayPct": 1.33,
+            "pct5d": 2.69,
+            "pct1m": 3.62,
+            "volRatio": 1.04,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "3231.TW",
+          "name": "緯創",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 187,
+            "dayPct": -1.32,
+            "pct5d": -1.32,
+            "pct1m": -1.06,
+            "volRatio": 1.05,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "2881.TW",
+          "name": "富邦金",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 160,
+            "dayPct": 0.95,
+            "pct5d": 5.26,
+            "pct1m": 8.84,
+            "volRatio": 1.29,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "6226.TW",
+          "name": "光鼎",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 44.2,
+            "dayPct": 1.49,
+            "pct5d": 2.79,
+            "pct1m": 49.07,
+            "volRatio": 0.66,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "thin_rs_demote",
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "2357.TW",
+          "name": "華碩",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 966,
+            "dayPct": -1.13,
+            "pct5d": -2.91,
+            "pct1m": -1.33,
+            "volRatio": 0.9,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "2884.TW",
+          "name": "玉山金",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 46.5,
+            "dayPct": 1.09,
+            "pct5d": 3.79,
+            "pct1m": 5.08,
+            "volRatio": 0.85,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "2382.TW",
+          "name": "廣達",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 323,
+            "dayPct": 0.31,
+            "pct5d": -2.42,
+            "pct1m": -5.56,
+            "volRatio": 0.88,
+            "aboveSma20": false,
+            "aboveSma50": false,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "2395.TW",
+          "name": "研華",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 718,
+            "dayPct": -0.42,
+            "pct5d": -2.97,
+            "pct1m": 9.95,
+            "volRatio": 0.77,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "thin_rs_demote",
+            "sizeMult": 1.1
+          }
+        },
+        {
+          "ticker": "3443.TW",
+          "name": "創意",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 8095,
+            "dayPct": -0.06,
+            "pct5d": -5.87,
+            "pct1m": 36.62,
+            "volRatio": 0.84,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "cycleStance": "constructive",
+            "psychologyPhase": "cautious_recovery",
+            "liquidityBias": "risk_off",
+            "tags": "screen_A",
+            "sizeMult": 1.1
           }
         }
       ],
       "blockers": [],
       "incomplete": false,
       "notes": [
-        "US phase=euphoric stance=defensive liq=risk_off temp=1.5",
-        "TW phase=euphoric stance=defensive liq=risk_off temp=1.75"
+        "US phase=euphoric stance=defensive liq=risk_off temp=2",
+        "TW phase=cautious_recovery stance=constructive liq=risk_off temp=1.5"
       ],
       "regimeSnapshot": {
         "us": {
           "psychologyPhase": "euphoric",
           "cycleStance": "defensive",
           "liquidityBias": "risk_off",
-          "temperatureScore": 1.5,
+          "temperatureScore": 2,
           "implications": [
-            "R2：美債殖利率 20 日上升偏快，流動性偏緊／防禦",
             "Kostolany 心理相位近似：euphoric → 篩選姿態 defensive（US）",
             "Marks 偏熱／偏高：提高品質與趨勢門檻、縮小可進場宇宙",
             "指數距 252 日高點約 -0.5%"
@@ -20060,15 +20311,14 @@
           "dataGaps": []
         },
         "tw": {
-          "psychologyPhase": "euphoric",
-          "cycleStance": "defensive",
+          "psychologyPhase": "cautious_recovery",
+          "cycleStance": "constructive",
           "liquidityBias": "risk_off",
-          "temperatureScore": 1.75,
+          "temperatureScore": 1.5,
           "implications": [
-            "R2：美債殖利率 20 日上升偏快，流動性偏緊／防禦",
-            "Kostolany 心理相位近似：euphoric → 篩選姿態 defensive（TW）",
-            "Marks 偏熱／偏高：提高品質與趨勢門檻、縮小可進場宇宙",
-            "指數距 252 日高點約 -1.3%"
+            "Kostolany 心理相位近似：cautious_recovery → 篩選姿態 constructive（TW）",
+            "Marks 偏冷／修復：允許早段 RS＋放量進場（仍受 SMA200／穩定門檻約束）",
+            "指數距 252 日高點約 -3.3%"
           ],
           "dataGaps": []
         }
@@ -20088,5 +20338,5 @@
   ],
   "glossaryHint": "名詞（本益比、營益率、毛利率、外資、投信、自營商、均線多頭、RSI、振幅、張）見站內名詞小辭典。",
   "exportNote": "可複製本 JSON（strategy-screener.json）自行回測；站內不提供券商下單。",
-  "kostolanyRegimeAsOf": "2026-10-13T00:48:47.988Z"
+  "kostolanyRegimeAsOf": "2026-10-14T00:11:11.440Z"
 }
