@@ -2,19 +2,19 @@
   "market": "US",
   "ticker": "SOXL",
   "fundName": "Direxion Daily Semiconductor Bull 3X ETF",
-  "asOf": "2026-10-13T02:26:11.336Z",
+  "asOf": "2026-10-14T01:45:03.210Z",
   "quote": {
-    "price": 122.01,
-    "change": -6.39,
-    "changePct": -4.98,
+    "price": 127.61,
+    "change": 0.04,
+    "changePct": 0.03,
     "currency": "USD",
     "session": "overnight / extended (Yahoo)",
     "source": "https://finance.yahoo.com/quote/SOXL/",
     "regularClose": {
-      "price": 128.4,
-      "change": -11.36,
-      "changePct": -8.13,
-      "session": "NYSE Arca regular close (October 12 at 4:00:01 PM EDT)"
+      "price": 127.57,
+      "change": -0.83,
+      "changePct": -0.65,
+      "session": "NYSE Arca regular close (October 13 at 4:00:01 PM EDT)"
     }
   },
   "holdingsAsOf": "2026-01-31",
@@ -27,15 +27,6 @@
   "holdingsFreshnessNote": "Holdings weights are from the latest SOXL SEC N-PORT located in research (period ended 2026-01-31), not a same-day Direxion CSV. Cash + index swaps dominate reported net assets; daily weights change.",
   "leverageNote": "SOXL seeks ~3× the daily performance of the ICE Semiconductor Index. Contribution ≈ weight × return is an unlevered basket estimate only; ETF moves are magnified and path-dependent.",
   "events": [
-    {
-      "type": "anomaly",
-      "severity": "high",
-      "title": "正規盤大波動 -8.13%",
-      "detail": "Yahoo 顯示 SOXL 正規收盤約 $128.4（-8.13% / -11.36）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
-      "sources": [
-        "https://finance.yahoo.com/quote/SOXL/"
-      ]
-    },
     {
       "type": "structure",
       "severity": "info",
@@ -535,7 +526,7 @@
     "Research seed: /workspace/soxl-research/soxl-holdings-raw.json",
     "SEC N-PORT: https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
     "Yahoo quote page: https://finance.yahoo.com/quote/SOXL/",
-    "Yahoo quote HTML refresh @ 2026-10-13T02:26:11.336Z",
+    "Yahoo quote HTML refresh @ 2026-10-14T01:45:03.210Z",
     "https://feeds.finance.yahoo.com/rss/2.0/headline?s=SOXL&region=US&lang=en-US"
   ],
   "blockers": [
