@@ -27,6 +27,7 @@ import {
   annualizedHistVol,
   futuresBasis,
   thirdWednesdayYmd,
+  atrPct,
 } from "./math-core.mjs";
 import { temperatureScore } from "./market-regime.mjs";
 import {
@@ -930,6 +931,101 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
     fail(`public/data unreadable for non-finite token scan: ${e.message}`);
   }
   ok(`isFiniteNumber/finiteOrNull (${n} truth-table/random cases, cross-module agreement, ${files} live data files token-clean)`);
+}
+
+// —— ATR% (true range / close): extracted from market-regime atrPct20, 2026-10-15 ——
+{
+  let n = 0;
+  const legacy = (bars) => {
+    // verbatim copy of the pre-extraction market-regime atrPct20 (valid-data oracle)
+    if (!bars || bars.length < 21) return null;
+    const slice = bars.slice(-21);
+    let sum = 0, count = 0;
+    for (let i = 1; i < slice.length; i++) {
+      const h = slice[i].h, l = slice[i].l, pc = slice[i - 1].c;
+      if (h == null || l == null || pc == null) continue;
+      sum += Math.max(h - l, Math.abs(h - pc), Math.abs(l - pc));
+      count++;
+    }
+    if (count < 10) return null;
+    const close = slice[slice.length - 1].c;
+    if (!close) return null;
+    return sum / count / close;
+  };
+  const flat = Array.from({ length: 30 }, () => ({ h: 100, l: 100, c: 100 }));
+  if (atrPct(flat) !== 0) fail("atrPct flat series → 0"); n++;
+  // hand case: 21 bars, constant range 2 around close 100 ⇒ TR = 2, ATR% = 0.02
+  const band = Array.from({ length: 21 }, () => ({ h: 101, l: 99, c: 100 }));
+  if (Math.abs(atrPct(band) - 0.02) > 1e-15) fail("atrPct band h−l=2, c=100 → 0.02"); n++;
+  // gap case: prior close 100, today h=110 l=108 c=109 ⇒ TR = |h−pc| = 10 (not h−l = 2)
+  const gap = [...Array.from({ length: 20 }, () => ({ h: 100, l: 100, c: 100 })), { h: 110, l: 108, c: 109 }];
+  if (Math.abs(atrPct(gap) - 10 / 20 / 109) > 1e-15) fail("atrPct gap-up uses |h − prevClose|"); n++;
+  const gapDn = [...Array.from({ length: 20 }, () => ({ h: 100, l: 100, c: 100 })), { h: 92, l: 90, c: 91 }];
+  if (Math.abs(atrPct(gapDn) - 10 / 20 / 91) > 1e-15) fail("atrPct gap-down uses |l − prevClose|"); n++;
+  // domain refusals
+  const refuse = [
+    [null, "null"], [[], "empty"], [band.slice(0, 20), "20 bars < window+1"],
+    [[...band.slice(0, 20), { h: 101, l: 99, c: 0 }], "last close 0"],
+    [[...band.slice(0, 20), { h: 101, l: 99, c: NaN }], "last close NaN"],
+    [band.map((b, i) => (i % 2 || i === 2 ? { ...b, h: NaN } : b)), "only 9 usable TRs (< minTr 10)"],
+  ];
+  for (const [bars, why] of refuse) { if (atrPct(bars) !== null) fail(`atrPct refuses ${why}`); n++; }
+  // boundary: exactly 10 usable TRs (odd bars 1..19 unusable) is still accepted
+  if (Math.abs(atrPct(band.map((b, i) => (i % 2 ? { ...b, h: NaN } : b))) - 0.02) > 1e-15) fail("atrPct accepts exactly minTr usable TRs"); n++;
+  // invalid bars are skipped, not zero-filled: one NaN high must not drag ATR toward 0
+  const holed = band.map((b, i) => (i === 5 ? { ...b, h: NaN } : b));
+  if (Math.abs(atrPct(holed) - 0.02) > 1e-15) fail("atrPct skips NaN bar instead of counting TR=0"); n++;
+  const inverted = band.map((b, i) => (i === 7 ? { h: 99, l: 101, c: 100 } : b));
+  if (Math.abs(atrPct(inverted) - 0.02) > 1e-15) fail("atrPct skips h<l bar"); n++;
+  // random walks: invariants + agreement with legacy oracle on valid data
+  let seed = 20261015;
+  const rnd = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
+  for (let t = 0; t < 1500; t++) {
+    const len = 21 + Math.floor(rnd() * 60);
+    let c = 10 + rnd() * 500;
+    const bars = [];
+    for (let i = 0; i < len; i++) {
+      const o = c * (1 + (rnd() - 0.5) * 0.06);
+      c = o * (1 + (rnd() - 0.5) * 0.04);
+      const h = Math.max(o, c) * (1 + rnd() * 0.02);
+      const l = Math.min(o, c) * (1 - rnd() * 0.02);
+      bars.push({ h, l, c });
+    }
+    const a = atrPct(bars);
+    if (!(isFiniteNumber(a) && a >= 0)) { fail(`atrPct finite ≥0 (case ${t})`); continue; }
+    const ref = legacy(bars);
+    if (Math.abs(a - ref) > 1e-12 * Math.max(1, ref)) fail(`atrPct ≠ legacy oracle (case ${t}): ${a} vs ${ref}`);
+    // lower bound: mean(h−l)/c ≤ ATR%, since each TR ≥ h−l
+    const last = bars.slice(-20);
+    const hl = last.reduce((s, b) => s + (b.h - b.l), 0) / 20 / bars[bars.length - 1].c;
+    if (a < hl - 1e-12) fail(`atrPct ≥ mean range lower bound (case ${t})`);
+    const k = 0.01 + rnd() * 100;
+    const scaled = atrPct(bars.map((b) => ({ h: b.h * k, l: b.l * k, c: b.c * k })));
+    if (Math.abs(scaled - a) > 1e-9 * Math.max(1, a)) fail(`atrPct scale-invariant (case ${t}, k=${k})`);
+    // only the last window+1 bars matter
+    const prefixed = atrPct([{ h: 1e6, l: 1, c: 5e5 }, ...bars]);
+    if (Math.abs(prefixed - a) > 1e-15) fail(`atrPct ignores bars before the window (case ${t})`);
+    n += 4;
+  }
+  // live: published regime atrPct20 must sit in a plausible index band (0, 0.15]
+  let live = 0;
+  try {
+    const latest = JSON.parse(readFileSync(join(ROOT_MG, "public", "data", "latest.json"), "utf8"));
+    const walk = (o) => {
+      if (!o || typeof o !== "object") return;
+      for (const [k, v] of Object.entries(o)) {
+        if (k === "atrPct20" && v != null) {
+          if (!(isFiniteNumber(v) && v > 0 && v <= 0.15)) fail(`live atrPct20 out of band: ${v}`);
+          live++;
+        } else walk(v);
+      }
+    };
+    walk(latest);
+  } catch (e) {
+    fail(`latest.json unreadable for atrPct20 band check: ${e.message}`);
+  }
+  if (live === 0) fail("latest.json has no atrPct20 field to check");
+  ok(`atrPct (${n} hand/refusal/random cases incl. legacy-oracle agreement, scale & window invariance; ${live} live atrPct20 in (0, 0.15])`);
 }
 
 console.log("——");

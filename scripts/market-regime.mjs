@@ -5,7 +5,7 @@
  * Pure SMA / returns / volume helpers: ./math-core.mjs (guarded by math-guards).
  */
 
-import { sma, retChange as pctChange, volumeRatio, avgVolume, pctFromSma, peakInWindow, drawdownFromPeak } from "./math-core.mjs";
+import { sma, retChange as pctChange, volumeRatio, avgVolume, pctFromSma, peakInWindow, drawdownFromPeak, atrPct } from "./math-core.mjs";
 
 export const PHASE_TO_STANCE = {
   euphoric: "defensive",
@@ -31,26 +31,9 @@ function round(n, d = 4) {
   return Math.round(n * p) / p;
 }
 
-/** True range ATR% of close over last n bars */
+/** True range ATR% of close over last 20 bars — pure math in math-core.atrPct (guarded). */
 function atrPct20(bars) {
-  if (!bars || bars.length < 21) return null;
-  const slice = bars.slice(-21);
-  let sum = 0;
-  let count = 0;
-  for (let i = 1; i < slice.length; i++) {
-    const h = slice[i].h;
-    const l = slice[i].l;
-    const pc = slice[i - 1].c;
-    if (h == null || l == null || pc == null) continue;
-    const tr = Math.max(h - l, Math.abs(h - pc), Math.abs(l - pc));
-    sum += tr;
-    count++;
-  }
-  if (count < 10) return null;
-  const atr = sum / count;
-  const close = slice[slice.length - 1].c;
-  if (!close) return null;
-  return atr / close;
+  return atrPct(bars, { window: 20, minTr: 10 });
 }
 
 /**

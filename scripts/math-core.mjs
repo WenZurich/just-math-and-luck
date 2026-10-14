@@ -287,3 +287,31 @@ export function thirdWednesdayYmd(year, month) {
   const day = 1 + ((3 - w + 7) % 7) + 14;
   return `${String(year).padStart(4, "0")}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
+
+/**
+ * Average True Range as a fraction of the last close (simple mean, not Wilder smoothing).
+ *   TR_i = max(h_i − l_i, |h_i − c_{i−1}|, |l_i − c_{i−1}|) over the last `window` bars
+ *   (each needs the previous bar's close), ATR% = mean(TR) / c_last.  Unit: fraction (0.012 = 1.2%).
+ * A bar is skipped (not zero-filled) when h, l or the prior close is non-finite or ≤ 0, or h < l.
+ * Domain: ≥ window+1 bars, ≥ minTr usable TRs, last close finite > 0; otherwise null.
+ * Invariants: ATR% ≥ 0; unchanged when every price is scaled by k > 0; 0 for a flat series.
+ */
+export function atrPct(bars, { window = 20, minTr = 10 } = {}) {
+  if (!Array.isArray(bars) || !Number.isInteger(window) || window < 1 || bars.length < window + 1) return null;
+  const slice = bars.slice(-(window + 1));
+  let sum = 0;
+  let count = 0;
+  for (let i = 1; i < slice.length; i++) {
+    const h = slice[i]?.h;
+    const l = slice[i]?.l;
+    const pc = slice[i - 1]?.c;
+    if (!isFiniteNumber(h) || !isFiniteNumber(l) || !isFiniteNumber(pc) || h <= 0 || l <= 0 || pc <= 0 || h < l) continue;
+    sum += Math.max(h - l, Math.abs(h - pc), Math.abs(l - pc));
+    count++;
+  }
+  if (count < minTr) return null;
+  const close = slice[slice.length - 1]?.c;
+  if (!isFiniteNumber(close) || close <= 0) return null;
+  const v = sum / count / close;
+  return isFiniteNumber(v) && v >= 0 ? v : null;
+}
