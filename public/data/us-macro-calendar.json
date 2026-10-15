@@ -1,54 +1,22 @@
 {
-  "asOf": "2026-10-08T00:13:14.136Z",
+  "asOf": "2026-10-15T00:08:54.776Z",
   "market": "US",
   "timezone": "America/New_York",
   "timezoneLabel": "US ET",
   "window": {
-    "from": "2026-10-07",
-    "to": "2026-11-11"
+    "from": "2026-10-14",
+    "to": "2026-11-18"
   },
   "source": {
     "name": "XOOMAR",
     "url": "https://xoomar.com/api/markets/calendar",
     "docs": "https://xoomar.com/markets/api/calendar",
-    "remoteUpdatedAt": "2026-10-07T17:30:03.320Z",
+    "remoteUpdatedAt": "2026-10-14T12:34:00.625Z",
     "attribution": "Credit XOOMAR with a link to the dataset page on xoomar.com when you republish this data",
     "license": "https://xoomar.com/terms"
   },
   "stale": false,
   "events": [
-    {
-      "id": "fomcMinutes-2026-10-07T18:00:00.000Z",
-      "eventKey": "fomcMinutes",
-      "eventName": "FOMC Minutes",
-      "shortName": "FOMC Minutes",
-      "importance": "med",
-      "highImpact": true,
-      "scheduledAt": "2026-10-07T18:00:00.000Z",
-      "dayEt": "2026-10-07",
-      "periodLabel": "September 2026 meeting",
-      "source": "fed",
-      "officialUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
-      "actual": null,
-      "previous": null,
-      "unit": null
-    },
-    {
-      "id": "joblessClaims-2026-10-08T12:30:00.000Z",
-      "eventKey": "joblessClaims",
-      "eventName": "Initial Jobless Claims",
-      "shortName": "Jobless Claims",
-      "importance": "high",
-      "highImpact": true,
-      "scheduledAt": "2026-10-08T12:30:00.000Z",
-      "dayEt": "2026-10-08",
-      "periodLabel": "Week ending 2026-10-03",
-      "source": "dol",
-      "officialUrl": "https://www.dol.gov/ui/data.pdf",
-      "actual": null,
-      "previous": null,
-      "unit": null
-    },
     {
       "id": "cpi-2026-10-14T12:30:00.000Z",
       "eventKey": "cpi",
@@ -61,8 +29,8 @@
       "periodLabel": "September 2026",
       "source": "bls",
       "officialUrl": "https://www.bls.gov/schedule/news_release/cpi.htm",
-      "actual": null,
-      "previous": null,
+      "actual": "3.7000",
+      "previous": "3.4000",
       "unit": "% y/y, all items"
     },
     {
@@ -240,6 +208,70 @@
       "actual": null,
       "previous": null,
       "unit": "% y/y, all items"
+    },
+    {
+      "id": "joblessClaims-2026-11-12T13:30:00.000Z",
+      "eventKey": "joblessClaims",
+      "eventName": "Initial Jobless Claims",
+      "shortName": "Jobless Claims",
+      "importance": "high",
+      "highImpact": true,
+      "scheduledAt": "2026-11-12T13:30:00.000Z",
+      "dayEt": "2026-11-12",
+      "periodLabel": "Week ending 2026-11-07",
+      "source": "dol",
+      "officialUrl": "https://www.dol.gov/ui/data.pdf",
+      "actual": null,
+      "previous": null,
+      "unit": null
+    },
+    {
+      "id": "ppi-2026-11-13T13:30:00.000Z",
+      "eventKey": "ppi",
+      "eventName": "PPI (Producer Price Index)",
+      "shortName": "PPI",
+      "importance": "high",
+      "highImpact": true,
+      "scheduledAt": "2026-11-13T13:30:00.000Z",
+      "dayEt": "2026-11-13",
+      "periodLabel": "October 2026",
+      "source": "bls",
+      "officialUrl": "https://www.bls.gov/schedule/news_release/ppi.htm",
+      "actual": null,
+      "previous": null,
+      "unit": null
+    },
+    {
+      "id": "retailSales-2026-11-17T13:30:00.000Z",
+      "eventKey": "retailSales",
+      "eventName": "Retail Sales (Advance)",
+      "shortName": "Retail Sales",
+      "importance": "high",
+      "highImpact": true,
+      "scheduledAt": "2026-11-17T13:30:00.000Z",
+      "dayEt": "2026-11-17",
+      "periodLabel": "October 2026",
+      "source": "census",
+      "officialUrl": "https://www.census.gov/retail/index.html",
+      "actual": null,
+      "previous": null,
+      "unit": null
+    },
+    {
+      "id": "fomcMinutes-2026-11-18T19:00:00.000Z",
+      "eventKey": "fomcMinutes",
+      "eventName": "FOMC Minutes",
+      "shortName": "FOMC Minutes",
+      "importance": "med",
+      "highImpact": true,
+      "scheduledAt": "2026-11-18T19:00:00.000Z",
+      "dayEt": "2026-11-18",
+      "periodLabel": "October 2026 meeting",
+      "source": "fed",
+      "officialUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "actual": null,
+      "previous": null,
+      "unit": null
     }
   ],
   "refreshHint": "npm run fetch-us-macro  （可選 FETCH_US_MACRO=1 接在 daily-scan 後）"
