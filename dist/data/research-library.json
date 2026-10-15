@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-14T09:40:00+08:00",
+    "updated": "2026-10-15T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -8758,6 +8758,172 @@
       ],
       "sources": [
         "https://arxiv.org/abs/2610.10407"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-tw-volatility-targeting-spec-2026",
+      "market": "TW",
+      "type": "paper",
+      "title": "How volatility model specification affects volatility targeting performance: Evidence from Taiwan",
+      "titleLocalized": {
+        "en": "How volatility model specification affects volatility targeting performance: Evidence from Taiwan",
+        "zh-Hant": "波動度模型設定如何影響「波動度目標」配置績效：台灣證據",
+        "zh-Hans": "波动率模型设定如何影响“波动率目标”配置绩效：台湾证据",
+        "ja": "ボラティリティ・モデルの設定がボラティリティ・ターゲティングの成果に与える影響：台湾の実証"
+      },
+      "authors": [
+        "Jr-Wei Huang",
+        "Sharon S. Yang"
+      ],
+      "year": 2026,
+      "summary": "Studies volatility targeting in Taiwan: hold more stock when expected volatility is low and less when it is high. The authors compare several ways of forecasting the TAIEX's day-to-day volatility, including a model that allows for sudden price jumps, and pair them with a conditional rule (after Bongaerts et al., 2020) that only changes exposure when volatility is unusually high or low. On the TAIEX, the jump-aware forecast combined with the conditional rule gave the best portfolio results, and the effect differed across the financial, semiconductor and food sector indices. Main lesson: how you forecast volatility changes the outcome, so the forecast has to fit how Taiwan returns actually behave. Takeaway for the site: a candidate position-sizing rule for the TW paper book that builds on the ATR% risk gauge already on the market-regime panel; it is not a stock-picking signal.",
+      "summaryLocalized": {
+        "zh-Hant": "研究台股的「波動度目標」配置：預期波動低時多持股、波動高時少持股。作者比較多種預測加權指數波動的方法（含可處理突然跳空的模型），再搭配「只在波動特別高或特別低時才調整部位」的條件式規則（Bongaerts 等人，2020）。在加權指數上，可處理跳空的預測加上條件式規則績效最好；金融、半導體、食品類股指數的效果各不相同。重點：波動怎麼估會直接影響結果。本站把它列為台股模擬倉的部位大小候選規則，延伸市場狀態區已有的 ATR% 風險指標，不是選股訊號。",
+        "zh-Hans": "研究台股的“波动率目标”配置：预期波动低时多持股、波动高时少持股。作者比较多种预测加权指数波动的方法（含可处理突然跳空的模型），再搭配“只在波动特别高或特别低时才调整仓位”的条件式规则（Bongaerts 等人，2020）。在加权指数上，可处理跳空的预测加上条件式规则绩效最好；金融、半导体、食品类股指数的效果各不相同。重点：波动怎么估会直接影响结果。本站把它列为台股模拟仓的仓位大小候选规则，延伸市场状态区已有的 ATR% 风险指标，不是选股信号。",
+        "en": "Volatility targeting on the TAIEX: hold more when expected volatility is low, less when high. A jump-aware volatility forecast plus a rule that only adjusts exposure in unusually calm or stormy markets worked best; sector indices (financials, semis, food) reacted differently. The site lists it as a TW paper-book position-sizing candidate built on the existing ATR% gauge.",
+        "ja": "台湾加権指数でのボラティリティ・ターゲティング。ジャンプを考慮した予測と、ボラが極端に高い／低い時だけ配分を変える条件付きルールの組み合わせが最良。金融・半導体・食品で効果は異なる。本サイトは既存のATR%指標を土台に、台湾模擬口座のポジション・サイズ候補として掲載。"
+      },
+      "formulas": [
+        "vol_now ← annualized volatility of TAIEX daily log returns (site already has ATR% on the market-regime panel as a simpler stand-in)",
+        "vol_band ← where vol_now sits versus its own past (e.g. bottom third / middle / top third of the last 3 years)",
+        "conditional sizing (site proposal): middle band → keep normal exposure; top band → exposure = target_vol ÷ vol_now; bottom band → allow up to a capped increase; never above 100% (no leverage in the paper book)",
+        "check: compare against fixed 100% exposure on return, max drawdown and turnover after TW costs (0.1425% fee each side, 0.3% sell tax)",
+        "sector check: run separately for financials, semiconductors and food indices because the paper finds different effects by sector",
+        "site use: TW paper-book position-sizing candidate only; does not change which stocks are picked; no live change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "市場越動盪就少放一點錢，越平靜就正常或多放一點，目的是讓整體風險維持在差不多的水準",
+        "只在波動「特別高」或「特別低」時才調整，平常不動，可以少做很多無謂的買賣",
+        "用能處理突然大跳空的方法來估波動，在台股加權指數上效果最好",
+        "金融、半導體、食品類股的效果不一樣，不能一套規則用到底；本站只當台股模擬倉的部位大小候選，不影響選哪些股票"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "市場越動盪就少放一點錢，越平靜就正常或多放一點，目的是讓整體風險維持在差不多的水準",
+          "只在波動「特別高」或「特別低」時才調整，平常不動，可以少做很多無謂的買賣",
+          "用能處理突然大跳空的方法來估波動，在台股加權指數上效果最好",
+          "金融、半導體、食品類股的效果不一樣，不能一套規則用到底；本站只當台股模擬倉的部位大小候選，不影響選哪些股票"
+        ],
+        "zh-Hans": [
+          "市场越动荡就少放一点钱，越平静就正常或多放一点，目的是让整体风险维持在差不多的水平",
+          "只在波动“特别高”或“特别低”时才调整，平常不动，可以少做很多无谓的买卖",
+          "用能处理突然大跳空的方法来估波动，在台股加权指数上效果最好",
+          "金融、半导体、食品类股的效果不一样，不能一套规则用到底；本站只当台股模拟仓的仓位大小候选，不影响选哪些股票"
+        ],
+        "en": [
+          "Put less money in when the market is stormy and a normal or slightly larger amount when it is calm, so overall risk stays roughly steady",
+          "Only adjust when volatility is unusually high or low and leave it alone otherwise, which avoids a lot of needless trading",
+          "Estimating volatility with a method that handles sudden big gaps worked best on the TAIEX",
+          "Financials, semiconductors and food stocks reacted differently, so one rule does not fit all; the site uses it only for TW paper-book position size, not stock choice"
+        ],
+        "ja": [
+          "相場が荒れている時は投入額を減らし、落ち着いている時は通常か少し多めにして、全体のリスクをほぼ一定に保つ",
+          "ボラが「特に高い」「特に低い」時だけ調整し、普段は動かさないので無駄な売買が減る",
+          "急な大きな窓開けを扱える方法でボラを推定すると、加権指数で最も良い結果",
+          "金融・半導体・食品で効果が異なり、一つのルールでは済まない。本サイトは台湾模擬口座のポジション・サイズ候補としてのみ使い、銘柄選択には影響しない"
+        ]
+      },
+      "strategyCandidate": "yes",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — conditional volatility-targeting sizing stays a TW paper-book position-sizing candidate; never status=adopted into the live screener until the gate passes.",
+      "shelf": "market_analysis",
+      "tags": [
+        "tw",
+        "volatility-targeting",
+        "position-sizing",
+        "risk-regime",
+        "garch",
+        "jumps",
+        "candidate"
+      ],
+      "sources": [
+        "https://ideas.repec.org/a/eee/pacfin/v99y2026ics0927538x26001411.html",
+        "https://doi.org/10.1016/j.pacfin.2026.103195"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-ml-portfolio-net-sharpe-attribution-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "From Economic Explanation to Performance Improvement in Machine-Learning Portfolios",
+      "titleLocalized": {
+        "en": "From Economic Explanation to Performance Improvement in Machine-Learning Portfolios",
+        "zh-Hant": "從經濟解釋到績效提升：機器學習投資組合",
+        "zh-Hans": "从经济解释到绩效提升：机器学习投资组合",
+        "ja": "経済的説明から成果改善へ：機械学習ポートフォリオ"
+      },
+      "authors": [
+        "Yunqi Liang",
+        "Stefan Zohren",
+        "Mihai Cucuringu"
+      ],
+      "year": 2026,
+      "summary": "Asks a practical question: which inputs to a trading model actually make money after trading costs, not just which ones the model leans on. The authors trace each signal's effect from position weights through turnover, return and volatility to the after-cost Sharpe ratio, then turn the dial up on signals that helped in the previous year and down on those that hurt, without retraining the model. On 346 large, liquid US stocks traded daily from 2006 to 2024 (5 basis points cost per unit of turnover), the after-cost Sharpe ratio rose from about 0.58 to 0.83 for a neural-network version, mostly because daily turnover fell from 26.7% to 13.0%, and from about 0.62 to 0.76 for a boosted-tree version. Key finding: some fast signals look good before costs but lose money after costs because they make the portfolio trade too much. Takeaway for the site: score every US rule on after-cost results and turnover, and favour signals whose contribution is steady from year to year; the machine-learning models themselves are not adopted.",
+      "summaryLocalized": {
+        "zh-Hant": "問一個實際問題：交易模型用的各個訊號，扣掉交易成本後到底誰在賺錢。作者把每個訊號的影響一路追到部位、週轉、報酬、波動，最後到扣成本後的夏普值，再把前一年有幫助的訊號調大、有拖累的調小，模型本身不重訓。在 346 檔美股大型流動股、2006–2024 每日交易（每單位週轉成本 5 個基點）上，神經網路版扣成本夏普值由約 0.58 升到 0.83，主要因每日週轉由 26.7% 降到 13.0%；樹模型版由約 0.62 升到 0.76。重點：有些短線訊號扣成本前好看，扣成本後反而虧錢，因為讓組合交易太頻繁。本站借用「每條美股規則都看扣成本後成績與週轉率」的評估方式，不採用機器學習模型本身。",
+        "zh-Hans": "问一个实际问题：交易模型用的各个信号，扣掉交易成本后到底谁在赚钱。作者把每个信号的影响一路追到仓位、换手、报酬、波动，最后到扣成本后的夏普值，再把前一年有帮助的信号调大、有拖累的调小，模型本身不重训。在 346 档美股大型流动股、2006–2024 每日交易（每单位换手成本 5 个基点）上，神经网络版扣成本夏普值由约 0.58 升到 0.83，主要因每日换手由 26.7% 降到 13.0%；树模型版由约 0.62 升到 0.76。重点：有些短线信号扣成本前好看，扣成本后反而亏钱，因为让组合交易太频繁。本站借用“每条美股规则都看扣成本后成绩与换手率”的评估方式，不采用机器学习模型本身。",
+        "en": "Traces each signal's effect to the after-cost Sharpe ratio and re-weights signals using the prior year's after-cost contribution, without retraining. On 346 liquid US stocks, 2006–2024, after-cost Sharpe rose from ~0.58 to 0.83 (turnover 26.7% to 13.0%) for a neural net and ~0.62 to 0.76 for boosted trees. Fast signals can win before costs and lose after. The site borrows the after-cost, turnover-aware scoring; the ML models are not adopted.",
+        "ja": "各シグナルの影響を取引コスト控除後のシャープレシオまで追跡し、前年のコスト後貢献で再調整（再学習なし）。米大型流動株346銘柄・2006–2024年で、NN版はコスト後シャープ約0.58→0.83（回転率26.7%→13.0%）、木モデル版は約0.62→0.76。短期シグナルはコスト前は良くてもコスト後は損失になり得る。本サイトはコスト後・回転率重視の評価方法のみ採用。"
+      },
+      "formulas": [
+        "turnover_t ← sum over stocks of |weight today − weight yesterday| (one full swap of the book = 2.0)",
+        "net_return_t ← gross_return_t − cost_rate × turnover_t (paper uses 5 basis points per unit of turnover)",
+        "net_sharpe ← sqrt(252) × average(net_return) ÷ standard deviation(net_return)",
+        "signal check (site proposal): for each US rule, compare paper-book results with the rule switched on vs off, both before and after costs; flag rules that help before costs but hurt after",
+        "re-weighting (site proposal): next year's weight for a rule × (1 + 0.5 × a bounded score of last year's after-cost contribution), clipped to a safe range so no rule is switched fully on or off in one step",
+        "site use: US paper-book evaluation candidate only; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "模型很看重的訊號，不一定真的幫你賺錢；要看扣掉交易成本之後的結果",
+        "有些短線訊號在不算成本時很好看，但會讓你一直換股，成本一扣反而虧錢",
+        "把前一年扣成本後有貢獻的訊號稍微加重、拖累的稍微減輕，美股測 2006–2024 年，扣成本後的風險調整報酬明顯變好",
+        "本站借用這種「看扣成本後成績與換手率」的檢查方式，用在美股模擬倉的規則評估，不採用機器學習模型本身"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "模型很看重的訊號，不一定真的幫你賺錢；要看扣掉交易成本之後的結果",
+          "有些短線訊號在不算成本時很好看，但會讓你一直換股，成本一扣反而虧錢",
+          "把前一年扣成本後有貢獻的訊號稍微加重、拖累的稍微減輕，美股測 2006–2024 年，扣成本後的風險調整報酬明顯變好",
+          "本站借用這種「看扣成本後成績與換手率」的檢查方式，用在美股模擬倉的規則評估，不採用機器學習模型本身"
+        ],
+        "zh-Hans": [
+          "模型很看重的信号，不一定真的帮你赚钱；要看扣掉交易成本之后的结果",
+          "有些短线信号在不算成本时很好看，但会让你一直换股，成本一扣反而亏钱",
+          "把前一年扣成本后有贡献的信号稍微加重、拖累的稍微减轻，美股测 2006–2024 年，扣成本后的风险调整报酬明显变好",
+          "本站借用这种“看扣成本后成绩与换手率”的检查方式，用在美股模拟仓的规则评估，不采用机器学习模型本身"
+        ],
+        "en": [
+          "A signal the model relies on heavily does not necessarily make you money; judge it after trading costs",
+          "Some fast signals look great before costs but keep you swapping stocks, and lose money once costs are counted",
+          "Nudging up signals that helped after costs last year and nudging down those that hurt clearly improved after-cost risk-adjusted returns on US stocks, 2006–2024",
+          "The site borrows this after-cost, turnover-aware check to evaluate US paper-book rules; the machine-learning models themselves are not adopted"
+        ],
+        "ja": [
+          "モデルが重視するシグナルが実際に儲かるとは限らない。取引コスト控除後の結果で判断する",
+          "短期シグナルにはコスト前は良く見えても売買が多すぎ、コストを引くと損になるものがある",
+          "前年にコスト後で貢献したシグナルを少し強め、足を引っ張ったものを少し弱めると、米国株2006–2024年でコスト後のリスク調整リターンが明確に改善",
+          "本サイトはこの「コスト後成績と回転率を見る」検査方法を米国模擬口座のルール評価に使い、機械学習モデル自体は採用しない"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — after-cost, turnover-aware rule scoring stays a US paper-book evaluation candidate; never status=adopted into the live screener until the gate passes.",
+      "shelf": "market_analysis",
+      "tags": [
+        "us",
+        "transaction-costs",
+        "turnover",
+        "sharpe-ratio",
+        "machine-learning",
+        "statistical-arbitrage",
+        "candidate"
+      ],
+      "sources": [
+        "https://arxiv.org/abs/2610.15144"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",
       "coverFallback": "./covers/placeholder-paper.svg"
