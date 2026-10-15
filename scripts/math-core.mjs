@@ -315,3 +315,35 @@ export function atrPct(bars, { window = 20, minTr = 10 } = {}) {
   const v = sum / count / close;
   return isFiniteNumber(v) && v >= 0 ? v : null;
 }
+
+/**
+ * Money rounding, half away from zero, sign-symmetric: roundHalfAway(−x) = −roundHalfAway(x).
+ * Plain Math.round(n·10^d)/10^d rounds −2.345 to −2.34 but +2.345 to +2.35 (losses and gains
+ * treated differently) and drops 1.005 to 1.00 through binary float error; a relative
+ * Number.EPSILON nudge on |n| fixes the decimal-tie cases. Non-finite or bad digits ⇒ null
+ * (never a silent 0 that would look like a real flat result).
+ */
+export function roundHalfAway(n, digits = 2) {
+  if (!isFiniteNumber(n) || !Number.isInteger(digits) || digits < 0 || digits > 10) return null;
+  const f = 10 ** digits;
+  const a = Math.abs(n);
+  // beyond 2^52 every representable double at this scale is already an integer step: leave as is
+  if (a * f >= 2 ** 52) return n;
+  const r = Math.round(a * f * (1 + Number.EPSILON)) / f;
+  const out = n < 0 ? -r : r;
+  return Object.is(out, -0) ? 0 : out;
+}
+
+/**
+ * Realized P&L of a sell: (sellPrice − avgCost) × qty, in the book's currency.
+ * Domain: sellPrice finite & > 0, avgCost finite & > 0, qty finite & > 0; else null so the
+ * caller refuses the fill instead of booking a fake 0. Invariants: sign = sign(sellPrice − avgCost);
+ * linear in qty (selling q1 then q2 at one price = selling q1+q2); scales with price units;
+ * proceeds − cost basis identity: sellPrice·qty − avgCost·qty.
+ */
+export function realizedPnl(sellPrice, avgCost, qty) {
+  if (!isFiniteNumber(sellPrice) || !isFiniteNumber(avgCost) || !isFiniteNumber(qty)) return null;
+  if (!(sellPrice > 0) || !(avgCost > 0) || !(qty > 0)) return null;
+  const r = (sellPrice - avgCost) * qty;
+  return isFiniteNumber(r) ? r : null;
+}

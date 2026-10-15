@@ -28,6 +28,8 @@ import {
   futuresBasis,
   thirdWednesdayYmd,
   atrPct,
+  realizedPnl,
+  roundHalfAway,
 } from "./math-core.mjs";
 import { temperatureScore } from "./market-regime.mjs";
 import {
@@ -1026,6 +1028,115 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
   }
   if (live === 0) fail("latest.json has no atrPct20 field to check");
   ok(`atrPct (${n} hand/refusal/random cases incl. legacy-oracle agreement, scale & window invariance; ${live} live atrPct20 in (0, 0.15])`);
+}
+
+
+// ── realized P&L on sells + sign-symmetric money rounding ──
+{
+  let n = 0;
+  // roundHalfAway hand cases (incl. decimal ties that plain Math.round gets wrong)
+  const hand = [
+    [2.345, 2, 2.35], [-2.345, 2, -2.35], [0.125, 2, 0.13], [-0.125, 2, -0.13],
+    [1.005, 2, 1.01], [-1.005, 2, -1.01], [0, 2, 0], [-0, 2, 0], [-0.004, 2, 0],
+    [123.456789, 4, 123.4568], [70050, 2, 70050], [-108.0204, 2, -108.02], [2.5, 0, 3], [-2.5, 0, -3],
+  ];
+  for (const [x, d, want] of hand) {
+    const got = roundHalfAway(x, d);
+    if (!Object.is(got, want)) fail(`roundHalfAway(${x}, ${d}) = ${got}, want ${want}`);
+    n++;
+  }
+  for (const bad of [NaN, Infinity, -Infinity, null, undefined, "1.5"]) {
+    if (roundHalfAway(bad, 2) !== null) fail(`roundHalfAway refuses ${String(bad)}`);
+    n++;
+  }
+  for (const d of [-1, 1.5, 11]) {
+    if (roundHalfAway(1.23, d) !== null) fail(`roundHalfAway refuses digits=${d}`);
+    n++;
+  }
+  if (roundHalfAway(1e15 + 0.5, 2) !== 1e15 + 0.5) fail("roundHalfAway leaves huge values untouched");
+  n++;
+  // random: symmetry, idempotence, |x − round(x)| ≤ half a unit, result on the 10^-d grid
+  let seed = 1016;
+  const rnd = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
+  for (let t = 0; t < 3000; t++) {
+    const d = Math.floor(rnd() * 5);
+    const x = (rnd() - 0.5) * 2 * 10 ** Math.floor(rnd() * 8);
+    const r = roundHalfAway(x, d);
+    const f = 10 ** d;
+    if (!Object.is(roundHalfAway(-x, d), r === 0 ? 0 : -r)) fail(`roundHalfAway symmetric (x=${x}, d=${d})`);
+    if (roundHalfAway(r, d) !== r) fail(`roundHalfAway idempotent (x=${x}, d=${d})`);
+    if (Math.abs(x - r) > 0.5 / f + 1e-9 * Math.max(1, Math.abs(x))) fail(`roundHalfAway within half unit (x=${x}, d=${d})`);
+    if (Math.abs(r * f - Math.round(r * f)) > Math.max(1e-6, 8 * Number.EPSILON * Math.abs(r * f))) fail(`roundHalfAway on grid (x=${x}, d=${d})`);
+    n += 4;
+  }
+  // exact decimal ties k + 0.5 units: must go away from zero for both signs
+  for (let k = 0; k < 500; k++) {
+    const x = (k + 0.5) / 100;
+    const want = (k + 1) / 100;
+    if (roundHalfAway(x, 2) !== want || roundHalfAway(-x, 2) !== -want) fail(`roundHalfAway tie ${x}`);
+    n++;
+  }
+
+  // realizedPnl: hand, refusals, invariants
+  if (realizedPnl(44.2, 36.3, 3000) == null || Math.abs(realizedPnl(44.2, 36.3, 3000) - 23700) > 1e-6) fail("realizedPnl hand TW 光鼎 23700");
+  if (Math.abs(realizedPnl(668.83, 677.8317, 12) - -108.0204) > 1e-9) fail("realizedPnl hand US META −108.0204");
+  if (realizedPnl(10, 10, 5) !== 0) fail("realizedPnl flat = 0");
+  n += 3;
+  for (const [p, c, q] of [[NaN, 10, 1], [10, NaN, 1], [10, 10, NaN], [0, 10, 1], [-1, 10, 1], [10, 0, 1], [10, -5, 1], [10, 10, 0], [10, 10, -3], [Infinity, 10, 1], [10, 10, Infinity], [null, 10, 1], ["10", 10, 1]]) {
+    if (realizedPnl(p, c, q) !== null) fail(`realizedPnl refuses (${p}, ${c}, ${q})`);
+    n++;
+  }
+  for (let t = 0; t < 2000; t++) {
+    const p = 0.5 + rnd() * 2000;
+    const c = 0.5 + rnd() * 2000;
+    const q1 = 1 + Math.floor(rnd() * 5000);
+    const q2 = 1 + Math.floor(rnd() * 5000);
+    const r = realizedPnl(p, c, q1);
+    const tol = 1e-9 * Math.max(1, p, c) * (q1 + q2);
+    if (Math.sign(r) !== Math.sign(p - c)) fail(`realizedPnl sign (p=${p}, c=${c})`);
+    if (Math.abs(realizedPnl(p, c, q1) + realizedPnl(p, c, q2) - realizedPnl(p, c, q1 + q2)) > tol) fail(`realizedPnl additive in qty (case ${t})`);
+    if (Math.abs(r - (p * q1 - c * q1)) > tol) fail(`realizedPnl = proceeds − cost basis (case ${t})`);
+    const k = 0.01 + rnd() * 100;
+    if (Math.abs(realizedPnl(p * k, c * k, q1) - k * r) > tol * Math.max(1, k) * 10) fail(`realizedPnl scales with price units (case ${t})`);
+    // round trip with avgCostAfterBuy: two buys then sell all ⇒ realized = proceeds − total paid
+    const b1 = 0.5 + rnd() * 2000;
+    const b2 = 0.5 + rnd() * 2000;
+    const avg = avgCostAfterBuy(q1, b1, q2, b2);
+    const rt = realizedPnl(p, avg, q1 + q2);
+    const direct = p * (q1 + q2) - (b1 * q1 + b2 * q2);
+    if (Math.abs(rt - direct) > 1e-7 * Math.max(1, Math.abs(direct), p * (q1 + q2))) fail(`realizedPnl ∘ avgCostAfterBuy round trip (case ${t})`);
+    n += 5;
+  }
+
+  // live replay: every booked SELL's realizedPnl must equal (price − avgCostAtSale) × qty
+  // up to the rounding of avgCostAtSale (≤ 0.005·qty) plus cent rounding; book total = Σ trades
+  let live = 0;
+  try {
+    const pp = JSON.parse(readFileSync(join(ROOT_MG, "public", "data", "paper-portfolio.json"), "utf8"));
+    for (const [id, book] of Object.entries(pp.books || {})) {
+      let sum = 0;
+      for (const tr of book.trades || []) {
+        if (String(tr.side).toUpperCase() !== "SELL") continue;
+        for (const k of ["price", "qty", "avgCostAtSale", "realizedPnl"]) {
+          if (!isFiniteNumber(tr[k])) fail(`paper ${id} SELL ${tr.ticker} ${tr.date}: ${k} not finite`);
+        }
+        const re = realizedPnl(tr.price, tr.avgCostAtSale, tr.qty);
+        if (re == null) fail(`paper ${id} SELL ${tr.ticker} ${tr.date}: inputs off-domain`);
+        else if (Math.abs(re - tr.realizedPnl) > 0.005 * tr.qty + 0.006) {
+          fail(`paper ${id} SELL ${tr.ticker} ${tr.date}: realizedPnl ${tr.realizedPnl} ≠ (price−avg)×qty ${re.toFixed(4)}`);
+        }
+        sum += tr.realizedPnl;
+        live++;
+      }
+      if ((book.trades || []).length < 400 && isFiniteNumber(book.realizedPnl)) {
+        const sells = (book.trades || []).filter((x) => String(x.side).toUpperCase() === "SELL").length;
+        if (Math.abs(sum - book.realizedPnl) > 0.006 * Math.max(1, sells)) fail(`paper ${id}: book realizedPnl ${book.realizedPnl} ≠ Σ trades ${sum.toFixed(2)}`);
+      }
+    }
+  } catch (e) {
+    fail(`paper-portfolio.json unreadable for realized P&L replay: ${e.message}`);
+  }
+  ok(`realizedPnl + roundHalfAway (${n} hand/refusal/tie/random cases incl. sign, qty additivity, unit scaling, avgCostAfterBuy round trip; ${live} live paper SELLs reproduce (price − avg) × qty, book totals = Σ trades)`);
 }
 
 console.log("——");

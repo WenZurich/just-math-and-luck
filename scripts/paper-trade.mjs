@@ -61,7 +61,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { avgCostAfterBuy } from "./math-core.mjs";
+import { avgCostAfterBuy, realizedPnl, roundHalfAway } from "./math-core.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -116,9 +116,13 @@ const RULES_ZH = {
 };
 
 function roundMoney(n, digits = 2) {
-  if (!Number.isFinite(n)) return 0;
-  const f = 10 ** digits;
-  return Math.round(n * f) / f;
+  // sign-symmetric half-away-from-zero (losses round like gains); see math-core roundHalfAway
+  const r = roundHalfAway(n, digits);
+  if (r == null) {
+    console.warn(`[paper] roundMoney got non-finite ${n}; using 0`);
+    return 0;
+  }
+  return r;
 }
 
 /** asOf ISO → 台北曆日 YYYY-MM-DD */
@@ -289,8 +293,13 @@ function recordTrade(book, trade) {
 function sellPosition(book, pos, qty, price, reason, reasonText, date, asOf) {
   const sellQty = Math.min(qty, pos.qty);
   if (sellQty <= 0) return null;
+  const realized = realizedPnl(price, pos.avgCost, sellQty);
+  if (realized == null) {
+    // never book a sale on a missing/garbage quote or cost: that would show a fake P&L
+    console.warn(`[paper] refuse SELL ${pos.ticker}: price=${price} avgCost=${pos.avgCost} qty=${sellQty}`);
+    return null;
+  }
   const proceeds = sellQty * price;
-  const realized = (price - pos.avgCost) * sellQty;
   pos.qty -= sellQty;
   book.cash = roundMoney(book.cash + proceeds);
   book.realizedPnl = roundMoney(book.realizedPnl + realized);
