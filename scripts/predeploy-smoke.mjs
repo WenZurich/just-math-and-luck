@@ -573,9 +573,15 @@ async function main() {
   if (!sxJs.includes("contributionPct") || !sxJs.includes("renderSoxlSection") || !sxJs.includes("sx-hero")) {
     fail("soxl.js missing hero/contribution wiring");
   } else ok("soxl.js hero + contribution");
+  if (!sxJs.includes("isExtendedSession") || !sxJs.includes("soxlOvernight") || !sxJs.includes("useRegPrimary")) {
+    fail("soxl.js missing regular-close-as-primary when overnight/extended");
+  } else ok("soxl.js prefers regular close over overnight hero");
   if (!mainJs.includes("view-soxl") || !mainJs.includes('"soxl"')) {
     fail("main.js missing soxl view wiring");
   } else ok("soxl view wired in main.js");
+  if (!mainJs.includes("skip-link") || !mainJs.includes("main-content") || !mainJs.includes("skipToContent")) {
+    fail("main.js missing skip-to-content a11y link");
+  } else ok("skip-to-content a11y link present");
   {
     const i18nSx = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
     if (!i18nSx.includes("navSoxl") || !i18nSx.includes("soxlDisclaimer") || !i18nSx.includes("soxlTitle")) {

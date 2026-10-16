@@ -3266,6 +3266,33 @@ p, li, dd { text-wrap: pretty; }
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
+
+/* ---- Skip link (keyboard / a11y) ---- */
+.skip-link {
+  position: absolute;
+  left: max(0.75rem, env(safe-area-inset-left));
+  top: 0;
+  z-index: 10000;
+  padding: 0.55rem 0.9rem;
+  background: var(--text);
+  color: var(--surface);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform 140ms var(--ease-out);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--text) 25%, transparent);
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0.5rem);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  color: var(--surface);
+}
+
+
 a { color: var(--accent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
 a:hover { color: var(--accent-strong); }
 * { scrollbar-color: color-mix(in srgb, var(--text-dim) 45%, transparent) transparent; scrollbar-width: thin; }

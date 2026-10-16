@@ -15,6 +15,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import https from "node:https";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -119,7 +120,61 @@ function safeDate(year, month, day) {
   return `${year}-${String(month).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
 }
 
+const GOV_TLS_AGENT = new https.Agent({ rejectUnauthorized: false });
+
+function needsGovTlsRelax(url) {
+  try {
+    const h = new URL(url).hostname.toLowerCase();
+    return (
+      h === "www.stat.gov.tw" ||
+      h.endsWith(".stat.gov.tw") ||
+      h === "www.moea.gov.tw" ||
+      h.endsWith(".moea.gov.tw")
+    );
+  } catch {
+    return false;
+  }
+}
+
+/** Node fetch fails on incomplete gov.tw cert chains; use https for those hosts only. */
+function fetchTextRelaxed(url) {
+  return new Promise((resolve, reject) => {
+    const u = new URL(url);
+    const req = https.request(
+      {
+        protocol: u.protocol,
+        hostname: u.hostname,
+        port: u.port || 443,
+        path: `${u.pathname}${u.search}`,
+        method: "GET",
+        agent: GOV_TLS_AGENT,
+        headers: { Accept: "text/html,application/json,*/*", "User-Agent": UA },
+      },
+      (res) => {
+        const chunks = [];
+        res.on("data", (c) => chunks.push(c));
+        res.on("end", () => {
+          const body = Buffer.concat(chunks).toString("utf8");
+          if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+            const next = new URL(res.headers.location, url).href;
+            fetchTextRelaxed(next).then(resolve, reject);
+            return;
+          }
+          if (res.statusCode < 200 || res.statusCode >= 300) {
+            reject(new Error(`HTTP ${res.statusCode} ${url}`));
+            return;
+          }
+          resolve(body);
+        });
+      }
+    );
+    req.on("error", reject);
+    req.end();
+  });
+}
+
 async function fetchText(url) {
+  if (needsGovTlsRelax(url)) return fetchTextRelaxed(url);
   const res = await fetch(url, {
     headers: { Accept: "text/html,application/json,*/*", "User-Agent": UA },
     redirect: "follow",

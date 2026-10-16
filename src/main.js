@@ -701,6 +701,7 @@ function renderApp(data, paper) {
   const logoUrl = `${import.meta.env.BASE_URL}logo.svg?v=5`;
 
   return `
+    <a class="skip-link" href="#main-content">${escapeHtml(t("skipToContent"))}</a>
     <header class="site-chrome">
       <div class="chrome-row">
         <div class="chrome-brand">
@@ -726,7 +727,7 @@ function renderApp(data, paper) {
       ${renderTwMacroStripSlot()}
     </header>
 
-    <main class="view-host">
+    <main class="view-host" id="main-content" tabindex="-1">
       <div class="view" id="view-today" data-view="today" hidden>
         <span id="today" class="view-anchor" tabindex="-1"></span>
         <header class="view-header view-header-tight">

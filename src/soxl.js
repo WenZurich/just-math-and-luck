@@ -52,12 +52,42 @@ function dirClass(n) {
   return n > 0 ? "sx-up" : "sx-down";
 }
 
+function isExtendedSession(session) {
+  return /overnight|extended|Blue Ocean|盤後|夜盤/i.test(String(session || ""));
+}
+
 function paint(root, data) {
   const q = data?.quote || {};
-  const chg = q.change;
-  const chgPct = q.changePct;
-  const dir = dirClass(chgPct ?? chg);
   const reg = q.regularClose;
+  // Finance desk: when Yahoo only has overnight/extended as "latest", show
+  // the last regular close as the hero number so closed-market readers are not
+  // misled. Overnight stays as a secondary line (no live overwrite of primary).
+  const useRegPrimary = reg?.price != null && isExtendedSession(q.session);
+  const primary = useRegPrimary
+    ? {
+        price: reg.price,
+        change: reg.change,
+        changePct: reg.changePct,
+        session: reg.session || t("soxlRegularClose"),
+      }
+    : {
+        price: q.price,
+        change: q.change,
+        changePct: q.changePct,
+        session: q.session,
+      };
+  const chg = primary.change;
+  const chgPct = primary.changePct;
+  const dir = dirClass(chgPct ?? chg);
+  const secondaryLine = useRegPrimary
+    ? `<p class="sx-regular sx-overnight">${escapeHtml(t("soxlOvernight"))}: $${escapeHtml(fmtNum(q.price, 2) || "—")}
+        <span class="${dirClass(q.changePct)}">${escapeHtml(fmtMoney(q.change, 2) || "")} (${escapeHtml(fmtPct(q.changePct, 2) || "")})</span>
+        ${q.session ? ` · ${escapeHtml(q.session)}` : ""}</p>`
+    : reg?.price != null
+      ? `<p class="sx-regular">${escapeHtml(t("soxlRegularClose"))}: $${escapeHtml(fmtNum(reg.price, 2))}
+          <span class="${dirClass(reg.changePct)}">${escapeHtml(fmtMoney(reg.change, 2) || "")} (${escapeHtml(fmtPct(reg.changePct, 2) || "")})</span>
+          ${reg.session ? ` · ${escapeHtml(reg.session)}` : ""}</p>`
+      : "";
 
   const hero = `
     <section class="sx-hero" aria-label="${escapeHtml(t("soxlHeroLabel"))}">
@@ -67,19 +97,13 @@ function paint(root, data) {
           <span class="sx-badge">3×</span>
           <span class="sx-fund">${escapeHtml(data?.fundName || t("soxlFundFallback"))}</span>
         </div>
-        <div class="sx-price-row ${dir}" data-lq="soxl" data-lq-sym="SOXL">
-          <span class="sx-price" data-lq-field="price">$${escapeHtml(fmtNum(q.price, 2) || "—")}</span>
+        <div class="sx-price-row ${dir}"${useRegPrimary ? "" : ' data-lq="soxl" data-lq-sym="SOXL"'}>
+          <span class="sx-price"${useRegPrimary ? "" : ' data-lq-field="price"'}>$${escapeHtml(fmtNum(primary.price, 2) || "—")}</span>
           <span class="sx-chg">${escapeHtml(fmtMoney(chg, 2) || "—")}</span>
-          <span class="sx-chgp" data-lq-field="dayPct">${escapeHtml(fmtPct(chgPct, 2) || "—")}</span>
+          <span class="sx-chgp"${useRegPrimary ? "" : ' data-lq-field="dayPct"'}>${escapeHtml(fmtPct(chgPct, 2) || "—")}</span>
         </div>
-        <p class="sx-session">${escapeHtml(q.session || "")} · ${escapeHtml(t("dataAsOf"))} ${escapeHtml(fmtAsOf(data?.asOf))}</p>
-        ${
-          reg?.price != null
-            ? `<p class="sx-regular">${escapeHtml(t("soxlRegularClose"))}: $${escapeHtml(fmtNum(reg.price, 2))}
-                <span class="${dirClass(reg.changePct)}">${escapeHtml(fmtMoney(reg.change, 2) || "")} (${escapeHtml(fmtPct(reg.changePct, 2) || "")})</span>
-                ${reg.session ? ` · ${escapeHtml(reg.session)}` : ""}</p>`
-            : ""
-        }
+        <p class="sx-session">${escapeHtml(primary.session || "")} · ${escapeHtml(t("dataAsOf"))} ${escapeHtml(fmtAsOf(data?.asOf))}</p>
+        ${secondaryLine}
       </div>
       <div class="sx-hero-side">
         <p class="sx-lev">${escapeHtml(t("soxlLeverageNote"))}</p>

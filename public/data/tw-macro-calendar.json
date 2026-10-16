@@ -1,11 +1,11 @@
 {
-  "asOf": "2026-10-08T00:13:15.008Z",
+  "asOf": "2026-10-16T01:39:28.779Z",
   "market": "TW",
   "timezone": "Asia/Taipei",
   "timezoneLabel": "台北時間",
   "window": {
-    "from": "2026-10-08",
-    "to": "2026-11-12"
+    "from": "2026-10-16",
+    "to": "2026-11-20"
   },
   "source": {
     "name": "DGBAS / CBC / TWSE / MOEA",
@@ -22,32 +22,6 @@
   },
   "stale": false,
   "events": [
-    {
-      "id": "twseHoliday-2026-10-09",
-      "eventKey": "twseHoliday",
-      "eventName": "台股休市 · 國慶日",
-      "shortName": "台股休市 · 國慶日",
-      "importance": "med",
-      "highImpact": false,
-      "scheduledAt": "2026-10-09T01:00:00.000Z",
-      "dayTw": "2026-10-09",
-      "periodLabel": "國慶日為10月10日適逢星期六，於10月9日（星期五）補假。",
-      "source": "twse",
-      "officialUrl": "https://www.twse.com.tw/zh/trading/holiday.html"
-    },
-    {
-      "id": "twseHoliday-2026-10-10",
-      "eventKey": "twseHoliday",
-      "eventName": "台股休市 · 國慶日",
-      "shortName": "台股休市 · 國慶日",
-      "importance": "med",
-      "highImpact": false,
-      "scheduledAt": "2026-10-10T01:00:00.000Z",
-      "dayTw": "2026-10-10",
-      "periodLabel": "依規定放假1日。",
-      "source": "twse",
-      "officialUrl": "https://www.twse.com.tw/zh/trading/holiday.html"
-    },
     {
       "id": "moeaExportOrders-2026-10-20T16:00:00+08:00",
       "eventKey": "moeaExportOrders",
@@ -138,6 +112,19 @@
       "periodLabel": "(11607)",
       "source": "行政院主計總處",
       "officialUrl": "https://www.stat.gov.tw/cl.aspx?n=2663"
+    },
+    {
+      "id": "moeaExportOrders-2026-11-20T16:00:00+08:00",
+      "eventKey": "moeaExportOrders",
+      "eventName": "外銷訂單統計",
+      "shortName": "外銷訂單",
+      "importance": "high",
+      "highImpact": true,
+      "scheduledAt": "2026-11-20T08:00:00.000Z",
+      "dayTw": "2026-11-20",
+      "periodLabel": "(11607)",
+      "source": "經濟部",
+      "officialUrl": "https://www.moea.gov.tw/mns/dos/bulletin/bulletin.aspx?kind=5&html=1&menu_id=6724"
     }
   ],
   "refreshHint": "npm run fetch-tw-macro  （可選 FETCH_TW_MACRO=1 接在 daily-scan 後）"

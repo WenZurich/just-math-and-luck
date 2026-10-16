@@ -2,7 +2,7 @@
   "market": "TW",
   "desk": "txf",
   "titleZh": "台指期",
-  "asOf": "2026-10-16T08:11:38+08:00",
+  "asOf": "2026-10-16T09:36:40+08:00",
   "sessionDate": "2026-10-15",
   "spot": {
     "nameZh": "發行量加權股價指數（TAIEX）",
@@ -661,7 +661,7 @@
       "MTX": 50,
       "TMF": 10
     },
-    "marginsAsOf": "2026-10-14",
+    "marginsAsOf": "2026-10-15",
     "currency": "TWD",
     "settlement": "cash",
     "noteZh": "模擬／紙上交易可用：點數差 × 契約乘數 × 口數＝損益（新臺幣）；保證金用 official initial／maintenance。數字皆來自公開來源快照，非即時成交。"
