@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-15T09:30:00+08:00",
+    "updated": "2026-10-16T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -8924,6 +8924,175 @@
       ],
       "sources": [
         "https://arxiv.org/abs/2610.15144"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-tw-day-trading-alert-2026",
+      "market": "TW",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "The impact of the new day-trading alert system on the Taiwan stock market",
+      "titleLocalized": {
+        "en": "The impact of the new day-trading alert system on the Taiwan stock market",
+        "zh-Hant": "台灣證交所新版當沖警示制度對台股的影響",
+        "zh-Hans": "台湾证交所新版当冲警示制度对台股的影响",
+        "ja": "台湾証券取引所の新しいデイトレード警告制度が台湾株に与えた影響"
+      },
+      "authors": [
+        "Ai-Chi Hsu",
+        "Shu-Bing Liu",
+        "Chu-Wen Chuang"
+      ],
+      "year": 2026,
+      "summary": "An event study of the day-trading alert announcements the Taiwan Stock Exchange started publishing on 27 Aug 2021. Stocks that appear on the alert list show clearly negative abnormal returns on the announcement day, and the weakness lasts for a few more days, so the alert itself creates short-term selling pressure. The drop is bigger for large-cap stocks and for stocks with a high margin-buying ratio, both signs of heavy retail participation. Main lesson: the alert works as a real market signal, especially in retail-driven names. Takeaway for the site: a candidate 'cool-off' filter for the TW screener and paper book (do not open a new buy on a name in the days right after it is put on the alert list); it does not create new picks.",
+      "summaryLocalized": {
+        "en": "Event study of TWSE day-trading alerts (since 27 Aug 2021): listed stocks fall on the alert day and stay weak for a few days, more so for large caps and high margin-buying names. The site lists it as a TW 'cool-off' filter candidate — skip new buys right after a stock is flagged.",
+        "zh-Hant": "研究證交所 2021 年 8 月 27 日起實施的新版當沖警示公告。被列入警示名單的股票，公告當天出現明顯負的異常報酬，而且弱勢會延續好幾天，代表警示本身就帶來短期賣壓。大型股、融資使用率高的股票跌得更多，這兩類都是散戶參與度高的特徵。重點：警示公告是真正有效的市場訊號，尤其對散戶主導的股票。本站把它列為台股選股與模擬倉的「冷卻期」過濾候選：股票剛被列入警示的那幾天不新開買單；它不會產生新的選股。",
+        "zh-Hans": "研究证交所 2021 年 8 月 27 日起实施的新版当冲警示公告。被列入警示名单的股票，公告当天出现明显负的异常报酬，而且弱势会延续好几天，代表警示本身就带来短期卖压。大型股、融资使用率高的股票跌得更多，这两类都是散户参与度高的特征。重点：警示公告是真正有效的市场信号，尤其对散户主导的股票。本站把它列为台股选股与模拟仓的“冷却期”过滤候选：股票刚被列入警示的那几天不新开买单；它不会产生新的选股。",
+        "ja": "台湾証券取引所が2021年8月27日に始めたデイトレード警告公告のイベントスタディ。警告銘柄は公告当日に明確なマイナスの異常リターンとなり、数日続く。大型株や信用買い比率の高い銘柄ほど下落が大きい。本サイトは台湾株スクリーナーと模擬口座の「クールダウン」フィルター候補として掲載（警告直後の数日は新規買いを見送る）。"
+      },
+      "plainTakeaways": [
+        "股票被證交所列入當沖警示的那天，平均會出現明顯的額外下跌",
+        "這股弱勢不是一天就結束，會再延續好幾天",
+        "大型股、融資買很多的股票（散戶多）跌得更明顯",
+        "本站只當台股的「冷卻期」過濾候選：剛被警示的股票先不新買；數學閘門通過前不改上線選股"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "股票被證交所列入當沖警示的那天，平均會出現明顯的額外下跌",
+          "這股弱勢不是一天就結束，會再延續好幾天",
+          "大型股、融資買很多的股票（散戶多）跌得更明顯",
+          "本站只當台股的「冷卻期」過濾候選：剛被警示的股票先不新買；數學閘門通過前不改上線選股"
+        ],
+        "zh-Hans": [
+          "股票被证交所列入当冲警示的那天，平均会出现明显的额外下跌",
+          "这股弱势不是一天就结束，会再延续好几天",
+          "大型股、融资买很多的股票（散户多）跌得更明显",
+          "本站只当台股的“冷却期”过滤候选：刚被警示的股票先不新买；数学闸门通过前不改上线选股"
+        ],
+        "en": [
+          "On the day a stock is put on the TWSE day-trading alert list, it tends to drop noticeably more than normal",
+          "The weakness does not end that day; it lasts for a few more days",
+          "Large caps and stocks bought heavily on margin (lots of retail traders) fall more",
+          "The site treats it only as a TW cool-off filter candidate: no new buys right after an alert; no live change until the math gate passes"
+        ],
+        "ja": [
+          "デイトレード警告に載った当日、株価は平常より目立って下がりやすい",
+          "弱さはその日で終わらず数日続く",
+          "大型株や信用買いの多い銘柄（個人投資家が多い）ほど下落が大きい",
+          "本サイトでは台湾株の「クールダウン」フィルター候補のみ：警告直後は新規買いしない。数学ゲート通過前はライブ選定を変えない"
+        ]
+      },
+      "formulas": [
+        "alert_t(i) ← 1 if stock i appears in the TWSE day-trading alert announcement on trading day t, else 0 (official TWSE public announcement; never inferred)",
+        "abnormal return (paper's event-study idea): AR(i,t) = r(i,t) − expected r(i,t) from a market model; CAR(0..k) = sum of AR from the alert day through day k",
+        "cool-off filter (site proposal): if alert_d(i)=1 for any d in the last N trading days (N≈3–5, to be tested), do not open a new paper-book buy in i; existing holdings follow normal exit rules",
+        "priority: apply the filter first to large caps and to stocks with a high margin-buying ratio, where the paper finds the strongest effect",
+        "check: compare TW paper-book results with and without the filter after TW costs (0.1425% fee each side, 0.3% sell tax) and on the count of skipped trades",
+        "site use: TW screener / paper-book exclusion candidate only; no live change until math gate passes"
+      ],
+      "strategyCandidate": "yes",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — day-trading-alert cool-off stays a TW screener/paper-book filter candidate; never status=adopted into the live screener until the gate passes.",
+      "tags": [
+        "tw",
+        "day-trading",
+        "regulation",
+        "event-study",
+        "retail",
+        "margin",
+        "filter",
+        "candidate"
+      ],
+      "sources": [
+        "https://ideas.repec.org/a/eee/reveco/v106y2026ics1059056026000183.html",
+        "https://doi.org/10.1016/j.iref.2026.104905"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-flex-options-iv-rv-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "options",
+      "title": "FOMO: FLEX Options and Market Outcomes",
+      "titleLocalized": {
+        "en": "FOMO: FLEX Options and Market Outcomes",
+        "zh-Hant": "FLEX 客製化選擇權與市場結果",
+        "zh-Hans": "FLEX 定制化期权与市场结果",
+        "ja": "FLEX オプションと市場への影響"
+      },
+      "authors": [
+        "Shivesh Prakash",
+        "Frank Ferstler",
+        "Nicholas Pezolano"
+      ],
+      "year": 2026,
+      "summary": "FLEX options are exchange-cleared contracts whose strike, expiry and style can be customized. Using about a year of data (Mar 2025–Mar 2026) on 41 US single names outside the S&P 500, the authors find that after a FLEX trade appears, open interest in the regular listed options of that stock rises versus matched peers, and FLEX activity clusters in stocks whose implied volatility is already high. The stock price moves only on the event day and the effect fades within a day, so it is not a direction signal. The most useful finding is about volatility: when implied volatility is well above recent realized volatility, a short straddle tended to make money even after bid-ask and fee costs, though the strongest subset was only 11 trades. Takeaway for the site: a watch item for the US options desk's 'option premium rich or cheap' explanation (McMillan's volatility chapters), not a trading rule.",
+      "summaryLocalized": {
+        "en": "Customized FLEX option trades in US single names (ex-S&P 500, Mar 2025–Mar 2026) are followed by more listed-option open interest and cluster in high-IV stocks; stock-price effects fade within a day. When implied volatility is far above recent realized volatility, short straddles tended to profit after costs, but on very few trades. Watch item for the US options desk's IV-vs-realized explanation.",
+        "zh-Hant": "FLEX 是可以自訂履約價、到期日與型式、但仍由交易所結算的選擇權。作者用 2025 年 3 月到 2026 年 3 月、41 檔不在 S&P 500 的美股個股資料發現：出現 FLEX 交易後，該股一般上市選擇權的未平倉量相對同類股增加，而且 FLEX 交易多集中在隱含波動率本來就偏高的股票。股價只有當天有反應、隔天就消失，所以不能拿來猜漲跌。最有用的發現在波動率：隱含波動率明顯高於最近實際波動時，賣出跨式（同時賣買權和賣權）扣掉買賣價差與手續費後平均仍賺錢，但最強的那組只有 11 筆。本站把它列為美股選擇權區「權利金偏貴還是偏便宜」說明的觀察項目（對應 McMillan 波動率章節），不是交易規則。",
+        "zh-Hans": "FLEX 是可以自定行权价、到期日与类型、但仍由交易所结算的期权。作者用 2025 年 3 月到 2026 年 3 月、41 只不在 S&P 500 的美股个股数据发现：出现 FLEX 交易后，该股一般上市期权的未平仓量相对同类股增加，而且 FLEX 交易多集中在隐含波动率本来就偏高的股票。股价只有当天有反应、隔天就消失，所以不能拿来猜涨跌。最有用的发现在波动率：隐含波动率明显高于最近实际波动时，卖出跨式扣掉买卖价差与手续费后平均仍赚钱，但最强的那组只有 11 笔。本站把它列为美股期权区“权利金偏贵还是偏便宜”说明的观察项目（对应 McMillan 波动率章节），不是交易规则。",
+        "ja": "権利行使価格や満期を自由に決められるFLEXオプション（米個別株、S&P500除く、2025年3月〜2026年3月）。取引後は通常オプションの建玉が増え、IVが高い銘柄に集中。株価への影響は当日のみ。IVが直近の実現ボラを大きく上回る時、コスト控除後もショート・ストラドルが平均で利益だったが、件数はごく少数。米国オプション欄のIV対実現ボラ解説の観察項目。"
+      },
+      "plainTakeaways": [
+        "大戶做客製化選擇權（FLEX）後，這檔股票的一般選擇權未平倉量會跟著變多",
+        "FLEX 多出現在權利金本來就偏貴（隱含波動率高）的股票",
+        "股價只有當天受影響，隔天就消失，不能拿來猜漲跌",
+        "權利金明顯比最近實際波動貴時，賣方扣成本後平均有賺，但樣本很少；本站只當美股選擇權區的觀察項目"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "大戶做客製化選擇權（FLEX）後，這檔股票的一般選擇權未平倉量會跟著變多",
+          "FLEX 多出現在權利金本來就偏貴（隱含波動率高）的股票",
+          "股價只有當天受影響，隔天就消失，不能拿來猜漲跌",
+          "權利金明顯比最近實際波動貴時，賣方扣成本後平均有賺，但樣本很少；本站只當美股選擇權區的觀察項目"
+        ],
+        "zh-Hans": [
+          "大户做定制化期权（FLEX）后，这只股票的一般期权未平仓量会跟着变多",
+          "FLEX 多出现在权利金本来就偏贵（隐含波动率高）的股票",
+          "股价只有当天受影响，隔天就消失，不能拿来猜涨跌",
+          "权利金明显比最近实际波动贵时，卖方扣成本后平均有赚，但样本很少；本站只当美股期权区的观察项目"
+        ],
+        "en": [
+          "After big players trade customized FLEX options on a stock, open interest in its regular options tends to rise",
+          "FLEX trades show up mostly in stocks whose option premiums are already expensive (high implied volatility)",
+          "The stock price is affected only on the day itself, so it cannot be used to guess direction",
+          "When premiums are much richer than recent actual moves, option sellers made money on average after costs, but on very few trades; watch item only"
+        ],
+        "ja": [
+          "大口がFLEXを取引すると、その銘柄の通常オプションの建玉が増えやすい",
+          "FLEXはプレミアムがもともと高い（IVが高い）銘柄に多い",
+          "株価への影響は当日だけで、方向予測には使えない",
+          "プレミアムが実際の値動きより大幅に割高な時、売り手はコスト後も平均で利益だが件数は少ない。観察項目のみ"
+        ]
+      },
+      "formulas": [
+        "IV_atm ← median implied volatility of listed options with strike within ±5% of the stock price (public Yahoo options chain)",
+        "RV20 ← annualized standard deviation of the last 20 daily log returns × √252",
+        "rich_premium ← IV_atm − RV20 (positive = options priced for bigger moves than the stock has been making)",
+        "one-day expected move (paper's proxy): M ≈ 0.8 × IV_atm × √(1/252)",
+        "short-straddle one-day result after costs (paper's stress test): M × (1 − s/2) − |next-day return| × (1 + s/2) − fees, where s = relative bid-ask spread",
+        "site use: US options desk explanation only (label premiums 'rich' when IV_atm is well above RV20); no trades, no live screener change; paper sample excludes S&P 500 names and has only 11 trades in the best subset"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — IV-minus-realized-vol 'rich premium' label stays a US options-desk watch item; never status=adopted until the gate passes and an out-of-sample check on the site's own tickers is done.",
+      "tags": [
+        "us",
+        "options",
+        "flex",
+        "implied-volatility",
+        "realized-volatility",
+        "volatility-carry",
+        "short-straddle",
+        "watch"
+      ],
+      "sources": [
+        "https://arxiv.org/abs/2610.13044"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",
       "coverFallback": "./covers/placeholder-paper.svg"
