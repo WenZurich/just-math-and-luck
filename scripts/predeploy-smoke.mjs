@@ -582,6 +582,9 @@ async function main() {
   if (!mainJs.includes("skip-link") || !mainJs.includes("main-content") || !mainJs.includes("skipToContent")) {
     fail("main.js missing skip-to-content a11y link");
   } else ok("skip-to-content a11y link present");
+  if (!mainJs.includes("syncDocumentTitle") || !mainJs.includes("focusMainContent")) {
+    fail("main.js missing SPA nav title/focus a11y helpers");
+  } else ok("SPA nav document.title + main focus helpers present");
   {
     const i18nSx = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
     if (!i18nSx.includes("navSoxl") || !i18nSx.includes("soxlDisclaimer") || !i18nSx.includes("soxlTitle")) {

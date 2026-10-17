@@ -2,20 +2,15 @@
   "market": "US",
   "ticker": "SOXL",
   "fundName": "Direxion Daily Semiconductor Bull 3X ETF",
-  "asOf": "2026-10-16T01:36:39.936Z",
+  "asOf": "2026-10-17T01:38:31.665Z",
   "quote": {
-    "price": 105.66,
-    "change": -1.69,
-    "changePct": -1.57,
+    "price": 93.67,
+    "change": -13.68,
+    "changePct": -12.74,
     "currency": "USD",
-    "session": "overnight / extended (Yahoo)",
+    "session": "NYSE Arca regular close (October 16 at 4:00:01 PM EDT)",
     "source": "https://finance.yahoo.com/quote/SOXL/",
-    "regularClose": {
-      "price": 107.35,
-      "change": -3.19,
-      "changePct": -2.89,
-      "session": "NYSE Arca regular close (October 15 at 4:00:01 PM EDT)"
-    }
+    "regularClose": null
   },
   "holdingsAsOf": "2026-01-31",
   "holdingsSource": {
@@ -27,6 +22,15 @@
   "holdingsFreshnessNote": "Holdings weights are from the latest SOXL SEC N-PORT located in research (period ended 2026-01-31), not a same-day Direxion CSV. Cash + index swaps dominate reported net assets; daily weights change.",
   "leverageNote": "SOXL seeks ~3× the daily performance of the ICE Semiconductor Index. Contribution ≈ weight × return is an unlevered basket estimate only; ETF moves are magnified and path-dependent.",
   "events": [
+    {
+      "type": "anomaly",
+      "severity": "high",
+      "title": "正規盤大波動 -12.74%",
+      "detail": "Yahoo 顯示 SOXL 正規收盤約 $93.67（-12.74% / -13.68）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
+      "sources": [
+        "https://finance.yahoo.com/quote/SOXL/"
+      ]
+    },
     {
       "type": "structure",
       "severity": "info",
@@ -52,15 +56,6 @@
       "detail": "DividendInvestor reports a $0.0929 per-share distribution declared September 21, with a September 29 payment date for holders of record September 22.",
       "sources": [
         "https://www.dividendinvestor.com/dividend-news/20260921/daily-semiconductor-bull-3x-shs-direxion-shares-exchange-traded-fund-trust-nyse-soxl-declared-a-dividend-of-$0.0929-per-share/"
-      ]
-    },
-    {
-      "type": "session",
-      "severity": "info",
-      "title": "目前顯示隔夜／延長時段報價",
-      "detail": "最新報價時段：overnight / extended (Yahoo)。正規收盤另見 hero 備註。",
-      "sources": [
-        "https://finance.yahoo.com/quote/SOXL/"
       ]
     }
   ],
@@ -138,10 +133,10 @@
       "published": "2026-08-05"
     },
     {
-      "title": "Why Direxion Daily Semiconductor Bull 3X ETF Jumped Today",
-      "summary": "Some of SOXL's favorite semiconductor stocks are very popular this morning.",
-      "url": "https://www.fool.com/investing/2026/08/04/why-direxion-daily-semiconductor-bull-3x-etf-jumpe/?.tsrc=rss",
-      "published": "2026-08-04"
+      "title": "ETF Fund Flows: Semiconductors, Leveraged ETFs Dominate",
+      "summary": "&lt;p&gt;Semiconductor and leveraged ETFs dominated flows on October 14 in a busy day for international equities. &lt;/p&gt;",
+      "url": "http://www.etf.com/sections/daily-etf-flows/etf-fund-flows-semiconductors-leveraged-etfs-dominate?utm_source=yahoo-finance&amp;utm_medium=rss&amp;utm_campaign=yahoo-finance-rss&amp;.tsrc=rss",
+      "published": "2026-10-15"
     },
     {
       "title": "Why Direxion Daily Semiconductor Bull 3X ETF Just Popped",
@@ -526,7 +521,7 @@
     "Research seed: /workspace/soxl-research/soxl-holdings-raw.json",
     "SEC N-PORT: https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
     "Yahoo quote page: https://finance.yahoo.com/quote/SOXL/",
-    "Yahoo quote HTML refresh @ 2026-10-16T01:36:39.936Z",
+    "Yahoo quote HTML refresh @ 2026-10-17T01:38:31.665Z",
     "https://feeds.finance.yahoo.com/rss/2.0/headline?s=SOXL&region=US&lang=en-US"
   ],
   "blockers": [

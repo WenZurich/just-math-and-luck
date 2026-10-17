@@ -911,6 +911,22 @@ function setNavActive(root, viewId) {
   });
 }
 
+function syncDocumentTitle(viewId) {
+  const site = t("siteTitle");
+  const view = getViews().find((v) => v.id === viewId);
+  document.title = view?.label ? `${view.label} · ${site}` : site;
+}
+
+function focusMainContent(root) {
+  const main = root?.querySelector?.("#main-content");
+  if (!main) return;
+  try {
+    main.focus({ preventScroll: true });
+  } catch {
+    main.focus();
+  }
+}
+
 function showView(root, viewId, { updateHash = true, scrollTop = true } = {}) {
   const id = HASH_ALIASES[viewId] || "today";
   root.querySelectorAll(".view").forEach((el) => {
@@ -920,6 +936,7 @@ function showView(root, viewId, { updateHash = true, scrollTop = true } = {}) {
   });
   setNavActive(root, id);
   setMoreSheetOpen(root, false);
+  syncDocumentTitle(id);
   if (updateHash) {
     const next = `#${id}`;
     if (location.hash !== next) {
@@ -928,6 +945,8 @@ function showView(root, viewId, { updateHash = true, scrollTop = true } = {}) {
   }
   if (scrollTop) {
     window.scrollTo(0, 0);
+    // Keyboard / SR: after SPA nav, land in main (pairs with skip-link).
+    focusMainContent(root);
   }
   return id;
 }
