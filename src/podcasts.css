@@ -239,4 +239,42 @@
   font-weight: 700;
   color: var(--accent);
 }
+.pc-menu-latest {
+  align-self: stretch;
+  margin-top: 0.15rem;
+  padding: 0.5rem 0.6rem;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  min-width: 0;
+}
+.pc-menu-latest p { margin: 0; }
+.pc-menu-latest-title {
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text, inherit);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+.pc-menu-latest-meta {
+  margin-top: 0.15rem;
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.pc-menu-new {
+  display: inline-block;
+  margin-right: 0.4rem;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  vertical-align: 0.08em;
+  color: #fff;
+  background: var(--accent);
+}
 .pc-panel { min-height: 2rem; }

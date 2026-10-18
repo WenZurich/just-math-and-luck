@@ -2,7 +2,7 @@
   "market": "US",
   "ticker": "SOXL",
   "fundName": "Direxion Daily Semiconductor Bull 3X ETF",
-  "asOf": "2026-10-17T01:38:31.665Z",
+  "asOf": "2026-10-18T01:35:15.705Z",
   "quote": {
     "price": 93.67,
     "change": -13.68,
@@ -521,7 +521,7 @@
     "Research seed: /workspace/soxl-research/soxl-holdings-raw.json",
     "SEC N-PORT: https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
     "Yahoo quote page: https://finance.yahoo.com/quote/SOXL/",
-    "Yahoo quote HTML refresh @ 2026-10-17T01:38:31.665Z",
+    "Yahoo quote HTML refresh @ 2026-10-18T01:35:15.705Z",
     "https://feeds.finance.yahoo.com/rss/2.0/headline?s=SOXL&region=US&lang=en-US"
   ],
   "blockers": [

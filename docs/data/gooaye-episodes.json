@@ -1,10 +1,10 @@
 {
   "id": "gooaye-episodes",
-  "asOf": "2026-09-26T06:21:14+08:00",
+  "asOf": "2026-10-18T09:36:45+08:00",
   "timezone": "Asia/Taipei",
   "status": "candidate",
   "mathGate": "closed",
-  "disclaimer": "Not investment advice. Candidate/watch; math gate closed. Episodes marked notesQuality=listened include 股票重點分析 written after downloading public SoundOn audio and reading a speech-to-text transcript. RSS-only episodes still show show-note teasers only — do not treat those as listened analysis. Host views only; no invented tickers, prices, or quotes.",
+  "disclaimer": "Not investment advice. Candidate/watch; math gate closed. Episodes with notesQuality=listened include 股票重點分析 after public audio download + speech-to-text review. RSS-only episodes are show-note teasers only. Host views; no invented tickers, prices, or quotes.",
   "show": {
     "name": "Gooaye 股癌",
     "host": "謝孟恭",
@@ -26,15 +26,139 @@
     }
   ],
   "counts": {
-    "total": 699,
-    "withKeyPoints": 698,
-    "notesTeaser": 533,
+    "total": 706,
+    "withKeyPoints": 705,
+    "notesTeaser": 539,
     "notesTitleOnly": 1,
     "notesEmpty": 1,
     "listened": 66,
-    "rssOnly": 633
+    "rssOnly": 640
   },
   "episodes": [
+    {
+      "id": "b815e52b-b0b9-47d2-980b-baf1857cd604",
+      "ep": 706,
+      "title": "EP706 | 👑",
+      "subtitle": "👑",
+      "pubDate": "Sat, 17 Oct 2026 06:49:12 GMT",
+      "pubDateIso": "2026-10-17T06:49:12.000Z",
+      "pubDateTw": "2026-10-17",
+      "durationSec": 3126,
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/b815e52b-b0b9-47d2-980b-baf1857cd604",
+      "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
+      "keyPoints": [
+        "跳跳車",
+        "高達 2000 顆獨立筒，是一般同級產品三倍的數量",
+        "要堆料 就堆好堆滿，給你源源不絕的支撐力",
+        "一層低反發記憶棉，再一層義大利進口純天然乳膠",
+        "在綿密安定中保有 Q 彈的童心，穩重又有趣",
+        "100％ 天絲布料"
+      ],
+      "notesQuality": "rich",
+      "source": "soundon-rss"
+    },
+    {
+      "id": "8d310d75-919d-4cc9-9530-75ac4dd6a7b9",
+      "ep": 705,
+      "title": "EP705 | 🎀",
+      "subtitle": "🎀",
+      "pubDate": "Wed, 14 Oct 2026 07:28:22 GMT",
+      "pubDateIso": "2026-10-14T07:28:22.000Z",
+      "pubDateTw": "2026-10-14",
+      "durationSec": 2998,
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/8d310d75-919d-4cc9-9530-75ac4dd6a7b9",
+      "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
+      "keyPoints": [
+        "佳句產生器"
+      ],
+      "notesQuality": "teaser",
+      "source": "soundon-rss"
+    },
+    {
+      "id": "e6664835-0084-491c-acfb-f35535f2c121",
+      "ep": 704,
+      "title": "EP704 | 🐘",
+      "subtitle": "🐘",
+      "pubDate": "Sat, 10 Oct 2026 08:07:02 GMT",
+      "pubDateIso": "2026-10-10T08:07:02.000Z",
+      "pubDateTw": "2026-10-10",
+      "durationSec": 3016,
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/e6664835-0084-491c-acfb-f35535f2c121",
+      "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
+      "keyPoints": [
+        "紐西蘭夫妻要幸福唷"
+      ],
+      "notesQuality": "teaser",
+      "source": "soundon-rss"
+    },
+    {
+      "id": "0b071f57-45ba-47d3-9f15-2129a0c645a8",
+      "ep": 703,
+      "title": "EP703 | 🏈",
+      "subtitle": "🏈",
+      "pubDate": "Wed, 07 Oct 2026 08:09:40 GMT",
+      "pubDateIso": "2026-10-07T08:09:40.000Z",
+      "pubDateTw": "2026-10-07",
+      "durationSec": 3044,
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/0b071f57-45ba-47d3-9f15-2129a0c645a8",
+      "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
+      "keyPoints": [
+        "可能生來就是喜歡擔心東擔心西"
+      ],
+      "notesQuality": "teaser",
+      "source": "soundon-rss"
+    },
+    {
+      "id": "42301381-6003-4b54-a28d-290a3fd2e258",
+      "ep": 702,
+      "title": "EP702 | 🐉",
+      "subtitle": "🐉",
+      "pubDate": "Sat, 03 Oct 2026 07:18:09 GMT",
+      "pubDateIso": "2026-10-03T07:18:09.000Z",
+      "pubDateTw": "2026-10-03",
+      "durationSec": 3218,
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/42301381-6003-4b54-a28d-290a3fd2e258",
+      "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
+      "keyPoints": [
+        "氣氛對了真相就淡薄了"
+      ],
+      "notesQuality": "teaser",
+      "source": "soundon-rss"
+    },
+    {
+      "id": "2ab843a8-d7f8-4655-a73d-609b81c59baa",
+      "ep": 701,
+      "title": "EP701 | 🐡",
+      "subtitle": "🐡",
+      "pubDate": "Wed, 30 Sep 2026 07:54:31 GMT",
+      "pubDateIso": "2026-09-30T07:54:31.000Z",
+      "pubDateTw": "2026-09-30",
+      "durationSec": 3080,
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/2ab843a8-d7f8-4655-a73d-609b81c59baa",
+      "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
+      "keyPoints": [
+        "願氣氛降臨 !"
+      ],
+      "notesQuality": "teaser",
+      "source": "soundon-rss"
+    },
+    {
+      "id": "6e0078b2-5a15-4f1d-95dd-16545ab2a236",
+      "ep": 700,
+      "title": "EP700 | 🪭",
+      "subtitle": "🪭",
+      "pubDate": "Sat, 26 Sep 2026 06:40:54 GMT",
+      "pubDateIso": "2026-09-26T06:40:54.000Z",
+      "pubDateTw": "2026-09-26",
+      "durationSec": 3001,
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/6e0078b2-5a15-4f1d-95dd-16545ab2a236",
+      "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
+      "keyPoints": [
+        "ultimate father and son relationship"
+      ],
+      "notesQuality": "teaser",
+      "source": "soundon-rss"
+    },
     {
       "id": "07a93403-e26a-4a8b-a53a-497aa4e9ca20",
       "ep": 699,
@@ -13442,11 +13566,5 @@
       "notesQuality": "rich",
       "source": "soundon-rss"
     }
-  ],
-  "listenPipeline": {
-    "script": "scripts/listen-gooaye-episodes.mjs",
-    "analysisPack": "scripts/gooaye-stock-analysis.json",
-    "transcriptModel": "faster-whisper small int8 (zh)",
-    "updatedAt": "2026-09-26T06:21:14+08:00"
-  }
+  ]
 }

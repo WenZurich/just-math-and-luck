@@ -1,0 +1,38 @@
+{
+  "asOf": "2026-10-18T01:39:38.328Z",
+  "timezone": "Asia/Taipei",
+  "shows": {
+    "gooaye": {
+      "kind": "episodes",
+      "count": 706,
+      "latestEp": 706,
+      "latestTitle": "EP706 | 👑",
+      "latestDate": "2026-10-17",
+      "catalogAsOf": "2026-10-18T09:36:45+08:00"
+    },
+    "xiaojun": {
+      "kind": "episodes",
+      "count": 157,
+      "latestEp": 154,
+      "latestTitle": "154. 对Dyna创始人Lindon的3小时访谈：机器人世界的迷雾、分歧与抉择，修心、《沉思录》与王阳明",
+      "latestDate": "2026-10-15",
+      "catalogAsOf": "2026-10-18T09:36:49+08:00"
+    },
+    "whynottv": {
+      "kind": "episodes",
+      "count": 5,
+      "latestEp": 5,
+      "latestTitle": "Danfei Xu：人类数据，行为克隆，机器人GPT-3，全栈，EgoMimic，遥操作，UMI，斯坦福 | WhynotTV Podcast #5",
+      "latestDate": "2026-05-01",
+      "catalogAsOf": "2026-10-18T09:36:50+08:00"
+    },
+    "zhang-junan": {
+      "kind": "posts",
+      "count": 348,
+      "latestEp": null,
+      "latestTitle": "2021年度總結",
+      "latestDate": "2022-01-02",
+      "catalogAsOf": "2026-10-18T09:37:50+08:00"
+    }
+  }
+}

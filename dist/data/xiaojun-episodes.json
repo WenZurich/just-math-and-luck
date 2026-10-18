@@ -1,6 +1,6 @@
 {
   "id": "xiaojun-episodes",
-  "asOf": "2026-09-26T03:49:08+08:00",
+  "asOf": "2026-10-18T09:36:49+08:00",
   "timezone": "Asia/Taipei",
   "status": "candidate",
   "mathGate": "closed",
@@ -26,21 +26,43 @@
     }
   ],
   "counts": {
-    "total": 156,
-    "withKeyPoints": 156,
+    "total": 157,
+    "withKeyPoints": 157,
     "notesTeaser": 0,
     "notesTitleOnly": 0,
     "notesEmpty": 0,
     "listened": 8,
-    "rssOnly": 148
+    "rssOnly": 149
   },
   "listenPipeline": {
     "script": "scripts/listen-xiaojun-episodes.mjs",
     "analysisPack": "scripts/xiaojun-stock-analysis.json",
     "transcriptModel": "faster-whisper small int8 (zh)",
-    "updatedAt": "2026-09-26T03:49:08+08:00"
+    "updatedAt": "2026-10-18T09:36:49+08:00"
   },
   "episodes": [
+    {
+      "id": "6acf81f0195d838e2af1e281",
+      "ep": 154,
+      "title": "154. 对Dyna创始人Lindon的3小时访谈：机器人世界的迷雾、分歧与抉择，修心、《沉思录》与王阳明",
+      "subtitle": "对Dyna创始人Lindon的3小时访谈：机器人世界的迷雾、分歧与抉择，修心、《沉思录》与王阳明",
+      "pubDate": "Thu, 15 Oct 2026 00:00:00 GMT",
+      "pubDateIso": "2026-10-15T00:00:00.000Z",
+      "pubDateTw": "2026-10-15",
+      "durationSec": 10278,
+      "link": "https://www.xiaoyuzhoufm.com/episode/6acf81f0195d838e2af1e281?utm_source=rss",
+      "appleShowUrl": "https://podcasts.apple.com/tw/podcast/%E5%BC%A0%E5%B0%8F%E7%8F%BAj%C3%B9n-%E5%95%86%E4%B8%9A%E8%AE%BF%E8%B0%88%E5%BD%95/id1634356920",
+      "keyPoints": [
+        "今天我们的嘉宾是一位美国连续创业者，Dyna Robotics创始人兼CEO Lindon Gao。",
+        "此前，他做过两段生意，一次完整的创业。",
+        "Dyna可以说是他的第四次创业了。",
+        "在硅谷，Dyna和之前来过我们节目的Pi（Physical Intelligence）的纯大脑研究路线非常不一样。",
+        "相比从通用智能出发、探索机器人大脑的研究路径， Dyna选择了一条“Product-research”的道路：以具体的工作流为最小单元，从真实任务出发，反过来驱动模型的预训练。",
+        "全球机器人行业还远远没有达到收敛的时刻。"
+      ],
+      "notesQuality": "rich",
+      "source": "xyzfm-rss"
+    },
     {
       "id": "6a97f287f03e74ee6b03ea5b",
       "ep": 153,

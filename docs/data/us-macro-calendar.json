@@ -1,11 +1,11 @@
 {
-  "asOf": "2026-10-17T01:38:31.637Z",
+  "asOf": "2026-10-18T01:35:17.829Z",
   "market": "US",
   "timezone": "America/New_York",
   "timezoneLabel": "US ET",
   "window": {
-    "from": "2026-10-16",
-    "to": "2026-11-20"
+    "from": "2026-10-17",
+    "to": "2026-11-21"
   },
   "source": {
     "name": "XOOMAR",

@@ -101,6 +101,59 @@ const CAT_ALIASES = {
   "": "menu",
 };
 
+/** Shows whose menu card gets a "最新一集・日期・總集數" line from podcast-latest.json. */
+const LATEST_IDS = new Set(["gooaye", "xiaojun", "whynottv", "zhang-junan"]);
+const LATEST_URL = "./data/podcast-latest.json";
+const NEW_WINDOW_DAYS = 7;
+let latestPromise = null;
+
+function loadLatest() {
+  if (!latestPromise) {
+    latestPromise = fetch(LATEST_URL, { cache: "no-cache" })
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null)
+      .then((j) => {
+        if (!j) latestPromise = null;
+        return j;
+      });
+  }
+  return latestPromise;
+}
+
+function fmtLatestDate(ymd) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(ymd || "");
+  return m ? `${m[1]}/${m[2]}/${m[3]}` : "";
+}
+
+function isRecent(ymd) {
+  const tms = Date.parse(`${ymd}T00:00:00+08:00`);
+  if (!Number.isFinite(tms)) return false;
+  const ageDays = (Date.now() - tms) / 86_400_000;
+  return ageDays >= -1 && ageDays <= NEW_WINDOW_DAYS;
+}
+
+/** Fill the menu cards' latest-episode lines; silently leaves them hidden if the summary is missing. */
+async function hydrateLatest(root) {
+  const j = await loadLatest();
+  const shows = j?.shows;
+  if (!shows) return;
+  root.querySelectorAll("[data-pc-latest]").forEach((el) => {
+    const s = shows[el.dataset.pcLatest];
+    const date = fmtLatestDate(s?.latestDate);
+    if (!s || !s.latestTitle || !date || !Number.isFinite(s.count)) return;
+    const posts = s.kind === "posts";
+    const fresh = !posts && isRecent(s.latestDate);
+    el.innerHTML = `
+      <p class="pc-menu-latest-title">${fresh ? `<span class="pc-menu-new">${escapeHtml(t("podcastsNewBadge"))}</span>` : ""}${escapeHtml(
+        t(posts ? "podcastsLatestPost" : "podcastsLatestEpisode", { title: s.latestTitle })
+      )}</p>
+      <p class="pc-menu-latest-meta">${escapeHtml(
+        t(posts ? "podcastsLatestMetaPosts" : "podcastsLatestMeta", { date, n: String(s.count) })
+      )}</p>`;
+    el.hidden = false;
+  });
+}
+
 let activeCategory = "menu";
 let podcastRootEl = null;
 
@@ -178,6 +231,7 @@ function categoryMenuCards() {
         <h3 class="pc-menu-title">${escapeHtml(t(c.titleKey))}</h3>
         ${handle}
         <p class="pc-menu-blurb">${escapeHtml(t(c.blurbKey))}</p>
+        ${LATEST_IDS.has(c.id) ? `<div class="pc-menu-latest" data-pc-latest="${escapeHtml(c.id)}" hidden></div>` : ""}
         <span class="pc-menu-cta">${escapeHtml(t("podcastsOpenCategory"))}</span>
       </button>`;
   }).join("");
@@ -243,6 +297,7 @@ function paintPodcasts(root, catId, { syncUrl = true } = {}) {
     });
   });
 
+  if (cat === "menu") hydrateLatest(root);
   if (cat === "godzilla") initGodzilla("#gz-root");
   if (cat === "jensen") initJensen("#jh-root");
   if (cat === "gooaye") initGooaye("#gy-root");

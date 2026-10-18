@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-17T01:39:29.312Z",
+  "asOf": "2026-10-18T01:36:02.273Z",
   "market": "US",
   "twStub": {
     "status": "planned",
@@ -253,7 +253,7 @@
       "forwardPe": 20.48,
       "marketCap": 1807009841152,
       "consensusEpsNext": 6.7591,
-      "consensusRevNext": 63378695790,
+      "consensusRevNext": 63388570790,
       "whatItDoes": "Meta Platforms, Inc. engages in the development of products that enable people to connect and share with friends and family through mobile devices, personal computers, virtual reality (VR) headsets, and AI glasses in the…",
       "missingFields": [],
       "sources": [
@@ -325,7 +325,7 @@
       "epsYoYSource": null,
       "pe": null,
       "forwardPe": 73.46,
-      "marketCap": 1924935319552,
+      "marketCap": 1923826450432,
       "consensusEpsNext": 0.133,
       "consensusRevNext": 13022556560,
       "whatItDoes": "Space Exploration Technologies Corp. provides satellite-based broadband services in the United States, Ireland, Canada, and internationally. It operates through three operating segments: Space, Connectivity, and AI.",
@@ -344,7 +344,7 @@
       ],
       "whatToWatch": "關注 2026-10-20 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +91.9%（Yahoo）；本益比暫缺，勿硬套估值",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 3,
+      "daysToEarnings": 2,
       "pool": "most_actives"
     },
     {
@@ -368,7 +368,7 @@
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 42.2,
       "forwardPe": 26.64,
-      "marketCap": 1120945700864,
+      "marketCap": 1120462569472,
       "consensusEpsNext": 7.1079,
       "consensusRevNext": 22498261460,
       "whatItDoes": "Eli Lilly and Company discovers, develops, manufactures, and markets human pharmaceutical products in the United States, Europe, China, Japan, and internationally.",
@@ -383,7 +383,7 @@
       ],
       "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +47.7%（Yahoo）；獲利成長約 +26.2%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 12,
+      "daysToEarnings": 11,
       "pool": "mega_cap"
     },
     {
@@ -422,7 +422,7 @@
       ],
       "whatToWatch": "關注 2026-10-27 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +14.4%（Yahoo）；獲利成長約 +10.2%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 10,
+      "daysToEarnings": 9,
       "pool": "mega_cap"
     },
     {
@@ -445,10 +445,10 @@
       "epsYoYPct": 112.8,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 23.03,
-      "forwardPe": 15.49,
+      "forwardPe": 15.09,
       "marketCap": 735950012416,
-      "consensusEpsNext": 3.9258,
-      "consensusRevNext": 104785094230,
+      "consensusEpsNext": 3.981,
+      "consensusRevNext": 104025707460,
       "whatItDoes": "ExxonMobil Holdings Corporation engages in the exploration and production of crude oil and natural gas in the United States, Canada, and internationally.",
       "missingFields": [],
       "sources": [
@@ -457,11 +457,11 @@
       "notes": [
         "下次財報約 2026-10-30",
         "最近一季（2026-06-30）：EPS 4.11",
-        "市場預估下次 EPS 約 3.9258（Yahoo）"
+        "市場預估下次 EPS 約 3.981（Yahoo）"
       ],
       "whatToWatch": "關注 2026-10-30 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +44.1%（Yahoo）；獲利成長約 +112.8%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 13,
+      "daysToEarnings": 12,
       "pool": "mega_cap"
     },
     {
@@ -484,7 +484,7 @@
       "epsYoYPct": 22.1,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 33.96,
-      "forwardPe": 26.75,
+      "forwardPe": 26.8,
       "marketCap": 540866019328,
       "consensusEpsNext": 5.1617,
       "consensusRevNext": 9648431200,
@@ -500,7 +500,7 @@
       ],
       "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +14.1%（Yahoo）；獲利成長約 +22.1%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 12,
+      "daysToEarnings": 11,
       "pool": "mega_cap"
     },
     {
@@ -539,7 +539,7 @@
       ],
       "whatToWatch": "關注 2026-10-30 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +10.2%（Yahoo）；獲利成長約 +290.4%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 13,
+      "daysToEarnings": 12,
       "pool": "mega_cap"
     },
     {
@@ -582,7 +582,7 @@
       ],
       "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +25.4%（Yahoo）；本益比暫缺，勿硬套估值",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 12,
+      "daysToEarnings": 11,
       "pool": "mega_cap+most_actives"
     },
     {
@@ -605,7 +605,7 @@
       "epsYoYPct": 16.9,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 28.2,
-      "forwardPe": 26.64,
+      "forwardPe": 26.65,
       "marketCap": 404009353216,
       "consensusEpsNext": 0.8809,
       "consensusRevNext": 12925421630,
@@ -621,7 +621,7 @@
       ],
       "whatToWatch": "關注 2026-10-27 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +6.7%（Yahoo）；獲利成長約 +16.9%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 10,
+      "daysToEarnings": 9,
       "pool": "mega_cap"
     },
     {
@@ -645,7 +645,7 @@
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 24.07,
       "forwardPe": 21.56,
-      "marketCap": 370117869568,
+      "marketCap": 370398429184,
       "consensusEpsNext": 1.8928,
       "consensusRevNext": 22823469550,
       "whatItDoes": "The Procter & Gamble Company provides branded consumer packaged goods worldwide. It operates through five segments: Beauty; Grooming; Health Care; Fabric & Home Care; and Baby, Feminine & Family Care.",
@@ -660,7 +660,7 @@
       ],
       "whatToWatch": "關注 2026-10-22 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +1.5%（Yahoo）；獲利成長約 -15.5%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 5,
+      "daysToEarnings": 4,
       "pool": "mega_cap"
     },
     {
@@ -699,7 +699,7 @@
       ],
       "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +24%（Yahoo）；獲利成長約 +68.2%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 12,
+      "daysToEarnings": 11,
       "pool": "mega_cap"
     },
     {
@@ -738,7 +738,7 @@
       ],
       "whatToWatch": "關注 2026-10-21 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +30%（Yahoo）；獲利成長約 +34.8%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 4,
+      "daysToEarnings": 3,
       "pool": "mega_cap"
     },
     {
@@ -777,7 +777,7 @@
       ],
       "whatToWatch": "關注 2026-10-20 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +21.1%（Yahoo）；獲利成長約 +19.4%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 3,
+      "daysToEarnings": 2,
       "pool": "mega_cap"
     },
     {
@@ -803,7 +803,7 @@
       "forwardPe": 18.56,
       "marketCap": 293682642944,
       "consensusEpsNext": 0.823,
-      "consensusRevNext": 12878801800,
+      "consensusRevNext": 12875699120,
       "whatItDoes": "Netflix, Inc. provides entertainment services worldwide. The company offers television (TV) series, documentaries, feature films, games, and live programming across various genres and languages.",
       "missingFields": [],
       "sources": [
@@ -816,7 +816,7 @@
       ],
       "whatToWatch": "關注 2026-10-20 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +13.4%（Yahoo）；獲利成長約 +11.1%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 3,
+      "daysToEarnings": 2,
       "pool": "mega_cap+most_actives"
     },
     {
@@ -855,7 +855,7 @@
       ],
       "whatToWatch": "關注 2026-10-21 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +10.5%（Yahoo）；獲利成長約 +9.4%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 4,
+      "daysToEarnings": 3,
       "pool": "mega_cap"
     }
   ],

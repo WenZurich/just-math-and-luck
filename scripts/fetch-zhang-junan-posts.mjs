@@ -90,12 +90,26 @@ function stripHtml(s) {
     .trim();
 }
 
-async function fetchText(url) {
-  const res = await fetch(url, {
-    headers: { "User-Agent": UA, Accept: "text/html,application/json,*/*" },
-  });
-  if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
-  return await res.text();
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/** Polite fetch: retries transient socket drops / 429 / 5xx with backoff (pttweb often closes idle sockets). */
+async function fetchText(url, attempts = 4) {
+  let lastErr;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      const res = await fetch(url, {
+        headers: { "User-Agent": UA, Accept: "text/html,application/json,*/*" },
+      });
+      if (res.ok) return await res.text();
+      lastErr = new Error(`HTTP ${res.status} for ${url}`);
+      if (res.status !== 429 && res.status < 500) throw lastErr;
+    } catch (e) {
+      lastErr = e;
+      if (/^HTTP 4\d\d/.test(e?.message || "") && !/^HTTP 429/.test(e.message)) throw e;
+    }
+    if (i < attempts - 1) await sleep(1500 * (i + 1));
+  }
+  throw lastErr;
 }
 
 function blogSeries(title, text) {
@@ -156,6 +170,7 @@ async function fetchPttCatalog() {
     const url = page
       ? `${PTT_USER}&page=${page}`
       : PTT_USER;
+    if (page) await sleep(600);
     const html = await fetchText(url);
     if (html.includes("_cf_chl") || html.includes("Just a moment")) {
       throw new Error(`Cloudflare challenge on PTT page ${page}`);

@@ -8,11 +8,11 @@
     "pttId": "et220870",
     "pttUser": "https://www.pttweb.cc/user/et220870"
   },
-  "asOf": "2026-09-26T03:23:57+08:00",
+  "asOf": "2026-10-18T09:37:50+08:00",
   "timezone": "Asia/Taipei",
   "status": "candidate",
   "mathGate": "closed",
-  "disclaimer": "候選／觀察；數學閘關閉。標「已讀分析」者：已讀公開正文（部落格全文或 PTT 原文＋留言）後撰寫重點。標「僅標題」者：僅有標題／連結，正文不可讀。作者觀點；非投資建議。不納入選股清單。",
+  "disclaimer": "候選／觀察；數學閘關閉。標「已讀分析」者：已讀公開正文（部落格全文或 PTT 原文＋留言）後撰寫重點。標「僅標題」者：公開頁正文不可讀或已刪。作者觀點；非投資建議。不納入選股清單。",
   "sources": {
     "blogIndex": "https://et220870.blogspot.com/",
     "blogFeed": "https://et220870.blogspot.com/feeds/posts/default?alt=json&max-results=500",
@@ -28,7 +28,7 @@
   },
   "posts": [
     {
-      "id": "blog-2022-01-02-2021-",
+      "id": "blog-2022-01-02-2021年度總結",
       "source": "blog",
       "group": "blog",
       "series": "年度覆盤",
@@ -43,7 +43,8 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:23:17+08:00"
+      "analyzedAt": "2026-09-26T03:23:17+08:00",
+      "bodyPreview": "2021年就這麼過了~\n 繼2020驚滔駭浪的行情，2021可說是持續的波濤洶湧(咦?)\n 不廢話，先上單吧:\n 兆豐證已實現:+42402w ；未實現:+18782w\n 元富證已實現:+49390w ；未實現:+5064w\n 群益證已實現:+66440w ；未實現:-743w\n 永豐證已實現:+16483w ；未實現:-455w\n 凱基證已實現:+6343w ；未實現:0\n 群益期帳號A已實現:+126624w ；未實現:+255w\n 群益期帳號B已實現:+18063w ；未實現:0\n ----------------------------------------------------------------------------------------- 以上總計已實現: +32.57e；未實現:+2.29e\n 另外兩個類丙種的戶頭還有10多億的已實現獲利(大多是陽明的波段部位)"
     },
     {
       "id": "ptt-home-sale-M.1632729585.A.6CF",
@@ -55,6 +56,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/home-sale/M.1632729585.A.6CF.html",
       "title": "Re: [請益] 公園第一排",
       "publishedAt": "2021-09-27T15:59:00+08:00",
+      "publishedAtRaw": "2021/09/27 15:59",
       "analysis": [
         "於 home-sale 板討論房產買賣、租售取捨或轉貼房市新聞。"
       ],
@@ -65,7 +67,7 @@
       "deleted": false
     },
     {
-      "id": "blog-2021-01-02-2020-",
+      "id": "blog-2021-01-02-2020-年度總結",
       "source": "blog",
       "group": "blog",
       "series": "年度覆盤",
@@ -80,7 +82,8 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:23:17+08:00"
+      "analyzedAt": "2026-09-26T03:23:17+08:00",
+      "bodyPreview": "距離上一篇文一眨眼又三年過去了~~\n 前文提到2017年開始原本打算從操作者轉型當投資者。\n 而如果2017年作為投資者的資產成長率算是差強人意的話...那2018年只能用悲劇來形容...\n 2018年期貨部分，委託出去給別人的委外代操有一組大爆炸輸了1000多萬， 其它組的表現也並不算突出。下半年開始便陸續把資金收回來做股票and跑自己的策略，結果自己的程式也跑不好，績效上上下下的，跑到年底自己的策略也是沒賺，最後整年期貨總損益還是輸1000多萬。\n2018股票部分則是有幸跟一位前輩好友學了一招期望值很不錯的策略，一邊做一邊也自己摸索研發新招，最後股票全年賺1000多萬回來。全年總損益(股票+期貨)只剩奈米渣渣，扣除生活開銷後2018總資產成長率還是負的...\n 2019年便將重心放在股票上，每天認真做功課看新聞查籌碼看財報。但操作上其實還是蠻不成熟的，一方面是會的招太少，然後對於資金跟"
     },
     {
       "id": "ptt-Loan-M.1606991612.A.7FC",
@@ -92,6 +95,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Loan/M.1606991612.A.7FC.html",
       "title": "[問題] 理財型房貸",
       "publishedAt": "2020-12-03T18:33:00+08:00",
+      "publishedAtRaw": "2020/12/03 18:33",
       "analysis": [
         "於 Loan 板詢問房貸條件或徵求房貸專員。",
         "主題為理財型房貸，重點在資金調度彈性。",
@@ -113,6 +117,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Loan/M.1605587918.A.78F.html",
       "title": "[問題] 徵求房貸專員(華南、彰銀、兆豐...佳)",
       "publishedAt": "2020-11-17T12:38:00+08:00",
+      "publishedAtRaw": "2020/11/17 12:38",
       "analysis": [
         "於 Loan 板詢問房貸條件或徵求房貸專員。",
         "主題為理財型房貸，重點在資金調度彈性。",
@@ -134,6 +139,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Broker/M.1589180089.A.4B5.html",
       "title": "[徵求] 富邦、元大證券 總公司或大點",
       "publishedAt": "2020-05-11T14:54:00+08:00",
+      "publishedAtRaw": "2020/05/11 14:54",
       "analysis": [
         "於 Broker 板徵求券商營業據點、借券或期貨營業員窗口，屬交易基礎設施／券源需求。",
         "未見個股推薦。"
@@ -154,6 +160,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Broker/M.1587363852.A.EC6.html",
       "title": "[徵求] 元大、富邦、凱基、永豐 證券總公司",
       "publishedAt": "2020-04-20T14:24:00+08:00",
+      "publishedAtRaw": "2020/04/20 14:24",
       "analysis": [
         "於 Broker 板徵求券商營業據點、借券或期貨營業員窗口，屬交易基礎設施／券源需求。",
         "未見個股推薦。"
@@ -174,6 +181,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Stock/M.1586317197.A.E7C.html",
       "title": "00642u賺標界費囉！",
       "publishedAt": "2020-04-08T11:39:00+08:00",
+      "publishedAtRaw": "2020/04/08 11:39",
       "analysis": [
         "於 Stock 板以短文提醒 00642U 當日標界張數很多，呼籲有現股者盡速參與標界。",
         "未說明成本、目標價或部位；屬盤中資訊型提醒。"
@@ -185,7 +193,7 @@
       "deleted": false
     },
     {
-      "id": "blog-2018-01-07-2017-",
+      "id": "blog-2018-01-07-2017年度總結",
       "source": "blog",
       "group": "blog",
       "series": "年度覆盤",
@@ -199,7 +207,8 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:23:17+08:00"
+      "analyzedAt": "2026-09-26T03:23:17+08:00",
+      "bodyPreview": "剛渡完假回來，2018都過了一周了才來補2017的年度總結...(汗)\n2017算是轉型的一年。\n第一季當沖做得非常掙扎，連續幾個月小輸小贏，連同2016年底的那一段深DD,幾乎有整整四五個月的時間沒創高....\n然後看著同期很多做波段的朋友開開心心無腦多，每天吃飯睡覺打東東+數錢。我苦哈哈的每天按五個小時，績效還跑輸人家很多......\n不禁開始思索人生的意義(耶?)\n剛好那段時間，找了兩位已經真的財富自由、完全退休的前輩出來聊聊天，接受前輩的觀念灌輸，重新思考財富與時間之間的關係。\n前輩講的一句話我印象很深: \"你每天要按五個小時，賺再多錢其實都只是時薪很高的打工仔而已。要讓時間分母趨近於歸零，你才開始真正的自由。\"\n說真的，如果在績效跑得很順的時候聽到這話，我應該也沒啥fu左耳進右耳出；不過在遭遇超長的dd期時聽到，還蠻醍醐灌頂的....\n於是決定不要再自己每天按當沖了~\n改跑一些可"
     },
     {
       "id": "ptt-Broker-M.1514125599.A.2FC",
@@ -211,6 +220,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Broker/M.1514125599.A.2FC.html",
       "title": "[徵求] 元大 永豐 日盛 元富證券 開戶",
       "publishedAt": "2017-12-24T22:26:00+08:00",
+      "publishedAtRaw": "2017/12/24 22:26",
       "analysis": [
         "於 Broker 板徵求券商營業據點、借券或期貨營業員窗口，屬交易基礎設施／券源需求。",
         "未見個股推薦。"
@@ -231,6 +241,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Broker/M.1514034687.A.BAE.html",
       "title": "[徵求] 富邦借券部",
       "publishedAt": "2017-12-23T21:11:00+08:00",
+      "publishedAtRaw": "2017/12/23 21:11",
       "analysis": [
         "於 Broker 板徵求券商營業據點、借券或期貨營業員窗口，屬交易基礎設施／券源需求。",
         "未見個股推薦。"
@@ -251,6 +262,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Hate/M.1509674549.A.6D4.html",
       "title": "[黑特] 先罵個幹",
       "publishedAt": "2017-11-03T10:02:00+08:00",
+      "publishedAtRaw": "2017/11/03 10:02",
       "analysis": [
         "看板「Hate」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -270,6 +282,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/movie/M.1507953532.A.00C.html",
       "title": "[問雷] 氣象戰片頭疑問",
       "publishedAt": "2017-10-14T11:58:00+08:00",
+      "publishedAtRaw": "2017/10/14 11:58",
       "analysis": [
         "看板「movie」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -289,6 +302,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Loan/M.1500361380.A.CDD.html",
       "title": "[問題] 新竹房貸",
       "publishedAt": "2017-07-18T15:03:00+08:00",
+      "publishedAtRaw": "2017/07/18 15:03",
       "analysis": [
         "於 Loan 板詢問房貸條件或徵求房貸專員。",
         "與股市標的無直接買賣主張。"
@@ -309,6 +323,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/GO/M.1495896085.A.E3E.html",
       "title": "[問題] 想請問一下古力連笑混雙中的這一手?",
       "publishedAt": "2017-05-27T22:41:00+08:00",
+      "publishedAtRaw": "2017/05/27 22:41",
       "analysis": [
         "看板「GO」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -328,6 +343,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Japan_Travel/M.1494165852.A.901.html",
       "title": "[問題] 大阪環球影城VIP手環5/8入場沒領到求救...",
       "publishedAt": "2017-05-07T22:04:00+08:00",
+      "publishedAtRaw": "2017/05/07 22:04",
       "analysis": [
         "看板「Japan_Travel」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -347,6 +363,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/movie/M.1493605426.A.7D9.html",
       "title": "[普雷] 逃出絕命鎮，最後一個橋段想請問?",
       "publishedAt": "2017-05-01T10:23:00+08:00",
+      "publishedAtRaw": "2017/05/01 10:23",
       "analysis": [
         "看板「movie」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -366,6 +383,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/home-sale/M.1488966099.A.D3E.html",
       "title": "Re: [閒聊] 賣房和租房 怎麼選?",
       "publishedAt": "2017-03-08T17:41:00+08:00",
+      "publishedAtRaw": "2017/03/08 17:41",
       "analysis": [
         "於 home-sale 板討論房產買賣、租售取捨或轉貼房市新聞。",
         "作者以自身經驗比較賣房與租房的現金流、流動性與風險，屬房地產配置經驗談。"
@@ -386,6 +404,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/home-sale/M.1488870940.A.9FB.html",
       "title": "Re: [閒聊] 賣房和租房 怎麼選?",
       "publishedAt": "2017-03-07T15:15:00+08:00",
+      "publishedAtRaw": "2017/03/07 15:15",
       "analysis": [
         "於 home-sale 板討論房產買賣、租售取捨或轉貼房市新聞。",
         "作者以自身經驗比較賣房與租房的現金流、流動性與風險，屬房地產配置經驗談。"
@@ -406,6 +425,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Digitalhome/M.1487214924.A.1C4.html",
       "title": "[問題] 60吋以上電視求推薦",
       "publishedAt": "2017-02-16T11:15:00+08:00",
+      "publishedAtRaw": "2017/02/16 11:15",
       "analysis": [
         "看板「Digitalhome」貼文，觸及居住／租屋話題，但非完整市場分析。"
       ],
@@ -425,6 +445,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1484193806.A.F9E.html",
       "title": "[閒聊] 繼圍棋之後,德州撲克也要被AI攻克惹嗎?QQ",
       "publishedAt": "2017-01-12T12:03:00+08:00",
+      "publishedAtRaw": "2017/01/12 12:03",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -435,7 +456,7 @@
       "deleted": false
     },
     {
-      "id": "blog-2017-01-03-2016-",
+      "id": "blog-2017-01-03-2016-年度總結",
       "source": "blog",
       "group": "blog",
       "series": "年度覆盤",
@@ -449,7 +470,8 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:23:17+08:00"
+      "analyzedAt": "2026-09-26T03:23:17+08:00",
+      "bodyPreview": "身為一個懶人，Blog已經淪落到一年只發一篇年度總結文的境地......(汗)\n來回顧一下吧， 2016真的是令人百感交集的一年....\n第一季 :\n一月份的行情好到不可思議，日內大根行情連發!! 拜行情所賜，單月總資產直接+100多%!\n令我\"一顆心撲通撲通地狂跳\"......心裡天真美好的對自己OS喊聲:哥今年要賺10倍!!\n然後二月三月就連續吃屎遭遇超大的DD...........\n年度目標也從高標10倍瞬間調降到自以為比較務實的低標5倍.......\n----------------------------------------------------------------------------\n第二季:\n第二季算是比較順暢的一季，三個月都順順的賺。\n---------------------------------------------------------------"
     },
     {
       "id": "ptt-ClashRoyale-M.1482483993.A.985",
@@ -461,6 +483,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/ClashRoyale/M.1482483993.A.985.html",
       "title": "[心得] 低費三槍上4000報到~~",
       "publishedAt": "2016-12-23T17:06:00+08:00",
+      "publishedAtRaw": "2016/12/23 17:06",
       "analysis": [
         "看板「ClashRoyale」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -480,6 +503,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/EAseries/M.1469508591.A.DEC.html",
       "title": "[討論] 紙牌屋 第二季 s02 劇情疑問?",
       "publishedAt": "2016-07-26T12:49:00+08:00",
+      "publishedAtRaw": "2016/07/26 12:49",
       "analysis": [
         "看板「EAseries」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -499,6 +523,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Windows/M.1465050516.A.D84.html",
       "title": "[問題] 自動更新成win10,想還原成win7",
       "publishedAt": "2016-06-04T22:28:00+08:00",
+      "publishedAtRaw": "2016/06/04 22:28",
       "analysis": [
         "看板「Windows」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -518,6 +543,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/EAseries/M.1464361010.A.DD1.html",
       "title": "[討論] 紙牌屋 s1 ep4",
       "publishedAt": "2016-05-27T22:56:00+08:00",
+      "publishedAtRaw": "2016/05/27 22:56",
       "analysis": [
         "看板「EAseries」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -528,7 +554,7 @@
       "deleted": false
     },
     {
-      "id": "blog-2016-01-01-2015-",
+      "id": "blog-2016-01-01-2015年總結",
       "source": "blog",
       "group": "blog",
       "series": "年度覆盤",
@@ -542,10 +568,11 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:23:17+08:00"
+      "analyzedAt": "2026-09-26T03:23:17+08:00",
+      "bodyPreview": "2015年結束了，做個回顧和總結~\n第四季台指的波動仍然很不錯，很可惜12月自己最後在部位分配和op新策略的選擇上有不少失誤，沒有讓績效在年底時收在相對高檔QQ\n不過整體來說，2015年的操作績效仍是令人滿意和感恩的!\n9月:\n10月:\n11月:\n12月(12月交易筆數多到電腦無法一次跑完一個月得分兩張...):\n12月亂玩op吐了270，然後最後一周為了想拼3000里程碑而開了兩倍界王拳...大概多賠150...\n這個月乖乖照策略跑不作怪的話理論值應該可以收在接近+500，被自己玩到幾乎歸零....頗為低能QQ\n-----------------------------------------------------------------------\n2015年度逐月績效:\n說真的今年的確是充滿驚奇的一年!\n四月開始用300做本金開始啟動，其實原本預期的年報酬率大概也就+100%左右而"
     },
     {
-      "id": "blog-2015-09-01--",
+      "id": "blog-2015-09-01-近況-",
       "source": "blog",
       "group": "blog",
       "series": "月報／生涯",
@@ -559,7 +586,8 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:23:17+08:00"
+      "analyzedAt": "2026-09-26T03:23:17+08:00",
+      "bodyPreview": "默默地距離網誌的上一篇文章又快一年了....\n簡單交待一下近況吧!\n去年第三季用週選買方做主觀當沖一度尻的蠻爽的\n結果第四季馬上就吃屎....\n沒做資金管理過度放大部位+剛好遭遇被修理的盤勢....吐了不少回去\n做主觀單的真的有時就會有這種問題= =\",然後又有一種\"阿反正是拿之前賺得來賠\"的心態\n等到一醒神才發現欸幹居然回檔了這麼多....\n然後也是9月份時，在朋友的介紹下，接觸到了一個大陸的新興數位貨幣:DTC，當時還飛了一趟天津，聽朋友講得頭頭是道，前景多好多好而且推廣公司一定會拉抬到幾塊，現在進場等於是內線根本就是穩賺不賠的暴利...等等。\n 就丟了一筆不小的錢進去，中間還發生了很多說來話長的故事.....\n總之最後結果變成，當初投入的資金幾乎完全拿不回來.....GG\n這大概算是我人生中目前為止最大的一次跌倒吧....\n2014來台中這一年，被合夥人婊、被朋友騙、投資了好幾間房子"
     },
     {
       "id": "ptt-Broker-M.1439141156.A.7F6",
@@ -571,6 +599,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Broker/M.1439141156.A.7F6.html",
       "title": "[徵求] 群益、元大 期貨營業員",
       "publishedAt": "2015-08-10T01:25:00+08:00",
+      "publishedAtRaw": "2015/08/10 01:25",
       "analysis": [
         "於 Broker 板徵求券商營業據點、借券或期貨營業員窗口，屬交易基礎設施／券源需求。",
         "未見個股推薦。"
@@ -591,6 +620,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/mobilesales/M.1426353090.A.9DE.html",
       "title": "[徵] ZENFONE2 6990版 灰色",
       "publishedAt": "2015-03-15T01:11:00+08:00",
+      "publishedAtRaw": "2015/03/15 01:11",
       "analysis": [
         "看板「mobilesales」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -610,6 +640,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/MobileComm/M.1425892455.A.111.html",
       "title": "[問題] ZF2 顏色",
       "publishedAt": "2015-03-09T17:14:00+08:00",
+      "publishedAtRaw": "2015/03/09 17:14",
       "analysis": [
         "看板「MobileComm」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -620,7 +651,7 @@
       "deleted": false
     },
     {
-      "id": "blog-2014-09-30--",
+      "id": "blog-2014-09-30-久違了-",
       "source": "blog",
       "group": "blog",
       "series": "月報／生涯",
@@ -634,7 +665,8 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:23:17+08:00"
+      "analyzedAt": "2026-09-26T03:23:17+08:00",
+      "bodyPreview": "一眨眼，居然整整兩年多沒更新網誌了......Orz...\n雖然應該沒什麼人在看了，但還是簡單報告一下吧~~\n2012年下半年，在高雄的SwiftTrade練了三四的月的美股當沖，最後還是摸不到什麼頭緒，於是就撤退了。\n我個人是覺得美股當沖其實還是個很有發展性的game,標的選擇多、交易成本低，拿來做多商品順勢策略其實應該會很不錯。但在SwiftTrade這種當沖公司的環境制度下，完全無法發揮這樣的優勢.....\n之後應該還是會考慮開個IB帳戶 然後弄一些活潑美股標的的歷史資料來開發程式策略試試看。\n是說2012年真的很廢....上半年當兵，下半年冗美股，然後還發懶都沒啥打牌....資產不僅沒增加應該還倒縮....> <\"\n------------------------------------------------------------------------------------"
     },
     {
       "id": "ptt-home-sale-M.1410159597.A.930",
@@ -646,6 +678,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/home-sale/M.1410159597.A.930.html",
       "title": "Fw: [新聞] 陸百城房價連4跌 多地現斷頭潮",
       "publishedAt": "2014-09-08T14:59:00+08:00",
+      "publishedAtRaw": "2014/09/08 14:59",
       "analysis": [
         "於 home-sale 板討論房產買賣、租售取捨或轉貼房市新聞。",
         "轉貼中國大陸房價／斷頭相關新聞，無台股進出條件。"
@@ -666,6 +699,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Loan/M.1404058662.A.396.html",
       "title": "[問題] 第三房最多貸五成?",
       "publishedAt": "2014-06-30T00:17:00+08:00",
+      "publishedAtRaw": "2014/06/30 00:17",
       "analysis": [
         "於 Loan 板詢問房貸條件或徵求房貸專員。",
         "詢問第三屋貸款成數限制等規範細節。",
@@ -687,6 +721,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/home-sale/M.1394592954.A.7E8.html",
       "title": "[新聞] 奢侈稅修正草案通過",
       "publishedAt": "2014-03-12T10:55:00+08:00",
+      "publishedAtRaw": "2014/03/12 10:55",
       "analysis": [
         "於 home-sale 板討論房產買賣、租售取捨或轉貼房市新聞。",
         "轉貼或討論奢侈稅修法相關新聞，非正式操盤訊號。",
@@ -708,6 +743,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/BoardGame/M.1392646606.A.85C.html",
       "title": "Re: [揪團] 2/18 晚上桌遊? 台中西屯區",
       "publishedAt": "2014-02-17T22:16:00+08:00",
+      "publishedAtRaw": "2014/02/17 22:16",
       "analysis": [
         "看板「BoardGame」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -727,6 +763,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Tainan/M.1392641280.A.955.html",
       "title": "[問題] 想問便宜的二手家具行?",
       "publishedAt": "2014-02-17T20:48:00+08:00",
+      "publishedAtRaw": "2014/02/17 20:48",
       "analysis": [
         "看板「Tainan」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -746,6 +783,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Trading/M.1355020196.A.BF9.html",
       "title": "Re: [問題] 關於策略經理人的部位規模",
       "publishedAt": "2012-12-09T10:29:00+08:00",
+      "publishedAtRaw": "2012/12/09 10:29",
       "analysis": [
         "於 Trading 板回覆「策略經理人部位規模」討論，從風險與策略容量角度表達個人看法。",
         "未推薦個股，亦未給出可直接套用的口數公式；屬交易哲學／風控對話。"
@@ -766,6 +804,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Trading/M.1354986143.A.4A0.html",
       "title": "Re: [問題] 關於策略經理人的部位規模",
       "publishedAt": "2012-12-09T01:02:00+08:00",
+      "publishedAtRaw": "2012/12/09 01:02",
       "analysis": [
         "於 Trading 板回覆「策略經理人部位規模」討論，從風險與策略容量角度表達個人看法。",
         "未推薦個股，亦未給出可直接套用的口數公式；屬交易哲學／風控對話。"
@@ -777,7 +816,7 @@
       "deleted": false
     },
     {
-      "id": "blog-2012-06-30--",
+      "id": "blog-2012-06-30-練功人生",
       "source": "blog",
       "group": "blog",
       "series": "月報／生涯",
@@ -790,10 +829,11 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:23:17+08:00"
+      "analyzedAt": "2026-09-26T03:23:17+08:00",
+      "bodyPreview": "六月中收到ST的通知，於是就來高雄租房子，開始練功人生囉~\n不過ST公司跟我想像中的有不小的落差.....\nST公司的規定是實習交易員只要曾經單月Net達到$2000 USD以上，即可成為正式交易員...\n然後高雄分公司這邊目前居然\"沒有合格的正式交易員\"..........囧....\n這跟我本來想的完全不一樣啊.....Orz\n我本來以為公司裡應該會有那種 Net $20~30K以上/per month 的高手，想說如果有機會長期觀摩，甚至跟高手偷學個一兩招，應該可以有效縮短學習曲線.......結果希望落空....>\n29hr，39k hands，profit:$2.3k。Luckbox貢獻良多....(汗)\n不過打得實在太少了，而且大部分的時數其實是前兩周還沒開始上班時打得....之後得再調整一下，希望上班日也可以擠出一兩個小時來grind~\n--------------------"
     },
     {
-      "id": "blog-2012-05-31--Freedom-",
+      "id": "blog-2012-05-31-退伍啦-Freedom-",
       "source": "blog",
       "group": "blog",
       "series": "月報／生涯",
@@ -805,7 +845,8 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "終於退伍囉!!\n重獲自由的感覺真好~~ 阿斯!!\n五月初延續了四月份的衰狗命，NL100打不到1000手就噴了$500....一賭氣就又cash out了...\n前兩天才又摸摸鼻子把錢存回去...=.=\"....\n整個五月打不到5000手，幾乎是breakeven，實在是太汗顏，就不po成績圖了~ >\nOI:\nPG5m:\n三隻加起來稅前約+900多點，不過手續費and期交稅吃掉了近100點，所以實際上是+800點左右。\n繼續觀察囉~~"
     },
     {
       "id": "ptt-Little-Games-M.1336241336.A.141",
@@ -817,6 +858,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Little-Games/M.1336241336.A.141.html",
       "title": "Re: [分享] 益智 - 畫地圖 (entanglement)",
       "publishedAt": "2012-05-06T02:08:00+08:00",
+      "publishedAtRaw": "2012/05/06 02:08",
       "analysis": [
         "看板「Little-Games」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -827,7 +869,7 @@
       "deleted": false
     },
     {
-      "id": "blog-2012-04-30-Monthly-Report-",
+      "id": "blog-2012-04-30-Monthly-Report-人品不佳",
       "source": "blog",
       "group": "blog",
       "series": "月報／生涯",
@@ -840,7 +882,8 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:23:17+08:00"
+      "analyzedAt": "2026-09-26T03:23:17+08:00",
+      "bodyPreview": "Blog的上一篇文章居然是....去年的九月....@.@....\n整整半年多的時間沒有好好grind....實在是很慚愧...(汗)\n一方面是這段時間在研究交易相關的知識，另一方面也是有點在等Room Poker出來的心態......\n好不容易，今年的三月中PS終於讓我盼到啦!!\n不廢話，來看個圖(3月+4月) :\n十萬手牌輸了1.2k.......QQ..\n其實打得不算太糟，ev BB/100也還維持在可接受的狀態，不過人品炸裂就不是我可以控制的了.....it's poker~\n我比較煩惱的其實是流量問題~\n現在的Room Poker FR，在NL200以上的流量實在是慘淡到了極點......\nNL500就不用講了，整個死掉沒幾隻貓在Pool裡；NL200則是一天裡大概只有6~8個小時Run的起來.....而且是在大夜班的時間...= =\"\n如果中高額桌的流量持續這樣低迷下去，我想得"
     },
     {
       "id": "ptt-Poker-M.1330694842.A.75E",
@@ -852,6 +895,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1330694842.A.75E.html",
       "title": "[情報] 撲克教學(Rush Poker)招生",
       "publishedAt": "2012-03-02T21:27:00+08:00",
+      "publishedAtRaw": "2012/03/02 21:27",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -862,7 +906,7 @@
       "deleted": false
     },
     {
-      "id": "blog-2011-09-30-Monthly-Report-",
+      "id": "blog-2011-09-30-Monthly-Report-作白工-",
       "source": "blog",
       "group": "blog",
       "series": "月報／生涯",
@@ -874,7 +918,8 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "打不到4萬手也在po Monthly Report....實在有點北七....(汗)\n31hrs，37k hands~\n跟我原本預期的產能差不多....\nPS一開始也蠻有誠意的，牌發得很好，展現了對新農夫的歡迎以及對我個人人品的肯定~(誤):\n不過就在我月中手賤cashout了3k後，PS就生氣了....\n開啟了傳說中的doomswitch!!:\nTotal:\n欠它的，遲早要還~~(攤手)\n至於為什麼副標寫說\"作白工\"哩?\n因為....燈燈:\n短短兩周的交易，賠了88471+12722(框起來那個是把之前的配股賣掉，不能算正損益)=101193....\n偉哉反指標~~~\n左挖右補~ 相當猴出的一個月....orz\n十月要重拾新生活運動，每天跑步+練氣功!!\n還有我因為日子太無聊跑去人家合唱團亂入....每周要團練兩次~\n更加壓縮打牌的時間......\n基本上，在PS真的弄出RUSH以前，暫"
     },
     {
       "id": "ptt-Poker-M.1315499010.A.0CF",
@@ -886,6 +931,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1315499010.A.0CF.html",
       "title": "[問題] PT3在歐元桌的HUD跑不出來?",
       "publishedAt": "2011-09-09T00:23:00+08:00",
+      "publishedAtRaw": "2011/09/09 00:23",
       "analysis": [
         "看板「Poker」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -896,7 +942,7 @@
       "deleted": false
     },
     {
-      "id": "blog-2011-09-04--",
+      "id": "blog-2011-09-04-重返人間",
       "source": "blog",
       "group": "blog",
       "series": "撲克／生活",
@@ -908,10 +954,11 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "新訓結束了~\n成功嶺很熱，流一堆汗...長一堆濕疹...\n但其實除了每天要跑3000M以外，並沒有什麼運動到...\n一個月回來量了量體重，不但沒瘦反而還增加了1kg....= =\"\n沒救了~~QQ\n區公所的生活還蠻愜意的\n要做的事情就是幫忙打掃、接電話、送公文、處理一下word....\n算是有不少空閒的時間，可以繼續我的股票人生~\n不過新訓完第一筆交易，才兩天就賠了2w...= =\"\nQQ，對役男來說這是兩個月的薪水啊啊啊!!XD\"\n喊著說要去PS打也喊了很久，不過由於之前只有15吋的筆電\n要開多桌對眼睛實在太折磨........因此就打得很\"休閒\"....(汗)\n這禮拜去組了台桌機，雙24吋VA螢幕，調整了一下字體以後，開24桌算是還OK。\n早上試打了一下，基本上視角還蠻舒適的，FR的節奏也夠慢，開24桌還不至於太手忙腳亂。拜周末的大量魚群之賜，run的也還不錯^^:\n不過服役期間可以打"
     },
     {
-      "id": "blog-2011-06-30--",
+      "id": "blog-2011-06-30-半年報",
       "source": "blog",
       "group": "blog",
       "series": "月報／生涯",
@@ -923,7 +970,8 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "閒著沒事，反正也不能打牌，來做個半年報檢討吧....\n NLH:\n 年初訂的目標，每月120hrs，160k hands完全的failed..... 按照預定進度上半年應該要打到近1 million hands，實際完成度僅6成....... 當然黑色星期五跟對進度產生很大的影響，但我想我自己過於懶散還是主要的原因~ 自由業實在是太容易放任自己了...QQ\n 上半年NLH: Profit : 約43.6k RB+Bonus+一些有的沒的 : 約11.7k NLH Total : 55.3k\n 要是沒有發生該死的 One night in PLO 的話，2011上半年其實還算是可以接受~ 可惜該面對的還是要面對...QQ\n PLO:\n 在悲劇日發生之前曾經偷跑去PLO 2K hnr一個buy，so PLO total是: -20164\n 2011上半年總收入: 約$35k\n 然後現在還發生吊"
     },
     {
       "id": "blog-2011-06-30-Monthly-report-FTP-gg-",
@@ -938,10 +986,11 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "FTP被吊照的事情相信大家應該都知道了，身為一個打FTP的player，寫了信去要求解釋，不意外得的得到了一封罐頭回復:\n 親愛的客戶, 您好， Full Tilt Poker的執照暫時被Alderney 博採管制委員會(AGCC) 吊銷，直至七月底的法院聆聽。 Full Tilt正在和Alderney 博採管制委員會(AGCC) 積極交涉，爭取儘早的讓玩家重返牌桌開始真錢遊戲。 因此，Full Tilt 目前暫時無法為您提供任何遊戲，及存/取款。不过請您放心, 您的資金仍然安全的保留在您的帳戶上. 一旦有任何的進展, 我們們會在第一時間內通知您. 對於因此給您帶來的不便，Full Tilt Poker深表歉意。 萬分感謝， Gavin Full Tilt Poker Black Card 客戶部\n 卡了24k左右在裡面，相當寂寞...\n也只能等他解決，FTP真的要倒的話希望至少要退款啊!"
     },
     {
-      "id": "blog-2011-06-04--",
+      "id": "blog-2011-06-04-要失業了-口-",
       "source": "blog",
       "group": "blog",
       "series": "其他",
@@ -953,7 +1002,8 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "將近12點了，Mid stack的FR死光光.....\n要失業了嗎?QQ....."
     },
     {
       "id": "blog-2011-05-31-Monthly-Report",
@@ -968,10 +1018,11 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "實在是太害羞了.....實際比ev多了近5k....雜碎luckybox!!\n也許是FTP很有良心的打算在NLH還我PLO欠我的ev...ㄎㄎ~\n大家記得每天都要扶老太太過馬路喔!!! ^.<\n五月依舊非常的打混，總時數48hrs，60.5k hands。\n主要原因還是人數不足，導致NL400現在可以打的時間大約是PM 9:00~AM 9:00.....\n對一個雜碎大學生來說，實在很難在這種情況下找一段時間來專心grind....\n另外就是花了不少時間研究程式交易~\n聽說有個電機所的博班的學長目前靠程式交易年收2000w!!\n實在是太imba了!! 不得不來研究一波啊~~\n如果有搞頭的話說不定就可以quit poker了!!! XD\n六月要處理一堆雜事還有玩耍團，也得花時間打些PS...\n除非我能發憤圖強調作息，不然預計應該也是個無法打太多牌的月份...\n原本希望入伍前把22K尻回來的，目"
     },
     {
-      "id": "blog-2011-05-08--",
+      "id": "blog-2011-05-08-出師不利",
       "source": "blog",
       "group": "blog",
       "series": "早期股市日誌",
@@ -983,7 +1034,8 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "懶散了這麼久~\n今天想說來振作一下，打了三周以來第一個超過4k hands的session...\n結果...\n才剛要振作就澆了我一盆冷水....QQ\n寂寞des~"
     },
     {
       "id": "blog-2011-05-02-Monthly-Report-Sad-April-",
@@ -998,7 +1050,8 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "PLO噴的就是下面那一篇，不再重複了...\nNLH:\n 大烙賽之後幾乎沒有打什麼牌，除了提不勁之外，NL200以上的Rush人數銳減也是原因之一。NL400常常不到100人，Rush不太起來；NL200則是根本就掛了.....\n 整個月實際打的時數約只有40hr，52.6k hands，連二月放年假休了兩周都打得比四月多...... 四月應該是創下了一年半以來最偷懶的紀錄....\n總結:\nPLO profit : -22432\nNLH profit : +7037\n換了6張$216 tickets，只有一場itm : +695\nbonus : +120\nRB : +742\nTotal : -$13838...........\n都已經五月了，但整個人還是處於懶散模式....\n等哪天心情好再來重新振作吧~\n呼薩!!"
     },
     {
       "id": "blog-2011-04-17-One-night-in-PLO-",
@@ -1013,10 +1066,11 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "一個小故事:\n從前有一個智障，開了一間公司。\n公司原本經營得還不錯，本業算是蠻穩定的獲利~\n結果有一天這個智障老闆不知道是吃藥了還是中邪了...\n莫名其妙跑去投資所謂的\"新興產業\"...\n而且明明就對這個新興產業很陌生，也沒做功課，卻投入了比本業還要大十幾倍的資本進去...\n於是一夜之間....\n公司幾乎破產......\n----------------------------------------------------------------------------------------------------------\n一個晚上，500手牌，噴光了今年第一季的技術獲利....\n除了智障還是智障，不曉得該說什麼...= =\"\n莫名其妙開什麼PLO 5K，一開始贏了一點點又不收手，當然一輸就停不下來了....\n當打到這種BR無法承受Swing的等級時，停損跟紀律當然就被當成屁了，滿"
     },
     {
-      "id": "blog-2011-04-12--",
+      "id": "blog-2011-04-12-悽慘的太陽能-",
       "source": "blog",
       "group": "blog",
       "series": "早期股市日誌",
@@ -1030,10 +1084,11 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "手上的大腸三兄弟今天全數跌停鎖死...Orz...\n新日光還一開盤就鎖，連賣都賣不掉，看起來明天得再吃一根...\n光今天的實現損益就 -10w...\n快射了....\n明明就是多頭的格局，我還可以賠成這樣...\n真的該好好檢討了....\n休息幾個月別操作吧...\n多看書!!不准下單!!"
     },
     {
-      "id": "blog-2011-04-07--",
+      "id": "blog-2011-04-07-雜記",
       "source": "blog",
       "group": "blog",
       "series": "撲克／生活",
@@ -1045,7 +1100,8 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "連假貪玩多放了兩天，外加滑鼠這幾天壞掉.....QQ\n結果四月第一周過完了，只打了11k hands.....\n實在是太混了~ = =\"\n明天開始Take 2活動，FTP points會額外增加一倍，要趁活動期間來趕工一波!\n話說FTP 更新後，現在Rush NL200以上的Table也有 Run it twice 的功能了~\n也就是allin之後，如果你跟你的對手都有勾選\" Run it twice\" 這個選項的話，就會發兩次\n還蠻趣味的，而且應該可以降低一些因為bad beat造成的variance~\n為了跟上這一波omaha熱潮，最近無聊的時候也會開一些omaha HU或 Rush PLO來玩耍...\n就當付點娛樂費消遣一下XD\n結果今天一坐上PLO 50 HU的桌子，三手牌就噴了兩個Buy....@.@....:\n http://www.pokerhand.org/?6067458"
     },
     {
       "id": "blog-2011-03-30-Monthly-Report",
@@ -1060,7 +1116,8 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "三月份的第一週run的頗順，前45k hands就賺了$10k...\n讓我不禁開始幻想\"說不定這是我的Career Month，來挑戰一下單月25k profit吧!!\"\n然後就開始烙賽了...= =\"\n果然做人要務實一點....QQ\n 這個月EV欠我$5K 出來混總是要還的... 一月份不要臉的當了很雜碎的luckybox，三月就當是還債吧~\n 總計三月份打了105 hrs，137k hands Profit: +10152 RB: +1920 Rake Race Prize: +250\n Total: $12322"
     },
     {
       "id": "blog-2011-03-22-Worst-day-",
@@ -1076,10 +1133,11 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "生涯最慘烈的一天....\n-$3733.5.....\n六個小時噴掉三月份四成的獲利....\n除了慘還是慘...QQ\n自己設定了2K的停損卻不遵守...\n輸死活該~~ = =\""
     },
     {
-      "id": "blog-2011-03-17--",
+      "id": "blog-2011-03-17-股海冥燈",
       "source": "blog",
       "group": "blog",
       "series": "早期股市日誌",
@@ -1092,10 +1150,11 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "請叫我反指標大師~~\n經典操作一:\n2010.9.27以48.7買進6147頎邦，2010.10.18停損在42.8.....砍在箱底...= =\"\n然後隔兩天後就開始反彈，兩個月內漲到57.5.....\n經典操作二:\n2011.3.4以15.45買進911613特藝，隔天開始連續四天跌停....orz...\n3.14盤中一度又殺到跌停，實在受不了了，以11.95停損砍掉，短短一周賠了20幾%...\n然後我砍掉的當天特藝馬上表演了一波拉尾盤，最後20分鐘從跌5%拉到漲2%....\n去年年中到現在陸續拿了約4~50萬來操作，目前已經賠快20萬了...\n不愧是專業的股海冥燈!! = =+\n歡迎大家跟我對做賺大錢!!! XDD"
     },
     {
-      "id": "blog-2011-03-08--",
+      "id": "blog-2011-03-08-先盛後衰",
       "source": "blog",
       "group": "blog",
       "series": "早期股市日誌",
@@ -1107,10 +1166,11 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "果然就是要breakeven大作戰才能累積工時...\n不然upswing時都一下子就想收工了...(汗)\n今天打了9個多小時，12,500 hands，MGR:$1041.....\nEV$diff 將近-2k........QQ\n早知道上午打完就休息了~悶桑挖"
     },
     {
-      "id": "blog-2011-02-18--",
+      "id": "blog-2011-02-18-快噴吧-",
       "source": "blog",
       "group": "blog",
       "series": "交易心法／覆盤",
@@ -1124,10 +1184,11 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "本日一跟160點的紅棒量增突破季線。\n期貨戶頭還沒開好，想做多台指卻只能下模擬單止癢= =+\n今天將現貨持股買到滿倉:\n手上目前有大腸三兄弟: 3576 5483 3043\n還有今天搶進的金融股:2801(搶反彈為主) 5820\n另外抱了很久的1902跟2457就不打算理他了，反正用現股買的，長抱就是\n話說老媽慘套的3490今天漲停，ㄎㄎ，好險上禮拜沒幫他停損\n要不然一定被罵飛...(汗)\n下波參考標的:\n2609 2610 2618航運三兄弟\n2609看起來比較有止跌的跡象。航運雙雄看起來至少會再跌一段...\n但無疑的三隻都是好股票，等止跌訊號出現且籌碼面穩定後可以準備布局"
     },
     {
-      "id": "blog-2011-02-16-break-even-",
+      "id": "blog-2011-02-16-break-even大作戰",
       "source": "blog",
       "group": "blog",
       "series": "撲克／生活",
@@ -1139,10 +1200,11 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "昨天噴了1800 (ev : +600...= =\") 然後今天打回來.... 疲憊的break even大作戰.....>\n 話說過年期間一個禮拜沒打牌，black card的客服還寫信來關心~~XDD 最後還送了個$100的BONUS 真是人性化的服務~ㄎㄎ"
     },
     {
-      "id": "blog-2011-02-10--",
+      "id": "blog-2011-02-10-開張",
       "source": "blog",
       "group": "blog",
       "series": "撲克／生活",
@@ -1154,7 +1216,8 @@
       ],
       "commentSummary": null,
       "analysisQuality": "analyzed",
-      "analyzedAt": "2026-09-26T03:22:42+08:00"
+      "analyzedAt": "2026-09-26T03:22:42+08:00",
+      "bodyPreview": "Blog的第一篇文章~~\n2010年打了一整年的孬孬poker，錢是賺了一些(然後又敗到別的地方去了= =\")，但日子有點無聊，沒啥動力...QQ\n2011年要來訂些新的目標:\n1.研究21點: 二月底要跟戴子郎老師見面，看能不能再學點東西。And韓國抓漏行~~\n2.金融學習: 投資書單列了4~50本，現在看了不到五本...= =\"，趕快補一補吧!! 還有要跟上期貨小組的進度，學習期貨操作~\n3.Poker進度: 升上NL400之後原本希望能達成每個月10~15K的profit，但一月份就fail了，連6k都不到...QQ。Profit這種事無法強求，只能要求自己達成該打的手數以及遵守紀律囉~~\n每月預計目標: 120hrs, 160k hands\n4.教學講義: 把編完的教材再整理一下，研究看看教學program work的可能性\n5.學習新的game: 由於個人對swing的容忍度非常"
     },
     {
       "id": "ptt-TaichungBun-M.1288623333.A.F1E",
@@ -1166,6 +1229,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/TaichungBun/M.1288623333.A.F1E.html",
       "title": "[自介] 哈囉台中",
       "publishedAt": "2010-11-01T22:55:00+08:00",
+      "publishedAtRaw": "2010/11/01 22:55",
       "analysis": [
         "看板「TaichungBun」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -1185,6 +1249,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUSTAR_rain/M.1286764787.A.E1B.html",
       "title": "Re: [星雨] 第36期ID對照表",
       "publishedAt": "2010-10-11T10:39:00+08:00",
+      "publishedAtRaw": "2010/10/11 10:39",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -1204,8 +1269,9 @@
       "pttUrl": "https://www.ptt.cc/bbs/DirectSales/M.1285776427.A.89F.html",
       "title": "[問題] 請問美樂家的問題?",
       "publishedAt": "2010-09-30T00:07:00+08:00",
+      "publishedAtRaw": "2010/09/30 00:07",
       "analysis": [
-        "公開頁正文已刪除或僅剩編輯紀錄，無法閱讀內文；此處僅保留標題與原始連結，不臆造內容。"
+        "目錄已更新；此篇尚待人工讀後分析（含留言）。重新整理腳本不會覆蓋既有「已讀分析」欄位。"
       ],
       "commentSummary": null,
       "commentCount": 0,
@@ -1223,8 +1289,9 @@
       "pttUrl": "https://www.ptt.cc/bbs/DirectSales/M.1284612929.A.8CB.html",
       "title": "[徵求] 美樂家 香草安恬的空罐子and大罐洗衣精 …",
       "publishedAt": "2010-09-16T12:55:00+08:00",
+      "publishedAtRaw": "2010/09/16 12:55",
       "analysis": [
-        "公開頁正文已刪除或僅剩編輯紀錄，無法閱讀內文；此處僅保留標題與原始連結，不臆造內容。"
+        "目錄已更新；此篇尚待人工讀後分析（含留言）。重新整理腳本不會覆蓋既有「已讀分析」欄位。"
       ],
       "commentSummary": null,
       "commentCount": 0,
@@ -1242,6 +1309,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTU-MAGIC/M.1284297255.A.9B8.html",
       "title": "[問題] 舊社員想回鍋複習?",
       "publishedAt": "2010-09-12T21:14:00+08:00",
+      "publishedAtRaw": "2010/09/12 21:14",
       "analysis": [
         "看板「NTU-MAGIC」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -1261,6 +1329,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/money/M.1284046752.A.D32.html",
       "title": "[請益]請問板大長榮航與漢唐?",
       "publishedAt": "2010-09-09T23:39:00+08:00",
+      "publishedAtRaw": "2010/09/09 23:39",
       "analysis": [
         "於 money 板向版友請益個股看法，屬開放式提問。",
         "提問標的：長榮航、漢唐。",
@@ -1282,6 +1351,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/money/M.1283259474.A.309.html",
       "title": "再度請教版大，放空藍天(2362)好嗎?XD",
       "publishedAt": "2010-08-31T20:57:00+08:00",
+      "publishedAtRaw": "2010/08/31 20:57",
       "analysis": [
         "於 money 板向版友請益個股看法，屬開放式提問。",
         "提問標的：藍天。",
@@ -1304,6 +1374,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/money/M.1282788871.A.CC5.html",
       "title": "[問題] 請問板主5478的智冠?",
       "publishedAt": "2010-08-26T10:14:00+08:00",
+      "publishedAtRaw": "2010/08/26 10:14",
       "analysis": [
         "於 money 板向版友請益個股看法，屬開放式提問。",
         "提問標的：智冠。",
@@ -1325,8 +1396,9 @@
       "pttUrl": "https://www.ptt.cc/bbs/DirectSales/M.1281367525.A.A8A.html",
       "title": "[徵求] 美樂家有人這個月會爆點的嗎?",
       "publishedAt": "2010-08-09T23:25:00+08:00",
+      "publishedAtRaw": "2010/08/09 23:25",
       "analysis": [
-        "公開頁正文已刪除或僅剩編輯紀錄，無法閱讀內文；此處僅保留標題與原始連結，不臆造內容。"
+        "目錄已更新；此篇尚待人工讀後分析（含留言）。重新整理腳本不會覆蓋既有「已讀分析」欄位。"
       ],
       "commentSummary": null,
       "commentCount": 0,
@@ -1344,8 +1416,9 @@
       "pttUrl": "https://www.ptt.cc/bbs/DirectSales/M.1280680189.A.87B.html",
       "title": "[問題] 請問美樂家的退換貨?(活力棒)",
       "publishedAt": "2010-08-02T00:29:00+08:00",
+      "publishedAtRaw": "2010/08/02 00:29",
       "analysis": [
-        "公開頁正文已刪除或僅剩編輯紀錄，無法閱讀內文；此處僅保留標題與原始連結，不臆造內容。"
+        "目錄已更新；此篇尚待人工讀後分析（含留言）。重新整理腳本不會覆蓋既有「已讀分析」欄位。"
       ],
       "commentSummary": null,
       "commentCount": 0,
@@ -1363,6 +1436,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1280559657.A.513.html",
       "title": "[問題] PT3詳細資料的設定",
       "publishedAt": "2010-07-31T15:00:00+08:00",
+      "publishedAtRaw": "2010/07/31 15:00",
       "analysis": [
         "看板「Poker」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -1382,6 +1456,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/PttLifeLaw/M.1279092123.A.913.html",
       "title": "[租賃] 與二房東租房子",
       "publishedAt": "2010-07-14T15:22:00+08:00",
+      "publishedAtRaw": "2010/07/14 15:22",
       "analysis": [
         "屬公開論壇貼文，陳述以作者當下問題或經驗為限；未構成可驗證的投資組合建議。"
       ],
@@ -1401,6 +1476,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/rent-exp/M.1278839907.A.10D.html",
       "title": "[合約] 二房東問題請教?",
       "publishedAt": "2010-07-11T17:18:00+08:00",
+      "publishedAtRaw": "2010/07/11 17:18",
       "analysis": [
         "看板「rent-exp」貼文，觸及居住／租屋話題，但非完整市場分析。"
       ],
@@ -1420,6 +1496,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NtuDormM8/M.1271321558.A.D4B.html",
       "title": "[報修] 五雙浴室",
       "publishedAt": "2010-04-15T16:52:00+08:00",
+      "publishedAtRaw": "2010/04/15 16:52",
       "analysis": [
         "看板「NtuDormM8」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -1439,6 +1516,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1266854100.A.754.html",
       "title": "[問題] RUSH HUD?",
       "publishedAt": "2010-02-22T23:55:00+08:00",
+      "publishedAtRaw": "2010/02/22 23:55",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -1458,6 +1536,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/CSCouncil/M.1260289755.A.215.html",
       "title": "Re: [詢問] 麻將間",
       "publishedAt": "2009-12-09T00:29:00+08:00",
+      "publishedAtRaw": "2009/12/09 00:29",
       "analysis": [
         "看板「CSCouncil」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -1477,8 +1556,9 @@
       "pttUrl": "https://www.ptt.cc/bbs/Food/M.1259486809.A.8E0.html",
       "title": "愛主馨香廚房後續發展(澄清文)",
       "publishedAt": "2009-11-29T17:26:00+08:00",
+      "publishedAtRaw": "2009/11/29 17:26",
       "analysis": [
-        "公開頁正文已刪除或僅剩編輯紀錄，無法閱讀內文；此處僅保留標題與原始連結，不臆造內容。"
+        "目錄已更新；此篇尚待人工讀後分析（含留言）。重新整理腳本不會覆蓋既有「已讀分析」欄位。"
       ],
       "commentSummary": null,
       "commentCount": 0,
@@ -1496,6 +1576,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTU-Poker/M.1258290859.A.0F6.html",
       "title": "Re: [討論] 請教一手牌",
       "publishedAt": "2009-11-15T21:14:00+08:00",
+      "publishedAtRaw": "2009/11/15 21:14",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -1515,6 +1596,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTU-Poker/M.1258274414.A.3AA.html",
       "title": "Re: [討論] 請教一手牌",
       "publishedAt": "2009-11-15T16:40:00+08:00",
+      "publishedAtRaw": "2009/11/15 16:40",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -1534,6 +1616,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NtuDormM1/M.1258033307.A.DD7.html",
       "title": "[借用] 呼叫有皮鞋的舍胞",
       "publishedAt": "2009-11-12T21:41:00+08:00",
+      "publishedAtRaw": "2009/11/12 21:41",
       "analysis": [
         "看板「NtuDormM1」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -1553,6 +1636,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUDormM6/M.1258033294.A.865.html",
       "title": "[借用] 呼叫有皮鞋的舍胞",
       "publishedAt": "2009-11-12T21:41:00+08:00",
+      "publishedAtRaw": "2009/11/12 21:41",
       "analysis": [
         "看板「NTUDormM6」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -1572,6 +1656,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NtuDormM8/M.1258033277.A.0DF.html",
       "title": "[借用] 呼叫有皮鞋的舍胞",
       "publishedAt": "2009-11-12T21:41:00+08:00",
+      "publishedAtRaw": "2009/11/12 21:41",
       "analysis": [
         "看板「NtuDormM8」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -1591,6 +1676,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/CSCouncil/M.1257244791.A.474.html",
       "title": "[事務] 水族箱借用 11/10 17:30～21:30",
       "publishedAt": "2009-11-03T18:39:00+08:00",
+      "publishedAtRaw": "2009/11/03 18:39",
       "analysis": [
         "看板「CSCouncil」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -1610,6 +1696,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/CSCouncil/M.1257244656.A.56A.html",
       "title": "[事務] 水族箱借用 11/9 17:30～21:30",
       "publishedAt": "2009-11-03T18:37:00+08:00",
+      "publishedAtRaw": "2009/11/03 18:37",
       "analysis": [
         "看板「CSCouncil」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -1629,6 +1716,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1254489412.A.D96.html",
       "title": "[問題] 問一下NOTE的xml檔?",
       "publishedAt": "2009-10-02T21:16:00+08:00",
+      "publishedAtRaw": "2009/10/02 21:16",
       "analysis": [
         "看板「Poker」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -1648,6 +1736,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTU-Poker/M.1254398537.A.276.html",
       "title": "Re: [閒聊] NTU-Poker ID對照表(請愛用repost)",
       "publishedAt": "2009-10-01T20:02:00+08:00",
+      "publishedAtRaw": "2009/10/01 20:02",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -1667,8 +1756,9 @@
       "pttUrl": "https://www.ptt.cc/bbs/Food/M.1254150330.A.297.html",
       "title": "[店家] 因為PO負評文要被告了(愛主馨香廚房)",
       "publishedAt": "2009-09-28T23:05:00+08:00",
+      "publishedAtRaw": "2009/09/28 23:05",
       "analysis": [
-        "公開頁正文已刪除或僅剩編輯紀錄，無法閱讀內文；此處僅保留標題與原始連結，不臆造內容。"
+        "目錄已更新；此篇尚待人工讀後分析（含留言）。重新整理腳本不會覆蓋既有「已讀分析」欄位。"
       ],
       "commentSummary": null,
       "commentCount": 0,
@@ -1686,6 +1776,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Anti-ramp/M.1254120445.A.9C6.html",
       "title": "[抱怨] (未依格式, 不合板規; 請修文依格式PO文)",
       "publishedAt": "2009-09-28T14:47:00+08:00",
+      "publishedAtRaw": "2009/09/28 14:47",
       "analysis": [
         "看板「Anti-ramp」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -1705,8 +1796,9 @@
       "pttUrl": "https://www.ptt.cc/bbs/Food/M.1254120342.A.390.html",
       "title": "Re: [食記] 台北公館/師大 五星級的平價美食",
       "publishedAt": "2009-09-28T14:45:00+08:00",
+      "publishedAtRaw": "2009/09/28 14:45",
       "analysis": [
-        "公開頁正文已刪除或僅剩編輯紀錄，無法閱讀內文；此處僅保留標題與原始連結，不臆造內容。"
+        "目錄已更新；此篇尚待人工讀後分析（含留言）。重新整理腳本不會覆蓋既有「已讀分析」欄位。"
       ],
       "commentSummary": null,
       "commentCount": 0,
@@ -1724,6 +1816,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1252338534.A.7BC.html",
       "title": "[問題] cake poker?",
       "publishedAt": "2009-09-07T23:48:00+08:00",
+      "publishedAtRaw": "2009/09/07 23:48",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -1743,6 +1836,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1250618297.A.14A.html",
       "title": "[問題] PT3序號",
       "publishedAt": "2009-08-19T01:58:00+08:00",
+      "publishedAtRaw": "2009/08/19 01:58",
       "analysis": [
         "看板「Poker」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -1762,6 +1856,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1249360416.A.B4E.html",
       "title": "[問題]pokertableratings?",
       "publishedAt": "2009-08-04T12:33:00+08:00",
+      "publishedAtRaw": "2009/08/04 12:33",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -1781,6 +1876,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1249314156.A.C09.html",
       "title": "[問題] 大象tracker?",
       "publishedAt": "2009-08-03T23:42:00+08:00",
+      "publishedAtRaw": "2009/08/03 23:42",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -1800,6 +1896,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1249096219.A.FC5.html",
       "title": "[閒聊] 名產",
       "publishedAt": "2009-08-01T11:10:00+08:00",
+      "publishedAtRaw": "2009/08/01 11:10",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -1819,6 +1916,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1248031218.A.778.html",
       "title": "[問題] real-time hud",
       "publishedAt": "2009-07-20T03:20:00+08:00",
+      "publishedAtRaw": "2009/07/20 03:20",
       "analysis": [
         "看板「Poker」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -1838,6 +1936,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1247431880.A.9EA.html",
       "title": "[問題] 這手",
       "publishedAt": "2009-07-13T04:51:00+08:00",
+      "publishedAtRaw": "2009/07/13 04:51",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -1857,6 +1956,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1246910188.A.8B4.html",
       "title": "[分享] 這手",
       "publishedAt": "2009-07-07T03:56:00+08:00",
+      "publishedAtRaw": "2009/07/07 03:56",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -1876,6 +1976,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1246612179.A.944.html",
       "title": "[問題] ipoker",
       "publishedAt": "2009-07-03T17:09:00+08:00",
+      "publishedAtRaw": "2009/07/03 17:09",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -1895,6 +1996,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1246358686.A.172.html",
       "title": "[請問] 202",
       "publishedAt": "2009-06-30T18:44:00+08:00",
+      "publishedAtRaw": "2009/06/30 18:44",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -1914,6 +2016,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1245878034.A.045.html",
       "title": "[分享] 腦殘",
       "publishedAt": "2009-06-25T05:13:00+08:00",
+      "publishedAtRaw": "2009/06/25 05:13",
       "analysis": [
         "屬公開論壇貼文，陳述以作者當下問題或經驗為限；未構成可驗證的投資組合建議。"
       ],
@@ -1933,6 +2036,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1245333319.A.ED6.html",
       "title": "[分享] 人生",
       "publishedAt": "2009-06-18T21:55:00+08:00",
+      "publishedAtRaw": "2009/06/18 21:55",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -1952,6 +2056,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1245180069.A.F6C.html",
       "title": "[問題] 這一手",
       "publishedAt": "2009-06-17T03:21:00+08:00",
+      "publishedAtRaw": "2009/06/17 03:21",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -1971,6 +2076,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1244828961.A.011.html",
       "title": "[問題] 請問PT3",
       "publishedAt": "2009-06-13T01:49:00+08:00",
+      "publishedAtRaw": "2009/06/13 01:49",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -1990,6 +2096,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1243198942.A.4B2.html",
       "title": "[問題] ftp的衛星賽代幣?",
       "publishedAt": "2009-05-25T05:02:00+08:00",
+      "publishedAtRaw": "2009/05/25 05:02",
       "analysis": [
         "看板「Poker」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2009,6 +2116,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Poker/M.1243188168.A.A05.html",
       "title": "[問題] 請問BUY-IN是FPP的那種tournament?",
       "publishedAt": "2009-05-25T02:02:00+08:00",
+      "publishedAtRaw": "2009/05/25 02:02",
       "analysis": [
         "看板「Poker」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2028,6 +2136,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Delicious/M.1241629383.A.DB3.html",
       "title": "Re: [鑑賞] 吃大餐囉！",
       "publishedAt": "2009-05-07T01:03:00+08:00",
+      "publishedAtRaw": "2009/05/07 01:03",
       "analysis": [
         "看板「Delicious」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2047,6 +2156,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Delicious/M.1240078414.A.C3A.html",
       "title": "Re: [社課] 廚師社課repost",
       "publishedAt": "2009-04-19T02:13:00+08:00",
+      "publishedAtRaw": "2009/04/19 02:13",
       "analysis": [
         "看板「Delicious」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2066,6 +2176,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Delicious/M.1238848504.A.8D6.html",
       "title": "[問題]明天",
       "publishedAt": "2009-04-04T20:35:00+08:00",
+      "publishedAtRaw": "2009/04/04 20:35",
       "analysis": [
         "看板「Delicious」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2085,6 +2196,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Roddick/M.1233327290.A.B94.html",
       "title": "[討論] 正拍",
       "publishedAt": "2009-01-30T22:54:00+08:00",
+      "publishedAtRaw": "2009/01/30 22:54",
       "analysis": [
         "看板「Roddick」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2104,6 +2216,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1232043332.A.291.html",
       "title": "[課程] dsp",
       "publishedAt": "2009-01-16T02:15:00+08:00",
+      "publishedAtRaw": "2009/01/16 02:15",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2123,6 +2236,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Phil/M.1231787586.A.1A1.html",
       "title": "[問題] 宇哥的高音最高到哪裡啊?",
       "publishedAt": "2009-01-13T03:13:00+08:00",
+      "publishedAtRaw": "2009/01/13 03:13",
       "analysis": [
         "看板「Phil」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2142,6 +2256,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/PHP/M.1229877419.A.8C9.html",
       "title": "[請益] 要產生圖形的問題",
       "publishedAt": "2008-12-22T00:36:00+08:00",
+      "publishedAtRaw": "2008/12/22 00:36",
       "analysis": [
         "看板「PHP」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2161,6 +2276,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Physics/M.1228855033.A.6AB.html",
       "title": "Re: [問題] 請問有關煞車線?",
       "publishedAt": "2008-12-10T04:37:00+08:00",
+      "publishedAtRaw": "2008/12/10 04:37",
       "analysis": [
         "看板「Physics」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2180,6 +2296,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Physics/M.1228807788.A.560.html",
       "title": "[問題] 請問有關煞車線?",
       "publishedAt": "2008-12-09T15:29:00+08:00",
+      "publishedAtRaw": "2008/12/09 15:29",
       "analysis": [
         "看板「Physics」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2199,6 +2316,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUGO/M.1226230894.A.95A.html",
       "title": "[問題]政大盃",
       "publishedAt": "2008-11-09T19:41:00+08:00",
+      "publishedAtRaw": "2008/11/09 19:41",
       "analysis": [
         "看板「NTUGO」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2218,6 +2336,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUHorse/M.1223308338.A.0C5.html",
       "title": "[問題] 想問一下...",
       "publishedAt": "2008-10-06T23:52:00+08:00",
+      "publishedAtRaw": "2008/10/06 23:52",
       "analysis": [
         "看板「NTUHorse」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2237,6 +2356,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/KTV/M.1222967694.A.51E.html",
       "title": "[分享]　依然會想念－自創曲",
       "publishedAt": "2008-10-03T01:14:00+08:00",
+      "publishedAtRaw": "2008/10/03 01:14",
       "analysis": [
         "看板「KTV」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2256,6 +2376,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUGO/M.1221664631.A.7CF.html",
       "title": "[求檔] 馬大師",
       "publishedAt": "2008-09-17T23:17:00+08:00",
+      "publishedAtRaw": "2008/09/17 23:17",
       "analysis": [
         "看板「NTUGO」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2275,6 +2396,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUGO/M.1221583000.A.62D.html",
       "title": "[問題]職棋",
       "publishedAt": "2008-09-17T00:36:00+08:00",
+      "publishedAtRaw": "2008/09/17 00:36",
       "analysis": [
         "看板「NTUGO」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2294,6 +2416,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUAC96/M.1221289347.A.E0E.html",
       "title": "廣告      ★星韻合唱團★入團免考試，熱烈招선…",
       "publishedAt": "2008-09-13T15:02:00+08:00",
+      "publishedAtRaw": "2008/09/13 15:02",
       "analysis": [
         "看板「NTUAC96」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2313,6 +2436,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUAC97/M.1221289320.A.E70.html",
       "title": "[轉錄]★星韻合唱團★入團免考試，熱烈招聲中！",
       "publishedAt": "2008-09-13T15:02:00+08:00",
+      "publishedAtRaw": "2008/09/13 15:02",
       "analysis": [
         "看板「NTUAC97」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2332,6 +2456,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Sodagreen/M.1220361059.A.D5C.html",
       "title": "[轉錄][連署] 拜託大家幫忙連署發行張雨生紀念音樂뜠…",
       "publishedAt": "2008-09-02T21:10:00+08:00",
+      "publishedAtRaw": "2008/09/02 21:10",
       "analysis": [
         "看板「Sodagreen」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2351,6 +2476,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/happy-clan/M.1220361032.A.885.html",
       "title": "[轉錄][連署] 拜託大家幫忙連署發行張雨生紀念音樂뜠…",
       "publishedAt": "2008-09-02T21:10:00+08:00",
+      "publishedAtRaw": "2008/09/02 21:10",
       "analysis": [
         "看板「happy-clan」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2370,6 +2496,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/A-MEI/M.1220360980.A.EF7.html",
       "title": "[轉錄][連署] 拜託大家幫忙連署發行張雨生紀念音樂뜠…",
       "publishedAt": "2008-09-02T21:09:00+08:00",
+      "publishedAtRaw": "2008/09/02 21:09",
       "analysis": [
         "看板「A-MEI」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2389,6 +2516,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/peianyang/M.1220360934.A.9D8.html",
       "title": "[轉錄][連署] 拜託大家幫忙連署發行張雨生紀念音樂뜠…",
       "publishedAt": "2008-09-02T21:08:00+08:00",
+      "publishedAtRaw": "2008/09/02 21:08",
       "analysis": [
         "看板「peianyang」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2408,6 +2536,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Metal_kids/M.1220360910.A.039.html",
       "title": "[轉錄][連署] 拜託大家幫忙連署發行張雨生紀念音樂뜠…",
       "publishedAt": "2008-09-02T21:08:00+08:00",
+      "publishedAtRaw": "2008/09/02 21:08",
       "analysis": [
         "看板「Metal_kids」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2427,6 +2556,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Physics/M.1214748343.A.BD8.html",
       "title": "[問題] 水的壓力？",
       "publishedAt": "2008-06-29T22:05:00+08:00",
+      "publishedAtRaw": "2008/06/29 22:05",
       "analysis": [
         "看板「Physics」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2446,6 +2576,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUGO/M.1213726850.A.F0D.html",
       "title": "Re: [公告] 送舊+期末聚餐時間調查",
       "publishedAt": "2008-06-18T02:20:00+08:00",
+      "publishedAtRaw": "2008/06/18 02:20",
       "analysis": [
         "看板「NTUGO」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2465,6 +2596,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1213363104.A.B88.html",
       "title": "[考試] 系程",
       "publishedAt": "2008-06-13T21:18:00+08:00",
+      "publishedAtRaw": "2008/06/13 21:18",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2484,6 +2616,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b96902xxx/M.1211363066.A.0DB.html",
       "title": "[協尋] 數位相機",
       "publishedAt": "2008-05-21T17:44:00+08:00",
+      "publishedAtRaw": "2008/05/21 17:44",
       "analysis": [
         "看板「b96902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2503,6 +2636,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1211363049.A.11A.html",
       "title": "[協尋] 數位相機",
       "publishedAt": "2008-05-21T17:44:00+08:00",
+      "publishedAtRaw": "2008/05/21 17:44",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2522,6 +2656,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NtuDormM8/M.1210670024.A.876.html",
       "title": "Re: [提醒公告]5月13日(二)消防講習",
       "publishedAt": "2008-05-13T17:13:00+08:00",
+      "publishedAtRaw": "2008/05/13 17:13",
       "analysis": [
         "看板「NtuDormM8」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2541,6 +2676,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Vocal/M.1209963645.A.396.html",
       "title": "[問題] 這種發聲...",
       "publishedAt": "2008-05-05T13:00:00+08:00",
+      "publishedAtRaw": "2008/05/05 13:00",
       "analysis": [
         "看板「Vocal」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2560,6 +2696,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NCCUGO/M.1209479837.A.59D.html",
       "title": "[失物]眼鏡...^^\"",
       "publishedAt": "2008-04-29T22:37:00+08:00",
+      "publishedAtRaw": "2008/04/29 22:37",
       "analysis": [
         "看板「NCCUGO」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2579,6 +2716,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NtuDormM1/M.1209455811.A.70C.html",
       "title": "[問題] 眼鏡行",
       "publishedAt": "2008-04-29T15:56:00+08:00",
+      "publishedAtRaw": "2008/04/29 15:56",
       "analysis": [
         "看板「NtuDormM1」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2598,6 +2736,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NtuDormM8/M.1209455775.A.616.html",
       "title": "[問題] 眼鏡行",
       "publishedAt": "2008-04-29T15:56:00+08:00",
+      "publishedAtRaw": "2008/04/29 15:56",
       "analysis": [
         "看板「NtuDormM8」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2617,6 +2756,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUGO/M.1209455491.A.D31.html",
       "title": "[失物]眼鏡...",
       "publishedAt": "2008-04-29T15:51:00+08:00",
+      "publishedAtRaw": "2008/04/29 15:51",
       "analysis": [
         "看板「NTUGO」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2636,6 +2776,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1208698325.A.EEE.html",
       "title": "[考試] 系程",
       "publishedAt": "2008-04-20T21:32:00+08:00",
+      "publishedAtRaw": "2008/04/20 21:32",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2655,6 +2796,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Vocal/M.1207294102.A.AE5.html",
       "title": "Re: [討論] 關於Vitas的五個八度音",
       "publishedAt": "2008-04-04T15:28:00+08:00",
+      "publishedAtRaw": "2008/04/04 15:28",
       "analysis": [
         "看板「Vocal」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2674,6 +2816,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1207161463.A.432.html",
       "title": "[轉錄][國防] 阿丹電子",
       "publishedAt": "2008-04-03T02:37:00+08:00",
+      "publishedAtRaw": "2008/04/03 02:37",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2693,6 +2836,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Vocal/M.1206470150.A.BD3.html",
       "title": "[連結]卓義峰",
       "publishedAt": "2008-03-26T02:35:00+08:00",
+      "publishedAtRaw": "2008/03/26 02:35",
       "analysis": [
         "看板「Vocal」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2712,6 +2856,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/peianyang/M.1205771479.A.228.html",
       "title": "Re: 新聞★接力挺馬　319搖滾挺馬肯定開唱97/3/15",
       "publishedAt": "2008-03-18T00:31:00+08:00",
+      "publishedAtRaw": "2008/03/18 00:31",
       "analysis": [
         "看板「peianyang」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2731,6 +2876,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUAC96/M.1203697049.A.DC5.html",
       "title": "☆星韻合唱團  免試招生中 也徵伴奏噢～★",
       "publishedAt": "2008-02-23T00:17:00+08:00",
+      "publishedAtRaw": "2008/02/23 00:17",
       "analysis": [
         "看板「NTUAC96」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2750,6 +2896,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b96902xxx/M.1203432814.A.7D0.html",
       "title": "[賣書]UML",
       "publishedAt": "2008-02-19T22:53:00+08:00",
+      "publishedAtRaw": "2008/02/19 22:53",
       "analysis": [
         "看板「b96902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2769,6 +2916,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NtuDormM8/M.1200017300.A.E1E.html",
       "title": "[撿到]手機",
       "publishedAt": "2008-01-11T10:08:00+08:00",
+      "publishedAtRaw": "2008/01/11 10:08",
       "analysis": [
         "看板「NtuDormM8」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2788,6 +2936,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUAC96/M.1197994501.A.DAE.html",
       "title": "★星韻合唱團  12/24(一)耶誕報佳音★",
       "publishedAt": "2007-12-19T00:15:00+08:00",
+      "publishedAtRaw": "2007/12/19 00:15",
       "analysis": [
         "看板「NTUAC96」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2807,6 +2956,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902xxx/M.1197994331.A.A76.html",
       "title": "★星韻合唱團  12/24(一)耶誕報佳音★",
       "publishedAt": "2007-12-19T00:12:00+08:00",
+      "publishedAtRaw": "2007/12/19 00:12",
       "analysis": [
         "看板「b94902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2826,6 +2976,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1197471462.A.3D6.html",
       "title": "[助教] 線代..?",
       "publishedAt": "2007-12-12T22:57:00+08:00",
+      "publishedAtRaw": "2007/12/12 22:57",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2845,6 +2996,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902xxx/M.1196781411.A.6D3.html",
       "title": "[情報] 洪士灝老師導生宴確定",
       "publishedAt": "2007-12-04T23:16:00+08:00",
+      "publishedAtRaw": "2007/12/04 23:16",
       "analysis": [
         "看板「b94902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2864,6 +3016,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b96902xxx/M.1196781399.A.563.html",
       "title": "[情報] 洪士灝老師導生宴確定",
       "publishedAt": "2007-12-04T23:16:00+08:00",
+      "publishedAtRaw": "2007/12/04 23:16",
       "analysis": [
         "看板「b96902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2883,6 +3036,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1196781374.A.F3B.html",
       "title": "[情報] 洪士灝老師導生宴確定",
       "publishedAt": "2007-12-04T23:16:00+08:00",
+      "publishedAtRaw": "2007/12/04 23:16",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2902,6 +3056,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902xxx/M.1196437490.A.99F.html",
       "title": "[情報] 洪士灝教授導生宴",
       "publishedAt": "2007-11-30T23:44:00+08:00",
+      "publishedAtRaw": "2007/11/30 23:44",
       "analysis": [
         "看板「b94902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2921,6 +3076,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b96902xxx/M.1196437477.A.730.html",
       "title": "[情報] 洪士灝教授導生宴",
       "publishedAt": "2007-11-30T23:44:00+08:00",
+      "publishedAtRaw": "2007/11/30 23:44",
       "analysis": [
         "看板「b96902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2940,6 +3096,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1196437453.A.3F5.html",
       "title": "[情報] 洪士灝教授導生宴",
       "publishedAt": "2007-11-30T23:44:00+08:00",
+      "publishedAtRaw": "2007/11/30 23:44",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2959,6 +3116,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902HW/M.1194974703.A.150.html",
       "title": "[自動] 顏老",
       "publishedAt": "2007-11-14T01:25:00+08:00",
+      "publishedAtRaw": "2007/11/14 01:25",
       "analysis": [
         "看板「b94902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2978,6 +3136,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1193753227.A.71D.html",
       "title": "[組語]toy的模擬器...",
       "publishedAt": "2007-10-30T22:07:00+08:00",
+      "publishedAtRaw": "2007/10/30 22:07",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -2997,6 +3156,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902xxx/M.1193431932.A.B19.html",
       "title": "[情報] 洪士灝老師導生宴",
       "publishedAt": "2007-10-27T04:52:00+08:00",
+      "publishedAtRaw": "2007/10/27 04:52",
       "analysis": [
         "看板「b94902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3016,6 +3176,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b96902xxx/M.1193431864.A.E94.html",
       "title": "[情報] 洪士灝老師導生宴",
       "publishedAt": "2007-10-27T04:51:00+08:00",
+      "publishedAtRaw": "2007/10/27 04:51",
       "analysis": [
         "看板「b96902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3035,6 +3196,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1193431824.A.75C.html",
       "title": "[情報] 洪士灝老師導生宴",
       "publishedAt": "2007-10-27T04:50:00+08:00",
+      "publishedAtRaw": "2007/10/27 04:50",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3054,6 +3216,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1192986833.A.970.html",
       "title": "[情報] 很好吃的豆瓣(藥學一)",
       "publishedAt": "2007-10-22T01:13:00+08:00",
+      "publishedAtRaw": "2007/10/22 01:13",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3073,6 +3236,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1192986717.A.871.html",
       "title": "[情報] 久違了的學扮(社會一)",
       "publishedAt": "2007-10-22T01:11:00+08:00",
+      "publishedAtRaw": "2007/10/22 01:11",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3092,6 +3256,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b96902xxx/M.1191341517.A.83E.html",
       "title": "[兜售]微甲課本+計概課本",
       "publishedAt": "2007-10-03T00:11:00+08:00",
+      "publishedAtRaw": "2007/10/03 00:11",
       "analysis": [
         "看板「b96902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3111,6 +3276,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NtuDormM8/M.1190475739.A.F28.html",
       "title": "[問題] 宿舍附近有復健所嗎？",
       "publishedAt": "2007-09-22T23:42:00+08:00",
+      "publishedAtRaw": "2007/09/22 23:42",
       "analysis": [
         "看板「NtuDormM8」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3130,6 +3296,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/CMWang/M.1188813153.A.8AE.html",
       "title": "Re: [討論]勝投的意義?",
       "publishedAt": "2007-09-03T17:52:00+08:00",
+      "publishedAtRaw": "2007/09/03 17:52",
       "analysis": [
         "看板「CMWang」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3149,6 +3316,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/CTS/M.1188240658.A.392.html",
       "title": "[小雷文]不喜誤入",
       "publishedAt": "2007-08-28T02:50:00+08:00",
+      "publishedAtRaw": "2007/08/28 02:50",
       "analysis": [
         "看板「CTS」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3168,6 +3336,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUSG/M.1187946726.A.519.html",
       "title": "[問題]軍事用品店？",
       "publishedAt": "2007-08-24T17:12:00+08:00",
+      "publishedAtRaw": "2007/08/24 17:12",
       "analysis": [
         "看板「NTUSG」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3187,6 +3356,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Vocal/M.1187630623.A.95D.html",
       "title": "[問題] 動力火車的彩虹？",
       "publishedAt": "2007-08-21T01:23:00+08:00",
+      "publishedAtRaw": "2007/08/21 01:23",
       "analysis": [
         "看板「Vocal」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3206,6 +3376,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Vocal/M.1187537231.A.078.html",
       "title": "[問題] 真假音轉換？",
       "publishedAt": "2007-08-19T23:27:00+08:00",
+      "publishedAtRaw": "2007/08/19 23:27",
       "analysis": [
         "看板「Vocal」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3225,6 +3396,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Vocal/M.1187319741.A.B37.html",
       "title": "[問題] 我期待的最高音？",
       "publishedAt": "2007-08-17T11:02:00+08:00",
+      "publishedAtRaw": "2007/08/17 11:02",
       "analysis": [
         "看板「Vocal」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3244,6 +3416,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Vocal/M.1186469225.A.6EB.html",
       "title": "[問題] 用丹田？",
       "publishedAt": "2007-08-07T14:47:00+08:00",
+      "publishedAtRaw": "2007/08/07 14:47",
       "analysis": [
         "看板「Vocal」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3263,6 +3436,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1183901608.A.10C.html",
       "title": "[問題]櫃子",
       "publishedAt": "2007-07-08T21:33:00+08:00",
+      "publishedAtRaw": "2007/07/08 21:33",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3282,6 +3456,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUGO/M.1183896427.A.457.html",
       "title": "[問題]囧",
       "publishedAt": "2007-07-08T20:07:00+08:00",
+      "publishedAtRaw": "2007/07/08 20:07",
       "analysis": [
         "看板「NTUGO」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3301,6 +3476,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Roddick/M.1183779067.A.227.html",
       "title": "[問題]中午是重播嗎？",
       "publishedAt": "2007-07-07T11:31:00+08:00",
+      "publishedAtRaw": "2007/07/07 11:31",
       "analysis": [
         "看板「Roddick」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3320,6 +3496,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/SUNFLOWER/M.1183740008.A.E68.html",
       "title": "Re: [公告] 暑假社遊",
       "publishedAt": "2007-07-07T00:40:00+08:00",
+      "publishedAtRaw": "2007/07/07 00:40",
       "analysis": [
         "看板「SUNFLOWER」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3339,6 +3516,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NtuDormM1/M.1183737440.A.07E.html",
       "title": "[問題] 水源校區",
       "publishedAt": "2007-07-06T23:57:00+08:00",
+      "publishedAtRaw": "2007/07/06 23:57",
       "analysis": [
         "看板「NtuDormM1」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3358,6 +3536,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/A-Rod/M.1182084333.A.D98.html",
       "title": "[閒聊] 神照",
       "publishedAt": "2007-06-17T20:45:00+08:00",
+      "publishedAtRaw": "2007/06/17 20:45",
       "analysis": [
         "看板「A-Rod」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3377,6 +3556,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1181488959.A.4C4.html",
       "title": "[考試] 方瑜",
       "publishedAt": "2007-06-10T23:22:00+08:00",
+      "publishedAtRaw": "2007/06/10 23:22",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3396,6 +3576,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/SUNFLOWER/M.1179844532.A.390.html",
       "title": "[歹勢]喔又是問九份隊...",
       "publishedAt": "2007-05-22T22:35:00+08:00",
+      "publishedAtRaw": "2007/05/22 22:35",
       "analysis": [
         "看板「SUNFLOWER」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3415,6 +3596,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1179749232.A.8E5.html",
       "title": "[噹噹]喔又是學伴~=W=",
       "publishedAt": "2007-05-21T20:07:00+08:00",
+      "publishedAtRaw": "2007/05/21 20:07",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3434,6 +3616,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1179330040.A.FDD.html",
       "title": "[問題]宿營跟資訊營",
       "publishedAt": "2007-05-16T23:40:00+08:00",
+      "publishedAtRaw": "2007/05/16 23:40",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3453,6 +3636,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1178980568.A.1F9.html",
       "title": "Re: [公告] 社遊確定時間請來回PO",
       "publishedAt": "2007-05-12T22:36:00+08:00",
+      "publishedAtRaw": "2007/05/12 22:36",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3472,6 +3656,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1178820579.A.F4C.html",
       "title": "[求救]喔我需要瓦斯爐...> <\"",
       "publishedAt": "2007-05-11T02:09:00+08:00",
+      "publishedAtRaw": "2007/05/11 02:09",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3491,6 +3676,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1178121357.A.C1A.html",
       "title": "[鞋拌]槍嗆槍",
       "publishedAt": "2007-05-02T23:55:00+08:00",
+      "publishedAtRaw": "2007/05/02 23:55",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3510,6 +3696,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/SUNFLOWER/M.1177767021.A.345.html",
       "title": "[問題]九份隊的日期...",
       "publishedAt": "2007-04-28T21:30:00+08:00",
+      "publishedAtRaw": "2007/04/28 21:30",
       "analysis": [
         "看板「SUNFLOWER」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3529,6 +3716,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1177356429.A.349.html",
       "title": "Re: [公告] 下學期社遊 來推時間啦啦啦啦~~~~",
       "publishedAt": "2007-04-24T03:27:00+08:00",
+      "publishedAtRaw": "2007/04/24 03:27",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3548,6 +3736,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902HW/M.1177212736.A.29F.html",
       "title": "[機率] 有陳文進機率的考古題嗎？",
       "publishedAt": "2007-04-22T11:32:00+08:00",
+      "publishedAtRaw": "2007/04/22 11:32",
       "analysis": [
         "看板「b94902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3567,6 +3756,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/java/M.1176691709.A.DA6.html",
       "title": "[問題] 請問string.split的用法...",
       "publishedAt": "2007-04-16T10:48:00+08:00",
+      "publishedAtRaw": "2007/04/16 10:48",
       "analysis": [
         "看板「java」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3586,6 +3776,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/SUNFLOWER/M.1176569506.A.B4C.html",
       "title": "Re: OH YA~~又是快樂的社遊",
       "publishedAt": "2007-04-15T00:51:00+08:00",
+      "publishedAtRaw": "2007/04/15 00:51",
       "analysis": [
         "看板「SUNFLOWER」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3605,6 +3796,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1176550287.A.7BC.html",
       "title": "[考試] OOP考古題..",
       "publishedAt": "2007-04-14T19:31:00+08:00",
+      "publishedAtRaw": "2007/04/14 19:31",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3624,6 +3816,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/SYSOP/M.1176485285.A.C64.html",
       "title": "[申請]我想申請上站記錄",
       "publishedAt": "2007-04-14T01:28:00+08:00",
+      "publishedAtRaw": "2007/04/14 01:28",
       "analysis": [
         "看板「SYSOP」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3643,6 +3836,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1176370412.A.F57.html",
       "title": "[問題]請問有辦法看自己每次上站時的ip位址嗎？",
       "publishedAt": "2007-04-12T17:33:00+08:00",
+      "publishedAtRaw": "2007/04/12 17:33",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3662,6 +3856,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUGO/M.1176369965.A.9D8.html",
       "title": "[問題]請問明天有職棋的教學嗎？",
       "publishedAt": "2007-04-12T17:26:00+08:00",
+      "publishedAtRaw": "2007/04/12 17:26",
       "analysis": [
         "看板「NTUGO」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3681,6 +3876,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1175918979.A.8AB.html",
       "title": "[求助]恩..小弟的電子字典...",
       "publishedAt": "2007-04-07T12:09:00+08:00",
+      "publishedAtRaw": "2007/04/07 12:09",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3700,6 +3896,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902xxx/M.1175564027.A.71D.html",
       "title": "[問題] about宿營...",
       "publishedAt": "2007-04-03T09:33:00+08:00",
+      "publishedAtRaw": "2007/04/03 09:33",
       "analysis": [
         "看板「b94902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3719,6 +3916,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUGO/M.1175432120.A.2C8.html",
       "title": "[情報]南友之夜",
       "publishedAt": "2007-04-01T20:55:00+08:00",
+      "publishedAtRaw": "2007/04/01 20:55",
       "analysis": [
         "看板「NTUGO」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3738,6 +3936,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1175432024.A.E16.html",
       "title": "[情報]南友之夜",
       "publishedAt": "2007-04-01T20:53:00+08:00",
+      "publishedAtRaw": "2007/04/01 20:53",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3757,6 +3956,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1175112023.A.A67.html",
       "title": "[嘴砲] 恩...",
       "publishedAt": "2007-03-29T04:00:00+08:00",
+      "publishedAtRaw": "2007/03/29 04:00",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3776,6 +3976,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NtuDormM1/M.1174498336.A.D6D.html",
       "title": "Re: [閒聊] 美食城",
       "publishedAt": "2007-03-22T01:32:00+08:00",
+      "publishedAtRaw": "2007/03/22 01:32",
       "analysis": [
         "看板「NtuDormM1」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3795,6 +3996,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/java/M.1174374866.A.997.html",
       "title": "[問題] 請問怎嚜宣告class的陣列",
       "publishedAt": "2007-03-20T15:14:00+08:00",
+      "publishedAtRaw": "2007/03/20 15:14",
       "analysis": [
         "看板「java」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3814,6 +4016,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1174329050.A.15D.html",
       "title": "[作業] 恩...orz...",
       "publishedAt": "2007-03-20T02:30:00+08:00",
+      "publishedAtRaw": "2007/03/20 02:30",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3833,6 +4036,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1174298857.A.59D.html",
       "title": "Re: [作業] about機率...",
       "publishedAt": "2007-03-19T18:07:00+08:00",
+      "publishedAtRaw": "2007/03/19 18:07",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -3852,6 +4056,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1174201689.A.C70.html",
       "title": "[作業] about機率...",
       "publishedAt": "2007-03-18T15:08:00+08:00",
+      "publishedAtRaw": "2007/03/18 15:08",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3871,6 +4076,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1174201267.A.D45.html",
       "title": "[作業] 問兩個java的問題...",
       "publishedAt": "2007-03-18T15:01:00+08:00",
+      "publishedAtRaw": "2007/03/18 15:01",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3890,6 +4096,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1173801378.A.A07.html",
       "title": "大家來報名啊..",
       "publishedAt": "2007-03-13T23:56:00+08:00",
+      "publishedAtRaw": "2007/03/13 23:56",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3909,6 +4116,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/SUNFLOWER/M.1173341459.A.691.html",
       "title": "[問題]求援~~",
       "publishedAt": "2007-03-08T16:10:00+08:00",
+      "publishedAtRaw": "2007/03/08 16:10",
       "analysis": [
         "看板「SUNFLOWER」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3928,6 +4136,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1173104797.A.300.html",
       "title": "[作業] JAVA作業二...",
       "publishedAt": "2007-03-05T22:26:00+08:00",
+      "publishedAtRaw": "2007/03/05 22:26",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3947,6 +4156,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/SUNFLOWER/M.1172937706.A.CE1.html",
       "title": "[迎新網宣]",
       "publishedAt": "2007-03-04T00:01:00+08:00",
+      "publishedAtRaw": "2007/03/04 00:01",
       "analysis": [
         "看板「SUNFLOWER」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3966,6 +4176,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1172851602.A.24A.html",
       "title": "[情報] 各位辛苦了~~",
       "publishedAt": "2007-03-03T00:06:00+08:00",
+      "publishedAtRaw": "2007/03/03 00:06",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -3985,6 +4196,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1172596894.A.D5B.html",
       "title": "[廣告]有沒有人會做網宣....@.@....",
       "publishedAt": "2007-02-28T01:21:00+08:00",
+      "publishedAtRaw": "2007/02/28 01:21",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4004,6 +4216,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1171338886.A.D57.html",
       "title": "恩..退休後的業績..........",
       "publishedAt": "2007-02-13T11:54:00+08:00",
+      "publishedAtRaw": "2007/02/13 11:54",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4023,6 +4236,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/SUNFLOWER/M.1170675704.A.9B5.html",
       "title": "Re: [公告] 下學期的社課",
       "publishedAt": "2007-02-05T19:41:00+08:00",
+      "publishedAtRaw": "2007/02/05 19:41",
       "analysis": [
         "看板「SUNFLOWER」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4042,6 +4256,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUGO/M.1170341787.A.5B9.html",
       "title": "[後天]",
       "publishedAt": "2007-02-01T22:56:00+08:00",
+      "publishedAtRaw": "2007/02/01 22:56",
       "analysis": [
         "看板「NTUGO」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4061,6 +4276,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Roddick/M.1169526290.A.8E6.html",
       "title": "終於該開時打了吧...",
       "publishedAt": "2007-01-23T12:24:00+08:00",
+      "publishedAtRaw": "2007/01/23 12:24",
       "analysis": [
         "看板「Roddick」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4080,6 +4296,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUGO/M.1169385764.A.722.html",
       "title": "[問題]社辦有開的時段?",
       "publishedAt": "2007-01-21T21:22:00+08:00",
+      "publishedAtRaw": "2007/01/21 21:22",
       "analysis": [
         "看板「NTUGO」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4099,6 +4316,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1168700079.A.E4E.html",
       "title": "Re: [事務] 搶救服務方案次數統計(by 事務部)",
       "publishedAt": "2007-01-13T22:54:00+08:00",
+      "publishedAtRaw": "2007/01/13 22:54",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4118,6 +4336,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1168529902.A.31E.html",
       "title": "[助教]超感謝助教喔~~",
       "publishedAt": "2007-01-11T23:38:00+08:00",
+      "publishedAtRaw": "2007/01/11 23:38",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4137,6 +4356,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1168504957.A.AB4.html",
       "title": "Re: [公告] 社。聚。報。名",
       "publishedAt": "2007-01-11T16:42:00+08:00",
+      "publishedAtRaw": "2007/01/11 16:42",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4156,6 +4376,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1168433523.A.2D3.html",
       "title": "[情報] 各位單班的同胞",
       "publishedAt": "2007-01-10T20:52:00+08:00",
+      "publishedAtRaw": "2007/01/10 20:52",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4175,6 +4396,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1168239671.A.103.html",
       "title": "[about歷史]修童長義歷史的請照過來",
       "publishedAt": "2007-01-08T15:01:00+08:00",
+      "publishedAtRaw": "2007/01/08 15:01",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4194,6 +4416,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1168174901.A.4F3.html",
       "title": "[轉錄][毛豆] 如果有一天",
       "publishedAt": "2007-01-07T21:01:00+08:00",
+      "publishedAtRaw": "2007/01/07 21:01",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4213,6 +4436,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1167755344.A.354.html",
       "title": "[情報] back to back!(台大森林)",
       "publishedAt": "2007-01-03T00:29:00+08:00",
+      "publishedAtRaw": "2007/01/03 00:29",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4232,6 +4456,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1167754937.A.9CA.html",
       "title": "[情報] 老師又來了~~(師大英語)",
       "publishedAt": "2007-01-03T00:22:00+08:00",
+      "publishedAtRaw": "2007/01/03 00:22",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4251,6 +4476,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/PHP/M.1167399405.A.695.html",
       "title": "[請益] 請問fwrite的參數？",
       "publishedAt": "2006-12-29T21:36:00+08:00",
+      "publishedAtRaw": "2006/12/29 21:36",
       "analysis": [
         "看板「PHP」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4270,6 +4496,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/PHP/M.1167385727.A.BED.html",
       "title": "[請益] 請問php要怎麼接form裡的參數？",
       "publishedAt": "2006-12-29T17:48:00+08:00",
+      "publishedAtRaw": "2006/12/29 17:48",
       "analysis": [
         "看板「PHP」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4289,6 +4516,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1167378614.A.5A8.html",
       "title": "[嘴砲] 認錯人...",
       "publishedAt": "2006-12-29T15:50:00+08:00",
+      "publishedAtRaw": "2006/12/29 15:50",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4308,6 +4536,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1167058592.A.BC9.html",
       "title": "[情報] 話說...",
       "publishedAt": "2006-12-25T22:56:00+08:00",
+      "publishedAtRaw": "2006/12/25 22:56",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4327,6 +4556,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1166779677.A.C2C.html",
       "title": "[作業] 雙班計概",
       "publishedAt": "2006-12-22T17:27:00+08:00",
+      "publishedAtRaw": "2006/12/22 17:27",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4346,6 +4576,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1166571127.A.93F.html",
       "title": "Re: [情報] 學伴(屏師心輔)",
       "publishedAt": "2006-12-20T07:32:00+08:00",
+      "publishedAtRaw": "2006/12/20 07:32",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4365,6 +4596,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1166544666.A.B19.html",
       "title": "[情報] 學伴(台大護理)",
       "publishedAt": "2006-12-20T00:11:00+08:00",
+      "publishedAtRaw": "2006/12/20 00:11",
       "analysis": [
         "屬公開論壇貼文，陳述以作者當下問題或經驗為限；未構成可驗證的投資組合建議。"
       ],
@@ -4384,6 +4616,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1166543625.A.D6A.html",
       "title": "[情報] 學伴(台大中文)",
       "publishedAt": "2006-12-19T23:53:00+08:00",
+      "publishedAtRaw": "2006/12/19 23:53",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4403,6 +4636,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/SUNFLOWER/M.1166540387.A.EAC.html",
       "title": "總召總召...",
       "publishedAt": "2006-12-19T22:59:00+08:00",
+      "publishedAtRaw": "2006/12/19 22:59",
       "analysis": [
         "看板「SUNFLOWER」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4422,6 +4656,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/SUNFLOWER/M.1166458320.A.5DC.html",
       "title": "Re: [總召] 慶功宴",
       "publishedAt": "2006-12-19T00:12:00+08:00",
+      "publishedAtRaw": "2006/12/19 00:12",
       "analysis": [
         "看板「SUNFLOWER」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4441,6 +4676,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1166358690.A.F68.html",
       "title": "Re: [公告] 快快快!!社遊要截止囉!!(注意!內有玄機)",
       "publishedAt": "2006-12-17T20:31:00+08:00",
+      "publishedAtRaw": "2006/12/17 20:31",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4460,6 +4696,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/SUNFLOWER/M.1166179325.A.81E.html",
       "title": "[歐機]哈哈~~",
       "publishedAt": "2006-12-15T18:42:00+08:00",
+      "publishedAtRaw": "2006/12/15 18:42",
       "analysis": [
         "看板「SUNFLOWER」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4479,6 +4716,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1166021139.A.659.html",
       "title": "[情報] 學伴(台大經濟)",
       "publishedAt": "2006-12-13T22:45:00+08:00",
+      "publishedAtRaw": "2006/12/13 22:45",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4498,6 +4736,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTNU_ENG/M.1165750192.A.9C7.html",
       "title": "[問題] 想跟貴系抽學伴~~",
       "publishedAt": "2006-12-10T19:29:00+08:00",
+      "publishedAtRaw": "2006/12/10 19:29",
       "analysis": [
         "看板「NTNU_ENG」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4517,6 +4756,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1165638899.A.A48.html",
       "title": "Re: [公告] 宜蘭兩天一夜遊!!!!   快來回文    喔~ …",
       "publishedAt": "2006-12-09T12:34:00+08:00",
+      "publishedAtRaw": "2006/12/09 12:34",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4536,6 +4776,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1165419926.A.8F8.html",
       "title": "Re: [集氣] 上次是別人幫我...",
       "publishedAt": "2006-12-06T23:45:00+08:00",
+      "publishedAtRaw": "2006/12/06 23:45",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4555,6 +4796,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1165390401.A.230.html",
       "title": "[歐機] 大家多保重啊...",
       "publishedAt": "2006-12-06T15:33:00+08:00",
+      "publishedAtRaw": "2006/12/06 15:33",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4574,6 +4816,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1165054391.A.410.html",
       "title": "Re: 請問台大資訊要幾級分啊？",
       "publishedAt": "2006-12-02T18:13:00+08:00",
+      "publishedAtRaw": "2006/12/02 18:13",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4593,6 +4836,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1164809827.A.45D.html",
       "title": "[嘴砲] 減肥..= =+",
       "publishedAt": "2006-11-29T22:17:00+08:00",
+      "publishedAtRaw": "2006/11/29 22:17",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4612,6 +4856,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/SUNFLOWER/M.1164642351.A.2D3.html",
       "title": "Re: [社遊] 三鶯社遊",
       "publishedAt": "2006-11-27T23:45:00+08:00",
+      "publishedAtRaw": "2006/11/27 23:45",
       "analysis": [
         "看板「SUNFLOWER」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4631,6 +4876,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1164475677.A.132.html",
       "title": "[情報] 系網",
       "publishedAt": "2006-11-26T01:27:00+08:00",
+      "publishedAtRaw": "2006/11/26 01:27",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4650,6 +4896,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b92902xxx/M.1164467769.A.B3A.html",
       "title": "[情報] 系網",
       "publishedAt": "2006-11-25T23:16:00+08:00",
+      "publishedAtRaw": "2006/11/25 23:16",
       "analysis": [
         "看板「b92902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4669,6 +4916,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902xxx/M.1164467606.A.105.html",
       "title": "[資訊] 系網~~",
       "publishedAt": "2006-11-25T23:13:00+08:00",
+      "publishedAtRaw": "2006/11/25 23:13",
       "analysis": [
         "看板「b94902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4688,6 +4936,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1164439398.A.8A4.html",
       "title": "[轉錄][失物招領] 林X德同學(大一資工)皮夾招領",
       "publishedAt": "2006-11-25T15:23:00+08:00",
+      "publishedAtRaw": "2006/11/25 15:23",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4707,6 +4956,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1164379798.A.B4C.html",
       "title": "Re: [廣告]徵求鄉民~~",
       "publishedAt": "2006-11-24T22:49:00+08:00",
+      "publishedAtRaw": "2006/11/24 22:49",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4726,6 +4976,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1164307579.A.04B.html",
       "title": "[嘴砲] 遇到色長",
       "publishedAt": "2006-11-24T02:46:00+08:00",
+      "publishedAtRaw": "2006/11/24 02:46",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4745,6 +4996,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/SUNFLOWER/M.1164300361.A.D47.html",
       "title": "Re: [公告] 我為這個版感到心寒",
       "publishedAt": "2006-11-24T00:46:00+08:00",
+      "publishedAtRaw": "2006/11/24 00:46",
       "analysis": [
         "看板「SUNFLOWER」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4764,6 +5016,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1164298694.A.4CF.html",
       "title": "[廣告]徵求鄉民~~",
       "publishedAt": "2006-11-24T00:18:00+08:00",
+      "publishedAtRaw": "2006/11/24 00:18",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4783,6 +5036,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/SUNFLOWER/M.1164296504.A.04B.html",
       "title": "[八卦]我想..該來的還是要來的.....",
       "publishedAt": "2006-11-23T23:41:00+08:00",
+      "publishedAtRaw": "2006/11/23 23:41",
       "analysis": [
         "看板「SUNFLOWER」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4802,6 +5056,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/CSIE_TENNIS/M.1164270674.A.12D.html",
       "title": "[公告] 有空的時間",
       "publishedAt": "2006-11-23T16:31:00+08:00",
+      "publishedAtRaw": "2006/11/23 16:31",
       "analysis": [
         "看板「CSIE_TENNIS」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4821,6 +5076,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/CSIE_TENNIS/M.1164269752.A.189.html",
       "title": "[情報] 系隊的事",
       "publishedAt": "2006-11-23T16:15:00+08:00",
+      "publishedAtRaw": "2006/11/23 16:15",
       "analysis": [
         "看板「CSIE_TENNIS」貼文，觸及居住／租屋話題，但非完整市場分析。"
       ],
@@ -4840,6 +5096,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1164184066.A.80D.html",
       "title": "[討論] 雙班計概",
       "publishedAt": "2006-11-22T16:27:00+08:00",
+      "publishedAtRaw": "2006/11/22 16:27",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4859,6 +5116,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1163784172.A.3F6.html",
       "title": "[無言]\"傷\"假....",
       "publishedAt": "2006-11-18T01:22:00+08:00",
+      "publishedAtRaw": "2006/11/18 01:22",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4878,6 +5136,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1163522411.A.BDE.html",
       "title": "Re: [考試] 關於計程期中考第一題",
       "publishedAt": "2006-11-15T00:40:00+08:00",
+      "publishedAtRaw": "2006/11/15 00:40",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4897,6 +5156,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1163430558.A.8CC.html",
       "title": "[嘴砲] 新生代姐妹花",
       "publishedAt": "2006-11-13T23:09:00+08:00",
+      "publishedAtRaw": "2006/11/13 23:09",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4916,6 +5176,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1163408275.A.0EA.html",
       "title": "[摳摳]轉交",
       "publishedAt": "2006-11-13T16:57:00+08:00",
+      "publishedAtRaw": "2006/11/13 16:57",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4935,6 +5196,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1163100524.A.A72.html",
       "title": "Re: [歐機] 關於正妹",
       "publishedAt": "2006-11-10T03:28:00+08:00",
+      "publishedAtRaw": "2006/11/10 03:28",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4954,6 +5216,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1163000404.A.B95.html",
       "title": "Re: [公告] 期中聚餐",
       "publishedAt": "2006-11-08T23:40:00+08:00",
+      "publishedAtRaw": "2006/11/08 23:40",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4973,6 +5236,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUCHE-99-HW/M.1162458142.A.077.html",
       "title": "Re: [計程] 出現詭異問題 = =",
       "publishedAt": "2006-11-02T17:02:00+08:00",
+      "publishedAtRaw": "2006/11/02 17:02",
       "analysis": [
         "看板「NTUCHE-99-HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -4992,6 +5256,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1162396394.A.35F.html",
       "title": "Re: [公告] 恩...學伴再一發~~(北醫呼吸治療)",
       "publishedAt": "2006-11-01T23:53:00+08:00",
+      "publishedAtRaw": "2006/11/01 23:53",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5011,6 +5276,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1162385478.A.5AD.html",
       "title": "[考試] 雙班計概",
       "publishedAt": "2006-11-01T20:51:00+08:00",
+      "publishedAtRaw": "2006/11/01 20:51",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5030,6 +5296,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1162313321.A.E54.html",
       "title": "[公告] 恩...學伴再一發~~(北醫呼吸治療)",
       "publishedAt": "2006-11-01T00:48:00+08:00",
+      "publishedAtRaw": "2006/11/01 00:48",
       "analysis": [
         "看板「b95902xxx」貼文，觸及居住／租屋話題，但非完整市場分析。"
       ],
@@ -5049,6 +5316,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1162085535.A.35C.html",
       "title": "[考試] 雙班計概",
       "publishedAt": "2006-10-29T09:32:00+08:00",
+      "publishedAtRaw": "2006/10/29 09:32",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5068,6 +5336,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1162040539.A.A5B.html",
       "title": "[問題]有沒有人國文也是修方瑜的..@.@?",
       "publishedAt": "2006-10-28T21:02:00+08:00",
+      "publishedAtRaw": "2006/10/28 21:02",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5087,6 +5356,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1161998327.A.934.html",
       "title": "Re: [歐機] ID對照表",
       "publishedAt": "2006-10-28T09:18:00+08:00",
+      "publishedAtRaw": "2006/10/28 09:18",
       "analysis": [
         "內容以撲克／牌局討論為主，非股市研究；若提及資金管理，屬博弈資金而非證券倉位。"
       ],
@@ -5106,6 +5376,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902xxx/M.1161959723.A.DCF.html",
       "title": "[情報] 系網開版囉~~^^",
       "publishedAt": "2006-10-27T22:35:00+08:00",
+      "publishedAtRaw": "2006/10/27 22:35",
       "analysis": [
         "看板「b94902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5125,6 +5396,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1161877275.A.76E.html",
       "title": "[情報] 話說我們的系網開版了....",
       "publishedAt": "2006-10-26T23:41:00+08:00",
+      "publishedAtRaw": "2006/10/26 23:41",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5144,6 +5416,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/CS_Badminton/M.1161795553.A.17F.html",
       "title": "Re: 壞消息but重要資訊",
       "publishedAt": "2006-10-26T00:59:00+08:00",
+      "publishedAtRaw": "2006/10/26 00:59",
       "analysis": [
         "看板「CS_Badminton」貼文，觸及居住／租屋話題，但非完整市場分析。"
       ],
@@ -5163,6 +5436,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUJudo/M.1161623176.A.2BC.html",
       "title": "Re: [嘴砲] 慘了",
       "publishedAt": "2006-10-24T01:06:00+08:00",
+      "publishedAtRaw": "2006/10/24 01:06",
       "analysis": [
         "看板「NTUJudo」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5182,6 +5456,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1161442751.A.0FD.html",
       "title": "[作業] 雙班計概？",
       "publishedAt": "2006-10-21T22:59:00+08:00",
+      "publishedAtRaw": "2006/10/21 22:59",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5201,6 +5476,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1161087048.A.729.html",
       "title": "[問題]有沒有人英文是王寶祥的？",
       "publishedAt": "2006-10-17T20:10:00+08:00",
+      "publishedAtRaw": "2006/10/17 20:10",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5220,6 +5496,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1161014608.A.00E.html",
       "title": "[問題]關於trace code debug..@.@?",
       "publishedAt": "2006-10-17T00:03:00+08:00",
+      "publishedAtRaw": "2006/10/17 00:03",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5239,6 +5516,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1160903560.A.FE9.html",
       "title": "[公告] 恩...又到了公布學伴的時刻了~~= =+",
       "publishedAt": "2006-10-15T17:12:00+08:00",
+      "publishedAtRaw": "2006/10/15 17:12",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5258,6 +5536,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/CSIE_BASKET/M.1160625179.A.793.html",
       "title": "[問題] 系籃好熱血啊...XD~~",
       "publishedAt": "2006-10-12T11:52:00+08:00",
+      "publishedAtRaw": "2006/10/12 11:52",
       "analysis": [
         "看板「CSIE_BASKET」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5277,6 +5556,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1160531804.A.D5C.html",
       "title": "[助教] 使徒三的測資...",
       "publishedAt": "2006-10-11T09:56:00+08:00",
+      "publishedAtRaw": "2006/10/11 09:56",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5296,6 +5576,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902HW/M.1160447387.A.3AE.html",
       "title": "Re: ㄚ阿阿阿阿阿阿阿",
       "publishedAt": "2006-10-10T10:29:00+08:00",
+      "publishedAtRaw": "2006/10/10 10:29",
       "analysis": [
         "看板「b95902HW」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5315,6 +5596,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/BadmintnClub/M.1159880312.A.2B5.html",
       "title": "Re: [問題] 早上新體打球時間調查",
       "publishedAt": "2006-10-03T20:58:00+08:00",
+      "publishedAtRaw": "2006/10/03 20:58",
       "analysis": [
         "看板「BadmintnClub」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5334,6 +5616,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1159806398.A.C70.html",
       "title": "有關學伴的公布....",
       "publishedAt": "2006-10-03T00:26:00+08:00",
+      "publishedAtRaw": "2006/10/03 00:26",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5353,6 +5636,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1159805173.A.C37.html",
       "title": "[公告] 趕業績~~XD~~~",
       "publishedAt": "2006-10-03T00:06:00+08:00",
+      "publishedAtRaw": "2006/10/03 00:06",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5372,6 +5656,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1159771566.A.A64.html",
       "title": "[徵求]有沒有人想要跟我換禮拜二的服務課...@.@?",
       "publishedAt": "2006-10-02T14:46:00+08:00",
+      "publishedAtRaw": "2006/10/02 14:46",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5391,6 +5676,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/CSIE_TTENNIS/M.1159719962.A.3C9.html",
       "title": "[問題] 大一..",
       "publishedAt": "2006-10-02T00:26:00+08:00",
+      "publishedAtRaw": "2006/10/02 00:26",
       "analysis": [
         "看板「CSIE_TTENNIS」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5410,6 +5696,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1159714590.A.69C.html",
       "title": "[建議]恩...我們要不要選個活動股長...^^\"",
       "publishedAt": "2006-10-01T22:56:00+08:00",
+      "publishedAtRaw": "2006/10/01 22:56",
       "analysis": [
         "屬公開論壇貼文，陳述以作者當下問題或經驗為限；未構成可驗證的投資組合建議。"
       ],
@@ -5429,6 +5716,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1159713099.A.33F.html",
       "title": "[公告] 噹噹噹~~學伴又來啦~~XD~~",
       "publishedAt": "2006-10-01T22:31:00+08:00",
+      "publishedAtRaw": "2006/10/01 22:31",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5448,6 +5736,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1159675049.A.FCB.html",
       "title": "[求助]有誰微甲是修張志忠的...@.@?",
       "publishedAt": "2006-10-01T11:57:00+08:00",
+      "publishedAtRaw": "2006/10/01 11:57",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5467,6 +5756,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1159631781.A.06A.html",
       "title": "[情報] about Tark~~",
       "publishedAt": "2006-09-30T23:56:00+08:00",
+      "publishedAtRaw": "2006/09/30 23:56",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5486,6 +5776,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902xxx/M.1159597266.A.C36.html",
       "title": "[問題] 想問一下計概課本的實用性...^^\"?",
       "publishedAt": "2006-09-30T14:21:00+08:00",
+      "publishedAtRaw": "2006/09/30 14:21",
       "analysis": [
         "看板「b94902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5505,6 +5796,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1159552815.A.AFB.html",
       "title": "[情報] 恩...來集個氣吧...",
       "publishedAt": "2006-09-30T02:00:00+08:00",
+      "publishedAtRaw": "2006/09/30 02:00",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5524,6 +5816,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1159455820.A.D19.html",
       "title": "Re: [問題] 服務課",
       "publishedAt": "2006-09-28T23:03:00+08:00",
+      "publishedAtRaw": "2006/09/28 23:03",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5543,6 +5836,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1159369445.A.C04.html",
       "title": "[公告] 恩..會計的學伴結果也出來了~~",
       "publishedAt": "2006-09-27T23:04:00+08:00",
+      "publishedAtRaw": "2006/09/27 23:04",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5562,6 +5856,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1159363994.A.D41.html",
       "title": "Re: [公告] 明天練一下吧...",
       "publishedAt": "2006-09-27T21:33:00+08:00",
+      "publishedAtRaw": "2006/09/27 21:33",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5581,6 +5876,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1159285424.A.588.html",
       "title": "以後抽學伴~~",
       "publishedAt": "2006-09-26T23:43:00+08:00",
+      "publishedAtRaw": "2006/09/26 23:43",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5600,6 +5896,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1159284466.A.67A.html",
       "title": "[公告]財金的名單(麻煩版主置底一下)",
       "publishedAt": "2006-09-26T23:27:00+08:00",
+      "publishedAtRaw": "2006/09/26 23:27",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5619,6 +5916,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1159202045.A.7AA.html",
       "title": "解釋一下~~",
       "publishedAt": "2006-09-26T00:34:00+08:00",
+      "publishedAtRaw": "2006/09/26 00:34",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5638,6 +5936,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1159120920.A.E1E.html",
       "title": "[公告] 熱騰騰的學伴出爐啦 ~~~XD~~",
       "publishedAt": "2006-09-25T02:02:00+08:00",
+      "publishedAtRaw": "2006/09/25 02:02",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5657,6 +5956,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1158850231.A.993.html",
       "title": "[請益] 請單班的同學明天提醒我一下...^^\"",
       "publishedAt": "2006-09-21T22:50:00+08:00",
+      "publishedAtRaw": "2006/09/21 22:50",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5676,6 +5976,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1158846704.A.97B.html",
       "title": "[問題] 請問有沒有人在系館地下室撿到小弟的球袋？",
       "publishedAt": "2006-09-21T21:51:00+08:00",
+      "publishedAtRaw": "2006/09/21 21:51",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5695,6 +5996,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/CSIE_TTENNIS/M.1158708586.A.F38.html",
       "title": "Re: 這星期練球時間",
       "publishedAt": "2006-09-20T07:29:00+08:00",
+      "publishedAtRaw": "2006/09/20 07:29",
       "analysis": [
         "看板「CSIE_TTENNIS」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5714,6 +6016,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1158689140.A.E89.html",
       "title": "[問題] 關於服務課...",
       "publishedAt": "2006-09-20T02:05:00+08:00",
+      "publishedAtRaw": "2006/09/20 02:05",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5733,6 +6036,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1158674936.A.067.html",
       "title": "Re: [心得] 抽學伴我強烈建議一對多",
       "publishedAt": "2006-09-19T22:08:00+08:00",
+      "publishedAtRaw": "2006/09/19 22:08",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5752,6 +6056,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/CS_Badminton/M.1158632927.A.344.html",
       "title": "Re: 開學後練球時間",
       "publishedAt": "2006-09-19T10:28:00+08:00",
+      "publishedAtRaw": "2006/09/19 10:28",
       "analysis": [
         "看板「CS_Badminton」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5771,6 +6076,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1158508502.A.659.html",
       "title": "[閒聊] 關於學伴",
       "publishedAt": "2006-09-17T23:55:00+08:00",
+      "publishedAtRaw": "2006/09/17 23:55",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5790,6 +6096,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTU06DFLL/M.1158485719.A.066.html",
       "title": "[閒聊] 學伴..XD~~",
       "publishedAt": "2006-09-17T17:35:00+08:00",
+      "publishedAtRaw": "2006/09/17 17:35",
       "analysis": [
         "看板「NTU06DFLL」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5809,6 +6116,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/CSIE_TTENNIS/M.1158458469.A.A08.html",
       "title": "Re: [統計] 這學期練球時間",
       "publishedAt": "2006-09-17T10:01:00+08:00",
+      "publishedAtRaw": "2006/09/17 10:01",
       "analysis": [
         "看板「CSIE_TTENNIS」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5828,6 +6136,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/CS_Badminton/M.1158457609.A.E87.html",
       "title": "自介....",
       "publishedAt": "2006-09-17T09:46:00+08:00",
+      "publishedAtRaw": "2006/09/17 09:46",
       "analysis": [
         "看板「CS_Badminton」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5847,6 +6156,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902xxx/M.1158359661.A.0A8.html",
       "title": "[問題] 一個小問題...",
       "publishedAt": "2006-09-16T06:34:00+08:00",
+      "publishedAtRaw": "2006/09/16 06:34",
       "analysis": [
         "看板「b94902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5866,6 +6176,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Roddick/M.1157833293.A.B95.html",
       "title": "[閒聊] 第三盤該不會是6-7吧...@.@...",
       "publishedAt": "2006-09-10T04:21:00+08:00",
+      "publishedAtRaw": "2006/09/10 04:21",
       "analysis": [
         "看板「Roddick」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5885,6 +6196,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Roddick/M.1157601130.A.828.html",
       "title": "[感想] 好教練...",
       "publishedAt": "2006-09-07T11:52:00+08:00",
+      "publishedAtRaw": "2006/09/07 11:52",
       "analysis": [
         "看板「Roddick」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5904,6 +6216,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1157249443.A.34C.html",
       "title": "[問題] 關於寢具？",
       "publishedAt": "2006-09-03T10:10:00+08:00",
+      "publishedAtRaw": "2006/09/03 10:10",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5923,6 +6236,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1156691109.A.4B3.html",
       "title": "[閒聊] 自介",
       "publishedAt": "2006-08-27T23:05:00+08:00",
+      "publishedAtRaw": "2006/08/27 23:05",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5942,6 +6256,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1156490578.A.2B3.html",
       "title": "[問題] ㄜ..關於減免...",
       "publishedAt": "2006-08-25T15:22:00+08:00",
+      "publishedAtRaw": "2006/08/25 15:22",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5961,6 +6276,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1156487471.A.967.html",
       "title": "Re: [閒聊] 再一個小時",
       "publishedAt": "2006-08-25T14:31:00+08:00",
+      "publishedAtRaw": "2006/08/25 14:31",
       "analysis": [
         "看板「b95902xxx」貼文，觸及居住／租屋話題，但非完整市場分析。"
       ],
@@ -5980,6 +6296,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1155823763.A.C51.html",
       "title": "Re: .....有人參加那個學生宿舍規律什麼什麼的嗎??",
       "publishedAt": "2006-08-17T22:09:00+08:00",
+      "publishedAtRaw": "2006/08/17 22:09",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -5999,6 +6316,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1155618313.A.0DA.html",
       "title": "Re: [閒聊] 到底有幾個正妹學長呢...XD~~",
       "publishedAt": "2006-08-15T13:05:00+08:00",
+      "publishedAtRaw": "2006/08/15 13:05",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6018,6 +6336,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1155567986.A.F7B.html",
       "title": "[閒聊] 到底有幾個正妹學長呢...XD~~",
       "publishedAt": "2006-08-14T23:06:00+08:00",
+      "publishedAtRaw": "2006/08/14 23:06",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6037,6 +6356,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1155472928.A.C2F.html",
       "title": "[閒聊] 集氣~~~",
       "publishedAt": "2006-08-13T20:42:00+08:00",
+      "publishedAtRaw": "2006/08/13 20:42",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6056,6 +6376,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1155140927.A.1CA.html",
       "title": "Re: [閒聊] 恩..組團~~XD~~",
       "publishedAt": "2006-08-10T00:28:00+08:00",
+      "publishedAtRaw": "2006/08/10 00:28",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6075,6 +6396,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1155137270.A.C66.html",
       "title": "[閒聊] 恩..組團~~XD~~",
       "publishedAt": "2006-08-09T23:27:00+08:00",
+      "publishedAtRaw": "2006/08/09 23:27",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6094,6 +6416,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1155136467.A.A37.html",
       "title": "[閒聊] 暑訓結束了...",
       "publishedAt": "2006-08-09T23:14:00+08:00",
+      "publishedAtRaw": "2006/08/09 23:14",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6113,6 +6436,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902xxx/M.1154316953.A.6A9.html",
       "title": "[問題] 偷問一下...",
       "publishedAt": "2006-07-31T11:35:00+08:00",
+      "publishedAtRaw": "2006/07/31 11:35",
       "analysis": [
         "看板「b94902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6132,6 +6456,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1153879558.A.5AC.html",
       "title": "[閒聊] 恩..世上真的什麼人都有...",
       "publishedAt": "2006-07-26T10:05:00+08:00",
+      "publishedAtRaw": "2006/07/26 10:05",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6151,6 +6476,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1153833961.A.6C8.html",
       "title": "Re: [閒聊] 考到駕照啦~~",
       "publishedAt": "2006-07-25T21:26:00+08:00",
+      "publishedAtRaw": "2006/07/25 21:26",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6170,6 +6496,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1153756453.A.994.html",
       "title": "[問題] 關於宿營？",
       "publishedAt": "2006-07-24T23:54:00+08:00",
+      "publishedAtRaw": "2006/07/24 23:54",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6189,6 +6516,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1153396124.A.8E4.html",
       "title": "[閒聊] 版上好冷清喔...@.@\"",
       "publishedAt": "2006-07-20T19:48:00+08:00",
+      "publishedAtRaw": "2006/07/20 19:48",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6208,6 +6536,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/esahc/M.1151340558.A.2E6.html",
       "title": "Re: [狀況] msn每次主動敲他?可以嗎??",
       "publishedAt": "2006-06-27T00:49:00+08:00",
+      "publishedAtRaw": "2006/06/27 00:49",
       "analysis": [
         "看板「esahc」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6227,6 +6556,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1147963550.A.270.html",
       "title": "[討論] 話說...版又乾了...@@\"",
       "publishedAt": "2006-05-18T22:45:00+08:00",
+      "publishedAtRaw": "2006/05/18 22:45",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6246,6 +6576,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1146888219.A.4F4.html",
       "title": "[問題] 偷問一下...",
       "publishedAt": "2006-05-06T12:03:00+08:00",
+      "publishedAtRaw": "2006/05/06 12:03",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6265,6 +6596,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1146238216.A.087.html",
       "title": "[閒聊] 嗯..電資學院真的很有錢...^^\"",
       "publishedAt": "2006-04-28T23:30:00+08:00",
+      "publishedAtRaw": "2006/04/28 23:30",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6284,6 +6616,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1146146830.A.D33.html",
       "title": "[問題] 那個座談會...",
       "publishedAt": "2006-04-27T22:07:00+08:00",
+      "publishedAtRaw": "2006/04/27 22:07",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6303,6 +6636,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/CSSE/M.1146064374.A.0DB.html",
       "title": "[問題] 請問哪裡有人家作好的題目?(範例之類的)",
       "publishedAt": "2006-04-26T23:12:00+08:00",
+      "publishedAtRaw": "2006/04/26 23:12",
       "analysis": [
         "看板「CSSE」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6322,6 +6656,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b95902xxx/M.1146062799.A.5D1.html",
       "title": "賀開版！",
       "publishedAt": "2006-04-26T22:46:00+08:00",
+      "publishedAtRaw": "2006/04/26 22:46",
       "analysis": [
         "看板「b95902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6341,6 +6676,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902xxx/M.1145635399.A.13B.html",
       "title": "Re: [情報] 大一上的書單",
       "publishedAt": "2006-04-22T00:03:00+08:00",
+      "publishedAtRaw": "2006/04/22 00:03",
       "analysis": [
         "看板「b94902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6360,6 +6696,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902xxx/M.1145541243.A.6D4.html",
       "title": "[問題] 問營隊？",
       "publishedAt": "2006-04-20T21:54:00+08:00",
+      "publishedAtRaw": "2006/04/20 21:54",
       "analysis": [
         "看板「b94902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6379,6 +6716,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Chen_C_H/M.1145283975.A.E72.html",
       "title": "[發問] 請問一下...",
       "publishedAt": "2006-04-17T22:26:00+08:00",
+      "publishedAtRaw": "2006/04/17 22:26",
       "analysis": [
         "看板「Chen_C_H」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6398,6 +6736,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902xxx/M.1144938894.A.D79.html",
       "title": "[問題] 又來問問題了...> <\"",
       "publishedAt": "2006-04-13T22:34:00+08:00",
+      "publishedAtRaw": "2006/04/13 22:34",
       "analysis": [
         "看板「b94902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6417,6 +6756,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902xxx/M.1144163104.A.763.html",
       "title": "[問題] 又來問問題了...XD~~",
       "publishedAt": "2006-04-04T23:05:00+08:00",
+      "publishedAtRaw": "2006/04/04 23:05",
       "analysis": [
         "看板「b94902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6436,6 +6776,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Sixers/M.1143135804.A.C34.html",
       "title": "Re: [討論] 76人三大隱憂",
       "publishedAt": "2006-03-24T01:43:00+08:00",
+      "publishedAtRaw": "2006/03/24 01:43",
       "analysis": [
         "看板「Sixers」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6455,6 +6796,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902xxx/M.1142781077.A.89D.html",
       "title": "[問題] 再請教一個問題...^^\"",
       "publishedAt": "2006-03-19T23:11:00+08:00",
+      "publishedAtRaw": "2006/03/19 23:11",
       "analysis": [
         "看板「b94902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6474,6 +6816,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/b94902xxx/M.1142684552.A.65D.html",
       "title": "[問題] 請問各位學長姐？",
       "publishedAt": "2006-03-18T20:22:00+08:00",
+      "publishedAtRaw": "2006/03/18 20:22",
       "analysis": [
         "看板「b94902xxx」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6493,6 +6836,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/NTUMSE-94/M.1140708274.A.F90.html",
       "title": "[問題] 請問各位學長姐有關推甄的問題？",
       "publishedAt": "2006-02-23T23:24:00+08:00",
+      "publishedAtRaw": "2006/02/23 23:24",
       "analysis": [
         "看板「NTUMSE-94」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6512,6 +6856,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Chen_C_H/M.1122129269.A.DBB.html",
       "title": "嗯..to利利哥...^^\"",
       "publishedAt": "2005-07-23T22:34:00+08:00",
+      "publishedAtRaw": "2005/07/23 22:34",
       "analysis": [
         "看板「Chen_C_H」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6531,6 +6876,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Roddick/M.1120835752.A.7E2.html",
       "title": "[自介] et220870",
       "publishedAt": "2005-07-08T23:15:00+08:00",
+      "publishedAtRaw": "2005/07/08 23:15",
       "analysis": [
         "看板「Roddick」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6550,6 +6896,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Roddick/M.1120419901.A.0CC.html",
       "title": "[徵文] Andy....",
       "publishedAt": "2005-07-04T03:45:00+08:00",
+      "publishedAtRaw": "2005/07/04 03:45",
       "analysis": [
         "看板「Roddick」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
@@ -6569,6 +6916,7 @@
       "pttUrl": "https://www.ptt.cc/bbs/Roddick/M.1120376111.A.186.html",
       "title": "[感想] 有點小擔心...",
       "publishedAt": "2005-07-03T15:35:00+08:00",
+      "publishedAtRaw": "2005/07/03 15:35",
       "analysis": [
         "看板「Roddick」貼文，內容偏生活／社群／校園，未見具體股市或資產配置主張。"
       ],
