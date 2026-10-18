@@ -347,3 +347,31 @@ export function realizedPnl(sellPrice, avgCost, qty) {
   const r = (sellPrice - avgCost) * qty;
   return isFiniteNumber(r) ? r : null;
 }
+
+/**
+ * Observed traded volume: finite and > 0, else null. Yahoo leaves the newest session's volume
+ * null/0 for indices (^TWII meta regularMarketVolume = 0) until it backfills; `v || 0` turned
+ * that into a fake "zero volume" day. A liquid index or screened stock never truly trades 0,
+ * so 0 is treated as missing, never as data.
+ */
+export function observedVolume(v) {
+  return isFiniteNumber(v) && v > 0 ? v : null;
+}
+
+/**
+ * Last-bar volume ratio vs the mean of the OBSERVED bars among the prior `window` bars.
+ * Domain: last bar must be observed and ≥ minLen prior bars observed; else ratio null (a gap,
+ * not a 0 that reads as "dead volume" and not an inflated ratio from zero-filled priors).
+ * When every bar is observed this equals the legacy volumeRatio(v[n−1], mean(v[n−21..n−2])).
+ * @returns {{ lastVol: number|null, avgVol: number|null, ratio: number|null, observedPrior: number }}
+ */
+export function volumeRatioObserved(vols, { window = 20, minLen = 10 } = {}) {
+  if (!Array.isArray(vols) || vols.length < 2 || !Number.isInteger(window) || window < 1) {
+    return { lastVol: null, avgVol: null, ratio: null, observedPrior: 0 };
+  }
+  const lastVol = observedVolume(vols[vols.length - 1]);
+  const prior = vols.slice(-(window + 1), -1).map(observedVolume).filter((v) => v != null);
+  const avgVol = avgVolume(prior, { minLen });
+  const ratio = lastVol == null ? null : volumeRatio(lastVol, avgVol);
+  return { lastVol, avgVol, ratio, observedPrior: prior.length };
+}

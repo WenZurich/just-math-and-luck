@@ -22,7 +22,7 @@ import {
 import {
   sma,
   pctChange,
-  volumeRatio as volRatioOf,
+  volumeRatioObserved,
   avgVolume,
   rsVsIndex,
   baseRankingScore,
@@ -205,7 +205,7 @@ function computeMetrics(chart) {
   const bars = chart.bars;
   if (bars.length < 25) return null;
   const closes = bars.map((b) => b.c);
-  const vols = bars.map((b) => b.v || 0);
+  const vols = bars.map((b) => b.v); // missing/0 → null in volumeRatioObserved (never zero-filled)
   const last = bars[bars.length - 1];
   const prev = bars[bars.length - 2];
   const price = last.c;
@@ -218,10 +218,7 @@ function computeMetrics(chart) {
   const pct1m = idx21 >= 0 ? pctChange(closes[idx21], price) : null;
   const sma20 = sma(closes, 20);
   const sma50 = closes.length >= 50 ? sma(closes, 50) : null;
-  const lastVol = vols[vols.length - 1];
-  const prev20 = vols.slice(-21, -1);
-  const avgVol20 = avgVolume(prev20, { minLen: 10 });
-  const volRatio = volRatioOf(lastVol, avgVol20);
+  const { lastVol, avgVol: avgVol20, ratio: volRatio } = volumeRatioObserved(vols, { window: 20, minLen: 10 });
   const sma200 = closes.length >= 200 ? sma(closes, 200) : null;
   const highs = bars.map((b) => b.h ?? b.c);
   const lookbackHigh = Math.min(252, highs.length);

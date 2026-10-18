@@ -5,7 +5,7 @@
  * Pure SMA / returns / volume helpers: ./math-core.mjs (guarded by math-guards).
  */
 
-import { sma, retChange as pctChange, volumeRatio, avgVolume, pctFromSma, peakInWindow, drawdownFromPeak, atrPct } from "./math-core.mjs";
+import { sma, retChange as pctChange, volumeRatioObserved, pctFromSma, peakInWindow, drawdownFromPeak, atrPct, isFiniteNumber } from "./math-core.mjs";
 
 export const PHASE_TO_STANCE = {
   euphoric: "defensive",
@@ -45,7 +45,7 @@ export function indexFeaturesFromChart(chart) {
   const bars = chart.bars;
   const closes = bars.map((b) => b.c);
   const highs = bars.map((b) => b.h ?? b.c);
-  const vols = bars.map((b) => b.v || 0);
+  const vols = bars.map((b) => b.v); // missing/0 → null inside volumeRatioObserved (never zero-filled)
   const last = bars[bars.length - 1];
   const price = last.c;
   const gaps = [];
@@ -76,10 +76,7 @@ export function indexFeaturesFromChart(chart) {
   const ret63d = idx63 >= 0 ? pctChange(closes[idx63], price) : null;
   if (ret63d == null) gaps.push("ret_63d");
 
-  const lastVol = vols[vols.length - 1];
-  const prev20 = vols.slice(-21, -1);
-  const avgVol20 = avgVolume(prev20, { minLen: 10 });
-  const indexVolRatio20 = volumeRatio(lastVol, avgVol20);
+  const indexVolRatio20 = volumeRatioObserved(vols, { window: 20, minLen: 10 }).ratio;
   if (indexVolRatio20 == null) gaps.push("index_vol_ratio_20");
 
   const atr = atrPct20(bars);
@@ -175,7 +172,7 @@ export function temperatureScore(feat, rate, opts = {}) {
   let used = 0;
   const gaps = [];
 
-  if (feat?.pctFromSma200 != null) {
+  if (isFiniteNumber(feat?.pctFromSma200)) {
     used++;
     if (feat.pctFromSma200 >= 0.12) score += 1;
     else if (feat.pctFromSma200 >= 0.05) score += 0.5;
@@ -183,27 +180,27 @@ export function temperatureScore(feat, rate, opts = {}) {
     else if (feat.pctFromSma200 <= -0.08) score -= 0.5;
   } else gaps.push("pct_from_SMA200");
 
-  if (feat?.ddFrom252dHigh != null) {
+  if (isFiniteNumber(feat?.ddFrom252dHigh)) {
     used++;
     if (feat.ddFrom252dHigh >= -0.01) score += 0.75;
     else if (feat.ddFrom252dHigh <= -0.15) score -= 1;
     else if (feat.ddFrom252dHigh <= -0.1) score -= 0.5;
   } else gaps.push("dd_from_252d_high");
 
-  if (feat?.near52wHigh && feat?.atrBottomQuartile) {
+  if (feat?.near52wHigh === true && feat?.atrBottomQuartile === true) {
     used++;
     score += 1; // M5 compressed vol near highs
   } else if (feat?.atrBottomQuartile == null && feat?.near52wHigh) {
     gaps.push("ATR_pct_20_quartile");
   }
 
-  if (rate?.d20d != null) {
+  if (isFiniteNumber(rate?.d20d)) {
     used++;
     if (rate.d20d >= 0.25) score -= 0.75; // rising yields cooler for risk assets
     else if (rate.d20d <= -0.15) score += 0.5;
   } else gaps.push("d_US10Y_20d");
 
-  if (opts.breadthProxy != null) {
+  if (isFiniteNumber(opts.breadthProxy)) {
     used++;
     if (opts.breadthProxy >= 0.7) score += 0.5;
     else if (opts.breadthProxy <= 0.3) score -= 0.5;
@@ -211,7 +208,7 @@ export function temperatureScore(feat, rate, opts = {}) {
 
   if (opts.skipCredit) {
     /* TW: US credit ETF not applied */
-  } else if (opts.hygVsLqd20d != null) {
+  } else if (isFiniteNumber(opts.hygVsLqd20d)) {
     used++;
     if (opts.hygVsLqd20d > 0.01) score += 0.25;
     else if (opts.hygVsLqd20d < -0.01) score -= 0.25;

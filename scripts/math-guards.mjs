@@ -30,8 +30,10 @@ import {
   atrPct,
   realizedPnl,
   roundHalfAway,
+  observedVolume,
+  volumeRatioObserved,
 } from "./math-core.mjs";
-import { temperatureScore } from "./market-regime.mjs";
+import { temperatureScore, indexFeaturesFromChart } from "./market-regime.mjs";
 import {
   isFiniteNumber as pdFinite,
   optionIntrinsic,
@@ -1137,6 +1139,224 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
     fail(`paper-portfolio.json unreadable for realized P&L replay: ${e.message}`);
   }
   ok(`realizedPnl + roundHalfAway (${n} hand/refusal/tie/random cases incl. sign, qty additivity, unit scaling, avgCostAfterBuy round trip; ${live} live paper SELLs reproduce (price − avg) × qty, book totals = Σ trades)`);
+}
+
+// —— Observed-volume ratio (no zero-fill) + Marks temperature finite gating (2026-10-19) ——
+// Bug found: `b.v || 0` zero-filled Yahoo's not-yet-backfilled last-session volume, so the
+// published ^TWII indexVolRatio20 was exactly 0 on 13 of 16 scan days (a fake "dead volume"
+// day), and a missing prior bar would have deflated the mean and inflated the ratio.
+{
+  let n = 0;
+  const bad = (m) => { fail(m); };
+  // observedVolume domain
+  for (const [v, want] of [[5, 5], [0.5, 0.5], [0, null], [-3, null], [NaN, null], [Infinity, null], [-Infinity, null], ["5", null], [null, null], [undefined, null]]) {
+    n++;
+    if (!Object.is(observedVolume(v), want)) bad(`observedVolume(${String(v)}) = ${observedVolume(v)} ≠ ${want}`);
+  }
+  let seed = 20261019;
+  const rnd = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
+  const legacyRatio = (vols) => volumeRatio(vols[vols.length - 1], avgVolume(vols.slice(-21, -1), { minLen: 10 }));
+  const mkVols = (len) => Array.from({ length: len }, () => 1e3 + rnd() * 9e6);
+  // (1) all observed ⇒ identical to legacy formula (verbatim oracle)
+  for (let i = 0; i < 2000; i++) {
+    const len = 11 + Math.floor(rnd() * 60);
+    const vols = mkVols(len);
+    const a = volumeRatioObserved(vols).ratio, b = legacyRatio(vols);
+    n++;
+    if (!(a != null && b != null && Math.abs(a - b) <= 1e-12 * Math.max(1, Math.abs(b)))) bad(`all-observed ratio ${a} ≠ legacy ${b} (len ${len})`);
+    // scale invariance (units of shares vs lots) and strict positivity
+    const c = 1 + Math.floor(rnd() * 999);
+    const s = volumeRatioObserved(vols.map((v) => v * c)).ratio;
+    n++;
+    if (!(s != null && Math.abs(s - a) <= 1e-12 * Math.max(1, a))) bad(`ratio not scale-invariant ×${c}: ${s} vs ${a}`);
+    n++;
+    if (!(a > 0)) bad(`ratio not > 0: ${a}`);
+  }
+  // (2) missing last bar ⇒ null, never 0 (the legacy zero-fill published 0 here)
+  for (let i = 0; i < 500; i++) {
+    const vols = mkVols(25);
+    vols[vols.length - 1] = [null, undefined, 0, NaN, -1][i % 5];
+    const r = volumeRatioObserved(vols).ratio;
+    n++;
+    if (r !== null) bad(`missing last volume (${String(vols[24])}) gave ratio ${r}, want null`);
+    const zf = legacyRatio(vols.map((v) => v || 0));
+    n++;
+    if (zf !== 0 && i % 5 !== 4) bad(`oracle sanity: zero-fill should reproduce the published 0 (got ${zf})`);
+  }
+  // (3) k missing priors: mean over observed only; boundary 9 observed → null, 10 → value
+  for (let i = 0; i < 1000; i++) {
+    const vols = mkVols(21);
+    const k = Math.floor(rnd() * 21); // 0..20 priors dropped
+    const idx = Array.from({ length: 20 }, (_, j) => j);
+    for (let j = 19; j > 0; j--) { const t = Math.floor(rnd() * (j + 1)); [idx[j], idx[t]] = [idx[t], idx[j]]; }
+    for (const j of idx.slice(0, k)) vols[j] = rnd() < 0.5 ? null : 0;
+    const obs = vols.slice(0, 20).filter((v) => typeof v === "number" && v > 0);
+    const r = volumeRatioObserved(vols);
+    n++;
+    if (r.observedPrior !== 20 - k) bad(`observedPrior ${r.observedPrior} ≠ ${20 - k}`);
+    if (20 - k < 10) {
+      n++;
+      if (r.ratio !== null) bad(`${20 - k} observed priors (<10) gave ratio ${r.ratio}, want null`);
+    } else {
+      const want = vols[20] / (obs.reduce((a, b) => a + b, 0) / obs.length);
+      n++;
+      if (!(r.ratio != null && Math.abs(r.ratio - want) <= 1e-12 * want)) bad(`k=${k} ratio ${r.ratio} ≠ last/mean(observed) ${want}`);
+      // zero-filled priors would deflate the mean ⇒ legacy ratio ≥ honest ratio, strictly when k>0
+      const zf = legacyRatio(vols.map((v) => v || 0));
+      n++;
+      if (k > 0 && !(zf > r.ratio)) bad(`oracle sanity: zero-filled priors should inflate ratio (zf ${zf} vs ${r.ratio})`);
+    }
+  }
+  // (4) window only looks at the 20 bars before the last
+  {
+    const vols = mkVols(40);
+    const a = volumeRatioObserved(vols).ratio;
+    vols[0] = null; vols[18] = 0; // outside the prior-20 window (indices 19..38)
+    n++;
+    if (volumeRatioObserved(vols).ratio !== a) bad("bars outside the 20-bar prior window changed the ratio");
+  }
+  // (5) integration: indexFeaturesFromChart publishes null (gap) on a missing last volume, never 0
+  {
+    const bars = [];
+    let px = 100;
+    for (let i = 0; i < 260; i++) {
+      px *= 1 + (rnd() - 0.5) * 0.02;
+      bars.push({ date: `d${i}`, o: px, h: px * 1.005, l: px * 0.995, c: px, v: 2e6 + rnd() * 3e6 });
+    }
+    const full = indexFeaturesFromChart({ bars });
+    const want = Math.round(legacyRatio(bars.map((b) => b.v)) * 1000) / 1000;
+    n++;
+    if (full?.indexVolRatio20 !== want) bad(`indexFeaturesFromChart all-observed ${full?.indexVolRatio20} ≠ legacy ${want}`);
+    for (const miss of [null, undefined, 0]) {
+      const b2 = bars.map((b) => ({ ...b }));
+      b2[b2.length - 1].v = miss;
+      const f = indexFeaturesFromChart({ bars: b2 });
+      n++;
+      if (f?.indexVolRatio20 !== null) bad(`indexFeaturesFromChart last v=${String(miss)} → ${f?.indexVolRatio20}, want null`);
+    }
+  }
+  // (6) live: no published index volume ratio is exactly 0 (a liquid index never trades 0)
+  try {
+    const lj = JSON.parse(readFileSync(join(ROOT_MG, "public", "data", "latest.json"), "utf8"));
+    for (const m of ["us", "tw"]) {
+      const v = lj?.marketRegime?.[m]?.features?.indexVolRatio20;
+      n++;
+      if (v != null && !(isFiniteNumber(v) && v > 0)) bad(`latest.json ${m} indexVolRatio20 = ${v} (zero/non-finite volume ratio published)`);
+    }
+  } catch (e) {
+    bad(`latest.json unreadable for volume-ratio live check: ${e.message}`);
+  }
+  ok(`observedVolume / volumeRatioObserved (${n} cases: legacy-equal when all observed, scale-invariant, missing last ⇒ null not 0, mean over observed priors, 9/10 boundary, window locality, indexFeaturesFromChart integration, live latest.json has no 0 ratio)`);
+}
+{
+  // Marks temperature: verbatim legacy oracle on finite inputs; non-finite ⇒ gap (not "used")
+  const legacyTemp = (feat, rate, opts = {}) => {
+    let score = 0, used = 0;
+    if (feat?.pctFromSma200 != null) { used++; if (feat.pctFromSma200 >= 0.12) score += 1; else if (feat.pctFromSma200 >= 0.05) score += 0.5; else if (feat.pctFromSma200 <= -0.15) score -= 1; else if (feat.pctFromSma200 <= -0.08) score -= 0.5; }
+    if (feat?.ddFrom252dHigh != null) { used++; if (feat.ddFrom252dHigh >= -0.01) score += 0.75; else if (feat.ddFrom252dHigh <= -0.15) score -= 1; else if (feat.ddFrom252dHigh <= -0.1) score -= 0.5; }
+    if (feat?.near52wHigh && feat?.atrBottomQuartile) { used++; score += 1; }
+    if (rate?.d20d != null) { used++; if (rate.d20d >= 0.25) score -= 0.75; else if (rate.d20d <= -0.15) score += 0.5; }
+    if (opts.breadthProxy != null) { used++; if (opts.breadthProxy >= 0.7) score += 0.5; else if (opts.breadthProxy <= 0.3) score -= 0.5; }
+    if (opts.skipCredit) { /* */ } else if (opts.hygVsLqd20d != null) { used++; if (opts.hygVsLqd20d > 0.01) score += 0.25; else if (opts.hygVsLqd20d < -0.01) score -= 0.25; }
+    if (used === 0) return { score: null, used: 0 };
+    return { score: Math.max(-2, Math.min(2, Math.round(score * 100) / 100)), used };
+  };
+  let n = 0;
+  let seed = 19102026;
+  const rnd = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
+  const pick = (lo, hi, pNull = 0.15) => (rnd() < pNull ? null : lo + rnd() * (hi - lo));
+  const gen = () => {
+    const dd = pick(-0.4, 0);
+    return {
+      feat: { pctFromSma200: pick(-0.3, 0.3), ddFrom252dHigh: dd, near52wHigh: dd == null ? null : dd >= -0.02, atrBottomQuartile: rnd() < 0.2 ? null : rnd() < 0.3 },
+      rate: { d20d: pick(-0.6, 0.6) },
+      opts: { breadthProxy: pick(0, 1), hygVsLqd20d: pick(-0.05, 0.05), skipCredit: rnd() < 0.4 },
+    };
+  };
+  for (let i = 0; i < 5000; i++) {
+    const { feat, rate, opts } = gen();
+    const a = temperatureScore(feat, rate, opts), b = legacyTemp(feat, rate, opts);
+    n++;
+    if (a.score !== b.score || a.used !== b.used) bad2(`temp ≠ legacy on finite inputs: ${JSON.stringify({ feat, rate, opts })} new ${a.score}/${a.used} legacy ${b.score}/${b.used}`);
+    n++;
+    if (a.score != null && !(a.score >= -2 && a.score <= 2 && Number.isInteger(Math.round(a.score * 4 * 1e9) / 1e9))) bad2(`temp ${a.score} outside [-2,2] or not a multiple of 0.25`);
+  }
+  function bad2(m) { fail(m); }
+  // non-finite proxy ⇒ same as absent (gap), never counted as used
+  const slots = [
+    ["pctFromSma200", (f, r, o, v) => { f.pctFromSma200 = v; }],
+    ["ddFrom252dHigh", (f, r, o, v) => { f.ddFrom252dHigh = v; }],
+    ["d20d", (f, r, o, v) => { r.d20d = v; }],
+    ["breadthProxy", (f, r, o, v) => { o.breadthProxy = v; }],
+    ["hygVsLqd20d", (f, r, o, v) => { o.hygVsLqd20d = v; o.skipCredit = false; }],
+  ];
+  for (let i = 0; i < 600; i++) {
+    const [name, set] = slots[i % slots.length];
+    const g = gen();
+    const junk = [NaN, Infinity, -Infinity, "0.2"][i % 4];
+    const f1 = { ...g.feat }, r1 = { ...g.rate }, o1 = { ...g.opts };
+    const f2 = { ...g.feat }, r2 = { ...g.rate }, o2 = { ...g.opts };
+    set(f1, r1, o1, junk); set(f2, r2, o2, null);
+    const a = temperatureScore(f1, r1, o1), b = temperatureScore(f2, r2, o2);
+    n++;
+    if (a.score !== b.score || a.used !== b.used) bad2(`temp ${name}=${String(junk)} not treated as gap: ${a.score}/${a.used} vs absent ${b.score}/${b.used}`);
+  }
+  // monotonicity per proxy (others fixed)
+  const mono = [
+    ["pctFromSma200", +1, -0.3, 0.3, (g, v) => { g.feat.pctFromSma200 = v; }],
+    ["ddFrom252dHigh", +1, -0.4, 0, (g, v) => { g.feat.ddFrom252dHigh = v; g.feat.near52wHigh = false; }],
+    ["d20d", -1, -0.6, 0.6, (g, v) => { g.rate.d20d = v; }],
+    ["breadthProxy", +1, 0, 1, (g, v) => { g.opts.breadthProxy = v; }],
+    ["hygVsLqd20d", +1, -0.05, 0.05, (g, v) => { g.opts.hygVsLqd20d = v; g.opts.skipCredit = false; }],
+  ];
+  for (let i = 0; i < 2500; i++) {
+    const [name, dir, lo, hi, set] = mono[i % mono.length];
+    const g = gen();
+    let x = lo + rnd() * (hi - lo), y = lo + rnd() * (hi - lo);
+    if (x > y) [x, y] = [y, x];
+    const gx = JSON.parse(JSON.stringify(g)), gy = JSON.parse(JSON.stringify(g));
+    set(gx, x); set(gy, y);
+    const sx = temperatureScore(gx.feat, gx.rate, gx.opts).score, sy = temperatureScore(gy.feat, gy.rate, gy.opts).score;
+    n++;
+    if (!(dir > 0 ? sy >= sx : sy <= sx)) bad2(`temp not monotone in ${name}: f(${x})=${sx}, f(${y})=${sy}`);
+  }
+  // exact thresholds (single proxy, contribution read off directly)
+  const one = (key, v) => {
+    if (key === "p") return temperatureScore({ pctFromSma200: v }, null, { skipCredit: true }).score;
+    if (key === "d") return temperatureScore({ ddFrom252dHigh: v }, null, { skipCredit: true }).score;
+    if (key === "r") return temperatureScore({}, { d20d: v }, { skipCredit: true }).score;
+    if (key === "b") return temperatureScore({}, null, { skipCredit: true, breadthProxy: v }).score;
+    return temperatureScore({}, null, { hygVsLqd20d: v }).score;
+  };
+  for (const [k, v, want] of [
+    ["p", 0.12, 1], ["p", 0.1199, 0.5], ["p", 0.05, 0.5], ["p", 0.0499, 0], ["p", -0.0799, 0], ["p", -0.08, -0.5], ["p", -0.1499, -0.5], ["p", -0.15, -1],
+    ["d", -0.01, 0.75], ["d", -0.0101, 0], ["d", -0.0999, 0], ["d", -0.1, -0.5], ["d", -0.1499, -0.5], ["d", -0.15, -1],
+    ["r", 0.25, -0.75], ["r", 0.2499, 0], ["r", -0.1499, 0], ["r", -0.15, 0.5],
+    ["b", 0.7, 0.5], ["b", 0.6999, 0], ["b", 0.3001, 0], ["b", 0.3, -0.5],
+    ["h", 0.01, 0], ["h", 0.0101, 0.25], ["h", -0.01, 0], ["h", -0.0101, -0.25],
+  ]) {
+    n++;
+    if (one(k, v) !== want) bad2(`temp threshold ${k}=${v} → ${one(k, v)}, want ${want}`);
+  }
+  // live replay: published temperatureScore reproduces from published features
+  try {
+    const lj = JSON.parse(readFileSync(join(ROOT_MG, "public", "data", "latest.json"), "utf8"));
+    for (const m of ["us", "tw"]) {
+      const r = lj?.marketRegime?.[m];
+      if (!r || r.temperatureScore == null) continue;
+      const f = r.features || {};
+      const t = temperatureScore(
+        { pctFromSma200: f.pctFromSma200, ddFrom252dHigh: f.ddFrom252dHigh, near52wHigh: f.ddFrom252dHigh != null ? f.ddFrom252dHigh >= -0.02 : null, atrBottomQuartile: f.atrBottomQuartile },
+        { d20d: f.dUs10y20d },
+        { breadthProxy: f.breadthProxy, hygVsLqd20d: f.hygVsLqd20d, skipCredit: m === "tw" }
+      );
+      n++;
+      if (t.score !== r.temperatureScore) bad2(`live ${m} temperatureScore ${r.temperatureScore} ≠ recomputed ${t.score}`);
+    }
+  } catch (e) {
+    bad2(`latest.json unreadable for temperature replay: ${e.message}`);
+  }
+  ok(`temperatureScore (${n} cases: 5000 random = verbatim legacy, range/0.25 grid, NaN/±Inf/string ⇒ gap, monotone per proxy, 26 exact thresholds, live US/TW replay)`);
 }
 
 console.log("——");
