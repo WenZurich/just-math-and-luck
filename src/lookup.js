@@ -18,6 +18,8 @@ const YAHOO_HOSTS = [
 ];
 const JINA = "https://r.jina.ai/";
 const SEC_TICKERS_URL = "https://www.sec.gov/files/company_tickers.json";
+/** EDGAR company search (official SEC index): one ticker → CIK, ~1 KB instead of the ~800 KB full map. */
+const SEC_ENTITY_SEARCH = (q) => `https://efts.sec.gov/LATEST/search-index?keysTyped=${encodeURIComponent(q)}`;
 const SEC_SUBMISSIONS = (cik10) => `https://data.sec.gov/submissions/CIK${cik10}.json`;
 const SEC_FORM_KEEP = /^(10-K|10-Q|8-K)(\/A)?$/i;
 const OFFICIAL_FILING_LIMIT = 8;
@@ -655,10 +657,10 @@ export function buildOfficialLinks({ market, symbol, display, website, cik } = {
   return { market: m, links, code: code || null, cik: padCik(cik) };
 }
 
-async function fetchPublicJson(url, { timeoutMs = 18000 } = {}) {
+async function fetchPublicJson(url, { timeoutMs = 18000, directFallback = true } = {}) {
   // Prefer jina for SEC (browser CORS + UA blocks on data.sec.gov)
   const errors = [];
-  for (const tryUrl of [`${JINA}${url}`, url]) {
+  for (const tryUrl of directFallback ? [`${JINA}${url}`, url] : [`${JINA}${url}`]) {
     try {
       const text = await fetchText(tryUrl, { timeoutMs });
       const data = extractJson(text);
@@ -675,7 +677,8 @@ async function loadCikMap() {
   if (cikMapCache) return cikMapCache;
   if (cikMapPromise) return cikMapPromise;
   cikMapPromise = (async () => {
-    const res = await fetchPublicJson(SEC_TICKERS_URL, { timeoutMs: 22000 });
+    // www.sec.gov sends no CORS header, so a direct browser fetch can never succeed; jina only.
+    const res = await fetchPublicJson(SEC_TICKERS_URL, { timeoutMs: 22000, directFallback: false });
     const map = new Map();
     if (res.ok && res.data && typeof res.data === "object") {
       for (const row of Object.values(res.data)) {
@@ -690,11 +693,49 @@ async function loadCikMap() {
   return cikMapPromise;
 }
 
+/** Pick the exact-ticker hit from an EDGAR entity search response (tickers field is "A, B"). */
+export function pickCikFromEntitySearch(data, key) {
+  const hits = data?.hits?.hits;
+  if (!Array.isArray(hits)) return null;
+  const want = String(key || "").toUpperCase();
+  for (const h of hits) {
+    const tickers = String(h?._source?.tickers || "")
+      .toUpperCase()
+      .split(/[\s,]+/)
+      .filter(Boolean)
+      .map((x) => x.replace(/\./g, "-"));
+    if (tickers.includes(want)) {
+      const cik = padCik(h?._id);
+      if (cik) return cik;
+    }
+  }
+  return null;
+}
+
+const cikSearchCache = new Map();
+
+async function searchCik(key) {
+  if (cikSearchCache.has(key)) return cikSearchCache.get(key);
+  const p = fetchPublicJson(SEC_ENTITY_SEARCH(key), { timeoutMs: 12000, directFallback: false }).then((res) =>
+    res.ok ? pickCikFromEntitySearch(res.data, key) : null,
+  );
+  cikSearchCache.set(key, p);
+  return p;
+}
+
 export async function resolveCik(ticker) {
   const key = String(ticker || "")
     .toUpperCase()
     .replace(/\./g, "-");
   if (!key) return { ok: false, cik: null };
+  if (!cikMapCache) {
+    try {
+      const fast = await searchCik(key);
+      if (fast) return { ok: true, cik: fast, via: "edgar-search", error: null };
+    } catch {
+      /* fall through to the full SEC map */
+    }
+  }
   const pack = await loadCikMap();
   const cik = pack.map.get(key) || null;
   return { ok: Boolean(cik), cik, via: pack.via, error: cik ? null : pack.error || "cik_not_found" };

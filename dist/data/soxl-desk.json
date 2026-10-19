@@ -2,15 +2,20 @@
   "market": "US",
   "ticker": "SOXL",
   "fundName": "Direxion Daily Semiconductor Bull 3X ETF",
-  "asOf": "2026-10-18T01:35:15.705Z",
+  "asOf": "2026-10-19T01:34:15.243Z",
   "quote": {
-    "price": 93.67,
-    "change": -13.68,
-    "changePct": -12.74,
+    "price": 100.15,
+    "change": 6.48,
+    "changePct": 6.92,
     "currency": "USD",
-    "session": "NYSE Arca regular close (October 16 at 4:00:01 PM EDT)",
+    "session": "overnight / extended (Yahoo)",
     "source": "https://finance.yahoo.com/quote/SOXL/",
-    "regularClose": null
+    "regularClose": {
+      "price": 93.67,
+      "change": -13.68,
+      "changePct": -12.74,
+      "session": "NYSE Arca regular close (October 16 at 4:00:01 PM EDT)"
+    }
   },
   "holdingsAsOf": "2026-01-31",
   "holdingsSource": {
@@ -56,6 +61,15 @@
       "detail": "DividendInvestor reports a $0.0929 per-share distribution declared September 21, with a September 29 payment date for holders of record September 22.",
       "sources": [
         "https://www.dividendinvestor.com/dividend-news/20260921/daily-semiconductor-bull-3x-shs-direxion-shares-exchange-traded-fund-trust-nyse-soxl-declared-a-dividend-of-$0.0929-per-share/"
+      ]
+    },
+    {
+      "type": "session",
+      "severity": "info",
+      "title": "目前顯示隔夜／延長時段報價",
+      "detail": "最新報價時段：overnight / extended (Yahoo)。正規收盤另見 hero 備註。",
+      "sources": [
+        "https://finance.yahoo.com/quote/SOXL/"
       ]
     }
   ],
@@ -133,6 +147,12 @@
       "published": "2026-08-05"
     },
     {
+      "title": "AI Chip Bets Suffer $34M Liquidation Wipeout As Bitcoin, Ethereum Near Danger Zone Ahead Of Black Monday Fears",
+      "summary": "According to Coinglass, broader crypto markets saw nearly $352 million in liquidations over 24 hours.",
+      "url": "https://stocktwits.com/news-articles/markets/cryptocurrency/black-monday-fears-rise-dollarm-ai-chip-bets-get-liquidated-bitcoin-near-danger-zone/cZxNVSaRBts?.tsrc=rss",
+      "published": "2026-10-18"
+    },
+    {
       "title": "ETF Fund Flows: Semiconductors, Leveraged ETFs Dominate",
       "summary": "&lt;p&gt;Semiconductor and leveraged ETFs dominated flows on October 14 in a busy day for international equities. &lt;/p&gt;",
       "url": "http://www.etf.com/sections/daily-etf-flows/etf-fund-flows-semiconductors-leveraged-etfs-dominate?utm_source=yahoo-finance&amp;utm_medium=rss&amp;utm_campaign=yahoo-finance-rss&amp;.tsrc=rss",
@@ -149,12 +169,6 @@
       "summary": "In an interview with CNBC, Evercore founder Roger Altman backed calls from Elon Musk, Sam Altman and Dario Amodei for slower AI development and stronger safeguards.",
       "url": "https://stocktwits.com/news-articles/markets/equity/roger-altman-says-ai-is-the-greatest-threat-facing-the-world/cZtm5XBRBRp?.tsrc=rss",
       "published": "2026-09-14"
-    },
-    {
-      "title": "BlackRock's IBIT And GLD Rejoin Top 10 Most-Traded ETFs As 'Debasement Trade' Challenges ‘AI Mania’",
-      "summary": "BlackRock cut the minimum size for a Bitcoin-to-ETF swap to $1 million in July, from $25 million when the process first became available.",
-      "url": "https://stocktwits.com/news-articles/markets/equity/black-rock-s-ibit-and-gld-rejoin-top-10-most-traded-et-fs-as-debasement-trade-challenges-ai-mania/cZYNYn8RJYB?.tsrc=rss",
-      "published": "2026-08-26"
     }
   ],
   "holdings": [
@@ -521,7 +535,7 @@
     "Research seed: /workspace/soxl-research/soxl-holdings-raw.json",
     "SEC N-PORT: https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
     "Yahoo quote page: https://finance.yahoo.com/quote/SOXL/",
-    "Yahoo quote HTML refresh @ 2026-10-18T01:35:15.705Z",
+    "Yahoo quote HTML refresh @ 2026-10-19T01:34:15.243Z",
     "https://feeds.finance.yahoo.com/rss/2.0/headline?s=SOXL&region=US&lang=en-US"
   ],
   "blockers": [

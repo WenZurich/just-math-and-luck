@@ -1164,7 +1164,21 @@ async function main() {
     if (!/lookupOfficialFilings/.test(i18nSrc)) fail("i18n missing lookupOfficialFilings");
     else ok("i18n lookupOfficialFilings present");
     const mod = await import(pathToFileURL(path.join(ROOT, "src/lookup.js")).href);
-    const { buildOfficialLinks, padCik, edgarDocumentUrl } = mod;
+    const { buildOfficialLinks, padCik, edgarDocumentUrl, pickCikFromEntitySearch } = mod;
+    if (typeof pickCikFromEntitySearch !== "function") fail("pickCikFromEntitySearch not exported");
+    else {
+      const sample = { hits: { hits: [
+        { _id: "1045810", _source: { entity: "NVIDIA CORP (NVDA)", tickers: "NVDA" } },
+        { _id: "1067983", _source: { entity: "BERKSHIRE HATHAWAY INC (BRK-B, BRK-A)", tickers: "BRK-B, BRK-A" } },
+      ] } };
+      const a = pickCikFromEntitySearch(sample, "NVDA");
+      const b = pickCikFromEntitySearch(sample, "BRK-A");
+      const c = pickCikFromEntitySearch(sample, "NVD");
+      if (a !== "0001045810" || b !== "0001067983" || c !== null) fail(`EDGAR search CIK pick wrong: ${a} ${b} ${c}`);
+      else ok("EDGAR search picks exact-ticker CIK only (no partial match)");
+    }
+    if (!/efts\.sec\.gov\/LATEST\/search-index/.test(lookupSrc)) fail("lookup.js should resolve CIK via EDGAR search first");
+    else ok("lookup resolves CIK via small EDGAR search before full map");
     if (typeof buildOfficialLinks !== "function") fail("buildOfficialLinks not exported");
     const us = buildOfficialLinks({ market: "US", symbol: "AAPL", display: "AAPL", cik: "0000320193" });
     if (!us.links?.some((l) => /sec\.gov/i.test(l.href))) fail("US official links missing SEC");

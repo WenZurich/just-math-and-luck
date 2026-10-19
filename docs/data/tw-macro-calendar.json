@@ -1,11 +1,11 @@
 {
-  "asOf": "2026-10-18T01:35:18.469Z",
+  "asOf": "2026-10-19T01:34:36.754Z",
   "market": "TW",
   "timezone": "Asia/Taipei",
   "timezoneLabel": "台北時間",
   "window": {
-    "from": "2026-10-18",
-    "to": "2026-11-22"
+    "from": "2026-10-19",
+    "to": "2026-11-23"
   },
   "source": {
     "name": "DGBAS / CBC / TWSE / MOEA",
@@ -125,6 +125,19 @@
       "periodLabel": "(11607)",
       "source": "經濟部",
       "officialUrl": "https://www.moea.gov.tw/mns/dos/bulletin/bulletin.aspx?kind=5&html=1&menu_id=6724"
+    },
+    {
+      "id": "dgbasUnemployment-2026-11-23T16:00:00+08:00",
+      "eventKey": "dgbasUnemployment",
+      "eventName": "勞動力、就業人數、失業人數、非勞動力、失業率、勞動力參與率",
+      "shortName": "失業率",
+      "importance": "high",
+      "highImpact": true,
+      "scheduledAt": "2026-11-23T08:00:00.000Z",
+      "dayTw": "2026-11-23",
+      "periodLabel": "(11607)",
+      "source": "行政院主計總處",
+      "officialUrl": "https://www.stat.gov.tw/cl.aspx?n=2700"
     }
   ],
   "refreshHint": "npm run fetch-tw-macro  （可選 FETCH_TW_MACRO=1 接在 daily-scan 後）"
