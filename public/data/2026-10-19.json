@@ -1,0 +1,799 @@
+{
+  "asOf": "2026-10-19T00:09:18Z",
+  "disclaimer": "本站內容為依公開行情的數學篩選候選，不是投資建議，亦不保證獲利。",
+  "timezoneNote": "資料抓取 2026-10-19 08:09（台北）；台股為 2026-10-16 收盤；美股為 2026-10-16 收盤（美東）。以 asOf 為準。",
+  "indices": {
+    "tw": {
+      "name": "台灣加權 TAIEX",
+      "value": 47111.26,
+      "dayPct": 0.3,
+      "dayAbs": 141.3906
+    },
+    "otc": {
+      "name": "櫃買",
+      "date": "2026-10-16",
+      "value": 400.26,
+      "dayAbs": 3.36,
+      "dayPct": 0.85,
+      "source": "TPEx OpenAPI tpex_index",
+      "sourceUrl": "https://www.tpex.org.tw/zh-tw/mainboard/trading/info/daily-indices.html",
+      "fetchedAt": "2026-10-19T00:17:21.498Z"
+    },
+    "spx": {
+      "name": "S&P 500",
+      "value": 7659.44,
+      "dayPct": -1.09,
+      "session": "close"
+    },
+    "nasdaq": {
+      "name": "Nasdaq",
+      "value": 26140.03,
+      "dayPct": -2.15,
+      "session": "close"
+    },
+    "sox": {
+      "name": "SOX",
+      "value": 11137.29,
+      "dayPct": -3.83,
+      "session": "close"
+    },
+    "usdTwd": {
+      "taipeiClose": null,
+      "yahoo": 32.386
+    },
+    "dji": {
+      "name": "Dow Jones",
+      "value": 52002.41,
+      "dayPct": -0.34,
+      "session": "close"
+    }
+  },
+  "marketRegime": {
+    "us": {
+      "market": "US",
+      "psychologyPhase": "mid_cycle",
+      "cycleStance": "balanced",
+      "liquidityBias": "risk_off",
+      "temperatureScore": 0.5,
+      "sizeMult": 1,
+      "eggProxy": "mid_cycle",
+      "dial": "balanced",
+      "implications": [
+        "Kostolany 心理相位近似：mid_cycle → 篩選姿態 balanced（US）",
+        "指數距 252 日高點約 -2.4%"
+      ],
+      "features": {
+        "ddFrom252dHigh": -0.0236,
+        "pctFromSma200": 0.0534,
+        "indexVolRatio20": 1.022,
+        "atrPct20": 0.0091,
+        "atrBottomQuartile": true,
+        "ret5d": -0.0195,
+        "ret21d": 0.0028,
+        "ret63d": 0.029,
+        "aboveSma20": false,
+        "aboveSma50": false,
+        "aboveSma200": true,
+        "prior10dDd": -0.0128,
+        "us10y": 5.0980000495910645,
+        "dUs10y5d": -0.146,
+        "dUs10y20d": 0.1,
+        "dUs10y60d": 0.395,
+        "dUsdtwd20d": null,
+        "breadthProxy": 0.375,
+        "hygVsLqd20d": 0.0062,
+        "lastBarDate": "2026-10-16"
+      },
+      "dataGaps": [],
+      "incomplete": false
+    },
+    "tw": {
+      "market": "TW",
+      "psychologyPhase": "cautious_recovery",
+      "cycleStance": "constructive",
+      "liquidityBias": "risk_off",
+      "temperatureScore": 1,
+      "sizeMult": 1.1,
+      "eggProxy": "cautious_recovery",
+      "dial": "constructive",
+      "implications": [
+        "Kostolany 心理相位近似：cautious_recovery → 篩選姿態 constructive（TW）",
+        "Marks 偏冷／修復：允許早段 RS＋放量進場（仍受 SMA200／穩定門檻約束）",
+        "指數距 252 日高點約 -5.7%"
+      ],
+      "features": {
+        "ddFrom252dHigh": -0.0572,
+        "pctFromSma200": 0.1789,
+        "indexVolRatio20": 0.962,
+        "atrPct20": 0.0155,
+        "atrBottomQuartile": false,
+        "ret5d": -0.0447,
+        "ret21d": 0.0272,
+        "ret63d": 0.0326,
+        "aboveSma20": false,
+        "aboveSma50": true,
+        "aboveSma200": true,
+        "prior10dDd": -0.0573,
+        "us10y": 5.0980000495910645,
+        "dUs10y5d": -0.146,
+        "dUs10y20d": 0.1,
+        "dUs10y60d": 0.395,
+        "dUsdtwd20d": 0.0181,
+        "breadthProxy": 0.533,
+        "hygVsLqd20d": null,
+        "lastBarDate": "2026-10-16"
+      },
+      "dataGaps": [],
+      "incomplete": false
+    },
+    "frameworkId": "bookshelf-framework-2026-09-16",
+    "note": "美／台 regime 獨立；缺值標資料不足，不捏造。"
+  },
+  "top5": [
+    {
+      "ticker": "2468.TW",
+      "name": "華經",
+      "price": 51.1,
+      "currency": "TWD",
+      "dayPct": 9.89,
+      "pct5d": 25.71,
+      "pct1m": 29.86,
+      "volRatio": 1.9,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "資訊系統整合：雲端／機房、資安與數位化委外。",
+      "why": "日漲跌 +9.89%，相對加權約 +9.59pp；五日約 +25.71%；一個月約 +29.86%；量比約 1.9×；站上雙均線；站上 SMA200；週期偏積極：早段放量相對強度加權。",
+      "risk": "接近漲停，追價風險高",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": 9.59,
+      "market": "TW"
+    },
+    {
+      "ticker": "3017.TW",
+      "name": "奇鋐",
+      "price": 3315,
+      "currency": "TWD",
+      "dayPct": 7.46,
+      "pct5d": -3.63,
+      "pct1m": 0.15,
+      "volRatio": 1.24,
+      "aboveSma20": false,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "散熱模組（筆電／伺服器）。",
+      "why": "日漲跌 +7.46%，相對加權約 +7.16pp；五日約 -3.63%；一個月約 +0.15%；量比約 1.24×；站上 SMA50；站上 SMA200；週期偏積極：早段放量相對強度加權。",
+      "risk": "—",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": 7.16,
+      "market": "TW"
+    },
+    {
+      "ticker": "2882.TW",
+      "name": "國泰金",
+      "price": 116,
+      "currency": "TWD",
+      "dayPct": 2.2,
+      "pct5d": 5.45,
+      "pct1m": 3.11,
+      "volRatio": 1.57,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "金控（銀行／壽險／證券）。",
+      "why": "日漲跌 +2.2%，相對加權約 +1.9pp；五日約 +5.45%；一個月約 +3.11%；量比約 1.57×；站上雙均線；站上 SMA200；週期偏積極：早段放量相對強度加權。",
+      "risk": "—",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": 1.9,
+      "market": "TW"
+    },
+    {
+      "ticker": "2891.TW",
+      "name": "中信金",
+      "price": 73.6,
+      "currency": "TWD",
+      "dayPct": 0.96,
+      "pct5d": 9.36,
+      "pct1m": 8.08,
+      "volRatio": 1.47,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "金控（銀行／證券／壽險等）。",
+      "why": "日漲跌 +0.96%，相對加權約 +0.66pp；五日約 +9.36%；一個月約 +8.08%；量比約 1.47×；站上雙均線；站上 SMA200；週期偏積極：早段放量相對強度加權。",
+      "risk": "—",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": 0.66,
+      "market": "TW"
+    },
+    {
+      "ticker": "2379.TW",
+      "name": "瑞昱",
+      "price": 778,
+      "currency": "TWD",
+      "dayPct": 1.83,
+      "pct5d": 3.87,
+      "pct1m": 9.12,
+      "volRatio": 1.48,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "網通／多媒體 IC 設計。",
+      "why": "日漲跌 +1.83%，相對加權約 +1.53pp；五日約 +3.87%；一個月約 +9.12%；量比約 1.48×；站上雙均線；站上 SMA200；週期偏積極：早段放量相對強度加權。",
+      "risk": "—",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": 1.53,
+      "market": "TW"
+    }
+  ],
+  "us": [
+    {
+      "ticker": "LLY",
+      "name": "Eli Lilly",
+      "price": 1255.61,
+      "currency": "USD",
+      "dayPct": 0.32,
+      "pct5d": 6.47,
+      "pct1m": 8.95,
+      "volRatio": 1,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "A"
+      ],
+      "business": "製藥（減重／糖尿病與腫瘤等）。",
+      "why": "日漲跌 +0.32%（相對 S&P 約 +1.41pp）；五日約 +6.47%；一個月約 +8.95%；站上雙均線；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
+      "risk": "—",
+      "cycleStance": "balanced",
+      "sizeMult": 1
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "price": 344.65,
+      "currency": "USD",
+      "dayPct": 0.77,
+      "pct5d": 2.38,
+      "pct1m": 2.27,
+      "volRatio": 1.56,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "消費電子／服務與手機生態系。",
+      "why": "日漲跌 +0.77%（相對 S&P 約 +1.86pp）；五日約 +2.38%；一個月約 +2.27%；量比約 1.56×；站上雙均線；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
+      "risk": "—",
+      "cycleStance": "balanced",
+      "sizeMult": 1
+    },
+    {
+      "ticker": "ISRG",
+      "name": "Intuitive Surgical",
+      "price": 427.08,
+      "currency": "USD",
+      "dayPct": -0.18,
+      "pct5d": 0.74,
+      "pct1m": 11.35,
+      "volRatio": 1.25,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "aboveSma200": false,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "達文西手術機器人。",
+      "why": "日漲跌 -0.18%（相對 S&P 約 +0.91pp）；五日約 +0.74%；一個月約 +11.35%；量比約 1.25×；站上雙均線；市場週期姿態 balanced（相位 mid_cycle）。",
+      "risk": "—",
+      "cycleStance": "balanced",
+      "sizeMult": 1
+    },
+    {
+      "ticker": "ROKU",
+      "name": "Roku",
+      "price": 154.54,
+      "currency": "USD",
+      "dayPct": -0.08,
+      "pct5d": 1.11,
+      "pct1m": 0.3,
+      "volRatio": 1.13,
+      "aboveSma20": true,
+      "aboveSma50": false,
+      "aboveSma200": true,
+      "screens": [
+        "A"
+      ],
+      "business": "串流裝置與廣告平台。",
+      "why": "日漲跌 -0.08%（相對 S&P 約 +1.01pp）；五日約 +1.11%；一個月約 +0.3%；站上 SMA20；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
+      "risk": "—",
+      "cycleStance": "balanced",
+      "sizeMult": 1
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft",
+      "price": 533.17,
+      "currency": "USD",
+      "dayPct": -1.16,
+      "pct5d": -0.36,
+      "pct1m": 7.12,
+      "volRatio": 1.08,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "A"
+      ],
+      "business": "雲端 Azure、Office、Windows 與 AI。",
+      "why": "日漲跌 -1.16%（相對 S&P 約 -0.07pp）；五日約 -0.36%；一個月約 +7.12%；站上雙均線；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
+      "risk": "—",
+      "cycleStance": "balanced",
+      "sizeMult": 1
+    },
+    {
+      "ticker": "ASML",
+      "name": "ASML",
+      "price": 1662.13,
+      "currency": "USD",
+      "dayPct": 0.28,
+      "pct5d": -6.64,
+      "pct1m": 1.99,
+      "volRatio": 1.25,
+      "aboveSma20": false,
+      "aboveSma50": false,
+      "aboveSma200": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "先進半導體微影設備（EUV／DUV）。",
+      "why": "日漲跌 +0.28%（相對 S&P 約 +1.37pp）；五日約 -6.64%；一個月約 +1.99%；量比約 1.25×；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
+      "risk": "—",
+      "cycleStance": "balanced",
+      "sizeMult": 1
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA",
+      "price": 216.51,
+      "currency": "USD",
+      "dayPct": -0.33,
+      "pct5d": -5.57,
+      "pct1m": -1.29,
+      "volRatio": 1.12,
+      "aboveSma20": false,
+      "aboveSma50": false,
+      "aboveSma200": true,
+      "screens": [
+        "A"
+      ],
+      "business": "AI／資料中心 GPU 與加速運算。",
+      "why": "日漲跌 -0.33%（相對 S&P 約 +0.76pp）；五日約 -5.57%；一個月約 -1.29%；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
+      "risk": "低於 SMA50 或近月偏弱",
+      "cycleStance": "balanced",
+      "sizeMult": 1
+    },
+    {
+      "ticker": "TSM",
+      "name": "TSMC (ADR)",
+      "price": 415.7,
+      "currency": "USD",
+      "dayPct": -1.55,
+      "pct5d": -8.3,
+      "pct1m": -3.38,
+      "volRatio": 1.59,
+      "aboveSma20": false,
+      "aboveSma50": false,
+      "aboveSma200": true,
+      "screens": [
+        "observe"
+      ],
+      "business": "先進製程晶圓代工（台積電 ADR）。",
+      "why": "日漲跌 -1.55%（相對 S&P 約 -0.46pp）；五日約 -8.3%；一個月約 -3.38%；量比約 1.59×；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
+      "risk": "低於 SMA50 或近月偏弱",
+      "cycleStance": "balanced",
+      "sizeMult": 1
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon",
+      "price": 252.08,
+      "currency": "USD",
+      "dayPct": -1.05,
+      "pct5d": -3.94,
+      "pct1m": 0.35,
+      "volRatio": 1.11,
+      "aboveSma20": false,
+      "aboveSma50": false,
+      "aboveSma200": true,
+      "screens": [
+        "observe"
+      ],
+      "business": "電商、雲端 AWS 與廣告。",
+      "why": "日漲跌 -1.05%（相對 S&P 約 +0.04pp）；五日約 -3.94%；一個月約 +0.35%；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
+      "risk": "—",
+      "cycleStance": "balanced",
+      "sizeMult": 1
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms",
+      "price": 715.98,
+      "currency": "USD",
+      "dayPct": -2.82,
+      "pct5d": -0.37,
+      "pct1m": 4.93,
+      "volRatio": 0.93,
+      "aboveSma20": false,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "observe"
+      ],
+      "business": "社群／短影音與 Reality Labs。",
+      "why": "日漲跌 -2.82%（相對 S&P 約 -1.73pp）；五日約 -0.37%；一個月約 +4.93%；站上 SMA50；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
+      "risk": "—",
+      "cycleStance": "balanced",
+      "sizeMult": 1
+    },
+    {
+      "ticker": "NFLX",
+      "name": "Netflix",
+      "price": 70.72,
+      "currency": "USD",
+      "dayPct": -2.6,
+      "pct5d": 0.6,
+      "pct1m": -6.09,
+      "volRatio": 1.14,
+      "aboveSma20": true,
+      "aboveSma50": false,
+      "aboveSma200": false,
+      "screens": [
+        "observe"
+      ],
+      "business": "訂閱制串流影音。",
+      "why": "日漲跌 -2.6%（相對 S&P 約 -1.51pp）；五日約 +0.6%；一個月約 -6.09%；站上 SMA20；市場週期姿態 balanced（相位 mid_cycle）。",
+      "risk": "低於 SMA50 或近月偏弱",
+      "cycleStance": "balanced",
+      "sizeMult": 1
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet",
+      "price": 342.59,
+      "currency": "USD",
+      "dayPct": -1.9,
+      "pct5d": -2.58,
+      "pct1m": -1.36,
+      "volRatio": 1.1,
+      "aboveSma20": false,
+      "aboveSma50": false,
+      "aboveSma200": true,
+      "screens": [
+        "observe"
+      ],
+      "business": "搜尋、YouTube、雲端與廣告。",
+      "why": "日漲跌 -1.9%（相對 S&P 約 -0.81pp）；五日約 -2.58%；一個月約 -1.36%；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
+      "risk": "低於 SMA50 或近月偏弱",
+      "cycleStance": "balanced",
+      "sizeMult": 1
+    }
+  ],
+  "tw": [
+    {
+      "ticker": "2468.TW",
+      "name": "華經",
+      "price": 51.1,
+      "currency": "TWD",
+      "dayPct": 9.89,
+      "pct5d": 25.71,
+      "pct1m": 29.86,
+      "volRatio": 1.9,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "資訊系統整合：雲端／機房、資安與數位化委外。",
+      "why": "日漲跌 +9.89%，相對加權約 +9.59pp；五日約 +25.71%；一個月約 +29.86%；量比約 1.9×；站上雙均線；站上 SMA200；週期偏積極：早段放量相對強度加權。",
+      "risk": "接近漲停，追價風險高",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": 9.59
+    },
+    {
+      "ticker": "3017.TW",
+      "name": "奇鋐",
+      "price": 3315,
+      "currency": "TWD",
+      "dayPct": 7.46,
+      "pct5d": -3.63,
+      "pct1m": 0.15,
+      "volRatio": 1.24,
+      "aboveSma20": false,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "散熱模組（筆電／伺服器）。",
+      "why": "日漲跌 +7.46%，相對加權約 +7.16pp；五日約 -3.63%；一個月約 +0.15%；量比約 1.24×；站上 SMA50；站上 SMA200；週期偏積極：早段放量相對強度加權。",
+      "risk": "—",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": 7.16
+    },
+    {
+      "ticker": "2882.TW",
+      "name": "國泰金",
+      "price": 116,
+      "currency": "TWD",
+      "dayPct": 2.2,
+      "pct5d": 5.45,
+      "pct1m": 3.11,
+      "volRatio": 1.57,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "金控（銀行／壽險／證券）。",
+      "why": "日漲跌 +2.2%，相對加權約 +1.9pp；五日約 +5.45%；一個月約 +3.11%；量比約 1.57×；站上雙均線；站上 SMA200；週期偏積極：早段放量相對強度加權。",
+      "risk": "—",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": 1.9
+    },
+    {
+      "ticker": "2891.TW",
+      "name": "中信金",
+      "price": 73.6,
+      "currency": "TWD",
+      "dayPct": 0.96,
+      "pct5d": 9.36,
+      "pct1m": 8.08,
+      "volRatio": 1.47,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "金控（銀行／證券／壽險等）。",
+      "why": "日漲跌 +0.96%，相對加權約 +0.66pp；五日約 +9.36%；一個月約 +8.08%；量比約 1.47×；站上雙均線；站上 SMA200；週期偏積極：早段放量相對強度加權。",
+      "risk": "—",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": 0.66
+    },
+    {
+      "ticker": "2379.TW",
+      "name": "瑞昱",
+      "price": 778,
+      "currency": "TWD",
+      "dayPct": 1.83,
+      "pct5d": 3.87,
+      "pct1m": 9.12,
+      "volRatio": 1.48,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "網通／多媒體 IC 設計。",
+      "why": "日漲跌 +1.83%，相對加權約 +1.53pp；五日約 +3.87%；一個月約 +9.12%；量比約 1.48×；站上雙均線；站上 SMA200；週期偏積極：早段放量相對強度加權。",
+      "risk": "—",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": 1.53
+    },
+    {
+      "ticker": "2884.TW",
+      "name": "玉山金",
+      "price": 49.15,
+      "currency": "TWD",
+      "dayPct": 0.72,
+      "pct5d": 9.22,
+      "pct1m": 6.04,
+      "volRatio": 1.45,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "金控／銀行。",
+      "why": "日漲跌 +0.72%，相對加權約 +0.42pp；五日約 +9.22%；一個月約 +6.04%；量比約 1.45×；站上雙均線；站上 SMA200；週期偏積極：早段放量相對強度加權。",
+      "risk": "—",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": 0.42
+    },
+    {
+      "ticker": "2881.TW",
+      "name": "富邦金",
+      "price": 161.5,
+      "currency": "TWD",
+      "dayPct": 1.25,
+      "pct5d": 5.56,
+      "pct1m": 4.87,
+      "volRatio": 1.6,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "金控（銀行／壽險／證券）。",
+      "why": "日漲跌 +1.25%，相對加權約 +0.95pp；五日約 +5.56%；一個月約 +4.87%；量比約 1.6×；站上雙均線；站上 SMA200；週期偏積極：早段放量相對強度加權。",
+      "risk": "—",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": 0.95
+    },
+    {
+      "ticker": "2357.TW",
+      "name": "華碩",
+      "price": 994,
+      "currency": "TWD",
+      "dayPct": 1.95,
+      "pct5d": -0.2,
+      "pct1m": 6.42,
+      "volRatio": 1.1,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "aboveSma200": true,
+      "screens": [
+        "A"
+      ],
+      "business": "主板、筆電與電競／AI PC。",
+      "why": "日漲跌 +1.95%，相對加權約 +1.65pp；五日約 -0.2%；一個月約 +6.42%；站上雙均線；站上 SMA200；週期偏積極：早段放量相對強度加權。",
+      "risk": "—",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": 1.65
+    },
+    {
+      "ticker": "3231.TW",
+      "name": "緯創",
+      "price": 182.5,
+      "currency": "TWD",
+      "dayPct": 3.69,
+      "pct5d": -3.18,
+      "pct1m": 0.83,
+      "volRatio": 0.83,
+      "aboveSma20": false,
+      "aboveSma50": false,
+      "aboveSma200": true,
+      "screens": [
+        "A"
+      ],
+      "business": "電腦與伺服器代工。",
+      "why": "日漲跌 +3.69%，相對加權約 +3.39pp；五日約 -3.18%；一個月約 +0.83%；站上 SMA200；週期偏積極：允許站上 SMA200 但低於 SMA50。",
+      "risk": "—",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": 3.39
+    },
+    {
+      "ticker": "2317.TW",
+      "name": "鴻海",
+      "price": 244,
+      "currency": "TWD",
+      "dayPct": 1.88,
+      "pct5d": -2.01,
+      "pct1m": -1.81,
+      "volRatio": 1.36,
+      "aboveSma20": false,
+      "aboveSma50": false,
+      "aboveSma200": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "電子代工與組裝、電動車與伺服器。",
+      "why": "日漲跌 +1.88%，相對加權約 +1.58pp；五日約 -2.01%；一個月約 -1.81%；量比約 1.36×；站上 SMA200；週期偏積極：早段放量相對強度加權。",
+      "risk": "低於 SMA50 或近月偏弱",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": 1.58
+    },
+    {
+      "ticker": "2345.TW",
+      "name": "智邦",
+      "price": 1980,
+      "currency": "TWD",
+      "dayPct": 1.54,
+      "pct5d": -4.35,
+      "pct1m": 5.6,
+      "volRatio": 0.8,
+      "aboveSma20": true,
+      "aboveSma50": false,
+      "aboveSma200": true,
+      "screens": [
+        "A"
+      ],
+      "business": "網通設備與交換器 ODM／OEM。",
+      "why": "日漲跌 +1.54%，相對加權約 +1.24pp；五日約 -4.35%；一個月約 +5.6%；站上 SMA20；站上 SMA200；週期偏積極：允許站上 SMA200 但低於 SMA50。",
+      "risk": "—",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": 1.24
+    },
+    {
+      "ticker": "2330.TW",
+      "name": "台積電",
+      "price": 2420,
+      "currency": "TWD",
+      "dayPct": -0.82,
+      "pct5d": -5.1,
+      "pct1m": 1.68,
+      "volRatio": 1.52,
+      "aboveSma20": false,
+      "aboveSma50": false,
+      "aboveSma200": true,
+      "screens": [
+        "observe"
+      ],
+      "business": "先進製程晶圓代工。",
+      "why": "日漲跌 -0.82%，相對加權約 -1.12pp；五日約 -5.1%；一個月約 +1.68%；量比約 1.52×；站上 SMA200；週期偏積極：允許站上 SMA200 但低於 SMA50。",
+      "risk": "—",
+      "cycleStance": "constructive",
+      "sizeMult": 1.1,
+      "rsVsIndexPp": -1.12
+    }
+  ],
+  "parity": {
+    "adsRatio": "5:1",
+    "tw2330": 2420,
+    "tsm": 415.7,
+    "impliedUsdTaipeiFx": 373.62,
+    "premiumPct": 11.26,
+    "note": "FX 用 Yahoo USDTWD=X 32.386（台北外匯官價未另取）；台股用 10/16 收盤、美股用 10/16 收盤；非套利指令。"
+  },
+  "method": {
+    "A": "動能／相對強度：日漲跌 vs 指數；5日／約1個月；SMA20／SMA50／SMA200（依 cycleStance 調整門檻）",
+    "B": "量能：當日量／近20日均量（防禦相位提高量比門檻）",
+    "C": "估值 PE（本次未取得可信即時 PE，跳過）",
+    "R": "市場週期：Kostolany 相位近似＋Marks 溫度＋利率／匯兌流動性（美／台分開）"
+  }
+}

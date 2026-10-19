@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-18T01:36:02.273Z",
+  "asOf": "2026-10-19T00:16:24.914Z",
   "market": "US",
   "twStub": {
     "status": "planned",
@@ -288,7 +288,7 @@
       "pe": 328.44,
       "forwardPe": 163.59,
       "marketCap": 1400983519232,
-      "consensusEpsNext": 0.4522,
+      "consensusEpsNext": 0.4505,
       "consensusRevNext": 28111085380,
       "whatItDoes": "Tesla, Inc. designs, develops, manufactures, leases, and sells electric vehicles, and energy generation and storage systems in the United States, China, and internationally.",
       "missingFields": [],
@@ -298,7 +298,7 @@
       "notes": [
         "下次財報約 2026-10-21",
         "最近一季（2026-06-30）：EPS 0.33",
-        "市場預估下次 EPS 約 0.4522（Yahoo）"
+        "市場預估下次 EPS 約 0.4505（Yahoo）"
       ],
       "whatToWatch": "關注 2026-10-21 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +25.5%（Yahoo）；獲利成長約 -3%（Yahoo earningsGrowth）"
     }
@@ -344,7 +344,7 @@
       ],
       "whatToWatch": "關注 2026-10-20 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +91.9%（Yahoo）；本益比暫缺，勿硬套估值",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 2,
+      "daysToEarnings": 1,
       "pool": "most_actives"
     },
     {
@@ -383,7 +383,7 @@
       ],
       "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +47.7%（Yahoo）；獲利成長約 +26.2%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 11,
+      "daysToEarnings": 10,
       "pool": "mega_cap"
     },
     {
@@ -422,7 +422,7 @@
       ],
       "whatToWatch": "關注 2026-10-27 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +14.4%（Yahoo）；獲利成長約 +10.2%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 9,
+      "daysToEarnings": 8,
       "pool": "mega_cap"
     },
     {
@@ -461,7 +461,7 @@
       ],
       "whatToWatch": "關注 2026-10-30 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +44.1%（Yahoo）；獲利成長約 +112.8%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 12,
+      "daysToEarnings": 11,
       "pool": "mega_cap"
     },
     {
@@ -500,7 +500,7 @@
       ],
       "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +14.1%（Yahoo）；獲利成長約 +22.1%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 11,
+      "daysToEarnings": 10,
       "pool": "mega_cap"
     },
     {
@@ -539,7 +539,7 @@
       ],
       "whatToWatch": "關注 2026-10-30 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +10.2%（Yahoo）；獲利成長約 +290.4%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 12,
+      "daysToEarnings": 11,
       "pool": "mega_cap"
     },
     {
@@ -582,8 +582,47 @@
       ],
       "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +25.4%（Yahoo）；本益比暫缺，勿硬套估值",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 11,
+      "daysToEarnings": 10,
       "pool": "mega_cap+most_actives"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc.",
+      "ok": true,
+      "blocker": null,
+      "nextEarningsDate": "2026-11-02",
+      "nextEarningsDateIsEstimate": false,
+      "lastReport": {
+        "period": "-1q",
+        "quarter": "2026-06-30",
+        "epsActual": 0.41,
+        "epsEstimate": 0.346,
+        "epsSurprisePct": 18.51,
+        "currency": "USD"
+      },
+      "revenueYoYPct": 92.8,
+      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
+      "epsYoYPct": 215.4,
+      "epsYoYSource": "Yahoo financialData.earningsGrowth",
+      "pe": 160.37,
+      "forwardPe": 79.36,
+      "marketCap": 447040946176,
+      "consensusEpsNext": 0.4122,
+      "consensusRevNext": 2179529430,
+      "whatItDoes": "Palantir Technologies Inc. builds and deploys software platforms for the intelligence community to assist in counterterrorism investigations and operations in the United States, the United Kingdom, and internationally.",
+      "missingFields": [],
+      "sources": [
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+      ],
+      "notes": [
+        "下次財報約 2026-11-02",
+        "最近一季（2026-06-30）：EPS 0.41",
+        "市場預估下次 EPS 約 0.4122（Yahoo）"
+      ],
+      "whatToWatch": "關注 2026-11-02 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +92.8%（Yahoo）；獲利成長約 +215.4%（Yahoo earningsGrowth）",
+      "selectionTag": "mega_cap_earnings_next_14d",
+      "daysToEarnings": 14,
+      "pool": "mega_cap"
     },
     {
       "ticker": "KO",
@@ -621,7 +660,7 @@
       ],
       "whatToWatch": "關注 2026-10-27 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +6.7%（Yahoo）；獲利成長約 +16.9%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 9,
+      "daysToEarnings": 8,
       "pool": "mega_cap"
     },
     {
@@ -660,7 +699,7 @@
       ],
       "whatToWatch": "關注 2026-10-22 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +1.5%（Yahoo）；獲利成長約 -15.5%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 4,
+      "daysToEarnings": 3,
       "pool": "mega_cap"
     },
     {
@@ -699,7 +738,7 @@
       ],
       "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +24%（Yahoo）；獲利成長約 +68.2%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 11,
+      "daysToEarnings": 10,
       "pool": "mega_cap"
     },
     {
@@ -738,7 +777,7 @@
       ],
       "whatToWatch": "關注 2026-10-21 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +30%（Yahoo）；獲利成長約 +34.8%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 3,
+      "daysToEarnings": 2,
       "pool": "mega_cap"
     },
     {
@@ -777,7 +816,7 @@
       ],
       "whatToWatch": "關注 2026-10-20 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +21.1%（Yahoo）；獲利成長約 +19.4%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 2,
+      "daysToEarnings": 1,
       "pool": "mega_cap"
     },
     {
@@ -816,47 +855,8 @@
       ],
       "whatToWatch": "關注 2026-10-20 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +13.4%（Yahoo）；獲利成長約 +11.1%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 2,
+      "daysToEarnings": 1,
       "pool": "mega_cap+most_actives"
-    },
-    {
-      "ticker": "TMO",
-      "name": "Thermo Fisher Scientific Inc",
-      "ok": true,
-      "blocker": null,
-      "nextEarningsDate": "2026-10-21",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 6.03,
-        "epsEstimate": 5.7113,
-        "epsSurprisePct": 5.58,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 10.5,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 9.4,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 37.14,
-      "forwardPe": 25.01,
-      "marketCap": 255125635072,
-      "consensusEpsNext": 6.403,
-      "consensusRevNext": 11933703760,
-      "whatItDoes": "Thermo Fisher Scientific Inc. provides life sciences solutions, analytical instruments, specialty diagnostics, and laboratory products and biopharma services internationally.",
-      "missingFields": [],
-      "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
-      ],
-      "notes": [
-        "下次財報約 2026-10-21",
-        "最近一季（2026-06-30）：EPS 6.03",
-        "市場預估下次 EPS 約 6.403（Yahoo）"
-      ],
-      "whatToWatch": "關注 2026-10-21 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +10.5%（Yahoo）；獲利成長約 +9.4%（Yahoo earningsGrowth）",
-      "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 3,
-      "pool": "mega_cap"
     }
   ],
   "watchlistMeta": {

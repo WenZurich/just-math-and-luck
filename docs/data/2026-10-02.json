@@ -103,7 +103,7 @@
       "features": {
         "ddFrom252dHigh": -0.0051,
         "pctFromSma200": 0.2422,
-        "indexVolRatio20": 0,
+        "indexVolRatio20": 1.19,
         "atrPct20": 0.0141,
         "atrBottomQuartile": true,
         "ret5d": 0.0116,
