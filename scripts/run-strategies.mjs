@@ -10,6 +10,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildTwFundamentalBundle, codeOfTicker } from "./tw-fundamentals.mjs";
+import { sma, rsiLast2, volumeRatioVsPrev } from "./math-core.mjs";
 import { buildAllMasters } from "./master-strategies.mjs";
 import { buildAllGooayePacks, gooayeUniverseBoost } from "./gooaye-strategies.mjs";
 // Peter Lynch now lives in master-strategies (TW MOPS, skip-if-missing).
@@ -89,42 +90,7 @@ function parseNum(s) {
   return Number.isFinite(n) ? n : null;
 }
 
-function sma(arr, n) {
-  if (!arr || arr.length < n) return null;
-  let s = 0;
-  for (let i = arr.length - n; i < arr.length; i++) s += arr[i];
-  return s / n;
-}
-
-function rsiWilder(closes, period = 14) {
-  if (!closes || closes.length < period + 2) return null;
-  let gains = 0;
-  let losses = 0;
-  for (let i = 1; i <= period; i++) {
-    const d = closes[i] - closes[i - 1];
-    if (d >= 0) gains += d;
-    else losses -= d;
-  }
-  let avgGain = gains / period;
-  let avgLoss = losses / period;
-  for (let i = period + 1; i < closes.length; i++) {
-    const d = closes[i] - closes[i - 1];
-    const g = d > 0 ? d : 0;
-    const l = d < 0 ? -d : 0;
-    avgGain = (avgGain * (period - 1) + g) / period;
-    avgLoss = (avgLoss * (period - 1) + l) / period;
-  }
-  if (avgLoss === 0) return 100;
-  const rs = avgGain / avgLoss;
-  return 100 - 100 / (1 + rs);
-}
-
-function rsiSeriesLast2(closes, period = 14) {
-  if (!closes || closes.length < period + 3) return { prev: null, cur: null };
-  const a = rsiWilder(closes.slice(0, -1), period);
-  const b = rsiWilder(closes, period);
-  return { prev: a, cur: b };
-}
+// SMA / Wilder RSI live in math-core (guarded by math-guards: legacy oracle, bounds, invariances).
 
 // —— Yahoo cookie/crumb ——
 let yahooCookie = "";
@@ -442,9 +408,9 @@ function techMetrics(bars) {
   const prior5Highs = highs.slice(-6, -1); // exclude today
   const fiveDayHigh = Math.max(...prior5Highs);
   const is5dHigh = last.h >= fiveDayHigh || last.c >= fiveDayHigh;
-  const volRatioYday = prev.v > 0 ? last.v / prev.v : null;
+  const volRatioYday = volumeRatioVsPrev(last.v, prev.v);
   const ampPct = prev.c > 0 ? ((last.h - last.l) / prev.c) * 100 : null;
-  const { prev: rsiPrev, cur: rsiCur } = rsiSeriesLast2(closes, 14);
+  const { prev: rsiPrev, cur: rsiCur } = rsiLast2(closes, 14);
   const pct5d =
     closes.length >= 6 ? ((last.c - closes[closes.length - 6]) / closes[closes.length - 6]) * 100 : null;
   const high20 = highs.length >= 20 ? Math.max(...highs.slice(-20)) : null;

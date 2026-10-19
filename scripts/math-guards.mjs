@@ -32,6 +32,9 @@ import {
   roundHalfAway,
   observedVolume,
   volumeRatioObserved,
+  rsiWilder,
+  rsiLast2,
+  volumeRatioVsPrev,
 } from "./math-core.mjs";
 import { temperatureScore, indexFeaturesFromChart } from "./market-regime.mjs";
 import {
@@ -1357,6 +1360,104 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
     bad2(`latest.json unreadable for temperature replay: ${e.message}`);
   }
   ok(`temperatureScore (${n} cases: 5000 random = verbatim legacy, range/0.25 grid, NaN/±Inf/string ⇒ gap, monotone per proxy, 26 exact thresholds, live US/TW replay)`);
+}
+
+
+// —— Wilder RSI + prev-day volume ratio (run-strategies techMetrics, 2026-10-20) ——
+{
+  let n = 0;
+  const bad = (m) => fail(m);
+  // verbatim legacy run-strategies rsiWilder (oracle; flat case differs by design: legacy 100, now null)
+  function legacyRsi(closes, period = 14) {
+    if (!closes || closes.length < period + 2) return null;
+    let gains = 0, losses = 0;
+    for (let i = 1; i <= period; i++) { const d = closes[i] - closes[i - 1]; if (d >= 0) gains += d; else losses -= d; }
+    let avgGain = gains / period, avgLoss = losses / period;
+    for (let i = period + 1; i < closes.length; i++) {
+      const d = closes[i] - closes[i - 1]; const g = d > 0 ? d : 0; const l = d < 0 ? -d : 0;
+      avgGain = (avgGain * (period - 1) + g) / period; avgLoss = (avgLoss * (period - 1) + l) / period;
+    }
+    if (avgLoss === 0) return 100;
+    const rs = avgGain / avgLoss;
+    return 100 - 100 / (1 + rs);
+  }
+  let seed = 20261020;
+  const rnd = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+  const walk = (len, tick) => {
+    const out = [50 + rnd() * 200];
+    for (let i = 1; i < len; i++) {
+      let x = out[i - 1] * (1 + (rnd() - 0.5) * 0.08);
+      if (tick) x = Math.max(tick, Math.round(x / tick) * tick);
+      out.push(x);
+    }
+    return out;
+  };
+  const close = (a, b, rel = 1e-9) => isFiniteNumber(a) && isFiniteNumber(b) && Math.abs(a - b) <= rel * Math.max(1, Math.abs(a), Math.abs(b));
+  const periods = [2, 5, 14];
+  for (let i = 0; i < 3000; i++) {
+    const p = periods[i % 3];
+    const c = walk(p + 2 + Math.floor(rnd() * 180), i % 2 ? 0.05 : 0);
+    const r = rsiWilder(c, p);
+    n++;
+    if (!(isFiniteNumber(r) && r >= 0 && r <= 100)) { bad(`rsi out of [0,100]: ${r}`); continue; }
+    if (!close(r, legacyRsi(c, p), 1e-9)) bad(`rsi ≠ legacy p=${p}: ${r} vs ${legacyRsi(c, p)}`);
+    const k = Math.exp((rnd() - 0.5) * 9);
+    if (!close(rsiWilder(c.map((x) => x * k), p), r, 1e-8)) bad(`rsi not scale-invariant k=${k}`);
+    const b = rnd() * 100;
+    if (!close(rsiWilder(c.map((x) => x + b), p), r, 1e-8)) bad(`rsi not shift-invariant b=${b}`);
+    const M = Math.max(...c) + 1 + rnd() * 50;
+    if (!close(rsiWilder(c.map((x) => M - x), p), 100 - r, 1e-8)) bad(`rsi reflection ≠ 100 − rsi`);
+    const up = c.slice(); up[up.length - 1] += 0.01 + rnd() * 5;
+    if (!(rsiWilder(up, p) >= r - 1e-9)) bad(`rsi decreased when last close raised`);
+    const l2 = rsiLast2(c, p);
+    n += 5;
+    if (c.length >= p + 3 && !(l2.cur === r && l2.prev === rsiWilder(c.slice(0, -1), p))) bad(`rsiLast2 mismatch`);
+  }
+  // hand case: p=2, [10,11,10.5,11.5] → G=0.75, L=0.125 → 600/7
+  n++;
+  if (!approx(rsiWilder([10, 11, 10.5, 11.5], 2), 600 / 7, 1e-12)) bad(`rsi hand case ${rsiWilder([10, 11, 10.5, 11.5], 2)} ≠ 600/7`);
+  // extremes, flat, domain, length boundary
+  const inc = Array.from({ length: 30 }, (_, i) => 10 + i), dec = inc.slice().reverse();
+  n += 8;
+  if (rsiWilder(inc) !== 100) bad(`strict up rsi ${rsiWilder(inc)} ≠ 100`);
+  if (rsiWilder(dec) !== 0) bad(`strict down rsi ${rsiWilder(dec)} ≠ 0`);
+  if (rsiWilder(Array(30).fill(42)) !== null) bad(`flat series rsi should be null (0/0), got ${rsiWilder(Array(30).fill(42))}`);
+  if (rsiWilder(inc.slice(0, 15), 14) !== null || !isFiniteNumber(rsiWilder(inc.slice(0, 16), 14))) bad(`rsi length boundary p+1 null / p+2 defined`);
+  for (const junk of [NaN, Infinity, -5, 0, null, "12"]) {
+    const c = walk(40, 0); c[17] = junk; n++;
+    if (rsiWilder(c) !== null) bad(`rsi accepted junk close ${String(junk)}`);
+  }
+  if (rsiLast2(inc.slice(0, 16), 14).cur !== null) bad(`rsiLast2 should need p+3 closes`);
+  // prev-day volume ratio
+  for (let i = 0; i < 2000; i++) {
+    const a = 1 + rnd() * 1e7, b = 1 + rnd() * 1e7; n++;
+    if (!close(volumeRatioVsPrev(a, b), a / b, 1e-12)) bad(`volRatioVsPrev ${a}/${b}`);
+  }
+  for (const [a, b] of [[0, 5], [5, 0], [NaN, 5], [5, null], [-1, 5], [5, Infinity], [undefined, 3]]) {
+    n++;
+    if (volumeRatioVsPrev(a, b) !== null) bad(`volRatioVsPrev(${a},${b}) should be null`);
+  }
+  // live: published screener hits satisfy their own RSI rule, and no fake 0 prev-day volume ratio
+  try {
+    const sj = JSON.parse(readFileSync(join(ROOT_MG, "public", "data", "strategy-screener.json"), "utf8"));
+    for (const st of sj.strategies || []) {
+      for (const h of st.hits || []) {
+        const m = h.metrics || {};
+        if (st.id === "ultra-short") {
+          n++;
+          if (!(isFiniteNumber(m.rsi) && isFiniteNumber(m.rsiPrev) && m.rsi >= 0 && m.rsi <= 100 && m.rsiPrev >= 0 && m.rsiPrev <= 100 && m.rsi >= m.rsiPrev && m.rsi < 50))
+            bad(`live ultra-short ${h.ticker} breaks its RSI rule: rsi=${m.rsi} prev=${m.rsiPrev}`);
+        }
+        if ("volRatioYday" in m) {
+          n++;
+          if (m.volRatioYday != null && !(isFiniteNumber(m.volRatioYday) && m.volRatioYday > 0)) bad(`live ${st.id} ${h.ticker} volRatioYday=${m.volRatioYday}`);
+        }
+      }
+    }
+  } catch (e) {
+    bad(`strategy-screener.json unreadable for RSI replay: ${e.message}`);
+  }
+  ok(`Wilder RSI + prev-day volume ratio (${n} cases: 3000 random = verbatim legacy, [0,100], scale/shift invariance, reflection = 100 − rsi, last-close monotone, hand 600/7, extremes, flat ⇒ null, junk ⇒ null, length bounds, live screener RSI rule)`);
 }
 
 console.log("——");

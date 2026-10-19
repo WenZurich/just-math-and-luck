@@ -375,3 +375,49 @@ export function volumeRatioObserved(vols, { window = 20, minLen = 10 } = {}) {
   const ratio = lastVol == null ? null : volumeRatio(lastVol, avgVol);
   return { lastVol, avgVol, ratio, observedPrior: prior.length };
 }
+
+/**
+ * Wilder RSI (0–100) over the whole close series: seed = simple mean of the first `period`
+ * up/down moves, then Wilder smoothing avg ← (avg·(period−1) + move) / period.
+ * Written as 100·G/(G+L), algebraically identical to 100 − 100/(1 + G/L) when L > 0 and to the
+ * legacy 100 when L = 0 < G; numerically stabler (no G/L blow-up).
+ * Domain: every close finite and > 0, length ≥ period + 2 (legacy run-strategies bound).
+ * G = L = 0 (perfectly flat series) is 0/0 — undefined, so null (no signal), not a fake 100.
+ * @returns {number|null}
+ */
+export function rsiWilder(closes, period = 14) {
+  if (!Array.isArray(closes) || !Number.isInteger(period) || period < 1) return null;
+  if (closes.length < period + 2) return null;
+  for (const c of closes) if (!(isFiniteNumber(c) && c > 0)) return null;
+  let g = 0;
+  let l = 0;
+  for (let i = 1; i <= period; i++) {
+    const d = closes[i] - closes[i - 1];
+    if (d >= 0) g += d;
+    else l -= d;
+  }
+  g /= period;
+  l /= period;
+  for (let i = period + 1; i < closes.length; i++) {
+    const d = closes[i] - closes[i - 1];
+    g = (g * (period - 1) + (d > 0 ? d : 0)) / period;
+    l = (l * (period - 1) + (d < 0 ? -d : 0)) / period;
+  }
+  const den = g + l;
+  if (!(den > 0)) return null;
+  return finiteOrNull((100 * g) / den);
+}
+
+/** RSI today and yesterday (series without the last close). Legacy bound: length ≥ period + 3. */
+export function rsiLast2(closes, period = 14) {
+  if (!Array.isArray(closes) || closes.length < period + 3) return { prev: null, cur: null };
+  return { prev: rsiWilder(closes.slice(0, -1), period), cur: rsiWilder(closes, period) };
+}
+
+/** Last-bar volume ÷ previous-bar volume; both must be observed (> 0), else null — never a fake 0. */
+export function volumeRatioVsPrev(lastVol, prevVol) {
+  const a = observedVolume(lastVol);
+  const b = observedVolume(prevVol);
+  if (a == null || b == null) return null;
+  return volumeRatio(a, b);
+}
