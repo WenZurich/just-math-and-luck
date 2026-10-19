@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-16T09:30:00+08:00",
+    "updated": "2026-10-19T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -9094,6 +9094,172 @@
       "sources": [
         "https://arxiv.org/abs/2610.13044"
       ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-tw-analyst-feg-revisions-2026",
+      "market": "TW",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "Profit from analysts' earnings forecasts consensus? Evidence from Taiwan stock market",
+      "titleLocalized": {
+        "en": "Profit from analysts' earnings forecasts consensus? Evidence from Taiwan stock market",
+        "zh-Hant": "跟著分析師共識預估賺得到錢嗎？台股證據",
+        "zh-Hans": "跟着分析师共识预估赚得到钱吗？台股证据",
+        "ja": "アナリスト予想コンセンサスで儲けられるか？台湾株の実証"
+      },
+      "authors": [
+        "Jerry T. Yang",
+        "Meng-Ying Lin",
+        "Jow-Ran Chang"
+      ],
+      "year": 2026,
+      "summary": "Looks at two numbers built from analysts' consensus forecasts for Taiwan-listed firms: the expected earnings growth itself, and how that expected growth is revised up or down. Portfolios of stocks whose expected growth was just revised upward beat the Taiwan market index by about 2.1% a month on average, and buying upward-revised names while shorting downward-revised ones earned about 2.8% a month. The extra return keeps arriving for up to about a month after the revision is released, which suggests investors react too slowly. The level of expected growth only helps for firms that are expected to grow or in rising markets, while the direction of the revision helps consistently. Takeaway for the site: a TW screener candidate signal ('analysts just raised their growth estimate'), but it needs a public, dated source of consensus revisions before it can even be tested; paper results are before trading costs as reported in the abstract.",
+      "summaryLocalized": {
+        "en": "For Taiwan stocks, portfolios of names whose analyst consensus earnings-growth forecast was just revised up beat the index by about 2.1% a month (long-short about 2.8%), with the edge lasting up to a month — investors underreact. The direction of the revision matters more reliably than the growth level. TW screener candidate, pending a public dated revisions source.",
+        "zh-Hant": "研究台股分析師共識預估裡的兩個數字：預估的盈餘成長率本身，以及這個預估被往上調或往下調。剛被分析師上修成長預估的股票組合，平均每月比台股大盤多賺約 2.1%；買上修股、放空下修股的組合每月約 2.8%。這份超額報酬在上修公布後還會延續約一個月，代表市場反應太慢。成長預估「高不高」只在公司本來就被看好成長、或大盤上漲時才有用；「往上還往下修」則一直有用。本站把它列為台股選股候選訊號（分析師剛上修成長預估），但必須先找到公開、有日期的共識預估修正資料才能測試；論文摘要裡的報酬未扣交易成本。",
+        "zh-Hans": "研究台股分析师共识预估里的两个数字：预估的盈余成长率本身，以及这个预估被往上调或往下调。刚被分析师上修成长预估的股票组合，平均每月比台股大盘多赚约 2.1%；买上修股、放空下修股的组合每月约 2.8%。这份超额报酬在上修公布后还会延续约一个月，代表市场反应太慢。成长预估“高不高”只在公司本来就被看好成长、或大盘上涨时才有用；“往上还往下修”则一直有用。本站把它列为台股选股候选信号（分析师刚上修成长预估），但必须先找到公开、有日期的共识预估修正数据才能测试；论文摘要里的报酬未扣交易成本。",
+        "ja": "台湾株で、アナリスト・コンセンサスの利益成長予想が上方修正された銘柄群は指数を月約2.1%上回り（ロングショートで約2.8%）、効果は修正後約1か月続く＝市場の反応が遅い。成長率の水準より修正の方向の方が安定して効く。公開・日付付きの修正データが見つかるまでは台湾株スクリーナーの候補シグナル。"
+      },
+      "plainTakeaways": [
+        "分析師剛把一家公司的獲利成長預估往上調，這檔股票之後一個月平均會比大盤多漲",
+        "往上修還是往下修，比預估成長率本身高不高更可靠",
+        "超額報酬會慢慢出現、延續約一個月，代表市場消化消息比較慢",
+        "本站只當台股選股的候選訊號；要先有公開、有日期的分析師預估資料才能測，數學閘門通過前不改上線選股"
+      ],
+      "formulas": [
+        "FEG(i,t) ← consensus forecast EPS for next fiscal year ÷ latest actual EPS − 1 (only when actual EPS > 0; from a public, dated consensus source — never inferred)",
+        "FEG_rev(i,t) ← FEG(i,t) − FEG(i,t−1 month); up-revision if FEG_rev > 0, down-revision if < 0",
+        "excess return (paper's measure): r(i, next month) − r(TAIEX, next month); paper reports ≈ +2.11%/month for up-revision portfolios and ≈ +2.81%/month long-short",
+        "candidate screen (site proposal): among TW names already passing the live trend/volume rules, flag those with FEG_rev > 0 published in the last 20 trading days",
+        "check: paper-book replay with vs without the flag after TW costs (0.1425% fee each side, 0.3% sell tax); report hit rate and count of trades",
+        "site use: TW screener candidate only; blocked until a public dated consensus-revision source is found; no live change until math gate passes"
+      ],
+      "strategyCandidate": "yes",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — analyst growth-revision flag stays a TW screener candidate (also blocked on a public dated data source); never status=adopted until the gate passes and an after-cost replay is done.",
+      "tags": [
+        "tw",
+        "analysts",
+        "earnings-forecast",
+        "revisions",
+        "underreaction",
+        "candidate"
+      ],
+      "sources": [
+        "https://ideas.repec.org/a/eee/finlet/v88y2026ics1544612325024134.html",
+        "https://doi.org/10.1016/j.frl.2025.109164"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "分析師剛把一家公司的獲利成長預估往上調，這檔股票之後一個月平均會比大盤多漲",
+          "往上修還是往下修，比預估成長率本身高不高更可靠",
+          "超額報酬會慢慢出現、延續約一個月，代表市場消化消息比較慢",
+          "本站只當台股選股的候選訊號；要先有公開、有日期的分析師預估資料才能測，數學閘門通過前不改上線選股"
+        ],
+        "zh-Hans": [
+          "分析师刚把一家公司的获利成长预估往上调，这只股票之后一个月平均会比大盘多涨",
+          "往上修还是往下修，比预估成长率本身高不高更可靠",
+          "超额报酬会慢慢出现、延续约一个月，代表市场消化消息比较慢",
+          "本站只当台股选股的候选信号；要先有公开、有日期的分析师预估数据才能测，数学闸门通过前不改上线选股"
+        ],
+        "en": [
+          "When analysts just raised a company's earnings-growth forecast, the stock tended to beat the market over the next month",
+          "Whether the forecast was revised up or down matters more reliably than how high the growth forecast is",
+          "The extra return arrives slowly over about a month, so the market digests the news late",
+          "TW screener candidate only; needs a public, dated analyst-forecast source first; no live change until the math gate passes"
+        ],
+        "ja": [
+          "アナリストが利益成長予想を上方修正した銘柄は、その後1か月ほど市場平均を上回りやすい",
+          "成長予想の高さより、上方か下方かという修正の向きの方が安定して効く",
+          "超過リターンは約1か月かけてゆっくり現れる＝市場の反応が遅い",
+          "台湾株スクリーナーの候補のみ。公開・日付付きの予想データが先に必要。数学ゲート通過前はライブ選定を変えない"
+        ]
+      },
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-backtest-live-drift-defects-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "Where Backtests and Live Trading Part Ways: Six Defects from One Intraday System",
+      "titleLocalized": {
+        "en": "Where Backtests and Live Trading Part Ways: Six Defects from One Intraday System",
+        "zh-Hant": "回測和實盤在哪裡分道揚鑣：一套當日交易系統的六個缺陷",
+        "zh-Hans": "回测和实盘在哪里分道扬镳：一套日内交易系统的六个缺陷",
+        "ja": "バックテストと実運用が食い違う所：あるデイトレード・システムの6つの欠陥"
+      },
+      "authors": [
+        "Alex Vidovich",
+        "Zivana Zerjal"
+      ],
+      "year": 2026,
+      "summary": "A short field report from running one intraday US stock system live and replaying each live day in the backtest. The two drifted apart in ways that never showed up in summary numbers. Six defects are described: a default data feed that carried only a small part of the real opening volume; history adjusted for dividends while live orders see unadjusted prices; data the live system downloaded that the backtest never had; a position-sizing step that broke a limit the live account enforces; UTC timestamps read as New York time; and settings that were switched on but never reached the order code. For each, the authors give the symptom, how big the error was, the cause, and the test that now guards it, and they end with a ten-point checklist. They make no claim the system is profitable. Takeaway for the site: not a return signal but a checklist for our own guards — it matches the missing-last-session-volume bug our math guard caught on 2026-10-19.",
+      "summaryLocalized": {
+        "en": "Running one intraday US equity system live and replaying each day in the backtest exposed six defects that summary stats never showed: thin default volume feeds, dividend-adjusted history vs unadjusted live prices, data only one side had, sizing that broke account limits, UTC read as New York time, and settings that never reached the order code. Ends with a ten-point checklist. Used by the site as a guard checklist, not a signal.",
+        "zh-Hant": "作者把一套美股當日交易系統實際上線，並把每個實盤日拿回回測重跑對照，結果發現兩邊悄悄走偏，而且從總績效數字完全看不出來。六個缺陷：預設資料源只帶到一小部分真實開盤成交量；歷史價格有做除息調整、實盤下單看到的卻是未調整價格；實盤有下載、回測卻沒有的資料；部位大小算出來超過券商帳戶實際允許的上限；把 UTC 時間當成紐約時間；以及設定打開了卻沒有真正傳到下單程式。每個缺陷都寫出症狀、誤差多大、原因和現在用來擋住它的測試，最後附十點檢查清單。作者不宣稱系統會賺錢。本站不把它當選股訊號，而是當自家檢查機制的清單——它正好對應 2026-10-19 數學檢查抓到的「最後一天成交量缺值被補成 0」問題。",
+        "zh-Hans": "作者把一套美股日内交易系统实际上线，并把每个实盘日拿回回测重跑对照，结果发现两边悄悄走偏，而且从总绩效数字完全看不出来。六个缺陷：默认数据源只带到一小部分真实开盘成交量；历史价格做了除息调整、实盘下单看到的却是未调整价格；实盘有下载、回测却没有的数据；仓位大小算出来超过券商账户实际允许的上限；把 UTC 时间当成纽约时间；以及设定打开了却没有真正传到下单程序。每个缺陷都写出症状、误差多大、原因和现在用来挡住它的测试，最后附十点检查清单。作者不宣称系统会赚钱。本站不把它当选股信号，而是当自家检查机制的清单——它正好对应 2026-10-19 数学检查抓到的“最后一天成交量缺值被补成 0”问题。",
+        "ja": "米国株のデイトレード・システムを実運用し、毎日をバックテストで再現したところ、集計値には現れない6つの食い違いが見つかった：出来高の一部しか含まないデータ、配当調整済み履歴と未調整の実価格、片方にしかないデータ、口座上限を超えるサイズ計算、UTCをNY時間と誤読、注文コードに届かない設定。10項目のチェックリスト付き。本サイトはシグナルではなく検証チェックリストとして使う。"
+      },
+      "plainTakeaways": [
+        "回測漂亮不代表實盤一樣：兩邊的資料、時間、設定只要有一點不同，結果就會悄悄走偏",
+        "總績效數字看不出這些錯，要把每一天的實盤和回測逐筆對照才抓得到",
+        "常見陷阱：成交量資料不完整、除息調整價和實際成交價混用、時區搞錯、設定沒有真的生效",
+        "本站拿它當自家檢查清單（例如最後一天成交量缺值不能補成 0），不是選股訊號"
+      ],
+      "formulas": [
+        "daily parity check: for each paper-book day d, diff(d) ← |live fill or published close − replayed price for d|; flag if diff(d) > 0.5% of price",
+        "volume completeness: last-session volume missing or 0 while price moved → treat as missing (null), never zero-fill (already enforced by math-core observedVolume)",
+        "price basis: compute returns on adjusted closes, but compare fills and P&L against unadjusted closes; never mix the two in one formula",
+        "time basis: convert every source timestamp to its exchange zone (America/New_York for US, Asia/Taipei for TW) before picking the session date",
+        "config reach: every enabled strategy flag must appear in the published scan output; a flag that is on but absent fails the smoke test",
+        "site use: guard/test checklist candidate only; no change to live screener math"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — this is a verification checklist, not a return signal; any new guard derived from it is added as a test only and never alters live screener math.",
+      "tags": [
+        "us",
+        "backtest",
+        "live-trading",
+        "data-quality",
+        "timezone",
+        "guards",
+        "watch"
+      ],
+      "sources": [
+        "https://arxiv.org/abs/2610.21846",
+        "https://doi.org/10.2139/ssrn.7517378"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "回測漂亮不代表實盤一樣：兩邊的資料、時間、設定只要有一點不同，結果就會悄悄走偏",
+          "總績效數字看不出這些錯，要把每一天的實盤和回測逐筆對照才抓得到",
+          "常見陷阱：成交量資料不完整、除息調整價和實際成交價混用、時區搞錯、設定沒有真的生效",
+          "本站拿它當自家檢查清單（例如最後一天成交量缺值不能補成 0），不是選股訊號"
+        ],
+        "zh-Hans": [
+          "回测漂亮不代表实盘一样：两边的数据、时间、设定只要有一点不同，结果就会悄悄走偏",
+          "总绩效数字看不出这些错，要把每一天的实盘和回测逐笔对照才抓得到",
+          "常见陷阱：成交量数据不完整、除息调整价和实际成交价混用、时区搞错、设定没有真的生效",
+          "本站拿它当自家检查清单（例如最后一天成交量缺值不能补成 0），不是选股信号"
+        ],
+        "en": [
+          "A good backtest does not mean live trading will match: small differences in data, time or settings quietly pull them apart",
+          "Summary performance numbers hide these errors; you only catch them by comparing live and backtest day by day",
+          "Common traps: incomplete volume data, mixing dividend-adjusted and real prices, wrong time zones, settings that never take effect",
+          "The site uses it as a checklist for its own guards (e.g. a missing last-day volume must never become 0), not as a stock signal"
+        ],
+        "ja": [
+          "バックテストが良くても実運用が同じになるとは限らない：データ・時刻・設定のわずかな違いで静かにずれる",
+          "集計値ではこの誤りは見えず、日ごとに実運用とバックテストを突き合わせて初めて分かる",
+          "よくある落とし穴：出来高データの欠け、配当調整価格と実価格の混用、タイムゾーンの誤り、効いていない設定",
+          "本サイトは自前の検証チェックリストとして使う（最終日の出来高欠損を0にしない等）。銘柄シグナルではない"
+        ]
+      },
       "coverUrl": "./covers/placeholder-paper.svg",
       "coverFallback": "./covers/placeholder-paper.svg"
     }
