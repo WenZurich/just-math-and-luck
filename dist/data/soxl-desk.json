@@ -2,19 +2,19 @@
   "market": "US",
   "ticker": "SOXL",
   "fundName": "Direxion Daily Semiconductor Bull 3X ETF",
-  "asOf": "2026-10-19T01:34:15.243Z",
+  "asOf": "2026-10-20T01:44:23.894Z",
   "quote": {
-    "price": 100.15,
-    "change": 6.48,
-    "changePct": 6.92,
+    "price": 96.31,
+    "change": -2.34,
+    "changePct": -2.37,
     "currency": "USD",
     "session": "overnight / extended (Yahoo)",
     "source": "https://finance.yahoo.com/quote/SOXL/",
     "regularClose": {
-      "price": 93.67,
-      "change": -13.68,
-      "changePct": -12.74,
-      "session": "NYSE Arca regular close (October 16 at 4:00:01 PM EDT)"
+      "price": 98.65,
+      "change": 4.98,
+      "changePct": 5.32,
+      "session": "NYSE Arca regular close (October 19 at 4:00:01 PM EDT)"
     }
   },
   "holdingsAsOf": "2026-01-31",
@@ -30,8 +30,8 @@
     {
       "type": "anomaly",
       "severity": "high",
-      "title": "正規盤大波動 -12.74%",
-      "detail": "Yahoo 顯示 SOXL 正規收盤約 $93.67（-12.74% / -13.68）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
+      "title": "正規盤大波動 +5.32%",
+      "detail": "Yahoo 顯示 SOXL 正規收盤約 $98.65（+5.32% / +4.98）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
       "sources": [
         "https://finance.yahoo.com/quote/SOXL/"
       ]
@@ -99,6 +99,12 @@
       "published": "2026-09-21"
     },
     {
+      "title": "Intel leads chip stocks higher as investors jump back into AI trade",
+      "summary": "Semiconductor stocks jumped on Monday.",
+      "url": "https://finance.yahoo.com/markets/article/intel-leads-chip-stocks-higher-as-investors-jump-back-into-ai-trade-135726553.html?.tsrc=rss",
+      "published": "2026-10-19"
+    },
+    {
       "title": "Why Direxion Daily Semiconductor Bull 3X ETF Crashed Today",
       "summary": "Micron and Sandisk stocks are down today -- and the SOXL is leading them lower.",
       "url": "https://www.fool.com/investing/2026/10/15/why-direxion-daily-semiconductor-bull-3x-etf-crashed-today/?.tsrc=rss",
@@ -141,10 +147,10 @@
       "published": "2026-08-05"
     },
     {
-      "title": "This 3x Semiconductor ETF Turned $10,000 Into $56,000, Then Lost a Fifth in One Month",
-      "summary": "SOXL rewarded patient semiconductor bulls with one of the most explosive yearly returns on U.S. exchanges, then erased a fifth of that gain in a single month. Understanding exactly why reveals the hidden engine that makes this fund a wealth builder and a wealth destroyer at the s",
-      "url": "https://247wallst.com/investing/etf/2026/08/04/this-3x-semiconductor-etf-turned-10000-into-56000-then-lost-a-fifth-in-one-month/?.tsrc=rss",
-      "published": "2026-08-05"
+      "title": "Investor: ‘I Turned AMD Into $16 Million and Sold Everything, Did I Quit Too Soon?’",
+      "summary": "A Reddit trader claims he rode an AMD position all the way to $16 million, then cashed out completely, convinced the market had finally broken. Now the question is whether he read the signs right or walked away from something much bigger.",
+      "url": "https://247wallst.com/investing/2026/10/19/investor-i-turned-amd-into-16-million-and-sold-everything-did-i-quit-too-soon/?.tsrc=rss",
+      "published": "2026-10-19"
     },
     {
       "title": "AI Chip Bets Suffer $34M Liquidation Wipeout As Bitcoin, Ethereum Near Danger Zone Ahead Of Black Monday Fears",
@@ -163,12 +169,6 @@
       "summary": "Here are 3 great reasons why the SOXL is running with the bulls today.",
       "url": "https://www.fool.com/investing/2026/09/21/why-direxion-daily-semiconductor-bull-3x-etf-just/?.tsrc=rss",
       "published": "2026-09-21"
-    },
-    {
-      "title": "Roger Altman Says AI Is ‘The Greatest Threat Facing The World’ Amid Calls For Stronger Guardrails",
-      "summary": "In an interview with CNBC, Evercore founder Roger Altman backed calls from Elon Musk, Sam Altman and Dario Amodei for slower AI development and stronger safeguards.",
-      "url": "https://stocktwits.com/news-articles/markets/equity/roger-altman-says-ai-is-the-greatest-threat-facing-the-world/cZtm5XBRBRp?.tsrc=rss",
-      "published": "2026-09-14"
     }
   ],
   "holdings": [
@@ -535,7 +535,7 @@
     "Research seed: /workspace/soxl-research/soxl-holdings-raw.json",
     "SEC N-PORT: https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
     "Yahoo quote page: https://finance.yahoo.com/quote/SOXL/",
-    "Yahoo quote HTML refresh @ 2026-10-19T01:34:15.243Z",
+    "Yahoo quote HTML refresh @ 2026-10-20T01:44:23.894Z",
     "https://feeds.finance.yahoo.com/rss/2.0/headline?s=SOXL&region=US&lang=en-US"
   ],
   "blockers": [

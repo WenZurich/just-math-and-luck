@@ -310,3 +310,56 @@
 @media (max-width: 640px) {
   .lk-ofil-item { align-items: flex-start; }
 }
+
+/* Quote source unreachable (proxy refused / timed out) — honest status + retry, then stored official data */
+.lk-unreach {
+  margin-bottom: 0.75rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--warn) 40%, var(--border));
+  background: color-mix(in srgb, var(--warn-bg) 85%, var(--surface));
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem 0.85rem;
+  align-items: center;
+}
+.lk-unreach-title {
+  margin: 0;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+.lk-unreach-body {
+  margin: 0;
+  grid-column: 1;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+.lk-retry {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  min-height: 44px;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--accent);
+  background: var(--surface);
+  color: var(--accent);
+  font-weight: 800;
+  cursor: pointer;
+}
+.lk-retry:hover { background: var(--accent-soft); }
+.lk-retry:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.lk-offline-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  background: var(--surface-2);
+}
+@media (max-width: 640px) {
+  .lk-unreach { grid-template-columns: 1fr; }
+  .lk-retry { grid-column: 1; grid-row: auto; justify-self: start; }
+}

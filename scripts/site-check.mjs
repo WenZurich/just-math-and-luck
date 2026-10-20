@@ -149,14 +149,42 @@ async function checkLookup(page, where, { market, q }) {
   const r = await page.evaluate(() => {
     const root = document.querySelector("#lk-root");
     return { empty: root.querySelector(".lk-empty")?.innerText?.trim() || null,
+      unreach: Boolean(root.querySelector(".lk-unreach")), retry: Boolean(root.querySelector("[data-lk-retry]")),
+      officialLinks: root.querySelectorAll(".lk-ofil-link").length,
       biz: root.querySelector(".lk-biz")?.innerText?.trim() || "",
       badge: root.querySelector(".lk-badge")?.className || "", textLen: (root.innerText || "").trim().length };
   });
+  if (r.unreach) {
+    // The page says the quote relay refused/timed out. That is only acceptable when the relay is
+    // provably blocking THIS checker's network (probe at start); then the stored-data card must still be useful.
+    if (!report.relayBlockedForChecker) return fail(where, `lookup ${market} ${q} says quote source unreachable, but the relay probe was fine`);
+    if (!r.badge.includes(market === "TW" ? "lk-badge-tw" : "lk-badge-us")) fail(where, `lookup ${market} ${q} offline card: wrong/missing market badge`);
+    if (!r.retry) fail(where, `lookup ${market} ${q} offline card: no 重試 button`);
+    if (r.officialLinks < 2) fail(where, `lookup ${market} ${q} offline card: only ${r.officialLinks} official links`);
+    if (r.biz.length < 8) fail(where, `lookup ${market} ${q} offline card: 公司在做什麼 has no text`);
+    warn(where, `lookup ${market} ${q}: live quote NOT verified — r.jina.ai blocks this checker's network (${report.relayBlockedForChecker}); offline card OK`);
+    return;
+  }
   if (r.empty) fail(where, `lookup ${market} ${q} error: ${r.empty}`);
   else if (!r.badge.includes(market === "TW" ? "lk-badge-tw" : "lk-badge-us")) fail(where, `lookup ${market} ${q} wrong/missing market badge`);
   else if (r.textLen < 40) fail(where, `lookup ${market} ${q} result looks blank`);
   // 公司在做什麼 must carry text (Yahoo, digest, or the official TWSE/TPEx/MOPS/SEC fallback).
   if (!r.empty && r.biz.length < 8) fail(where, `lookup ${market} ${q}: 公司在做什麼 has no text`);
+}
+
+/** Does r.jina.ai (the CORS relay lookup/live quotes fall back to) serve this checker's network? */
+async function probeRelay() {
+  report.relayBlockedForChecker = null;
+  try {
+    const res = await fetch(`https://${JINA_HOST}/https://query1.finance.yahoo.com/v8/finance/chart/SPY?range=1d&interval=1d`,
+      { headers: { Accept: "application/json" }, signal: AbortSignal.timeout(20_000) });
+    const body = await res.text();
+    if (res.status === 401 || res.status === 403 || res.status === 429) {
+      const m = body.match(/"message"\s*:\s*"([^"]{0,160})/);
+      report.relayBlockedForChecker = `HTTP ${res.status}${m ? `: ${m[1]}` : ""}`;
+      console.log(`! relay probe: r.jina.ai refuses this checker (${report.relayBlockedForChecker}) — live lookup cannot be verified from here`);
+    } else console.log(`relay probe: r.jina.ai HTTP ${res.status}`);
+  } catch (e) { console.log(`relay probe failed: ${e.message}`); }
 }
 
 async function checkMarquees(page, where) {
@@ -230,6 +258,7 @@ async function main() {
   } catch (e) { console.error("browser launch failed:", e.message); process.exit(2); }
 
   await checkData("data");
+  await probeRelay();
 
   for (const vp of VIEWPORTS) {
     const ctx = await browser.newContext({

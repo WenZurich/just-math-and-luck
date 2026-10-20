@@ -155,16 +155,29 @@ async function fetchText(url, { timeoutMs = 14000 } = {}) {
       signal: ctrl?.signal,
       headers: { Accept: "application/json,text/plain,*/*" },
     });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (!res.ok) {
+      // Keep the body: a proxied Yahoo 404 still carries Yahoo's own JSON ("symbol not found"),
+      // while a proxy block (401/403/429) carries the proxy's error. The lookup needs to tell them apart.
+      const err = new Error(`HTTP ${res.status}`);
+      err.status = res.status;
+      try { err.body = (await res.text()).slice(0, 4000); } catch { /* ignore */ }
+      throw err;
+    }
     return await res.text();
   } finally {
     if (timer) clearTimeout(timer);
   }
 }
 
+/** True when the JSON came from Yahoo itself (even an error reply), not from a proxy's own error page. */
+export function isYahooReply(data) {
+  return Boolean(data && typeof data === "object" && (data.chart || data.finance || data.quoteSummary || data.quoteResponse));
+}
+
 /** Aggressive public fetch: direct Yahoo hosts, then jina reader (CORS-friendly). */
 async function fetchYahooJson(pathAndQuery) {
   const errors = [];
+  let answered = false;
   for (const host of YAHOO_HOSTS) {
     const url = `${host}${pathAndQuery}`;
     try {
@@ -173,6 +186,7 @@ async function fetchYahooJson(pathAndQuery) {
       if (data) return { ok: true, data, via: "direct", url };
       errors.push(`${host}: non-json`);
     } catch (e) {
+      if (e?.body && isYahooReply(extractJson(e.body))) answered = true;
       errors.push(`${host}: ${e.message || e}`);
     }
   }
@@ -184,10 +198,11 @@ async function fetchYahooJson(pathAndQuery) {
       if (data) return { ok: true, data, via: "jina", url };
       errors.push(`jina ${host}: parse`);
     } catch (e) {
+      if (e?.body && isYahooReply(extractJson(e.body))) answered = true;
       errors.push(`jina ${host}: ${e.message || e}`);
     }
   }
-  return { ok: false, data: null, via: null, error: errors.slice(0, 4).join(" · ") };
+  return { ok: false, data: null, via: null, answered, error: errors.slice(0, 4).join(" · ") };
 }
 
 /** Normalize user input → Yahoo symbol + market. */
@@ -918,6 +933,56 @@ function mergeSnapshot({ market, symbol, chart, search, summary, digest }) {
   return out;
 }
 
+/**
+ * Quote source unreachable → card from data the site already published (no live numbers, nothing invented):
+ * official company basics (TWSE/TPEx/MOPS snapshot or SEC SIC), the morning earnings digest, and the
+ * official filings deep-links (pure URLs, no network).
+ */
+export function buildOfflineCard(norm, { profiles = profilesCache, digest = digestCache } = {}) {
+  if (!norm?.ok) return null;
+  const market = norm.market;
+  let symbol = norm.symbol;
+  let name = null;
+  let known = false;
+  if (market === "TW") {
+    const row = profiles?.tw?.[norm.display];
+    if (row) {
+      known = true;
+      name = row.n || row.f || null;
+      if (row.mk === "上櫃" && norm.alt) symbol = norm.alt;
+    }
+  }
+  const dig = market === "US" ? digestMatchIn(digest, symbol) : null;
+  if (dig) {
+    known = true;
+    name = name || dig.name || null;
+  }
+  const off = officialBusiness({ market, symbol, profiles, secProfile: null });
+  if (off) known = true;
+  const business = off?.text || (dig?.whatItDoes ? String(dig.whatItDoes) : null);
+  const businessSource = off ? { key: off.srcKey, url: off.srcUrl } : dig?.whatItDoes ? { key: "lookupBizSrcDigest", url: null } : null;
+  const website = market === "TW" ? profiles?.tw?.[norm.display]?.web || null : null;
+  const links = buildOfficialLinks({ market, symbol, display: norm.display, website, cik: null }).links;
+  const earnings = dig
+    ? {
+        nextEarningsDate: dig.nextEarningsDate || null,
+        nextIsEstimate: Boolean(dig.nextEarningsDateIsEstimate),
+        lastEpsActual: dig.lastReport?.epsActual ?? null,
+        nextEpsConsensus: dig.consensusEpsNext ?? null,
+        lastEpsQuarter: dig.lastReport?.quarter || null,
+        asOf: digest?.asOf || null,
+      }
+    : null;
+  return { market, symbol, display: norm.display, name, known, business, businessSource, links, earnings };
+}
+
+function digestMatchIn(dig, symbol) {
+  if (!dig) return null;
+  const ticker = String(symbol || "").replace(/\.TWO?$/i, "").toUpperCase();
+  const rows = [...(dig.mag7 || []), ...(dig.watchlistHot || [])];
+  return rows.find((r) => String(r.ticker || "").toUpperCase() === ticker) || null;
+}
+
 export async function lookupStock(input, marketHint = "US") {
   const norm = normalizeSymbol(input, marketHint);
   if (!norm.ok) {
@@ -933,11 +998,14 @@ export async function lookupStock(input, marketHint = "US") {
   let usedSymbol = norm.symbol;
   let chartVia = null;
   let chartError = null;
+  /** Did Yahoo itself answer at least once (even "not found")? If not, the quote source was unreachable. */
+  let yahooAnswered = false;
 
   for (const sym of trySymbols) {
     const res = await fetchYahooJson(
       `/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=5d&includePrePost=false`
     );
+    if (res.ok || res.answered) yahooAnswered = true;
     if (res.ok) {
       chart = pickChartMeta(res.data);
       if (chart?.price != null || chart?.longName || chart?.shortName) {
@@ -949,6 +1017,20 @@ export async function lookupStock(input, marketHint = "US") {
     } else {
       chartError = res.error;
     }
+  }
+
+  if (!chart && !yahooAnswered) {
+    // Not a wrong ticker: the public quote route (direct Yahoo is CORS-blocked; the reader proxy refused
+    // or timed out). Show what the site already holds from official / public snapshots instead of a dead end.
+    return {
+      ok: false,
+      error: "unreachable",
+      detail: chartError,
+      snapshot: null,
+      offline: buildOfflineCard(norm),
+      symbol: norm.symbol,
+      market: norm.market,
+    };
   }
 
   if (!chart) {
@@ -1106,7 +1188,73 @@ function paintOfficialFilings(filings) {
     </section>`;
 }
 
+function paintUnreachable(root, result) {
+  const c = result.offline;
+  const fmtTpe = (iso) => {
+    if (!iso) return "";
+    try {
+      return new Intl.DateTimeFormat("zh-TW", { timeZone: "Asia/Taipei", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date(iso));
+    } catch { return ""; }
+  };
+  const marketBadge = c
+    ? `<span class="lk-badge ${c.market === "TW" ? "lk-badge-tw" : "lk-badge-us"}">${escapeHtml(t(c.market === "TW" ? "twStock" : "usStock"))}</span>`
+    : "";
+  const bizSrc = c?.businessSource
+    ? c.businessSource.url
+      ? `<p class="lk-muted">${escapeHtml(t("lookupBizSourceLabel"))}<a href="${escapeHtml(c.businessSource.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t(c.businessSource.key))}</a></p>`
+      : `<p class="lk-muted">${escapeHtml(t("lookupBizSourceLabel"))}${escapeHtml(t(c.businessSource.key, { at: fmtTpe(c.earnings?.asOf) }))}</p>`
+    : "";
+  const biz = c?.business
+    ? `<section class="lk-block" aria-label="${escapeHtml(t("lookupBusiness"))}">
+        <h4 class="lk-h4">${escapeHtml(t("lookupBusiness"))}</h4>
+        <p class="lk-biz">${escapeHtml(c.business.length > 520 ? `${c.business.slice(0, 520)}…` : c.business)}</p>${bizSrc}
+      </section>`
+    : "";
+  const e = c?.earnings;
+  const earn = e && (e.nextEarningsDate || e.lastEpsActual != null)
+    ? `<section class="lk-block" aria-label="${escapeHtml(t("lookupEarnings"))}">
+        <h4 class="lk-h4">${escapeHtml(t("lookupEarnings"))}</h4>
+        <div class="lk-metrics">
+          ${metric(t("earningsNextDate"), val(e.nextEarningsDate ? `${e.nextEarningsDate}${e.nextIsEstimate ? t("lookupEstSuffix") : ""}` : null))}
+          ${metric(t("earningsLastEps"), e.lastEpsActual != null
+            ? val(`${fmtNum(e.lastEpsActual, 2)}${e.lastEpsQuarter ? ` · ${e.lastEpsQuarter}` : ""}`)
+            : null)}
+          ${metric(t("lookupEpsConsensus"), e.nextEpsConsensus != null ? val(fmtNum(e.nextEpsConsensus, 2)) : null)}
+        </div>
+        ${e.asOf ? `<p class="lk-muted">${escapeHtml(t("lookupOfflineDigestAsOf", { at: fmtTpe(e.asOf) }))}</p>` : ""}
+      </section>`
+    : "";
+  const filings = c ? paintOfficialFilings({ market: c.market, links: c.links, recent: [], noteKey: c.market === "TW" ? "lookupFilingsTwNote" : "lookupOfflineFilingsNote" }) : "";
+  root.innerHTML = `
+    <div class="lk-unreach" role="alert">
+      <p class="lk-unreach-title">${escapeHtml(t("lookupUnreachTitle"))}</p>
+      <p class="lk-unreach-body">${escapeHtml(t("lookupUnreachBody"))}</p>
+      <button type="button" class="lk-retry" data-lk-retry>${escapeHtml(t("lookupRetry"))}</button>
+    </div>
+    ${c ? `<article class="lk-card lk-card-offline" data-symbol="${escapeHtml(c.symbol)}">
+      <header class="lk-card-head">
+        <div>
+          <div class="lk-sym-row">
+            <span class="lk-symbol">${escapeHtml(c.market === "TW" ? c.display : c.symbol)}</span>
+            ${marketBadge}
+            <span class="lk-offline-tag">${escapeHtml(t("lookupOfflineTag"))}</span>
+          </div>
+          ${c.name ? `<h3 class="lk-name">${escapeHtml(c.name)}</h3>` : ""}
+          ${c.known ? "" : `<p class="lk-meta-line">${escapeHtml(t("lookupOfflineUnknown"))}</p>`}
+        </div>
+      </header>
+      ${biz}
+      ${earn}
+      ${filings}
+      <p class="lk-disclaimer" role="note">${escapeHtml(t("lookupDisclaimer"))}</p>
+    </article>` : ""}`;
+}
+
 function paintResult(root, result) {
+  if (result?.error === "unreachable") {
+    paintUnreachable(root, result);
+    return;
+  }
   if (!result?.ok || !result.snapshot) {
     const msg =
       result?.error === "empty"
@@ -1296,6 +1444,9 @@ export function initLookup(selector = "#lk-root") {
   form?.addEventListener("submit", (e) => {
     e.preventDefault();
     void run();
+  });
+  root.addEventListener("click", (e) => {
+    if (e.target?.closest?.("[data-lk-retry]")) void run();
   });
 
   // Deep-link: #lookup?q=AAPL or #quote/2330

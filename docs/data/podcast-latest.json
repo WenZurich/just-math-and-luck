@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-20T00:22:42.289Z",
+  "asOf": "2026-10-20T01:52:46.458Z",
   "timezone": "Asia/Taipei",
   "shows": {
     "gooaye": {
@@ -8,7 +8,7 @@
       "latestEp": 706,
       "latestTitle": "EP706 | 👑",
       "latestDate": "2026-10-17",
-      "catalogAsOf": "2026-10-18T09:36:45+08:00"
+      "catalogAsOf": "2026-10-20T09:44:42+08:00"
     },
     "xiaojun": {
       "kind": "episodes",
@@ -16,7 +16,7 @@
       "latestEp": 154,
       "latestTitle": "154. 对Dyna创始人Lindon的3小时访谈：机器人世界的迷雾、分歧与抉择，修心、《沉思录》与王阳明",
       "latestDate": "2026-10-15",
-      "catalogAsOf": "2026-10-18T09:36:49+08:00"
+      "catalogAsOf": "2026-10-20T09:44:44+08:00"
     },
     "whynottv": {
       "kind": "episodes",
@@ -24,7 +24,7 @@
       "latestEp": 5,
       "latestTitle": "Danfei Xu：人类数据，行为克隆，机器人GPT-3，全栈，EgoMimic，遥操作，UMI，斯坦福 | WhynotTV Podcast #5",
       "latestDate": "2026-05-01",
-      "catalogAsOf": "2026-10-18T09:36:50+08:00"
+      "catalogAsOf": "2026-10-20T09:44:44+08:00"
     },
     "zhang-junan": {
       "kind": "posts",

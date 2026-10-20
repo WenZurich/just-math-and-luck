@@ -1143,6 +1143,31 @@ async function main() {
       else ok("officialBusiness US → SEC SIC description + EDGAR link");
       if (officialBusiness({ market: "US", symbol: "ZZZZ", profiles: { tw: {}, us: {} } }) !== null) fail("officialBusiness must return null (not invent) without official data");
       else ok("officialBusiness returns null when no official data");
+
+      // Quote relay unreachable → stored-data card (no live numbers) + honest classification
+      const { buildOfflineCard, isYahooReply, normalizeSymbol } = await import(pathToFileURL(path.join(ROOT, "src/lookup.js")).href);
+      if (!isYahooReply({ chart: { result: null, error: { code: "Not Found" } } })) fail("isYahooReply must accept Yahoo's own 404 JSON");
+      else if (isYahooReply({ data: null, code: 401, name: "AuthenticationRequiredError" })) fail("isYahooReply must reject a proxy's own error JSON");
+      else ok("isYahooReply: Yahoo 404 = answered (not found); proxy 401 = unreachable");
+      const digest = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/earnings-digest.json"), "utf8"));
+      const cTw = buildOfflineCard(normalizeSymbol("2330", "TW"), { profiles: prof, digest });
+      if (!cTw?.known || cTw.business !== tsmc?.biz || cTw.links.length < 3 || cTw.earnings) fail(`offline card 2330 => ${JSON.stringify(cTw).slice(0, 300)}`);
+      else ok("offline card 2330: MOPS business + official links, no US earnings mixed in");
+      const otc = Object.entries(prof.tw || {}).find(([, r]) => r.mk === "上櫃");
+      if (otc) {
+        const cOtc = buildOfflineCard(normalizeSymbol(otc[0], "TW"), { profiles: prof, digest });
+        if (!cOtc?.symbol?.endsWith(".TWO")) fail(`offline card ${otc[0]} (上櫃) should use .TWO: ${cOtc?.symbol}`);
+        else ok(`offline card ${otc[0]} 上櫃 → .TWO`);
+      }
+      const nvDig = (digest.mag7 || []).find((r) => r.ticker === "NVDA");
+      const cUs = buildOfflineCard(normalizeSymbol("NVDA", "US"), { profiles: prof, digest });
+      if (!cUs?.known || !cUs.links.some((l) => /sec\.gov/.test(l.href)) || (nvDig && cUs.earnings?.nextEarningsDate !== nvDig.nextEarningsDate)) fail(`offline card NVDA => ${JSON.stringify(cUs).slice(0, 300)}`);
+      else ok("offline card NVDA: digest earnings date + SEC links");
+      if (JSON.stringify(cUs).match(/"(price|change|changePct)"/)) fail("offline card must not carry live quote fields");
+      else ok("offline card carries no price fields");
+      const cX = buildOfflineCard(normalizeSymbol("ZZZZ", "US"), { profiles: { tw: {}, us: {} }, digest: { mag7: [], watchlistHot: [] } });
+      if (cX?.known || cX?.business || cX?.earnings || !cX?.links?.length) fail(`offline card unknown ticker must be links-only: ${JSON.stringify(cX)}`);
+      else ok("offline card unknown ticker → links only, nothing invented");
     }
   }
 
