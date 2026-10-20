@@ -1262,6 +1262,92 @@ async function main() {
   } else ok("market marquee respects prefers-reduced-motion");
 
   // —— Client live quotes overlay (near-real-time while tab open) ——
+  // Backup quote relay chain (src/relay.js) + Worker guard (workers/quote-proxy) — no network.
+  {
+    const relay = await import(pathToFileURL(path.join(ROOT, "src/relay.js")).href);
+    const { fetchViaRelayChain, relayAttempts, backupRelayUrl, QUOTE_PROXY_URL } = relay;
+    const YURL = "https://query1.finance.yahoo.com/v8/finance/chart/AAPL?range=1d";
+    const BK = "https://jml-quote-proxy.example.workers.dev";
+    const parse = (t) => { try { return JSON.parse(t); } catch { return null; } };
+    const httpErr = (s, body) => Object.assign(new Error(`HTTP ${s}`), { status: s, body });
+    if (QUOTE_PROXY_URL && !/^https:\/\//.test(QUOTE_PROXY_URL)) fail("relay: QUOTE_PROXY_URL must be https");
+    // Empty backup → jina only, original timeout untouched.
+    const st0 = relayAttempts(YURL, { backupBase: "", primaryTimeoutMs: 18000 });
+    if (st0.length !== 1 || st0[0].via !== "jina" || st0[0].timeoutMs !== 18000 || !st0[0].url.startsWith("https://r.jina.ai/")) fail("relay: empty backup should be jina-only with original timeout");
+    else ok("relay: empty backup URL → jina-only, timeout unchanged");
+    // Backup configured → jina (≤6s) then backup.
+    const st1 = relayAttempts(YURL, { backupBase: BK + "/", primaryTimeoutMs: 18000 });
+    if (st1.length !== 2 || st1[0].timeoutMs > 6000 || st1[1].via !== "backup" || st1[1].url !== `${BK}/?url=${encodeURIComponent(YURL)}`) fail("relay: backup chain order/timeout wrong");
+    else ok("relay: jina (≤6s) then backup Worker");
+    if (backupRelayUrl("https://evil.example.com/x", BK) !== null || backupRelayUrl("http://query1.finance.yahoo.com/x", BK) !== null) fail("relay: non-allowlisted host must skip backup");
+    else ok("relay: backup skips non-allowlisted / non-https hosts");
+    // Primary fails (403 / timeout) → backup answers.
+    for (const primaryErr of [httpErr(403, '{"code":403}'), Object.assign(new Error("aborted"), { name: "AbortError" })]) {
+      const seen = [];
+      const r = await fetchViaRelayChain(YURL, {
+        backupBase: BK,
+        parse,
+        fetchText: async (u) => { seen.push(u); if (u.startsWith("https://r.jina.ai/")) throw primaryErr; return '{"chart":{"result":[{"meta":{"regularMarketPrice":1}}]}}'; },
+      });
+      if (!r.ok || r.via !== "backup" || seen.length !== 2 || r.data.chart.result[0].meta.regularMarketPrice !== 1) fail(`relay: primary ${primaryErr.message} should fall back to backup`);
+      else ok(`relay: primary ${primaryErr.message} → backup used, body passed through unchanged`);
+    }
+    // Primary returns non-JSON → backup.
+    {
+      const r = await fetchViaRelayChain(YURL, { backupBase: BK, parse, fetchText: async (u) => (u.includes("r.jina.ai") ? "<html>blocked</html>" : '{"ok":1}') });
+      if (!r.ok || r.via !== "backup") fail("relay: non-JSON primary should fall back"); else ok("relay: non-JSON primary → backup");
+    }
+    // Both fail → honest failure, no data.
+    {
+      const r = await fetchViaRelayChain(YURL, { backupBase: BK, parse, fetchText: async () => { throw httpErr(502); } });
+      if (r.ok || r.data !== null || r.errors.length !== 2) fail("relay: both failing must return ok:false with no data");
+      else ok("relay: primary + backup fail → ok:false, data null (honest error card)");
+    }
+    // Empty backup + primary fails → one attempt, honest failure.
+    {
+      let n = 0;
+      const r = await fetchViaRelayChain(YURL, { backupBase: "", parse, fetchText: async () => { n++; throw httpErr(451); } });
+      if (r.ok || n !== 1) fail("relay: empty backup should not try a second relay"); else ok("relay: empty backup → single jina try, honest failure");
+    }
+    // Primary success → backup never called.
+    {
+      let n = 0;
+      const r = await fetchViaRelayChain(YURL, { backupBase: BK, parse, fetchText: async () => { n++; return '{"a":1}'; } });
+      if (!r.ok || r.via !== "jina" || n !== 1) fail("relay: primary OK should not hit backup"); else ok("relay: primary OK → backup not called");
+    }
+    // Worker guard (no network: mock caches + fetch).
+    const w = await import(pathToFileURL(path.join(ROOT, "workers/quote-proxy/worker.js")).href);
+    const g = globalThis;
+    const realFetch = g.fetch, realCaches = g.caches;
+    const store = new Map();
+    g.caches = { default: { match: async (k) => store.get(k.url)?.clone(), put: async (k, v) => { store.set(k.url, v); } } };
+    let upstreamCalls = 0;
+    g.fetch = async (u) => { upstreamCalls++; return new Response('{"chart":{}}', { status: 200, headers: { "Content-Type": "application/json" } }); };
+    const ctx = { waitUntil: (p) => p };
+    const W = "https://jml-quote-proxy.example.workers.dev/";
+    const req = (q, init = {}) => new Request(W + q, { headers: { Origin: "https://wenzurich.github.io" }, ...init });
+    try {
+      const good = await w.default.fetch(req(`?url=${encodeURIComponent(YURL)}`), {}, ctx);
+      if (good.status !== 200 || good.headers.get("Access-Control-Allow-Origin") !== "https://wenzurich.github.io" || !/max-age=1[5-9]|max-age=20/.test(good.headers.get("Cache-Control") || "")) fail("worker: allowlisted GET should 200 with CORS + short cache");
+      else ok("worker: allowlisted GET → 200, CORS for wenzurich.github.io, 15–20s cache");
+      const bad = await w.default.fetch(req(`?url=${encodeURIComponent("https://example.com/")}`), {}, ctx);
+      if (bad.status !== 403) fail("worker: non-allowlisted host must 403"); else ok("worker: other hosts → 403");
+      const post = await w.default.fetch(req(`?url=${encodeURIComponent(YURL)}`, { method: "POST", body: "x" }), {}, ctx);
+      if (post.status !== 405) fail("worker: POST must 405"); else ok("worker: non-GET → 405");
+      const foreign = await w.default.fetch(new Request(W + `?url=${encodeURIComponent(YURL)}`, { headers: { Origin: "https://evil.example" } }), {}, ctx);
+      if (foreign.status !== 403) fail("worker: foreign Origin must 403"); else ok("worker: foreign Origin → 403");
+      const http = w.parseTarget(W + `?url=${encodeURIComponent("http://query1.finance.yahoo.com/")}`);
+      if (!http.error) fail("worker: http upstream must be rejected"); else ok("worker: http / creds / ports rejected");
+      const wSrc = fs.readFileSync(path.join(ROOT, "workers/quote-proxy/worker.js"), "utf8");
+      const allowW = [...wSrc.matchAll(/"([a-z0-9.-]+\.(?:com|tw))",/g)].map((m) => m[1]).sort().join(",");
+      const allowC = [...relay.BACKUP_ALLOWED_HOSTS].sort().join(",");
+      if (allowW !== allowC) fail(`relay/worker allowlists differ: ${allowW} vs ${allowC}`); else ok("relay + worker host allowlists match");
+      if (upstreamCalls !== 1) fail(`worker: only the allowlisted GET may reach upstream (calls=${upstreamCalls})`); else ok("worker: rejected requests never reach upstream");
+    } finally {
+      g.fetch = realFetch;
+      g.caches = realCaches;
+    }
+  }
   {
     const lqPath = path.join(ROOT, "src/live-quotes.js");
     if (!fs.existsSync(lqPath)) fail("src/live-quotes.js missing");

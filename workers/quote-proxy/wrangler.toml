@@ -1,0 +1,9 @@
+# Backup quote relay for https://wenzurich.github.io/just-math-and-luck/
+# Deploy (needs a Cloudflare login or an API token with "Workers Scripts: Edit"):
+#   cd workers/quote-proxy && npx wrangler deploy
+# Then put the printed https://jml-quote-proxy.<subdomain>.workers.dev URL into
+# QUOTE_PROXY_URL in src/relay.js, run tests, build, and deploy the site.
+name = "jml-quote-proxy"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+workers_dev = true

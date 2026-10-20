@@ -6,6 +6,7 @@
  */
 import { escapeHtml } from "./glossary.js";
 import { t, numberLocale } from "./i18n.js";
+import { fetchViaRelayChain } from "./relay.js";
 
 const DIGEST_URL = "./data/earnings-digest.json";
 /** Official company-profile snapshot (TWSE/TPEx OpenAPI + MOPS 主要經營業務 + SEC SIC), refreshed by the daily scan. */
@@ -174,7 +175,7 @@ export function isYahooReply(data) {
   return Boolean(data && typeof data === "object" && (data.chart || data.finance || data.quoteSummary || data.quoteResponse));
 }
 
-/** Aggressive public fetch: direct Yahoo hosts, then jina reader (CORS-friendly). */
+/** Aggressive public fetch: direct Yahoo hosts, then r.jina.ai, then backup Worker (CORS-friendly). */
 async function fetchYahooJson(pathAndQuery) {
   const errors = [];
   let answered = false;
@@ -190,16 +191,21 @@ async function fetchYahooJson(pathAndQuery) {
       errors.push(`${host}: ${e.message || e}`);
     }
   }
-  for (const host of YAHOO_HOSTS) {
-    const url = `${host}${pathAndQuery}`;
-    try {
-      const text = await fetchText(`${JINA}${url}`, { timeoutMs: 18000 });
-      const data = extractJson(text);
-      if (data) return { ok: true, data, via: "jina", url };
-      errors.push(`jina ${host}: parse`);
-    } catch (e) {
-      if (e?.body && isYahooReply(extractJson(e.body))) answered = true;
-      errors.push(`jina ${host}: ${e.message || e}`);
+  // Relay chain: r.jina.ai on both hosts first, then the backup Worker (skipped while QUOTE_PROXY_URL is empty).
+  for (const via of ["jina", "backup"]) {
+    for (const host of YAHOO_HOSTS) {
+      const url = `${host}${pathAndQuery}`;
+      const res = await fetchViaRelayChain(url, {
+        fetchText,
+        parse: extractJson,
+        primaryTimeoutMs: 18000,
+        only: [via],
+        onError: (e) => {
+          if (e?.body && isYahooReply(extractJson(e.body))) answered = true;
+        },
+      });
+      if (res.ok) return { ok: true, data: res.data, via: res.via, url };
+      for (const msg of res.errors) errors.push(`${host} ${msg}`);
     }
   }
   return { ok: false, data: null, via: null, answered, error: errors.slice(0, 4).join(" · ") };

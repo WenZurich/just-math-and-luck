@@ -4,7 +4,7 @@
  * Architecture:
  *  - Poll public Yahoo Finance spark (batch US + TW Yahoo symbols) while the tab is visible.
  *  - Prefer TWSE MIS (mis.twse.com.tw) for TW indices (TAIEX/OTC) and TW listings when reachable.
- *  - CORS: try direct fetch first; fall back to r.jina.ai (same pattern as lookup.js).
+ *  - CORS: try direct fetch first; fall back to r.jina.ai, then our backup Worker (src/relay.js).
  *  - Daily JSON remains the overnight baseline; this layer only overlays last / change.
  *  - On fetch failure: keep last-good values and show an honest stale/asOf — never invent prices.
  *
@@ -19,12 +19,12 @@
  */
 import { escapeHtml } from "./glossary.js";
 import { t, numberLocale } from "./i18n.js";
+import { fetchViaRelayChain } from "./relay.js";
 
 const YAHOO_HOSTS = [
   "https://query2.finance.yahoo.com",
   "https://query1.finance.yahoo.com",
 ];
-const JINA = "https://r.jina.ai/";
 const MIS_URL =
   "https://mis.twse.com.tw/stock/api/getStockInfo.jsp?json=1&delay=0&ex_ch=";
 
@@ -98,7 +98,7 @@ async function fetchText(url, { timeoutMs = 14000 } = {}) {
   }
 }
 
-/** Direct then jina — mirrors lookup.js fetchYahooJson. */
+/** Direct, then jina, then backup Worker — mirrors lookup.js fetchYahooJson. */
 async function fetchPublicJson(absoluteUrl) {
   const errors = [];
   try {
@@ -109,14 +109,13 @@ async function fetchPublicJson(absoluteUrl) {
   } catch (e) {
     errors.push(`direct: ${e.message || e}`);
   }
-  try {
-    const text = await fetchText(`${JINA}${absoluteUrl}`, { timeoutMs: 20000 });
-    const data = extractJson(text);
-    if (data) return { ok: true, data, via: "jina" };
-    errors.push("jina: parse");
-  } catch (e) {
-    errors.push(`jina: ${e.message || e}`);
-  }
+  const relayed = await fetchViaRelayChain(absoluteUrl, {
+    fetchText,
+    parse: extractJson,
+    primaryTimeoutMs: 20000,
+  });
+  if (relayed.ok) return { ok: true, data: relayed.data, via: relayed.via };
+  errors.push(...relayed.errors);
   return { ok: false, data: null, via: null, error: errors.slice(0, 3).join(" · ") };
 }
 
