@@ -1,11 +1,11 @@
 {
-  "asOf": "2026-10-19T01:34:36.754Z",
+  "asOf": "2026-10-20T00:16:25.210Z",
   "market": "TW",
   "timezone": "Asia/Taipei",
   "timezoneLabel": "台北時間",
   "window": {
-    "from": "2026-10-19",
-    "to": "2026-11-23"
+    "from": "2026-10-20",
+    "to": "2026-11-24"
   },
   "source": {
     "name": "DGBAS / CBC / TWSE / MOEA",
@@ -138,6 +138,19 @@
       "periodLabel": "(11607)",
       "source": "行政院主計總處",
       "officialUrl": "https://www.stat.gov.tw/cl.aspx?n=2700"
+    },
+    {
+      "id": "moeaIndustrialProd-2026-11-24T16:00:00+08:00",
+      "eventKey": "moeaIndustrialProd",
+      "eventName": "工業生產統計",
+      "shortName": "工業生產",
+      "importance": "high",
+      "highImpact": true,
+      "scheduledAt": "2026-11-24T08:00:00.000Z",
+      "dayTw": "2026-11-24",
+      "periodLabel": "(11607)",
+      "source": "經濟部",
+      "officialUrl": "https://www.moea.gov.tw/mns/dos/bulletin/bulletin.aspx?kind=6&html=1&menu_id=6725"
     }
   ],
   "refreshHint": "npm run fetch-tw-macro  （可選 FETCH_TW_MACRO=1 接在 daily-scan 後）"
