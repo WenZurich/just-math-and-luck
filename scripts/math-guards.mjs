@@ -35,6 +35,10 @@ import {
   rsiWilder,
   rsiLast2,
   volumeRatioVsPrev,
+  pricePct,
+  rangePct,
+  smaSpreadPct,
+  priceShapeMetrics,
 } from "./math-core.mjs";
 import { temperatureScore, indexFeaturesFromChart } from "./market-regime.mjs";
 import {
@@ -1458,6 +1462,159 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
     bad(`strategy-screener.json unreadable for RSI replay: ${e.message}`);
   }
   ok(`Wilder RSI + prev-day volume ratio (${n} cases: 3000 random = verbatim legacy, [0,100], scale/shift invariance, reflection = 100 − rsi, last-close monotone, hand 600/7, extremes, flat ⇒ null, junk ⇒ null, length bounds, live screener RSI rule)`);
+}
+
+// —— Price-shape % metrics (run-strategies techMetrics: 5d/20d high, amp, pct5d, roc10, dayPct, MA spread), 2026-10-21 ——
+{
+  let n = 0;
+  const bad = (m) => fail(m);
+  // verbatim legacy run-strategies techMetrics price block (oracle on clean positive bars)
+  function legacy(bars) {
+    const closes = bars.map((b) => b.c), highs = bars.map((b) => b.h);
+    const last = bars[bars.length - 1], prev = bars[bars.length - 2];
+    const s5 = sma(closes, 5), s10 = sma(closes, 10), s20 = sma(closes, 20);
+    const prior5Highs = highs.slice(-6, -1);
+    const fiveDayHigh = Math.max(...prior5Highs);
+    const is5dHigh = last.h >= fiveDayHigh || last.c >= fiveDayHigh;
+    const ampPct = prev.c > 0 ? ((last.h - last.l) / prev.c) * 100 : null;
+    const pct5d = closes.length >= 6 ? ((last.c - closes[closes.length - 6]) / closes[closes.length - 6]) * 100 : null;
+    const high20 = highs.length >= 20 ? Math.max(...highs.slice(-20)) : null;
+    const prior20Highs = highs.length >= 21 ? Math.max(...highs.slice(-21, -1)) : null;
+    const is20dHigh = prior20Highs != null && (last.h >= prior20Highs || last.c >= prior20Highs);
+    const distHigh20Pct = high20 ? ((last.c - high20) / high20) * 100 : null;
+    const roc10 = closes.length >= 11 && closes[closes.length - 11] > 0 ? ((last.c - closes[closes.length - 11]) / closes[closes.length - 11]) * 100 : null;
+    const smaVals = [s5, s10, s20].filter((x) => x != null);
+    const smaMid = smaVals.length ? smaVals.reduce((a, b) => a + b, 0) / smaVals.length : null;
+    const smaSpread = smaVals.length === 3 && smaMid ? ((Math.max(...smaVals) - Math.min(...smaVals)) / smaMid) * 100 : null;
+    const aboveMaxSma = smaVals.length === 3 && last.c >= Math.max(...smaVals);
+    return { fiveDayHigh, is5dHigh, ampPct, pct5d, dayPct: prev.c ? ((last.c - prev.c) / prev.c) * 100 : null, high20, is20dHigh, distHigh20Pct, roc10, smaSpreadPct: smaSpread, aboveMaxSma, s5, s10, s20 };
+  }
+  let seed = 20261021;
+  const rnd = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+  const mkBars = (len, tick) => {
+    const out = []; let c = 20 + rnd() * 500;
+    for (let i = 0; i < len; i++) {
+      c = c * (1 + (rnd() - 0.5) * 0.12); if (tick) c = Math.max(tick, Math.round(c / tick) * tick);
+      const h = c * (1 + rnd() * 0.04), l = c * (1 - rnd() * 0.04);
+      out.push({ h: rnd() < 0.05 ? c : h, l: rnd() < 0.05 ? c : l, c });
+    }
+    return out;
+  };
+  const same = (a, b) => (a === null && b === null) || a === b || (isFiniteNumber(a) && isFiniteNumber(b) && Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(a), Math.abs(b)));
+  const KEYS = ["fiveDayHigh", "is5dHigh", "ampPct", "pct5d", "dayPct", "high20", "is20dHigh", "distHigh20Pct", "roc10", "smaSpreadPct", "aboveMaxSma"];
+  for (let i = 0; i < 4000; i++) {
+    const bars = mkBars(21 + Math.floor(rnd() * 120), i % 3 === 0 ? 0.05 : 0);
+    const L = legacy(bars), M = priceShapeMetrics(bars, { s5: L.s5, s10: L.s10, s20: L.s20 });
+    for (const k of KEYS) { n++; if (!same(M[k], L[k])) bad(`priceShape ${k}: ${M[k]} ≠ legacy ${L[k]}`); }
+    // invariants
+    n += 6;
+    if (!(M.ampPct >= 0)) bad(`ampPct < 0: ${M.ampPct}`);
+    if (!(M.distHigh20Pct <= 1e-12)) bad(`distHigh20Pct > 0: ${M.distHigh20Pct}`);
+    if (M.is20dHigh && M.high20 !== bars[bars.length - 1].h && M.high20 !== Math.max(bars[bars.length - 1].h)) bad(`is20dHigh but high20 ≠ today high`);
+    if (M.is20dHigh && !M.is5dHigh) bad(`20d high must imply 5d high`);
+    if (!(M.smaSpreadPct >= 0)) bad(`smaSpread < 0`);
+    if (M.aboveMaxSma && !(bars[bars.length - 1].c >= L.s5 && bars[bars.length - 1].c >= L.s10 && bars[bars.length - 1].c >= L.s20)) bad(`aboveMaxSma but below an SMA`);
+    // scale invariance (price units cancel): ×k every price ⇒ % unchanged, highs ×k, booleans unchanged
+    const k = [0.01, 7, 1000][i % 3];
+    const sb = bars.map((b) => ({ h: b.h * k, l: b.l * k, c: b.c * k }));
+    const S = priceShapeMetrics(sb, { s5: L.s5 * k, s10: L.s10 * k, s20: L.s20 * k });
+    for (const key of ["ampPct", "pct5d", "dayPct", "distHigh20Pct", "roc10", "smaSpreadPct"]) {
+      n++; if (!(Math.abs(S[key] - M[key]) <= 1e-7 * Math.max(1, Math.abs(M[key])))) bad(`scale ${k} changed ${key}: ${M[key]} → ${S[key]}`);
+    }
+    // compounding identity: (1+pct5d/100) = Π(1+day_i/100) over the last 5 days
+    const cl = bars.map((b) => b.c), N = cl.length; let prod = 1;
+    for (let j = N - 5; j < N; j++) prod *= 1 + pricePct(cl[j - 1], cl[j]) / 100;
+    n++; if (!(Math.abs(prod - (1 + M.pct5d / 100)) <= 1e-9)) bad(`pct5d ≠ compounded daily: ${M.pct5d} vs ${(prod - 1) * 100}`);
+  }
+  // hand cases
+  const hb = [{ h: 10, l: 9, c: 10 }, { h: 10, l: 9, c: 10 }, { h: 10, l: 9, c: 10 }, { h: 10, l: 9, c: 10 }, { h: 10, l: 9, c: 10 }, { h: 10, l: 9, c: 10 }, { h: 12.1, l: 10.9, c: 12 }];
+  const hm = priceShapeMetrics(hb, { s5: 10.4, s10: 10.4, s20: 10.4 });
+  n += 5;
+  if (!same(hm.dayPct, 20)) bad(`hand dayPct ${hm.dayPct} ≠ 20`);
+  if (!same(hm.pct5d, 20)) bad(`hand pct5d ${hm.pct5d} ≠ 20`);
+  if (!same(hm.ampPct, 12)) bad(`hand ampPct ${hm.ampPct} ≠ 12`);
+  if (!(hm.is5dHigh === true && hm.fiveDayHigh === 10)) bad(`hand 5d high ${hm.is5dHigh}/${hm.fiveDayHigh}`);
+  if (!(hm.smaSpreadPct === 0 && hm.aboveMaxSma === true && hm.high20 === null && hm.roc10 === null)) bad(`hand spread/short-window nulls`);
+  n += 2;
+  if (!same(smaSpreadPct([9, 10, 11]), 20)) bad(`smaSpread([9,10,11]) ${smaSpreadPct([9, 10, 11])} ≠ 20`);
+  if (!same(rangePct(11, 9, 10), 20)) bad(`rangePct(11,9,10) ≠ 20`);
+  // junk / domain: never NaN, never a fake breakout
+  for (const junk of [NaN, Infinity, -3, 0, null, undefined, "12"]) {
+    for (const field of ["c", "h"]) {
+      const bars = mkBars(40, 0); const idx = bars.length - 1 - Math.floor(rnd() * 21);
+      bars[idx] = { ...bars[idx], [field]: junk };
+      const L = legacy(bars.map((b) => ({ ...b, c: isFiniteNumber(b.c) ? b.c : 1, h: isFiniteNumber(b.h) ? b.h : 1 })));
+      const M = priceShapeMetrics(bars, { s5: L.s5, s10: L.s10, s20: L.s20 });
+      for (const kk of KEYS) {
+        n++;
+        const v = M[kk];
+        if (typeof v === "number" && !Number.isFinite(v)) bad(`junk ${String(junk)} in ${field} ⇒ ${kk}=${v}`);
+      }
+    }
+  }
+  for (const [a, b] of [[0, 5], [-1, 5], [5, 0], [5, -2], [NaN, 5], [5, Infinity], [null, 5], [5, undefined]]) {
+    n++; if (pricePct(a, b) !== null) bad(`pricePct(${a},${b}) should be null`);
+  }
+  for (const [h, l, p] of [[9, 10, 10], [10, 9, 0], [10, 0, 10], [NaN, 9, 10], [10, 9, -1]]) {
+    n++; if (rangePct(h, l, p) !== null) bad(`rangePct(${h},${l},${p}) should be null (h<l or bad base)`);
+  }
+  n += 3;
+  if (smaSpreadPct([10, null, 11]) !== null || smaSpreadPct([10, 0, 11]) !== null || smaSpreadPct([10]) !== null) bad(`smaSpread domain`);
+  const junkHigh = mkBars(40, 0); junkHigh[junkHigh.length - 3] = { ...junkHigh[junkHigh.length - 3], h: NaN };
+  const jm = priceShapeMetrics(junkHigh, { s5: 1, s10: 1, s20: 1 });
+  n += 2;
+  if (jm.is5dHigh !== false || jm.fiveDayHigh !== null) bad(`NaN high in prior 5 must kill 5d-high signal, got ${jm.is5dHigh}/${jm.fiveDayHigh}`);
+  if (jm.is20dHigh !== false || jm.high20 !== null || jm.distHigh20Pct !== null) bad(`NaN high in 20d window must null 20d metrics`);
+  // last bar junk: string / non-positive close or high must never coerce into a breakout or "above MAs"
+  for (const lastJunk of [{ c: "999" }, { h: "999" }, { c: -5 }, { c: 0 }, { h: NaN }]) {
+    const bars = mkBars(40, 0); bars[bars.length - 1] = { ...bars[bars.length - 1], ...lastJunk, h: lastJunk.h ?? 1e9 };
+    const m = priceShapeMetrics(bars, { s5: 1, s10: 1, s20: 1 });
+    n += 3;
+    if (m.is5dHigh !== false || m.is20dHigh !== false) bad(`junk last bar ${JSON.stringify(lastJunk)} gave a breakout`);
+    // aboveMaxSma depends on the close only: junk close ⇒ false; junk high with a valid close may legitimately be true
+    if ("c" in lastJunk && m.aboveMaxSma !== false) bad(`junk last close ${JSON.stringify(lastJunk)} gave aboveMaxSma`);
+    if (m.dayPct !== null && !isFiniteNumber(m.dayPct)) bad(`junk last bar dayPct ${m.dayPct}`);
+  }
+  // missing SMA must not count as "above every MA" (Math.max(null, …) treats null as 0)
+  for (const sm of [{ s5: null, s10: 1, s20: 1 }, { s5: 1, s10: undefined, s20: 1 }, { s5: 1, s10: 1, s20: NaN }, { s5: 0, s10: 1, s20: 1 }]) {
+    const m = priceShapeMetrics(mkBars(40, 0), sm);
+    n += 2;
+    if (m.aboveMaxSma !== false) bad(`aboveMaxSma true with smas ${JSON.stringify(sm)}`);
+    if (m.smaSpreadPct !== null) bad(`smaSpread defined with smas ${JSON.stringify(sm)}`);
+  }
+  // live replay: published screener hits satisfy their own price-shape rule
+  try {
+    const sj = JSON.parse(readFileSync(join(ROOT_MG, "public", "data", "strategy-screener.json"), "utf8"));
+    // published metrics are rounded to 2 dp ⇒ allow half a unit (0.005) of rounding slack, never more
+    const e = 0.005;
+    const has = (m, k) => k in m && m[k] != null;
+    const rules = {
+      "ultra-short": (m) => !has(m, "ampPct") || m.ampPct >= 3 - e,
+      "ma-tangle-break": (m) => (!has(m, "smaSpreadPct") || m.smaSpreadPct <= 1.5 + e) && (!has(m, "dayPct") || m.dayPct >= -e),
+      "new-high-momentum": (m) => m.is20dHigh === true && (!has(m, "pct5d") || m.pct5d >= 3 - e),
+      "short-roc": (m) => !has(m, "roc10") || m.roc10 >= 8 - e,
+      "day-up-5": (m) => !has(m, "dayPct") || m.dayPct >= 5 - e,
+      "pct5d-10": (m) => !has(m, "pct5d") || m.pct5d >= 10 - e,
+      "near-high": (m) => (!has(m, "distHigh20Pct") || (m.distHigh20Pct >= -1 - e && m.distHigh20Pct <= e)) && (!has(m, "dayPct") || m.dayPct >= -e),
+    };
+    let live = 0;
+    for (const st of sj.strategies || []) {
+      for (const h of st.hits || []) {
+        const m = h.metrics || {};
+        for (const key of ["ampPct", "pct5d", "dayPct", "distHigh20Pct", "roc10", "smaSpreadPct"]) {
+          if (key in m) { n++; live++; if (m[key] != null && !isFiniteNumber(m[key])) bad(`live ${st.id} ${h.ticker} ${key}=${m[key]}`); }
+        }
+        if ("ampPct" in m && m.ampPct != null) { n++; if (!(m.ampPct >= 0)) bad(`live ${st.id} ${h.ticker} ampPct<0`); }
+        if ("distHigh20Pct" in m && m.distHigh20Pct != null) { n++; if (!(m.distHigh20Pct <= 0.005)) bad(`live ${st.id} ${h.ticker} distHigh20Pct>0`); }
+        if ("smaSpreadPct" in m && m.smaSpreadPct != null) { n++; if (!(m.smaSpreadPct >= 0)) bad(`live ${st.id} ${h.ticker} smaSpread<0`); }
+        if (rules[st.id]) { n++; if (!rules[st.id](m)) bad(`live ${st.id} ${h.ticker} breaks its own rule: ${JSON.stringify(m)}`); }
+      }
+    }
+    if (live === 0) bad(`live replay found no price-shape metrics (schema drift?)`);
+  } catch (e) {
+    bad(`strategy-screener.json unreadable for price-shape replay: ${e.message}`);
+  }
+  ok(`price-shape metrics (${n} cases: 4000 random = verbatim legacy on 11 fields, amp ≥ 0, dist20 ≤ 0, 20d⇒5d high, aboveMaxSma, scale invariance ×0.01/7/1000, pct5d = compounded daily, hand cases, junk ⇒ null/false never NaN, h<l ⇒ null, live screener rules)`);
 }
 
 console.log("——");

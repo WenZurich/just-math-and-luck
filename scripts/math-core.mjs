@@ -421,3 +421,69 @@ export function volumeRatioVsPrev(lastVol, prevVol) {
   if (a == null || b == null) return null;
   return volumeRatio(a, b);
 }
+
+/**
+ * Price-return % for positive prices: (to − from) / from × 100.
+ * Stricter than pctChange: prices must be finite and > 0 (a 0 / negative base is a data gap, not a return).
+ */
+export function pricePct(from, to) {
+  if (!(isFiniteNumber(from) && from > 0 && isFiniteNumber(to) && to > 0)) return null;
+  return pctChange(from, to);
+}
+
+/** Intraday range % of previous close: (high − low) / prevClose × 100. Needs high ≥ low > 0, prevClose > 0. */
+export function rangePct(high, low, prevClose) {
+  if (!(isFiniteNumber(high) && isFiniteNumber(low) && isFiniteNumber(prevClose))) return null;
+  if (!(low > 0 && high >= low && prevClose > 0)) return null;
+  return ((high - low) / prevClose) * 100;
+}
+
+/** Spread of moving averages as % of their mean: (max − min) / mean × 100. Every value finite and > 0. */
+export function smaSpreadPct(vals) {
+  if (!Array.isArray(vals) || vals.length < 2) return null;
+  for (const v of vals) if (!(isFiniteNumber(v) && v > 0)) return null;
+  const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
+  return ((Math.max(...vals) - Math.min(...vals)) / mean) * 100;
+}
+
+/**
+ * Price-shape metrics used by the TW screener (extracted from run-strategies techMetrics, 2026-10-21).
+ * Units: every *Pct / roc10 is percentage points. Windows: "prior N" excludes today; high20 includes today.
+ * Any non-finite / non-positive input in a window ⇒ that metric is null (never NaN, never a fake breakout).
+ * @param {{h:number,l:number,c:number}[]} bars oldest → newest
+ * @param {{s5:number|null,s10:number|null,s20:number|null}} smas
+ */
+export function priceShapeMetrics(bars, { s5 = null, s10 = null, s20 = null } = {}) {
+  const empty = {
+    fiveDayHigh: null, is5dHigh: false, ampPct: null, pct5d: null, dayPct: null, high20: null,
+    is20dHigh: false, distHigh20Pct: null, roc10: null, smaSpreadPct: null, aboveMaxSma: false,
+  };
+  if (!Array.isArray(bars) || bars.length < 2) return empty;
+  const closes = bars.map((b) => b?.c);
+  const highs = bars.map((b) => b?.h);
+  const last = bars[bars.length - 1];
+  const prev = bars[bars.length - 2];
+  const n = bars.length;
+  const posPrice = (x) => isFiniteNumber(x) && x > 0;
+  const fiveDayHigh = n >= 6 ? peakInWindow(highs.slice(0, -1), 5) : null;
+  const lastOk = posPrice(last?.c) && posPrice(last?.h);
+  const is5dHigh = fiveDayHigh != null && lastOk && (last.h >= fiveDayHigh || last.c >= fiveDayHigh);
+  const high20 = n >= 20 ? peakInWindow(highs, 20) : null;
+  const prior20 = n >= 21 ? peakInWindow(highs.slice(0, -1), 20) : null;
+  const is20dHigh = prior20 != null && lastOk && (last.h >= prior20 || last.c >= prior20);
+  const smaVals = [s5, s10, s20];
+  const smaOk = smaVals.every(posPrice);
+  return {
+    fiveDayHigh,
+    is5dHigh,
+    ampPct: rangePct(last?.h, last?.l, prev?.c),
+    pct5d: n >= 6 ? pricePct(closes[n - 6], last?.c) : null,
+    dayPct: pricePct(prev?.c, last?.c),
+    high20,
+    is20dHigh,
+    distHigh20Pct: high20 != null && high20 > 0 ? pricePct(high20, last?.c) : null,
+    roc10: n >= 11 ? pricePct(closes[n - 11], last?.c) : null,
+    smaSpreadPct: smaOk ? smaSpreadPct(smaVals) : null,
+    aboveMaxSma: smaOk && posPrice(last?.c) && last.c >= Math.max(...smaVals),
+  };
+}

@@ -10,7 +10,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildTwFundamentalBundle, codeOfTicker } from "./tw-fundamentals.mjs";
-import { sma, rsiLast2, volumeRatioVsPrev } from "./math-core.mjs";
+import { sma, rsiLast2, volumeRatioVsPrev, priceShapeMetrics } from "./math-core.mjs";
 import { buildAllMasters } from "./master-strategies.mjs";
 import { buildAllGooayePacks, gooayeUniverseBoost } from "./gooaye-strategies.mjs";
 // Peter Lynch now lives in master-strategies (TW MOPS, skip-if-missing).
@@ -396,7 +396,6 @@ function mergeInstDay(days, code) {
 // —— metrics from OHLCV ——
 function techMetrics(bars) {
   const closes = bars.map((b) => b.c);
-  const highs = bars.map((b) => b.h);
   const vols = bars.map((b) => b.v);
   const last = bars[bars.length - 1];
   const prev = bars[bars.length - 2];
@@ -405,30 +404,11 @@ function techMetrics(bars) {
   const s20 = sma(closes, 20);
   const s60 = sma(closes, 60);
   const avg5Vol = sma(vols, 5);
-  const prior5Highs = highs.slice(-6, -1); // exclude today
-  const fiveDayHigh = Math.max(...prior5Highs);
-  const is5dHigh = last.h >= fiveDayHigh || last.c >= fiveDayHigh;
   const volRatioYday = volumeRatioVsPrev(last.v, prev.v);
-  const ampPct = prev.c > 0 ? ((last.h - last.l) / prev.c) * 100 : null;
   const { prev: rsiPrev, cur: rsiCur } = rsiLast2(closes, 14);
-  const pct5d =
-    closes.length >= 6 ? ((last.c - closes[closes.length - 6]) / closes[closes.length - 6]) * 100 : null;
-  const high20 = highs.length >= 20 ? Math.max(...highs.slice(-20)) : null;
-  const prior20Highs = highs.length >= 21 ? Math.max(...highs.slice(-21, -1)) : null;
-  const is20dHigh = prior20Highs != null && (last.h >= prior20Highs || last.c >= prior20Highs);
-  const distHigh20Pct = high20 ? ((last.c - high20) / high20) * 100 : null;
-  const roc10 =
-    closes.length >= 11 && closes[closes.length - 11] > 0
-      ? ((last.c - closes[closes.length - 11]) / closes[closes.length - 11]) * 100
-      : null;
-  const smaVals = [s5, s10, s20].filter((x) => x != null);
-  const smaMid = smaVals.length ? smaVals.reduce((a, b) => a + b, 0) / smaVals.length : null;
-  const smaSpreadPct =
-    smaVals.length === 3 && smaMid
-      ? ((Math.max(...smaVals) - Math.min(...smaVals)) / smaMid) * 100
-      : null;
-  const aboveMaxSma =
-    smaVals.length === 3 && last.c >= Math.max(...smaVals);
+  // price-shape % metrics live in guarded math-core (2026-10-21): positive-price domain, NaN ⇒ null
+  const shape = priceShapeMetrics(bars, { s5, s10, s20 });
+  const { fiveDayHigh, is5dHigh, ampPct, pct5d, high20, is20dHigh, distHigh20Pct, roc10, smaSpreadPct, aboveMaxSma } = shape;
   return {
     price: last.c,
     sma5: s5,
@@ -445,7 +425,7 @@ function techMetrics(bars) {
     rsi: rsiCur,
     rsiPrev,
     pct5d,
-    dayPct: prev.c ? ((last.c - prev.c) / prev.c) * 100 : null,
+    dayPct: shape.dayPct,
     high20,
     is20dHigh,
     distHigh20Pct,
