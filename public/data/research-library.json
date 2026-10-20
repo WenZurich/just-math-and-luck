@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-19T09:30:00+08:00",
+    "updated": "2026-10-20T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -9258,6 +9258,171 @@
           "集計値ではこの誤りは見えず、日ごとに実運用とバックテストを突き合わせて初めて分かる",
           "よくある落とし穴：出来高データの欠け、配当調整価格と実価格の混用、タイムゾーンの誤り、効いていない設定",
           "本サイトは自前の検証チェックリストとして使う（最終日の出来高欠損を0にしない等）。銘柄シグナルではない"
+        ]
+      },
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-tw-overnight-daytime-beta-2026",
+      "market": "TW",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "Asset pricing and a tale of night and day: Evidence from Taiwan",
+      "titleLocalized": {
+        "en": "Asset pricing and a tale of night and day: Evidence from Taiwan",
+        "zh-Hant": "白天與夜晚的資產定價：台股證據",
+        "zh-Hans": "白天与夜晚的资产定价：台股证据",
+        "ja": "夜と昼の資産価格形成：台湾株の実証"
+      },
+      "authors": [
+        "Hui-Wen Chang",
+        "Shiang-Ting Tseng",
+        "Nien-Tzu Yang"
+      ],
+      "year": 2026,
+      "summary": "Splits each Taiwan stock's daily return into two parts: the overnight part (yesterday's close to today's open) and the daytime part (today's open to today's close). Earlier US work found that riskier, high-beta stocks earn more overnight and then lose it during the trading day; this paper tests the same idea in Taiwan, where retail investors do most of the trading and nothing trades overnight. The pattern holds strongly in Taiwan: higher market risk is rewarded overnight and penalised during the day. The authors' explanation is that daytime traders overreact and push prices back too far. They also find that cheap (value), profitable and low-investment stocks earn their extra return mainly overnight, while the small-company effect shows up mainly during the day. The abstract gives no trading-cost-adjusted strategy returns. Takeaway for the site: not a buy signal by itself, but a reminder that when a TW pick is bought (at the open or at the close) changes which half of the return it collects; worth measuring in the paper book before any rule change.",
+      "summaryLocalized": {
+        "en": "In Taiwan, high-beta (more market-sensitive) stocks earn more overnight (close to next open) and give it back during the trading day (open to close), likely because daytime traders overcorrect. Value, profitability and investment effects are earned overnight, the small-cap effect during the day. Watch item: the site should measure whether TW picks' returns come overnight or intraday before changing entry timing.",
+        "zh-Hant": "把台股每天的報酬拆成兩段：「夜盤」那段（昨天收盤到今天開盤）和「日盤」那段（今天開盤到今天收盤）。美國先前的研究發現，對大盤比較敏感（高 beta）的股票，報酬多半是在夜裡賺到，白天交易時又吐回去；這篇用台股來檢驗，台股散戶交易比重高、晚上又不能交易，正好適合測。結果在台股非常明顯：承擔較多大盤風險的股票，夜裡有額外報酬、白天反而被扣分。作者認為原因是白天的交易者反應過度，把價格修正過頭。另外，便宜的價值股、獲利好的公司、少擴張投資的公司，額外報酬主要出現在夜裡；小型股效應則主要出現在白天。摘要沒有提供扣除交易成本後的策略報酬。本站不把它當買進訊號，而是提醒：台股選股是開盤買還是收盤買，會決定吃到哪一段報酬；要先在模擬帳本裡量清楚，才考慮改規則。",
+        "zh-Hans": "把台股每天的报酬拆成两段：“夜盘”那段（昨天收盘到今天开盘）和“日盘”那段（今天开盘到今天收盘）。美国先前的研究发现，对大盘比较敏感（高 beta）的股票，报酬多半是在夜里赚到，白天交易时又吐回去；这篇用台股来检验，台股散户交易比重高、晚上又不能交易，正好适合测。结果在台股非常明显：承担较多大盘风险的股票，夜里有额外报酬、白天反而被扣分。作者认为原因是白天的交易者反应过度，把价格修正过头。另外，便宜的价值股、获利好的公司、少扩张投资的公司，额外报酬主要出现在夜里；小型股效应则主要出现在白天。摘要没有提供扣除交易成本后的策略报酬。本站不把它当买进信号，而是提醒：台股选股是开盘买还是收盘买，会决定吃到哪一段报酬；要先在模拟账本里量清楚，才考虑改规则。",
+        "ja": "台湾株では、市場感応度（ベータ）の高い銘柄は夜間（終値→翌始値）にリターンを稼ぎ、日中（始値→終値）に吐き出す。日中の売買が行き過ぎた修正をするためと考えられる。バリュー・収益性・投資の効果は夜間、小型株効果は日中に現れる。本サイトは監視項目とし、台湾株ピックのリターンが夜間か日中かをまず計測する。"
+      },
+      "plainTakeaways": [
+        "台股一天的漲跌可以拆成兩段：收盤到隔天開盤（夜裡），和開盤到收盤（白天）",
+        "對大盤比較敏感的股票，常常夜裡漲、白天又跌回去——白天的人容易修正過頭",
+        "價值股、獲利好的公司多半在夜裡賺到額外報酬；小型股效應則多出現在白天",
+        "本站只當觀察項目：先量台股選股的報酬是夜裡還是白天賺到的，數學閘門通過前不改買進時點"
+      ],
+      "formulas": [
+        "overnight return r_on(i,d) ← open(i,d) ÷ close(i,d−1) − 1 (use the same adjusted basis for both prices; skip day if either is missing)",
+        "daytime return r_day(i,d) ← close(i,d) ÷ open(i,d) − 1",
+        "check: (1 + r_on) × (1 + r_day) − 1 must equal the close-to-close return within 1e−9 (guard against mixed adjusted/unadjusted prices)",
+        "site measurement: for each published TW pick, sum overnight and daytime parts over its holding period; report the share of the total move earned overnight",
+        "beta(i) ← slope of the stock's daily returns on TAIEX daily returns over the past 250 trading days (null if fewer than 120 valid days)",
+        "site use: watch item only — compare paper-book entry at open vs at close after TW costs (0.1425% fee each side, 0.3% sell tax); no change to live screener or entry timing until the math gate passes"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — overnight vs daytime split is a measurement/watch item for TW picks; never status=adopted and no entry-timing change until the gate passes and an after-cost paper-book comparison is done.",
+      "tags": [
+        "tw",
+        "overnight",
+        "intraday",
+        "beta",
+        "retail",
+        "watch"
+      ],
+      "sources": [
+        "https://ideas.repec.org/a/eee/pacfin/v95y2026ics0927538x25003403.html",
+        "https://doi.org/10.1016/j.pacfin.2025.103003"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "台股一天的漲跌可以拆成兩段：收盤到隔天開盤（夜裡），和開盤到收盤（白天）",
+          "對大盤比較敏感的股票，常常夜裡漲、白天又跌回去——白天的人容易修正過頭",
+          "價值股、獲利好的公司多半在夜裡賺到額外報酬；小型股效應則多出現在白天",
+          "本站只當觀察項目：先量台股選股的報酬是夜裡還是白天賺到的，數學閘門通過前不改買進時點"
+        ],
+        "zh-Hans": [
+          "台股一天的涨跌可以拆成两段：收盘到隔天开盘（夜里），和开盘到收盘（白天）",
+          "对大盘比较敏感的股票，常常夜里涨、白天又跌回去——白天的人容易修正过头",
+          "价值股、获利好的公司多半在夜里赚到额外报酬；小型股效应则多出现在白天",
+          "本站只当观察项目：先量台股选股的报酬是夜里还是白天赚到的，数学闸门通过前不改买进时点"
+        ],
+        "en": [
+          "A Taiwan stock's daily move splits into two parts: close to next open (overnight) and open to close (daytime)",
+          "Market-sensitive stocks often rise overnight and fall back during the day — daytime traders tend to overcorrect",
+          "Value and profitable firms earn their extra return mostly overnight; the small-cap effect shows up mostly in the daytime",
+          "Watch item only: first measure whether TW picks earn overnight or intraday; no change to entry timing until the math gate passes"
+        ],
+        "ja": [
+          "台湾株の1日の値動きは、終値→翌始値（夜間）と始値→終値（日中）の2つに分けられる",
+          "市場に敏感な銘柄は夜間に上がり日中に戻しやすい——日中の売買が修正しすぎる",
+          "バリュー・高収益企業の超過リターンは主に夜間、小型株効果は主に日中に現れる",
+          "監視項目のみ：まず台湾株ピックが夜間と日中のどちらで稼ぐかを計測。数学ゲート通過前は買い時点を変えない"
+        ]
+      },
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-buffett-effect-13f-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "The Buffett Effect",
+      "titleLocalized": {
+        "en": "The Buffett Effect",
+        "zh-Hant": "巴菲特效應：知名投資人公開持股後的股價反應",
+        "zh-Hans": "巴菲特效应：知名投资人公开持股后的股价反应",
+        "ja": "バフェット効果：著名投資家の保有開示と株価反応"
+      },
+      "authors": [
+        "Pawel Robert Smolinski",
+        "Siddharth Saridevi"
+      ],
+      "year": 2026,
+      "summary": "Asks whether a stock moves more when a famous investor reveals a new position in a quarterly 13F filing than when an equally sized but unknown fund does the same. The authors rank 24 well-known concentrated US stock-pickers by Wikipedia page views and news mentions, pair each with a similar little-known fund, and study 2000–2025. Only the five most famous managers (Buffett, Icahn, Burry, Ackman, Peltz) show a clear effect: their newly disclosed buys beat the control funds' buys by roughly 1.4% over the filing day and the next, and about 2.3% over five trading days, with no reversal over the following month; Icahn alone shows none. A portfolio that copies the five famous managers' new buys for a month earned an extra return that fades over about six months; waiting one more day to buy keeps roughly half of the one-month effect. Sales disclosures earn nothing. The effect is biggest in small, thinly traded stocks, results are before trading costs, and the authors say the copy portfolio is probably not a practical trading rule. Takeaway for the site: a watch item that links to our Buffett shelf — a 'famous-investor new 13F buy' flag is possible from public SEC filing dates, but the sample is five managers and the US SEC data path must work first.",
+      "summaryLocalized": {
+        "en": "Using 24 famous concentrated US stock-pickers vs 24 matched unknown funds (2000–2025), only the five most famous (Buffett, Icahn, Burry, Ackman, Peltz) move prices: their new 13F buys beat controls by about 1.4% over two days and 2.3% over five, without reversal; copying them for a month earned an extra return that fades within about six months. Before costs, strongest in small illiquid stocks, small sample. Watch item for a 'famous-investor new 13F buy' flag.",
+        "zh-Hant": "研究問的是：同樣在每季 13F 申報裡揭露「新買進」一檔股票，知名投資人和沒沒無聞的基金相比，股價反應是不是比較大？作者用維基百科瀏覽量和新聞提及次數，替 24 位知名、持股集中的美國選股型經理人排名，每位再配一個規模和作風相近、但沒人認識的基金當對照，資料期間 2000–2025 年。結果只有最有名的五位（巴菲特、伊坎、貝瑞、艾克曼、佩爾茲）效果明顯：他們新揭露的買進，在申報當天加隔天比對照組多漲約 1.4%，五個交易日約多 2.3%，之後一個月也沒有跌回去；五人裡只有伊坎看不到效果。照抄這五人新買進、抱一個月的組合有額外報酬，大約半年內逐漸消失；如果晚一天才買，一個月的效果大約剩一半。賣出的揭露則沒有效果。效果在小型、成交量少的股票最大，數字都還沒扣交易成本，作者自己也說照抄組合不太算能實際操作的交易規則。本站把它列為觀察項目，正好連到巴菲特書架：可以用 SEC 公開申報日期做「知名投資人 13F 新買進」標記，但樣本只有五位，而且要先讓美股 SEC 資料來源穩定可用。",
+        "zh-Hans": "研究问的是：同样在每季 13F 申报里披露“新买进”一只股票，知名投资人和默默无闻的基金相比，股价反应是不是比较大？作者用维基百科浏览量和新闻提及次数，替 24 位知名、持股集中的美国选股型经理人排名，每位再配一个规模和作风相近、但没人认识的基金当对照，数据期间 2000–2025 年。结果只有最有名的五位（巴菲特、伊坎、贝瑞、艾克曼、佩尔茨）效果明显：他们新披露的买进，在申报当天加隔天比对照组多涨约 1.4%，五个交易日约多 2.3%，之后一个月也没有跌回去；五人里只有伊坎看不到效果。照抄这五人新买进、持有一个月的组合有额外报酬，大约半年内逐渐消失；如果晚一天才买，一个月的效果大约剩一半。卖出的披露则没有效果。效果在小型、成交量少的股票最大，数字都还没扣交易成本，作者自己也说照抄组合不太算能实际操作的交易规则。本站把它列为观察项目，正好连到巴菲特书架：可以用 SEC 公开申报日期做“知名投资人 13F 新买进”标记，但样本只有五位，而且要先让美股 SEC 数据来源稳定可用。",
+        "ja": "著名で集中投資型の米国ファンド24本と、似た無名ファンド24本（2000–2025年）を比較。株価が動くのは最も有名な5人（バフェット、アイカーン、バーリ、アックマン、ペルツ）だけで、13Fで開示した新規買いは2日で約1.4%、5日で約2.3%対照を上回り、反転しない。1か月コピーする組合せの超過リターンは約半年で消える。コスト控除前・小型株中心・標本が小さい。『著名投資家の13F新規買い』フラグの監視項目。"
+      },
+      "plainTakeaways": [
+        "只有最有名的幾位投資人（例如巴菲特）在 13F 揭露新買進時，股價才會明顯多漲，普通基金沒有這個效果",
+        "多漲的部分在之後一個月沒有跌回去，比較像是消息被更多人注意到，而不只是跟風",
+        "照抄新買進的好處主要在第一個月，晚一天買就少一半左右；賣出的揭露沒有參考價值",
+        "本站只當觀察項目：樣本只有五位、未扣成本、多在小型股；要先有穩定的 SEC 申報資料，數學閘門通過前不改上線選股"
+      ],
+      "formulas": [
+        "event day 0 ← EDGAR filing date of a 13F-HR from a tracked manager (Berkshire Hathaway first); never use the quarter-end date",
+        "new position ← security (CUSIP) present in this 13F-HR and absent from the same filer's previous 13F-HR; amended filings (13F-HR/A) handled separately",
+        "realistic entry ← open of the 2nd trading day after day 0 (the paper's one-day-delayed entry keeps about half of the 1-month effect)",
+        "measure: return from entry to entry + 21 trading days, minus SPY over the same dates; report after US costs and the count of events",
+        "skip: positions already public via 13D/13G before the 13F, and exits (paper finds no effect on sales)",
+        "site use: watch item only; blocked on a working SEC 13F source (www.sec.gov is 403 via proxy; SEC_CONTACT unset); no live screener change until the math gate passes"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — 'famous-investor new 13F buy' stays a US watch item (five-manager sample, pre-cost, small-cap concentrated, blocked on SEC 13F data access); never status=adopted until the gate passes and an after-cost event replay is done.",
+      "tags": [
+        "us",
+        "13f",
+        "buffett",
+        "investor-attention",
+        "disclosure",
+        "watch"
+      ],
+      "sources": [
+        "https://arxiv.org/abs/2610.17231",
+        "https://doi.org/10.48550/arXiv.2610.17231"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "只有最有名的幾位投資人（例如巴菲特）在 13F 揭露新買進時，股價才會明顯多漲，普通基金沒有這個效果",
+          "多漲的部分在之後一個月沒有跌回去，比較像是消息被更多人注意到，而不只是跟風",
+          "照抄新買進的好處主要在第一個月，晚一天買就少一半左右；賣出的揭露沒有參考價值",
+          "本站只當觀察項目：樣本只有五位、未扣成本、多在小型股；要先有穩定的 SEC 申報資料，數學閘門通過前不改上線選股"
+        ],
+        "zh-Hans": [
+          "只有最有名的几位投资人（例如巴菲特）在 13F 披露新买进时，股价才会明显多涨，普通基金没有这个效果",
+          "多涨的部分在之后一个月没有跌回去，比较像是消息被更多人注意到，而不只是跟风",
+          "照抄新买进的好处主要在第一个月，晚一天买就少一半左右；卖出的披露没有参考价值",
+          "本站只当观察项目：样本只有五位、未扣成本、多在小型股；要先有稳定的 SEC 申报数据，数学闸门通过前不改上线选股"
+        ],
+        "en": [
+          "Only the most famous investors (e.g. Buffett) move a stock when a 13F reveals a new buy; ordinary funds do not",
+          "The extra rise does not reverse over the next month, which looks like news getting noticed rather than pure copying",
+          "Copying new buys pays mainly in the first month and buying one day later keeps only about half; sale disclosures are not useful",
+          "Watch item only: five-manager sample, before costs, mostly small caps; needs a stable SEC filing source; no live change until the math gate passes"
+        ],
+        "ja": [
+          "13Fで新規買いが開示されて株価が明確に上がるのは、バフェットら最も有名な投資家だけ。普通のファンドでは起きない",
+          "上昇分はその後1か月戻らず、単なる追随より『注目されて情報が織り込まれた』形に近い",
+          "コピーの利点は主に最初の1か月で、1日遅れると約半分に。売りの開示は参考にならない",
+          "監視項目のみ：標本5人・コスト控除前・小型株中心。安定したSECデータが先に必要。数学ゲート通過前はライブ選定を変えない"
         ]
       },
       "coverUrl": "./covers/placeholder-paper.svg",
