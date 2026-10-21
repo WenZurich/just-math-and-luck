@@ -704,7 +704,12 @@ async function tick() {
   } else {
     lastAttemptOk = false;
   }
+  paintQuotes(map, ok);
+}
 
+/** Paint a merged quote map onto every live node currently in the DOM. */
+function paintQuotes(map, ok) {
+  if (!rootEl) return;
   // Indices — prefer MIS for TW/OTC when present
   const twQ = map.get("__MIS_TWII") || map.get("^TWII");
   const otcQ = map.get("__MIS_OTC");
@@ -794,6 +799,17 @@ export async function startLiveQuotes(root) {
   }
   scheduleNext();
   return { ok: lastAttemptOk, lastSuccessAt };
+}
+
+/**
+ * Re-apply last-good quotes without a network call — used when a lazily
+ * mounted section (SOXL, 台指期, 模擬倉…) renders after the first poll, so its
+ * live nodes don't wait up to 5 min for the next tick.
+ */
+export function repaintLiveQuotes() {
+  if (!running || !rootEl || lastGood.size === 0) return false;
+  paintQuotes(mergeMaps(), lastAttemptOk);
+  return true;
 }
 
 export function stopLiveQuotes() {

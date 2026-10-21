@@ -1065,6 +1065,22 @@ async function main() {
   if (!/view-lookup/.test(mainSrc) || !/renderLookupSection/.test(mainSrc) || !/initLookup/.test(mainSrc)) {
     fail("lookup view shell / render / init missing in main.js");
   } else ok("lookup view wired in main.js");
+  // Load speed (2026-10-21): heavy sections mount on first visit, not on 今日 load.
+  {
+    const mountBody = (mainSrc.match(/async function mountUi\(app\) \{([\s\S]*?)\n\}/) || [])[1] || "";
+    const eager = ["initResearch", "initLetters", "initManbao", "initOptions", "initSoxl", "initPodcasts"].filter((fn) => mountBody.includes(fn + "("));
+    if (eager.length) fail("mountUi should not eagerly init heavy sections: " + eager.join(", "));
+    else ok("mountUi defers heavy sections (研究/股東信/曼報/選擇權/SOXL/podcast) to first visit");
+    for (const id of ["strategies", "research", "options", "earnings", "lookup", "soxl", "txf", "podcasts", "letters", "manbao"]) {
+      if (!new RegExp("LAZY_SECTIONS[\\s\\S]*\\b" + id + ":\\s*\\(").test(mainSrc)) fail("LAZY_SECTIONS missing " + id);
+    }
+    if (!/ensureSection\(id, route\)\.then\(\(\) => applyCategoryRoute\(route\)\)/.test(mainSrc)) fail("hashchange must mount section before applying its category");
+    else ok("hashchange mounts section then applies category");
+    if (!/closest\?\.\("\[data-jump\]"\)/.test(mainSrc)) fail("data-jump should be delegated (lazy sections render buttons later)");
+    else ok("data-jump delegated");
+    if (!/export function repaintLiveQuotes/.test(fs.readFileSync(path.join(ROOT, "src/live-quotes.js"), "utf8"))) fail("repaintLiveQuotes missing");
+    else ok("lazy sections repaint last-good live quotes");
+  }
   if (!/MOBILE_MORE\s*=\s*\[[^\]]*lookup/.test(mainSrc)) {
     fail("lookup should be under MOBILE_MORE (not a 6th primary tab)");
   } else ok("lookup listed in MOBILE_MORE");

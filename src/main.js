@@ -52,7 +52,7 @@ import {
   renderTxfSection,
   initTxf,
 } from "./txf.js";
-import { startLiveQuotes, stopLiveQuotes } from "./live-quotes.js";
+import { startLiveQuotes, stopLiveQuotes, repaintLiveQuotes } from "./live-quotes.js";
 import {
   renderUsMacroStripSlot,
   initUsMacroStrip,
@@ -953,16 +953,26 @@ function showView(root, viewId, { updateHash = true, scrollTop = true } = {}) {
 
 let navHashHandler = null;
 let navEscapeHandler = null;
+let navJumpHandler = null;
 
 function bindAppNav(root) {
-  const go = (viewId, opts) => showView(root, viewId, opts);
+  const go = (viewId, opts) => {
+    const id = showView(root, viewId, opts);
+    void ensureSection(id);
+    return id;
+  };
 
   root.querySelectorAll(".nav-item[data-nav], .nav-more-item[data-nav]").forEach((btn) => {
     btn.addEventListener("click", () => go(btn.dataset.nav));
   });
-  root.querySelectorAll("[data-jump]").forEach((btn) => {
-    btn.addEventListener("click", () => go(btn.dataset.jump));
-  });
+  // Delegated: sections mount lazily, so their 「前往…」 buttons render after this
+  // bind (e.g. 選擇權 →「研究」 was rendered too late and never navigated).
+  if (navJumpHandler) root.removeEventListener("click", navJumpHandler);
+  navJumpHandler = (e) => {
+    const btn = e.target?.closest?.("[data-jump]");
+    if (btn && root.contains(btn)) go(btn.dataset.jump);
+  };
+  root.addEventListener("click", navJumpHandler);
   const moreBtn = root.querySelector("[data-nav-more]");
   if (moreBtn) {
     moreBtn.addEventListener("click", () => {
@@ -983,14 +993,16 @@ function bindAppNav(root) {
   if (navHashHandler) window.removeEventListener("hashchange", navHashHandler);
   navHashHandler = () => {
     const route = parseHashRoute();
-    go(route.view, { updateHash: false });
-    applyCategoryRoute(route);
+    const id = showView(root, route.view, { updateHash: false });
+    // First visit mounts with the route's category; later visits re-apply it.
+    void ensureSection(id, route).then(() => applyCategoryRoute(route));
   };
   window.addEventListener("hashchange", navHashHandler);
 
   const initial = parseHashRoute();
   const nested = Boolean(initial.sub || initial.shelf);
-  go(initial.view, { updateHash: !nested, scrollTop: false });
+  // Plain showView here: mountUi mounts the initial section with its URL category.
+  showView(root, initial.view, { updateHash: !nested, scrollTop: false });
   // Category apply happens after section inits in mountUi.
   return { go };
 }
@@ -1057,6 +1069,7 @@ async function mountUi(app) {
   const paper = cachedPaper;
   const viewBefore = parseViewFromHash();
   app.innerHTML = renderApp(data, paper);
+  sectionInits = new Map(); // fresh DOM → sections mount again on demand
   document.title = t("siteTitle");
   applyDocumentLang();
 
@@ -1071,32 +1084,80 @@ async function mountUi(app) {
   bindPaperTabs(app);
   if (paper) await initPaperDerivatives(app, paper);
   bindLangSwitcher(app);
-  await initStrategies("#xq-root");
-  await initResearch("#rl-root", undefined, {
-    category: routeAtMount.view === "research" ? routeAtMount.sub || "menu" : "menu",
-    shelf: routeAtMount.view === "research" ? routeAtMount.shelf : null,
-    syncUrl: false,
-  });
-  await initOptions("#uo-root");
-  await initEarnings("#er-root");
-  initLookup("#lk-root");
-  await initSoxl("#sx-root");
-  await initTxf("#txf-root");
-  initPodcasts("#pc-root", {
-    category: routeAtMount.view === "podcasts" ? routeAtMount.sub || "menu" : "menu",
-    syncUrl: false,
-  });
-  await initLetters("#lt-root", {
-    category: routeAtMount.view === "letters" ? routeAtMount.sub || "menu" : "menu",
-    year: routeAtMount.view === "letters" ? routeAtMount.letterYear : undefined,
-    syncUrl: false,
-  });
-  await initManbao("#mb-root", {
-    category: routeAtMount.view === "manbao" ? routeAtMount.sub || "menu" : "menu",
-    syncUrl: false,
-  });
+  // Load speed: only the section being opened fetches its JSON now; the rest
+  // (研究 ~550KB, 股東信, 曼報, 選擇權, SOXL…) load on first visit, so 今日
+  // no longer waits on ~1.2MB of data it never shows.
+  await ensureSection(routeAtMount.view, routeAtMount);
   void nav;
   void startLiveQuotes(app);
+  scheduleIdleWarmup();
+}
+
+/**
+ * Lazy section mount (load-speed). Each section's init runs once per mount,
+ * the first time its view is shown (nav tap, hash link, or initial URL).
+ * Category/shelf from the URL are passed through on that first init.
+ */
+let sectionInits = new Map();
+const LAZY_SECTIONS = {
+  strategies: () => initStrategies("#xq-root"),
+  research: (r) =>
+    initResearch("#rl-root", undefined, {
+      category: r.view === "research" ? r.sub || "menu" : "menu",
+      shelf: r.view === "research" ? r.shelf : null,
+      syncUrl: false,
+    }),
+  options: () => initOptions("#uo-root"),
+  earnings: () => initEarnings("#er-root"),
+  lookup: () => initLookup("#lk-root"),
+  soxl: () => initSoxl("#sx-root"),
+  txf: () => initTxf("#txf-root"),
+  podcasts: (r) =>
+    initPodcasts("#pc-root", {
+      category: r.view === "podcasts" ? r.sub || "menu" : "menu",
+      syncUrl: false,
+    }),
+  letters: (r) =>
+    initLetters("#lt-root", {
+      category: r.view === "letters" ? r.sub || "menu" : "menu",
+      year: r.view === "letters" ? r.letterYear : undefined,
+      syncUrl: false,
+    }),
+  manbao: (r) =>
+    initManbao("#mb-root", {
+      category: r.view === "manbao" ? r.sub || "menu" : "menu",
+      syncUrl: false,
+    }),
+};
+
+function ensureSection(viewId, route = null) {
+  const id = HASH_ALIASES[viewId] || viewId;
+  const init = LAZY_SECTIONS[id];
+  if (!init) return Promise.resolve(false);
+  if (sectionInits.has(id)) return sectionInits.get(id);
+  const r = route && (HASH_ALIASES[route.view] || route.view) === id ? route : { view: id };
+  const p = Promise.resolve()
+    .then(() => init(r))
+    .then(() => {
+      repaintLiveQuotes();
+      return true;
+    })
+    .catch((err) => {
+      console.warn(`section ${id} init failed`, err);
+      sectionInits.delete(id); // allow retry on next visit
+      return false;
+    });
+  sectionInits.set(id, p);
+  return p;
+}
+
+/** After 今日 is up, quietly pre-mount the light, often-tapped tabs (not 研究/股東信/曼報). */
+function scheduleIdleWarmup() {
+  const warm = () => {
+    for (const id of ["strategies", "earnings", "txf", "soxl"]) void ensureSection(id);
+  };
+  if ("requestIdleCallback" in window) window.requestIdleCallback(warm, { timeout: 4000 });
+  else window.setTimeout(warm, 2500);
 }
 
 async function remount() {

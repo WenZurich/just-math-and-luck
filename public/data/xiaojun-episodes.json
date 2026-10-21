@@ -1,6 +1,6 @@
 {
   "id": "xiaojun-episodes",
-  "asOf": "2026-10-20T09:44:44+08:00",
+  "asOf": "2026-10-21T09:39:06+08:00",
   "timezone": "Asia/Taipei",
   "status": "candidate",
   "mathGate": "closed",
@@ -26,21 +26,43 @@
     }
   ],
   "counts": {
-    "total": 157,
-    "withKeyPoints": 157,
+    "total": 158,
+    "withKeyPoints": 158,
     "notesTeaser": 0,
     "notesTitleOnly": 0,
     "notesEmpty": 0,
     "listened": 8,
-    "rssOnly": 149
+    "rssOnly": 150
   },
   "listenPipeline": {
     "script": "scripts/listen-xiaojun-episodes.mjs",
     "analysisPack": "scripts/xiaojun-stock-analysis.json",
     "transcriptModel": "faster-whisper small int8 (zh)",
-    "updatedAt": "2026-10-20T09:44:44+08:00"
+    "updatedAt": "2026-10-21T09:39:06+08:00"
   },
   "episodes": [
+    {
+      "id": "6ad4dacd641ef406308d86e5",
+      "ep": 155,
+      "title": "155. 和科沃斯钱程聊，父与子、企二代接班的样本与肌理、机器人，和我内心的追寻",
+      "subtitle": "和科沃斯钱程聊，父与子、企二代接班的样本与肌理、机器人，和我内心的追寻",
+      "pubDate": "Wed, 21 Oct 2026 00:00:00 GMT",
+      "pubDateIso": "2026-10-21T00:00:00.000Z",
+      "pubDateTw": "2026-10-21",
+      "durationSec": 7191,
+      "link": "https://www.xiaoyuzhoufm.com/episode/6ad4dacd641ef406308d86e5?utm_source=rss",
+      "appleShowUrl": "https://podcasts.apple.com/tw/podcast/%E5%BC%A0%E5%B0%8F%E7%8F%BAj%C3%B9n-%E5%95%86%E4%B8%9A%E8%AE%BF%E8%B0%88%E5%BD%95/id1634356920",
+      "keyPoints": [
+        "今天我们的嘉宾是科沃斯CEO钱程（David）。",
+        "他出生于1990年，曾是中国最年轻A股上市公司CEO，也是一名企二代、创二代。",
+        "我很好奇的是，当一代中国企业开始从创业进入传承，真正在经历这个过程的当事人，他所面临的现实与所思所想？",
+        "钱程有一种不符合自己年龄的云淡风轻，非常在意经营。",
+        "他最喜爱的食物是燕麦碗； 朋友圈头像是自己家的狗， 特意把狗眼睛颜色换成会发光的红色，是为了提醒自己要更具有狼性。",
+        "从我们的谈话中，你能看到创二代和创一代不同的性格底色。"
+      ],
+      "notesQuality": "rich",
+      "source": "xyzfm-rss"
+    },
     {
       "id": "6acf81f0195d838e2af1e281",
       "ep": 154,
