@@ -1,0 +1,82 @@
+{
+  "scanAsOf": "2026-10-20T00:15:41Z",
+  "date": "2026-10-20",
+  "sessions": {
+    "US": "2026-10-19",
+    "TW": "2026-10-19"
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "market": "US",
+      "session": "2026-10-19",
+      "price": 342.94,
+      "dayPct": -0.15,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ROKU",
+      "name": "Roku",
+      "market": "US",
+      "session": "2026-10-19",
+      "price": 155.54,
+      "dayPct": 0.65,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ASML",
+      "name": "ASML",
+      "market": "US",
+      "session": "2026-10-19",
+      "price": 1647.12,
+      "dayPct": 0.34,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA",
+      "market": "US",
+      "session": "2026-10-19",
+      "price": 217.09,
+      "dayPct": 1.38,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2881.TW",
+      "name": "富邦金",
+      "market": "TW",
+      "session": "2026-10-19",
+      "price": 158.5,
+      "dayPct": -1.86,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2317.TW",
+      "name": "鴻海",
+      "market": "TW",
+      "session": "2026-10-19",
+      "price": 239.5,
+      "dayPct": -1.84,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "3231.TW",
+      "name": "緯創",
+      "market": "TW",
+      "session": "2026-10-19",
+      "price": 180,
+      "dayPct": -1.37,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": []
+}

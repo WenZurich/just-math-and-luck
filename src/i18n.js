@@ -833,7 +833,7 @@ const zhHant = {
   paperRules: "規則（各市場獨立帳）",
   paperRuleTw: "台股本金 NT$3,000,000 · 整張成交",
   paperRuleUs: "美股本金 US$100,000 · 可買 1 股起",
-  paperRuleBuy: "買：該市場名單·風險1%·停距1.5%·單檔≤8% · 即成交",
+  paperRuleBuy: "買：當天名單裡的股票，每檔最多放帳本總值的 8%，再看現金夠不夠；台股只買整張，買不起一張就跳過 · 下單即成交",
   paperRuleSell:
     "賣：停損−3% · 停利+12%半倉 · 破SMA20且日跌>2% · 離名單虧損 · 漲停隔日−5%",
   paperTabTw: "台股帳 · NT$",
@@ -1937,7 +1937,7 @@ const en = {
   paperRules: "Rules (separate books per market)",
   paperRuleTw: "TW principal NT$3,000,000 · round lots",
   paperRuleUs: "US principal US$100,000 · from 1 share",
-  paperRuleBuy: "Buy: list · 1% risk · 1.5% stop · ≤8% per name · immediate fill",
+  paperRuleBuy: "Buy: names on today's list, each capped at 8% of the book, then limited by available cash; TW buys whole 1,000-share lots only · immediate fill",
   paperRuleSell:
     "Sell: −3% stop · +12% half take-profit · below SMA20 & day <−2% · off-list & losing · limit-up next-day −5%",
   paperTabTw: "TW book · NT$",
@@ -3032,7 +3032,7 @@ const zhHans = {
   paperRules: "规则（各市场独立账）",
   paperRuleTw: "台股本金 NT$3,000,000 · 整张成交",
   paperRuleUs: "美股本金 US$100,000 · 可买 1 股起",
-  paperRuleBuy: "买：该市场名单·风险1%·停距1.5%·单档≤8% · 即成交",
+  paperRuleBuy: "买：当天名单里的股票，每档最多放账本总值的 8%，再看现金够不够；台股只买整张，买不起一张就跳过 · 下单即成交",
   paperRuleSell:
     "卖：停损−3% · 停利+12%半仓 · 破SMA20且日跌>2% · 离名单亏损 · 涨停隔日−5%",
   paperTabTw: "台股账 · NT$",
@@ -4127,7 +4127,7 @@ const ja = {
   paperRules: "ルール（市場別独立口座）",
   paperRuleTw: "台湾元本 NT$3,000,000 · 単元取引",
   paperRuleUs: "米国元本 US$100,000 · 1株から",
-  paperRuleBuy: "買：リスト·リスク1%·ストップ1.5%·単銘柄≤8% · 即約定",
+  paperRuleBuy: "買：当日リストの銘柄、1銘柄あたり口座総額の8%まで、さらに使える現金の範囲内（台湾株は1,000株単位のみ） · 即約定",
   paperRuleSell:
     "売：損切−3% · 利確+12%半分 · SMA20割れかつ日−2%超 · リスト外かつ損失 · ストップ高翌日−5%",
   paperTabTw: "台湾口座 · NT$",

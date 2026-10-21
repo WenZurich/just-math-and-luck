@@ -1,0 +1,202 @@
+{
+  "scanAsOf": "2026-10-05T00:07:40Z",
+  "date": "2026-10-05",
+  "sessions": {
+    "US": "2026-10-02",
+    "TW": "2026-10-02"
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "ZS",
+      "name": "Zscaler",
+      "market": "US",
+      "session": "2026-10-02",
+      "price": 196.6,
+      "dayPct": -1.1,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike",
+      "market": "US",
+      "session": "2026-10-02",
+      "price": 270.04,
+      "dayPct": 1.48,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "PANW",
+      "name": "Palo Alto Networks",
+      "market": "US",
+      "session": "2026-10-02",
+      "price": 403.24,
+      "dayPct": 1.76,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "OKTA",
+      "name": "Okta",
+      "market": "US",
+      "session": "2026-10-02",
+      "price": 211.49,
+      "dayPct": -0.54,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "FTNT",
+      "name": "Fortinet",
+      "market": "US",
+      "session": "2026-10-02",
+      "price": 180.95,
+      "dayPct": 1.25,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "market": "US",
+      "session": "2026-10-02",
+      "price": 333.69,
+      "dayPct": 1.02,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "QLYS",
+      "name": "Qualys",
+      "market": "US",
+      "session": "2026-10-02",
+      "price": 193,
+      "dayPct": 2.97,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "LLY",
+      "name": "Eli Lilly",
+      "market": "US",
+      "session": "2026-10-02",
+      "price": 1142.85,
+      "dayPct": -0.61,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ISRG",
+      "name": "Intuitive Surgical",
+      "market": "US",
+      "session": "2026-10-02",
+      "price": 391.95,
+      "dayPct": -2.32,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "APP",
+      "name": "AppLovin",
+      "market": "US",
+      "session": "2026-10-02",
+      "price": 268.22,
+      "dayPct": -4.65,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms",
+      "market": "US",
+      "session": "2026-10-02",
+      "price": 728.08,
+      "dayPct": 0.3,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "INTC",
+      "name": "Intel",
+      "market": "US",
+      "session": "2026-10-02",
+      "price": 119.33,
+      "dayPct": -0.56,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet",
+      "market": "US",
+      "session": "2026-10-02",
+      "price": 343.5,
+      "dayPct": 1.56,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ESTC",
+      "name": "Elastic",
+      "market": "US",
+      "session": "2026-10-02",
+      "price": 93.94,
+      "dayPct": 1.77,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2891.TW",
+      "name": "中信金",
+      "market": "TW",
+      "session": "2026-10-02",
+      "price": 67.3,
+      "dayPct": -0.88,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2881.TW",
+      "name": "富邦金",
+      "market": "TW",
+      "session": "2026-10-02",
+      "price": 150.5,
+      "dayPct": 0,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2884.TW",
+      "name": "玉山金",
+      "market": "TW",
+      "session": "2026-10-02",
+      "price": 45.35,
+      "dayPct": 0,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "3231.TW",
+      "name": "緯創",
+      "market": "TW",
+      "session": "2026-10-02",
+      "price": 186.5,
+      "dayPct": -2.1,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2303.TW",
+      "name": "聯電",
+      "market": "TW",
+      "session": "2026-10-02",
+      "price": 161.5,
+      "dayPct": 0,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": []
+}

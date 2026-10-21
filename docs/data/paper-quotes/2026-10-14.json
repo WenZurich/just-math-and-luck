@@ -1,0 +1,62 @@
+{
+  "scanAsOf": "2026-10-14T00:10:56Z",
+  "date": "2026-10-14",
+  "sessions": {
+    "US": "2026-10-13",
+    "TW": "2026-10-13"
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "PANW",
+      "name": "Palo Alto Networks",
+      "market": "US",
+      "session": "2026-10-13",
+      "price": 397.03,
+      "dayPct": -1.68,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "FTNT",
+      "name": "Fortinet",
+      "market": "US",
+      "session": "2026-10-13",
+      "price": 190.76,
+      "dayPct": -1.13,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "market": "US",
+      "session": "2026-10-13",
+      "price": 341.27,
+      "dayPct": 0.09,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ISRG",
+      "name": "Intuitive Surgical",
+      "market": "US",
+      "session": "2026-10-13",
+      "price": 422.06,
+      "dayPct": -1.3,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft",
+      "market": "US",
+      "session": "2026-10-13",
+      "price": 543.45,
+      "dayPct": 0.43,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": []
+}

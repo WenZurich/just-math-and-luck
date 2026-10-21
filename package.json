@@ -8,7 +8,7 @@
     "build": "node scripts/build-podcast-latest.mjs && vite build",
     "preview": "vite preview",
     "validate": "node scripts/validate-data.mjs",
-    "paper": "node scripts/paper-trade.mjs",
+    "paper": "node scripts/paper-held-quotes.mjs; node scripts/paper-trade.mjs",
     "fetch-us-options": "node scripts/fetch-us-options.mjs",
     "fetch-earnings": "node scripts/fetch-earnings.mjs",
     "strategies": "node scripts/run-strategies.mjs",

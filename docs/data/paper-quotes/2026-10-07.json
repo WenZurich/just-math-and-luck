@@ -1,0 +1,132 @@
+{
+  "scanAsOf": "2026-10-07T00:07:10Z",
+  "date": "2026-10-07",
+  "sessions": {
+    "US": "2026-10-06",
+    "TW": "2026-10-06"
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "OKTA",
+      "name": "Okta",
+      "market": "US",
+      "session": "2026-10-06",
+      "price": 218.67,
+      "dayPct": 0.17,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "market": "US",
+      "session": "2026-10-06",
+      "price": 333.63,
+      "dayPct": 0.22,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "QLYS",
+      "name": "Qualys",
+      "market": "US",
+      "session": "2026-10-06",
+      "price": 199.93,
+      "dayPct": 0.63,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ISRG",
+      "name": "Intuitive Surgical",
+      "market": "US",
+      "session": "2026-10-06",
+      "price": 404.76,
+      "dayPct": -0.42,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "CLS",
+      "name": "Celestica",
+      "market": "US",
+      "session": "2026-10-06",
+      "price": 388.24,
+      "dayPct": 1.45,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ASML",
+      "name": "ASML",
+      "market": "US",
+      "session": "2026-10-06",
+      "price": 1834.1,
+      "dayPct": -1.39,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ESTC",
+      "name": "Elastic",
+      "market": "US",
+      "session": "2026-10-06",
+      "price": 94.6,
+      "dayPct": -0.33,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "MSTR",
+      "name": "MicroStrategy",
+      "market": "US",
+      "session": "2026-10-06",
+      "price": 164.55,
+      "dayPct": 0.07,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA",
+      "market": "US",
+      "session": "2026-10-06",
+      "price": 239.24,
+      "dayPct": 0.14,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms",
+      "market": "US",
+      "session": "2026-10-06",
+      "price": 738.88,
+      "dayPct": -0.41,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "3231.TW",
+      "name": "緯創",
+      "market": "TW",
+      "session": "2026-10-06",
+      "price": 189.5,
+      "dayPct": 0,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "3035.TW",
+      "name": "智原",
+      "market": "TW",
+      "session": "2026-10-06",
+      "price": 210.5,
+      "dayPct": -2.55,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": []
+}

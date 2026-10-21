@@ -7,6 +7,8 @@
  * 台股／美股兩本帳分開，不做匯率混算。非真實券商成交。
  *
  * 執行：npm run paper   或   node scripts/paper-trade.mjs
+ *       逐日補帳：node scripts/paper-trade.mjs --input public/data/2026-10-05.json
+ *       （--input 指定某一天存下的掃描快照；預設 public/data/latest.json。只換輸入檔，買賣數學不變）
  *
  * 輸入：
  *   public/data/latest.json
@@ -27,7 +29,7 @@
  *   1. 宇宙 = 當日 us[] 或 tw[] 篩選名單。
  *      - 若 screens 只有 "observe"（觀察），盡量不買。
  *      - 排序：先當日 Top5 裡屬於這個市場的名字，再名單其餘股票（維持原名單順序）。
- *   2. 風險部位（新開倉）：
+ *   2. 部位大小（新開倉）——實際上永遠是「單檔 8% 上限」比較小，風險公式算出來的股數不會成為限制：
  *      - RiskPct = 帳本「目前權益」的 1% → RiskCash
  *      - StopDist 代理：股價 × 1.5%；若量比 volRatio >= 3（視為非常高）改用 2.5%
  *      - 股數 = floor(RiskCash / StopDist)
@@ -42,7 +44,8 @@
  *   5. 若買進當天接近漲停（日漲跌 >= 9.5% 或風險文字含「漲停」），標記 limitUpStyle，
  *      供隔日「漲停追價隔日急殺」規則使用。
  *
- * 【賣出】每天先檢查持股（用 latest 能找到的報價更新市價；找不到就沿用上次標記價）：
+ * 【賣出】每天先檢查持股（用 latest 的報價；掃描沒有的持股用 paper-quotes/<日期>.json 的同時段收盤價；
+ *        兩邊都沒有就沿用上次標記價計算權益，但當天不對它做任何賣出，避免用舊價格成交）：
  *   優先順序（先匹配先賣，停損優先於停利）：
  *   1. stop            停損：未實現報酬 <= -3%（相對平均成本）→ 全賣
  *   2. limit-up-chase  漲停追價：當初是漲停風格、且「不是買進當天」、當日 dayPct <= -5% → 全賣
@@ -65,7 +68,16 @@ import { avgCostAfterBuy, realizedPnl, roundHalfAway, positionSizeShares, unreal
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
-const LATEST_PATH = join(ROOT, "public/data/latest.json");
+function cliInput() {
+  const i = process.argv.indexOf("--input");
+  if (i >= 0 && process.argv[i + 1]) return process.argv[i + 1];
+  return process.env.PAPER_INPUT || null;
+}
+const INPUT_ARG = cliInput();
+const LATEST_PATH = INPUT_ARG
+  ? (INPUT_ARG.startsWith("/") ? INPUT_ARG : join(process.cwd(), INPUT_ARG))
+  : join(ROOT, "public/data/latest.json");
+const DERIV_PATH = join(ROOT, "public/data/paper-derivatives.json");
 const PORTFOLIO_PATH = join(ROOT, "public/data/paper-portfolio.json");
 const DOCS_DATA = join(ROOT, "docs/data");
 
@@ -102,8 +114,8 @@ const RULES_ZH = {
   ],
   buy: [
     "宇宙＝當日 us[]／tw[]；純 observe 不買；先 Top5 再其餘。",
-    "新倉：風險＝權益×1%；停距≈價×1.5%（量比≥3→2.5%）；股數＝floor(風險÷停距)。",
-    "單檔上限＝權益×8%。台股需買得起 1 張（1000股）。",
+    "每檔最多放帳本總值的 8%，再看現金夠不夠（台指期保證金、選擇權權利金占用的錢不能拿來買股票）。",
+    "台股只買整張（1000 股），買不起一張就跳過；美股可買 1 股起。",
     "加碼：仍在名單且未滿 8%，同日最多一次（當日已賣則不加）。",
   ],
   sell: [
@@ -200,12 +212,28 @@ function isLimitUpStyle(stock) {
   return blob.includes("漲停");
 }
 
-/** 合併 top5 + us + tw，給持倉標記市價用 */
+/**
+ * 合併 top5 + us + tw，給持倉標記市價用。
+ * 掃描沒有、但仍持有的股票：用 paper-held-quotes 存下的同時段公開收盤價補（同一份 asOf 才採用）。
+ */
 function quoteMap(latest) {
   const map = new Map();
   for (const list of [latest.top5 || [], latest.us || [], latest.tw || []]) {
     for (const s of list) {
       if (s?.ticker && typeof s.price === "number") map.set(s.ticker, s);
+    }
+  }
+  const heldPath = join(ROOT, "public/data/paper-quotes", `${taipeiDate(latest.asOf)}.json`);
+  if (existsSync(heldPath)) {
+    try {
+      const held = loadJson(heldPath);
+      if (held.scanAsOf === latest.asOf) {
+        for (const q of held.quotes || []) {
+          if (q?.ticker && typeof q.price === "number" && q.price > 0 && !map.has(q.ticker)) map.set(q.ticker, { ...q, heldQuote: true });
+        }
+      }
+    } catch (e) {
+      console.warn(`[paper] unreadable ${heldPath}: ${e.message}`);
     }
   }
   return map;
@@ -315,7 +343,7 @@ function sellPosition(book, pos, qty, price, reason, reasonText, date, asOf) {
     name: pos.name || "",
     qty: sellQty,
     price,
-    avgCostAtSale: roundMoney(pos.avgCost),
+    avgCostAtSale: roundMoney(pos.avgCost, 6), // 6 位：讓「(成交價 − 成本) × 股數 = 實現損益」對得起來（加碼後成本常有很多位小數）
     reason,
     reasonText,
     realizedPnl: roundMoney(realized),
@@ -332,7 +360,13 @@ function applySells(book, latest, market, quotes) {
 
   for (const pos of book.positions) {
     const q = quotes.get(pos.ticker) || null;
-    const mark = q && typeof q.price === "number" ? q.price : pos.mark;
+    if (!q || typeof q.price !== "number") {
+      // 當天沒有這檔的真實報價：不拿舊標記價成交，今天先不動它（資料缺口，不是訊號）
+      console.warn(`[paper] ${market} ${pos.ticker}: no same-day quote; holding, no sell rule applied`);
+      remaining.push(pos);
+      continue;
+    }
+    const mark = q.price;
     pos.mark = mark;
     const ret = unrealizedRet(pos);
     const dayPct = q && typeof q.dayPct === "number" ? q.dayPct : pos.dayPct;
@@ -411,9 +445,9 @@ function sizeShares({ market, price, equity, cash, volRatio, existingQty }) {
   });
 }
 
-function buyFill(book, stock, qty, reason, reasonText, date, asOf) {
+function buyFill(book, stock, qty, reason, reasonText, date, asOf, reserve = 0) {
   const cost = qty * stock.price;
-  if (cost > book.cash + 1e-9 || qty <= 0) return null;
+  if (cost > book.cash - reserve + 1e-9 || qty <= 0) return null;
   let pos = book.positions.find((p) => p.ticker === stock.ticker);
   // Blend cost via guarded math-core before touching cash; refuse the fill off-domain.
   const blendedAvg = pos ? avgCostAfterBuy(pos.qty, pos.avgCost, qty, stock.price) : null;
@@ -458,8 +492,28 @@ function buyFill(book, stock, qty, reason, reasonText, date, asOf) {
   return trade;
 }
 
+/**
+ * 衍生品（台指期保證金、選擇權權利金）占用的同一本帳現金：股票買進不能動用這筆錢。
+ * reserve = marginHold − cashAdj（只算已在該日之前成交的衍生品帳；沒有檔案就是 0）。
+ */
+function derivativesReserve(market, date) {
+  if (!existsSync(DERIV_PATH)) return 0;
+  try {
+    const d = loadJson(DERIV_PATH);
+    const m = d?.[market];
+    if (!m) return 0;
+    const opened = (m.positions || []).map((p) => p.openedOn).filter(Boolean).sort();
+    if (opened.length && opened[0] > date) return 0;
+    const r = (Number(m.marginHold) || 0) - (Number(m.cashAdj) || 0);
+    return r > 0 ? r : 0;
+  } catch {
+    return 0;
+  }
+}
+
 function applyBuys(book, latest, market, soldToday) {
   const date = taipeiDate(latest.asOf);
+  const reserve = derivativesReserve(market, date);
   const universe = buyUniverse(latest, market);
   const { equity } = bookEquity(book);
 
@@ -475,23 +529,23 @@ function applyBuys(book, latest, market, soldToday) {
         market,
         price: stock.price,
         equity,
-        cash: book.cash,
+        cash: Math.max(0, book.cash - reserve),
         volRatio: stock.volRatio,
         existingQty: pos.qty,
       });
       if (qty <= 0) continue;
-      buyFill(book, stock, qty, "add", "持續買進：仍在名單且未滿 8% 權益上限", date, latest.asOf);
+      buyFill(book, stock, qty, "add", "持續買進：仍在名單且未滿 8% 權益上限", date, latest.asOf, reserve);
     } else {
       const qty = sizeShares({
         market,
         price: stock.price,
         equity,
-        cash: book.cash,
+        cash: Math.max(0, book.cash - reserve),
         volRatio: stock.volRatio,
         existingQty: 0,
       });
       if (qty <= 0) continue;
-      buyFill(book, stock, qty, "screen-buy", "名單新開倉（風險 1%、上限 8%）", date, latest.asOf);
+      buyFill(book, stock, qty, "screen-buy", "名單新開倉（單檔上限 8%）", date, latest.asOf, reserve);
     }
   }
 
@@ -664,6 +718,11 @@ function main() {
     printBookSummary("TW", portfolio.books.TW, portfolio.metrics.TW, date);
     printBookSummary("US", portfolio.books.US, portfolio.metrics.US, date);
     return;
+  }
+
+  if (portfolio.lastProcessedAsOf && latest.asOf < portfolio.lastProcessedAsOf) {
+    console.error(`FAIL: input asOf ${latest.asOf} is older than lastProcessedAsOf ${portfolio.lastProcessedAsOf}; replay must go forward in order`);
+    process.exit(1);
   }
 
   const quotes = quoteMap(latest);

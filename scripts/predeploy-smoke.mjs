@@ -1416,6 +1416,27 @@ async function main() {
     if (!/data-lq="pos"/.test(paperSrc) || !/data-lq-book/.test(paperSrc)) fail("paper.js should expose live mark hooks");
     else ok("paper.js live mark hooks");
 
+  // Paper book freshness: paper-portfolio.json asOf may lag the latest scan by at most one scan (trading) day
+  {
+    const dataDir = path.join(ROOT, "public/data");
+    const pp = JSON.parse(fs.readFileSync(path.join(dataDir, "paper-portfolio.json"), "utf8"));
+    const lt = JSON.parse(fs.readFileSync(path.join(dataDir, "latest.json"), "utf8"));
+    const tpe = (iso) => new Date(iso).toLocaleDateString("en-CA", { timeZone: "Asia/Taipei" });
+    const scanDays = fs.readdirSync(dataDir).filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f)).map((f) => f.slice(0, 10)).sort();
+    const latestDay = tpe(lt.asOf);
+    if (!scanDays.includes(latestDay)) scanDays.push(latestDay), scanDays.sort();
+    if (!pp.asOf) fail("paper-portfolio.json has no asOf");
+    else {
+      const paperDay = tpe(pp.asOf);
+      const lag = scanDays.filter((d) => d > paperDay && d <= latestDay).length;
+      if (lag > 1) fail(`paper-portfolio asOf ${paperDay} lags latest scan ${latestDay} by ${lag} scan days (max 1) — run npm run paper`);
+      else ok(`paper book fresh (asOf ${paperDay}, latest scan ${latestDay}, lag ${lag})`);
+    }
+    const i18nPaper = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    if (/paperRuleBuy:\s*"[^"]*(風險1%|停距1\.5%|1% risk)/.test(i18nPaper)) fail("paperRuleBuy still describes the 1%-risk/stop rule that never binds");
+    else ok("paperRuleBuy matches real sizing (8% cap, cash, whole lots)");
+  }
+
   // Paper derivatives: US options + TW 台指期 (math-gated, books separated)
   {
     const derivMath = fs.readFileSync(path.join(ROOT, "src/paper-derivatives-math.js"), "utf8");

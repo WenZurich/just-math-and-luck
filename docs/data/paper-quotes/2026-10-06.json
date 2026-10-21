@@ -1,0 +1,172 @@
+{
+  "scanAsOf": "2026-10-06T00:10:12Z",
+  "date": "2026-10-06",
+  "sessions": {
+    "US": "2026-10-05",
+    "TW": "2026-10-05"
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "ZS",
+      "name": "Zscaler",
+      "market": "US",
+      "session": "2026-10-05",
+      "price": 201.8,
+      "dayPct": 2.64,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike",
+      "market": "US",
+      "session": "2026-10-05",
+      "price": 272.67,
+      "dayPct": 0.97,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "PANW",
+      "name": "Palo Alto Networks",
+      "market": "US",
+      "session": "2026-10-05",
+      "price": 406.76,
+      "dayPct": 0.87,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "FTNT",
+      "name": "Fortinet",
+      "market": "US",
+      "session": "2026-10-05",
+      "price": 184.13,
+      "dayPct": 1.76,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "market": "US",
+      "session": "2026-10-05",
+      "price": 332.89,
+      "dayPct": -0.24,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ISRG",
+      "name": "Intuitive Surgical",
+      "market": "US",
+      "session": "2026-10-05",
+      "price": 406.48,
+      "dayPct": 3.71,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "CLS",
+      "name": "Celestica",
+      "market": "US",
+      "session": "2026-10-05",
+      "price": 382.69,
+      "dayPct": -1.2,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ASML",
+      "name": "ASML",
+      "market": "US",
+      "session": "2026-10-05",
+      "price": 1859.86,
+      "dayPct": -0.4,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro",
+      "market": "US",
+      "session": "2026-10-05",
+      "price": 43.19,
+      "dayPct": -1.14,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ARM",
+      "name": "Arm Holdings",
+      "market": "US",
+      "session": "2026-10-05",
+      "price": 302.9,
+      "dayPct": -1.49,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices",
+      "market": "US",
+      "session": "2026-10-05",
+      "price": 631.75,
+      "dayPct": -0.34,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2468.TW",
+      "name": "華經",
+      "market": "TW",
+      "session": "2026-10-05",
+      "price": 41.5,
+      "dayPct": -8.49,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "3231.TW",
+      "name": "緯創",
+      "market": "TW",
+      "session": "2026-10-05",
+      "price": 189.5,
+      "dayPct": 1.61,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "3035.TW",
+      "name": "智原",
+      "market": "TW",
+      "session": "2026-10-05",
+      "price": 216,
+      "dayPct": 0.23,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2303.TW",
+      "name": "聯電",
+      "market": "TW",
+      "session": "2026-10-05",
+      "price": 152.5,
+      "dayPct": -5.57,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "6226.TW",
+      "name": "光鼎",
+      "market": "TW",
+      "session": "2026-10-05",
+      "price": 43,
+      "dayPct": -7.33,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": []
+}

@@ -1,0 +1,112 @@
+{
+  "scanAsOf": "2026-10-12T00:15:58Z",
+  "date": "2026-10-12",
+  "sessions": {
+    "US": "2026-10-09",
+    "TW": "2026-10-08"
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "FTNT",
+      "name": "Fortinet",
+      "market": "US",
+      "session": "2026-10-09",
+      "price": 194.75,
+      "dayPct": 2.99,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "market": "US",
+      "session": "2026-10-09",
+      "price": 336.64,
+      "dayPct": -1.11,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ISRG",
+      "name": "Intuitive Surgical",
+      "market": "US",
+      "session": "2026-10-09",
+      "price": 423.96,
+      "dayPct": 2.06,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "CLS",
+      "name": "Celestica",
+      "market": "US",
+      "session": "2026-10-09",
+      "price": 362.16,
+      "dayPct": 1.58,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices",
+      "market": "US",
+      "session": "2026-10-09",
+      "price": 608.1,
+      "dayPct": -2.03,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro",
+      "market": "US",
+      "session": "2026-10-09",
+      "price": 41.86,
+      "dayPct": -2.13,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "MU",
+      "name": "Micron",
+      "market": "US",
+      "session": "2026-10-09",
+      "price": 1029,
+      "dayPct": -0.66,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "LLY",
+      "name": "Eli Lilly",
+      "market": "US",
+      "session": "2026-10-09",
+      "price": 1179.27,
+      "dayPct": 0.83,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "3035.TW",
+      "name": "智原",
+      "market": "TW",
+      "session": "2026-10-08",
+      "price": 202,
+      "dayPct": -3.35,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "6226.TW",
+      "name": "光鼎",
+      "market": "TW",
+      "session": "2026-10-08",
+      "price": 44.4,
+      "dayPct": 2.19,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": []
+}

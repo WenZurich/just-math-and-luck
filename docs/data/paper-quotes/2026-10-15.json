@@ -1,0 +1,82 @@
+{
+  "scanAsOf": "2026-10-15T00:08:06Z",
+  "date": "2026-10-15",
+  "sessions": {
+    "US": "2026-10-14",
+    "TW": "2026-10-14"
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "PANW",
+      "name": "Palo Alto Networks",
+      "market": "US",
+      "session": "2026-10-14",
+      "price": 375.04,
+      "dayPct": -5.54,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "QLYS",
+      "name": "Qualys",
+      "market": "US",
+      "session": "2026-10-14",
+      "price": 189.63,
+      "dayPct": -4.28,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms",
+      "market": "US",
+      "session": "2026-10-14",
+      "price": 737.54,
+      "dayPct": -3.27,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices",
+      "market": "US",
+      "session": "2026-10-14",
+      "price": 570.82,
+      "dayPct": -5.73,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "OKTA",
+      "name": "Okta",
+      "market": "US",
+      "session": "2026-10-14",
+      "price": 211.91,
+      "dayPct": -6.45,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2891.TW",
+      "name": "中信金",
+      "market": "TW",
+      "session": "2026-10-14",
+      "price": 71.4,
+      "dayPct": -0.28,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2882.TW",
+      "name": "國泰金",
+      "market": "TW",
+      "session": "2026-10-14",
+      "price": 114,
+      "dayPct": -0.44,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": []
+}
