@@ -393,9 +393,9 @@ function toPick(m, meta, indexDayPct, market, regime = null) {
     cycleStance: regime?.cycleStance ?? null,
     sizeMult: regime?.sizeMult ?? null,
   };
-  if (market === "TW") {
-    pick.rsVsIndexPp = round(rsVsIndex(m.dayPct, indexDayPct ?? 0), 2);
-  }
+  // Display-only: relative strength vs the market's own index (TAIEX for TW, S&P 500 for US).
+  // Same value already shown in the "why" text; selection logic does not read it.
+  pick.rsVsIndexPp = round(rsVsIndex(m.dayPct, indexDayPct ?? 0), 2);
   if (market === "US" && meta.priorClosePct != null) {
     pick.priorClosePct = meta.priorClosePct;
   }

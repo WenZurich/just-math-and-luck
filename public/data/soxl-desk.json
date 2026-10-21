@@ -2,19 +2,19 @@
   "market": "US",
   "ticker": "SOXL",
   "fundName": "Direxion Daily Semiconductor Bull 3X ETF",
-  "asOf": "2026-10-20T01:44:23.894Z",
+  "asOf": "2026-10-21T00:19:09.916Z",
   "quote": {
-    "price": 96.31,
-    "change": -2.34,
-    "changePct": -2.37,
+    "price": 105.95,
+    "change": 8.4,
+    "changePct": 8.61,
     "currency": "USD",
     "session": "overnight / extended (Yahoo)",
     "source": "https://finance.yahoo.com/quote/SOXL/",
     "regularClose": {
-      "price": 98.65,
-      "change": 4.98,
-      "changePct": 5.32,
-      "session": "NYSE Arca regular close (October 19 at 4:00:01 PM EDT)"
+      "price": 97.55,
+      "change": -1.1,
+      "changePct": -1.12,
+      "session": "NYSE Arca regular close (October 20 at 4:00:01 PM EDT)"
     }
   },
   "holdingsAsOf": "2026-01-31",
@@ -27,15 +27,6 @@
   "holdingsFreshnessNote": "Holdings weights are from the latest SOXL SEC N-PORT located in research (period ended 2026-01-31), not a same-day Direxion CSV. Cash + index swaps dominate reported net assets; daily weights change.",
   "leverageNote": "SOXL seeks ~3× the daily performance of the ICE Semiconductor Index. Contribution ≈ weight × return is an unlevered basket estimate only; ETF moves are magnified and path-dependent.",
   "events": [
-    {
-      "type": "anomaly",
-      "severity": "high",
-      "title": "正規盤大波動 +5.32%",
-      "detail": "Yahoo 顯示 SOXL 正規收盤約 $98.65（+5.32% / +4.98）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
-      "sources": [
-        "https://finance.yahoo.com/quote/SOXL/"
-      ]
-    },
     {
       "type": "structure",
       "severity": "info",
@@ -99,6 +90,12 @@
       "published": "2026-09-21"
     },
     {
+      "title": "SOXX, SOXL Retreat To Red Premarket, But Retail Is 'Extremely Bullish' Ahead Of Tech Earnings",
+      "summary": "The iShares Semiconductor ETF was down more than 1% in premarket trading early Tuesday, while the Direxion Daily Semiconductor Bull 3X Shares lost over 4% at the time of writing.",
+      "url": "https://stocktwits.com/news-articles/markets/equity/soxx-soxl-retreat-to-red-premarket-but-retail-is-extremely-bullish-ahead-of-tech-earnings/cZxqFqGRBui?.tsrc=rss",
+      "published": "2026-10-20"
+    },
+    {
       "title": "Intel leads chip stocks higher as investors jump back into AI trade",
       "summary": "Semiconductor stocks jumped on Monday.",
       "url": "https://finance.yahoo.com/markets/article/intel-leads-chip-stocks-higher-as-investors-jump-back-into-ai-trade-135726553.html?.tsrc=rss",
@@ -147,6 +144,12 @@
       "published": "2026-08-05"
     },
     {
+      "title": "2 ETFs to Watch for Outsized Volume in Semiconductor Trading",
+      "summary": "SOXS and SOXL see trading volumes surge to 1.53 and 1.48 times their averages, respectively, as semiconductor ETFs post sharply divergent daily moves.",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/2-etfs-watch-outsized-volume-124500884.html?.tsrc=rss",
+      "published": "2026-10-20"
+    },
+    {
       "title": "Investor: ‘I Turned AMD Into $16 Million and Sold Everything, Did I Quit Too Soon?’",
       "summary": "A Reddit trader claims he rode an AMD position all the way to $16 million, then cashed out completely, convinced the market had finally broken. Now the question is whether he read the signs right or walked away from something much bigger.",
       "url": "https://247wallst.com/investing/2026/10/19/investor-i-turned-amd-into-16-million-and-sold-everything-did-i-quit-too-soon/?.tsrc=rss",
@@ -157,18 +160,6 @@
       "summary": "According to Coinglass, broader crypto markets saw nearly $352 million in liquidations over 24 hours.",
       "url": "https://stocktwits.com/news-articles/markets/cryptocurrency/black-monday-fears-rise-dollarm-ai-chip-bets-get-liquidated-bitcoin-near-danger-zone/cZxNVSaRBts?.tsrc=rss",
       "published": "2026-10-18"
-    },
-    {
-      "title": "ETF Fund Flows: Semiconductors, Leveraged ETFs Dominate",
-      "summary": "&lt;p&gt;Semiconductor and leveraged ETFs dominated flows on October 14 in a busy day for international equities. &lt;/p&gt;",
-      "url": "http://www.etf.com/sections/daily-etf-flows/etf-fund-flows-semiconductors-leveraged-etfs-dominate?utm_source=yahoo-finance&amp;utm_medium=rss&amp;utm_campaign=yahoo-finance-rss&amp;.tsrc=rss",
-      "published": "2026-10-15"
-    },
-    {
-      "title": "Why Direxion Daily Semiconductor Bull 3X ETF Just Popped",
-      "summary": "Here are 3 great reasons why the SOXL is running with the bulls today.",
-      "url": "https://www.fool.com/investing/2026/09/21/why-direxion-daily-semiconductor-bull-3x-etf-just/?.tsrc=rss",
-      "published": "2026-09-21"
     }
   ],
   "holdings": [
@@ -535,7 +526,7 @@
     "Research seed: /workspace/soxl-research/soxl-holdings-raw.json",
     "SEC N-PORT: https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
     "Yahoo quote page: https://finance.yahoo.com/quote/SOXL/",
-    "Yahoo quote HTML refresh @ 2026-10-20T01:44:23.894Z",
+    "Yahoo quote HTML refresh @ 2026-10-21T00:19:09.916Z",
     "https://feeds.finance.yahoo.com/rss/2.0/headline?s=SOXL&region=US&lang=en-US"
   ],
   "blockers": [
