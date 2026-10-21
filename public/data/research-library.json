@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-20T09:30:00+08:00",
+    "updated": "2026-10-21T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -9427,6 +9427,175 @@
       },
       "coverUrl": "./covers/placeholder-paper.svg",
       "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "authors": [
+        "Kuan-Cheng Ko",
+        "Shu-Feng Wang",
+        "Wen-Chi Lo",
+        "Pei-Chun Tsai"
+      ],
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "formulas": [
+        "size bucket ← TWSE+TPEx common stocks ranked by market value at month end (exclude ETFs, warrants, TDRs)",
+        "illiquidity ← 20-day average of |daily return| ÷ daily traded value (Amihud-style), from public daily quotes",
+        "limit-hit frequency ← share of the last 60 trading days the close sat at the ±10% daily price limit",
+        "measure: next-month return of small minus big buckets, split by high vs low illiquidity / limit-hit groups; report count of months and after TW costs (0.1425% fee ×2, 0.3% sell tax)",
+        "site use: watch item only; no small-cap tilt in the live TW screener until the math gate passes and an after-cost replay is done"
+      ],
+      "id": "paper-tw-size-effect-forward-signals-2026",
+      "market": "TW",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — TW size-premium timing stays a watch item (abstract-level read, signal definitions from Guo 2023 not yet replicated, small-cap/illiquid names carry high TW costs and limit-lock fill risk); never status=adopted until the gate passes and an after-cost replay on public TWSE/TPEx data is done.",
+      "plainTakeaways": [
+        "台股「小型股會贏大型股」平均來看不穩定，不能單獨拿來選股",
+        "但用事先看得到的訊號，可以預測哪段時間小型股比較會贏",
+        "在台灣，關鍵不是消息傳得慢，而是股票流動性差、常碰漲跌停、不好套利",
+        "本站只當觀察項目：之後可用公開日資料算流動性和漲跌停頻率做驗證；數學閘門通過前不改上線選股"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "台股「小型股會贏大型股」平均來看不穩定，不能單獨拿來選股",
+          "但用事先看得到的訊號，可以預測哪段時間小型股比較會贏",
+          "在台灣，關鍵不是消息傳得慢，而是股票流動性差、常碰漲跌停、不好套利",
+          "本站只當觀察項目：之後可用公開日資料算流動性和漲跌停頻率做驗證；數學閘門通過前不改上線選股"
+        ],
+        "zh-Hans": [
+          "台股“小型股会赢大型股”平均来看不稳定，不能单独拿来选股",
+          "但用事先看得到的信号，可以预测哪段时间小型股比较会赢",
+          "在台湾，关键不是消息传得慢，而是股票流动性差、常碰涨跌停、不好套利",
+          "本站只当观察项目：之后可用公开日数据算流动性和涨跌停频率做验证；数学闸门通过前不改上线选股"
+        ],
+        "en": [
+          "Taiwan's 'small beats big' effect is unreliable on average and should not be used alone",
+          "Forward-looking signals can predict when small caps tend to win",
+          "In Taiwan the key is illiquidity, frequent price-limit hits and hard arbitrage, not slow news",
+          "Watch item only: can be tested later with public daily data; no live change until the math gate passes"
+        ],
+        "ja": [
+          "台湾株の『小型株が勝つ』効果は平均では不安定で、単独では使えない",
+          "先行シグナルで小型株が勝ちやすい時期は予測できる",
+          "台湾では情報の遅れより、流動性の低さ・値幅制限到達・裁定の難しさが鍵",
+          "監視項目のみ：公開日次データで後日検証可能。数学ゲート通過前はライブ選定を変えない"
+        ]
+      },
+      "shelf": "market_analysis",
+      "sources": [
+        "https://ideas.repec.org/a/eee/pacfin/v96y2026ics0927538x25003580.html",
+        "https://doi.org/10.1016/j.pacfin.2025.103021"
+      ],
+      "status": "candidate",
+      "strategyCandidate": "watch",
+      "summary": "Asks whether the 'small stocks beat big stocks' size premium in Taiwan, which on average looks unreliable, becomes predictable once you look at forward-looking signals, following Guo (2023), who used such signals to explain why the US size effect seemed to vanish after it was discovered. The authors find strong evidence that these signals do predict when the Taiwan size premium shows up. Unlike the US, information barriers (small firms being slower to absorb news) explain little in Taiwan; what matters more is how illiquid a stock is and how hard it is to arbitrage, measured by how often it hits the daily price limit. Takeaway for the site: a TW watch item — 'small cap' is not a reliable tilt on its own; if ever used, it should be conditioned on illiquidity and limit-hit frequency, both of which we can compute from public TWSE/TPEx daily data.",
+      "summaryLocalized": {
+        "zh-Hant": "研究問的是：台股「小型股長期比大型股會漲」的規模效應，平均來看時有時無、證據不一致，但如果改看一些「事先就看得到的訊號」，能不能預測哪段時間小型股會贏？作者沿用 Guo（2023）的做法（美國的研究用這類訊號解釋規模效應為何被發現後就「消失」），發現在台灣這些訊號確實能有效預測規模溢酬何時出現。跟美國不同的是，「小公司消息傳得慢」這種資訊障礙在台灣影響不大；真正比較能解釋的是股票的流動性差不差，以及套利難不難——用「多常碰到漲跌停」來衡量。本站把它列為台股觀察項目：單純「買小型股」不是可靠的規則；如果要用，應該搭配成交流動性和漲跌停頻率一起看，這兩樣都能用證交所／櫃買中心的公開日資料算出來。",
+        "zh-Hans": "研究问的是：台股“小型股长期比大型股会涨”的规模效应，平均来看时有时无、证据不一致，但如果改看一些“事先就看得到的信号”，能不能预测哪段时间小型股会赢？作者沿用 Guo（2023）的做法（美国的研究用这类信号解释规模效应为何被发现后就“消失”），发现在台湾这些信号确实能有效预测规模溢酬何时出现。跟美国不同的是，“小公司消息传得慢”这种信息障碍在台湾影响不大；真正比较能解释的是股票的流动性差不差，以及套利难不难——用“多常碰到涨跌停”来衡量。本站把它列为台股观察项目：单纯“买小型股”不是可靠的规则；如果要用，应该搭配成交流动性和涨跌停频率一起看，这两样都能用证交所／柜买中心的公开日数据算出来。",
+        "en": "Taiwan's size premium is inconclusive on average, but forward-looking signals (following Guo 2023) strongly predict when it appears. Unlike the US, information barriers matter little; stock illiquidity and limits to arbitrage measured by price-limit-hit frequency explain the predictable size effect better. TW watch item: 'buy small caps' alone is unreliable; condition on illiquidity and limit-hit frequency from public TWSE/TPEx data.",
+        "ja": "台湾株の規模効果（小型株が大型株を上回る）は平均では不安定だが、Guo（2023）にならった先行シグナルで出現時期を強く予測できる。米国と違い情報障壁の影響は小さく、流動性の低さと値幅制限到達の頻度で測った裁定の難しさの方が説明力が高い。台湾株の監視項目：『小型株を買う』だけでは不十分で、流動性と値幅制限到達頻度で条件付けるべき。"
+      },
+      "tags": [
+        "tw",
+        "size-effect",
+        "illiquidity",
+        "price-limits",
+        "limits-to-arbitrage",
+        "watch"
+      ],
+      "title": "Forward-looking signals and the predictability of size effect in the Taiwan stock market",
+      "titleLocalized": {
+        "en": "Forward-looking signals and the predictability of size effect in the Taiwan stock market",
+        "zh-Hant": "台股規模效應：事先訊號能預測小型股何時勝出",
+        "zh-Hans": "台股规模效应：事先信号能预测小型股何时胜出",
+        "ja": "台湾株の規模効果：先行シグナルで小型株の優位時期を予測"
+      },
+      "type": "paper",
+      "year": 2026
+    },
+    {
+      "authors": [
+        "Kevin Foley",
+        "Jonathan Hartadi",
+        "Shivesh Prakash",
+        "Charishma Takkallapalli",
+        "Swapnil Vatsal"
+      ],
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "formulas": [
+        "selection rule: never promote the single best-validation variant; compare it with an equal-weight average of all variants on a held-out period",
+        "attention shift ← topic share today minus its average over the past 63 trading days (not 5)",
+        "time split ← fit on oldest years, make every choice on a middle window, report only on a final untouched window",
+        "net of costs ← 10 bp per dollar traded on turnover; buffered entry (enter top 10%, exit only when out of top 20%) to cut turnover",
+        "data audit: check for survivorship / index-membership holes and mismatched text-date pairs before trusting any edge",
+        "site use: methods watch item only; no news-topic signal in the live US screener (needs licensed news + returns data); no change until the math gate passes"
+      ],
+      "id": "paper-us-nolbert-news-topics-2026",
+      "market": "US",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — news-topic return forecasting stays a US methods watch item (needs licensed CRSP/news data, ~600 experiments per frequency with no single result surviving a false-discovery test, 3-year test window); never status=adopted. Its validation-vs-test lesson feeds our backtest gate, not the live screener.",
+      "plainTakeaways": [
+        "AI 讀新聞選股時，若模型讀過未來的文字，回測會被灌水；改用只讀過舊文字的模型，預測力並沒有變差",
+        "驗證期表現最好的那一組，到真正考試期反而每種頻率都賠錢——挑「最好看的回測」很危險",
+        "把很多模型平均起來比較穩，但扣成本後也沒贏過只看價格的方法",
+        "本站當方法課：多模型平均、留一段沒碰過的資料當考試、檢查資料有沒有偷看未來；數學閘門通過前不改上線選股"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "AI 讀新聞選股時，若模型讀過未來的文字，回測會被灌水；改用只讀過舊文字的模型，預測力並沒有變差",
+          "驗證期表現最好的那一組，到真正考試期反而每種頻率都賠錢——挑「最好看的回測」很危險",
+          "把很多模型平均起來比較穩，但扣成本後也沒贏過只看價格的方法",
+          "本站當方法課：多模型平均、留一段沒碰過的資料當考試、檢查資料有沒有偷看未來；數學閘門通過前不改上線選股"
+        ],
+        "zh-Hans": [
+          "AI 读新闻选股时，若模型读过未来的文字，回测会被灌水；改用只读过旧文字的模型，预测力并没有变差",
+          "验证期表现最好的那一组，到真正考试期反而每种频率都赔钱——挑“最好看的回测”很危险",
+          "把很多模型平均起来比较稳，但扣成本后也没赢过只看价格的方法",
+          "本站当方法课：多模型平均、留一段没碰过的数据当考试、检查数据有没有偷看未来；数学闸门通过前不改上线选股"
+        ],
+        "en": [
+          "If an AI news reader has seen future text, backtests get inflated; a model trained only on old text forecast just as well",
+          "The best setup on validation lost money in the real test at every frequency — picking the prettiest backtest is dangerous",
+          "Averaging many models was steadier, but after costs it still did not beat a price-only approach",
+          "Methods lesson: average models, keep an untouched test window, audit data for look-ahead; no live change until the math gate passes"
+        ],
+        "ja": [
+          "AIが未来の文章を学習済みだとバックテストは水増しされる。古い文章だけのモデルでも予測力は劣らなかった",
+          "検証期で最良の設定は本番の検証期間で全頻度とも損失——見栄えの良いバックテストを選ぶのは危険",
+          "多数のモデルを平均すると安定するが、コスト控除後は価格のみの手法に勝てなかった",
+          "方法論の教訓：モデル平均、未使用の検証期間を確保、先読みを点検。数学ゲート通過前はライブ選定を変えない"
+        ]
+      },
+      "shelf": "market_analysis",
+      "sources": [
+        "https://arxiv.org/abs/2610.22745",
+        "https://doi.org/10.48550/arXiv.2610.22745"
+      ],
+      "status": "candidate",
+      "strategyCandidate": "watch",
+      "summary": "Tests whether news topics forecast returns of the 1,000 largest US stocks while avoiding hindsight: AI readers trained on recent text already 'know' what happened later. The authors use NoLBERT, a language model trained only on 1976–1995 text, and compare it with older and newer topic readers on about 1.26 million Nasdaq.com articles (2012–2024). Models are fit on 2013–2019, every choice is made on 2020–2021, and 2022–2024 is held out, with 10 bp trading costs. Main lessons: (1) the single setup with the best validation score lost money in the test period at every rebalancing frequency; (2) measuring a topic's attention against its last ~3 months (63 trading days) instead of the last week improved forecasts for every reader; (3) the old-text model forecast about as well as the best modern one; (4) an equal-weight average of all readers and models earned a monthly net Sharpe ratio of about 1.1, significant against zero before adjusting for the many tries, but not better than a price-only ensemble. They also found data traps that create fake predictability (wrong article bodies, a return file missing stocks about to leave the index). Takeaway for the site: mostly a methods lesson — prefer averaging over picking the single best backtest, and audit data for look-ahead.",
+      "summaryLocalized": {
+        "zh-Hant": "研究問的是：用新聞主題能不能預測美國前 1,000 大股票的報酬，同時避開「後見之明」——用近年文字訓練的 AI 其實早就「讀過」之後發生的事，回測會被灌水。作者改用只讀過 1976–1995 年文字的語言模型 NoLBERT，和其他新舊幾種「讀新聞」的方法比較，資料是 2012–2024 年約 126 萬篇 Nasdaq.com 新聞。2013–2019 年用來訓練、2020–2021 年用來做所有選擇、2022–2024 年完全保留當考試，並扣每筆 0.1% 交易成本。重點：一、在驗證期分數最高的那一組設定，到考試期每種換股頻率都賠錢；二、把「某主題最近被關注多少」改成跟過去約三個月（63 個交易日）比，而不是只跟上週比，每一種讀法的預測都變好；三、只讀舊文字的模型預測力跟最好的新模型差不多；四、把所有讀法和模型平均起來，每月換股扣成本後夏普值約 1.1，未考慮試了很多次之前算顯著，但沒有贏過只用價格的組合。作者也抓出會製造「假預測力」的資料陷阱（新聞內文配錯標題、報酬檔漏掉快被踢出名單的股票）。本站把它當方法課：寧可平均多個模型，也不要挑回測最好看的那一個，並且要檢查資料有沒有偷看未來。",
+        "zh-Hans": "研究问的是：用新闻主题能不能预测美国前 1,000 大股票的报酬，同时避开“后见之明”——用近年文字训练的 AI 其实早就“读过”之后发生的事，回测会被灌水。作者改用只读过 1976–1995 年文字的语言模型 NoLBERT，和其他新旧几种“读新闻”的方法比较，数据是 2012–2024 年约 126 万篇 Nasdaq.com 新闻。2013–2019 年用来训练、2020–2021 年用来做所有选择、2022–2024 年完全保留当考试，并扣每笔 0.1% 交易成本。重点：一、在验证期分数最高的那一组设定，到考试期每种换股频率都赔钱；二、把“某主题最近被关注多少”改成跟过去约三个月（63 个交易日）比，而不是只跟上周比，每一种读法的预测都变好；三、只读旧文字的模型预测力跟最好的新模型差不多；四、把所有读法和模型平均起来，每月换股扣成本后夏普值约 1.1，未考虑试了很多次之前算显著，但没有赢过只用价格的组合。作者也抓出会制造“假预测力”的数据陷阱（新闻内文配错标题、报酬档漏掉快被踢出名单的股票）。本站把它当方法课：宁可平均多个模型，也不要挑回测最好看的那一个，并且要检查数据有没有偷看未来。",
+        "en": "Point-in-time news topics (NoLBERT, trained only on 1976–1995 text) vs modern readers on ~1.26M articles, forecasting the 1,000 largest US stocks; fit 2013–19, choose 2020–21, test 2022–24 net of 10 bp costs. The best-validation setup lost money at every frequency; a 63-day attention window beat a 5-day one for every reader; an equal-weight combination earned a monthly net Sharpe of ~1.1 but did not beat a price-only ensemble. Methods lesson: average rather than pick the best backtest, and audit data for look-ahead.",
+        "ja": "1976–1995年の文章だけで学習したNoLBERTのニュース話題と最新モデルを、約126万本の記事で比較し米国大型1,000銘柄を予測（2013–19学習、2020–21選択、2022–24検証、コスト10bp控除）。検証期で最良の設定は全頻度で損失、注目度を63日基準で測ると全モデルで改善、全モデル等加重平均は月次ネットSharpe約1.1だが価格のみの組合せに勝てず。方法論の教訓：最良バックテストを選ぶより平均し、先読みバイアスを点検する。"
+      },
+      "tags": [
+        "us",
+        "news",
+        "nlp",
+        "look-ahead-bias",
+        "overfitting",
+        "ensemble",
+        "watch"
+      ],
+      "title": "Reading the News Without Hindsight: NoLBERT Topics and the Cross-Section of Stock Returns",
+      "titleLocalized": {
+        "en": "Reading the News Without Hindsight: NoLBERT Topics and the Cross-Section of Stock Returns",
+        "zh-Hant": "不帶後見之明讀新聞：NoLBERT 新聞主題與美股報酬",
+        "zh-Hans": "不带后见之明读新闻：NoLBERT 新闻主题与美股报酬",
+        "ja": "後知恵なしでニュースを読む：NoLBERTの話題と米国株リターン"
+      },
+      "type": "paper",
+      "year": 2026
     }
   ]
 }
