@@ -39,6 +39,9 @@ import {
   rangePct,
   smaSpreadPct,
   priceShapeMetrics,
+  positionSizeShares,
+  unrealizedReturn,
+  takeProfitQty,
 } from "./math-core.mjs";
 import { temperatureScore, indexFeaturesFromChart } from "./market-regime.mjs";
 import {
@@ -1615,6 +1618,175 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
     bad(`strategy-screener.json unreadable for price-shape replay: ${e.message}`);
   }
   ok(`price-shape metrics (${n} cases: 4000 random = verbatim legacy on 11 fields, amp ≥ 0, dist20 ≤ 0, 20d⇒5d high, aboveMaxSma, scale invariance ×0.01/7/1000, pct5d = compounded daily, hand cases, junk ⇒ null/false never NaN, h<l ⇒ null, live screener rules)`);
+}
+
+// —— Paper-book sizing / take-profit / unrealized return (moved out of paper-trade.mjs 2026-10-22) ——
+// Dependencies of each check are stated inline: [risk] equity·riskPct/stop, [cap] 8% room, [lot] whole lots,
+// [cash] affordability loop, [vol] stop widening at volRatio ≥ 3. Every check evaluates the function on data.
+{
+  let n = 0;
+  const bad = (m) => fail(`paper sizing: ${m}`);
+  const P = { riskPct: 0.01, maxPosPct: 0.08, stopPct: 0.015, stopPctHighVol: 0.025, volRatioHigh: 3 };
+  // verbatim legacy (paper-trade.mjs sizeShares @ 22a6144) — the oracle
+  function legacySize({ market, price, equity, cash, volRatio, existingQty }) {
+    if (!(price > 0) || !(equity > 0)) return 0;
+    const riskCash = equity * 0.01;
+    const dist = price * (typeof volRatio === "number" && volRatio >= 3 ? 0.025 : 0.015);
+    if (!(dist > 0)) return 0;
+    let shares = Math.floor(riskCash / dist);
+    const existingVal = (existingQty || 0) * price;
+    const room = equity * 0.08 - existingVal;
+    if (room <= 0) return 0;
+    shares = Math.min(shares, Math.floor(room / price));
+    if (market === "TW") {
+      shares = Math.floor(shares / 1000) * 1000;
+      if (shares < 1000) return 0;
+      while (shares >= 1000 && shares * price > cash + 1e-9) shares -= 1000;
+      if (shares < 1000) return 0;
+    } else {
+      if (shares < 1) return 0;
+      while (shares >= 1 && shares * price > cash + 1e-9) shares -= 1;
+      if (shares < 1) return 0;
+    }
+    return shares;
+  }
+  function legacyTp(qty, market) {
+    const lot = market === "TW" ? 1000 : 1;
+    if (qty <= lot) return qty;
+    let q = market === "TW" ? Math.floor(qty / 2 / 1000) * 1000 : Math.floor(qty / 2);
+    if (q < lot) q = qty;
+    return q;
+  }
+  const legacyRet = (mark, avg) => (!avg || avg === 0 ? 0 : (mark - avg) / avg);
+  const size = (o) => positionSizeShares({ ...P, lotSize: o.market === "TW" ? 1000 : 1, ...o });
+  let seed = 20261022;
+  const rnd = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
+  const pick = (a) => a[Math.floor(rnd() * a.length)];
+  const mkCase = () => {
+    const market = rnd() < 0.5 ? "TW" : "US";
+    const equity = market === "TW" ? 3e6 * (0.5 + rnd()) : 1e5 * (0.5 + rnd());
+    const price = market === "TW" ? Math.round((5 + rnd() * rnd() * 2500) * 20) / 20 : Math.round((1 + rnd() * rnd() * 2000) * 100) / 100;
+    const cash = pick([equity, equity * rnd(), equity * rnd() * 0.1, price * 1000 * rnd() * 3, price * rnd() * 5, 0]);
+    const volRatio = pick([null, undefined, rnd() * 2.9, 3, 3 + rnd() * 5, 2.9999, "5"]);
+    const lot = market === "TW" ? 1000 : 1;
+    const existingQty = pick([0, 0, undefined, lot * Math.floor(rnd() * 10), Math.floor(rnd() * equity * 0.1 / price)]);
+    return { market, price, equity, cash, volRatio, existingQty };
+  };
+  let oracleN = 0, nonzero = 0, cashBound = 0;
+  for (let i = 0; i < 30000; i++) {
+    const c = mkCase();
+    const got = size(c), want = legacySize(c);
+    n++; oracleN++;
+    if (got !== want) { bad(`legacy oracle ${JSON.stringify(c)} got ${got} want ${want}`); break; }
+    const lot = c.market === "TW" ? 1000 : 1;
+    const high = typeof c.volRatio === "number" && c.volRatio >= 3;
+    const riskShares = Math.floor((c.equity * 0.01) / (c.price * (high ? 0.025 : 0.015)));
+    const held = c.existingQty || 0;
+    const capShares = Math.floor((c.equity * 0.08 - held * c.price) / c.price);
+    if (got > 0) nonzero++;
+    // [lot] non-negative whole lots
+    n++; if (!(Number.isInteger(got) && got >= 0 && got % lot === 0)) bad(`not whole lots ${got}`);
+    // [cash] affordable
+    n++; if (got * c.price > c.cash + 1e-9) bad(`unaffordable ${JSON.stringify(c)} → ${got}`);
+    // [cap] position ≤ 8% equity
+    n++; if (got > 0 && (held + got) * c.price > c.equity * 0.08 * (1 + 1e-12)) bad(`over 8% cap ${JSON.stringify(c)} → ${got}`);
+    // [risk] ≤ risk-based shares
+    n++; if (got > riskShares) bad(`over risk budget ${got} > ${riskShares}`);
+    // [risk][cap][cash][lot] maximal: one more lot must break at least one constraint
+    const nx = got + lot;
+    n++; if (!(nx > riskShares || nx > capShares || nx * c.price > c.cash + 1e-9)) bad(`not maximal ${JSON.stringify(c)} → ${got}`);
+    if (got > 0 && got + lot <= Math.min(riskShares, capShares)) cashBound++;
+    // [cash] monotone in cash
+    const more = size({ ...c, cash: c.cash * 1.5 + c.price * lot });
+    n++; if (more < got) bad(`more cash fewer shares ${JSON.stringify(c)} ${more} < ${got}`);
+    // [risk][cap] monotone in equity
+    const richer = size({ ...c, equity: c.equity * 1.25 });
+    n++; if (richer < got) bad(`more equity fewer shares ${JSON.stringify(c)} ${richer} < ${got}`);
+    // [vol] widening the stop never adds shares
+    n++; if (size({ ...c, volRatio: 5 }) > size({ ...c, volRatio: 1 })) bad(`high-vol stop gave more shares ${JSON.stringify(c)}`);
+  }
+  if (nonzero < 5000 || cashBound < 500) bad(`random cases too degenerate: nonzero ${nonzero}, cash-bound ${cashBound}`);
+  // hand cases = real published fills (paper-portfolio 2026-09-15): 2468.TW 5000 @ 43.25, ZS 41 @ 190.73
+  n++; if (size({ market: "TW", price: 43.25, equity: 3e6, cash: 3e6 }) !== 5000) bad(`hand TW 43.25 ≠ 5000`); // cap floor(240000/43.25)=5549 → 5000
+  n++; if (size({ market: "US", price: 190.73, equity: 1e5, cash: 1e5 }) !== 41) bad(`hand US 190.73 ≠ 41`); // floor(8000/190.73)=41
+  n++; if (size({ market: "US", price: 100, equity: 1e5, cash: 250 }) !== 2) bad(`hand cash-bound US ≠ 2`);
+  n++; if (size({ market: "TW", price: 100, equity: 3e6, cash: 150000 }) !== 1000) bad(`hand cash-bound TW ≠ 1000`);
+  n++; if (size({ market: "TW", price: 100, equity: 3e6, cash: 3e6, existingQty: 2000 }) !== 0) bad(`hand TW full position ≠ 0`); // room 240000−200000 → 400 sh < 1 lot
+  n++; if (size({ market: "US", price: 100, equity: 1e5, cash: 1e5, volRatio: 3 }) !== 80) bad(`hand US vol≥3 ≠ 80`); // risk floor(1000/2.5)=400, cap 80
+  // risk binds only with a tiny cap: maxPosPct 1 ⇒ risk floor(1000/1.5)=666
+  n++; if (positionSizeShares({ ...P, maxPosPct: 1, lotSize: 1, price: 100, equity: 1e5, cash: 1e5 }) !== 666) bad(`hand risk-bound ≠ 666`);
+  // [vol] boundary volRatio exactly 3 is "high" — only visible when risk binds (maxPosPct 1): floor(1000/2.5)=400, not 666
+  n++; if (positionSizeShares({ ...P, maxPosPct: 1, lotSize: 1, price: 100, equity: 1e5, cash: 1e5, volRatio: 3 }) !== 400) bad(`hand vol=3 risk-bound ≠ 400`);
+  // [cash] 1e-9 fill tolerance: cash a hair under 2 shares still buys 2 (same tolerance as buyFill)
+  n++; if (size({ market: "US", price: 100, equity: 1e5, cash: 199.9999999995 }) !== 2) bad(`hand cash tolerance ≠ 2`);
+  // [cash][lot] float edges of the closed form floor(lim/price): found by search, both directions
+  // 16000·2883.26 = 46132160 but floor(46132160.000000001/2883.26) = 15999 ⇒ must still give 16000
+  n++; if (size({ market: "TW", price: 2883.26, equity: 1e9, cash: 46132160 }) !== 16000) bad(`float edge up ≠ 16000`);
+  // floor(lim/2859.28) = 23000 but 23000·2859.28 > 65763440 + 1e-9 in doubles ⇒ must give 22000
+  { const e = { market: "TW", price: 2859.28, equity: 1e9, cash: 65763440 };
+    n++; if (size(e) !== 22000 || legacySize(e) !== 22000) bad(`float edge down: new ${size(e)} legacy ${legacySize(e)} (want 22000)`); }
+  let edgeN = 0;
+  for (let i = 0; i < 4000; i++) {
+    const market = rnd() < 0.5 ? "TW" : "US", lot = market === "TW" ? 1000 : 1;
+    const price = Math.round((0.01 + rnd() * 3000) * 100) / 100, k = (1 + Math.floor(rnd() * 50)) * lot;
+    const cash = pick([k * price, k * price - 1e-9 * rnd(), k * price * (1 + (rnd() - 0.5) * 1e-15)]);
+    const c = { market, price, equity: ((k + 5 * lot) * price) / 0.08 * 1.001, cash }; // cap ≈ k + 5 lots so the legacy loop stays short
+    n++; edgeN++;
+    if (size(c) !== legacySize(c)) { bad(`float-edge oracle ${JSON.stringify(c)} got ${size(c)} want ${legacySize(c)}`); break; }
+  }
+  // junk ⇒ 0, never NaN / never a fill
+  const base = { market: "US", price: 100, equity: 1e5, cash: 1e5 };
+  for (const [k, v] of [["price", NaN], ["price", 0], ["price", -5], ["price", "100"], ["price", Infinity], ["equity", NaN], ["equity", Infinity], ["equity", -1], ["cash", NaN], ["cash", -1], ["cash", Infinity], ["existingQty", NaN], ["existingQty", -3], ["existingQty", "2"]]) {
+    n++; const r = size({ ...base, [k]: v });
+    if (r !== 0) bad(`junk ${k}=${v} → ${r} (want 0)`);
+  }
+  for (const lot of [0, -1, 1.5, NaN, "1000"]) { n++; if (positionSizeShares({ ...P, ...base, lotSize: lot }) !== 0) bad(`junk lotSize ${lot}`); }
+  // the junk path that motivated the move: legacy buys with NaN cash (would make cash NaN → written as 0)
+  n++; if (!(legacySize({ ...base, cash: NaN }) > 0 && size({ ...base, cash: NaN }) === 0)) bad(`NaN-cash legacy/new contrast not reproduced`);
+
+  // take-profit quantity: exhaustive qty 1..20000 against legacy, both lot sizes
+  for (const market of ["TW", "US"]) {
+    const lot = market === "TW" ? 1000 : 1;
+    for (let q = 1; q <= 20000; q++) {
+      const got = takeProfitQty(q, lot); n++;
+      if (got !== legacyTp(q, market)) { bad(`takeProfitQty(${q},${lot})=${got} legacy ${legacyTp(q, market)}`); break; }
+      n++; if (!(got > 0 && got <= q && (got === q || (got % lot === 0 && got <= q / 2)))) { bad(`takeProfitQty invariant q=${q} lot=${lot} → ${got}`); break; }
+    }
+  }
+  n++; if (takeProfitQty(5000, 1000) !== 2000 || takeProfitQty(1500, 1000) !== 1500 || takeProfitQty(7, 1) !== 3 || takeProfitQty(1, 1) !== 1) bad(`takeProfitQty hand cases`);
+  for (const [q, l] of [[0, 1], [-4, 1], [2.5, 1], [NaN, 1], ["10", 1], [10, 0], [10, 1.5]]) { n++; if (takeProfitQty(q, l) !== null) bad(`takeProfitQty junk ${q},${l}`); }
+
+  // unrealized return: legacy oracle on the positive domain, sign, stop/TP thresholds, junk
+  for (let i = 0; i < 20000; i++) {
+    const avg = 1 + rnd() * 999, mark = avg * (0.5 + rnd());
+    const r = unrealizedReturn(mark, avg); n++;
+    if (r !== legacyRet(mark, avg)) { bad(`unrealizedReturn oracle ${mark},${avg}`); break; }
+    n++; if (Math.sign(r) !== Math.sign(mark - avg)) { bad(`unrealizedReturn sign ${mark},${avg}`); break; }
+  }
+  n++; if (!(unrealizedReturn(97, 100) <= -0.03 && unrealizedReturn(97.01, 100) > -0.03)) bad(`stop boundary −3%`);
+  n++; if (!(unrealizedReturn(112, 100) >= 0.12 && unrealizedReturn(111.99, 100) < 0.12)) bad(`take-profit boundary +12%`);
+  for (const [m, a] of [[NaN, 10], [10, 0], [10, NaN], [0, 10], [-1, 10], [10, -1], ["11", 10], [Infinity, 10]]) { n++; if (unrealizedReturn(m, a) !== null) bad(`unrealizedReturn junk ${m},${a}`); }
+
+  // live: every published paper fill obeys the lot rule and has a finite positive price/qty
+  try {
+    const pf = JSON.parse(readFileSync(join(ROOT_MG, "public", "data", "paper-portfolio.json"), "utf8"));
+    let live = 0;
+    for (const m of ["TW", "US"]) {
+      const lot = m === "TW" ? 1000 : 1;
+      for (const t of pf.books?.[m]?.trades || []) {
+        n++; live++;
+        if (!(Number.isInteger(t.qty) && t.qty > 0 && isFiniteNumber(t.price) && t.price > 0)) bad(`live ${m} ${t.ticker} qty/price ${t.qty}/${t.price}`);
+        if (t.side === "BUY" && t.qty % lot !== 0) bad(`live ${m} BUY ${t.ticker} qty ${t.qty} not whole lots`);
+      }
+      for (const p of pf.books?.[m]?.positions || []) {
+        n++; if (unrealizedReturn(p.mark, p.avgCost) == null) bad(`live ${m} position ${p.ticker} mark/avgCost invalid`);
+      }
+    }
+    if (live === 0) bad(`no live paper trades found (schema drift?)`);
+  } catch (e) {
+    bad(`paper-portfolio.json unreadable for sizing replay: ${e.message}`);
+  }
+  ok(`paper sizing / take-profit / unrealized return (${n} cases: ${oracleN} random = verbatim legacy sizeShares, whole lots, affordable, ≤ 8% cap, ≤ risk budget, maximal, monotone in cash & equity, vol stop never adds; published fills 5000@43.25 / 41@190.73; vol=3 & 1e-9 cash boundaries; 4000 cash = k·price float edges vs legacy; junk ⇒ 0/null; takeProfitQty exhaustive 1..20000 ×2 lots; ±3%/12% boundaries; live paper fills)`);
 }
 
 console.log("——");

@@ -61,7 +61,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { avgCostAfterBuy, realizedPnl, roundHalfAway } from "./math-core.mjs";
+import { avgCostAfterBuy, realizedPnl, roundHalfAway, positionSizeShares, unrealizedReturn, takeProfitQty } from "./math-core.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -270,9 +270,13 @@ function markPositions(book, quotes) {
   book.equity = equity;
 }
 
+/** (mark − avgCost) / avgCost via math-core; null when mark or cost is missing / ≤ 0 (no return-based action). */
 function unrealizedRet(pos) {
-  if (!pos.avgCost || pos.avgCost === 0) return 0;
-  return (pos.mark - pos.avgCost) / pos.avgCost;
+  return unrealizedReturn(pos.mark, pos.avgCost);
+}
+
+function lotSizeOf(market) {
+  return market === "TW" ? TW_LOT : 1;
 }
 
 function unrealizedPnl(pos) {
@@ -333,14 +337,10 @@ function applySells(book, latest, market, quotes) {
     const ret = unrealizedRet(pos);
     const dayPct = q && typeof q.dayPct === "number" ? q.dayPct : pos.dayPct;
     const aboveSma20 = q && typeof q.aboveSma20 === "boolean" ? q.aboveSma20 : pos.aboveSma20;
-    const tinyAll = (qty) => {
-      if (market === "TW") return qty <= TW_LOT;
-      return qty <= 1;
-    };
 
     let action = null;
     // 1 停損
-    if (ret <= STOP_LOSS_RET) {
+    if (ret != null && ret <= STOP_LOSS_RET) {
       action = { reason: "stop", text: "停損：未實現報酬 ≤ −3%", qty: pos.qty };
     }
     // 2 漲停追價隔日急殺
@@ -374,18 +374,10 @@ function applySells(book, latest, market, quotes) {
       };
     }
     // 5 停利賣一半
-    else if (ret >= TAKE_PROFIT_RET) {
-      let qty;
-      if (tinyAll(pos.qty)) {
-        qty = pos.qty;
-      } else if (market === "TW") {
-        qty = Math.floor(pos.qty / 2 / TW_LOT) * TW_LOT;
-        if (qty < TW_LOT) qty = pos.qty;
-      } else {
-        qty = Math.floor(pos.qty / 2);
-        if (qty < 1) qty = pos.qty;
-      }
-      action = { reason: "take-profit", text: "停利：未實現報酬 ≥ +12%（賣一半或全數）", qty };
+    else if (ret != null && ret >= TAKE_PROFIT_RET) {
+      // half, rounded down to whole lots; ≤ 1 lot (or half < 1 lot) ⇒ all — guarded in math-core
+      const qty = takeProfitQty(pos.qty, lotSizeOf(market));
+      if (qty != null) action = { reason: "take-profit", text: "停利：未實現報酬 ≥ +12%（賣一半或全數）", qty };
     }
 
     if (action) {
@@ -402,36 +394,21 @@ function applySells(book, latest, market, quotes) {
   return soldTickers;
 }
 
-function stopDist(price, volRatio) {
-  const pct = typeof volRatio === "number" && volRatio >= VOL_RATIO_HIGH ? STOP_PCT_HIGH_VOL : STOP_PCT;
-  return price * pct;
-}
-
+/** 股數：風險 1%／停距 1.5%（量比≥3→2.5%）、單檔上限 8%、台股整張、現金足夠 — guarded in math-core positionSizeShares */
 function sizeShares({ market, price, equity, cash, volRatio, existingQty }) {
-  if (!(price > 0) || !(equity > 0)) return 0;
-  const riskCash = equity * RISK_PCT;
-  const dist = stopDist(price, volRatio);
-  if (!(dist > 0)) return 0;
-  let shares = Math.floor(riskCash / dist);
-
-  const existingVal = (existingQty || 0) * price;
-  const maxVal = equity * MAX_POS_PCT;
-  const room = maxVal - existingVal;
-  if (room <= 0) return 0;
-  const capShares = Math.floor(room / price);
-  shares = Math.min(shares, capShares);
-
-  if (market === "TW") {
-    shares = Math.floor(shares / TW_LOT) * TW_LOT;
-    if (shares < TW_LOT) return 0;
-    while (shares >= TW_LOT && shares * price > cash + 1e-9) shares -= TW_LOT;
-    if (shares < TW_LOT) return 0;
-  } else {
-    if (shares < 1) return 0;
-    while (shares >= 1 && shares * price > cash + 1e-9) shares -= 1;
-    if (shares < 1) return 0;
-  }
-  return shares;
+  return positionSizeShares({
+    lotSize: lotSizeOf(market),
+    price,
+    equity,
+    cash,
+    volRatio,
+    existingQty: existingQty || 0,
+    riskPct: RISK_PCT,
+    maxPosPct: MAX_POS_PCT,
+    stopPct: STOP_PCT,
+    stopPctHighVol: STOP_PCT_HIGH_VOL,
+    volRatioHigh: VOL_RATIO_HIGH,
+  });
 }
 
 function buyFill(book, stock, qty, reason, reasonText, date, asOf) {
@@ -615,7 +592,7 @@ function printBookSummary(id, book, metrics, date) {
   console.log(`  positions (${book.positions.length}):`);
   for (const p of book.positions) {
     const u = unrealizedPnl(p);
-    const r = unrealizedRet(p) * 100;
+    const r = (unrealizedRet(p) ?? 0) * 100;
     console.log(
       `    ${p.ticker} qty=${p.qty} avg=${p.avgCost} mark=${p.mark} uPnL=${fmt(u)} (${r.toFixed(2)}%)`
     );

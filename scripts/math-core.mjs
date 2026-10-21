@@ -487,3 +487,70 @@ export function priceShapeMetrics(bars, { s5 = null, s10 = null, s20 = null } = 
     aboveMaxSma: smaOk && posPrice(last?.c) && last.c >= Math.max(...smaVals),
   };
 }
+
+/**
+ * Paper-book position size in shares (extracted from paper-trade sizeShares, 2026-10-22).
+ *   riskShares = floor(equity·riskPct / (price·stopPct)), stopPct widened when volRatio ≥ volRatioHigh
+ *   capShares  = floor((equity·maxPosPct − existingQty·price) / price)   (0 if no room left)
+ *   shares     = min(riskShares, capShares) rounded DOWN to a whole lot, then the largest whole-lot
+ *                count k ≤ shares with k·price ≤ cash + 1e-9 (same tolerance as the fill check).
+ * Domain: price, equity finite > 0; cash finite ≥ 0; existingQty finite ≥ 0 (null/undefined ⇒ 0);
+ * lotSize integer ≥ 1. Anything else ⇒ 0 (no order), never NaN — a NaN qty used to pass
+ * `qty <= 0` and let buyFill turn cash into NaN (then roundMoney wrote 0).
+ * Non-finite volRatio counts as "not high" (legacy treated +Infinity as high; junk-only difference).
+ * Invariants: result is a non-negative multiple of lotSize; result·price ≤ cash + 1e-9;
+ * (existing + result)·price ≤ equity·maxPosPct; monotone: more cash never yields fewer shares.
+ */
+export function positionSizeShares({
+  lotSize = 1, price, equity, cash, volRatio = null, existingQty = 0,
+  riskPct = 0.01, maxPosPct = 0.08, stopPct = 0.015, stopPctHighVol = 0.025, volRatioHigh = 3,
+} = {}) {
+  if (!Number.isInteger(lotSize) || lotSize < 1) return 0;
+  if (!(isFiniteNumber(price) && price > 0 && isFiniteNumber(equity) && equity > 0)) return 0;
+  if (!(isFiniteNumber(cash) && cash >= 0)) return 0;
+  const held = existingQty == null ? 0 : existingQty;
+  if (!(isFiniteNumber(held) && held >= 0)) return 0;
+  for (const k of [riskPct, maxPosPct, stopPct, stopPctHighVol]) if (!(isFiniteNumber(k) && k > 0)) return 0;
+  const high = isFiniteNumber(volRatio) && volRatio >= volRatioHigh;
+  const dist = price * (high ? stopPctHighVol : stopPct);
+  if (!(dist > 0)) return 0;
+  let shares = Math.floor((equity * riskPct) / dist);
+  const room = equity * maxPosPct - held * price;
+  if (!(room > 0)) return 0;
+  shares = Math.min(shares, Math.floor(room / price));
+  shares = Math.floor(shares / lotSize) * lotSize;
+  if (!(shares >= lotSize)) return 0;
+  const lim = cash + 1e-9;
+  if (shares * price > lim) {
+    // largest whole-lot k ≤ shares with k·price ≤ lim; start from the closed form, then fix float edges
+    let k = Math.min(shares, Math.floor(Math.floor(lim / price) / lotSize) * lotSize);
+    while (k + lotSize <= shares && (k + lotSize) * price <= lim) k += lotSize;
+    while (k >= lotSize && k * price > lim) k -= lotSize;
+    shares = k;
+  }
+  return Number.isInteger(shares) && shares >= lotSize ? shares : 0;
+}
+
+/**
+ * Unrealized fractional return of a position: (mark − avgCost) / avgCost.
+ * Both finite & > 0, else null (caller then takes no return-based stop / take-profit action,
+ * same as the legacy `avgCost falsy ⇒ 0` and NaN-compares-false paths).
+ */
+export function unrealizedReturn(mark, avgCost) {
+  if (!(isFiniteNumber(mark) && mark > 0 && isFiniteNumber(avgCost) && avgCost > 0)) return null;
+  return (mark - avgCost) / avgCost;
+}
+
+/**
+ * Take-profit sell quantity: half the position rounded DOWN to whole lots; a position of
+ * ≤ 1 lot, or one whose half rounds below 1 lot, is sold in full.
+ * Domain: qty a positive integer, lotSize integer ≥ 1, else null (no sale).
+ * Invariants: lotSize | result or result = qty; 0 < result ≤ qty; result ≤ qty/2 unless sold in full.
+ */
+export function takeProfitQty(qty, lotSize = 1) {
+  if (!Number.isInteger(lotSize) || lotSize < 1) return null;
+  if (!(Number.isInteger(qty) && qty > 0)) return null;
+  if (qty <= lotSize) return qty;
+  const half = Math.floor(qty / 2 / lotSize) * lotSize;
+  return half < lotSize ? qty : half;
+}
