@@ -351,7 +351,16 @@ function markFuturesPositions(state, txf) {
       (spec.listed || []).find((x) => x.month === p.month) ||
       null;
     const ltd = monthRow?.lastTradingDay;
+    // Expired month: TAIFEX's official final settlement price (published the same day) wins
+    // over the day's last trade; otherwise daily settle, then last.
+    const fsp = txf.calendar?.recentSettlement;
+    const officialFinal =
+      fsp && fsp.deliveryMonth === p.month && String(fsp.contract || "").split("/").includes(p.code) &&
+      isFiniteNumber(fsp.finalSettlementPrice) && fsp.finalSettlementPrice > 0
+        ? fsp.finalSettlementPrice
+        : null;
     const settleOrLast =
+      (ltd && todayYmd() > ltd && officialFinal) ||
       (isFiniteNumber(monthRow?.settle) && monthRow.settle) ||
       (isFiniteNumber(monthRow?.last) && monthRow.last) ||
       null;
@@ -388,7 +397,7 @@ function markFuturesPositions(state, txf) {
         reason: "expiry-settle",
         reasonText: t("paperDerivFutSettle"),
         realizedPnl: realized ?? 0,
-        flagged: !isFiniteNumber(monthRow?.settle),
+        flagged: !officialFinal && !isFiniteNumber(monthRow?.settle),
       });
       continue;
     }

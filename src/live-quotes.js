@@ -168,6 +168,15 @@ function fmtMoneyPaper(n, currency) {
   return `${prefix}${fmtNum(n, digits)}`;
 }
 
+function fmtSignedMoneyPaper(n, currency) {
+  if (n == null || Number.isNaN(n)) return "—";
+  const digits = currency === "TWD" ? 0 : 2;
+  const prefix = currency === "USD" ? "US$" : currency === "TWD" ? "NT$" : "";
+  const abs = fmtNum(Math.abs(n), digits);
+  if (abs === fmtNum(0, digits)) return `${prefix}${abs}`;
+  return `${n > 0 ? "+" : "−"}${prefix}${abs}`;
+}
+
 function fmtPricePaper(n, currency) {
   if (n == null || Number.isNaN(n)) return "—";
   const digits = currency === "TWD" && n >= 100 ? 0 : 2;
@@ -530,12 +539,12 @@ function applyPaperRow(row, quote, currency) {
     const dayPnl =
       dayPct != null && Number.isFinite(dayPct) ? (mark * qty * dayPct) / 100 : null;
     cells[4].className = `num ${pctClass(dayPnl)}`;
-    patchText(cells[4], dayPnl == null ? "—" : fmtMoneyPaper(dayPnl, ccy));
+    patchText(cells[4], dayPnl == null ? "—" : fmtSignedMoneyPaper(dayPnl, ccy));
     if (Number.isFinite(avg)) {
       const u = (mark - avg) * qty;
       const r = avg ? ((mark - avg) / avg) * 100 : 0;
       cells[6].className = `num ${pctClass(u)}`;
-      patchText(cells[6], fmtMoneyPaper(u, ccy));
+      patchText(cells[6], fmtSignedMoneyPaper(u, ccy));
       cells[7].className = `num ${pctClass(r)}`;
       patchText(cells[7], fmtPct(r));
     }
@@ -580,7 +589,7 @@ function recomputePaperBookKpis(root) {
     if (kpiEquity) patchText(kpiEquity, fmtMoneyPaper(equity, ccy));
     if (kpiPnl && pnl != null) {
       setTone(kpiPnl, pnl);
-      patchText(kpiPnl, fmtMoneyPaper(pnl, ccy));
+      patchText(kpiPnl, fmtSignedMoneyPaper(pnl, ccy));
     }
     if (kpiPnlPct && pnlPct != null) {
       setTone(kpiPnlPct, pnlPct);

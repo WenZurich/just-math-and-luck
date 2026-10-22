@@ -41,6 +41,15 @@ function fmtMoney(n, currency) {
   return `${moneyPrefix(currency)}${fmtNum(n, digits)}`;
 }
 
+/** Profit/loss money: explicit sign in front of the currency (+NT$12,800 / −NT$16,750), never NT$-16,750. */
+function fmtSignedMoney(n, currency) {
+  if (n == null || Number.isNaN(n)) return "—";
+  const digits = currency === "TWD" ? 0 : 2;
+  const abs = fmtNum(Math.abs(n), digits);
+  if (abs === fmtNum(0, digits)) return `${moneyPrefix(currency)}${abs}`;
+  return `${n > 0 ? "+" : "−"}${moneyPrefix(currency)}${abs}`;
+}
+
 function fmtPrice(n, currency) {
   if (n == null || Number.isNaN(n)) return "—";
   const digits = currency === "TWD" && n >= 100 ? 0 : 2;
@@ -95,7 +104,7 @@ function realizedCell(row, currency) {
   const r = resolveTradeRealizedPnl(row);
   const avg = impliedAvgCost(row);
   if (r.status === "ok" && isFiniteNumber(r.value)) {
-    return { html: fmtMoney(r.value, currency), cls: pctClass(r.value), value: r.value, avgCost: avg };
+    return { html: fmtSignedMoney(r.value, currency), cls: pctClass(r.value), value: r.value, avgCost: avg };
   }
   if (r.status === "open") {
     return { html: escapeHtml(t("realizedOpenOnly")), cls: "flat", value: null, avgCost: avg };
@@ -162,9 +171,9 @@ function positionRows(positions, currency, positionsValue) {
         <td class="num">${p.qty?.toLocaleString(numberLocale())}</td>
         <td class="num" data-lq-field="price">${fmtPrice(p.mark, currency)}</td>
         <td class="num">${fmtMoney(mv, currency)}</td>
-        <td class="num ${pctClass(dayPnl)}">${dayPnl == null ? "—" : fmtMoney(dayPnl, currency)}</td>
+        <td class="num ${pctClass(dayPnl)}">${dayPnl == null ? "—" : fmtSignedMoney(dayPnl, currency)}</td>
         <td class="num ${pctClass(p.dayPct)}" data-lq-field="dayPct">${fmtPct(p.dayPct)}</td>
-        <td class="num ${pctClass(u)}">${fmtMoney(u, currency)}</td>
+        <td class="num ${pctClass(u)}">${fmtSignedMoney(u, currency)}</td>
         <td class="num ${pctClass(r)}">${fmtPct(r)}</td>
         <td class="num">${fmtMoney(cost, currency)}</td>
         <td class="num">${fmtPrice(p.avgCost, currency)}</td>
@@ -201,7 +210,7 @@ function renderBookCard(id, book, metrics) {
         </div>
         <div class="paper-kpi">
           <div class="k-label">${escapeHtml(t("totalPnl"))}</div>
-          <div class="k-val ${pctClass(pnl)}" data-lq-kpi="pnl">${fmtMoney(pnl, currency)}</div>
+          <div class="k-val ${pctClass(pnl)}" data-lq-kpi="pnl">${fmtSignedMoney(pnl, currency)}</div>
         </div>
         <div class="paper-kpi">
           <div class="k-label">${escapeHtml(t("totalPnlPct"))}</div>
@@ -209,11 +218,11 @@ function renderBookCard(id, book, metrics) {
         </div>
         <div class="paper-kpi">
           <div class="k-label">${escapeHtml(t("realizedPnl"))}</div>
-          <div class="k-val ${pctClass(realized)}" data-lq-kpi="realized">${fmtMoney(realized, currency)}</div>
+          <div class="k-val ${pctClass(realized)}" data-lq-kpi="realized">${fmtSignedMoney(realized, currency)}</div>
         </div>
         <div class="paper-kpi">
           <div class="k-label">${escapeHtml(t("unrealizedPnl"))}</div>
-          <div class="k-val ${pctClass(unrealized)}" data-lq-kpi="unrealized">${fmtMoney(unrealized, currency)}</div>
+          <div class="k-val ${pctClass(unrealized)}" data-lq-kpi="unrealized">${fmtSignedMoney(unrealized, currency)}</div>
         </div>
       </div>
       <div class="paper-windows">
@@ -259,7 +268,7 @@ function tradeCards(trades, currency) {
           <div style="text-align:right">
             <div style="font-family:var(--mono)">${escapeHtml(side)} ${row.qty?.toLocaleString(numberLocale())} ${escapeHtml(t("shares"))}</div>
             <div style="font-family:var(--mono)">${fmtPrice(row.price, currency)}</div>
-            <div style="font-family:var(--mono)" class="${rp.cls}">${escapeHtml(t("realizedPnl"))} ${rp.html}</div>
+            ${row.side === "SELL" ? `<div style="font-family:var(--mono)" class="${rp.cls}">${escapeHtml(t("realizedPnl"))} ${rp.html}</div>` : ""}
             ${costLine}
           </div>
         </div>
@@ -284,7 +293,7 @@ function sellSessionFoot(trades, currency) {
   return `
     <p class="paper-realized-foot">
       ${escapeHtml(t("sessionRealizedPnl"))}
-      <strong class="${pctClass(agg.sum)}">${fmtMoney(agg.sum, currency)}</strong>${missingNote}
+      <strong class="${pctClass(agg.sum)}">${fmtSignedMoney(agg.sum, currency)}</strong>${missingNote}
     </p>`;
 }
 
@@ -310,6 +319,66 @@ function renderTradeTable(title, trades, currency, { showSessionRealized = false
       </div>
       <div class="mobile-list">${tradeCards(trades, currency)}</div>
       ${showSessionRealized ? sellSessionFoot(trades, currency) : ""}
+    </div>`;
+}
+
+/**
+ * 成交紀錄 by trading day: one collapsible row per day that says, in plain words, how many
+ * buys/sells happened and how much money the day's sells made or lost. All days start folded
+ * (today's fills are already listed above; if the newest day is older than today it opens) so
+ * the phone page is not a 9,000px wall of cards.
+ */
+function renderTradeHistory(all, currency, asOfDate) {
+  if (!all.length) return "";
+  const byDate = new Map();
+  for (const tr of all) {
+    const d = tr.date || "—";
+    if (!byDate.has(d)) byDate.set(d, []);
+    byDate.get(d).push(tr);
+  }
+  const days = [...byDate.entries()];
+  const groups = days
+    .map(([date, trades], i) => {
+      const buys = trades.filter((tr) => String(tr.side || "").toUpperCase() === "BUY").length;
+      const sells = trades.length - buys;
+      const sellRows = trades.filter((tr) => String(tr.side || "").toUpperCase() === "SELL");
+      const agg = sellRows.length ? sumSellRealizedPnl(sellRows) : null;
+      const pnl =
+        agg && agg.ok
+          ? `<span class="th-pnl ${pctClass(agg.sum)}">${escapeHtml(t("histDayRealized"))} ${fmtSignedMoney(agg.sum, currency)}</span>`
+          : `<span class="th-pnl flat">${escapeHtml(t("histNoSells"))}</span>`;
+      return `
+      <details class="trade-day"${i === 0 && date !== asOfDate ? " open" : ""}>
+        <summary>
+          <span class="th-date">${escapeHtml(date)}</span>
+          <span class="th-count">${escapeHtml(t("histDayCount", { b: String(buys), s: String(sells) }))}</span>
+          ${pnl}
+        </summary>
+        <div class="table-wrap">
+          <table class="stock-table paper-table">
+            <thead>
+              <tr>
+                <th>${term("ticker", t("ticker"))}</th>
+                <th>${escapeHtml(t("name"))}</th>
+                <th>${escapeHtml(t("qty"))}</th>
+                <th>${escapeHtml(t("price"))}</th>
+                <th class="num">${escapeHtml(t("realizedPnl"))}</th>
+                <th>${escapeHtml(t("reason"))}</th>
+                <th>${escapeHtml(t("note"))}</th>
+              </tr>
+            </thead>
+            <tbody>${tradeRows(trades, currency)}</tbody>
+          </table>
+        </div>
+        <div class="mobile-list">${tradeCards(trades, currency)}</div>
+      </details>`;
+    })
+    .join("");
+  return `
+    <div class="paper-table-block paper-history">
+      <h4>${escapeHtml(t("tradeHistory"))}</h4>
+      <p class="paper-history-hint">${escapeHtml(t("tradeHistoryHint", { n: String(days.length), total: String(all.length) }))}</p>
+      ${groups}
     </div>`;
 }
 
@@ -352,7 +421,6 @@ function renderBookPanel(id, book, metrics, asOfDate, active, startDate) {
   const today = all.filter((tr) => tr.date === asOfDate);
   const todayBuys = today.filter((tr) => tr.side === "BUY");
   const todaySells = today.filter((tr) => tr.side === "SELL");
-  const recent = all.slice(0, 40);
   const inception = startDate || book.startDate || "2026-09-15";
   return `
     <div class="paper-panel ${active ? "active" : ""}" id="paper-panel-${id}" role="tabpanel"
@@ -363,7 +431,7 @@ function renderBookPanel(id, book, metrics, asOfDate, active, startDate) {
       ${renderTradeTable(`${t("buy")} ${asOfDate || ""}`, todayBuys, currency)}
       ${renderTradeTable(`${t("sell")} ${asOfDate || ""}`, todaySells, currency, { showSessionRealized: true })}
       ${renderPosTable(book.positions || [], currency, book.positionsValue)}
-      ${renderTradeTable(t("recentTrades"), recent, currency)}
+      ${renderTradeHistory(all, currency, asOfDate)}
     </div>`;
 }
 

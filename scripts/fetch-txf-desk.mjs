@@ -253,7 +253,9 @@ function parseFutRows(rows, code) {
       change: num(r.Change),
       changePct: num(r["%"]),
       volume: num(r.Volume),
-      settle: num(r.SettlementPrice),
+      // TAIFEX reports SettlementPrice 0 on a contract's final day (no daily settle; the final
+      // settlement price is published separately) — 0 is not a price, keep it null.
+      settle: num(r.SettlementPrice) > 0 ? num(r.SettlementPrice) : null,
       openInterest: num(r.OpenInterest),
       bestBid: num(r.BestBid),
       bestAsk: num(r.BestAsk),
@@ -271,11 +273,18 @@ function parseFutRows(rows, code) {
   return out;
 }
 
-function pickNearNext(contracts) {
-  const monthly = contracts.filter((c) => /^\d{6}$/.test(c.month));
+function pickNearNext(contracts, sessionDate) {
+  const monthlyAll = contracts.filter((c) => /^\d{6}$/.test(c.month));
+  // A monthly contract whose last trading day is on/before the report session has expired at
+  // that session's close: from the next session on, the near month is the following contract.
+  const expired = sessionDate
+    ? monthlyAll.filter((c) => c.lastTradingDay && c.lastTradingDay <= sessionDate)
+    : [];
+  const monthly = monthlyAll.filter((c) => !expired.includes(c));
   const near = monthly[0] || contracts[0] || null;
   const next = monthly[1] || null;
-  return { near, next, all: contracts };
+  const expiredOnSession = expired.length ? expired[expired.length - 1] : null;
+  return { near, next, all: contracts, expiredOnSession };
 }
 
 function parseSpot(mi) {
@@ -384,14 +393,15 @@ function parseRecentSettlement(rows) {
   return list[0] || null;
 }
 
-function buildContractBlock(code, futRows, margins) {
+function buildContractBlock(code, futRows, margins, sessionDate) {
   const meta = MULTIPLIERS[code];
-  const picked = pickNearNext(futRows);
+  const picked = pickNearNext(futRows, sessionDate);
   const margin = margins?.byContract?.[code] || null;
   return {
     ...meta,
     near: picked.near,
     next: picked.next,
+    expiredOnSession: picked.expiredOnSession,
     listed: picked.all,
     margin,
   };
@@ -474,9 +484,9 @@ async function main() {
     throw new Error("No TX data and no last-good snapshot");
   }
 
-  const TX = buildContractBlock("TX", txRows, margins);
-  const MTX = buildContractBlock("MTX", mtxRows, margins);
-  const TMF = buildContractBlock("TMF", tmfRows, margins);
+  const TX = buildContractBlock("TX", txRows, margins, sessionDate);
+  const MTX = buildContractBlock("MTX", mtxRows, margins, sessionDate);
+  const TMF = buildContractBlock("TMF", tmfRows, margins, sessionDate);
 
   const near = TX.near;
   const spotLast = spot?.last ?? null;

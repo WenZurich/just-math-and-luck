@@ -1415,6 +1415,18 @@ async function main() {
     const paperSrc = fs.readFileSync(path.join(ROOT, "src/paper.js"), "utf8");
     if (!/data-lq="pos"/.test(paperSrc) || !/data-lq-book/.test(paperSrc)) fail("paper.js should expose live mark hooks");
     else ok("paper.js live mark hooks");
+    if (!/function renderTradeHistory/.test(paperSrc) || !/<details class="trade-day"/.test(paperSrc)) fail("paper.js trade history should be grouped by day (details.trade-day)");
+    else ok("paper trade history grouped by trading day");
+    if (!/function fmtSignedMoney/.test(paperSrc) || /fmtMoney\(r\.value/.test(paperSrc)) fail("realized P&L must use signed money (+NT$ / −NT$), not NT$-");
+    else ok("realized P&L uses signed money format");
+    {
+      const sc = fs.readFileSync(path.join(ROOT, "scripts/site-check.mjs"), "utf8");
+      if (!/paper book stale/.test(sc) || !/checkFreshness\(/.test(sc)) fail("check:live must fail when paper-portfolio asOf lags latest pick data");
+      else ok("check:live has paper/data freshness gate");
+      const tx = fs.readFileSync(path.join(ROOT, "scripts/fetch-txf-desk.mjs"), "utf8");
+      if (!/expiredOnSession/.test(tx)) fail("fetch-txf must roll near month after its last trading day");
+      else ok("fetch-txf rolls expired near month");
+    }
 
   // Paper book freshness: paper-portfolio.json asOf may lag the latest scan by at most one scan (trading) day
   {

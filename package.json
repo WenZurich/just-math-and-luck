@@ -27,7 +27,8 @@
     "listen-whynottv": "node scripts/listen-whynottv-episodes.mjs",
     "fetch-zhang-junan": "node scripts/fetch-zhang-junan-posts.mjs",
     "check:live": "node scripts/site-check.mjs",
-    "fetch-company-profiles": "node scripts/fetch-company-profiles.mjs"
+    "fetch-company-profiles": "node scripts/fetch-company-profiles.mjs",
+    "daily": "node scripts/daily-scan.mjs && npm run strategies && npm run paper"
   },
   "devDependencies": {
     "happy-dom": "^20.14.5",

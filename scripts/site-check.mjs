@@ -247,6 +247,61 @@ async function checkData(where) {
   } catch (e) { fail(where, `latest.json fetch failed: ${e.message}`); }
 }
 
+const tpeDay = (iso) => new Date(iso).toLocaleDateString("en-CA", { timeZone: "Asia/Taipei" });
+async function liveJson(name) {
+  const res = await fetch(new URL(`data/${name}`, BASE), { cache: "no-store" });
+  if (!res.ok) throw new Error(`data/${name} HTTP ${res.status}`);
+  return res.json();
+}
+
+/**
+ * Every data block on the live site must be fresh:
+ *  - paper-portfolio.json asOf (Taipei day) must not be behind latest.json (the pick data) — the
+ *    daily scan must run `npm run paper` after the picks; a lag means the 模擬交易 book froze.
+ *  - 台指期: futures session must equal the TAIEX spot session (no mixing days in 基差) and the
+ *    near month must not be a contract that already expired on/before that session.
+ *  - SOXL / 美股大事 / 台股大事 / 選擇權 / 財報日 / 台指期 asOf: warn > STALE_WARN_DAYS, fail > STALE_FAIL_DAYS.
+ */
+async function checkFreshness(where) {
+  report.freshness = {};
+  let latest;
+  try { latest = await liveJson("latest.json"); } catch (e) { return fail(where, e.message); }
+  const latestDay = tpeDay(latest.asOf);
+  try {
+    const pp = await liveJson("paper-portfolio.json");
+    const paperDay = pp.asOf ? tpeDay(pp.asOf) : null;
+    report.freshness.paper = { asOf: pp.asOf, paperDay, latestDay };
+    if (!paperDay) fail(where, "paper-portfolio.json has no asOf");
+    else if (paperDay < latestDay) fail(where, `paper book stale: paper-portfolio asOf ${paperDay} is behind latest pick data ${latestDay} — daily scan must run npm run paper`);
+    else console.log(`  ok paper book asOf ${paperDay} (latest picks ${latestDay})`);
+  } catch (e) { fail(where, `paper-portfolio: ${e.message}`); }
+  try {
+    const x = await liveJson("txf-desk.json");
+    const near = x?.contracts?.TX?.near;
+    report.freshness.txf = { asOf: x.asOf, sessionDate: x.sessionDate, spotSession: x?.spot?.sessionDate, near: near?.month };
+    if (x.sessionDate && x?.spot?.sessionDate && x.sessionDate !== x.spot.sessionDate)
+      fail(where, `台指期 futures session ${x.sessionDate} ≠ TAIEX spot session ${x.spot.sessionDate} (基差 mixes two days) — rerun npm run fetch-txf`);
+    else console.log(`  ok 台指期 session ${x.sessionDate}, near ${near?.month}`);
+    if (near?.lastTradingDay && x.sessionDate && near.lastTradingDay <= x.sessionDate && x.sessionDate < tpeDay(new Date().toISOString()))
+      fail(where, `台指期 near month ${near.month} expired ${near.lastTradingDay} but is still shown as 近月`);
+  } catch (e) { fail(where, `txf-desk: ${e.message}`); }
+  const blocks = [
+    ["txf-desk.json", "台指期"], ["soxl-desk.json", "SOXL"], ["us-macro-calendar.json", "美股大事"],
+    ["tw-macro-calendar.json", "台股大事"], ["us-options-snapshot.json", "選擇權"], ["earnings-digest.json", "財報日"],
+  ];
+  for (const [file, label] of blocks) {
+    try {
+      const j = await liveJson(file);
+      const age = (Date.now() - Date.parse(j.asOf)) / 86_400_000;
+      report.freshness[file] = { asOf: j.asOf, ageDays: Number.isFinite(age) ? +age.toFixed(2) : null };
+      if (!Number.isFinite(age)) fail(where, `${label} (${file}) asOf missing`);
+      else if (age > STALE_FAIL_DAYS) fail(where, `${label} asOf ${j.asOf} is ${age.toFixed(1)} days old`);
+      else if (age > STALE_WARN_DAYS) warn(where, `${label} asOf ${j.asOf} is ${age.toFixed(1)} days old`);
+      else console.log(`  ok ${label} asOf ${j.asOf} (${age.toFixed(2)}d)`);
+    } catch (e) { fail(where, `${label}: ${e.message}`); }
+  }
+}
+
 async function main() {
   mkdirSync(OUT, { recursive: true });
   const exe = findChrome();
@@ -258,6 +313,7 @@ async function main() {
   } catch (e) { console.error("browser launch failed:", e.message); process.exit(2); }
 
   await checkData("data");
+  await checkFreshness("freshness");
   await probeRelay();
 
   for (const vp of VIEWPORTS) {

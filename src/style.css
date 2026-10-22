@@ -3759,3 +3759,58 @@ a.macro-chip:focus-visible { box-shadow: none; border-color: var(--accent); }
   font-weight: 400;
 }
 .lq-live-suffix[data-state="closed"] { color: var(--text-dim); }
+
+/* 模擬交易：成交紀錄依交易日折疊（2026-10-22） */
+.paper-history-hint {
+  margin: -0.2rem 0 0.6rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.trade-day {
+  border: 1px solid var(--border, rgba(0,0,0,0.1));
+  border-radius: var(--radius, 10px);
+  margin-bottom: 0.5rem;
+  background: var(--surface, transparent);
+  overflow: hidden;
+}
+.trade-day > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  min-height: 44px;
+  padding: 0.65rem 2.2rem 0.65rem 0.85rem;
+  position: relative;
+  font-size: 0.92rem;
+}
+.trade-day > summary::-webkit-details-marker { display: none; }
+.trade-day > summary::after {
+  content: "";
+  position: absolute;
+  right: 0.95rem;
+  top: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-70%) rotate(45deg);
+  opacity: 0.55;
+  transition: transform 0.18s ease;
+}
+.trade-day[open] > summary::after { transform: translateY(-30%) rotate(-135deg); }
+.trade-day > summary:focus-visible {
+  outline: 2px solid var(--accent, #2563eb);
+  outline-offset: -2px;
+}
+.trade-day .th-date { font-family: var(--mono); font-weight: 600; }
+.trade-day .th-count { color: var(--text-muted); }
+.trade-day .th-pnl { font-family: var(--mono); margin-left: auto; font-weight: 600; }
+.trade-day .th-pnl.flat { font-family: inherit; font-weight: 400; color: var(--text-muted); }
+.trade-day[open] > summary { border-bottom: 1px solid var(--border, rgba(0,0,0,0.1)); }
+.trade-day .table-wrap,
+.trade-day .mobile-list { margin: 0; border-radius: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .trade-day > summary::after { transition: none; }
+}

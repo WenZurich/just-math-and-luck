@@ -63,6 +63,20 @@ function monthLabel(m) {
   return s;
 }
 
+/** Near month just rolled: say which contract expired and its official final settlement. */
+function expiredNote(data) {
+  const tx = data?.contracts?.TX;
+  const ex = tx?.expiredOnSession;
+  const fsp = data?.calendar?.recentSettlement;
+  if (!ex?.month || !tx?.near?.month) return "";
+  const p = fsp && fsp.deliveryMonth === ex.month && fsp.finalSettlementPrice > 0
+    ? fmtNum(fsp.finalSettlementPrice, 0) : null;
+  if (!p) return "";
+  return `<p class="txf-session txf-expired-note">${escapeHtml(t("txfExpiredNote", {
+    m: monthLabel(ex.month), d: ex.lastTradingDay || fsp.finalSettlementDay || "—", p, n: monthLabel(tx.near.month),
+  }))}</p>`;
+}
+
 function paintHero(data) {
   const tx = data?.contracts?.TX;
   const near = tx?.near || {};
@@ -89,6 +103,7 @@ function paintHero(data) {
           · ${escapeHtml(t("txfVolume"))}: ${escapeHtml(fmtInt(near.volume) || "—")}
           · ${escapeHtml(t("txfOI"))}: ${escapeHtml(fmtInt(near.openInterest) || "—")}
         </p>
+        ${expiredNote(data)}
         <p class="txf-session">${escapeHtml(t("dataAsOf"))} ${escapeHtml(fmtAsOf(data?.asOf))}
           · ${escapeHtml(t("txfSessionDate"))}: ${escapeHtml(data?.sessionDate || "—")}</p>
       </div>
