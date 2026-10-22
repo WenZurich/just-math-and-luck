@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-21T09:30:00+08:00",
+    "updated": "2026-10-22T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -9596,6 +9596,181 @@
       },
       "type": "paper",
       "year": 2026
+    },
+    {
+      "id": "paper-tw-vix-volatility-return-forecast-2026",
+      "market": "TW",
+      "type": "paper",
+      "title": "Forecasting Taiwan Stock Return Using VIX and Volatility",
+      "titleLocalized": {
+        "en": "Forecasting Taiwan Stock Return Using VIX and Volatility",
+        "zh-Hant": "用 VIX 與波動度預測台股報酬",
+        "zh-Hans": "用 VIX 与波动度预测台股报酬",
+        "ja": "VIXとボラティリティで台湾株リターンを予測する"
+      },
+      "authors": [
+        "Hung-Hsi Huang",
+        "Chia-Min Sun",
+        "Ching-Ping Wang"
+      ],
+      "year": 2026,
+      "summary": "Asks whether volatility measures and classic valuation ratios can forecast returns of the TAIEX and eight major Taiwan industry indices, using data from January 2007 to December 2025. Candidates are long-term adjusted volatility, short-term volatility, the VIX, idiosyncratic volatility, earnings-to-price, book-to-market and turnover. They fit simple one- and two-variable forecasting regressions both the ordinary way and with exponentially weighted least squares, which counts recent months more. Findings: short-term volatility explained TAIEX returns best inside the sample, while turnover mattered more for industry indices; out of sample, results differed a lot by industry, the best TAIEX forecaster combined long-term adjusted volatility with turnover, and the recency-weighted fit usually beat the ordinary one. Takeaway for the site: a TW watch item for a market-level risk dial (not a stock picker); everything it needs — index closes, turnover — is public TWSE data, but the gains are model- and sector-dependent.",
+      "summaryLocalized": {
+        "en": "Volatility measures (long-term adjusted, short-term, VIX, idiosyncratic) and valuation/turnover ratios tested as forecasters of TAIEX and eight TW industry indices, 2007–2025, with ordinary and recency-weighted (EWLS) regressions. Short-term volatility explained TAIEX best in-sample, turnover mattered more for industries; out of sample the best TAIEX combo was long-term adjusted volatility plus turnover, results varied widely by industry, and recency weighting usually won. Site use: watch item for a market-level risk dial, not a stock picker.",
+        "zh-Hant": "研究問的是：各種「波動度」指標和傳統估值比率，能不能預測台灣加權指數和八個主要產業指數的報酬？資料從 2007 年 1 月到 2025 年 12 月。候選指標有長期調整波動度、短期波動度、VIX 恐慌指數、個股特有波動、本益比的倒數、淨值市價比和週轉率。作者用一般的迴歸，以及「越近的月份權重越大」的加權迴歸（EWLS）來比較。結果：在樣本內，短期波動度最能解釋加權指數報酬，產業指數則是週轉率比較重要；到了樣本外真正預測時，不同產業差很多，加權指數最好的組合是「長期調整波動度＋週轉率」，而且重視近期資料的加權方法通常比一般迴歸準。本站把它當台股觀察項目：適合做「大盤風險溫度計」，不是用來挑個股；需要的資料（指數收盤、週轉率）證交所都有公開，但效果會隨模型和產業改變。",
+        "zh-Hans": "研究问的是：各种“波动度”指标和传统估值比率，能不能预测台湾加权指数和八个主要产业指数的报酬？数据从 2007 年 1 月到 2025 年 12 月。候选指标有长期调整波动度、短期波动度、VIX 恐慌指数、个股特有波动、市盈率的倒数、净值市价比和周转率。作者用一般的回归，以及“越近的月份权重越大”的加权回归（EWLS）来比较。结果：在样本内，短期波动度最能解释加权指数报酬，产业指数则是周转率比较重要；到了样本外真正预测时，不同产业差很多，加权指数最好的组合是“长期调整波动度＋周转率”，而且重视近期数据的加权方法通常比一般回归准。本站把它当台股观察项目：适合做“大盘风险温度计”，不是用来挑个股；需要的数据（指数收盘、周转率）证交所都有公开，但效果会随模型和产业改变。",
+        "ja": "長期調整ボラティリティ、短期ボラティリティ、VIX、固有ボラティリティと、益回り・簿価時価比率・回転率で、加権指数と台湾の主要8業種指数のリターンを予測できるかを検証（2007–2025年、通常回帰と直近重視のEWLS）。標本内では短期ボラティリティが加権指数を最もよく説明し、業種では回転率が重要。標本外では加権指数の最良は長期調整ボラティリティ＋回転率、業種差が大きく、EWLSが概ね優位。本サイトでは個別株選定ではなく市場リスク計としての観察項目。"
+      },
+      "plainTakeaways": [
+        "最近波動大不大，最能解釋台灣加權指數的漲跌（在過去資料裡）",
+        "真的拿來預測未來時，「長期波動＋成交週轉率」對大盤最好，但各產業差很多",
+        "讓越近的資料權重越大，預測通常比較準",
+        "本站只當大盤風險溫度計的觀察項目；數學閘門通過前不改上線選股"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "最近波動大不大，最能解釋台灣加權指數的漲跌（在過去資料裡）",
+          "真的拿來預測未來時，「長期波動＋成交週轉率」對大盤最好，但各產業差很多",
+          "讓越近的資料權重越大，預測通常比較準",
+          "本站只當大盤風險溫度計的觀察項目；數學閘門通過前不改上線選股"
+        ],
+        "zh-Hans": [
+          "最近波动大不大，最能解释台湾加权指数的涨跌（在过去数据里）",
+          "真的拿来预测未来时，“长期波动＋成交周转率”对大盘最好，但各产业差很多",
+          "让越近的数据权重越大，预测通常比较准",
+          "本站只当大盘风险温度计的观察项目；数学闸门通过前不改上线选股"
+        ],
+        "en": [
+          "Recent short-term volatility explained TAIEX moves best in past data",
+          "For true forecasting, long-term volatility plus turnover worked best for the index, but industries differed a lot",
+          "Weighting recent data more usually forecast better",
+          "Site use: market risk-dial watch item only; no live screener change until the math gate passes"
+        ],
+        "ja": [
+          "過去データでは直近の短期ボラティリティが加権指数の動きを最もよく説明",
+          "実際の予測では長期ボラティリティ＋回転率が指数に最良だが、業種差が大きい",
+          "直近データを重く扱うと予測は概ね改善",
+          "本サイトでは市場リスク計の観察項目のみ。数学ゲート通過前はライブ選定を変えない"
+        ]
+      },
+      "formulas": [
+        "SV ← standard deviation of daily TAIEX returns over a short recent window (window length per paper, not yet replicated)",
+        "TURN ← market traded value ÷ market capitalization over the month (public TWSE data)",
+        "forecast: next-month index return = a + b·LVadj + c·TURN, fit only on data before the forecast month",
+        "EWLS ← least squares where an observation k months old gets weight λ^k (0<λ<1); compare with plain OLS out of sample",
+        "score: out-of-sample R² versus the historical-average forecast; positive means it beat the simple average",
+        "site use: watch item for a TAIEX risk dial only; no change to live TW picks until the math gate passes"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — TW index-timing from volatility/turnover stays a watch item (abstract-level read; LVadj definition and EWLS decay not yet replicated; out-of-sample results vary a lot by industry); never status=adopted until the gate passes and an after-cost replay on public TWSE data is done.",
+      "sources": [
+        "https://doi.org/10.3390/jrfm19070508",
+        "https://www.mdpi.com/journal/jrfm"
+      ],
+      "tags": [
+        "tw",
+        "volatility",
+        "vix",
+        "turnover",
+        "market-timing",
+        "index",
+        "watch"
+      ],
+      "shelf": "market_analysis",
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-regimerank-sector-rotation-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "Regime-Aware Interpretable Ranking for Sector Rotation",
+      "titleLocalized": {
+        "en": "Regime-Aware Interpretable Ranking for Sector Rotation",
+        "zh-Hant": "看景氣階段的可解釋類股輪動排名",
+        "zh-Hans": "看景气阶段的可解释板块轮动排名",
+        "ja": "景気局面を考慮した解釈可能なセクターローテーション順位付け"
+      },
+      "authors": [
+        "Kelvin J. L. Koa",
+        "Ziling Liu",
+        "Xinyang Li",
+        "Shuowei Feng",
+        "Ruoyu Liang",
+        "Mathieu Giroux",
+        "Eugene Y. Wen",
+        "Xuan Yao",
+        "Ke-Wei Huang",
+        "Hugo Lamarre"
+      ],
+      "year": 2026,
+      "summary": "Treats sector rotation — deciding which S&P 500 sectors to overweight or underweight versus the index — as a ranking problem, where the target is each sector's future risk-adjusted performance relative to the benchmark (a forward Sharpe ratio of the sector-minus-index return). Their model, RegimeRank, turns fundamental and technical signals into familiar shapes (levels, changes, trends), lets learned macro factors decide which signals matter in the current environment, and lets sectors influence each other. Tested on weekly S&P 500 data from 2002 to 2024 with purged cross-validation (training and test windows separated so information cannot leak), it ranked sectors better than standard ranking and machine-learning baselines, and removing the macro or cross-sector parts made it worse. Takeaway for the site: a US watch item — the idea of 'which signals work depends on the macro regime' and the leak-proof testing method are useful; the neural model itself is not something we would run live.",
+      "summaryLocalized": {
+        "en": "Sector rotation framed as ranking S&P 500 sectors by forward benchmark-relative Sharpe. RegimeRank encodes fundamental/technical signals as familiar temporal traits, conditions them on learned macro factors, and models cross-sector links; on weekly 2002–2024 data with purged cross-validation it beat ranking and ML baselines, and ablations showed the macro and cross-sector parts help. Site use: watch item — regime-dependent signals and leak-proof testing are the lessons; no live model.",
+        "zh-Hant": "研究把「類股輪動」——決定標普 500 哪些類股要比大盤多買、哪些少買——當成排名問題，目標是每個類股未來相對大盤的「風險調整後表現」（類股減大盤報酬的未來夏普值）。作者的模型 RegimeRank 把基本面和技術面訊號整理成大家熟悉的樣子（水準、變化、趨勢），讓模型自己學到的總經因子決定「現在這個景氣環境下哪些訊號比較重要」，並讓類股之間互相參考。用 2002–2024 年每週的標普 500 資料、搭配「清除重疊」的交叉驗證（訓練和測試期隔開，避免偷看答案）來測試，排名效果贏過常見的排名法和機器學習方法；拿掉總經或類股互相影響的部分，表現就變差。本站把它當美股觀察項目：「哪些訊號有效要看景氣階段」和防洩漏的測試方法值得學，但這個神經網路模型本身不會上線使用。",
+        "zh-Hans": "研究把“板块轮动”——决定标普 500 哪些板块要比大盘多买、哪些少买——当成排名问题，目标是每个板块未来相对大盘的“风险调整后表现”（板块减大盘报酬的未来夏普值）。作者的模型 RegimeRank 把基本面和技术面信号整理成大家熟悉的样子（水平、变化、趋势），让模型自己学到的宏观因子决定“现在这个景气环境下哪些信号比较重要”，并让板块之间互相参考。用 2002–2024 年每周的标普 500 数据、搭配“清除重叠”的交叉验证（训练和测试期隔开，避免偷看答案）来测试，排名效果赢过常见的排名法和机器学习方法；拿掉宏观或板块互相影响的部分，表现就变差。本站把它当美股观察项目：“哪些信号有效要看景气阶段”和防泄漏的测试方法值得学，但这个神经网络模型本身不会上线使用。",
+        "ja": "セクターローテーション（S&P500のどのセクターを指数比でオーバー／アンダーウェイトするか）を、将来の指数比シャープレシオで順位付けする問題として定式化。RegimeRankはファンダメンタル・テクニカル信号を馴染みのある時系列特性に変換し、学習したマクロ因子で条件付け、セクター間の関係もモデル化。2002–2024年の週次データとパージ付き交差検証で既存の順位付け・機械学習手法を上回り、マクロ部分やセクター間部分を外すと悪化。本サイトでは観察項目：局面依存の信号と漏洩防止の検証法が教訓で、モデル自体は使わない。"
+      },
+      "plainTakeaways": [
+        "同一個訊號在不同景氣階段好壞不同，選類股要先看現在是什麼環境",
+        "目標不是「誰漲最多」，而是「扣掉風險後誰比大盤好」",
+        "測試時把訓練期和考試期隔開，避免模型偷看答案",
+        "本站只學觀念和測試法；神經網路模型不上線，數學閘門通過前不改選股"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "同一個訊號在不同景氣階段好壞不同，選類股要先看現在是什麼環境",
+          "目標不是「誰漲最多」，而是「扣掉風險後誰比大盤好」",
+          "測試時把訓練期和考試期隔開，避免模型偷看答案",
+          "本站只學觀念和測試法；神經網路模型不上線，數學閘門通過前不改選股"
+        ],
+        "zh-Hans": [
+          "同一个信号在不同景气阶段好坏不同，选板块要先看现在是什么环境",
+          "目标不是“谁涨最多”，而是“扣掉风险后谁比大盘好”",
+          "测试时把训练期和考试期隔开，避免模型偷看答案",
+          "本站只学观念和测试法；神经网络模型不上线，数学闸门通过前不改选股"
+        ],
+        "en": [
+          "The same signal works differently across macro regimes; check the environment before ranking sectors",
+          "The target is not 'who rose most' but 'who beat the index after risk'",
+          "Keep training and test windows separated so the model cannot peek",
+          "Site use: ideas and testing method only; no neural model live, no screener change until the math gate passes"
+        ],
+        "ja": [
+          "同じ信号でも景気局面で効き方が変わる。セクター選択の前に環境を確認",
+          "目標は「最も上がった」ではなく「リスク調整後に指数を上回った」",
+          "学習期間と検証期間を分離し、モデルの先読みを防ぐ",
+          "本サイトは考え方と検証法のみ採用。モデルは使わず、数学ゲート通過前は選定を変えない"
+        ]
+      },
+      "formulas": [
+        "active return_t ← sector return_t − S&P 500 return_t (weekly)",
+        "target ← forward Sharpe of active return = mean(active return over next H weeks) ÷ stdev(active return over next H weeks)",
+        "rank sectors by predicted target; overweight top, underweight bottom",
+        "purged CV: drop training weeks whose H-week target window overlaps the test block (plus an embargo gap) before fitting",
+        "sanity baseline: rank by trailing 12-week active Sharpe; any model must beat it after costs",
+        "site use: methods watch item only; no sector-rotation signal in the live US screener until the math gate passes"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — attention-based sector ranking stays a US watch item (needs macro factor data and a neural model we cannot audit cell by cell; reported gains are ranking metrics, not after-cost returns); never status=adopted. Its purged cross-validation and forward-Sharpe target feed our backtest gate, not the live screener.",
+      "sources": [
+        "https://arxiv.org/abs/2610.26456",
+        "https://doi.org/10.48550/arXiv.2610.26456"
+      ],
+      "tags": [
+        "us",
+        "sector-rotation",
+        "macro-regime",
+        "ranking",
+        "machine-learning",
+        "purged-cv",
+        "watch"
+      ],
+      "shelf": "market_analysis",
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
     }
   ]
 }
