@@ -49,7 +49,21 @@ async function dailyBars(symbol, endYmd) {
           const off = r.meta?.gmtoffset ?? 0;
           out = r.timestamp
             .map((t, k) => ({ date: new Date((t + off) * 1000).toISOString().slice(0, 10), c: q.close?.[k] }))
-            .filter((b) => Number.isFinite(b.c));
+            .filter((b, k) => {
+              if (Number.isFinite(b.c)) return true;
+              // Yahoo 有時把最新一根日線的 close 留空（null），但 meta.regularMarketPrice
+              // 就是同一天 16:00 收盤後的官方收盤價。只有在 regularMarketTime 落在這根 K 的同一天、
+              // 且已是收盤時間（當地 16:00 之後）時才補上，否則丟掉這根（不猜價格）。
+              const last = k === r.timestamp.length - 1;
+              const mt = r.meta?.regularMarketTime;
+              const mp = r.meta?.regularMarketPrice;
+              if (!last || !Number.isFinite(mt) || !Number.isFinite(mp)) return false;
+              const local = new Date((mt + off) * 1000);
+              if (local.toISOString().slice(0, 10) !== b.date || local.getUTCHours() < 16) return false;
+              b.c = mp;
+              b.fromMetaClose = true;
+              return true;
+            });
         }
       }
     } catch {}

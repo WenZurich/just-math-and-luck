@@ -2,24 +2,24 @@
   "market": "TW",
   "desk": "txf",
   "titleZh": "台指期",
-  "asOf": "2026-10-21T08:19:08+08:00",
+  "asOf": "2026-10-22T08:07:37+08:00",
   "sessionDate": "2026-10-20",
   "spot": {
     "nameZh": "發行量加權股價指數（TAIEX）",
     "nameEn": "TAIEX",
-    "last": 46292.93,
-    "change": -529.15,
-    "changePct": -1.13,
-    "sessionDate": "2026-10-20",
+    "last": 46887.77,
+    "change": 594.84,
+    "changePct": 1.28,
+    "sessionDate": "2026-10-21",
     "source": "https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX?response=json&type=IND"
   },
   "basis": {
     "nearMonth": "202610",
     "futuresLast": 46384,
     "futuresSettle": 46341,
-    "spotLast": 46292.93,
-    "basisPoints": 91.07,
-    "basisPct": 0.1967,
+    "spotLast": 46887.77,
+    "basisPoints": -503.77,
+    "basisPct": -1.0744,
     "noteZh": "基差 = 近月期貨最新價 − 現貨加權指數（正值＝期貨相對現貨溢價）"
   },
   "contracts": {
@@ -529,75 +529,75 @@
     }
   },
   "institutional": {
-    "asOf": "2026-10-20",
+    "asOf": "2026-10-21",
     "byContract": {
       "TX": [
         {
           "partyZh": "自營商",
-          "tradingVolumeLong": 10196,
-          "tradingVolumeShort": 8675,
-          "tradingVolumeNet": 1521,
-          "openInterestLong": 7105,
-          "openInterestShort": 4405,
-          "openInterestNet": 2700
+          "tradingVolumeLong": 8699,
+          "tradingVolumeShort": 11005,
+          "tradingVolumeNet": -2306,
+          "openInterestLong": 5149,
+          "openInterestShort": 3433,
+          "openInterestNet": 1716
         },
         {
           "partyZh": "投信",
-          "tradingVolumeLong": 35516,
-          "tradingVolumeShort": 35227,
-          "tradingVolumeNet": 289,
-          "openInterestLong": 87171,
-          "openInterestShort": 2782,
-          "openInterestNet": 84389
+          "tradingVolumeLong": 1737,
+          "tradingVolumeShort": 271,
+          "tradingVolumeNet": 1466,
+          "openInterestLong": 86485,
+          "openInterestShort": 2707,
+          "openInterestNet": 83778
         },
         {
           "partyZh": "外資及陸資",
-          "tradingVolumeLong": 95138,
-          "tradingVolumeShort": 93688,
-          "tradingVolumeNet": 1450,
-          "openInterestLong": 11524,
-          "openInterestShort": 101272,
-          "openInterestNet": -89748
+          "tradingVolumeLong": 54619,
+          "tradingVolumeShort": 53557,
+          "tradingVolumeNet": 1062,
+          "openInterestLong": 9410,
+          "openInterestShort": 95482,
+          "openInterestNet": -86072
         }
       ],
       "MTX": [
         {
           "partyZh": "自營商",
-          "tradingVolumeLong": 12340,
-          "tradingVolumeShort": 12650,
-          "tradingVolumeNet": -310,
-          "openInterestLong": 227,
-          "openInterestShort": 11448,
-          "openInterestNet": -11221
+          "tradingVolumeLong": 18847,
+          "tradingVolumeShort": 19113,
+          "tradingVolumeNet": -266,
+          "openInterestLong": 149,
+          "openInterestShort": 9288,
+          "openInterestNet": -9139
         },
         {
           "partyZh": "投信",
-          "tradingVolumeLong": 85,
-          "tradingVolumeShort": 88,
-          "tradingVolumeNet": -3,
+          "tradingVolumeLong": 3,
+          "tradingVolumeShort": 0,
+          "tradingVolumeNet": 3,
           "openInterestLong": 87,
-          "openInterestShort": 112,
-          "openInterestNet": -25
+          "openInterestShort": 109,
+          "openInterestNet": -22
         },
         {
           "partyZh": "外資及陸資",
-          "tradingVolumeLong": 97250,
-          "tradingVolumeShort": 95515,
-          "tradingVolumeNet": 1735,
-          "openInterestLong": 4730,
-          "openInterestShort": 2626,
-          "openInterestNet": 2104
+          "tradingVolumeLong": 98380,
+          "tradingVolumeShort": 98154,
+          "tradingVolumeNet": 226,
+          "openInterestLong": 2454,
+          "openInterestShort": 3529,
+          "openInterestNet": -1075
         }
       ],
       "TMF": [
         {
           "partyZh": "自營商",
-          "tradingVolumeLong": 22911,
-          "tradingVolumeShort": 27770,
-          "tradingVolumeNet": -4859,
-          "openInterestLong": 5082,
-          "openInterestShort": 49096,
-          "openInterestNet": -44014
+          "tradingVolumeLong": 33876,
+          "tradingVolumeShort": 29924,
+          "tradingVolumeNet": 3952,
+          "openInterestLong": 564,
+          "openInterestShort": 36480,
+          "openInterestNet": -35916
         },
         {
           "partyZh": "投信",
@@ -610,12 +610,12 @@
         },
         {
           "partyZh": "外資及陸資",
-          "tradingVolumeLong": 147381,
-          "tradingVolumeShort": 146762,
-          "tradingVolumeNet": 619,
-          "openInterestLong": 16514,
-          "openInterestShort": 14948,
-          "openInterestNet": 1566
+          "tradingVolumeLong": 147351,
+          "tradingVolumeShort": 142820,
+          "tradingVolumeNet": 4531,
+          "openInterestLong": 1015,
+          "openInterestShort": 3663,
+          "openInterestNet": -2648
         }
       ]
     },
@@ -623,23 +623,23 @@
     "sourcePage": "https://www.taifex.com.tw/cht/3/futContractsDate"
   },
   "putCallRatio": {
-    "asOf": "2026-10-20",
-    "putVolume": 287828,
-    "callVolume": 223022,
-    "putCallVolumeRatioPct": 129.06,
-    "putOI": 91724,
-    "callOI": 138622,
-    "putCallOIRatioPct": 66.17,
+    "asOf": "2026-10-21",
+    "putVolume": 481463,
+    "callVolume": 430353,
+    "putCallVolumeRatioPct": 111.88,
+    "putOI": 37575,
+    "callOI": 59774,
+    "putCallOIRatioPct": 62.86,
     "source": "https://openapi.taifex.com.tw/v1/PutCallRatio",
     "noteZh": "期交所公告之臺指選擇權 Put/Call 彙總（非個別履約價）"
   },
   "calendar": {
     "recentSettlement": {
-      "finalSettlementDay": "2026-10-14",
+      "finalSettlementDay": "2026-10-21",
       "contract": "TX/MTX/TMF",
       "contractName": "臺股期貨/小型臺指期貨/微型臺指期貨",
-      "deliveryMonth": "202610W2",
-      "finalSettlementPrice": 48868
+      "deliveryMonth": "202610",
+      "finalSettlementPrice": 46650
     },
     "nextNearLastTradingDay": "2026-10-21",
     "nextNearLastTradingDayBasis": "third_wednesday_of_delivery_month",
@@ -661,7 +661,7 @@
       "MTX": 50,
       "TMF": 10
     },
-    "marginsAsOf": "2026-10-20",
+    "marginsAsOf": "2026-10-21",
     "currency": "TWD",
     "settlement": "cash",
     "noteZh": "模擬／紙上交易可用：點數差 × 契約乘數 × 口數＝損益（新臺幣）；保證金用 official initial／maintenance。數字皆來自公開來源快照，非即時成交。"
