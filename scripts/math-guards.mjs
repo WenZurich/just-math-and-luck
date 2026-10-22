@@ -1789,6 +1789,132 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
   ok(`paper sizing / take-profit / unrealized return (${n} cases: ${oracleN} random = verbatim legacy sizeShares, whole lots, affordable, ≤ 8% cap, ≤ risk budget, maximal, monotone in cash & equity, vol stop never adds; published fills 5000@43.25 / 41@190.73; vol=3 & 1e-9 cash boundaries; 4000 cash = k·price float edges vs legacy; junk ⇒ 0/null; takeProfitQty exhaustive 1..20000 ×2 lots; ±3%/12% boundaries; live paper fills)`);
 }
 
+// ── paper book valuation: equity, unrealized P&L, trailing-window performance (2026-10-23) ──
+{
+  const { bookMarkValue, unrealizedPnlOf, addDaysYmdUtc, windowPerformance, avgCostAfterBuy, realizedPnl, roundHalfAway } = await import("./math-core.mjs");
+  let n = 0;
+  const bad = (m) => fail(`book valuation: ${m}`);
+  let s = 20261023 >>> 0;
+  const rnd = () => ((s = (Math.imul(s, 1664525) + 1013904223) >>> 0) / 4294967296);
+  // verbatim legacy (paper-trade.mjs before 2026-10-23)
+  const legacyRoundMoney = (x, d = 2) => { const r = roundHalfAway(x, d); return r == null ? 0 : r; };
+  const legacyBookEquity = (pos, cash) => { const pv = pos.reduce((sum, p) => sum + p.qty * p.mark, 0); return { positionsValue: legacyRoundMoney(pv), equity: legacyRoundMoney(cash + pv) }; };
+  const legacyParse = (ymd) => { const [y, m, d] = ymd.split("-").map(Number); return Date.UTC(y, m - 1, d); };
+  const legacyAddDays = (ymd, days) => { const dt = new Date(legacyParse(ymd) + days * 86400000); return `${dt.getUTCFullYear()}-${String(dt.getUTCMonth() + 1).padStart(2, "0")}-${String(dt.getUTCDate()).padStart(2, "0")}`; };
+  function legacyWindowPerf(de, days) {
+    if (!de.length) return { pct: 0, pnl: 0, label: "成立以來", sinceInception: true, days };
+    const last = de[de.length - 1]; const target = legacyAddDays(last.date, -days);
+    let base = de[0]; let found = false;
+    for (const x of de) if (x.date <= target) { base = x; found = true; }
+    const sinceInception = !found || de[0].date > target;
+    const pnl = legacyRoundMoney(last.equity - base.equity);
+    const pct = base.equity ? legacyRoundMoney((last.equity / base.equity - 1) * 100, 4) : 0;
+    return { pct, pnl, label: sinceInception ? "成立以來" : `${days}日`, sinceInception, days, fromDate: base.date, toDate: last.date };
+  }
+  const randBook = () => {
+    const k = Math.floor(rnd() * 12); const pos = [];
+    for (let i = 0; i < k; i++) { const tw = rnd() < 0.5; pos.push({ qty: tw ? 1000 * (1 + Math.floor(rnd() * 20)) : 1 + Math.floor(rnd() * 300), mark: Math.round((1 + rnd() * 1500) * 100) / 100, avgCost: Math.round((1 + rnd() * 1500) * 100) / 100 }); }
+    return { pos, cash: Math.round(rnd() * 3e6 * 100) / 100 };
+  };
+  // 1) bookMarkValue = legacy after rounding; additivity; scale; empty; junk
+  for (let i = 0; i < 20000; i++) {
+    const { pos, cash } = randBook();
+    const v = bookMarkValue(pos, cash); const L = legacyBookEquity(pos, cash); n++;
+    if (!v || legacyRoundMoney(v.positionsValue) !== L.positionsValue || legacyRoundMoney(v.equity) !== L.equity) { bad(`legacy oracle ${JSON.stringify({ pos, cash })}`); break; }
+    const cut = Math.floor(rnd() * (pos.length + 1));
+    const a = bookMarkValue(pos.slice(0, cut), 0), b = bookMarkValue(pos.slice(cut), cash); n++;
+    if (Math.abs(a.positionsValue + b.positionsValue - v.positionsValue) > 1e-6 * Math.max(1, v.positionsValue)) { bad(`additivity`); break; }
+    const k = 1 + Math.floor(rnd() * 5); const sc = bookMarkValue(pos.map((p) => ({ ...p, qty: p.qty * k })), 0); n++;
+    if (Math.abs(sc.positionsValue - k * v.positionsValue) > 1e-6 * Math.max(1, k * v.positionsValue)) { bad(`qty scaling`); break; }
+    n++; if (v.positionsValue < 0 || Math.abs(v.equity - cash - v.positionsValue) > 1e-9 * Math.max(1, v.equity)) { bad(`equity = cash + pv`); break; }
+  }
+  n++; { const e = bookMarkValue([], 123.45); if (!e || e.positionsValue !== 0 || e.equity !== 123.45) bad(`empty book`); }
+  n++; { const e = bookMarkValue(undefined, 5); if (!e || e.equity !== 5) bad(`undefined positions`); }
+  n++; { const e = bookMarkValue([{ qty: 5000, mark: 43.25 }, { qty: 41, mark: 190.73 }], 1000); if (!e || Math.abs(e.equity - (1000 + 216250 + 7819.93)) > 1e-6) bad(`hand case 5000@43.25 + 41@190.73`); }
+  for (const [p, c] of [[{ qty: NaN, mark: 1 }, 0], [{ qty: 1, mark: undefined }, 0], [{ qty: 1, mark: "10" }, 0], [{ qty: -1, mark: 1 }, 0], [{ qty: 1, mark: -1 }, 0], [{ qty: 1, mark: Infinity }, 0], [{ qty: 1, mark: 1 }, NaN], [{ qty: 1, mark: 1 }, "5"], [null, 0]]) {
+    n++; if (bookMarkValue([{ qty: 10, mark: 10 }, p], c) !== null) bad(`junk not refused ${JSON.stringify(p)} cash ${c}`);
+  }
+  // 2) unrealizedPnlOf: oracle, sign, junk
+  for (let i = 0; i < 20000; i++) {
+    const m = 1 + rnd() * 999, a = 1 + rnd() * 999, q = Math.floor(rnd() * 5000); const u = unrealizedPnlOf(m, a, q); n++;
+    if (u !== (m - a) * q) { bad(`unrealizedPnlOf oracle`); break; }
+    n++; if (q > 0 && Math.sign(u) !== Math.sign(m - a)) { bad(`unrealizedPnlOf sign`); break; }
+  }
+  n++; if (unrealizedPnlOf(12, 10, 2.5) !== 5 || unrealizedPnlOf(9.5, 10, 0.5) !== -0.25) bad(`unrealizedPnlOf fractional qty (no hidden rounding)`);
+  for (const [m, a, q] of [[NaN, 1, 1], [1, 0, 1], [1, -1, 1], [-1, 1, 1], [1, 1, -1], ["2", 1, 1], [1, 1, Infinity]]) { n++; if (unrealizedPnlOf(m, a, q) !== null) bad(`unrealizedPnlOf junk ${m},${a},${q}`); }
+  // 3) accounting identity on random trade sequences: equity − start = realized + Σ unrealized
+  for (let t = 0; t < 2000; t++) {
+    const start = 1e5 + rnd() * 3e6; let cash = start, realized = 0; const book = new Map();
+    for (let step = 0; step < 40; step++) {
+      const tk = "T" + Math.floor(rnd() * 6); const price = Math.round((5 + rnd() * 500) * 100) / 100; const p = book.get(tk);
+      if (!p || rnd() < 0.6) {
+        const q = 1 + Math.floor(rnd() * 50); if (q * price > cash) continue;
+        const avg = p ? avgCostAfterBuy(p.qty, p.avgCost, q, price) : price; cash -= q * price;
+        book.set(tk, { qty: (p ? p.qty : 0) + q, avgCost: avg, mark: price });
+      } else {
+        const q = Math.max(1, Math.floor(p.qty * rnd())); realized += realizedPnl(price, p.avgCost, q); cash += q * price;
+        if (q >= p.qty) book.delete(tk); else book.set(tk, { ...p, qty: p.qty - q, mark: price });
+      }
+      for (const [k, v] of book) v.mark = Math.max(0.01, Math.round(v.mark * (0.9 + rnd() * 0.2) * 100) / 100);
+    }
+    const pos = [...book.values()]; const v = bookMarkValue(pos, cash);
+    const un = pos.reduce((acc, p) => acc + unrealizedPnlOf(p.mark, p.avgCost, p.qty), 0); n++;
+    if (!v || Math.abs((v.equity - start) - (realized + un)) > 1e-6 * start) { bad(`identity equity−start = realized + unrealized (seq ${t})`); break; }
+  }
+  // 4) addDaysYmdUtc: legacy equality, round trip, calendar boundaries, invalid
+  for (let i = 0; i < 5000; i++) {
+    const t = Date.UTC(2000, 0, 1) + Math.floor(rnd() * 40 * 365) * 86400000; const dt = new Date(t);
+    const ymd = `${dt.getUTCFullYear()}-${String(dt.getUTCMonth() + 1).padStart(2, "0")}-${String(dt.getUTCDate()).padStart(2, "0")}`;
+    const d = Math.floor(rnd() * 800) - 400; const out = addDaysYmdUtc(ymd, d); n++;
+    if (out !== legacyAddDays(ymd, d) || addDaysYmdUtc(out, -d) !== ymd) { bad(`addDays ${ymd} ${d}`); break; }
+    n++; if ((legacyParse(out) - legacyParse(ymd)) / 86400000 !== d) { bad(`addDays distance ${ymd} ${d}`); break; }
+  }
+  for (const [a, d, want] of [["2024-02-28", 1, "2024-02-29"], ["2026-03-01", -1, "2026-02-28"], ["2026-12-31", 1, "2027-01-01"], ["2026-10-22", -30, "2026-09-22"], ["2026-10-22", -7, "2026-10-15"], ["2026-10-22", -365, "2025-10-22"], ["2024-10-22", -365, "2023-10-23"]]) { n++; if (addDaysYmdUtc(a, d) !== want) bad(`addDays hand ${a}${d} → ${addDaysYmdUtc(a, d)} want ${want}`); }
+  for (const [a, d] of [["2026-02-30", 1], ["2026-13-01", 1], ["2026-1-01", 1], [20261022, 1], ["2026-10-22", 1.5], ["2026-10-22", NaN]]) { n++; if (addDaysYmdUtc(a, d) !== null) bad(`addDays junk ${a},${d}`); }
+  // 5) windowPerformance: verbatim legacy on random series + invariants + junk
+  let wN = 0;
+  for (let i = 0; i < 6000; i++) {
+    const len = Math.floor(rnd() * 40); const de = []; let t = Date.UTC(2026, 0, 1) + Math.floor(rnd() * 300) * 86400000; let eq = 1e5 + rnd() * 3e6;
+    for (let j = 0; j < len; j++) { t += (1 + Math.floor(rnd() * (rnd() < 0.1 ? 30 : 4))) * 86400000; eq = Math.round(eq * (0.97 + rnd() * 0.06) * 100) / 100; const dt = new Date(t); de.push({ date: `${dt.getUTCFullYear()}-${String(dt.getUTCMonth() + 1).padStart(2, "0")}-${String(dt.getUTCDate()).padStart(2, "0")}`, equity: eq }); }
+    for (const days of [7, 30, 90, 365]) {
+      const w = windowPerformance(de, days); const L = legacyWindowPerf(de, days); n++; wN++;
+      if (JSON.stringify(w) !== JSON.stringify(L)) { bad(`legacy windowPerf ${days} len ${len}`); i = 1e9; break; }
+      if (!de.length) continue;
+      const last = de[de.length - 1]; const target = addDaysYmdUtc(last.date, -days);
+      const bi = de.findIndex((x) => x.date === w.fromDate); n++;
+      if (!w.sinceInception && !(de[bi].date <= target && (bi + 1 >= de.length || de[bi + 1].date > target))) { bad(`base not latest ≤ target`); i = 1e9; break; }
+      n++; if (w.sinceInception !== (de[0].date > target) || (w.sinceInception && bi !== 0)) { bad(`sinceInception flag`); i = 1e9; break; }
+      n++; if (w.pnl !== roundHalfAway(last.equity - de[bi].equity, 2) || Math.abs(w.pct - (w.pnl / de[bi].equity) * 100) > 2e-4 + 1e-3 / de[bi].equity * 100) { bad(`pnl/pct consistency`); i = 1e9; break; }
+    }
+  }
+  n++; { const w = windowPerformance([{ date: "2026-10-01", equity: 100 }, { date: "2026-10-08", equity: 110 }, { date: "2026-10-15", equity: 121 }], 7); if (!(w.pct === 10 && w.pnl === 11 && w.fromDate === "2026-10-08" && !w.sinceInception)) bad(`window hand case +10%`); }
+  n++; { const w = windowPerformance([{ date: "2026-10-01", equity: 100 }, { date: "2026-10-08", equity: 110 }], 7); if (!(w.fromDate === "2026-10-01" && !w.sinceInception && w.pct === 10)) bad(`window boundary: snapshot exactly 7 days back is the base`); }
+  n++; { const w = windowPerformance([{ date: "2026-10-02", equity: 100 }, { date: "2026-10-08", equity: 110 }], 7); if (!(w.sinceInception && w.label === "成立以來")) bad(`window 6 days back ⇒ since inception`); }
+  n++; { const w = windowPerformance([], 7); if (!(w && w.pct === 0 && w.sinceInception)) bad(`empty series row`); }
+  for (const de of [[{ date: "2026-10-08", equity: 1 }, { date: "2026-10-01", equity: 1 }], [{ date: "2026-10-01", equity: 1 }, { date: "2026-10-01", equity: 2 }], [{ date: "2026-10-01", equity: NaN }], [{ date: "2026-10-01", equity: "5" }], [{ date: "2026-02-30", equity: 1 }], [null]]) { n++; if (windowPerformance(de, 7) !== null) bad(`window junk not refused ${JSON.stringify(de)}`); }
+  for (const d of [0, -7, 7.5, NaN]) { n++; if (windowPerformance([{ date: "2026-10-01", equity: 1 }], d) !== null) bad(`window bad days ${d}`); }
+  // 6) live: published books satisfy equity = cash + Σ qty·mark, identity, and every published metric recomputes
+  try {
+    const pf = JSON.parse(readFileSync(join(ROOT_MG, "public", "data", "paper-portfolio.json"), "utf8"));
+    let live = 0;
+    for (const m of ["TW", "US"]) {
+      const b = pf.books?.[m]; if (!b) { bad(`live book ${m} missing`); continue; }
+      const v = bookMarkValue(b.positions, b.cash); n++; live++;
+      if (!v || roundHalfAway(v.equity, 2) !== b.equity || roundHalfAway(v.positionsValue, 2) !== b.positionsValue) bad(`live ${m} equity ${b.equity} ≠ cash + Σ qty·mark`);
+      const un = b.positions.reduce((acc, p) => acc + unrealizedPnlOf(p.mark, p.avgCost, p.qty), 0); n++;
+      if (!(Math.abs((b.equity - b.startCash) - (b.realizedPnl + un)) <= 0.02 + 1e-9 * b.startCash)) bad(`live ${m} identity: equity − start ${b.equity - b.startCash} vs realized + unrealized ${b.realizedPnl + un}`);
+      const met = pf.metrics?.[m]; n++;
+      if (!met || roundHalfAway(un, 2) !== met.unrealizedPnl || roundHalfAway(b.equity - b.startCash, 2) !== met.totalPnl) bad(`live ${m} published total/unrealized P&L do not recompute`);
+      for (const [key, days] of [["week", 7], ["month", 30], ["quarter", 90], ["year", 365]]) { n++; if (JSON.stringify(windowPerformance(b.dailyEquity, days)) !== JSON.stringify(met?.[key])) bad(`live ${m} ${key} window does not recompute`); }
+      n++; { const last = b.dailyEquity[b.dailyEquity.length - 1]; if (!last || last.equity !== b.equity) bad(`live ${m} last dailyEquity ${last?.equity} ≠ book equity ${b.equity}`); }
+    }
+    if (!live) bad(`no live books`);
+  } catch (e) {
+    bad(`paper-portfolio.json unreadable for valuation replay: ${e.message}`);
+  }
+  ok(`paper book valuation (${n} cases: 20000 random books = verbatim legacy equity, additivity, qty scaling, equity = cash + Σ qty·mark, hand 5000@43.25 + 41@190.73, junk ⇒ null; unrealizedPnlOf oracle/sign/junk; 2000 random trade sequences keep equity − start = realized + unrealized; addDaysYmdUtc = legacy, round trip, leap/month/year edges, invalid ⇒ null; ${wN} random windows = verbatim legacy windowPerf, base = latest snapshot ≤ last − days, 7-day boundary inclusive, since-inception flag, pnl/pct consistent, unsorted/duplicate/NaN ⇒ null; live TW/US equity, identity, total/unrealized and 4 windows recompute)`);
+}
+
 console.log("——");
 if (failures.length) {
   console.error(`▶ math-guards: ${failures.length} failure(s)`);

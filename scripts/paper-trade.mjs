@@ -64,7 +64,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { avgCostAfterBuy, realizedPnl, roundHalfAway, positionSizeShares, unrealizedReturn, takeProfitQty } from "./math-core.mjs";
+import { avgCostAfterBuy, realizedPnl, roundHalfAway, positionSizeShares, unrealizedReturn, takeProfitQty, bookMarkValue, unrealizedPnlOf, windowPerformance } from "./math-core.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -144,20 +144,6 @@ function taipeiDate(iso) {
   } catch {
     return String(iso).slice(0, 10);
   }
-}
-
-function parseYmd(ymd) {
-  const [y, m, d] = ymd.split("-").map(Number);
-  return Date.UTC(y, m - 1, d);
-}
-
-function addDaysYmd(ymd, days) {
-  const t = parseYmd(ymd) + days * 86400000;
-  const dt = new Date(t);
-  const y = dt.getUTCFullYear();
-  const m = String(dt.getUTCMonth() + 1).padStart(2, "0");
-  const d = String(dt.getUTCDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
 }
 
 function emptyBook(market) {
@@ -277,9 +263,11 @@ function buyUniverse(latest, market) {
   return out;
 }
 
+/** cash + Σ qty·mark via math-core; junk qty/mark/cash aborts the run (never publishes NaN→0 equity). */
 function bookEquity(book) {
-  const pv = (book.positions || []).reduce((sum, p) => sum + p.qty * p.mark, 0);
-  return { positionsValue: roundMoney(pv), equity: roundMoney(book.cash + pv) };
+  const v = bookMarkValue(book.positions, book.cash);
+  if (!v) throw new Error(`[paper] ${book.market}: non-finite cash/qty/mark — refusing to value the book`);
+  return { positionsValue: roundMoney(v.positionsValue), equity: roundMoney(v.equity) };
 }
 
 function markPositions(book, quotes) {
@@ -307,8 +295,10 @@ function lotSizeOf(market) {
   return market === "TW" ? TW_LOT : 1;
 }
 
+/** (mark − avgCost)·qty via math-core; NaN (not a fake 0) on junk so `< 0` checks stay false and sums abort. */
 function unrealizedPnl(pos) {
-  return (pos.mark - pos.avgCost) * pos.qty;
+  const u = unrealizedPnlOf(pos.mark, pos.avgCost, pos.qty);
+  return u == null ? NaN : u;
 }
 
 function trimTrades(book) {
@@ -570,33 +560,11 @@ function upsertDailyEquity(book, date) {
   book.dailyEquity.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
 }
 
+/** Trailing-window P&L via math-core windowPerformance; junk series aborts instead of publishing 0. */
 function windowPerf(dailyEquity, days) {
-  if (!dailyEquity.length) {
-    return { pct: 0, pnl: 0, label: "成立以來", sinceInception: true, days };
-  }
-  const last = dailyEquity[dailyEquity.length - 1];
-  const target = addDaysYmd(last.date, -days);
-  let base = dailyEquity[0];
-  let found = false;
-  for (const s of dailyEquity) {
-    if (s.date <= target) {
-      base = s;
-      found = true;
-    }
-  }
-  const firstDate = dailyEquity[0].date;
-  const sinceInception = !found || firstDate > target;
-  const pnl = roundMoney(last.equity - base.equity);
-  const pct = base.equity ? roundMoney((last.equity / base.equity - 1) * 100, 4) : 0;
-  return {
-    pct,
-    pnl,
-    label: sinceInception ? "成立以來" : `${days}日`,
-    sinceInception,
-    days,
-    fromDate: base.date,
-    toDate: last.date,
-  };
+  const w = windowPerformance(dailyEquity, days);
+  if (!w) throw new Error(`[paper] dailyEquity unsorted/duplicate/non-finite — refusing ${days}d window`);
+  return w;
 }
 
 function computeBookMetrics(book) {
@@ -606,9 +574,11 @@ function computeBookMetrics(book) {
     totalPnl,
     totalPnlPct,
     realizedPnl: roundMoney(book.realizedPnl),
-    unrealizedPnl: roundMoney(
-      (book.positions || []).reduce((s, p) => s + unrealizedPnl(p), 0)
-    ),
+    unrealizedPnl: (() => {
+      const u = (book.positions || []).reduce((s, p) => s + unrealizedPnl(p), 0);
+      if (!Number.isFinite(u)) throw new Error(`[paper] ${book.market}: non-finite unrealized P&L`);
+      return roundMoney(u);
+    })(),
   };
   for (const w of WINDOWS) {
     metrics[w.key] = windowPerf(book.dailyEquity, w.days);
@@ -702,7 +672,15 @@ function main() {
     if (!Array.isArray(b.positions)) b.positions = [];
     if (!Array.isArray(b.trades)) b.trades = [];
     if (!Array.isArray(b.dailyEquity)) b.dailyEquity = [];
-    if (typeof b.cash !== "number") b.cash = b.startCash;
+    // Only a brand-new book may start from startCash. A book that already holds positions or trades
+    // with missing/non-finite cash (e.g. NaN serialized as null) is corrupt: refilling it with fresh
+    // startCash would silently create money (equity jumps by startCash). Refuse instead.
+    if (typeof b.cash !== "number" || !Number.isFinite(b.cash)) {
+      if (b.positions.length || b.trades.length) {
+        throw new Error(`[paper] ${m}: cash is ${JSON.stringify(b.cash)} on a book with ${b.positions.length} positions / ${b.trades.length} trades — refusing to reset it to startCash`);
+      }
+      b.cash = b.startCash;
+    }
     b.market = m;
     b.currency = m === "TW" ? "TWD" : "USD";
   }

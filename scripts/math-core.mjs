@@ -554,3 +554,69 @@ export function takeProfitQty(qty, lotSize = 1) {
   const half = Math.floor(qty / 2 / lotSize) * lotSize;
   return half < lotSize ? qty : half;
 }
+
+/**
+ * Mark-to-market value of a paper book: positionsValue = Σ qty·mark, equity = cash + positionsValue.
+ * Domain: cash finite; each position qty finite ≥ 0 and mark finite ≥ 0. Any junk ⇒ null so the
+ * caller refuses to write a book instead of publishing NaN (which the old roundMoney turned into 0).
+ * Unrounded; the caller rounds once for display. Identity (no fees): equity − startCash =
+ * realized + Σ (mark − avgCost)·qty whenever cash = startCash + realized − Σ avgCost·qty.
+ */
+export function bookMarkValue(positions, cash) {
+  if (!isFiniteNumber(cash)) return null;
+  let pv = 0;
+  for (const p of positions || []) {
+    if (!p || !isFiniteNumber(p.qty) || !isFiniteNumber(p.mark) || p.qty < 0 || p.mark < 0) return null;
+    pv += p.qty * p.mark;
+  }
+  const equity = cash + pv;
+  return isFiniteNumber(pv) && isFiniteNumber(equity) ? { positionsValue: pv, equity } : null;
+}
+
+/** Unrealized P&L of one position: (mark − avgCost)·qty; null on non-finite/negative inputs or avgCost ≤ 0. */
+export function unrealizedPnlOf(mark, avgCost, qty) {
+  if (!isFiniteNumber(mark) || !isFiniteNumber(avgCost) || !isFiniteNumber(qty)) return null;
+  if (mark < 0 || !(avgCost > 0) || qty < 0) return null;
+  const r = (mark - avgCost) * qty;
+  return isFiniteNumber(r) ? r : null;
+}
+
+/** Calendar shift of a YYYY-MM-DD date by whole days in UTC (no DST); invalid ⇒ null. */
+export function addDaysYmdUtc(ymd, days) {
+  if (typeof ymd !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(ymd) || !Number.isInteger(days)) return null;
+  const [y, m, d] = ymd.split("-").map(Number);
+  const t0 = Date.UTC(y, m - 1, d);
+  const chk = new Date(t0);
+  if (chk.getUTCFullYear() !== y || chk.getUTCMonth() !== m - 1 || chk.getUTCDate() !== d) return null;
+  const dt = new Date(t0 + days * 86400000);
+  return `${dt.getUTCFullYear()}-${String(dt.getUTCMonth() + 1).padStart(2, "0")}-${String(dt.getUTCDate()).padStart(2, "0")}`;
+}
+
+/**
+ * Trailing-window performance of a daily equity series sorted by date.
+ * base = the latest snapshot dated ≤ (last.date − days); if none, the first snapshot
+ * ("成立以來", since inception). pnl = last − base; pct = (last/base − 1)·100, 0 when base equity
+ * is 0 (legacy). Rounded half-away to 2 / 4 dp. Empty series ⇒ zero row (legacy).
+ * Junk (unsorted/duplicate dates, bad date, non-finite equity) ⇒ null so nothing fake is published.
+ */
+export function windowPerformance(series, days) {
+  if (!Array.isArray(series) || !Number.isInteger(days) || days <= 0) return null;
+  if (!series.length) return { pct: 0, pnl: 0, label: "成立以來", sinceInception: true, days };
+  for (let i = 0; i < series.length; i++) {
+    const s = series[i];
+    if (!s || addDaysYmdUtc(s.date, 0) == null || !isFiniteNumber(s.equity)) return null;
+    if (i && !(series[i - 1].date < s.date)) return null;
+  }
+  const last = series[series.length - 1];
+  const target = addDaysYmdUtc(last.date, -days);
+  let base = series[0];
+  let found = false;
+  for (const s of series) {
+    if (s.date <= target) { base = s; found = true; }
+  }
+  const sinceInception = !found || series[0].date > target;
+  const pnl = roundHalfAway(last.equity - base.equity, 2);
+  const pct = base.equity ? roundHalfAway((last.equity / base.equity - 1) * 100, 4) : 0;
+  if (pnl == null || pct == null) return null;
+  return { pct, pnl, label: sinceInception ? "成立以來" : `${days}日`, sinceInception, days, fromDate: base.date, toDate: last.date };
+}
