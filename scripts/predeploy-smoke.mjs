@@ -497,6 +497,15 @@ async function main() {
       else ok("digest supports 資料不足");
       if (!/非投資建議/.test(dig.disclaimer || "")) fail("earnings disclaimer missing 非投資建議");
       else ok("earnings disclaimer");
+      // A past "next" date (Yahoo lag after a report) must render as 已公布, never as 下次財報.
+      const { earningsTiming, daysBetweenYmd } = await import(pathToFileURL(path.join(ROOT, "src/earnings.js")).href);
+      const tt = (d, today) => earningsTiming({ nextEarningsDate: d }, today);
+      if (tt("2026-10-21", "2026-10-22").state !== "reported") fail("earningsTiming: past date not classified reported");
+      else if (tt("2026-10-22", "2026-10-22").state !== "today") fail("earningsTiming: same-day not today");
+      else if (tt("2026-11-02", "2026-10-22").days !== 11) fail("earningsTiming: upcoming day count wrong");
+      else if (daysBetweenYmd("2026-03-07", "2026-03-09") !== 2) fail("daysBetweenYmd across US DST change wrong");
+      else if (tt(null, "2026-10-22").state !== "unknown") fail("earningsTiming: missing date not unknown");
+      else ok("earningsTiming: past next-date shown as 已公布, countdown days exact");
     } catch (e) {
       fail(`earnings-digest parse: ${e}`);
     }

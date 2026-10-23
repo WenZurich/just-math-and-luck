@@ -817,11 +817,11 @@ async function main() {
   }
 
 
-  // Optional: FETCH_US_MACRO=1 → also refresh US market-moving calendar
-  if (process.env.FETCH_US_MACRO === "1") {
+  // Default ON (set FETCH_US_MACRO=0 to skip): refresh US market-moving calendar
+  if (process.env.FETCH_US_MACRO !== "0") {
     try {
       const { spawnSync } = await import("node:child_process");
-      console.log("\n▶ fetch-us-macro (FETCH_US_MACRO=1)…");
+      console.log("\n▶ fetch-us-macro (default on)…");
       const mr = spawnSync(process.execPath, [join(__dirname, "fetch-us-macro-calendar.mjs")], {
         stdio: "inherit",
         cwd: ROOT,
@@ -834,11 +834,11 @@ async function main() {
   }
 
   
-  // Optional: FETCH_TW_MACRO=1 → also refresh TW market-moving calendar
-  if (process.env.FETCH_TW_MACRO === "1") {
+  // Default ON (set FETCH_TW_MACRO=0 to skip): refresh TW market-moving calendar
+  if (process.env.FETCH_TW_MACRO !== "0") {
     try {
       const { spawnSync } = await import("node:child_process");
-      console.log("\n▶ fetch-tw-macro (FETCH_TW_MACRO=1)…");
+      console.log("\n▶ fetch-tw-macro (default on)…");
       const tr = spawnSync(process.execPath, [join(__dirname, "fetch-tw-macro-calendar.mjs")], {
         stdio: "inherit",
         cwd: ROOT,

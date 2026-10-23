@@ -302,6 +302,10 @@ async function fetchTwseHolidays(fromYmd, toYmd) {
     // Skip "開始交易日" / settlement-only noise — keep closed-market holidays
     if (/開始交易/.test(name)) continue;
     if (/僅辦理結算/.test(name) || /僅辦理結算/.test(note)) continue;
+    // Saturday/Sunday are never trading days; listing them as 「台股休市」 only confuses readers
+    // (e.g. 10/25 is a Sunday — the market-relevant day is the 10/26 補假).
+    const dow = new Date(`${dayTw}T00:00:00Z`).getUTCDay();
+    if (dow === 0 || dow === 6) continue;
     const scheduledAt = new Date(taipeiIso(dayTw, "09:00")).toISOString();
     out.push({
       id: `twseHoliday-${dayTw}`,

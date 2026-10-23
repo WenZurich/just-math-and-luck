@@ -1,11 +1,11 @@
 {
-  "asOf": "2026-10-22T00:07:25.143Z",
+  "asOf": "2026-10-23T01:48:35.868Z",
   "market": "TW",
   "timezone": "Asia/Taipei",
   "timezoneLabel": "台北時間",
   "window": {
-    "from": "2026-10-22",
-    "to": "2026-11-26"
+    "from": "2026-10-23",
+    "to": "2026-11-27"
   },
   "source": {
     "name": "DGBAS / CBC / TWSE / MOEA",
@@ -23,19 +23,6 @@
   "stale": false,
   "events": [
     {
-      "id": "dgbasUnemployment-2026-10-22T16:00:00+08:00",
-      "eventKey": "dgbasUnemployment",
-      "eventName": "勞動力、就業人數、失業人數、非勞動力、失業率、勞動力參與率",
-      "shortName": "失業率",
-      "importance": "high",
-      "highImpact": true,
-      "scheduledAt": "2026-10-22T08:00:00.000Z",
-      "dayTw": "2026-10-22",
-      "periodLabel": "(11606)",
-      "source": "行政院主計總處",
-      "officialUrl": "https://www.stat.gov.tw/cl.aspx?n=2700"
-    },
-    {
       "id": "moeaIndustrialProd-2026-10-23T16:00:00+08:00",
       "eventKey": "moeaIndustrialProd",
       "eventName": "工業生產統計",
@@ -47,19 +34,6 @@
       "periodLabel": "(11606)",
       "source": "經濟部",
       "officialUrl": "https://www.moea.gov.tw/mns/dos/bulletin/bulletin.aspx?kind=6&html=1&menu_id=6725"
-    },
-    {
-      "id": "twseHoliday-2026-10-25",
-      "eventKey": "twseHoliday",
-      "eventName": "台股休市 · 臺灣光復暨金門古寧頭大捷紀念日",
-      "shortName": "台股休市 · 臺灣光復暨金門古寧頭大捷紀念日",
-      "importance": "med",
-      "highImpact": false,
-      "scheduledAt": "2026-10-25T01:00:00.000Z",
-      "dayTw": "2026-10-25",
-      "periodLabel": "依規定放假1日。",
-      "source": "twse",
-      "officialUrl": "https://www.twse.com.tw/zh/trading/holiday.html"
     },
     {
       "id": "twseHoliday-2026-10-26",
