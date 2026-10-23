@@ -1,0 +1,52 @@
+{
+  "scanAsOf": "2026-10-23T00:24:32Z",
+  "date": "2026-10-23",
+  "sessions": {
+    "US": "2026-10-22",
+    "TW": null
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "MSTR",
+      "name": "MicroStrategy",
+      "market": "US",
+      "session": "2026-10-22",
+      "price": 145.8,
+      "dayPct": -5,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices",
+      "market": "US",
+      "session": "2026-10-22",
+      "price": 507.93,
+      "dayPct": -8.1,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "OKTA",
+      "name": "Okta",
+      "market": "US",
+      "session": "2026-10-22",
+      "price": 201.33,
+      "dayPct": -3.5,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir",
+      "market": "US",
+      "session": "2026-10-22",
+      "price": 196.19,
+      "dayPct": -2.74,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": []
+}

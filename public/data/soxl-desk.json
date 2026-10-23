@@ -2,19 +2,19 @@
   "market": "US",
   "ticker": "SOXL",
   "fundName": "Direxion Daily Semiconductor Bull 3X ETF",
-  "asOf": "2026-10-22T00:12:12.492Z",
+  "asOf": "2026-10-23T00:30:58.452Z",
   "quote": {
-    "price": 100.4,
-    "change": -2.84,
-    "changePct": -2.75,
+    "price": 81.15,
+    "change": -0.96,
+    "changePct": -1.17,
     "currency": "USD",
     "session": "overnight / extended (Yahoo)",
     "source": "https://finance.yahoo.com/quote/SOXL/",
     "regularClose": {
-      "price": 103.24,
-      "change": 5.69,
-      "changePct": 5.83,
-      "session": "NYSE Arca regular close (October 21 at 4:00:01 PM EDT)"
+      "price": 82.11,
+      "change": -21.13,
+      "changePct": -20.47,
+      "session": "NYSE Arca regular close (October 22 at 4:00:01 PM EDT)"
     }
   },
   "holdingsAsOf": "2026-01-31",
@@ -30,8 +30,8 @@
     {
       "type": "anomaly",
       "severity": "high",
-      "title": "正規盤大波動 +5.83%",
-      "detail": "Yahoo 顯示 SOXL 正規收盤約 $103.24（+5.83% / +5.69）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
+      "title": "正規盤大波動 -20.47%",
+      "detail": "Yahoo 顯示 SOXL 正規收盤約 $82.11（-20.47% / -21.13）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
       "sources": [
         "https://finance.yahoo.com/quote/SOXL/"
       ]
@@ -99,6 +99,12 @@
       "published": "2026-09-21"
     },
     {
+      "title": "SOXL Sinks To 6-Month Low As Nasdaq Slides Amid Oil Surge: Trump Blames Iran, But Wells Fargo Says Huang’s Comments Spooked Markets",
+      "summary": "Trump accused Iran of deliberately pushing oil prices higher ahead of the U.S. midterm elections, while Brent crude futures rose above $111 a barrel.",
+      "url": "https://stocktwits.com/news-articles/markets/equity/soxl-6-month-nasdaq-slide-oil-surge-trump-blames-iran-wells-fargo-huang-comments/cZxwLQuRBD4?.tsrc=rss",
+      "published": "2026-10-22"
+    },
+    {
       "title": "Chip Stocks Are Sliding—Why Is Smart Money Buying?",
       "summary": "SOXL fell about 20% in a month, but short interest dropped 65.6% and institutions like JPMorgan expanded holdings, signaling bets on a semiconductor sector rebound.",
       "url": "https://www.marketbeat.com/articles/chip-stocks-are-slidingwhy-is-smart-money-buying/?utm_source=yahoofinance&amp;utm_medium=yahoofinance&amp;.tsrc=rss",
@@ -162,12 +168,6 @@
       "title": "Investors Buy the Dip in Chips as ETF Inflows Near $58B",
       "summary": "&lt;p&gt;A leveraged semiconductor fund led all ETFs last week even as chip stocks suffered their worst week in more than a year.&lt;/p&gt;",
       "url": "http://www.etf.com/sections/weekly-etf-flows/investors-buy-dip-chips-etf-inflows-near-58b?utm_source=yahoo-finance&amp;utm_medium=rss&amp;utm_campaign=yahoo-finance-rss&amp;.tsrc=rss",
-      "published": "2026-10-19"
-    },
-    {
-      "title": "Investor: ‘I Turned AMD Into $16 Million and Sold Everything, Did I Quit Too Soon?’",
-      "summary": "A Reddit trader claims he rode an AMD position all the way to $16 million, then cashed out completely, convinced the market had finally broken. Now the question is whether he read the signs right or walked away from something much bigger.",
-      "url": "https://247wallst.com/investing/2026/10/19/investor-i-turned-amd-into-16-million-and-sold-everything-did-i-quit-too-soon/?.tsrc=rss",
       "published": "2026-10-19"
     }
   ],
@@ -535,7 +535,7 @@
     "Research seed: /workspace/soxl-research/soxl-holdings-raw.json",
     "SEC N-PORT: https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
     "Yahoo quote page: https://finance.yahoo.com/quote/SOXL/",
-    "Yahoo quote HTML refresh @ 2026-10-22T00:12:12.492Z",
+    "Yahoo quote HTML refresh @ 2026-10-23T00:30:58.452Z",
     "https://feeds.finance.yahoo.com/rss/2.0/headline?s=SOXL&region=US&lang=en-US"
   ],
   "blockers": [
