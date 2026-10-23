@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-22T09:30:00+08:00",
+    "updated": "2026-10-23T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -9769,6 +9769,165 @@
         "watch"
       ],
       "shelf": "market_analysis",
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-both-optimal-trading-filters-2026",
+      "market": "BOTH",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "Optimal Trading Filters and the Value of Predictive Signals",
+      "authors": [
+        "Matteo Smerlak"
+      ],
+      "year": 2026,
+      "summary": "Asks how much a return forecast is actually worth once you must turn it into trades that cost money and push the price against you for a while afterwards. Using prediction-theory tools, the author shows the best trading rule splits into two steps: first form the best forecast, then pass it through a smoothing filter that trades toward a target position gradually instead of jumping to it. With no trading costs, two signals that predict equally well today are equally valuable; once costs exist, what counts is how much of the forecast survives after weighting by trading friction, so slow, persistent signals keep more value than fast, noisy ones, and for mean-reverting signals there is a best middle speed. Takeaway for the site: a candidate idea for both markets — do not chase every daily signal flip; move gradually toward the target and favor signals that last long enough to pay for the trading.",
+      "summaryLocalized": {
+        "en": "How much a forecast is worth after trading costs and lingering price impact. The optimal rule is: best forecast, then a smoothing filter that trades gradually toward a target position. Without costs, equally predictive signals are equally valuable; with costs, slow persistent signals keep more value than fast noisy ones, and mean-reverting signals have a best middle speed. Site use: candidate idea — trade gradually toward targets and prefer signals that last long enough to pay for trading.",
+        "zh-Hant": "研究問的是：一個報酬預測，扣掉交易成本、加上自己下單把價格推走一陣子之後，到底還值多少。作者用預測理論證明，最好的交易規則可以拆成兩步：先做出最好的預測，再用一個「平滑濾網」慢慢往目標部位調整，而不是一次跳過去。如果交易不用成本，今天預測力一樣好的兩個訊號價值一樣；但一有成本，真正算數的是「扣掉摩擦後還剩多少預測力」，所以變化慢、能持續的訊號比變來變去的快訊號更值錢；對會均值回歸的訊號，存在一個不快不慢的最佳速度。本站把它當美台股共用的候選想法：不要每天跟著訊號翻來翻去，應該分批往目標靠近，並優先使用能撐夠久、付得起交易成本的訊號。",
+        "zh-Hans": "研究问的是：一个报酬预测，扣掉交易成本、加上自己下单把价格推走一阵子之后，到底还值多少。作者用预测理论证明，最好的交易规则可以拆成两步：先做出最好的预测，再用一个“平滑滤网”慢慢往目标仓位调整，而不是一次跳过去。如果交易不用成本，今天预测力一样好的两个信号价值一样；但一有成本，真正算数的是“扣掉摩擦后还剩多少预测力”，所以变化慢、能持续的信号比变来变去的快信号更值钱；对会均值回归的信号，存在一个不快不慢的最佳速度。本站把它当美台股共用的候选想法：不要每天跟着信号翻来翻去，应该分批往目标靠近，并优先使用能撑够久、付得起交易成本的信号。",
+        "ja": "リターン予測が、取引コストと自分の注文による一時的な価格インパクトを差し引いた後にどれだけ価値を持つかを分析。最適な売買ルールは「最良の予測」＋「目標ポジションへ徐々に近づける平滑化フィルター」の2段階に分解できる。コストがなければ同じ予測力の信号は同じ価値だが、コストがあると摩擦で重み付けした後の予測力が重要になり、ゆっくり持続する信号の方が速くノイズの多い信号より価値が残る。平均回帰する信号には最適な中間の速さがある。本サイトでは米台共通の候補：信号の毎日の反転を追わず、目標へ段階的に近づき、取引コストを賄えるほど持続する信号を優先する。"
+      },
+      "titleLocalized": {
+        "en": "Optimal Trading Filters and the Value of Predictive Signals",
+        "zh-Hant": "最佳交易濾網與預測訊號的真正價值",
+        "zh-Hans": "最佳交易滤网与预测信号的真正价值",
+        "ja": "最適な売買フィルターと予測シグナルの価値"
+      },
+      "formulas": [
+        "target position_t ← forecast_t ÷ (risk aversion × variance) (frictionless Markowitz aim)",
+        "position_t ← position_{t−1} + k × (target_t − position_{t−1}), 0<k≤1 (partial adjustment; exponential-resilience case)",
+        "signal persistence ← half-life of the signal's autocorrelation; prefer half-life ≫ holding cost horizon",
+        "net value proxy ← mean square of the friction-weighted (smoothed) forecast, not raw IC",
+        "site use: backtest-gate test of k ∈ {1, 0.5, 0.33} on paper book turnover vs. net return; no live screener change until the math gate passes"
+      ],
+      "plainTakeaways": [
+        "預測準不等於賺得到：扣掉交易成本後還剩多少才算數",
+        "不要一次全買全賣，分批往目標部位靠近比較省成本",
+        "能持續好幾天的訊號，比每天翻來翻去的訊號更值錢",
+        "本站只當候選：先在模擬帳本回測分批調整，數學閘門通過前不改選股"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "預測準不等於賺得到：扣掉交易成本後還剩多少才算數",
+          "不要一次全買全賣，分批往目標部位靠近比較省成本",
+          "能持續好幾天的訊號，比每天翻來翻去的訊號更值錢",
+          "本站只當候選：先在模擬帳本回測分批調整，數學閘門通過前不改選股"
+        ],
+        "zh-Hans": [
+          "预测准不等于赚得到：扣掉交易成本后还剩多少才算数",
+          "不要一次全买全卖，分批往目标仓位靠近比较省成本",
+          "能持续好几天的信号，比每天翻来翻去的信号更值钱",
+          "本站只当候选：先在模拟账本回测分批调整，数学闸门通过前不改选股"
+        ],
+        "en": [
+          "An accurate forecast is not the same as profit: what survives trading costs is what counts",
+          "Move toward the target position in steps instead of all at once to save costs",
+          "Signals that persist for days are worth more than ones that flip daily",
+          "Site use: candidate only — test gradual adjustment on the paper book; no screener change until the math gate passes"
+        ],
+        "ja": [
+          "予測が当たることと儲かることは別：取引コスト後に残る分が重要",
+          "一度に全部売買せず、目標ポジションへ段階的に近づく方がコストを節約できる",
+          "数日続く信号は、毎日反転する信号より価値がある",
+          "本サイトは候補扱い：模擬帳簿で段階調整を検証し、数学ゲート通過前は選定を変えない"
+        ]
+      },
+      "strategyCandidate": "yes",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — partial-adjustment toward a target position is a candidate only; it would change paper-book sizing/turnover, so it must first pass the backtest gate (turnover and net-of-cost return vs. current all-in/all-out) and the math guards. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2610.24558",
+        "https://doi.org/10.48550/arXiv.2610.24558"
+      ],
+      "tags": [
+        "both",
+        "execution",
+        "trading-costs",
+        "signal-decay",
+        "position-sizing",
+        "candidate"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-alpha-to-execution-horizon-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "From Alpha to Execution: Trading Horizons, Regimes, and Schedules under Concave Impact and Hurst Scaling",
+      "authors": [
+        "Dnyanesh Kulkarni",
+        "Revant Nayar"
+      ],
+      "year": 2026,
+      "summary": "Studies how fast a large order should be worked when market impact grows less than proportionally with size and prices wander with a measurable persistence. The authors pick the execution window that maximizes the trade's risk-adjusted profit: going slower cuts cost per share and price-path noise, while the only reason to hurry is alpha that disappears while you wait. A sensible middle speed exists only when both forces point the right way; otherwise trade as fast or as slow as allowed, and the best window is very flat, so precision matters little. Given the window, their front-loaded schedule that tapers off saves about 10–17% of modeled cost versus trading evenly over time. Takeaway for the site: deferred — this matters for institutional-size US orders, not the small paper-book fills our site simulates.",
+      "summaryLocalized": {
+        "en": "How fast to work a large order under concave impact and persistent price moves. Choose the window that maximizes the trade's Sharpe: slower lowers cost and noise, urgency comes only from decaying alpha. An interior speed exists only when both forces align, and the optimum is flat. A front-loaded, tapering schedule saves ~10–17% of modeled cost vs. even (TWAP) trading. Site use: deferred — relevant to institutional-size orders, not our small simulated fills.",
+        "zh-Hant": "研究大單該下多快：當下單對價格的衝擊不會跟單量成正比放大、而且價格走勢帶有一定的延續性時，怎麼安排。作者挑出讓這筆交易「風險調整後獲利」最高的執行時間：下慢一點，每股成本和價格亂跳的風險都會變小；唯一要趕快的理由，是等待中會慢慢消失的超額報酬。只有兩股力量方向都對時才有「不快不慢」的最佳速度，否則就是能多快就多快、或能多慢就多慢；而且最佳時間附近很平，算得差一點也沒關係。時間決定後，他們的「前面多下、後面漸少」排程，比整段平均下單省下約 10–17% 的模型成本。本站暫緩：這對機構級的美股大單才重要，我們模擬帳本的小額成交用不到。",
+        "zh-Hans": "研究大单该下多快：当下单对价格的冲击不会跟单量成正比放大、而且价格走势带有一定的延续性时，怎么安排。作者挑出让这笔交易“风险调整后获利”最高的执行时间：下慢一点，每股成本和价格乱跳的风险都会变小；唯一要赶快的理由，是等待中会慢慢消失的超额报酬。只有两股力量方向都对时才有“不快不慢”的最佳速度，否则就是能多快就多快、或能多慢就多慢；而且最佳时间附近很平，算得差一点也没关系。时间决定后，他们“前面多下、后面渐少”的排程，比整段平均下单省下约 10–17% 的模型成本。本站暂缓：这对机构级的美股大单才重要，我们模拟账本的小额成交用不到。",
+        "ja": "大口注文をどの速さで執行すべきかを、インパクトが数量に比例せず緩やかに増え、価格に持続性がある前提で分析。取引のシャープレシオを最大化する執行期間を選ぶ：遅くすると1株あたりコストと価格変動リスクが下がり、急ぐ理由は待つ間に消えるアルファだけ。両方の力が揃う時だけ中間の最適速度があり、最適付近は平坦。期間が決まれば、前半に多く後半に減らすスケジュールが均等執行（TWAP）よりモデル上のコストを約10–17%削減。本サイトでは保留：機関投資家規模の注文向けで、当サイトの小口模擬約定には不要。"
+      },
+      "titleLocalized": {
+        "en": "From Alpha to Execution: Trading Horizons, Regimes, and Schedules under Concave Impact and Hurst Scaling",
+        "zh-Hant": "從超額報酬到下單執行：大單該下多快、怎麼分批",
+        "zh-Hans": "从超额报酬到下单执行：大单该下多快、怎么分批",
+        "ja": "アルファから執行へ：大口注文の執行期間と分割スケジュール"
+      },
+      "formulas": [
+        "execution horizon T ← argmax Sharpe(realized P&L of the order) over admissible T",
+        "schedule rate φ(t) ∝ max(λ − w(t), 0)^(1/β), w(t) ∝ t^H (front-loaded, tapering)",
+        "benchmark: TWAP rate = order size ÷ T; reported saving 10–17% of modeled envelope cost",
+        "site use: none live — deferred; paper-book fills are small next-open market orders"
+      ],
+      "plainTakeaways": [
+        "大單下太快會把價格推走，下太慢又可能錯過行情",
+        "只有「會消失的超額報酬」才是要趕快下單的理由",
+        "前面多下、後面漸少，比平均分批省一點成本",
+        "本站暫緩：這是機構大單的問題，我們的小額模擬成交用不到"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "大單下太快會把價格推走，下太慢又可能錯過行情",
+          "只有「會消失的超額報酬」才是要趕快下單的理由",
+          "前面多下、後面漸少，比平均分批省一點成本",
+          "本站暫緩：這是機構大單的問題，我們的小額模擬成交用不到"
+        ],
+        "zh-Hans": [
+          "大单下太快会把价格推走，下太慢又可能错过行情",
+          "只有“会消失的超额报酬”才是要赶快下单的理由",
+          "前面多下、后面渐少，比平均分批省一点成本",
+          "本站暂缓：这是机构大单的问题，我们的小额模拟成交用不到"
+        ],
+        "en": [
+          "Trading a big order too fast moves the price; too slow can miss the move",
+          "Only alpha that fades while you wait is a reason to hurry",
+          "Front-loading then tapering saves a bit versus even slices",
+          "Site use: deferred — an institutional-order problem, not relevant to our small simulated fills"
+        ],
+        "ja": [
+          "大口注文を急ぐと価格を動かし、遅すぎると相場を逃す",
+          "急ぐ理由は待つ間に消えるアルファだけ",
+          "前半多め・後半少なめは均等分割より少しコストを節約",
+          "本サイトは保留：機関投資家の大口注文の問題で、小口の模擬約定には不要"
+        ]
+      },
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — deferred, not a screener candidate: optimal-execution schedules matter for institutional order sizes; our paper book fills small orders at next open. Revisit only if simulated order size becomes a meaningful share of daily volume.",
+      "sources": [
+        "https://arxiv.org/abs/2610.23749",
+        "https://doi.org/10.48550/arXiv.2610.23749"
+      ],
+      "tags": [
+        "us",
+        "execution",
+        "market-impact",
+        "twap",
+        "deferred"
+      ],
       "coverUrl": "./covers/placeholder-paper.svg",
       "coverFallback": "./covers/placeholder-paper.svg"
     }
