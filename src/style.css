@@ -3814,3 +3814,32 @@ a.macro-chip:focus-visible { box-shadow: none; border-color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   .trade-day > summary::after { transition: none; }
 }
+
+/* —— 選股理由：plain-language bullet list (src/why-plain.js) —— */
+.why-list {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.2rem;
+}
+.why-list li {
+  position: relative;
+  padding-left: 0.85em;
+  line-height: 1.5;
+}
+.why-list li::before {
+  content: "";
+  position: absolute;
+  left: 0.1em;
+  top: 0.68em;
+  width: 0.32em;
+  height: 0.32em;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.55;
+}
+.stock-table .why-cell { max-width: 280px; min-width: 220px; vertical-align: top; }
+.stock-table .why-cell .why-list { margin-top: 0; }
+.card-text .why-list { margin-top: 0.35rem; }
+.list-card .lc-why .why-list { gap: 0.15rem; }

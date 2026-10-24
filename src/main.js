@@ -14,6 +14,7 @@ import {
   loadPaperPortfolio,
 } from "./paper.js";
 import { initPaperDerivatives } from "./paper-derivatives.js";
+import { whyListHtml } from "./why-plain.js";
 import "./strategies.css";
 import {
   renderStrategiesSection,
@@ -309,7 +310,7 @@ function renderTopCard(stock, rank) {
       </div>
       ${(stock.business || stock.why || stock.risk) ? `<details class="fold-block card-fold"><summary>${escapeHtml(t("details"))}</summary>
         ${stock.business ? `<p class="card-text"><strong>${escapeHtml(t("business"))}</strong>　${escapeHtml(stock.business)}</p>` : ""}
-        ${stock.why ? `<p class="card-text"><strong>${escapeHtml(t("reason"))}</strong>　${escapeHtml(stock.why)}</p>` : ""}
+        ${stock.why ? `<div class="card-text"><strong>${escapeHtml(t("reason"))}</strong>${whyListHtml(stock.why, escapeHtml)}</div>` : ""}
         ${stock.risk ? `<p class="card-text risk"><strong>${escapeHtml(t("risk"))}</strong>　${linkRiskText(stock.risk)}</p>` : ""}
       </details>` : ""}
     </article>
@@ -345,7 +346,7 @@ function tableRows(list) {
         <td class="num">${s.volRatio != null ? fmtNum(s.volRatio, 2) + "×" : "—"}</td>
         <td>${smaBadges(s)}</td>
         <td>${screenBadges(s.screens)}</td>
-        <td class="why-cell">${escapeHtml(s.why || "")}</td>
+        <td class="why-cell">${whyListHtml(s.why, escapeHtml)}</td>
       </tr>`;
     })
     .join("");
@@ -379,7 +380,7 @@ function mobileCards(list) {
           <span>${term("volRatio", t("volRatio"))} ${s.volRatio != null ? fmtNum(s.volRatio, 2) + "×" : "—"}</span>
         </div>
         <div class="flags" style="margin-bottom:0.4rem">${smaBadges(s)}${screenBadges(s.screens)}</div>
-        ${s.why ? `<p class="lc-why">${escapeHtml(s.why)}</p>` : ""}
+        ${s.why ? `<div class="lc-why">${whyListHtml(s.why, escapeHtml)}</div>` : ""}
         ${s.risk && s.risk !== "—" ? `<p class="lc-why lc-risk">${escapeHtml(t("risk"))}：${linkRiskText(s.risk)}</p>` : ""}
       </div>`;
     })

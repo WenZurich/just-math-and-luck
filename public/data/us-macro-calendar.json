@@ -1,38 +1,22 @@
 {
-  "asOf": "2026-10-23T01:43:07.535Z",
+  "asOf": "2026-10-24T01:43:55.898Z",
   "market": "US",
   "timezone": "America/New_York",
   "timezoneLabel": "US ET",
   "window": {
-    "from": "2026-10-22",
-    "to": "2026-11-26"
+    "from": "2026-10-23",
+    "to": "2026-11-27"
   },
   "source": {
     "name": "XOOMAR",
     "url": "https://xoomar.com/api/markets/calendar",
     "docs": "https://xoomar.com/markets/api/calendar",
-    "remoteUpdatedAt": "2026-10-22T12:35:14.678Z",
+    "remoteUpdatedAt": "2026-10-23T11:30:04.035Z",
     "attribution": "Credit XOOMAR with a link to the dataset page on xoomar.com when you republish this data",
     "license": "https://xoomar.com/terms"
   },
   "stale": false,
   "events": [
-    {
-      "id": "joblessClaims-2026-10-22T12:30:00.000Z",
-      "eventKey": "joblessClaims",
-      "eventName": "Initial Jobless Claims",
-      "shortName": "Jobless Claims",
-      "importance": "high",
-      "highImpact": true,
-      "scheduledAt": "2026-10-22T12:30:00.000Z",
-      "dayEt": "2026-10-22",
-      "periodLabel": "Week ending 2026-10-17",
-      "source": "dol",
-      "officialUrl": "https://www.dol.gov/ui/data.pdf",
-      "actual": "194.0000",
-      "previous": "200.0000",
-      "unit": "thousands, week ending Saturday"
-    },
     {
       "id": "fomcDecision-2026-10-28T18:00:00.000Z",
       "eventKey": "fomcDecision",

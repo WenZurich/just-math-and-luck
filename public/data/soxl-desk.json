@@ -2,20 +2,15 @@
   "market": "US",
   "ticker": "SOXL",
   "fundName": "Direxion Daily Semiconductor Bull 3X ETF",
-  "asOf": "2026-10-23T00:30:58.452Z",
+  "asOf": "2026-10-24T01:43:53.401Z",
   "quote": {
-    "price": 81.15,
-    "change": -0.96,
-    "changePct": -1.17,
+    "price": 83.56,
+    "change": 1.45,
+    "changePct": 1.77,
     "currency": "USD",
-    "session": "overnight / extended (Yahoo)",
+    "session": "NYSE Arca regular close (October 23 at 4:00:01 PM EDT)",
     "source": "https://finance.yahoo.com/quote/SOXL/",
-    "regularClose": {
-      "price": 82.11,
-      "change": -21.13,
-      "changePct": -20.47,
-      "session": "NYSE Arca regular close (October 22 at 4:00:01 PM EDT)"
-    }
+    "regularClose": null
   },
   "holdingsAsOf": "2026-01-31",
   "holdingsSource": {
@@ -27,15 +22,6 @@
   "holdingsFreshnessNote": "Holdings weights are from the latest SOXL SEC N-PORT located in research (period ended 2026-01-31), not a same-day Direxion CSV. Cash + index swaps dominate reported net assets; daily weights change.",
   "leverageNote": "SOXL seeks ~3× the daily performance of the ICE Semiconductor Index. Contribution ≈ weight × return is an unlevered basket estimate only; ETF moves are magnified and path-dependent.",
   "events": [
-    {
-      "type": "anomaly",
-      "severity": "high",
-      "title": "正規盤大波動 -20.47%",
-      "detail": "Yahoo 顯示 SOXL 正規收盤約 $82.11（-20.47% / -21.13）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
-      "sources": [
-        "https://finance.yahoo.com/quote/SOXL/"
-      ]
-    },
     {
       "type": "structure",
       "severity": "info",
@@ -61,15 +47,6 @@
       "detail": "DividendInvestor reports a $0.0929 per-share distribution declared September 21, with a September 29 payment date for holders of record September 22.",
       "sources": [
         "https://www.dividendinvestor.com/dividend-news/20260921/daily-semiconductor-bull-3x-shs-direxion-shares-exchange-traded-fund-trust-nyse-soxl-declared-a-dividend-of-$0.0929-per-share/"
-      ]
-    },
-    {
-      "type": "session",
-      "severity": "info",
-      "title": "目前顯示隔夜／延長時段報價",
-      "detail": "最新報價時段：overnight / extended (Yahoo)。正規收盤另見 hero 備註。",
-      "sources": [
-        "https://finance.yahoo.com/quote/SOXL/"
       ]
     }
   ],
@@ -147,28 +124,28 @@
       "published": "2026-08-26"
     },
     {
-      "title": "SOXL IV Just Hit 123%. These 2 Options Strategies That Pay You for the Risk.",
-      "summary": "SOXL's implied volatility just hit 123%, making it one of the market's riskiest ETFs to hold outright. Here's how a bear call spread lets you collect income from that volatility instead, with defined risk.",
-      "url": "https://www.barchart.com/story/news/3947024/soxl-iv-just-hit-123-these-2-options-strategies-that-pay-you-for-the-risk?.tsrc=rss",
-      "published": "2026-08-20"
+      "title": "Nasdaq Futures Rise After Chip Selloff While S&amp;P 500, Dow Track Mixed Open: SLV, GLD, SOXL, BE In Focus",
+      "summary": "Semiconductor stocks were in focus on Thursday as the sector fell sharply after LAM Research CEO Tim Archer cited supply chain concerns.",
+      "url": "https://stocktwits.com/news-articles/markets/equity/nasdaq-futures-rise-after-chip-selloff-while-s-and-p-500-dow-track-mixed-open-slv-gld-soxl-be-in-focus/cZxyG6qRBDq?.tsrc=rss",
+      "published": "2026-10-23"
     },
     {
-      "title": "SOXL Turns Every 1% Nvidia Move Into 3%. Here’s What $10,000 Did in the Last 12 Months",
-      "summary": "Triple-leveraged semiconductor exposure sounds like a recipe for disaster, yet one ETF quietly turned a modest stake into something that rivals a year of aggressive trading. The math behind it challenges almost everything conventional wisdom says about managing risk.",
-      "url": "https://247wallst.com/investing/etf/2026/08/19/soxl-turns-every-1-nvidia-move-into-3-heres-what-10000-did-in-the-last-12-months/?.tsrc=rss",
-      "published": "2026-08-19"
+      "title": "SOXX, SOXL, SMH Plunge As Chip Stocks Sell Off Amid Supply Chain Concerns",
+      "summary": "The iShares Semiconductor ETF fell nearly 7% at close, while the Direxion Daily Semiconductor Bull 3X Shares plunged more than 20%, and the VanEck Semiconductor ETF fell nearly 6%.",
+      "url": "https://stocktwits.com/news-articles/markets/equity/soxx-soxl-smh-plunge-as-chip-stocks-sell-off-amid-supply-chain-concerns/cZxUCbMRBDF?.tsrc=rss",
+      "published": "2026-10-23"
+    },
+    {
+      "title": "ETF League Tables: Direxion Gains Assets",
+      "summary": "&lt;p&gt;Table below reflects daily flows on October 21, 2026 and asset totals as of that date.&lt;/p&gt;",
+      "url": "http://www.etf.com/sections/etf-league-tables/etf-league-tables-direxion-gains-assets?utm_source=yahoo-finance&amp;utm_medium=rss&amp;utm_campaign=yahoo-finance-rss&amp;.tsrc=rss",
+      "published": "2026-10-22"
     },
     {
       "title": "2 ETFs to Watch for Outsized Volume in Semiconductor Trading",
       "summary": "SOXS and SOXL see trading volumes surge to 1.53 and 1.48 times their averages, respectively, as semiconductor ETFs post sharply divergent daily moves.",
       "url": "https://finance.yahoo.com/markets/stocks/articles/2-etfs-watch-outsized-volume-124500884.html?.tsrc=rss",
       "published": "2026-10-20"
-    },
-    {
-      "title": "Investors Buy the Dip in Chips as ETF Inflows Near $58B",
-      "summary": "&lt;p&gt;A leveraged semiconductor fund led all ETFs last week even as chip stocks suffered their worst week in more than a year.&lt;/p&gt;",
-      "url": "http://www.etf.com/sections/weekly-etf-flows/investors-buy-dip-chips-etf-inflows-near-58b?utm_source=yahoo-finance&amp;utm_medium=rss&amp;utm_campaign=yahoo-finance-rss&amp;.tsrc=rss",
-      "published": "2026-10-19"
     }
   ],
   "holdings": [
@@ -535,7 +512,7 @@
     "Research seed: /workspace/soxl-research/soxl-holdings-raw.json",
     "SEC N-PORT: https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
     "Yahoo quote page: https://finance.yahoo.com/quote/SOXL/",
-    "Yahoo quote HTML refresh @ 2026-10-23T00:30:58.452Z",
+    "Yahoo quote HTML refresh @ 2026-10-24T01:43:53.401Z",
     "https://feeds.finance.yahoo.com/rss/2.0/headline?s=SOXL&region=US&lang=en-US"
   ],
   "blockers": [

@@ -510,6 +510,28 @@ async function main() {
       fail(`earnings-digest parse: ${e}`);
     }
   }
+
+  // 選股理由 shown as plain-language bullets: no jargon/English enums, numbers copied verbatim.
+  try {
+    const { whyPoints } = await import(pathToFileURL(path.join(ROOT, "src/why-plain.js")).href);
+    const lj = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/latest.json"), "utf8"));
+    const picks = [...(lj.us || []), ...(lj.tw || [])].filter((p) => p.why);
+    const bad = [];
+    for (const p of picks) {
+      const out = whyPoints(p.why).join(" | ");
+      if (/\b[a-z]+_[a-z_]+\b|\b(balanced|selective|defensive|aggressive|constructive)\b|\dpp\b|SMA\d|相位|姿態/.test(out)) bad.push(`${p.ticker}: jargon left → ${out}`);
+      for (const n of String(p.why).match(/\d+(?:\.\d+)?/g) || []) {
+        if (!out.includes(n)) bad.push(`${p.ticker}: number ${n} lost → ${out}`);
+      }
+    }
+    const tpos = whyPoints("日漲跌 -1.5%（相對 S&P 約 -0.3pp）；量比約 2×").join("|");
+    if (tpos !== "今天跌 1.5%，比 S&P 500 弱 0.3 個百分點|成交量約是近 20 日平均的 2 倍") bad.push(`sign wording wrong: ${tpos}`);
+    if (!picks.length) fail("why-plain: no picks with reasons in latest.json");
+    else if (bad.length) for (const b of bad.slice(0, 5)) fail(`why-plain: ${b}`);
+    else ok(`why-plain: ${picks.length} pick reasons → plain bullets, numbers verbatim, no jargon`);
+  } catch (e) {
+    fail(`why-plain: ${e}`);
+  }
   const erJs = fs.readFileSync(path.join(ROOT, "src/earnings.js"), "utf8");
   if (/Black-Scholes|\\bN\(d1\)|d1\s*=\s*\(/.test(erJs)) {
     fail("earnings.js appears to dump raw formulas");
