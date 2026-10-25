@@ -5,7 +5,7 @@
  * Pure SMA / returns / volume helpers: ./math-core.mjs (guarded by math-guards).
  */
 
-import { sma, retChange as pctChange, volumeRatioObserved, pctFromSma, peakInWindow, drawdownFromPeak, atrPct, isFiniteNumber } from "./math-core.mjs";
+import { sma, retChange as pctChange, volumeRatioObserved, pctFromSma, peakInWindow, drawdownFromPeak, atrPct, isFiniteNumber, priorWindowDrawdown, atrBottomQuartile as atrBottomQuartileOf, lagChange } from "./math-core.mjs";
 
 export const PHASE_TO_STANCE = {
   euphoric: "defensive",
@@ -82,35 +82,16 @@ export function indexFeaturesFromChart(chart) {
   const atr = atrPct20(bars);
   if (atr == null) gaps.push("ATR_pct_20");
 
-  // ATR percentile vs prior ~252d (when available)
-  let atrBottomQuartile = null;
-  if (bars.length >= 60) {
-    const atrSeries = [];
-    const start = Math.max(21, bars.length - 252);
-    for (let i = start; i < bars.length; i++) {
-      const a = atrPct20(bars.slice(0, i + 1));
-      if (a != null) atrSeries.push(a);
-    }
-    if (atr != null && atrSeries.length >= 40) {
-      const sorted = [...atrSeries].sort((a, b) => a - b);
-      const q1 = sorted[Math.floor(sorted.length * 0.25)];
-      atrBottomQuartile = atr <= q1;
-    } else {
-      gaps.push("ATR_pct_20_quartile");
-    }
-  }
+  // ATR%(20) bottom quartile vs the trailing ~252 sessions — math-core.atrBottomQuartile (guarded)
+  const atrQ = atrBottomQuartileOf(bars, { window: 20, minTr: 10 });
+  const atrBottomQuartile = atrQ.flag;
+  if (atrQ.gap) gaps.push("ATR_pct_20_quartile");
 
   const near52wHigh =
     ddFrom252dHigh != null ? ddFrom252dHigh >= -0.02 : null;
 
-  // prior 10d drawdown for K6
-  let prior10dDd = null;
-  if (closes.length >= 11) {
-    const window = closes.slice(-11, -1);
-    const peak = Math.max(...window);
-    const trough = Math.min(...window);
-    if (peak > 0) prior10dDd = trough / peak - 1;
-  }
+  // prior 10d drawdown for K6 — math-core.priorWindowDrawdown (guarded; order-blind min/max − 1, see note there)
+  const prior10dDd = priorWindowDrawdown(closes, 10);
 
   const dayPct =
     closes.length >= 2
@@ -146,22 +127,14 @@ export function indexFeaturesFromChart(chart) {
 /** Yield / FX level change in percentage points (or FX relative change). */
 export function seriesDelta(chart, days) {
   if (!chart?.bars?.length) return { value: null, gap: true };
-  const closes = chart.bars.map((b) => b.c).filter((c) => c != null);
-  if (closes.length < days + 1) return { value: null, gap: true };
-  const a = closes[closes.length - 1 - days];
-  const b = closes[closes.length - 1];
-  if (a == null || b == null) return { value: null, gap: true };
-  return { value: round(b - a, 4), gap: false };
+  const r = lagChange(chart.bars.map((b) => b.c), days, "diff"); // math-core (guarded)
+  return r.gap ? r : { value: round(r.value, 4), gap: false };
 }
 
 export function seriesRet(chart, days) {
   if (!chart?.bars?.length) return { value: null, gap: true };
-  const closes = chart.bars.map((b) => b.c).filter((c) => c != null);
-  if (closes.length < days + 1) return { value: null, gap: true };
-  const a = closes[closes.length - 1 - days];
-  const b = closes[closes.length - 1];
-  if (a == null || b == null || a === 0) return { value: null, gap: true };
-  return { value: round(b / a - 1, 4), gap: false };
+  const r = lagChange(chart.bars.map((b) => b.c), days, "ret"); // math-core (guarded)
+  return r.gap ? r : { value: round(r.value, 4), gap: false };
 }
 
 /**

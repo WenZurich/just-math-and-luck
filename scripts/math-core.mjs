@@ -620,3 +620,107 @@ export function windowPerformance(series, days) {
   if (pnl == null || pct == null) return null;
   return { pct, pnl, label: sinceInception ? "成立以來" : `${days}日`, sinceInception, days, fromDate: base.date, toDate: last.date };
 }
+
+// ── Regime inputs moved out of market-regime / daily-scan (2026-10-26) ──
+
+/**
+ * "Prior 10-day drawdown" exactly as the regime has always published it: over the `lookback`
+ * closes *before* the last bar, min/max − 1 (fraction, ≤ 0). NOTE: this is order-blind — it is the
+ * range ratio, so a rally (low first, high later) also reads negative. It is ≤ the true
+ * peak-to-later-trough drawdown (peakToTroughDrawdown) and equal when the max comes before the min.
+ * Domain: ≥ lookback+1 closes, every close in the window finite and > 0; otherwise null
+ * (legacy turned a 0/negative close into −100% or worse, and coerced numeric strings).
+ */
+export function priorWindowDrawdown(closes, lookback = 10) {
+  if (!Array.isArray(closes) || !Number.isInteger(lookback) || lookback < 1 || closes.length < lookback + 1) return null;
+  const w = closes.slice(-(lookback + 1), -1);
+  let hi = -Infinity;
+  let lo = Infinity;
+  for (const c of w) {
+    if (!isFiniteNumber(c) || !(c > 0)) return null;
+    if (c > hi) hi = c;
+    if (c < lo) lo = c;
+  }
+  const v = lo / hi - 1;
+  return isFiniteNumber(v) ? v : null;
+}
+
+/** True max drawdown of a positive series: min over i ≤ j of x_j / max(x_0..x_i) − 1 (≤ 0); junk/empty ⇒ null. */
+export function peakToTroughDrawdown(arr) {
+  if (!Array.isArray(arr) || arr.length === 0) return null;
+  let peak = -Infinity;
+  let dd = 0;
+  for (const x of arr) {
+    if (!isFiniteNumber(x) || !(x > 0)) return null;
+    if (x > peak) peak = x;
+    const d = x / peak - 1;
+    if (d < dd) dd = d;
+  }
+  return dd;
+}
+
+/**
+ * Is `value` in the bottom quartile of `series`? Empirical rule kept from the regime code:
+ * q = sorted[floor(n·q)] (lower order statistic), flag = value ≤ q. n < minLen ⇒ null.
+ * Any non-finite series entry or value ⇒ null (legacy sorted NaN arbitrarily).
+ */
+export function bottomQuantileFlag(value, series, { q = 0.25, minLen = 40 } = {}) {
+  if (!isFiniteNumber(value) || !Array.isArray(series) || series.length < minLen || series.length === 0) return null;
+  if (!(q >= 0 && q < 1)) return null;
+  for (const x of series) if (!isFiniteNumber(x)) return null;
+  const sorted = [...series].sort((a, b) => a - b);
+  return value <= sorted[Math.floor(sorted.length * q)];
+}
+
+/**
+ * ATR%(20) bottom-quartile flag vs the trailing ~252 sessions (Marks M5 "compressed vol near highs").
+ * Same rule as the legacy inline loop: when bars ≥ minBars, collect atrPct over every end index
+ * i ∈ [max(firstIdx, n − lookback), n − 1] (includes today), need ≥ minSeries values and today's ATR.
+ * Returns { flag, gap, count }: bars < minBars ⇒ { null, false, 0 } (legacy pushed no gap there);
+ * not enough ATR history ⇒ { null, true }. count = number of ATR values in the comparison window.
+ */
+export function atrBottomQuartile(bars, { window = 20, minTr = 10, lookback = 252, firstIdx = 21, minBars = 60, minSeries = 40 } = {}) {
+  if (!Array.isArray(bars) || bars.length < minBars) return { flag: null, gap: false, count: 0 };
+  const series = [];
+  for (let i = Math.max(firstIdx, bars.length - lookback); i < bars.length; i++) {
+    // atrPct only reads the last window+1 bars, so a bounded slice = legacy bars.slice(0, i + 1)
+    const a = atrPct(bars.slice(Math.max(0, i - window), i + 1), { window, minTr });
+    if (a != null) series.push(a);
+  }
+  const today = atrPct(bars, { window, minTr });
+  const flag = today != null && series.length >= minSeries ? bottomQuantileFlag(today, series, { q: 0.25, minLen: minSeries }) : null;
+  return flag == null ? { flag: null, gap: true, count: series.length } : { flag, gap: false, count: series.length };
+}
+
+/** Share of items whose `key` is exactly true (market breadth). Empty ⇒ null; non-boolean flag ⇒ null (no guess). */
+export function breadthShare(items, key = "above50") {
+  if (!Array.isArray(items) || items.length === 0) return null;
+  let k = 0;
+  for (const m of items) {
+    const v = m?.[key];
+    if (typeof v !== "boolean") return null;
+    if (v) k++;
+  }
+  return k / items.length;
+}
+
+/**
+ * Change of the last close vs the close `days` bars earlier (null/undefined closes are dropped first,
+ * as before). mode "diff": b − a (yield points); mode "ret": b/a − 1 (fraction, needs a > 0).
+ * Non-number endpoints ⇒ { value: null, gap: true } (legacy coerced strings and leaked NaN with gap:false).
+ */
+export function lagChange(closes, days, mode = "diff") {
+  if (!Array.isArray(closes) || !Number.isInteger(days) || days < 1) return { value: null, gap: true };
+  const xs = closes.filter((c) => c != null);
+  if (xs.length < days + 1) return { value: null, gap: true };
+  const a = xs[xs.length - 1 - days];
+  const b = xs[xs.length - 1];
+  if (!isFiniteNumber(a) || !isFiniteNumber(b)) return { value: null, gap: true };
+  if (mode === "diff") return { value: b - a, gap: false };
+  if (mode === "ret") {
+    if (!(a > 0)) return { value: null, gap: true };
+    const v = b / a - 1;
+    return isFiniteNumber(v) ? { value: v, gap: false } : { value: null, gap: true };
+  }
+  return { value: null, gap: true };
+}

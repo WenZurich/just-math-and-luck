@@ -26,6 +26,10 @@ import {
   avgVolume,
   rsVsIndex,
   baseRankingScore,
+  peakInWindow,
+  drawdownFromPeak,
+  pctFromSma,
+  breadthShare,
 } from "./math-core.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -222,12 +226,10 @@ function computeMetrics(chart) {
   const sma200 = closes.length >= 200 ? sma(closes, 200) : null;
   const highs = bars.map((b) => b.h ?? b.c);
   const lookbackHigh = Math.min(252, highs.length);
-  let maxHigh = null;
-  if (lookbackHigh >= 20) maxHigh = Math.max(...highs.slice(-lookbackHigh));
-  const ddFrom252dHigh =
-    maxHigh != null && maxHigh > 0 ? price / maxHigh - 1 : null;
-  const pctFromSma200 =
-    sma200 != null && sma200 > 0 ? price / sma200 - 1 : null;
+  // math-core (guarded): non-finite high ⇒ null instead of Math.max coercion; peak/SMA ≤ 0 ⇒ null
+  const maxHigh = lookbackHigh >= 20 ? peakInWindow(highs, lookbackHigh) : null;
+  const ddFrom252dHigh = maxHigh != null ? drawdownFromPeak(price, maxHigh) : null;
+  const pctFromSma200 = sma200 != null ? pctFromSma(price, sma200) : null;
   const idx63 = closes.length - 1 - 63;
   const pct63d = idx63 >= 0 ? pctChange(closes[idx63], price) : null;
 
@@ -517,14 +519,9 @@ async function main() {
     if (h != null && l != null) hygVsLqd20d = round(h - l, 4);
   }
 
-  const usBreadth =
-    usMetrics.length > 0
-      ? usMetrics.filter((m) => m.above50).length / usMetrics.length
-      : null;
-  const twBreadth =
-    twMetrics.length > 0
-      ? twMetrics.filter((m) => m.above50).length / twMetrics.length
-      : null;
+  // share of the universe closing ≥ SMA50 (no SMA50 yet counts as "not above", as before) — math-core.breadthShare (guarded)
+  const usBreadth = breadthShare(usMetrics, "above50");
+  const twBreadth = breadthShare(twMetrics, "above50");
 
   const marketRegime = {
     us: computeMarketRegime({

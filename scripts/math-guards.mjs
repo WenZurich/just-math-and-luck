@@ -1915,6 +1915,188 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
   ok(`paper book valuation (${n} cases: 20000 random books = verbatim legacy equity, additivity, qty scaling, equity = cash + Σ qty·mark, hand 5000@43.25 + 41@190.73, junk ⇒ null; unrealizedPnlOf oracle/sign/junk; 2000 random trade sequences keep equity − start = realized + unrealized; addDaysYmdUtc = legacy, round trip, leap/month/year edges, invalid ⇒ null; ${wN} random windows = verbatim legacy windowPerf, base = latest snapshot ≤ last − days, 7-day boundary inclusive, since-inception flag, pnl/pct consistent, unsorted/duplicate/NaN ⇒ null; live TW/US equity, identity, total/unrealized and 4 windows recompute)`);
 }
 
+// ── Regime inputs: prior-10d drawdown, ATR bottom quartile, breadth, rate/FX/credit lag deltas (2026-10-26) ──
+// Dependencies: [dd] closes[n−11..n−2] only; [q] series + today's ATR; [br] boolean above50 flags; [lag] closes
+// with null dropped, endpoints n−1−days and n−1. Each check evaluates the function on data.
+{
+  const { priorWindowDrawdown, peakToTroughDrawdown, bottomQuantileFlag, atrBottomQuartile, breadthShare, lagChange } = await import("./math-core.mjs");
+  const { seriesDelta, seriesRet } = await import("./market-regime.mjs");
+  let n = 0;
+  const bad = (m) => fail(`regime inputs: ${m}`);
+  let s = 20261026 >>> 0;
+  const rnd = () => ((s = (Math.imul(s, 1664525) + 1013904223) >>> 0) / 4294967296);
+  const r4 = (x, d = 4) => (x == null || Number.isNaN(x) ? null : Math.round(x * 10 ** d) / 10 ** d);
+  // verbatim legacy (market-regime.mjs / daily-scan.mjs before 2026-10-26)
+  const legacyPrior = (closes) => { if (closes.length < 11) return null; const w = closes.slice(-11, -1); const pk = Math.max(...w), tr = Math.min(...w); return pk > 0 ? tr / pk - 1 : null; };
+  const legacyAtrQ = (bars) => {
+    const atr = atrPct(bars, { window: 20, minTr: 10 }); let flag = null, gap = false;
+    if (bars.length >= 60) {
+      const ser = []; const start = Math.max(21, bars.length - 252);
+      for (let i = start; i < bars.length; i++) { const a = atrPct(bars.slice(0, i + 1), { window: 20, minTr: 10 }); if (a != null) ser.push(a); }
+      if (atr != null && ser.length >= 40) { const so = [...ser].sort((a, b) => a - b); flag = atr <= so[Math.floor(so.length * 0.25)]; } else gap = true;
+      return { flag, gap, count: ser.length };
+    }
+    return { flag, gap, count: 0 };
+  };
+  const legacyBreadth = (ms) => (ms.length > 0 ? ms.filter((m) => m.above50).length / ms.length : null);
+  const legacyLag = (closesRaw, days, ret) => { const c = closesRaw.filter((x) => x != null); if (c.length < days + 1) return { value: null, gap: true }; const a = c[c.length - 1 - days], b = c[c.length - 1]; if (a == null || b == null) return { value: null, gap: true }; if (ret) { if (a === 0) return { value: null, gap: true }; return { value: r4(b / a - 1), gap: false }; } return { value: r4(b - a), gap: false }; };
+  const legacyDd252 = (price, highs) => { const lb = Math.min(252, highs.length); let mh = null; if (lb >= 20) mh = Math.max(...highs.slice(-lb)); return mh != null && mh > 0 ? price / mh - 1 : null; };
+  const randWalk = (len, p0 = 100) => { const out = []; let p = p0; for (let i = 0; i < len; i++) { p *= Math.exp((rnd() - 0.5) * 0.06); out.push(Math.round(p * 100) / 100); } return out; };
+  const randBars = (len) => { const out = []; let p = 50 + rnd() * 500; for (let i = 0; i < len; i++) { const o = p; p *= Math.exp((rnd() - 0.5) * (0.01 + 0.05 * rnd())); const h = Math.max(o, p) * (1 + rnd() * 0.02), l = Math.min(o, p) * (1 - rnd() * 0.02); out.push({ o, h, l, c: p, v: Math.floor(rnd() * 1e6) }); } return out; };
+  const bruteDd = (a) => { let m = 0; for (let i = 0; i < a.length; i++) for (let j = i; j < a.length; j++) { let pk = -Infinity; for (let k = 0; k <= i; k++) pk = Math.max(pk, a[k]); m = Math.min(m, a[j] / pk - 1); } return m; };
+
+  // [dd] 1) legacy oracle + invariants on random positive series
+  for (let t = 0; t < 20000; t++) {
+    const len = 11 + Math.floor(rnd() * 40); const c = randWalk(len);
+    const v = priorWindowDrawdown(c, 10); n++;
+    if (v !== legacyPrior(c)) { bad(`priorWindowDrawdown ≠ legacy ${JSON.stringify(c)}`); break; }
+    n++; if (!(v <= 0)) { bad(`priorWindowDrawdown > 0`); break; }
+    const k = 0.5 + rnd() * 3; const vs = priorWindowDrawdown(c.map((x) => x * k), 10); n++;
+    if (Math.abs(vs - v) > 1e-12) { bad(`scale invariance ${v} vs ${vs}`); break; }
+    const w = c.slice(-11, -1); const sh = [...w].sort(() => rnd() - 0.5); n++;
+    if (priorWindowDrawdown([...c.slice(0, -11), ...sh, c.at(-1)], 10) !== v) { bad(`order-blind (permuting the window must not change the range ratio)`); break; }
+    const tru = peakToTroughDrawdown(w); n++;
+    if (!(v <= tru + 1e-15)) { bad(`range ratio ${v} > true drawdown ${tru}`); break; }
+    const desc = [...w].sort((a, b) => b - a); n++;
+    if (Math.abs(priorWindowDrawdown([...desc, 1], 10) - peakToTroughDrawdown(desc)) > 1e-15) { bad(`max-before-min ⇒ range = true dd`); break; }
+    const c2 = [...c]; c2[c2.length - 1] = rnd() < 0.5 ? NaN : 0; if (c2.length > 11) c2[0] = -5; n++;
+    if (priorWindowDrawdown(c2, 10) !== v) { bad(`locality: last bar / bars before the window must not matter`); break; }
+  }
+  // [dd] 2) junk inside the window ⇒ null (legacy: 0 ⇒ −100%, negative ⇒ < −100%, "12" coerced)
+  {
+    const base = randWalk(15);
+    for (const j of [0, -3, NaN, Infinity, -Infinity, null, undefined, "12", {}]) {
+      for (const pos of [base.length - 2, base.length - 11]) { const c = [...base]; c[pos] = j; n++; if (priorWindowDrawdown(c, 10) !== null) bad(`junk ${String(j)} at ${pos} ⇒ ${priorWindowDrawdown(c, 10)}, want null`); }
+    }
+    n++; if (legacyPrior([...base.slice(0, -2), 0, base.at(-1)]) !== -1) bad(`documenting legacy: 0 close made −100%`);
+    n++; if (priorWindowDrawdown(base.slice(0, 10), 10) !== null || priorWindowDrawdown(base.slice(0, 11), 10) === null) bad(`length boundary 10/11`);
+    for (const lb of [0, -1, 1.5, "10"]) { n++; if (priorWindowDrawdown(base, lb) !== null) bad(`bad lookback ${lb}`); }
+    n++; if (priorWindowDrawdown(null) !== null || priorWindowDrawdown("abc") !== null) bad(`non-array`);
+    // hand: rally 100→110 inside the window reads −9.09% (documented order-blindness), true dd 0
+    const rally = [100, 101, 102, 103, 104, 105, 106, 107, 108, 110, 111]; n++;
+    if (Math.abs(priorWindowDrawdown(rally, 10) - (100 / 110 - 1)) > 1e-15 || peakToTroughDrawdown(rally.slice(0, 10)) !== 0) bad(`hand rally case`);
+  }
+  // [dd] 3) peakToTroughDrawdown = brute O(n³) definition; junk
+  for (let t = 0; t < 3000; t++) { const a = randWalk(1 + Math.floor(rnd() * 14)); n++; if (Math.abs(peakToTroughDrawdown(a) - bruteDd(a)) > 1e-15) { bad(`peakToTrough ≠ brute ${JSON.stringify(a)}`); break; } }
+  for (const j of [[], [1, 0, 2], [1, NaN], ["2", 1], null]) { n++; if (peakToTroughDrawdown(j) !== null) bad(`peakToTrough junk ${JSON.stringify(j)}`); }
+
+  // [q] 4) bottomQuantileFlag ⇔ #{x < value} ≤ floor(n/4) (sort-free oracle) and = legacy rule; boundaries
+  for (let t = 0; t < 20000; t++) {
+    const len = 40 + Math.floor(rnd() * 220); const ser = Array.from({ length: len }, () => (rnd() < 0.2 ? Math.round(rnd() * 10) / 100 : rnd() * 0.1));
+    const val = rnd() < 0.3 ? ser[Math.floor(rnd() * len)] : rnd() * 0.1;
+    const f = bottomQuantileFlag(val, ser); const cnt = ser.filter((x) => x < val).length; n++;
+    if (f !== (cnt <= Math.floor(len / 4))) { bad(`bottomQuantileFlag ≠ count oracle (n=${len}, below=${cnt})`); break; }
+    const so = [...ser].sort((a, b) => a - b); n++;
+    if (f !== (val <= so[Math.floor(so.length * 0.25)])) { bad(`bottomQuantileFlag ≠ legacy rule`); break; }
+    n++; if (f && bottomQuantileFlag(val - rnd() * 0.01, ser) !== true) { bad(`monotone: lower value stays flagged`); break; }
+  }
+  {
+    const ser = Array.from({ length: 40 }, (_, i) => i + 1); // q index floor(40/4)=10 ⇒ sorted[10] = 11
+    n++; if (bottomQuantileFlag(11, ser) !== true || bottomQuantileFlag(11.0001, ser) !== false) bad(`quartile boundary 11/11.0001 on 1..40`);
+    n++; if (bottomQuantileFlag(1, ser.slice(0, 39)) !== null) bad(`minLen 39 ⇒ null`);
+    for (const j of [NaN, null, "5"]) { n++; if (bottomQuantileFlag(j, ser) !== null) bad(`junk value ${j}`); }
+    n++; if (bottomQuantileFlag(5, [...ser.slice(0, 39), NaN]) !== null) bad(`NaN in series ⇒ null`);
+  }
+  // [q] 5) atrBottomQuartile = verbatim legacy loop (flag and gap) on random charts incl. junk bars; boundaries; flat
+  let aq = 0;
+  for (let t = 0; t < 400; t++) {
+    const len = 30 + Math.floor(rnd() * 330); const bars = randBars(len);
+    if (rnd() < 0.25) for (let k = 0; k < 1 + Math.floor(rnd() * 30); k++) { const i = Math.floor(rnd() * len); const key = ["h", "l", "c"][Math.floor(rnd() * 3)]; bars[i] = { ...bars[i], [key]: [NaN, null, 0, -1][Math.floor(rnd() * 4)] }; }
+    if (rnd() < 0.05) for (let i = len - 25; i < len; i++) if (i >= 0) bars[i] = { ...bars[i], h: NaN };
+    const a = atrBottomQuartile(bars); const L = legacyAtrQ(bars); n++; aq++;
+    if (a.flag !== L.flag || a.gap !== L.gap || a.count !== L.count) { bad(`atrBottomQuartile ${JSON.stringify(a)} ≠ legacy ${JSON.stringify(L)} (len ${len})`); break; }
+    if (t < 60 && a.flag != null) { const k = 0.1 + rnd() * 5; const sc = atrBottomQuartile(bars.map((b) => ({ ...b, h: b.h * k, l: b.l * k, c: b.c * k, o: b.o * k }))); n++; if (sc.flag !== a.flag) { bad(`ATR quartile scale invariance`); break; } }
+  }
+  {
+    const b59 = randBars(59), b60 = randBars(60); n++;
+    if (JSON.stringify(atrBottomQuartile(b59)) !== JSON.stringify({ flag: null, gap: false, count: 0 })) bad(`59 bars ⇒ {null,false}`);
+    { const long = randBars(400); n++; if (atrBottomQuartile(long).count !== 252) bad(`400 bars ⇒ exactly 252 ATR values (window n−252..n−1), got ${atrBottomQuartile(long).count}`); }
+    { const b100 = randBars(100); n++; if (atrBottomQuartile(b100).count !== 79) bad(`100 bars ⇒ 79 ATR values (i = 21..99), got ${atrBottomQuartile(b100).count}`); }
+    const r60 = atrBottomQuartile(b60); n++; if (r60.flag !== null || r60.gap !== true) bad(`60 bars ⇒ only 39 ATRs ⇒ gap (got ${JSON.stringify(r60)})`);
+    const r61 = atrBottomQuartile(randBars(61)); n++; if (r61.flag == null) bad(`61 bars ⇒ 40 ATRs ⇒ a flag`);
+    const flat = Array.from({ length: 120 }, () => ({ o: 10, h: 10, l: 10, c: 10, v: 1 })); n++;
+    if (atrBottomQuartile(flat).flag !== true) bad(`flat series ATR 0 ⇒ bottom quartile`);
+    const calmEnd = [...randBars(200), ...Array.from({ length: 30 }, () => ({ o: 100, h: 100.01, l: 99.99, c: 100, v: 1 }))]; n++;
+    if (atrBottomQuartile(calmEnd).flag !== true) bad(`very calm last 30 bars ⇒ flagged`);
+    const wildEnd = [...Array.from({ length: 200 }, () => ({ o: 100, h: 100.1, l: 99.9, c: 100, v: 1 })), ...randBars(30).map((b) => ({ ...b, h: b.h * 1.2, l: b.l * 0.8 }))]; n++;
+    if (atrBottomQuartile(wildEnd).flag !== false) bad(`wild last 30 bars ⇒ not flagged`);
+    n++; if (JSON.stringify(atrBottomQuartile(null)) !== JSON.stringify({ flag: null, gap: false, count: 0 })) bad(`null bars`);
+  }
+  // [br] 6) breadthShare = legacy on boolean flags; exact k/n; empty/junk
+  for (let t = 0; t < 5000; t++) {
+    const len = 1 + Math.floor(rnd() * 80); const ms = Array.from({ length: len }, () => ({ above50: rnd() < rnd() }));
+    const v = breadthShare(ms, "above50"); const k = ms.filter((m) => m.above50 === true).length; n++;
+    if (v !== legacyBreadth(ms) || v !== k / len || v < 0 || v > 1) { bad(`breadthShare ≠ legacy / k/n`); break; }
+  }
+  n++; if (breadthShare([], "above50") !== null || breadthShare(null) !== null) bad(`empty ⇒ null`);
+  n++; if (breadthShare([{ above50: true }, { above50: "false" }]) !== null) bad(`string flag ⇒ null (legacy counted "false" as above)`);
+  n++; if (legacyBreadth([{ above50: true }, { above50: "false" }]) !== 1) bad(`documenting legacy "false" ⇒ counted`);
+  n++; if (breadthShare([{ above50: true }, {}]) !== null) bad(`missing flag ⇒ null`);
+  // [lag] 7) lagChange / seriesDelta / seriesRet = verbatim legacy on random series with null holes; identities; junk
+  for (let t = 0; t < 20000; t++) {
+    const len = 1 + Math.floor(rnd() * 80); const c = randWalk(len, rnd() < 0.3 ? 4.5 : 30).map((x) => (rnd() < 0.05 ? null : (rnd() < 0.5 ? x + rnd() * 1e-3 : x)));
+    const days = [5, 20, 60][Math.floor(rnd() * 3)]; const chart = { bars: c.map((x) => ({ c: x })) };
+    const d = seriesDelta(chart, days), r = seriesRet(chart, days); n += 2;
+    if (JSON.stringify(d) !== JSON.stringify(legacyLag(c, days, false))) { bad(`seriesDelta ≠ legacy (len ${len}, days ${days})`); break; }
+    if (JSON.stringify(r) !== JSON.stringify(legacyLag(c, days, true))) { bad(`seriesRet ≠ legacy (len ${len}, days ${days})`); break; }
+    const raw = lagChange(c, days, "diff"), rr = lagChange(c, days, "ret"); n++;
+    if (!raw.gap) { const xs = c.filter((x) => x != null); const a = xs[xs.length - 1 - days]; if (Math.abs(rr.value - raw.value / a) > 1e-12 || Math.abs(raw.value - (xs.at(-1) - a)) > 1e-12) { bad(`ret = diff / a identity`); break; } }
+  }
+  {
+    const c = randWalk(30);
+    n++; if (lagChange(c, 29, "diff").gap !== false || lagChange(c, 30, "diff").gap !== true) bad(`length boundary days+1`);
+    for (const j of ["4.1", NaN, Infinity, {}]) { const c2 = [...c]; c2[c2.length - 1] = j; n++; if (lagChange(c2, 5, "diff").gap !== true || seriesRet({ bars: c2.map((x) => ({ c: x })) }, 5).gap !== true) bad(`junk endpoint ${String(j)} ⇒ gap`); }
+    n++; if (JSON.stringify(legacyLag([...c.slice(0, -1), "40"], 5, false)) === JSON.stringify({ value: null, gap: true })) bad(`documenting legacy: "40" string was coerced`);
+    for (const a0 of [0, -2]) { const c2 = [...c]; c2[c2.length - 6] = a0; n++; if (lagChange(c2, 5, "ret").gap !== true) bad(`ret base ${a0} ⇒ gap`); }
+    n++; if (lagChange(c, 5, "pct").gap !== true || lagChange(c, 0, "diff").gap !== true || lagChange(c, 2.5).gap !== true) bad(`bad mode/days ⇒ gap`);
+    const hand = [4.0, 4.1, 4.2, 4.3, 4.4, 4.5]; n++; if (seriesDelta({ bars: hand.map((x) => ({ c: x })) }, 5).value !== 0.5) bad(`hand ^TNX 4.0→4.5 = +0.5`);
+    n++; if (seriesDelta({ bars: [4.81234, 0, 0, 0, 0, 4.953000068664551].map((x) => ({ c: x })) }, 5).value !== 0.1407) bad(`4-dp rounding of a yield change (published scale)`);
+    n++; if (seriesRet({ bars: [32.5, 33.30625].map((x) => ({ c: x })) }, 1).value !== 0.0248) bad(`4-dp rounding of an FX return`);
+    n++; if (seriesRet({ bars: [100, null, 110].map((x) => ({ c: x })) }, 1).value !== 0.1) bad(`null dropped before lag`);
+  }
+  // 8) daily-scan computeMetrics 252d-high drawdown / SMA200 distance via peakInWindow/drawdownFromPeak/pctFromSma = legacy inline
+  for (let t = 0; t < 20000; t++) {
+    const len = 1 + Math.floor(rnd() * 300); const highs = randWalk(len); const price = highs.at(-1) * (0.7 + rnd() * 0.3);
+    const lb = Math.min(252, len); const mh = lb >= 20 ? peakInWindow(highs, lb) : null; const v = mh != null ? drawdownFromPeak(price, mh) : null; n++;
+    if (r4(v) !== r4(legacyDd252(price, highs))) { bad(`computeMetrics dd252 ≠ legacy`); break; }
+    n++; if (v != null && v > 0) { bad(`dd252 > 0 with price ≤ last high`); break; }
+    const sm = highs.slice(-Math.min(200, len)).reduce((a, b) => a + b, 0) / Math.min(200, len); n++;
+    if (r4(pctFromSma(price, sm)) !== r4(sm > 0 ? price / sm - 1 : null)) { bad(`pctFromSma200 ≠ legacy`); break; }
+  }
+  { const h = randWalk(40); h[10] = NaN; n++; if (peakInWindow(h, 40) !== null || legacyDd252(1, h) !== null) bad(`NaN high ⇒ null both`); }
+  // 9) caller path: indexFeaturesFromChart publishes legacy prior10dDd / atrBottomQuartile / gap list; junk close ⇒ null not −100%
+  for (let t = 0; t < 150; t++) {
+    const bars = randBars(40 + Math.floor(rnd() * 260)).map((b, i) => ({ ...b, date: `d${String(i).padStart(4, "0")}` }));
+    const f = indexFeaturesFromChart({ bars }); const L = legacyAtrQ(bars); const lp = legacyPrior(bars.map((b) => b.c)); n++;
+    if (f.prior10dDd !== r4(lp) || f.atrBottomQuartile !== L.flag || f.dataGaps.includes("ATR_pct_20_quartile") !== L.gap) { bad(`indexFeaturesFromChart ≠ legacy block`); break; }
+  }
+  for (const [len, junkTail, want] of [[60, false, true], [61, false, false], [59, false, false], [200, true, true]]) {
+    const bars = randBars(len).map((b, i) => ({ ...b, date: `g${i}` }));
+    if (junkTail) for (let i = len - 25; i < len; i++) bars[i] = { ...bars[i], h: NaN }; // today's ATR null ⇒ gap
+    const f = indexFeaturesFromChart({ bars }); n++;
+    if (f.dataGaps.includes("ATR_pct_20_quartile") !== want) bad(`indexFeaturesFromChart ATR quartile gap (len ${len}, junkTail ${junkTail}) should be ${want}`);
+  }
+  { const bars = randBars(80); bars[75] = { ...bars[75], c: 0 }; const f = indexFeaturesFromChart({ bars }); n++; if (f.prior10dDd !== null) bad(`0 close in window ⇒ prior10dDd ${f.prior10dDd}, want null (legacy −1 would read as a crash)`); }
+  // 10) wiring: daily-scan uses the guarded helpers (static), no inline Math.max over highs / filter-ratio breadth left
+  {
+    const src = readFileSync(join(ROOT_MG, "scripts/daily-scan.mjs"), "utf8"); const mrSrc = readFileSync(join(ROOT_MG, "scripts/market-regime.mjs"), "utf8"); n++;
+    if (/Math\.max\(\.\.\.highs/.test(src) || /filter\(\(m\) => m\.above50\)\.length/.test(src) || !/breadthShare\(usMetrics/.test(src) || !/breadthShare\(twMetrics/.test(src) || !/peakInWindow\(highs, lookbackHigh\)/.test(src)) bad(`daily-scan not wired to guarded helpers`);
+    n++; if (/Math\.max\(\.\.\.window\)/.test(mrSrc) || !/priorWindowDrawdown\(closes, 10\)/.test(mrSrc) || !/atrBottomQuartileOf\(bars/.test(mrSrc) || !/lagChange\(/.test(mrSrc)) bad(`market-regime not wired to guarded helpers`);
+  }
+  // 11) live: published breadthProxy recomputes from the scan's raw quotes (when the dump is from the same scan)
+  try {
+    const latest = JSON.parse(readFileSync(join(ROOT_MG, "public/data/latest.json"), "utf8"));
+    const rawPath = "/workspace/stock-ops-study/raw-quotes-2026-09-16.json"; let raw = null;
+    try { raw = JSON.parse(readFileSync(rawPath, "utf8")); } catch { /* CI / fresh box: dump absent */ }
+    const sameScan = raw && Math.abs(Date.parse(raw.fetched_at_utc) - Date.parse(latest.asOf)) < 6 * 3600e3;
+    if (sameScan) {
+      for (const [mkt, uni] of [["us", "US"], ["tw", "TW"]]) { const v = breadthShare(raw.quotes.filter((q) => q.universe === uni), "above50"); n++; if (r4(v, 3) !== latest.marketRegime[mkt].features.breadthProxy) bad(`live ${mkt} breadth ${r4(v, 3)} ≠ published ${latest.marketRegime[mkt].features.breadthProxy}`); }
+    }
+    for (const mkt of ["us", "tw"]) { const F = latest.marketRegime?.[mkt]?.features; n++; if (!F) { bad(`live ${mkt} features missing`); continue; } if (F.prior10dDd != null && !(F.prior10dDd <= 0 && F.prior10dDd > -1)) bad(`live ${mkt} prior10dDd ${F.prior10dDd} out of (−1, 0]`); if (F.breadthProxy != null && !(F.breadthProxy >= 0 && F.breadthProxy <= 1)) bad(`live ${mkt} breadth out of [0,1]`); if (![true, false, null].includes(F.atrBottomQuartile)) bad(`live ${mkt} atrBottomQuartile not boolean/null`); }
+  } catch (e) { bad(`live regime check: ${e.message}`); }
+  ok(`regime inputs (${n} cases: priorWindowDrawdown 20000 random = verbatim legacy, ≤ 0, scale/order invariance, ≤ true peak-to-trough dd and = it when max precedes min, locality, junk/0/negative/string ⇒ null, rally reads −9.09% (documented); peakToTroughDrawdown = brute; bottomQuantileFlag = sort-free count oracle + legacy rule, monotone, 1..40 boundary, minLen; atrBottomQuartile ${aq} random charts incl. junk bars = verbatim legacy flag+gap, 59/60/61-bar boundaries, flat/calm/wild, scale; breadthShare = legacy, k/n, string/missing flag ⇒ null; seriesDelta/seriesRet 20000 random with null holes = verbatim legacy, ret = diff/a, junk/base ≤ 0 ⇒ gap; computeMetrics dd252/pctFromSma200 = legacy; indexFeaturesFromChart caller path = legacy block, 0 close ⇒ null; wiring; live breadth recompute)`);
+}
+
 console.log("——");
 if (failures.length) {
   console.error(`▶ math-guards: ${failures.length} failure(s)`);
