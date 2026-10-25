@@ -1,14 +1,14 @@
 {
-  "asOf": "2026-10-24T01:49:06.507Z",
+  "asOf": "2026-10-25T01:42:41.221Z",
   "timezone": "Asia/Taipei",
   "shows": {
     "gooaye": {
       "kind": "episodes",
-      "count": 706,
-      "latestEp": 706,
-      "latestTitle": "EP706 | 👑",
-      "latestDate": "2026-10-17",
-      "catalogAsOf": "2026-10-21T09:39:04+08:00"
+      "count": 708,
+      "latestEp": 708,
+      "latestTitle": "EP708 | 🦷",
+      "latestDate": "2026-10-24",
+      "catalogAsOf": "2026-10-25T09:40:40+08:00"
     },
     "xiaojun": {
       "kind": "episodes",
@@ -16,7 +16,7 @@
       "latestEp": 155,
       "latestTitle": "155. 和科沃斯钱程聊，父与子、企二代接班的样本与肌理、机器人，和我内心的追寻",
       "latestDate": "2026-10-21",
-      "catalogAsOf": "2026-10-21T09:39:06+08:00"
+      "catalogAsOf": "2026-10-25T09:39:31+08:00"
     },
     "whynottv": {
       "kind": "episodes",
@@ -24,7 +24,7 @@
       "latestEp": 5,
       "latestTitle": "Danfei Xu：人类数据，行为克隆，机器人GPT-3，全栈，EgoMimic，遥操作，UMI，斯坦福 | WhynotTV Podcast #5",
       "latestDate": "2026-05-01",
-      "catalogAsOf": "2026-10-21T09:39:07+08:00"
+      "catalogAsOf": "2026-10-25T09:39:31+08:00"
     },
     "zhang-junan": {
       "kind": "posts",
@@ -32,7 +32,7 @@
       "latestEp": null,
       "latestTitle": "2021年度總結",
       "latestDate": "2022-01-02",
-      "catalogAsOf": "2026-10-18T09:37:50+08:00"
+      "catalogAsOf": "2026-10-25T09:40:07+08:00"
     }
   }
 }

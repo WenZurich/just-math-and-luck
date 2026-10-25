@@ -1,6 +1,6 @@
 {
   "id": "gooaye-episodes",
-  "asOf": "2026-10-21T09:39:04+08:00",
+  "asOf": "2026-10-25T09:40:40+08:00",
   "timezone": "Asia/Taipei",
   "status": "candidate",
   "mathGate": "closed",
@@ -26,15 +26,49 @@
     }
   ],
   "counts": {
-    "total": 706,
-    "withKeyPoints": 705,
-    "notesTeaser": 539,
+    "total": 708,
+    "withKeyPoints": 707,
+    "notesTeaser": 587,
     "notesTitleOnly": 1,
     "notesEmpty": 1,
     "listened": 66,
-    "rssOnly": 640
+    "rssOnly": 642
   },
   "episodes": [
+    {
+      "id": "b86cb101-d4a0-49da-af9c-b1e460f5c89a",
+      "ep": 708,
+      "title": "EP708 | 🦷",
+      "subtitle": "🦷",
+      "pubDate": "Sat, 24 Oct 2026 07:33:24 GMT",
+      "pubDateIso": "2026-10-24T07:33:24.000Z",
+      "pubDateTw": "2026-10-24",
+      "durationSec": 3225,
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/b86cb101-d4a0-49da-af9c-b1e460f5c89a",
+      "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
+      "keyPoints": [
+        "風雨求平安"
+      ],
+      "notesQuality": "teaser",
+      "source": "soundon-rss"
+    },
+    {
+      "id": "9e8ff549-d6ec-4abd-a7d2-e2a65c44fac0",
+      "ep": 707,
+      "title": "EP707 | 🦋",
+      "subtitle": "🦋",
+      "pubDate": "Wed, 21 Oct 2026 07:49:16 GMT",
+      "pubDateIso": "2026-10-21T07:49:16.000Z",
+      "pubDateTw": "2026-10-21",
+      "durationSec": 3047,
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/9e8ff549-d6ec-4abd-a7d2-e2a65c44fac0",
+      "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
+      "keyPoints": [
+        "這什麼鬼成長"
+      ],
+      "notesQuality": "teaser",
+      "source": "soundon-rss"
+    },
     {
       "id": "b815e52b-b0b9-47d2-980b-baf1857cd604",
       "ep": 706,
@@ -47,14 +81,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/b815e52b-b0b9-47d2-980b-baf1857cd604",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "跳跳車",
-        "高達 2000 顆獨立筒，是一般同級產品三倍的數量",
-        "要堆料 就堆好堆滿，給你源源不絕的支撐力",
-        "一層低反發記憶棉，再一層義大利進口純天然乳膠",
-        "在綿密安定中保有 Q 彈的童心，穩重又有趣",
-        "100％ 天絲布料"
+        "跳跳車"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -1164,8 +1193,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/4f8d2d01-0119-4349-b970-5077910a3362",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "不可能一關再關吧",
-        "【TAIZAKU火星生技 武倍對策、武倍對策Gold】 💪 日本專利BNN蕉護活性添加 ⚡ 傳說中日本男優的秘密武器，讓男人強還要更強"
+        "不可能一關再關吧"
       ],
       "notesQuality": "listened",
       "source": "soundon-rss",
@@ -1410,9 +1438,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/7d6d137a-d8b8-40b4-ad00-a7426407c729",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "差一點捏破",
-        "《企業財稅必修課》",
-        "— 課程亮點 —"
+        "差一點捏破"
       ],
       "notesQuality": "listened",
       "source": "soundon-rss",
@@ -1689,10 +1715,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/642a945a-aa16-48c9-b3ba-18449dd1cf9c",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "萬劍歸宗",
-        "買股票你會停損，但身體累積的勞損可沒辦法輕易平倉。",
-        "聽勸一句：先優化交易環境。",
-        "這可能是你今年勝率最高的一筆投資！"
+        "萬劍歸宗"
       ],
       "notesQuality": "listened",
       "source": "soundon-rss",
@@ -2484,11 +2507,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/ecfd5a72-ac6b-4630-ae57-f5128f002ed7",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "大場面ㄟ",
-        "忙了一整年讓你的活力、氣色和以前有差嗎？",
-        "過年這麼多聚會，想要維持好狀態、完勝別人，記得平常就要好好給身體豐富的養分喔!"
+        "大場面ㄟ"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -2763,13 +2784,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/39afa2ae-e12b-4979-9a84-bc8518a48ea1",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "買你但心中有別人",
-        "主委一直被問到爛的組合回來了🔥 → https://reurl.cc/9R9keV",
-        "說真的，盤勢可以震，我體力不能震",
-        "邏輯很簡單，盤勢有停損，體力也要有補給",
-        "補對東西，狀態直接噴回多頭，什麼都對了"
+        "買你但心中有別人"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -2869,14 +2886,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/2fe89a3e-b4ee-490e-8111-3271a1fe9217",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "不給休息ㄟ",
-        "當你有幸成為大戶，可以影響市場的時候，會做出什麼選擇？",
-        "眠豆腐選擇 ：All in 產品！",
-        "情勒上游供應商，拋棄一切規格品，從獨立筒到舒適層，全新自主研發",
-        "重新做出心目中最好的眠豆腐。",
-        "即日起，眠豆腐床墊升級3.0"
+        "不給休息ㄟ"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -2908,10 +2920,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/d4fb7bef-b084-478f-8367-e15bf182d4ed",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "願你當餐廳玻璃杯裡泡著檸檬片和冰塊的那杯水",
-        "【火星生技 Green X 進化乳清蛋白】"
+        "願你當餐廳玻璃杯裡泡著檸檬片和冰塊的那杯水"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -3079,12 +3090,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/25b5d8d9-e25d-4d82-9580-8668ae881161",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "老 AI 重新拉皮",
-        "直男巧虎都愛了🔥一杯10大卡｜魔度台茶氣泡飲➜ https://reurl.cc/GN2mkW",
-        "孟恭孟恭你老公放進「健康投資組合」的新標的—",
-        "順口、解膩，口感連男性也喝得懂的茶風味🫖"
+        "老 AI 重新拉皮"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -3252,11 +3260,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/c4d5bc11-975f-4443-a8f4-ed74c86a8c6f",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "好熱",
-        "「猛恭你老公」健康投資快報",
-        "美國保健品龍頭 iHerb，超過 5 萬種正品，價格實惠、品質頂尖"
+        "好熱"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -3390,12 +3396,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/5f2f44a2-266d-4694-ab53-a538832044a8",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "講故事的能力很重要ㄟ",
-        "嘿，猛不是天生的，是靠補的💥 https://reurl.cc/9R9keV",
-        "「你怎麼這麼猛，錄音錄不累喔？",
-        "每當被問起，我都是這麼回答"
+        "講故事的能力很重要ㄟ"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -3410,12 +3413,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/e6b92a1b-0490-44e9-aa8c-13fb24b6a207",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "詩客還沒想通",
-        "還在擔心每次乾杯後，隔天會成為辦公室的行屍走肉嗎？",
-        "想要成為隔天依然精神飽滿的不倒武士",
-        "TAIZAKU火星生技的【斬宿薑皇】就是你的最強武器！"
+        "詩客還沒想通"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -3447,11 +3447,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/ff26504c-1420-4098-80e3-4a698ce045e2",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "週二先試膽大會預演",
-        "年過30，感覺身體狀態跟以前有差嗎？",
-        "想要維持年輕狀態，就要給身體豐富的養分！"
+        "週二先試膽大會預演"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -3585,10 +3583,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/1d4dead1-e21c-4da2-8ee1-6e2978013a1d",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "搞電",
-        "最近是否吃飯配工作，三餐總是外食，擔心消化道機能嗎?"
+        "搞電"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -3875,11 +3872,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/3d3a2c68-b7d1-426e-87b5-0a8beeb3c568",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "生個影片書房變烤箱",
-        "生活節奏太逼人，體力與代謝常常跟不上嗎?",
-        "超級食物&黑科技加持的「悠活原力微米薑黃+朝鮮薊」"
+        "生個影片書房變烤箱"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -3894,12 +3889,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/085d4b10-2f18-4b4f-b761-a089b2a9b397",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "錢包出現了==",
-        "川普砸盤、關稅碾壓，市場跌的跟屎一樣",
-        "你可能不只是結屎面，肚子裡的也是結屎累累",
-        "卡關的朋友，現在把煩惱全部清除"
+        "錢包出現了=="
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -3982,14 +3974,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/c5f96b5a-af6f-4694-8fb1-b64a9f3ab883",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "黑夜降臨別害怕我愛你",
-        "「被工作榨乾？",
-        "你的身體需要這組黑科技！",
-        "」💥",
-        "多次返場照樣秒殺的 #體力黑卡組合",
-        "主委掛保證回購率95%→ https://reurl.cc/9R9keV"
+        "黑夜降臨別害怕我愛你"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -4038,13 +4025,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/906e5ff0-2744-4fcc-ae87-cc44542e1b9f",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "等等我",
-        "不可能保溫杯可以這麼輕！",
-        "只有 1.5 顆蘋果重🍎",
-        "帶杯子出門，這是我目前最聰明的選擇👀",
-        "即刻選購，我的愛用保溫杯>>"
+        "等等我"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -4144,10 +4127,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/33f4b3e7-5831-46ed-a2f1-a780e4c601ba",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "a great guy in the us",
-        "最近環境多變化，保護力夠嗎?"
+        "a great guy in the us"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -4485,12 +4467,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/5ea123f3-2644-42ee-9fc1-e92aaaf28f0a",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "波動，更多的波動～～",
-        "孟恭聖誕老公公來送幸福、報好康🎅",
-        "iHerb是全美最大保健品電商平台，高達5萬多種產品讓你挑，而且保證是正品，價錢也絕對讓你感到超級實惠",
-        "此外，半年內同一人跨境購物不超過6次還可以享免稅"
+        "波動，更多的波動～～"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -4964,13 +4943,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/5fa1df39-201a-4831-9f12-f7d74e34410d",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "J包放過我",
-        "我們無法影響美國利率決策，但可以掌握自己的養髮決策！",
-        "隨著年紀增長，發現頭髮變細軟更顯老",
-        "看起來變健康有型，輕鬆掌握自己的視覺年齡！",
-        "【風險控管靠股癌，頭皮控管靠森歐黎漾】"
+        "J包放過我"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -5105,11 +5080,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/8f515a2b-4d4a-464f-86cd-94230f54a02b",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "直男巧虎我就收下了",
-        "你要的凱基銀行通通都有！",
-        "【凱基銀行】Karry數位存款帳戶推推！"
+        "直男巧虎我就收下了"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -5175,10 +5148,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/4741e9de-67e4-42bf-91da-8ffe593cca43",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "整組紫色",
-        "最近是否吃飯配工作，三餐常常外食，擔心消化道機能嗎?"
+        "整組紫色"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -5329,8 +5301,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/150c8c2a-dc74-4b40-8a05-49574ed5f9c7",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "矽谷仔還沒上車阿",
-        "【國泰證券】美股手續費大降價"
+        "矽谷仔還沒上車阿"
       ],
       "notesQuality": "teaser",
       "source": "soundon-rss"
@@ -5432,13 +5403,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/6f8d147f-497a-469a-b632-e5438937a506",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "178 - 2600",
-        "成為下一個傳說勇者那你一定需要：王者的魚油_武倍魚油！",
-        "世界初NO.1科技 ESF激能性循環複方，打破魚油既定的單一選項，",
-        "給你滿滿的武倍戰力、更有武倍清澈思緒！",
-        "養成勇者的王者之力！"
+        "178 - 2600"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -5453,8 +5420,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/ad9d7aa9-ae60-44a1-89cc-db03e1a7092b",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "醫生的臉就紅了",
-        "風險控管靠股癌，頭皮控管靠【森歐黎漾】"
+        "醫生的臉就紅了"
       ],
       "notesQuality": "teaser",
       "source": "soundon-rss"
@@ -5692,14 +5658,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/eba1b127-155b-4452-b266-88da6e549d5b",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "彈彈",
-        "V-TEX 超機能防水休閒鞋 乾濕分離科技",
-        "春夏最新 Soulmade系列",
-        "繽紛清爽配色，三色隨選！",
-        "V字俐落線條，百搭耐看",
-        "依舊是最高規格防水力 x 三密度氮氣大底"
+        "彈彈"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -5899,8 +5860,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/ae7705a5-4aeb-4222-9203-0d5af9bef1b2",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "刀刀",
-        "茫茫股海，保持高度清晰才能不踩雷"
+        "刀刀"
       ],
       "notesQuality": "teaser",
       "source": "soundon-rss"
@@ -5985,12 +5945,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/7a24f802-6a41-404d-9f78-d4be4c1967d7",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "100b",
-        "50惠 X 股癌",
-        "2/22 - 4/17",
-        "購買連結：https://lihi.cc/6SF2V"
+        "100b"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -6141,12 +6098,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/d146f06f-d5fe-4697-8ad3-3d13bad08b95",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "異想天開ㄟ",
-        "風險控管靠股癌，頭皮控管靠【森歐黎漾】",
-        "日夜溫差大，搔癢頭皮屑大爆發",
-        "快試試「淨平衡茶樹系列」【雙重抗屑成分】x【天然茶樹精油】"
+        "異想天開ㄟ"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -6195,11 +6149,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/2dcee985-49e4-4bbc-9299-993b224fb352",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "嘻嘻 我有斷網小恐龍",
-        "【股癌Gooaye x WOKY】年終團",
-        "這裡下單～愛您： https://pse.is/5j93ca"
+        "嘻嘻 我有斷網小恐龍"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -6231,14 +6183,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/1f0e5eca-93bf-42a8-b89c-00ae9a978f08",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "鬼煞是怎樣==",
-        "【掌握職場問題解決力｜OGSM X 哈佛逆境思維】",
-        "覺得自己在職場上很容易卡關？",
-        "SOP失靈不知如何應對？",
-        "面對變動時代，一線員工到決策領導者必學的一堂商業課！",
-        "▋學習應對各種職場困境，提升 #韌性 與 #問題解決力"
+        "鬼煞是怎樣=="
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -6423,8 +6370,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/0f569d20-da03-4232-b5ce-76b9af126ab3",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "新加坡好熱==",
-        "主委謀福利："
+        "新加坡好熱=="
       ],
       "notesQuality": "teaser",
       "source": "soundon-rss"
@@ -6611,9 +6557,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/c6b83881-0a2d-4e3f-9d07-3567923c3017",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "是在哭喔",
-        "買股太刺激？",
-        "是時候給自己喘口氣了！"
+        "是在哭喔"
       ],
       "notesQuality": "teaser",
       "source": "soundon-rss"
@@ -6834,8 +6778,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/a957c264-eed9-4318-ae6e-82306fc62ad3",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "又或贏",
-        "【風險控管靠股癌，頭皮控管靠森歐黎漾】"
+        "又或贏"
       ],
       "notesQuality": "teaser",
       "source": "soundon-rss"
@@ -6920,8 +6863,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/085abf1c-9401-4d7a-a970-e69987c3665a",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "低頭成癮復發戒斷",
-        "WOKY 國民飲料杯限時開團中！"
+        "低頭成癮復發戒斷"
       ],
       "notesQuality": "teaser",
       "source": "soundon-rss"
@@ -7040,12 +6982,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/d54dcc51-d548-4f9c-94e9-b2044f5d5afc",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "一段時間過去了，蘇媽暫時仍無起色",
-        "日本青森天然純榨蘋果汁",
-        "好喝ㄉ蘋果汁：https://gbf.tw/3hnn8",
-        "全日本最好喝的「青森青研100%蘋果汁」，喝一口絕對就會愛上，夏天真的不能沒有它"
+        "一段時間過去了，蘇媽暫時仍無起色"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -7060,10 +6999,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/2fe5bb25-3a59-44e3-9d3e-f66ea46e5b29",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "嘻嘻",
-        "每個人常常工作家庭兩頭燒，事情爆炸多，要做好每件事不只要有活力，更需要 #思緒清晰*，才能有條理地把每件事安排妥當！"
+        "嘻嘻"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -7112,10 +7050,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/0de58718-f3e0-4f10-81da-fcb55223e391",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "不斷湧入的善意是否有重複",
-        "工作忙碌，總是外食的你，需要好好照顧消化道！"
+        "不斷湧入的善意是否有重複"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -7368,12 +7305,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/849e2efb-f1e3-48d8-97fe-b11f1a283419",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "肥水自己收",
-        "選擇Zenyum綻雅，投資自己的整齊牙齒，",
-        "價格清楚說明、資訊公開對稱，不怕被當盤子。",
-        "頭髮抓一抓、鬍子刮一刮，牙齒整起來，沒人敢說你肥宅"
+        "肥水自己收"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -7422,8 +7356,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/25fcdd0a-3217-4e7e-a1f9-c61d8ee5eb5c",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "手又穿過巴巴",
-        "【風險控管靠股癌，頭皮控管靠森歐黎漾】"
+        "手又穿過巴巴"
       ],
       "notesQuality": "teaser",
       "source": "soundon-rss"
@@ -7559,14 +7492,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/8cae8957-4144-4fde-b9c6-b7b2151ad3b2",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "不緊張，沒事兒",
-        "平平都是水，怎麼這瓶特別好喝？",
-        "來自日本熊本縣的進口礦泉水",
-        "經花崗岩層過濾、漫長時間累積而成的伏流水",
-        "全程採無人自動化作業，完美隔絕空氣接觸",
-        "符合日本嚴格檢測認證☑️"
+        "不緊張，沒事兒"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -7700,14 +7628,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/2c21fb2b-d33f-4f0d-b29c-3a617473a816",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "壓力測試",
-        "想跟秋口一樣爽爽放風沒在怕？",
-        "社會在走，3D防護要有！",
-        "開啟寵愛新時代，給你最輕鬆的選擇",
-        "每月定期，一次搞定3大類寄生蟲",
-        "⛔心肺 | 心絲蟲、肺蟲"
+        "壓力測試"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -7773,10 +7696,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/3f5cf817-8bac-4b3a-a7fb-8f4b73d66f83",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "double or nothing",
-        "忙碌上班外食族、追求美食族、媽媽擔心寶貝#保護力?"
+        "double or nothing"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -7808,11 +7730,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/3d83ade3-a031-4ac8-813c-d5b8275a73e8",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "阿巴卡巴",
-        "年紀越大，精力越有限，不管你是熬夜看盤黨、夜夜笙歌加班黨、新手爸媽黨，需要體力和精神的時候可以都喝起來",
-        "一瓶擁有:"
+        "阿巴卡巴"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -7895,10 +7815,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/ec3d1348-8ef6-4e7f-94df-d10dd85c524d",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "奇蹟般的數據",
-        "太座安得好，一年沒煩惱，浪漫不燒腦，幫你日子過更好"
+        "奇蹟般的數據"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -8203,8 +8122,7 @@
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
         "司機啊！",
-        "還有人沒上車耶",
-        "主委邀你一起香香過聖誕"
+        "還有人沒上車耶"
       ],
       "notesQuality": "teaser",
       "source": "soundon-rss"
@@ -8374,8 +8292,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/56ca6a34-89a9-4ea8-825f-d20ccc810155",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "A___A",
-        "【喜劇演員的幽默方程式】"
+        "A___A"
       ],
       "notesQuality": "teaser",
       "source": "soundon-rss"
@@ -8426,8 +8343,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/74419e4f-696b-4c5c-9c88-eef506a33fae",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "網飛過動兒ㄟ==",
-        "讓我們熱列歡迎老乾爹～"
+        "網飛過動兒ㄟ=="
       ],
       "notesQuality": "teaser",
       "source": "soundon-rss"
@@ -8461,12 +8377,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/98562819-27d3-43a9-ba22-a0b7d5b9e778",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "兩腿一懶",
-        "V-TEX防水鞋一鞋兩穿，為投資人開拓雙腳新領域",
-        "「Bright」系列靈活切換你的生活型態",
-        "突破的創新設計，官網獨家搶先上市！"
+        "兩腿一懶"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -8668,8 +8581,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/340cdd1b-5b7f-4a67-b738-7a6a4238cf07",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "好用ㄉ工具",
-        "養股，也要養好菌！"
+        "好用ㄉ工具"
       ],
       "notesQuality": "teaser",
       "source": "soundon-rss"
@@ -8754,11 +8666,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/b61a059f-10e4-4a0a-8fbc-42d815bc1e96",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "這三年的課題就叫做均值回歸，這次不一樣的機會很小很小",
-        "聰明投資健康。",
-        "入場愈早收益愈高就選"
+        "這三年的課題就叫做均值回歸，這次不一樣的機會很小很小"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -8858,10 +8768,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/dbfc0409-95ff-4aff-8597-b641dc6ffe9c",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "賣車仔持續交出好成績",
-        "父親節快到了，是時候該好好犒賞自己/另一半/老爸了！"
+        "賣車仔持續交出好成績"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -8944,11 +8853,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/fc4eba86-2cdf-4b8b-966d-77b7a39a9cb4",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "昨日美股：／",
-        "今日台股：＼",
-        "時間總是不夠用不斷地忙碌，忙碌讓你變成外食族，你需要幫助！"
+        "昨日美股：／"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -8980,12 +8887,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/c9a7bacb-b55c-4ae7-82aa-8f7925236cb5",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "又被騙ㄌ",
-        "歐克威爾週年慶 現在買最划算",
-        "天天刷牙像打仗?",
-        "忍術讓孩子愛上潔牙術"
+        "又被騙ㄌ"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -9051,10 +8955,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/6beedd59-26e4-49a3-8f32-0d6f0ed497d3",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "跟著卓卓一起空",
-        "忙碌上班外食族、追求美食族、媽媽擔心寶貝保護力?"
+        "跟著卓卓一起空"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -9341,8 +9244,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/17375e91-94ae-46fd-b23f-49363ac9d579",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "下檔沒有防守好，蛋蛋爆炸",
-        "研究股市佈局，總是停滯不前?"
+        "下檔沒有防守好，蛋蛋爆炸"
       ],
       "notesQuality": "teaser",
       "source": "soundon-rss"
@@ -9393,13 +9295,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/1058a213-b98d-478a-88be-421871ab821e",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "好甩要暈車了==",
-        "Welcome on board ✈️",
-        "Chicco Seat3 寶寶的安全頭等艙😎與主委一同捍衛寶貝行車安全",
-        "寶寶的頭等尊榮就靠Chicco",
-        "世界級安全最高標準R129/03 i-size"
+        "好甩要暈車了=="
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -9567,14 +9465,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/573809d5-a942-49df-9a6e-157d251bd26e",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "菇菇 菇",
-        "防水系霸主 只服V-TEX",
-        "V-TEX地表最強防水鞋新推出的都會時尚「N21」系列",
-        "全新EVA橡膠鞋底+潮流造型，讓人一秒火速愛上🔥",
-        "他們家的實用度和舒適度，穿過就再也回不去了！",
-        "【強棒鞋款NEXT_21 規格再升級⬆️】"
+        "菇菇 菇"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {
@@ -9742,8 +9635,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/22311740-4a73-40b7-a38b-760242eaf9e5",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "聊下成長性在哪",
-        "面對環境挑戰 保護力哪裡來?"
+        "聊下成長性在哪"
       ],
       "notesQuality": "teaser",
       "source": "soundon-rss"
@@ -9862,8 +9754,7 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/00beb560-79a7-43c1-a6a1-969e7d60fdd3",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "答案在自己的屁股後面",
-        "BFFECT好肌膚精華研究室"
+        "答案在自己的屁股後面"
       ],
       "notesQuality": "teaser",
       "source": "soundon-rss"
@@ -10266,11 +10157,9 @@
       "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/30c3eb7b-5049-41d0-a2dc-7a1e0a233d52",
       "appleShowUrl": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
       "keyPoints": [
-        "最近台股在摔鴻海集團卻硬挺挺，聊一下鴻海的電動車和關係企業。",
-        "比感情更經得起風雨、比投資更經得起環境試煉，",
-        "天氣界資優股「V-TEX地表最強防水鞋」一雙就能搞定一年四季。"
+        "最近台股在摔鴻海集團卻硬挺挺，聊一下鴻海的電動車和關係企業。"
       ],
-      "notesQuality": "rich",
+      "notesQuality": "teaser",
       "source": "soundon-rss"
     },
     {

@@ -758,6 +758,17 @@ async function main() {
   if (/gooayeStubCard|輕量 stub|podcastsGooayeStubNote/.test(pcJs)) {
     fail("podcasts.js still references Gooaye stub UI");
   } else ok("podcasts.js Gooaye stub removed");
+  // 2026-10-25: Gooaye 重點整理 must not show sponsor/ad copy as episode key points.
+  {
+    const gyData = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/gooaye-episodes.json"), "utf8"));
+    const AD_RE = /reurl\.cc|pse\.is\/|gbf\.tw\/|bit\.ly\/|選購網址|即刻選購|下單～|折扣碼|優惠碼|獨立筒|乳膠床|魚油|益生菌|防水鞋|森歐黎漾|火星生技/;
+    const adHits = (gyData.episodes || []).filter((ep) => (ep.keyPoints || []).some((p) => AD_RE.test(p)));
+    if (adHits.length) fail(`gooaye keyPoints still contain sponsor copy: EP${adHits.slice(0, 8).map((e) => e.ep).join(", EP")}`);
+    else ok(`gooaye keyPoints free of sponsor copy (${(gyData.episodes || []).length} eps)`);
+    const gyJs = fs.readFileSync(path.join(ROOT, "src/gooaye.js"), "utf8");
+    if (!gyJs.includes("gooayeTeaserKicker")) fail("gooaye.js: teaser-only episodes must use 主持人開場短語 kicker, not 重點整理");
+    else ok("gooaye teaser kicker wired");
+  }
   const gyJsPath = path.join(ROOT, "src/gooaye.js");
   if (!fs.existsSync(gyJsPath)) fail("missing src/gooaye.js");
   else ok("gooaye.js present");

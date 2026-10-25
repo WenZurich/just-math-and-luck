@@ -2,7 +2,7 @@
   "market": "US",
   "ticker": "SOXL",
   "fundName": "Direxion Daily Semiconductor Bull 3X ETF",
-  "asOf": "2026-10-24T01:43:53.401Z",
+  "asOf": "2026-10-25T01:38:22.812Z",
   "quote": {
     "price": 83.56,
     "change": 1.45,
@@ -136,16 +136,16 @@
       "published": "2026-10-23"
     },
     {
+      "title": "Investors piled a record sum into a leveraged semiconductor ETF last week. Things didn’t work out.",
+      "summary": "Traders making bullish bets on chip stocks are getting walloped this month, as renewed fears emerged about investment returns on the buildout of artificial intelligence.",
+      "url": "https://www.marketwatch.com/story/investors-piled-a-record-sum-into-a-leveraged-semiconductor-etf-last-week-things-didnt-work-out-4680b2f3?.tsrc=rss",
+      "published": "2026-10-23"
+    },
+    {
       "title": "ETF League Tables: Direxion Gains Assets",
       "summary": "&lt;p&gt;Table below reflects daily flows on October 21, 2026 and asset totals as of that date.&lt;/p&gt;",
       "url": "http://www.etf.com/sections/etf-league-tables/etf-league-tables-direxion-gains-assets?utm_source=yahoo-finance&amp;utm_medium=rss&amp;utm_campaign=yahoo-finance-rss&amp;.tsrc=rss",
       "published": "2026-10-22"
-    },
-    {
-      "title": "2 ETFs to Watch for Outsized Volume in Semiconductor Trading",
-      "summary": "SOXS and SOXL see trading volumes surge to 1.53 and 1.48 times their averages, respectively, as semiconductor ETFs post sharply divergent daily moves.",
-      "url": "https://finance.yahoo.com/markets/stocks/articles/2-etfs-watch-outsized-volume-124500884.html?.tsrc=rss",
-      "published": "2026-10-20"
     }
   ],
   "holdings": [
@@ -512,7 +512,7 @@
     "Research seed: /workspace/soxl-research/soxl-holdings-raw.json",
     "SEC N-PORT: https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
     "Yahoo quote page: https://finance.yahoo.com/quote/SOXL/",
-    "Yahoo quote HTML refresh @ 2026-10-24T01:43:53.401Z",
+    "Yahoo quote HTML refresh @ 2026-10-25T01:38:22.812Z",
     "https://feeds.finance.yahoo.com/rss/2.0/headline?s=SOXL&region=US&lang=en-US"
   ],
   "blockers": [

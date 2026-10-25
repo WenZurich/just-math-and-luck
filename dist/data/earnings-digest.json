@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-24T01:44:19.514Z",
+  "asOf": "2026-10-25T01:38:49.434Z",
   "market": "US",
   "twStub": {
     "status": "planned",
@@ -70,8 +70,8 @@
       "pe": 29.22,
       "forwardPe": 22.13,
       "marketCap": 3894773022720,
-      "consensusEpsNext": 4.7153,
-      "consensusRevNext": 90716592940,
+      "consensusEpsNext": 4.7199,
+      "consensusRevNext": 90751435050,
       "whatItDoes": "Microsoft Corporation, a technology company, develops and supports a portfolio of technology solutions for individuals and businesses worldwide.",
       "missingFields": [],
       "sources": [
@@ -80,7 +80,7 @@
       "notes": [
         "下次財報約 2026-10-28",
         "最近一季（2026-06-30）：EPS 4.74",
-        "市場預估下次 EPS 約 4.7153（Yahoo）"
+        "市場預估下次 EPS 約 4.7199（Yahoo）"
       ],
       "whatToWatch": "關注 2026-10-28 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +17.7%（Yahoo）；獲利成長約 +31.7%（Yahoo earningsGrowth）"
     },
@@ -252,7 +252,7 @@
       "pe": 21.92,
       "forwardPe": 18.47,
       "marketCap": 1637078401024,
-      "consensusEpsNext": 8.489,
+      "consensusEpsNext": 8.5522,
       "consensusRevNext": 74946821700,
       "whatItDoes": "Meta Platforms, Inc. engages in the development of products that enable people to connect and share with friends and family through mobile devices, personal computers, virtual reality (VR) headsets, and AI glasses in the…",
       "missingFields": [],
@@ -262,7 +262,7 @@
       "notes": [
         "下次財報約 2026-10-21",
         "最近一季（2026-09-30）：EPS 3.83",
-        "市場預估下次 EPS 約 8.489（Yahoo）"
+        "市場預估下次 EPS 約 8.5522（Yahoo）"
       ],
       "whatToWatch": "關注 2026-10-21 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +26.1%（Yahoo）；獲利成長約 +264.8%（Yahoo earningsGrowth）"
     },
@@ -286,10 +286,10 @@
       "epsYoYPct": -43.6,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 409.03,
-      "forwardPe": 172.01,
+      "forwardPe": 171.98,
       "marketCap": 1471285166080,
       "consensusEpsNext": 0.4943,
-      "consensusRevNext": 29266523500,
+      "consensusRevNext": 29327323500,
       "whatItDoes": "Tesla, Inc. designs, develops, manufactures, leases, and sells electric vehicles, and energy generation and storage systems in the United States, China, and internationally.",
       "missingFields": [],
       "sources": [
@@ -340,7 +340,7 @@
       ],
       "whatToWatch": "關注 2026-11-07 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +10%（Yahoo）；獲利成長約 +107.8%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 14,
+      "daysToEarnings": 13,
       "pool": "mega_cap"
     },
     {
@@ -379,7 +379,7 @@
       ],
       "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +47.7%（Yahoo）；獲利成長約 +26.2%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 5,
+      "daysToEarnings": 4,
       "pool": "mega_cap"
     },
     {
@@ -418,7 +418,7 @@
       ],
       "whatToWatch": "關注 2026-11-03 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +50.1%（Yahoo）；獲利成長約 +159.5%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 10,
+      "daysToEarnings": 9,
       "pool": "mega_cap"
     },
     {
@@ -457,7 +457,7 @@
       ],
       "whatToWatch": "關注 2026-10-27 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +14.4%（Yahoo）；獲利成長約 +10.2%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 3,
+      "daysToEarnings": 2,
       "pool": "mega_cap"
     },
     {
@@ -496,7 +496,7 @@
       ],
       "whatToWatch": "關注 2026-10-30 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +44.1%（Yahoo）；獲利成長約 +112.8%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 6,
+      "daysToEarnings": 5,
       "pool": "mega_cap"
     },
     {
@@ -535,7 +535,7 @@
       ],
       "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +14.1%（Yahoo）；獲利成長約 +22.1%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 5,
+      "daysToEarnings": 4,
       "pool": "mega_cap"
     },
     {
@@ -561,7 +561,7 @@
       "forwardPe": 17.64,
       "marketCap": 504759418880,
       "consensusEpsNext": 3.7788,
-      "consensusRevNext": 17346965960,
+      "consensusRevNext": 17346565960,
       "whatItDoes": "AbbVie Inc., a research-based biopharmaceutical company, engages in the research and development, manufacturing, commercializing, and sale of medicines and therapies worldwide.",
       "missingFields": [],
       "sources": [
@@ -574,7 +574,7 @@
       ],
       "whatToWatch": "關注 2026-10-30 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +10.2%（Yahoo）；獲利成長約 +290.4%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 6,
+      "daysToEarnings": 5,
       "pool": "mega_cap"
     },
     {
@@ -613,7 +613,7 @@
       ],
       "whatToWatch": "關注 2026-11-02 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +92.8%（Yahoo）；獲利成長約 +215.4%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 9,
+      "daysToEarnings": 8,
       "pool": "mega_cap"
     },
     {
@@ -656,7 +656,7 @@
       ],
       "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +25.4%（Yahoo）；本益比暫缺，勿硬套估值",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 5,
+      "daysToEarnings": 4,
       "pool": "mega_cap+most_actives"
     },
     {
@@ -695,7 +695,7 @@
       ],
       "whatToWatch": "關注 2026-10-27 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +6.7%（Yahoo）；獲利成長約 +16.9%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 3,
+      "daysToEarnings": 2,
       "pool": "mega_cap"
     },
     {
@@ -734,7 +734,7 @@
       ],
       "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +24%（Yahoo）；獲利成長約 +68.2%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 5,
+      "daysToEarnings": 4,
       "pool": "mega_cap"
     },
     {
@@ -773,7 +773,7 @@
       ],
       "whatToWatch": "關注 2026-11-03 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +33.7%（Yahoo）；獲利成長約 +68.1%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 10,
+      "daysToEarnings": 9,
       "pool": "mega_cap"
     },
     {
@@ -799,7 +799,7 @@
       "forwardPe": 21.6,
       "marketCap": 190021992448,
       "consensusEpsNext": 1.1782,
-      "consensusRevNext": 4038223450,
+      "consensusRevNext": 4038185350,
       "whatItDoes": "KLA Corporation, together with its subsidiaries, provides process control and process-enabling solutions for manufacturing wafers, reticles/masks, chemicals/materials, integrated circuits (ICs), packaged ICs, and printed…",
       "missingFields": [],
       "sources": [
@@ -812,7 +812,7 @@
       ],
       "whatToWatch": "關注 2026-10-28 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +15.2%（Yahoo）；獲利成長約 +13.8%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 4,
+      "daysToEarnings": 3,
       "pool": "mega_cap"
     },
     {
@@ -851,7 +851,7 @@
       ],
       "whatToWatch": "關注 2026-11-04 前後的營收與 EPS 是否達預估；近期營收 YoY 約 -4%（Yahoo）；獲利成長約 -23%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 11,
+      "daysToEarnings": 10,
       "pool": "mega_cap"
     }
   ],

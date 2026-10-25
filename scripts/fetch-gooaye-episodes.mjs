@@ -42,7 +42,7 @@ const HARD_CUT = [
 
 /** Line / paragraph is sponsor or product pitch — drop. */
 const SPONSOR_RE =
-  /(本集節目由|贊助播出|贊助商|限量優惠|專屬優惠|專屬折扣|折扣碼|優惠碼|優惠代碼|結帳時輸入|現折\s*\$|滿額再送|抽獎好禮|輸入折扣|nordvpn\.com|saily\.com|#NordVPN|#SailyeSIM|momoshop\.com|s\.add\.one|ALUXE|亞立詩|Bright\s*360|Dr\.?\s*情趣|TASLA|善存|益生菌|妙而舒|夏普|SHARP|台啤雲泡|葉黃素|婚鑽|裸鑽|手機殼|抗黃|保固|試穿再購買|股癌限時|Momo限時|買2送2|發票登錄|虛擬裝備|舒眠益生菌|Lactobacillus|Bifidobacterium|Wincool|物理治療師研發|中秋烤肉|三聲買|雲泡生啤酒)/i;
+  /(本集節目由|贊助播出|贊助商|限量優惠|專屬優惠|專屬折扣|折扣碼|優惠碼|優惠代碼|結帳時輸入|現折\s*\$|滿額再送|抽獎好禮|輸入折扣|nordvpn\.com|saily\.com|#NordVPN|#SailyeSIM|momoshop\.com|s\.add\.one|ALUXE|亞立詩|Bright\s*360|Dr\.?\s*情趣|TASLA|善存|益生菌|妙而舒|夏普|SHARP|台啤雲泡|葉黃素|婚鑽|裸鑽|手機殼|抗黃|保固|試穿再購買|股癌限時|Momo限時|買2送2|發票登錄|虛擬裝備|舒眠益生菌|Lactobacillus|Bifidobacterium|Wincool|物理治療師研發|中秋烤肉|三聲買|雲泡生啤酒|選購網址|購買連結|reurl\.cc|可機洗|免被套)/i;
 
 const PRODUCT_FEATURE_RE =
   /^[✨💎🌀🎁⚡✅👍🍺🖤]|^\．|門市隨時備有|上千款|全客製|少女心爆棚|貼心外借/;
@@ -187,12 +187,17 @@ function extractPublicNotes(rawDesc) {
 
   // Gooaye modern format: short hook line, then long product pitch without "本集節目由".
   // If first line is a short teaser and the remainder looks commercial, keep teaser only.
+  // Short hook followed by any sponsor block → the lines between hook and ad
+  // are almost always the ad's lead-in copy (e.g. EP708「每天都要蓋的…」).
+  if (kept.length >= 2 && sawSponsorLine && kept[0].length <= 30) {
+    return kept[0];
+  }
   if (kept.length >= 2) {
     const first = kept[0];
     const rest = kept.slice(1).join(" ");
     const commercialHits = (
       rest.match(
-        /折|優惠|贊助|抽|禮券|方案|活動|限量|品牌|保固|配件|推薦|手刀|買進|結帳|傳送門|投資組合在升級|保養|枕頭|啤酒|烤肉|鑽戒|手機|鏡頭|洗髮|內衣|家電|除濕|透明殼|發黃|防摔|換殼|支架|磁吸|益生菌|VPN|eSIM|婚戒|珍珠|發票|登錄/g
+        /折|優惠|贊助|抽|禮券|方案|活動|限量|品牌|保固|配件|推薦|手刀|買進|結帳|傳送門|投資組合在升級|保養|枕頭|啤酒|烤肉|鑽戒|手機|鏡頭|洗髮|內衣|家電|除濕|透明殼|發黃|防摔|換殼|支架|磁吸|益生菌|VPN|eSIM|婚戒|珍珠|發票|登錄|選購|網址|reurl|可機洗|免被套|新色|收納|棉被/g
       ) || []
     ).length;
     // Short hook + any commercial residue → teaser only (do not invent episode body).

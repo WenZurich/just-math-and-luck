@@ -112,7 +112,9 @@ function episodeCard(ep) {
     }
   } else {
     const points = (ep.keyPoints || []).filter(Boolean);
-    body += `<p class="gy-ep-kicker">${escapeHtml(t("gooayeKeyPoints"))}</p>`;
+    // Teaser-only notes are just the host's one-line hook — don't dress it up as 重點整理.
+    const hookOnly = ep.notesQuality === "teaser" && points.length > 0 && points.length <= 2;
+    body += `<p class="gy-ep-kicker">${escapeHtml(t(hookOnly ? "gooayeTeaserKicker" : "gooayeKeyPoints"))}</p>`;
     if (points.length) {
       body += `<ul class="gy-ep-points">${points
         .map((p) => `<li>${escapeHtml(p)}</li>`)

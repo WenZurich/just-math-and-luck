@@ -1,11 +1,11 @@
 {
-  "asOf": "2026-10-24T01:43:56.625Z",
+  "asOf": "2026-10-25T01:38:26.115Z",
   "market": "TW",
   "timezone": "Asia/Taipei",
   "timezoneLabel": "台北時間",
   "window": {
-    "from": "2026-10-24",
-    "to": "2026-11-28"
+    "from": "2026-10-25",
+    "to": "2026-11-29"
   },
   "source": {
     "name": "DGBAS / CBC / TWSE / MOEA",
