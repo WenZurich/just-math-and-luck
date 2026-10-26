@@ -258,7 +258,7 @@ function detailHtml(catId) {
   if (catId === "whynottv") return whynottvDetailHtml();
   if (catId === "zhang-junan") return zhangJunanDetailHtml();
   return `
-    <div class="pc-menu" role="list" aria-label="${escapeHtml(t("podcastsCatMenu"))}">
+    <div class="pc-menu" role="group" aria-label="${escapeHtml(t("podcastsCatMenu"))}">
       <p class="pc-menu-lead">${escapeHtml(t("podcastsMenuLead"))}</p>
       <div class="pc-menu-grid">${categoryMenuCards()}</div>
     </div>`;

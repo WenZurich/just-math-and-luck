@@ -714,6 +714,31 @@ async function main() {
   } else ok("npm fetch-txf script");
 
   
+  // —— Accessibility guards (2026-10-26 axe audit: 0 violations on 13 routes × 2 widths) ——
+  {
+    const rd = (f) => fs.readFileSync(path.join(ROOT, f), "utf8");
+    let a11yBad = 0;
+    for (const f of ["src/main.js", "src/us-macro.js", "src/tw-macro.js"]) {
+      const src = rd(f);
+      if (src.includes("index-marquee-group--clone") && !/index-marquee-group--clone" aria-hidden="true" inert>\$\{chips\.join\(""\)\.replace\(\/<a \/g, '<a tabindex="-1" '\)\}/.test(src)) {
+        fail(`${f}: marquee clone must be inert with tabindex=-1 links (hidden copy must not take keyboard focus)`); a11yBad++;
+      }
+    }
+    for (const f of ["src/research.js", "src/podcasts.js", "src/letters.js", "src/manbao.js"]) {
+      if (/class="(rl|pc)-menu" role="list"/.test(rd(f))) { fail(`${f}: button menu must not be role=list`); a11yBad++; }
+    }
+    if (/class="logic-metrics" role="list"/.test(rd("src/logic.js")) && !rd("src/logic.js").includes('class="logic-metric" role="listitem"')) { fail("logic.js: role=list without listitems"); a11yBad++; }
+    const strat = rd("src/strategies.js");
+    if (!strat.includes('data-xq-tab="${escapeHtml(cat)}" role="tab" aria-selected=')) { fail("strategies.js: xq-tabs children must be role=tab with aria-selected"); a11yBad++; }
+    const txf = rd("src/txf.js");
+    if ((txf.match(/class="txf-table-wrap" role="region" tabindex="0" aria-label=/g) || []).length < 2) { fail("txf.js: scrollable tables must be keyboard-focusable labelled regions"); a11yBad++; }
+    for (const f of ["src/paper.js", "src/paper-derivatives.js"]) {
+      if (/class="pos-scroll" role="region"(?! tabindex="0" aria-label=)/.test(rd(f))) { fail(`${f}: pos-scroll region needs tabindex=0 + aria-label`); a11yBad++; }
+    }
+    if (!rd("src/main.js").includes('<footer class="site-footer">')) { fail("main.js: footer must be a <footer> landmark"); a11yBad++; }
+    if (!a11yBad) ok("a11y guards: inert marquee clones, real tabs, focusable scroll regions, footer landmark, no list/button mismatch");
+  }
+
   // —— Category menus for podcasts + research ——
   {
     const pc = fs.readFileSync(path.join(ROOT, "src/podcasts.js"), "utf8");

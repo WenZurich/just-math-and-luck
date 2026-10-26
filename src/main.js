@@ -264,7 +264,7 @@ function renderIndexStrip(indices) {
       <div class="index-marquee" tabindex="0">
         <div class="index-marquee-track">
           ${group}
-          <div class="index-marquee-group index-marquee-group--clone" aria-hidden="true">${chips.join("")}</div>
+          <div class="index-marquee-group index-marquee-group--clone" aria-hidden="true" inert>${chips.join("").replace(/<a /g, '<a tabindex="-1" ')}</div>
         </div>
       </div>
     </div>`;
@@ -842,7 +842,7 @@ function renderApp(data, paper) {
 
     ${renderMobileBottomNav()}
 
-    <p class="site-footer">${escapeHtml(t("footer"))}</p>
+    <footer class="site-footer">${escapeHtml(t("footer"))}</footer>
   `;
 }
 

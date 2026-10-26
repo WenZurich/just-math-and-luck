@@ -389,7 +389,7 @@ function renderPosTable(positions, currency, positionsValue) {
         <h4>${escapeHtml(t("positions"))}</h4>
         <span class="pos-scroll-hint">${escapeHtml(t("posScrollHint"))}</span>
       </div>
-      <div class="pos-scroll" role="region" aria-label="${escapeHtml(t("positions"))}">
+      <div class="pos-scroll" role="region" tabindex="0" aria-label="${escapeHtml(t("positions"))}">
         <table class="pos-table">
           <thead>
             <tr>

@@ -162,7 +162,7 @@ function paintContracts(data) {
             · ${escapeHtml(t("txfMarginInitial"))}: NT$${escapeHtml(fmtInt(m.initial) || "—")}
             · ${escapeHtml(t("txfMarginMaint"))}: NT$${escapeHtml(fmtInt(m.maintenance) || "—")}</p>
         </header>
-        <div class="txf-table-wrap">
+        <div class="txf-table-wrap" role="region" tabindex="0" aria-label="${escapeHtml(code)} ${escapeHtml(b.nameZh || "")}">
           <table class="txf-table">
             <thead>
               <tr>
@@ -213,7 +213,7 @@ function paintInstitutional(data) {
       return `
         <article class="txf-inst-card">
           <h4>${escapeHtml(code)}</h4>
-          <div class="txf-table-wrap">
+          <div class="txf-table-wrap" role="region" tabindex="0" aria-label="${escapeHtml(code)}">
             <table class="txf-table">
               <thead>
                 <tr>

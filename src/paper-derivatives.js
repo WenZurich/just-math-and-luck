@@ -978,7 +978,7 @@ export function renderDerivOverlay(market, paper, state, { optSnap, txf }) {
         </div>
         ${renderUsTicket(optSnap)}
         <p class="paper-deriv-open-note">${escapeHtml(t("unrealizedPnl"))} · ${escapeHtml(t("realizedOpenOnly"))}</p>
-        <div class="pos-scroll" role="region">
+        <div class="pos-scroll" role="region" tabindex="0" aria-label="${escapeHtml(t("paperDerivContract"))}">
           <table class="pos-table deriv-table">
             <thead><tr>
               <th>${escapeHtml(t("paperDerivContract"))}</th>
@@ -1026,7 +1026,7 @@ export function renderDerivOverlay(market, paper, state, { optSnap, txf }) {
       </div>
       ${renderTwTicket(txf)}
       <p class="paper-deriv-open-note">${escapeHtml(t("unrealizedPnl"))} · ${escapeHtml(t("realizedOpenOnly"))}</p>
-      <div class="pos-scroll" role="region">
+      <div class="pos-scroll" role="region" tabindex="0" aria-label="${escapeHtml(t("paperDerivContract"))}">
         <table class="pos-table deriv-table pos-table">
           <thead><tr>
             <th>${escapeHtml(t("paperDerivContract"))}</th>

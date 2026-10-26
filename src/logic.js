@@ -36,7 +36,7 @@ export function stanceBadgeHtml(stanceRaw) {
 }
 
 function metricChip(label, valueHtml) {
-  return `<div class="logic-metric">
+  return `<div class="logic-metric" role="listitem">
     <span class="k">${escapeHtml(label)}</span>
     <span class="v">${valueHtml}</span>
   </div>`;

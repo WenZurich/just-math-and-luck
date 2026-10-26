@@ -68,7 +68,7 @@ function menuHtml() {
       </button>`;
   }).join("");
   return `
-    <div class="pc-menu" role="list">
+    <div class="pc-menu" role="group">
       <p class="pc-menu-lead">${escapeHtml(t("manbaoMenuLead"))}</p>
       <p class="lt-note">${escapeHtml(data?.indexNote || "")}</p>
       <div class="pc-menu-grid">${cards}</div>

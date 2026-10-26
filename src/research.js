@@ -381,7 +381,7 @@ function categoryMenuHtml(items) {
       </button>`;
   }).join("");
   return `
-    <div class="rl-menu" role="list" aria-label="${escapeHtml(t("researchCategories"))}">
+    <div class="rl-menu" role="group" aria-label="${escapeHtml(t("researchCategories"))}">
       <p class="rl-menu-lead">${escapeHtml(t("researchMenuLead"))}</p>
       <div class="rl-menu-grid">${cards}</div>
     </div>`;

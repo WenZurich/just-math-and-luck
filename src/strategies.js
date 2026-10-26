@@ -657,7 +657,7 @@ export function mountStrategies(selector, data) {
         const list = byCat.get(cat) || [];
         if (!list.length) return "";
         const on = cat === activeTab ? " active" : "";
-        return `<button type="button" class="xq-tab${on}" data-xq-tab="${escapeHtml(cat)}" aria-pressed="${cat === activeTab}">
+        return `<button type="button" class="xq-tab${on}" data-xq-tab="${escapeHtml(cat)}" role="tab" aria-selected="${cat === activeTab}">
           <span>${escapeHtml(catLabel(cat))}</span>
           <span class="xq-tab-n">${list.length}</span>
         </button>`;

@@ -181,7 +181,7 @@ function paint(root, data) {
 
   const chips = events.map((ev) => renderChip(ev, { todayEt, nextId, timeZone }));
   const group = `<div class="index-marquee-group">${chips.join("")}</div>`;
-  const clone = `<div class="index-marquee-group index-marquee-group--clone" aria-hidden="true">${chips.join("")}</div>`;
+  const clone = `<div class="index-marquee-group index-marquee-group--clone" aria-hidden="true" inert>${chips.join("").replace(/<a /g, '<a tabindex="-1" ')}</div>`;
 
   root.innerHTML = `
     <div class="macro-strip" role="region" aria-label="${escapeHtml(t("macroTitle"))}">

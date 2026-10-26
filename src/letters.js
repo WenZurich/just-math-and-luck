@@ -175,7 +175,7 @@ function menuHtml() {
       </button>`;
   }).join("");
   return `
-    <div class="pc-menu" role="list">
+    <div class="pc-menu" role="group">
       <p class="pc-menu-lead">${escapeHtml(t("lettersMenuLead"))}</p>
       <div class="pc-menu-grid">${cards}</div>
     </div>`;
