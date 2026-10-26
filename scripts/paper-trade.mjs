@@ -603,6 +603,11 @@ const TWSE_KNOWN_CLOSURES = {
 };
 /** 「休市後第一個交易日早上不成交」從這天起生效（之前已公布的成交不回頭改）。 */
 const TW_STALE_CLOSE_RULE_FROM = "2026-10-23";
+/**
+ * 使用者 2026-10-27 同意回溯套用的日子（只有這些，其他更早的歷史不動）：
+ *   2026-10-12：10/09 國慶補假休市，10/12 早上的價格還是 10/08 收盤 → 不成交。
+ */
+const TW_STALE_CLOSE_RULE_RETRO = new Set(["2026-10-12"]);
 
 /**
  * 台股休市日（TWSE 官方休市表 tw-macro-calendar.json ＋ 上面的臨時停市表）不下單：
@@ -652,7 +657,7 @@ function processBook(book, latest, market, quotes) {
       return new Set();
     }
     const closeDate = twCloseDateOf(latest);
-    if (closeDate && date >= TW_STALE_CLOSE_RULE_FROM) {
+    if (closeDate && (date >= TW_STALE_CLOSE_RULE_FROM || TW_STALE_CLOSE_RULE_RETRO.has(date))) {
       const gap = weekdaysBetween(closeDate, date);
       if (gap.length) {
         console.log(`TW ${date}: prices are the ${closeDate} close and the market was closed on ${gap.join(", ")} — first morning after a closure, no fills (mark only)`);

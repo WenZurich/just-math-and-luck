@@ -58,6 +58,16 @@
       "source": "Yahoo Finance 日線收盤（一般交易時段）"
     },
     {
+      "ticker": "3035.TW",
+      "name": "智原",
+      "market": "TW",
+      "session": "2026-10-12",
+      "price": 197.5,
+      "dayPct": -2.23,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
       "ticker": "6226.TW",
       "name": "光鼎",
       "market": "TW",

@@ -32,10 +32,10 @@
       "market": "TW",
       "currency": "TWD",
       "startCash": 3000000,
-      "cash": 1544550,
-      "equity": 3113500,
+      "cash": 1540050,
+      "equity": 3109000,
       "positionsValue": 1568950,
-      "realizedPnl": 36150,
+      "realizedPnl": 31650,
       "positions": [
         {
           "ticker": "2468.TW",
@@ -450,17 +450,17 @@
           "realizedPnl": 0
         },
         {
-          "date": "2026-10-12",
-          "asOf": "2026-10-12T00:15:58Z",
+          "date": "2026-10-13",
+          "asOf": "2026-10-13T00:48:34Z",
           "side": "SELL",
           "ticker": "3035.TW",
           "name": "智原",
           "qty": 1000,
-          "price": 202,
+          "price": 197.5,
           "avgCostAtSale": 203,
           "reason": "off-list",
           "reasonText": "離開當日名單且未實現虧損",
-          "realizedPnl": -1000
+          "realizedPnl": -5500
         },
         {
           "date": "2026-10-13",
@@ -836,67 +836,67 @@
         {
           "date": "2026-10-12",
           "equity": 3077100,
-          "cash": 2855100,
-          "positionsValue": 222000
+          "cash": 2653100,
+          "positionsValue": 424000
         },
         {
           "date": "2026-10-13",
-          "equity": 3072850,
-          "cash": 2473100,
+          "equity": 3068350,
+          "cash": 2468600,
           "positionsValue": 599750
         },
         {
           "date": "2026-10-14",
-          "equity": 3085850,
-          "cash": 1796800,
+          "equity": 3081350,
+          "cash": 1792300,
           "positionsValue": 1289050
         },
         {
           "date": "2026-10-15",
-          "equity": 3089250,
-          "cash": 2028000,
+          "equity": 3084750,
+          "cash": 2023500,
           "positionsValue": 1061250
         },
         {
           "date": "2026-10-16",
-          "equity": 3062000,
-          "cash": 1564800,
+          "equity": 3057500,
+          "cash": 1560300,
           "positionsValue": 1497200
         },
         {
           "date": "2026-10-19",
-          "equity": 3106850,
-          "cash": 1667000,
+          "equity": 3102350,
+          "cash": 1662500,
           "positionsValue": 1439850
         },
         {
           "date": "2026-10-20",
-          "equity": 3088850,
-          "cash": 1359900,
+          "equity": 3084350,
+          "cash": 1355400,
           "positionsValue": 1728950
         },
         {
           "date": "2026-10-21",
-          "equity": 3071450,
-          "cash": 2155450,
+          "equity": 3066950,
+          "cash": 2150950,
           "positionsValue": 916000
         },
         {
           "date": "2026-10-22",
-          "equity": 3096450,
-          "cash": 1544550,
+          "equity": 3091950,
+          "cash": 1540050,
           "positionsValue": 1551900
         },
         {
           "date": "2026-10-23",
-          "equity": 3113500,
-          "cash": 1544550,
+          "equity": 3109000,
+          "cash": 1540050,
           "positionsValue": 1568950
         },
         {
           "date": "2026-10-26",
-          "equity": 3113500,
-          "cash": 1544550,
+          "equity": 3109000,
+          "cash": 1540050,
           "positionsValue": 1568950
         }
       ],
@@ -3349,12 +3349,12 @@
   },
   "metrics": {
     "TW": {
-      "totalPnl": 113500,
-      "totalPnlPct": 3.7833,
-      "realizedPnl": 36150,
+      "totalPnl": 109000,
+      "totalPnlPct": 3.6333,
+      "realizedPnl": 31650,
       "unrealizedPnl": 77350,
       "week": {
-        "pct": 0.214,
+        "pct": 0.2144,
         "pnl": 6650,
         "label": "7日",
         "sinceInception": false,
@@ -3363,8 +3363,8 @@
         "toDate": "2026-10-26"
       },
       "month": {
-        "pct": 0.8584,
-        "pnl": 26500,
+        "pct": 0.7127,
+        "pnl": 22000,
         "label": "30日",
         "sinceInception": false,
         "days": 30,
@@ -3372,8 +3372,8 @@
         "toDate": "2026-10-26"
       },
       "quarter": {
-        "pct": 3.7833,
-        "pnl": 113500,
+        "pct": 3.6333,
+        "pnl": 109000,
         "label": "成立以來",
         "sinceInception": true,
         "days": 90,
@@ -3381,8 +3381,8 @@
         "toDate": "2026-10-26"
       },
       "year": {
-        "pct": 3.7833,
-        "pnl": 113500,
+        "pct": 3.6333,
+        "pnl": 109000,
         "label": "成立以來",
         "sinceInception": true,
         "days": 365,

@@ -1520,6 +1520,12 @@ async function main() {
       const pt = fs.readFileSync(path.join(ROOT, "scripts/paper-trade.mjs"), "utf8");
       if (!/"2026-10-23"/.test(pt) || !/weekdaysBetween\(/.test(pt)) fail("paper-trade must know the 10/23 typhoon closure and skip the first morning after a closure");
       else ok("paper-trade holiday + post-closure guard present");
+      // 10/09 國慶補假休市 → 10/12 早上的台股價格還是 10/08 收盤：休市後第一個早上不成交（使用者 10/27 同意回溯）
+      const tw1012 = (pp.books?.TW?.trades || []).filter((t) => t.date === "2026-10-12");
+      if (tw1012.length) fail(`TW paper book has ${tw1012.length} fill(s) on 2026-10-12 (first morning after the 10/09 closure, stale 10/08 close): ${tw1012.map((t) => t.side + " " + t.ticker).join(", ")}`);
+      else ok("no TW paper fills on 2026-10-12 (first morning after the 10/09 holiday)");
+      if (!/TW_STALE_CLOSE_RULE_RETRO\s*=\s*new Set\(\[[^\]]*"2026-10-12"/.test(pt)) fail("paper-trade post-closure guard must cover 2026-10-12 (TW_STALE_CLOSE_RULE_RETRO)");
+      else ok("post-closure guard covers 2026-10-12");
     }
     const i18nPaper = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
     if (/paperRuleBuy:\s*"[^"]*(風險1%|停距1\.5%|1% risk)/.test(i18nPaper)) fail("paperRuleBuy still describes the 1%-risk/stop rule that never binds");
