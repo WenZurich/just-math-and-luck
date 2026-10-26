@@ -5,6 +5,7 @@ import {
   avg,
   codeOfTicker,
 } from "./tw-fundamentals.mjs";
+import { trailingSum, growthStreak, blockGrowth } from "./math-core.mjs";
 
 function cond(text, status = "pass") {
   return { text, status };
@@ -50,47 +51,24 @@ function fundOf(bundle, ticker) {
 }
 
 /** 近 N 季合計 ROE（單季 ROE 加總） */
-function sumRecentRoe(fund, n = 4) {
+// math-core (guarded, 2026-10-27): sums / growth below never return NaN or coerce strings; junk ⇒ null (name skipped).
+// NOTE (unchanged rule): quarters without ROE/EPS are dropped first, so "last 4 quarters" means the last 4 that
+// have the figure — not necessarily 4 consecutive calendar quarters.
+export function sumRecentRoe(fund, n = 4) {
   if (!fund?.quarters?.length) return null;
-  const qs = fund.quarters.filter((q) => q.roe != null);
-  if (qs.length < n) return null;
-  const slice = qs.slice(-n);
-  return slice.reduce((s, q) => s + q.roe, 0);
+  return trailingSum(fund.quarters.filter((q) => q.roe != null).map((q) => q.roe), n);
 }
 
-function epsGrowthStreak(fund) {
+export function epsGrowthStreak(fund) {
   // consecutive QoQ EPS growth >10% counting from latest backwards
   if (!fund?.quarters?.length) return 0;
-  const qs = fund.quarters.filter((q) => q.eps != null);
-  let streak = 0;
-  for (let i = qs.length - 1; i >= 1; i--) {
-    const cur = qs[i].eps;
-    const prev = qs[i - 1].eps;
-    if (prev == null || !(Math.abs(prev) > 1e-9)) break;
-    const g = (cur - prev) / Math.abs(prev);
-    if (g > 0.1) streak++;
-    else break;
-  }
-  return streak;
+  return growthStreak(fund.quarters.filter((q) => q.eps != null).map((q) => q.eps), 0.1, { minAbsPrev: 1e-9 });
 }
 
-function roeGrowthLatest(fund) {
+export function roeGrowthLatest(fund) {
   // YoY ROE growth using sum of last 4Q vs prior 4Q if possible; else last vs prior quarter
   if (!fund?.quarters?.length) return null;
-  const qs = fund.quarters.filter((q) => q.roe != null);
-  if (qs.length >= 8) {
-    const a = qs.slice(-4).reduce((s, q) => s + q.roe, 0);
-    const b = qs.slice(-8, -4).reduce((s, q) => s + q.roe, 0);
-    if (!(Math.abs(b) > 1e-9)) return null;
-    return (a - b) / Math.abs(b);
-  }
-  if (qs.length >= 2) {
-    const a = qs[qs.length - 1].roe;
-    const b = qs[qs.length - 2].roe;
-    if (!(Math.abs(b) > 1e-9)) return null;
-    return (a - b) / Math.abs(b);
-  }
-  return null;
+  return blockGrowth(fund.quarters.filter((q) => q.roe != null).map((q) => q.roe), 4, { minAbsPrev: 1e-9 });
 }
 
 function consecutiveAnnualRevGrowth(fund, years, minG) {

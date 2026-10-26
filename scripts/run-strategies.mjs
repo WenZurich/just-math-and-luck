@@ -10,7 +10,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildTwFundamentalBundle, codeOfTicker } from "./tw-fundamentals.mjs";
-import { sma, rsiLast2, volumeRatioVsPrev, priceShapeMetrics } from "./math-core.mjs";
+import { sma, rsiLast2, volumeRatioVsPrev, priceShapeMetrics, signedGrowth, trailingSum } from "./math-core.mjs";
 import { buildAllMasters } from "./master-strategies.mjs";
 import { buildAllGooayePacks, gooayeUniverseBoost } from "./gooaye-strategies.mjs";
 // Peter Lynch now lives in master-strategies (TW MOPS, skip-if-missing).
@@ -440,10 +440,9 @@ function sharesToZhang(shares) {
   return shares / TW_SHARES_PER_ZHANG;
 }
 
+// math-core (guarded): YoY margin growth (cur − prev)/|prev|; |prev| ≤ 1e-9 or junk ⇒ null
 function marginRelGrowth(cur, prev) {
-  if (cur == null || prev == null) return null;
-  if (!(Math.abs(prev) > 1e-9)) return null;
-  return (cur - prev) / Math.abs(prev);
+  return signedGrowth(cur, prev, { minAbsPrev: 1e-9 });
 }
 
 // —— strategies ——
@@ -1649,7 +1648,7 @@ async function main() {
       const debt = twFund.debtRatio.get(code);
       if (pe == null || debt == null || !(pe < 25) || !(debt < 0.35)) continue;
       const qs = (fund.quarters || []).filter((q) => q.roe != null);
-      const roe4 = qs.length >= 4 ? qs.slice(-4).reduce((a, q) => a + q.roe, 0) : null;
+      const roe4 = trailingSum(qs.map((q) => q.roe), 4);
       const gs = (fund.revGrowthYoY || []).slice(-3);
       const growthOk = gs.length >= 3 && gs.every((x) => x.g > 0.03);
       if (growthOk || (roe4 != null && roe4 > 0.12)) push(code, priority);

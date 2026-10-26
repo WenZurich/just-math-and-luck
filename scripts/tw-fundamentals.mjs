@@ -5,6 +5,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { signedGrowth, meanOrNull } from "./math-core.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const MOPS_CACHE = path.join(__dirname, ".mops-cache");
@@ -669,25 +670,10 @@ export async function buildTwFundamentalBundle(opts = {}) {
       q.roe = q.netIncome != null && q.equity > 0 ? q.netIncome / q.equity : null;
     }
 
-    // YoY annual growth series
-    rec.revGrowthYoY = [];
-    rec.pretaxGrowthYoY = [];
-    for (let i = 1; i < rec.annual.length; i++) {
-      const a = rec.annual[i];
-      const b = rec.annual[i - 1];
-      if (a.revenue != null && b.revenue > 0) {
-        rec.revGrowthYoY.push({
-          year: a.year,
-          g: (a.revenue - b.revenue) / Math.abs(b.revenue),
-        });
-      }
-      if (a.pretax != null && b.pretax != null && Math.abs(b.pretax) > 0) {
-        rec.pretaxGrowthYoY.push({
-          year: a.year,
-          g: (a.pretax - b.pretax) / Math.abs(b.pretax),
-        });
-      }
-    }
+    // YoY annual growth series (math-core guarded; see annualGrowthSeries)
+    const gs = annualGrowthSeries(rec.annual);
+    rec.revGrowthYoY = gs.rev;
+    rec.pretaxGrowthYoY = gs.pretax;
   }
 
   console.log("  fundamental names", byCode.size);
@@ -709,9 +695,31 @@ export async function buildTwFundamentalBundle(opts = {}) {
   };
 }
 
+/**
+ * Annual YoY growth series from consecutive entries of a year-sorted annual list (same pairing as before:
+ * adjacent list entries, so a missing year pairs across the gap). Revenue needs prior revenue > 0; pretax needs
+ * prior pretax ≠ 0 (sign-aware: −100 → +50 is +150%). g via math-core signedGrowth: a junk endpoint ⇒ g null
+ * (fails every "> threshold" test and makes the average null) instead of NaN or a coerced string.
+ */
+export function annualGrowthSeries(annual) {
+  const rev = [];
+  const pretax = [];
+  for (let i = 1; i < (annual || []).length; i++) {
+    const a = annual[i];
+    const b = annual[i - 1];
+    if (a.revenue != null && b.revenue > 0) {
+      rev.push({ year: a.year, g: signedGrowth(a.revenue, b.revenue, { minAbsPrev: 0, requirePositivePrev: true }) });
+    }
+    if (a.pretax != null && b.pretax != null && Math.abs(b.pretax) > 0) {
+      pretax.push({ year: a.year, g: signedGrowth(a.pretax, b.pretax, { minAbsPrev: 0 }) });
+    }
+  }
+  return { rev, pretax };
+}
+
+/** Mean of growth rates — math-core meanOrNull (empty or any null/NaN/string entry ⇒ null, never NaN). */
 export function avg(arr) {
-  if (!arr?.length) return null;
-  return arr.reduce((s, x) => s + x, 0) / arr.length;
+  return meanOrNull(arr);
 }
 
 export function codeOfTicker(ticker) {

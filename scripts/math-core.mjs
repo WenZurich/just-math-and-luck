@@ -724,3 +724,76 @@ export function lagChange(closes, days, mode = "diff") {
   }
   return { value: null, gap: true };
 }
+
+// ── TW fundamental growth math moved out of tw-fundamentals / master-strategies / run-strategies (2026-10-27) ──
+
+/**
+ * Sign-aware relative growth (cur − prev) / |prev| (fraction). Used for annual revenue / pretax YoY,
+ * single-quarter EPS QoQ, ROE block growth and margin YoY. |prev| must be strictly > minAbsPrev
+ * (legacy: 1e-9 for EPS/ROE/margins, 0 for annual revenue/pretax); requirePositivePrev demands prev > 0
+ * (annual revenue). Non-number or non-finite endpoints ⇒ null (legacy coerced numeric strings and
+ * leaked NaN into averages). NOTE: from a negative base the sign is "improvement": −100 → +50 is +1.5.
+ */
+export function signedGrowth(cur, prev, { minAbsPrev = 1e-9, requirePositivePrev = false } = {}) {
+  if (!isFiniteNumber(cur) || !isFiniteNumber(prev)) return null;
+  if (!(minAbsPrev >= 0)) return null;
+  if (requirePositivePrev && !(prev > 0)) return null;
+  const d = Math.abs(prev);
+  if (!(d > minAbsPrev)) return null;
+  const g = (cur - prev) / d;
+  return isFiniteNumber(g) ? g : null;
+}
+
+/** Arithmetic mean, summed left to right from 0 (legacy order). Empty / non-array / any non-finite entry ⇒ null. */
+export function meanOrNull(values) {
+  if (!Array.isArray(values) || values.length === 0) return null;
+  let s = 0;
+  for (const x of values) {
+    if (!isFiniteNumber(x)) return null;
+    s += x;
+  }
+  const m = s / values.length;
+  return isFiniteNumber(m) ? m : null;
+}
+
+/** Sum of the last n values (left to right from 0). Fewer than n values, bad n, or a non-finite value in the window ⇒ null. */
+export function trailingSum(values, n) {
+  if (!Array.isArray(values) || !Number.isInteger(n) || n <= 0 || values.length < n) return null;
+  let s = 0;
+  for (const x of values.slice(-n)) {
+    if (!isFiniteNumber(x)) return null;
+    s += x;
+  }
+  return isFiniteNumber(s) ? s : null;
+}
+
+/**
+ * Consecutive growth streak counted from the latest value backwards: number of i (from the end) with
+ * signedGrowth(values[i], values[i−1]) > minG; stops at the first failure or undefined growth
+ * (|prev| ≤ minAbsPrev or junk). Bad input ⇒ 0 (legacy returned 0 for no data).
+ */
+export function growthStreak(values, minG, { minAbsPrev = 1e-9 } = {}) {
+  if (!Array.isArray(values) || !isFiniteNumber(minG)) return 0;
+  let streak = 0;
+  for (let i = values.length - 1; i >= 1; i--) {
+    const g = signedGrowth(values[i], values[i - 1], { minAbsPrev });
+    if (g != null && g > minG) streak++;
+    else break;
+  }
+  return streak;
+}
+
+/**
+ * Block growth: with ≥ 2·block values, signedGrowth(sum of last block, sum of the block before);
+ * else with ≥ 2 values, signedGrowth(last, previous); else null. (ROE: last 4Q vs prior 4Q.)
+ */
+export function blockGrowth(values, block = 4, { minAbsPrev = 1e-9 } = {}) {
+  if (!Array.isArray(values) || !Number.isInteger(block) || block <= 0) return null;
+  if (values.length >= 2 * block) {
+    const a = trailingSum(values, block);
+    const b = trailingSum(values.slice(0, -block), block);
+    return a == null || b == null ? null : signedGrowth(a, b, { minAbsPrev });
+  }
+  if (values.length >= 2) return signedGrowth(values[values.length - 1], values[values.length - 2], { minAbsPrev });
+  return null;
+}

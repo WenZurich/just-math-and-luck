@@ -2097,6 +2097,160 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
   ok(`regime inputs (${n} cases: priorWindowDrawdown 20000 random = verbatim legacy, ≤ 0, scale/order invariance, ≤ true peak-to-trough dd and = it when max precedes min, locality, junk/0/negative/string ⇒ null, rally reads −9.09% (documented); peakToTroughDrawdown = brute; bottomQuantileFlag = sort-free count oracle + legacy rule, monotone, 1..40 boundary, minLen; atrBottomQuartile ${aq} random charts incl. junk bars = verbatim legacy flag+gap, 59/60/61-bar boundaries, flat/calm/wild, scale; breadthShare = legacy, k/n, string/missing flag ⇒ null; seriesDelta/seriesRet 20000 random with null holes = verbatim legacy, ret = diff/a, junk/base ≤ 0 ⇒ gap; computeMetrics dd252/pctFromSma200 = legacy; indexFeaturesFromChart caller path = legacy block, 0 close ⇒ null; wiring; live breadth recompute)`);
 }
 
+// ── TW fundamental growth math: annual rev/pretax YoY, 4Q ROE sum, EPS QoQ streak, ROE block growth, averages,
+//    margin YoY (2026-10-27) ──
+// Dependencies: [g] cur, prev only; [mean] every entry; [sum] last n entries; [streak] values from the end back to
+// the first failing step; [block] last 2·block (or 2) values. Each check evaluates the function on data.
+{
+  const { signedGrowth, meanOrNull, trailingSum, growthStreak, blockGrowth } = await import("./math-core.mjs");
+  const { annualGrowthSeries, avg } = await import("./tw-fundamentals.mjs");
+  const { sumRecentRoe, epsGrowthStreak, roeGrowthLatest } = await import("./master-strategies.mjs");
+  let n = 0;
+  const bad = (m) => fail(`fundamental growth: ${m}`);
+  let s = 20261027 >>> 0;
+  const rnd = () => ((s = (Math.imul(s, 1664525) + 1013904223) >>> 0) / 4294967296);
+  const ri = (a, b) => a + Math.floor(rnd() * (b - a + 1));
+  // strict equality: JSON.stringify maps NaN/±Infinity to null and −0 to 0 — that hid two mutants in round 1
+  const enc = (k, v) => (typeof v === "number" && (!Number.isFinite(v) || Object.is(v, -0)) ? `#num:${Object.is(v, -0) ? "-0" : String(v)}` : v);
+  const same = (x, y) => (x === null || y === null || typeof x !== "object" || typeof y !== "object" ? Object.is(x, y) : JSON.stringify(x, enc) === JSON.stringify(y, enc));
+  n++; if (same(Infinity, null) || same([NaN], [null]) || same(-0, 0) || !same({ a: [1, null] }, { a: [1, null] })) bad(`strict comparator broken`);
+  // verbatim legacy (before 2026-10-27)
+  const L = {
+    avg: (arr) => { if (!arr?.length) return null; return arr.reduce((s2, x) => s2 + x, 0) / arr.length; },
+    sumRecentRoe: (fund, k = 4) => { if (!fund?.quarters?.length) return null; const qs = fund.quarters.filter((q) => q.roe != null); if (qs.length < k) return null; return qs.slice(-k).reduce((s2, q) => s2 + q.roe, 0); },
+    epsGrowthStreak: (fund) => { if (!fund?.quarters?.length) return 0; const qs = fund.quarters.filter((q) => q.eps != null); let st = 0; for (let i = qs.length - 1; i >= 1; i--) { const cur = qs[i].eps; const prev = qs[i - 1].eps; if (prev == null || !(Math.abs(prev) > 1e-9)) break; const g = (cur - prev) / Math.abs(prev); if (g > 0.1) st++; else break; } return st; },
+    roeGrowthLatest: (fund) => { if (!fund?.quarters?.length) return null; const qs = fund.quarters.filter((q) => q.roe != null); if (qs.length >= 8) { const a = qs.slice(-4).reduce((s2, q) => s2 + q.roe, 0); const b = qs.slice(-8, -4).reduce((s2, q) => s2 + q.roe, 0); if (!(Math.abs(b) > 1e-9)) return null; return (a - b) / Math.abs(b); } if (qs.length >= 2) { const a = qs[qs.length - 1].roe; const b = qs[qs.length - 2].roe; if (!(Math.abs(b) > 1e-9)) return null; return (a - b) / Math.abs(b); } return null; },
+    series: (annual) => { const rev = [], pretax = []; for (let i = 1; i < annual.length; i++) { const a = annual[i], b = annual[i - 1]; if (a.revenue != null && b.revenue > 0) rev.push({ year: a.year, g: (a.revenue - b.revenue) / Math.abs(b.revenue) }); if (a.pretax != null && b.pretax != null && Math.abs(b.pretax) > 0) pretax.push({ year: a.year, g: (a.pretax - b.pretax) / Math.abs(b.pretax) }); } return { rev, pretax }; },
+    margin: (cur, prev) => { if (cur == null || prev == null) return null; if (!(Math.abs(prev) > 1e-9)) return null; return (cur - prev) / Math.abs(prev); },
+  };
+  // published-precision generators: MOPS amounts are integer NT$ thousands (pretax may be ≤ 0); EPS 2 dp, single
+  // quarter = cumulative difference (so FP tails like 0.8700000000000001 occur); ROE = NI / equity
+  const amt = () => (rnd() < 0.08 ? 0 : (rnd() < 0.2 ? -1 : 1) * ri(1, 10 ** ri(2, 8)));
+  const eps2 = () => (rnd() < 0.06 ? 0 : Math.round((rnd() - 0.25) * 10 ** ri(1, 3)) / 100);
+  const randAnnual = () => { const len = ri(0, 7), out = []; let y = 108; for (let i = 0; i < len; i++) { y += rnd() < 0.1 ? 2 : 1; out.push({ year: y, revenue: rnd() < 0.07 ? null : Math.abs(amt()) * (rnd() < 0.05 ? 0 : 1), pretax: rnd() < 0.07 ? null : amt() }); } return out; };
+  const randFund = () => {
+    const len = ri(0, 10), qs = []; let cum = 0;
+    for (let i = 0; i < len; i++) {
+      const season = (i % 4) + 1; if (season === 1) cum = 0; const e = eps2(); const prevCum = cum; cum = Math.round((cum + e) * 100) / 100;
+      const ni = amt(), eq = rnd() < 0.05 ? 0 : ri(1000, 10 ** 8);
+      const pick = rnd();
+      qs.push({ year: 113 + Math.floor(i / 4), season, eps: rnd() < 0.08 ? null : (season === 1 ? cum : cum - prevCum), roe: rnd() < 0.08 ? null : (eq > 0 ? ni / eq : null) * (pick < 0.03 ? 0 : 1) });
+    }
+    return { quarters: qs };
+  };
+  // [g] 1) verbatim legacy, three call variants, published precision; invariants
+  for (let t = 0; t < 30000; t++) {
+    const cur = rnd() < 0.5 ? amt() : eps2(), prev = rnd() < 0.5 ? amt() : eps2();
+    n++; if (!same(signedGrowth(cur, prev), L.margin(cur, prev))) { bad(`signedGrowth(1e-9) ≠ legacy margin/EPS/ROE form ${cur},${prev}`); break; }
+    const lr = prev > 0 ? (cur - prev) / Math.abs(prev) : null; n++;
+    if (!same(signedGrowth(cur, prev, { minAbsPrev: 0, requirePositivePrev: true }), lr)) { bad(`signedGrowth revenue form ≠ legacy ${cur},${prev}`); break; }
+    const lp = Math.abs(prev) > 0 ? (cur - prev) / Math.abs(prev) : null; n++;
+    if (!same(signedGrowth(cur, prev, { minAbsPrev: 0 }), lp)) { bad(`signedGrowth pretax form ≠ legacy ${cur},${prev}`); break; }
+    const g = signedGrowth(cur, prev);
+    if (g != null) {
+      n++; if ((g > 0) !== (cur > prev) || (g === 0) !== (cur === prev)) { bad(`sign: g ${g} for ${prev}→${cur}`); break; }
+      n++; if (prev > 0 && cur >= 0 && !(g >= -1)) { bad(`g < −100% from positive base with non-negative cur`); break; }
+      const k = 2 ** ri(-6, 6); n++; if (signedGrowth(cur * k, prev * k) !== g) { bad(`scale by power of 2 must be exact`); break; }
+      n++; if (Math.abs(g * Math.abs(prev) - (cur - prev)) > 1e-9 * Math.max(1, Math.abs(cur - prev))) { bad(`g·|prev| ≠ cur − prev`); break; }
+      if (prev > 0 && cur > 0) { const h = signedGrowth(prev, cur); n++; if (Math.abs((1 + g) * (1 + h) - 1) > 1e-12 * Math.max(cur / prev, prev / cur)) { bad(`(1+g(c,p))(1+g(p,c)) ≠ 1`); break; } }
+    }
+  }
+  // [g] 2) boundaries + junk
+  const gcases = [
+    [[1, 1e-9], null], [[1, -1e-9], null], [[1, 1.0000001e-9], (1 - 1.0000001e-9) / 1.0000001e-9], [[0.11, 0.1], (0.11 - 0.1) / 0.1],
+    [[5, 0, { minAbsPrev: 0 }], null], [[5, -2, { minAbsPrev: 0, requirePositivePrev: true }], null], [[5, -2, { minAbsPrev: 0 }], 3.5],
+    [[50, -100], 1.5], [[-200, -100], -1], [[0, 100], -1], [[100, 100], 0],
+    [[NaN, 1], null], [[1, NaN], null], [[Infinity, 1], null], [["12", 10], null], [[12, "10"], null], [[null, 1], null], [[1, undefined], null], [[1, 1, { minAbsPrev: -1 }], null], [[1, 2, { minAbsPrev: NaN }], null],
+    [[1e308, -1e-300, { minAbsPrev: 0 }], null],
+  ];
+  for (const [args, want] of gcases) { n++; const v = signedGrowth(...args); if (!same(v, want)) bad(`signedGrowth(${JSON.stringify(args)}) = ${v}, want ${want}`); }
+  // [mean] legacy avg on finite arrays (bit-identical, same summation order); bounds; junk ⇒ null (legacy: null→0, "x" concat, NaN)
+  for (let t = 0; t < 20000; t++) {
+    const len = ri(0, 7); const a = Array.from({ length: len }, () => (rnd() < 0.5 ? amt() / 1000 : (rnd() - 0.3) * 20));
+    const m = meanOrNull(a); n++;
+    if (!same(m, L.avg(a)) || !same(avg(a), m)) { bad(`meanOrNull/avg ≠ legacy ${JSON.stringify(a)}`); break; }
+    if (len) { n++; if (!(m >= Math.min(...a) - 1e-9 * Math.max(1, ...a.map(Math.abs)) && m <= Math.max(...a) + 1e-9 * Math.max(1, ...a.map(Math.abs)))) { bad(`mean outside [min,max]`); break; } }
+    if (len) { const c = a[0]; n++; if (meanOrNull(a.map(() => c)) !== c && Math.abs(meanOrNull(a.map(() => c)) - c) > 1e-12 * Math.abs(c)) { bad(`constant mean`); break; } }
+    if (len) { const j = ri(0, len - 1); const junk = [null, NaN, "0.2", undefined, Infinity][ri(0, 4)]; const b = [...a]; b[j] = junk; n++; if (meanOrNull(b) !== null || avg(b) !== null) { bad(`junk ${String(junk)} in mean ⇒ must be null`); break; } }
+  }
+  n++; if (L.avg([0.3, null]) !== 0.15 || meanOrNull([0.3, null]) !== null) bad(`documented legacy hole: avg([0.3,null]) read as 0.15`);
+  n++; if (meanOrNull([]) !== null || meanOrNull(null) !== null || meanOrNull([0.2]) !== 0.2 || !Object.is(meanOrNull([-0]), L.avg([-0])) || !Object.is(meanOrNull([-0]), 0)) bad(`meanOrNull edges (incl. [−0] ⇒ +0 like legacy)`);
+  // [sum] brute; boundaries; junk in window ⇒ null, outside window irrelevant
+  for (let t = 0; t < 20000; t++) {
+    const len = ri(0, 10), k = ri(1, 6); const a = Array.from({ length: len }, () => amt() / ri(1000, 1e8));
+    const v = trailingSum(a, k); let want = null; if (len >= k) { want = 0; for (let i = len - k; i < len; i++) want += a[i]; }
+    n++; if (!same(v, want)) { bad(`trailingSum ≠ brute ${JSON.stringify(a)} k ${k}`); break; }
+    if (len > k) { const b = [...a]; b[0] = NaN; n++; if (!same(trailingSum(b, k), v)) { bad(`trailingSum locality`); break; } const c = [...a]; c[len - 1 - ri(0, k - 1)] = "0.1"; n++; if (trailingSum(c, k) !== null) { bad(`string in window ⇒ null`); break; } }
+  }
+  for (const [args, want] of [[[[1, 2, 3], 3], 6], [[[1, 2, 3], 4], null], [[[1, 2, 3], 0], null], [[[1, 2, 3], 1.5], null], [[[1, 2, 3], -1], null], [[null, 1], null], [[[1, null, 2], 2], null], [[[null, 1, 2], 2], 3], [[[1, undefined], 1], null], [[[1, true], 1], null]]) { n++; if (!same(trailingSum(...args), want)) bad(`trailingSum(${JSON.stringify(args)}) ≠ ${want}`); }
+  // [streak] brute definition; monotone in threshold; ≤ len−1; appending a failing step ⇒ 0
+  const bruteStreak = (v, thr) => { let k = 0; while (k + 1 < v.length) { const c = v[v.length - 1 - k], p = v[v.length - 2 - k]; if (typeof c !== "number" || typeof p !== "number" || !Number.isFinite(c) || !Number.isFinite(p) || !(Math.abs(p) > 1e-9) || !((c - p) / Math.abs(p) > thr)) break; k++; } return k; };
+  for (let t = 0; t < 20000; t++) {
+    const len = ri(0, 9); let v = Array.from({ length: len }, () => eps2()); if (rnd() < 0.4) { let x = 0.5 + rnd(); v = v.map(() => (x = Math.round(x * (1 + rnd() * 0.4) * 100) / 100)); }
+    const thr = [0.1, 0, 0.05, 0.25][ri(0, 3)]; const st = growthStreak(v, thr); n++;
+    if (st !== bruteStreak(v, thr)) { bad(`growthStreak ≠ brute ${JSON.stringify(v)} thr ${thr}`); break; }
+    n++; if (growthStreak(v, thr + 0.05) > st || st > Math.max(0, len - 1)) { bad(`streak monotonicity/bound`); break; }
+    if (len) { const w = [...v, v[len - 1]]; n++; if (growthStreak(w, thr) !== 0) { bad(`flat last step must end the streak`); break; } }
+  }
+  for (const [v, want] of [[[1, 1.2, 1.5, 2], 3], [[0, 1, 2], 1], [[1e-9, 1, 2], 1], [[-1, -0.5, 0], 2], [[1, 1.2, NaN, 2], 0], [[1, "1.5", 2], 0], [[1, "1.5", 2, 3], 1], [[], 0], [[3], 0]]) { n++; if (growthStreak(v, 0.1) !== want) bad(`growthStreak(${JSON.stringify(v)}) = ${growthStreak(v, 0.1)}, want ${want}`); }
+  n++; if (growthStreak(null, 0.1) !== 0 || growthStreak([1, 2], NaN) !== 0 || growthStreak([1, 2], "0.1") !== 0 || growthStreak([1e-10, 1], 0.1, { minAbsPrev: 0 }) !== 1) bad(`growthStreak junk ⇒ 0 / minAbsPrev passthrough`);
+  // documented FP boundary (legacy behaviour kept): +10.00% at 2-dp precision can read as > 10%
+  n++; if (growthStreak([0.7, 0.77], 0.1) !== 1 || growthStreak([1, 1.1], 0.1) !== 1 || growthStreak([1.3, 1.43], 0.1) !== 0) bad(`FP boundary at exactly +10% changed — re-check replay before shipping`);
+  // [block] brute definition; 7/8/9 and 1/2 length boundaries
+  for (let t = 0; t < 20000; t++) {
+    const len = ri(0, 12); const v = Array.from({ length: len }, () => (rnd() < 0.05 ? 0 : amt() / ri(1000, 1e8)));
+    let want = null;
+    if (len >= 8) { let a = 0, b = 0; for (let i = len - 4; i < len; i++) a += v[i]; for (let i = len - 8; i < len - 4; i++) b += v[i]; want = Math.abs(b) > 1e-9 ? (a - b) / Math.abs(b) : null; }
+    else if (len >= 2) { const b = v[len - 2]; want = Math.abs(b) > 1e-9 ? (v[len - 1] - b) / Math.abs(b) : null; }
+    n++; if (!same(blockGrowth(v, 4), want)) { bad(`blockGrowth ≠ brute ${JSON.stringify(v)}`); break; }
+    if (len >= 9) { const w = [...v]; w[0] = NaN; n++; if (!same(blockGrowth(w, 4), want)) { bad(`blockGrowth locality (9+ values)`); break; } }
+  }
+  { const v8 = [1, 1, 1, 1, 2, 2, 2, 2]; n++; if (blockGrowth(v8, 4) !== 1 || blockGrowth(v8.slice(1), 4) !== 0 || blockGrowth([1], 4) !== null || blockGrowth([2, 3], 4) !== 0.5) bad(`blockGrowth 8/7/1/2 boundaries`); }
+  { const tiny = [1e-10, 1e-10, 1e-10, 2e-10, 1, 1, 1, 1]; n++; if (blockGrowth(tiny, 4) !== null || !same(blockGrowth(tiny, 4, { minAbsPrev: 0 }), (4 - 5e-10) / 5e-10) || blockGrowth([5e-10, 1], 4) !== null || !same(blockGrowth([5e-10, 1], 4, { minAbsPrev: 0 }), (1 - 5e-10) / 5e-10)) bad(`blockGrowth minAbsPrev passthrough (both branches)`); }
+  n++; if (blockGrowth([1, 1, 1, 1, 2, 2, NaN, 2], 4) !== null || blockGrowth([1, 2], 0) !== null || blockGrowth("12345678", 4) !== null) bad(`blockGrowth junk ⇒ null`);
+  // caller path: tw-fundamentals annualGrowthSeries + master-strategies helpers on random funds = verbatim legacy
+  for (let t = 0; t < 20000; t++) {
+    const an = randAnnual(); n++;
+    if (!same(annualGrowthSeries(an), L.series(an))) { bad(`annualGrowthSeries ≠ legacy ${JSON.stringify(an)}`); break; }
+    const f = randFund(); n++;
+    if (!same(sumRecentRoe(f, 4), L.sumRecentRoe(f, 4)) || !same(epsGrowthStreak(f), L.epsGrowthStreak(f)) || !same(roeGrowthLatest(f), L.roeGrowthLatest(f))) { bad(`master helpers ≠ legacy ${JSON.stringify(f)}`); break; }
+  }
+  // caller path junk: legacy published NaN / coerced strings; new ⇒ null (name skipped, fail-closed)
+  {
+    const an = [{ year: 112, revenue: 100, pretax: 10 }, { year: 113, revenue: NaN, pretax: "20" }, { year: 114, revenue: 120, pretax: 30 }];
+    const g = annualGrowthSeries(an), lg = L.series(an); n++;
+    if (!(Number.isNaN(lg.rev[0].g) && g.rev[0].g === null && g.pretax[0].g === null && lg.pretax[0].g === 1 && g.rev.length === lg.rev.length)) bad(`annualGrowthSeries junk ⇒ g null at the same index (legacy NaN / coerced "20")`);
+    n++; if (avg(g.rev.map((x) => x.g)) !== null) bad(`average over a null growth must be null`);
+    // off-domain but exact: legacy pretax rule is |prev| > 0 (not 1e-9); revenue needs prev > 0
+    const tiny = [{ year: 1, revenue: 5e-10, pretax: -5e-10 }, { year: 2, revenue: 1, pretax: 1 }]; n++;
+    if (!same(annualGrowthSeries(tiny), L.series(tiny)) || annualGrowthSeries(tiny).pretax.length !== 1 || annualGrowthSeries(tiny).rev.length !== 1) bad(`annualGrowthSeries tiny-base thresholds ≠ legacy (pretax |prev|>0, revenue prev>0)`);
+    const f = { quarters: [{ roe: 0.05 }, { roe: "0.05" }, { roe: 0.05 }, { roe: 0.05 }] }; n++;
+    if (typeof L.sumRecentRoe(f) !== "string" || sumRecentRoe(f) !== null) bad(`string ROE: legacy concatenated, new must be null`);
+    n++; if (sumRecentRoe({}) !== null || epsGrowthStreak({}) !== 0 || roeGrowthLatest(null) !== null) bad(`empty fund edges`);
+  }
+  // wiring (static): no inline (a − b)/|b| growth or reduce-sum left in the fundamental callers
+  {
+    const tw = readFileSync(join(ROOT_MG, "scripts/tw-fundamentals.mjs"), "utf8"), msrc = readFileSync(join(ROOT_MG, "scripts/master-strategies.mjs"), "utf8"), rsrc = readFileSync(join(ROOT_MG, "scripts/run-strategies.mjs"), "utf8"); n++;
+    if (/\/ Math\.abs\(b\.(revenue|pretax)\)/.test(tw) || !/annualGrowthSeries\(rec\.annual\)/.test(tw) || !/rec\.revGrowthYoY = gs\.rev;/.test(tw) || !/rec\.pretaxGrowthYoY = gs\.pretax;/.test(tw) || !/return meanOrNull\(arr\)/.test(tw)) bad(`tw-fundamentals not wired to guarded growth helpers`);
+    n++; if (/\/ Math\.abs\((prev|b)\)/.test(msrc) || /reduce\(\(s, q\) => s \+ q\.roe/.test(msrc) || !/trailingSum\(/.test(msrc) || !/growthStreak\(/.test(msrc) || !/blockGrowth\(/.test(msrc)) bad(`master-strategies not wired to guarded helpers`);
+    n++; if (/\(cur - prev\) \/ Math\.abs\(prev\)/.test(rsrc) || /reduce\(\(a, q\) => a \+ q\.roe/.test(rsrc) || !/signedGrowth\(cur, prev, \{ minAbsPrev: 1e-9 \}\)/.test(rsrc) || !/const roe4 = trailingSum\(qs\.map\(\(q\) => q\.roe\), 4\);/.test(rsrc)) bad(`run-strategies not wired to guarded helpers`);
+  }
+  // live: published 大師 hits are internally consistent with their own thresholds (no NaN, streak integer ≥ 4, …)
+  try {
+    const scr = JSON.parse(readFileSync(join(ROOT_MG, "public/data/strategy-screener.json"), "utf8"));
+    const th = { "kenneth-fisher": [["revGrowth5yAvgPct", 15], ["pretaxGrowth5yAvgPct", 5]], "peter-lynch": [["revGrowth2yAvgPct", 25], ["pretaxGrowth5yAvgPct", 5]], "michael-murphy": [["revGrowth3yAvgPct", 5], ["roe4qPct", 5]], "warren-buffett": [["roe4qPct", 15]], "james-oshaughnessy": [["roe4qPct", 15], ["roeGrowthPct", 15]], "mark-minervini": [["roe4qPct", 15]] };
+    for (const st of scr.strategies || []) {
+      const T = th[st.id]; if (!T) continue;
+      for (const h of st.hits || []) {
+        for (const [k, min] of T) { n++; if (!(typeof h.metrics?.[k] === "number" && Number.isFinite(h.metrics[k]) && h.metrics[k] >= min)) bad(`live ${st.id} ${h.ticker} ${k}=${h.metrics?.[k]} not ≥ ${min}`); }
+        if (st.id === "james-oshaughnessy") { n++; if (!(Number.isInteger(h.metrics?.epsGrowthStreak) && h.metrics.epsGrowthStreak >= 4)) bad(`live O'Shaughnessy ${h.ticker} streak ${h.metrics?.epsGrowthStreak}`); }
+        if (Array.isArray(h.metrics?.revGrowth3y)) { n++; if (h.metrics.revGrowth3y.length !== 3 || !h.metrics.revGrowth3y.every((x) => typeof x === "number" && x > 5)) bad(`live ${st.id} ${h.ticker} revGrowth3y ${JSON.stringify(h.metrics.revGrowth3y)}`); }
+      }
+    }
+  } catch (e) { bad(`live screener check: ${e.message}`); }
+  ok(`fundamental growth (${n} cases: signedGrowth 30000 published-precision pairs = verbatim legacy in all 3 call forms (EPS/ROE/margin 1e-9, revenue prev>0, pretax ≠0), sign/zero, ≥ −100% from positive base, exact power-of-2 scaling, g·|prev| = Δ, reciprocal identity; 1e-9 / 0 / negative-base boundaries; junk/string/∞/overflow ⇒ null; meanOrNull = legacy avg bit-for-bit, within [min,max], junk ⇒ null (legacy read [0.3,null] as 0.15); trailingSum = brute, locality, window junk ⇒ null; growthStreak = brute, threshold-monotone, flat step ends streak, exact +10% FP boundary documented; blockGrowth = brute incl. 7/8/9 & 1/2 lengths; caller path annualGrowthSeries + sumRecentRoe/epsGrowthStreak/roeGrowthLatest on 20000 random funds = legacy; junk caller ⇒ null at same index; wiring; live 大師 hits meet their thresholds)`);
+}
+
 console.log("——");
 if (failures.length) {
   console.error(`▶ math-guards: ${failures.length} failure(s)`);
