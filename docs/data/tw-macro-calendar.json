@@ -1,11 +1,11 @@
 {
-  "asOf": "2026-10-25T01:38:26.115Z",
+  "asOf": "2026-10-26T00:13:41.062Z",
   "market": "TW",
   "timezone": "Asia/Taipei",
   "timezoneLabel": "台北時間",
   "window": {
-    "from": "2026-10-25",
-    "to": "2026-11-29"
+    "from": "2026-10-26",
+    "to": "2026-11-30"
   },
   "source": {
     "name": "DGBAS / CBC / TWSE / MOEA",
@@ -99,6 +99,32 @@
       "periodLabel": "(11607)",
       "source": "經濟部",
       "officialUrl": "https://www.moea.gov.tw/mns/dos/bulletin/bulletin.aspx?kind=6&html=1&menu_id=6725"
+    },
+    {
+      "id": "dgbasGdp-2026-11-30T16:00:00+08:00",
+      "eventKey": "dgbasGdp",
+      "eventName": "國內生產毛額、國民所得、經濟成長率及平減指數",
+      "shortName": "GDP／經濟成長",
+      "importance": "high",
+      "highImpact": true,
+      "scheduledAt": "2026-11-30T08:00:00.000Z",
+      "dayTw": "2026-11-30",
+      "periodLabel": "(116Q1~116Q2)",
+      "source": "行政院主計總處",
+      "officialUrl": "https://www.stat.gov.tw/News.aspx?n=2677&sms=10980"
+    },
+    {
+      "id": "dgbasForecast-2026-11-30T16:00:00+08:00",
+      "eventKey": "dgbasForecast",
+      "eventName": "經濟預測",
+      "shortName": "經濟預測",
+      "importance": "high",
+      "highImpact": true,
+      "scheduledAt": "2026-11-30T08:00:00.000Z",
+      "dayTw": "2026-11-30",
+      "periodLabel": "(116Q3~117年)",
+      "source": "行政院主計總處",
+      "officialUrl": "https://www.stat.gov.tw/News.aspx?n=2677&sms=10980"
     }
   ],
   "refreshHint": "npm run fetch-tw-macro  （可選 FETCH_TW_MACRO=1 接在 daily-scan 後）"

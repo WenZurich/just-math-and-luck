@@ -1,0 +1,62 @@
+{
+  "scanAsOf": "2026-10-26T00:12:56Z",
+  "date": "2026-10-26",
+  "sessions": {
+    "US": "2026-10-23",
+    "TW": "2026-10-22"
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "market": "US",
+      "session": "2026-10-23",
+      "price": 347.73,
+      "dayPct": -0.14,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "LLY",
+      "name": "Eli Lilly",
+      "market": "US",
+      "session": "2026-10-23",
+      "price": 1273.46,
+      "dayPct": -2.54,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ROKU",
+      "name": "Roku",
+      "market": "US",
+      "session": "2026-10-23",
+      "price": 158.58,
+      "dayPct": -0.92,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "NFLX",
+      "name": "Netflix",
+      "market": "US",
+      "session": "2026-10-23",
+      "price": 65.85,
+      "dayPct": -1.79,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2317.TW",
+      "name": "鴻海",
+      "market": "TW",
+      "session": "2026-10-22",
+      "price": 245,
+      "dayPct": -2,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": []
+}

@@ -2,15 +2,20 @@
   "market": "US",
   "ticker": "SOXL",
   "fundName": "Direxion Daily Semiconductor Bull 3X ETF",
-  "asOf": "2026-10-25T01:38:22.812Z",
+  "asOf": "2026-10-26T00:23:19.485Z",
   "quote": {
-    "price": 83.56,
-    "change": 1.45,
-    "changePct": 1.77,
+    "price": 85.9,
+    "change": 2.34,
+    "changePct": 2.8,
     "currency": "USD",
-    "session": "NYSE Arca regular close (October 23 at 4:00:01 PM EDT)",
+    "session": "overnight / extended (Yahoo)",
     "source": "https://finance.yahoo.com/quote/SOXL/",
-    "regularClose": null
+    "regularClose": {
+      "price": 83.56,
+      "change": 1.45,
+      "changePct": 1.77,
+      "session": "NYSE Arca regular close (October 23 at 4:00:01 PM EDT)"
+    }
   },
   "holdingsAsOf": "2026-01-31",
   "holdingsSource": {
@@ -47,6 +52,15 @@
       "detail": "DividendInvestor reports a $0.0929 per-share distribution declared September 21, with a September 29 payment date for holders of record September 22.",
       "sources": [
         "https://www.dividendinvestor.com/dividend-news/20260921/daily-semiconductor-bull-3x-shs-direxion-shares-exchange-traded-fund-trust-nyse-soxl-declared-a-dividend-of-$0.0929-per-share/"
+      ]
+    },
+    {
+      "type": "session",
+      "severity": "info",
+      "title": "目前顯示隔夜／延長時段報價",
+      "detail": "最新報價時段：overnight / extended (Yahoo)。正規收盤另見 hero 備註。",
+      "sources": [
+        "https://finance.yahoo.com/quote/SOXL/"
       ]
     }
   ],
@@ -512,7 +526,7 @@
     "Research seed: /workspace/soxl-research/soxl-holdings-raw.json",
     "SEC N-PORT: https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
     "Yahoo quote page: https://finance.yahoo.com/quote/SOXL/",
-    "Yahoo quote HTML refresh @ 2026-10-25T01:38:22.812Z",
+    "Yahoo quote HTML refresh @ 2026-10-26T00:23:19.485Z",
     "https://feeds.finance.yahoo.com/rss/2.0/headline?s=SOXL&region=US&lang=en-US"
   ],
   "blockers": [

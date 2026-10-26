@@ -586,8 +586,29 @@ function computeBookMetrics(book) {
   return metrics;
 }
 
+/**
+ * 台股休市日（TWSE 官方休市表，存在 tw-macro-calendar.json）不下單：
+ * 市場沒開就沒有成交，不能拿前一個交易日的收盤價假裝成交。只更新標記與權益。
+ */
+function twseHolidayOn(date) {
+  const path = join(ROOT, "public/data/tw-macro-calendar.json");
+  if (!existsSync(path)) return null;
+  const cal = loadJson(path);
+  const events = Array.isArray(cal?.events) ? cal.events : [];
+  return events.find((e) => e && e.eventKey === "twseHoliday" && e.dayTw === date) || null;
+}
+
 function processBook(book, latest, market, quotes) {
   markPositions(book, quotes);
+  if (market === "TW") {
+    const date = taipeiDate(latest.asOf);
+    const holiday = twseHolidayOn(date);
+    if (holiday) {
+      console.log(`TW ${date}: ${holiday.eventName} — market closed, no fills (mark only)`);
+      upsertDailyEquity(book, date);
+      return new Set();
+    }
+  }
   const soldToday = applySells(book, latest, market, quotes);
   applyBuys(book, latest, market, soldToday);
   upsertDailyEquity(book, taipeiDate(latest.asOf));
