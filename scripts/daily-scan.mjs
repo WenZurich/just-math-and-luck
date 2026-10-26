@@ -727,6 +727,7 @@ async function main() {
       twCloseDate: bySym["^TWII"]?.lastBarDate,
       usCloseDate: bySym["^GSPC"]?.lastBarDate,
     }),
+    twCloseDate: bySym["^TWII"]?.lastBarDate || null,
     indices,
     marketRegime,
     top5,

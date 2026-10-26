@@ -849,7 +849,7 @@ const zhHant = {
   paperDisclaimer:
     "累積模擬帳戶（自 {date} 起） · 不會每日歸零 · 買進即成交 · 非真實下單",
   paperRules: "規則（各市場獨立帳）",
-  paperRuleTw: "台股本金 NT$3,000,000 · 整張成交",
+  paperRuleTw: "台股本金 NT$3,000,000 · 整張成交 · 休市日（含颱風停市）不買不賣，休市後要等第一個交易日收盤的新價格才重新判斷",
   paperRuleUs: "美股本金 US$100,000 · 可買 1 股起",
   paperRuleBuy: "買：當天名單裡的股票，每檔最多放帳本總值的 8%，再看現金夠不夠；台股只買整張，買不起一張就跳過 · 下單即成交",
   paperRuleSell:
@@ -1976,7 +1976,7 @@ const en = {
   paperDisclaimer:
     "Cumulative paper account (since {date}) · not reset daily · fills on signal · not real orders",
   paperRules: "Rules (separate books per market)",
-  paperRuleTw: "TW principal NT$3,000,000 · round lots",
+  paperRuleTw: "TW principal NT$3,000,000 · round lots · no fills on TWSE closed days (incl. typhoon closures); after a closure the book waits for the first new close before trading again",
   paperRuleUs: "US principal US$100,000 · from 1 share",
   paperRuleBuy: "Buy: names on today's list, each capped at 8% of the book, then limited by available cash; TW buys whole 1,000-share lots only · immediate fill",
   paperRuleSell:
@@ -3078,7 +3078,7 @@ const zhHans = {
   paperDisclaimer:
     "累积模拟账户（自 {date} 起） · 不会每日归零 · 买进即成交 · 非真实下单",
   paperRules: "规则（各市场独立账）",
-  paperRuleTw: "台股本金 NT$3,000,000 · 整张成交",
+  paperRuleTw: "台股本金 NT$3,000,000 · 整张成交 · 休市日（含台风停市）不买不卖，休市后要等第一个交易日收盘的新价格才重新判断",
   paperRuleUs: "美股本金 US$100,000 · 可买 1 股起",
   paperRuleBuy: "买：当天名单里的股票，每档最多放账本总值的 8%，再看现金够不够；台股只买整张，买不起一张就跳过 · 下单即成交",
   paperRuleSell:
@@ -4180,7 +4180,7 @@ const ja = {
   paperDisclaimer:
     "累積模擬口座（{date} 起） · 毎日リセットしません · シグナル即約定 · 実注文ではありません",
   paperRules: "ルール（市場別独立口座）",
-  paperRuleTw: "台湾元本 NT$3,000,000 · 単元取引",
+  paperRuleTw: "台湾元本 NT$3,000,000 · 単元取引 · 休場日（台風休場を含む）は売買なし、休場明けは最初の新しい終値を待って判断",
   paperRuleUs: "米国元本 US$100,000 · 1株から",
   paperRuleBuy: "買：当日リストの銘柄、1銘柄あたり口座総額の8%まで、さらに使える現金の範囲内（台湾株は1,000株単位のみ） · 即約定",
   paperRuleSell:

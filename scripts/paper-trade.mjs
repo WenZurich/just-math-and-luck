@@ -116,6 +116,7 @@ const RULES_ZH = {
     "宇宙＝當日 us[]／tw[]；純 observe 不買；先 Top5 再其餘。",
     "每檔最多放帳本總值的 8%，再看現金夠不夠（台指期保證金、選擇權權利金占用的錢不能拿來買股票）。",
     "台股只買整張（1000 股），買不起一張就跳過；美股可買 1 股起。",
+    "台股休市日（含颱風停市）不買也不賣，只更新市價；休市後第一個交易日早上也不成交，要等休市後第一個真實交易日收盤的價格出來（隔天早上）才重新判斷。",
     "加碼：仍在名單且未滿 8%，同日最多一次（當日已賣則不加）。",
   ],
   sell: [
@@ -587,15 +588,57 @@ function computeBookMetrics(book) {
 }
 
 /**
- * 台股休市日（TWSE 官方休市表，存在 tw-macro-calendar.json）不下單：
+ * 台股臨時停市／補假（官方公告），固定寫在這裡，逐日補帳時不會因為 tw-macro-calendar.json
+ * 只放「今天以後」的休市日而忘記。颱風停市不在 TWSE 年度休市表裡，一定要列在這。
+ */
+const TWSE_KNOWN_CLOSURES = {
+  "2026-10-23": {
+    eventName: "台股休市 · 薔琵（CHAMPI）颱風停止上班，證交所全日停止交易",
+    officialUrl: "https://www.twse.com.tw/staticFiles/news/news/tsecnews/8a8216d6a0fa351b01a16385573a0204.pdf",
+  },
+  "2026-10-26": {
+    eventName: "台股休市 · 臺灣光復暨金門古寧頭大捷紀念日補假",
+    officialUrl: "https://www.twse.com.tw/zh/trading/holiday.html",
+  },
+};
+/** 「休市後第一個交易日早上不成交」從這天起生效（之前已公布的成交不回頭改）。 */
+const TW_STALE_CLOSE_RULE_FROM = "2026-10-23";
+
+/**
+ * 台股休市日（TWSE 官方休市表 tw-macro-calendar.json ＋ 上面的臨時停市表）不下單：
  * 市場沒開就沒有成交，不能拿前一個交易日的收盤價假裝成交。只更新標記與權益。
  */
 function twseHolidayOn(date) {
+  if (TWSE_KNOWN_CLOSURES[date]) return { dayTw: date, ...TWSE_KNOWN_CLOSURES[date] };
   const path = join(ROOT, "public/data/tw-macro-calendar.json");
   if (!existsSync(path)) return null;
   const cal = loadJson(path);
   const events = Array.isArray(cal?.events) ? cal.events : [];
   return events.find((e) => e && e.eventKey === "twseHoliday" && e.dayTw === date) || null;
+}
+
+/** 掃描檔裡的台股收盤日：優先 twCloseDate 欄位，否則讀 timezoneNote「台股為 YYYY-MM-DD 收盤」。 */
+function twCloseDateOf(latest) {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(latest?.twCloseDate || "")) return latest.twCloseDate;
+  const m = /台股為 (\d{4}-\d{2}-\d{2}) 收盤/.exec(latest?.timezoneNote || "");
+  return m ? m[1] : null;
+}
+
+/**
+ * 台股收盤價「隔了休市」：收盤日與成交日之間夾著平日（週一～五），代表中間有休市（或資料沒更新），
+ * 這個收盤價已經放了好幾天，不能拿來在休市後第一天早上成交。回傳夾在中間的平日清單（空＝正常）。
+ */
+function weekdaysBetween(fromYmd, toYmd) {
+  const out = [];
+  const d = new Date(fromYmd + "T00:00:00Z");
+  const end = new Date(toYmd + "T00:00:00Z");
+  d.setUTCDate(d.getUTCDate() + 1);
+  while (d < end) {
+    const wd = d.getUTCDay();
+    if (wd !== 0 && wd !== 6) out.push(d.toISOString().slice(0, 10));
+    d.setUTCDate(d.getUTCDate() + 1);
+  }
+  return out;
 }
 
 function processBook(book, latest, market, quotes) {
@@ -607,6 +650,15 @@ function processBook(book, latest, market, quotes) {
       console.log(`TW ${date}: ${holiday.eventName} — market closed, no fills (mark only)`);
       upsertDailyEquity(book, date);
       return new Set();
+    }
+    const closeDate = twCloseDateOf(latest);
+    if (closeDate && date >= TW_STALE_CLOSE_RULE_FROM) {
+      const gap = weekdaysBetween(closeDate, date);
+      if (gap.length) {
+        console.log(`TW ${date}: prices are the ${closeDate} close and the market was closed on ${gap.join(", ")} — first morning after a closure, no fills (mark only)`);
+        upsertDailyEquity(book, date);
+        return new Set();
+      }
     }
   }
   const soldToday = applySells(book, latest, market, quotes);

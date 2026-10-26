@@ -1511,6 +1511,16 @@ async function main() {
       if (lag > 1) fail(`paper-portfolio asOf ${paperDay} lags latest scan ${latestDay} by ${lag} scan days (max 1) — run npm run paper`);
       else ok(`paper book fresh (asOf ${paperDay}, latest scan ${latestDay}, lag ${lag})`);
     }
+    // TWSE closed days (holidays + typhoon closures) can never carry a TW paper fill
+    {
+      const closed = ["2026-10-23", "2026-10-26"];
+      const bad = (pp.books?.TW?.trades || []).filter((t) => closed.includes(t.date));
+      if (bad.length) fail(`TW paper book has ${bad.length} fill(s) on TWSE closed days: ${bad.map((t) => t.date + " " + t.side + " " + t.ticker).join(", ")}`);
+      else ok("no TW paper fills on TWSE closed days (10/23 typhoon, 10/26 holiday)");
+      const pt = fs.readFileSync(path.join(ROOT, "scripts/paper-trade.mjs"), "utf8");
+      if (!/"2026-10-23"/.test(pt) || !/weekdaysBetween\(/.test(pt)) fail("paper-trade must know the 10/23 typhoon closure and skip the first morning after a closure");
+      else ok("paper-trade holiday + post-closure guard present");
+    }
     const i18nPaper = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
     if (/paperRuleBuy:\s*"[^"]*(風險1%|停距1\.5%|1% risk)/.test(i18nPaper)) fail("paperRuleBuy still describes the 1%-risk/stop rule that never binds");
     else ok("paperRuleBuy matches real sizing (8% cap, cash, whole lots)");

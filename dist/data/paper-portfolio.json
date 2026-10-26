@@ -16,6 +16,7 @@
       "宇宙＝當日 us[]／tw[]；純 observe 不買；先 Top5 再其餘。",
       "每檔最多放帳本總值的 8%，再看現金夠不夠（台指期保證金、選擇權權利金占用的錢不能拿來買股票）。",
       "台股只買整張（1000 股），買不起一張就跳過；美股可買 1 股起。",
+      "台股休市日（含颱風停市）不買也不賣，只更新市價；休市後第一個交易日早上也不成交，要等休市後第一個真實交易日收盤的價格出來（隔天早上）才重新判斷。",
       "加碼：仍在名單且未滿 8%，同日最多一次（當日已賣則不加）。"
     ],
     "sell": [
@@ -31,15 +32,15 @@
       "market": "TW",
       "currency": "TWD",
       "startCash": 3000000,
-      "cash": 1654550,
+      "cash": 1544550,
       "equity": 3113500,
-      "positionsValue": 1458950,
-      "realizedPnl": 53070,
+      "positionsValue": 1568950,
+      "realizedPnl": 36150,
       "positions": [
         {
           "ticker": "2468.TW",
           "name": "華經",
-          "qty": 3000,
+          "qty": 5000,
           "avgCost": 46.54,
           "mark": 55,
           "currency": "TWD",
@@ -757,19 +758,6 @@
           "reason": "screen-buy",
           "reasonText": "名單新開倉（單檔上限 8%）",
           "realizedPnl": 0
-        },
-        {
-          "date": "2026-10-23",
-          "asOf": "2026-10-23T00:24:32Z",
-          "side": "SELL",
-          "ticker": "2468.TW",
-          "name": "華經",
-          "qty": 2000,
-          "price": 55,
-          "avgCostAtSale": 46.54,
-          "reason": "take-profit",
-          "reasonText": "停利：未實現報酬 ≥ +12%（賣一半或全數）",
-          "realizedPnl": 16920
         }
       ],
       "dailyEquity": [
@@ -902,14 +890,14 @@
         {
           "date": "2026-10-23",
           "equity": 3113500,
-          "cash": 1654550,
-          "positionsValue": 1458950
+          "cash": 1544550,
+          "positionsValue": 1568950
         },
         {
           "date": "2026-10-26",
           "equity": 3113500,
-          "cash": 1654550,
-          "positionsValue": 1458950
+          "cash": 1544550,
+          "positionsValue": 1568950
         }
       ],
       "startDate": "2026-09-15"
@@ -3363,8 +3351,8 @@
     "TW": {
       "totalPnl": 113500,
       "totalPnlPct": 3.7833,
-      "realizedPnl": 53070,
-      "unrealizedPnl": 60430,
+      "realizedPnl": 36150,
+      "unrealizedPnl": 77350,
       "week": {
         "pct": 0.214,
         "pnl": 6650,
