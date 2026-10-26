@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-23T09:30:00+08:00",
+    "updated": "2026-10-26T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -9928,6 +9928,168 @@
         "twap",
         "deferred"
       ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-both-directionally-correct-views-2026",
+      "market": "BOTH",
+      "type": "paper",
+      "shelf": "asset_allocation",
+      "title": "Directionally Correct Views in Portfolio Optimization",
+      "authors": [
+        "Ojas Kumar",
+        "Sreejit Dey",
+        "Sarvesh Ravichandran Iyer",
+        "Sandeep Juneja"
+      ],
+      "year": 2026,
+      "summary": "Portfolio models usually lean on past data, which may not match what the next months bring. Borrowing the Black-Litterman idea of blending in outside opinions, the authors ask whether adding views that only get the direction right (this asset will beat that one, without a precise number) improves allocation. In a basic mean-variance setup they show even a little correct directional information noticeably improves decisions, and they sketch an entropy-based way to put such views into end-to-end learned portfolio models. In their tests, a plain mean-variance model with correct directional views did about as well as the fancier end-to-end model. Takeaway for the site: a watch item for both markets — a simple 'tilt toward the side you have a reasoned view on' can matter more than model complexity, but only if the views are actually right, which we cannot assume.",
+      "summaryLocalized": {
+        "en": "Can views that only get the direction right improve portfolio allocation? In a basic mean-variance setup, even a little correct directional information helps materially; an entropy-based method brings such views into end-to-end models. Empirically, simple mean-variance with correct views matched the end-to-end model. Site use: watch — simple directional tilts can beat model complexity, but only when the views are right.",
+        "zh-Hant": "投資組合模型通常靠過去資料估參數，但過去不一定像接下來幾個月。作者借用 Black-Litterman「把專家看法混進模型」的想法，問：如果只加入「方向對」的看法（例如 A 會比 B 強，但不給精確數字），配置會不會變好？在最基本的平均數－變異數模型裡，他們證明只要一點點方向正確的資訊，就能明顯改善決策；也提出用「熵」的概念把這類看法放進端到端學習模型。實測結果有點意外：加入方向正確的看法後，簡單模型和複雜模型表現差不多。本站列為觀察：有根據的「方向傾斜」可能比模型複雜度更重要，但前提是看法真的對，這點不能先假設。",
+        "zh-Hans": "投资组合模型通常靠过去数据估参数，但过去不一定像接下来几个月。作者借用 Black-Litterman“把专家看法混进模型”的想法，问：如果只加入“方向对”的看法（例如 A 会比 B 强，但不给精确数字），配置会不会变好？在最基本的均值－方差模型里，他们证明只要一点点方向正确的信息，就能明显改善决策；也提出用“熵”的概念把这类看法放进端到端学习模型。实测结果有点意外：加入方向正确的看法后，简单模型和复杂模型表现差不多。本站列为观察：有根据的“方向倾斜”可能比模型复杂度更重要，但前提是看法真的对，这点不能先假设。",
+        "ja": "過去データに頼るポートフォリオ最適化に、方向だけ正しい見通し（AがBに勝つ等）を加えると配分は改善するかを検討。基本的な平均分散モデルでは、わずかな方向的に正しい情報でも意思決定が大きく改善。エントロピーに基づきエンドツーエンドモデルへ組み込む方法も提示。実証では、正しい見通しを入れると単純なモデルが複雑なモデルと同等。本サイトでは観察：根拠ある方向の傾けはモデルの複雑さより効くことがあるが、見通しが正しい前提。"
+      },
+      "titleLocalized": {
+        "en": "Directionally Correct Views in Portfolio Optimization",
+        "zh-Hant": "只要方向對的看法，就能改善投資組合配置",
+        "zh-Hans": "只要方向对的看法，就能改善投资组合配置",
+        "ja": "方向が正しい見通しでポートフォリオ配分は改善するか"
+      },
+      "formulas": [
+        "baseline weights w ← argmax wᵀμ̂ − (γ/2) wᵀΣ̂w (historical μ̂, Σ̂)",
+        "directional view: pᵀμ > 0 for a pick vector p (e.g. long A, short B); blend posterior μ ← μ̂ + τΣ̂p(pᵀτΣ̂p + ω)⁻¹(q − pᵀμ̂) with q = small positive spread",
+        "end-to-end variant: add entropy/KL penalty pulling learned weights toward the view-consistent portfolio",
+        "site use: none live — would need an out-of-sample hit-rate check (>50% directional accuracy) of any view before a backtest-gate test"
+      ],
+      "plainTakeaways": [
+        "方向對的看法，即使沒有精確數字，也能讓配置變好",
+        "加對看法後，簡單模型跟複雜模型差不多好",
+        "但看法錯了反而會傷：先要證明看法真的常常對",
+        "本站只觀察：數學閘門通過前不改選股"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: the benefit depends entirely on the views being directionally correct; the site has no validated view source, so nothing changes in the screener or paper book. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2610.31074",
+        "https://doi.org/10.48550/arXiv.2610.31074"
+      ],
+      "tags": [
+        "both",
+        "portfolio-optimization",
+        "black-litterman",
+        "views",
+        "watch"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "方向對的看法，即使沒有精確數字，也能讓配置變好",
+          "加對看法後，簡單模型跟複雜模型差不多好",
+          "但看法錯了反而會傷：先要證明看法真的常常對",
+          "本站只觀察：數學閘門通過前不改選股"
+        ],
+        "zh-Hans": [
+          "方向对的看法，即使没有精确数字，也能让配置变好",
+          "加对看法后，简单模型跟复杂模型差不多好",
+          "但看法错了反而会伤：先要证明看法真的常常对",
+          "本站只观察：数学闸门通过前不改选股"
+        ],
+        "en": [
+          "Views that are only directionally right, without exact numbers, still improve allocation",
+          "With correct views, a simple model does about as well as a complex one",
+          "Wrong views hurt: first prove the views are right more often than not",
+          "Site use: watch only — no screener change until the math gate passes"
+        ],
+        "ja": [
+          "数値がなくても方向が正しい見通しで配分は改善する",
+          "正しい見通しを入れると単純なモデルでも複雑なモデル並み",
+          "見通しが外れると逆効果：まず的中率を証明する必要",
+          "本サイトは観察のみ：数学ゲート通過前は選定を変えない"
+        ]
+      },
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-when-news-gets-old-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "When News Gets Old: Portfolio Allocation with Reinforcement Learning and Large Language Models",
+      "authors": [
+        "Bolin Song",
+        "Surui Xiang"
+      ],
+      "year": 2026,
+      "summary": "News can move prices after it comes out, but old news is probably already in the price. Using a fixed language model to pull signals out of public SEC filings, the authors compare two ways to handle aging news: keep it and tell the portfolio policy how old it is, or throw old items away before choosing a portfolio. They test reinforcement-learning policies and a language model that picks portfolios directly, scoring returns after trading costs over 2023–2025. Telling the learning policy the news age changed its behaviour in a controlled test but did not reliably help historical returns; for the language model, simply filtering out stale news gave the best average net return, about 18.4% a year in their setup with a four-week delivery delay, ahead of every learning strategy that used news. Takeaway for the site: a candidate idea for US event data — when a news or filing item is stale, drop it rather than try to weight it cleverly.",
+      "summaryLocalized": {
+        "en": "How to treat aging news signals extracted by an LLM from SEC filings: keep them with timing info, or filter old ones out. Over 2023–2025, net of costs, timing info did not reliably help RL policies; for an LLM picking portfolios, filtering stale news gave the best average net return (~18.4%/yr in their four-week-delay setup), beating all news-using RL strategies. Site use: candidate — drop stale news/filing items rather than weight them cleverly.",
+        "zh-Hant": "新聞發布後還可能影響股價，但舊新聞多半已經反映在價格裡。作者用一個固定的語言模型，從美國證管會（SEC）的公開申報文件抽出訊號，比較兩種處理「變舊新聞」的方法：保留它並告訴投資策略它有多舊，或是在選股前直接把舊的丟掉。他們測試強化學習策略，以及直接讓語言模型挑投資組合，用 2023–2025 年扣掉交易成本後的報酬來比。結果：告訴強化學習「新聞幾歲了」在控制實驗裡會改變行為，但歷史報酬沒有穩定變好；對語言模型來說，直接濾掉舊新聞的平均淨報酬最高，在他們「新聞晚四週才到」的設定下約每年 18.4%，勝過所有用新聞的強化學習策略。本站列為美股候選想法：新聞或申報資料過期了就直接不用，不要想辦法巧妙加權。",
+        "zh-Hans": "新闻发布后还可能影响股价，但旧新闻多半已经反映在价格里。作者用一个固定的语言模型，从美国证监会（SEC）的公开申报文件抽出信号，比较两种处理“变旧新闻”的方法：保留它并告诉投资策略它有多旧，或是在选股前直接把旧的丢掉。他们测试强化学习策略，以及直接让语言模型挑投资组合，用 2023–2025 年扣掉交易成本后的报酬来比。结果：告诉强化学习“新闻几岁了”在控制实验里会改变行为，但历史报酬没有稳定变好；对语言模型来说，直接滤掉旧新闻的平均净报酬最高，在他们“新闻晚四周才到”的设定下约每年 18.4%，胜过所有用新闻的强化学习策略。本站列为美股候选想法：新闻或申报数据过期了就直接不用，不要想办法巧妙加权。",
+        "ja": "LLMがSEC開示から抽出したニュース信号が古くなった時、経過時間情報付きで残すか、古いものを除外するかを比較。2023–2025年のコスト控除後リターンでは、強化学習に経過時間を与えても安定した改善はなく、LLMが直接選ぶ場合は古いニュースを除外するのが平均純リターン最高（4週間遅延設定で年約18.4%）で、ニュースを使う全強化学習戦略を上回った。本サイトでは米国株の候補：古いニュース・開示は巧妙に重み付けせず捨てる。"
+      },
+      "titleLocalized": {
+        "en": "When News Gets Old: Portfolio Allocation with Reinforcement Learning and Large Language Models",
+        "zh-Hant": "新聞變舊之後：用強化學習與語言模型配置投資組合",
+        "zh-Hans": "新闻变旧之后：用强化学习与语言模型配置投资组合",
+        "ja": "ニュースが古くなる時：強化学習とLLMによるポートフォリオ配分"
+      },
+      "formulas": [
+        "news age_i ← trade date − filing/publication date (trading days)",
+        "filter rule: keep signal_i only if age_i ≤ A_max; else drop (no decayed weight)",
+        "comparison arm: keep all signals with age as an extra policy input",
+        "evaluate on net return = gross return − cost × turnover",
+        "site use: backtest-gate test of A_max ∈ {5, 10, 20} trading days on US event/filing inputs; no live screener change until the math gate passes"
+      ],
+      "plainTakeaways": [
+        "舊新聞多半已經反映在股價，不太能再賺",
+        "把舊新聞直接丟掉，比教模型「新聞幾歲」更有效",
+        "研究看的是扣掉交易成本後的報酬，比較實在",
+        "本站只當美股候選：先回測過期門檻，數學閘門通過前不改選股"
+      ],
+      "strategyCandidate": "yes",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — candidate only: a staleness cutoff on US news/filing inputs must first pass the backtest gate (net-of-cost return vs. no cutoff) and math guards. Results come from an LLM/RL setup on 2023–2025 and may not transfer. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2610.30564",
+        "https://doi.org/10.48550/arXiv.2610.30564"
+      ],
+      "tags": [
+        "us",
+        "news",
+        "llm",
+        "signal-decay",
+        "sec-filings",
+        "candidate"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "舊新聞多半已經反映在股價，不太能再賺",
+          "把舊新聞直接丟掉，比教模型「新聞幾歲」更有效",
+          "研究看的是扣掉交易成本後的報酬，比較實在",
+          "本站只當美股候選：先回測過期門檻，數學閘門通過前不改選股"
+        ],
+        "zh-Hans": [
+          "旧新闻多半已经反映在股价，不太能再赚",
+          "把旧新闻直接丢掉，比教模型“新闻几岁”更有效",
+          "研究看的是扣掉交易成本后的报酬，比较实在",
+          "本站只当美股候选：先回测过期门槛，数学闸门通过前不改选股"
+        ],
+        "en": [
+          "Old news is mostly already in the price",
+          "Dropping stale news worked better than teaching a model how old it is",
+          "Results are net of trading costs, which makes them more realistic",
+          "Site use: US candidate only — backtest a staleness cutoff first; no screener change until the math gate passes"
+        ],
+        "ja": [
+          "古いニュースはほぼ株価に織り込み済み",
+          "古いニュースは捨てる方が、経過時間をモデルに教えるより有効",
+          "取引コスト控除後のリターンで評価しており現実的",
+          "本サイトは米国株の候補のみ：鮮度の閾値を先に検証し、数学ゲート通過前は選定を変えない"
+        ]
+      },
       "coverUrl": "./covers/placeholder-paper.svg",
       "coverFallback": "./covers/placeholder-paper.svg"
     }
