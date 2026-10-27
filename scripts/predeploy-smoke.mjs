@@ -642,6 +642,31 @@ async function main() {
     fail("missing src/soxl.css");
   } else ok("soxl.css present");
 
+  // —— Long-window history: SMA200 packs get ≥200 bars; US10Y 20d read from the key daily-scan actually writes ——
+  {
+    const rs = fs.readFileSync(path.join(ROOT, "scripts/run-strategies.mjs"), "utf8");
+    const mg = fs.readFileSync(path.join(ROOT, "scripts/merge-gooaye-packs.mjs"), "utf8");
+    const ds = fs.readFileSync(path.join(ROOT, "scripts/daily-scan.mjs"), "utf8");
+    let bad = 0;
+    if (!/YAHOO_LONG_RANGE = "2y"/.test(rs) || !rs.includes("yahooChart(t, YAHOO_LONG_RANGE)")) { fail("run-strategies: Gooaye packs (SMA200) must use 2y charts"); bad++; }
+    if (!mg.includes("range=2y")) { fail("merge-gooaye-packs: must fetch 2y charts for SMA200"); bad++; }
+    if (/features\?\.d_US10Y_20d \?\? usR\?\.features\?\.dUs10Y_20d \?\? null/.test(rs + mg)) { fail("US10Y 20d still read from non-existent keys"); bad++; }
+    const p1 = ds.match(/const p1 = p2 - (\d+) \* 86400/);
+    if (!p1 || Number(p1[1]) < 380) { fail("daily-scan: chart lookback must stay ≥ 380 days for SMA200 / 252d high"); bad++; }
+    const { us10y20dFromRegime } = await import(path.join(ROOT, "scripts/us10y.mjs"));
+    if (us10y20dFromRegime({ features: { dUs10y20d: -0.254 } }) !== -0.254) { fail("us10y20dFromRegime must read features.dUs10y20d"); bad++; }
+    if (us10y20dFromRegime({ features: {} }) !== null) { fail("us10y20dFromRegime must return null when absent"); bad++; }
+    try {
+      const sc = JSON.parse(fs.readFileSync(SCREENER, "utf8"));
+      const g = (sc.strategies || []).find((x) => x.id === "gooaye-us-risk-on");
+      const lt = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/latest.json"), "utf8"));
+      if (g && lt?.marketRegime?.us?.features?.dUs10y20d != null && /dUs10Y_20d=資料不足/.test((g.notes || []).join(" "))) {
+        console.warn("⚠ gooaye-us-risk-on shows US10Y 資料不足 although latest.json has dUs10y20d (rerun strategies)");
+      }
+    } catch {}
+    if (!bad) ok("long-window history: SMA200 packs on 2y charts, daily-scan ≥380d, US10Y 20d key wired (+ FRED DGS10 backup)");
+  }
+
   // —— 台指期 (TXF) desk ——
   const txfSnap = path.join(ROOT, "public/data/txf-desk.json");
   if (!fs.existsSync(txfSnap)) {

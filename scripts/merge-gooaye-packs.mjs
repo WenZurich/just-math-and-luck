@@ -10,6 +10,8 @@ import {
   gooayeUniverseBoost,
   mergeGooayePacksIntoScreener,
 } from "./gooaye-strategies.mjs";
+import { seriesDelta } from "./market-regime.mjs";
+import { fetchUs10yHistory, us10y20dFromRegime } from "./us10y.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -22,7 +24,7 @@ const UA =
 async function yahooChart(symbol) {
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(
     symbol
-  )}?interval=1d&range=1y`;
+  )}?interval=1d&range=2y`;
   const res = await fetch(url, { headers: { "User-Agent": UA } });
   if (!res.ok) return null;
   const json = await res.json();
@@ -114,17 +116,13 @@ async function main() {
     const usR = latest.marketRegime?.us;
     rateCtx = {
       liquidityBias: usR?.liquidityBias ?? null,
-      dUs10Y_20d: usR?.features?.d_US10Y_20d ?? usR?.features?.dUs10Y_20d ?? null,
+      dUs10Y_20d: us10y20dFromRegime(usR),
     };
-    // try compute from yahoo ^TNX if missing
-    if (rateCtx.dUs10Y_20d == null) {
-      const tnx = await yahooChart("^TNX");
-      if (tnx?.bars?.length >= 25) {
-        const a = tnx.bars[tnx.bars.length - 1].c;
-        const b = tnx.bars[tnx.bars.length - 21].c;
-        if (a != null && b != null) rateCtx.dUs10Y_20d = a - b;
-      }
-    }
+  }
+  if (rateCtx.dUs10Y_20d == null) {
+    const h = await fetchUs10yHistory();
+    const d = h ? seriesDelta({ bars: h.bars }, 20).value : null;
+    if (d != null) rateCtx.dUs10Y_20d = d;
   }
 
   const packs = buildAllGooayePacks({ universe, ohlcvMap, rateCtx });

@@ -13,6 +13,8 @@ import { buildTwFundamentalBundle, codeOfTicker } from "./tw-fundamentals.mjs";
 import { sma, rsiLast2, volumeRatioVsPrev, priceShapeMetrics, signedGrowth, trailingSum } from "./math-core.mjs";
 import { buildAllMasters } from "./master-strategies.mjs";
 import { buildAllGooayePacks, gooayeUniverseBoost } from "./gooaye-strategies.mjs";
+import { seriesDelta } from "./market-regime.mjs";
+import { fetchUs10yHistory, us10y20dFromRegime } from "./us10y.mjs";
 // Peter Lynch now lives in master-strategies (TW MOPS, skip-if-missing).
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -29,6 +31,10 @@ const TW_MIN_AVG_VOL_SHARES = TW_LIQUID_ZHANG * TW_SHARES_PER_ZHANG; // 300,000 
 const US_MIN_AVG_VOL = 500_000;
 const CONCURRENCY = 6;
 const YAHOO_RANGE = "6mo";
+// SMA200 needs ≥ 200 sessions; 6mo gives only ~125. Packs that read SMA200 (Gooaye) get a 2y chart
+// (~485–500 bars) for the tickers they touch. Short-window screens keep the 6mo chart so every
+// published SMA5/10/20/60, RSI(Wilder, seeded from the first bar) etc. stays bit-identical.
+const YAHOO_LONG_RANGE = "2y";
 
 // —— helpers ——
 function sleep(ms) {
@@ -114,10 +120,10 @@ async function ensureYahooCrumb() {
   }
 }
 
-async function yahooChart(symbol) {
+async function yahooChart(symbol, range = YAHOO_RANGE) {
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(
     symbol
-  )}?interval=1d&range=${YAHOO_RANGE}`;
+  )}?interval=1d&range=${range}`;
   const res = await fetch(url, { headers: { "User-Agent": UA } });
   if (!res.ok) return null;
   const json = await res.json();
@@ -1779,14 +1785,44 @@ async function main() {
         const usR = latest.marketRegime?.us;
         gooayeRateCtx = {
           liquidityBias: usR?.liquidityBias ?? null,
-          dUs10Y_20d: usR?.features?.d_US10Y_20d ?? usR?.features?.dUs10Y_20d ?? null,
+          // daily-scan writes features.dUs10y20d (the old d_US10Y_20d / dUs10Y_20d keys never existed → was always null)
+          dUs10Y_20d: us10y20dFromRegime(usR),
         };
       }
     } catch (e) {
       console.warn("gooaye rateCtx:", e.message);
     }
+    if (gooayeRateCtx.dUs10Y_20d == null) {
+      const h = await fetchUs10yHistory();
+      const d = h ? seriesDelta({ bars: h.bars }, 20).value : null;
+      if (d != null) {
+        gooayeRateCtx.dUs10Y_20d = d;
+        console.log(`gooaye US10Y 20d from ${h.source}:`, d);
+      } else console.warn("gooaye US10Y: all public sources failed → liquidityBias fallback");
+    }
     const gooayeUniverse = [...twSet.values(), ...usSet.values()];
-    const gooayePacks = buildAllGooayePacks({ universe: gooayeUniverse, ohlcvMap, rateCtx: gooayeRateCtx });
+    // Long (2y) charts for every ticker the packs can touch with SMA200: watchlists first, then any hit
+    // still on a short chart (hits are length-invariant except SMA200, so one refill pass is enough).
+    const gooayeMap = new Map(ohlcvMap);
+    const longFetched = new Set();
+    const fillLong = async (tickers) => {
+      const need = [...new Set(tickers)].filter((t) => !longFetched.has(t) && !((gooayeMap.get(t)?.bars?.length ?? 0) >= 200));
+      await mapPool(need, CONCURRENCY, async (t) => {
+        longFetched.add(t);
+        try {
+          const c = await yahooChart(t, YAHOO_LONG_RANGE);
+          if (c?.bars?.length >= 200) gooayeMap.set(t, c);
+        } catch (e) {
+          console.warn("gooaye long chart", t, e.message);
+        }
+      });
+      return need.length;
+    };
+    const nLong1 = await fillLong(gooayeUniverseBoost().map((g) => g.ticker));
+    let gooayePacks = buildAllGooayePacks({ universe: gooayeUniverse, ohlcvMap: gooayeMap, rateCtx: gooayeRateCtx });
+    const nLong2 = await fillLong(gooayePacks.flatMap((p) => (p.hits || []).map((h) => h.ticker)));
+    if (nLong2) gooayePacks = buildAllGooayePacks({ universe: gooayeUniverse, ohlcvMap: gooayeMap, rateCtx: gooayeRateCtx });
+    console.log(`Gooaye long charts (${YAHOO_LONG_RANGE}): ${nLong1 + nLong2} fetched`);
     strategies.push(...gooayePacks);
     console.log("Gooaye packs", gooayePacks.map((p) => `${p.id}:${p.hits.length}`).join(", "));
   }

@@ -4,6 +4,7 @@
  * 寫入 stock-ops-study raw + opportunity report，以及 public/data/latest.json（+dated）
  */
 import { fetchTpexIndex } from "./tpex-index.mjs";
+import { fetchUs10yHistory } from "./us10y.mjs";
 import { buildTimezoneNote, closeLabel } from "./timezone-note.mjs";
 import { writeFileSync, mkdirSync, existsSync, readFileSync, copyFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -496,7 +497,15 @@ async function main() {
     ? indexFeaturesFromChart(chartBySym["^TWII"])
     : null;
 
-  const tnxChart = chartBySym["^TNX"];
+  let tnxChart = chartBySym["^TNX"];
+  if (!tnxChart) {
+    // genuine ^TNX outage on the main chart call → retry Yahoo ^TNX 2y, then official FRED DGS10 (percent, same units)
+    const h = await fetchUs10yHistory();
+    if (h) {
+      tnxChart = { symbol: "^TNX", bars: h.bars };
+      console.warn(`^TNX main fetch missing — US10Y from ${h.source}`);
+    }
+  }
   const rate = tnxChart
     ? {
         level: tnxChart.bars.at(-1)?.c ?? null,
