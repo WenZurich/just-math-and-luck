@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-26T09:30:00+08:00",
+    "updated": "2026-10-27T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -10088,6 +10088,173 @@
           "古いニュースは捨てる方が、経過時間をモデルに教えるより有効",
           "取引コスト控除後のリターンで評価しており現実的",
           "本サイトは米国株の候補のみ：鮮度の閾値を先に検証し、数学ゲート通過前は選定を変えない"
+        ]
+      },
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-jawboning-the-fed-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "econ_analysis",
+      "title": "Jawboning the Fed: Do Markets Listen When Administrations Talk?",
+      "authors": [
+        "Michela Baretti",
+        "Umberto Collodel",
+        "Jacopo Zacché"
+      ],
+      "year": 2026,
+      "summary": "When the White House or other officials publicly lean on the Federal Reserve, do markets care? The authors had a group of open language models sort about 37 years of Reuters stories (1988–2025) into pressure for lower rates or pressure for higher rates, then looked at how markets moved the same day. Pressure for lower rates nudged near-term rate expectations down by about one basis point per event — roughly a 4% bump in the odds of a cut at the next Fed meeting — and the effect faded steadily, gone after about three months. The dollar weakened a bit, while inflation expectations and volatility barely moved. Pressure for higher rates had no visible effect, and the result holds even without the Trump years. Takeaway for the site: a watch item for the US macro calendar — political talk about the Fed is a small, short-lived rate signal, not a reason to change stock picks.",
+      "summaryLocalized": {
+        "en": "Uses an LLM ensemble on Reuters stories 1988–2025 to tag political pressure on the Fed as dovish or hawkish. Dovish pressure lowers near-term rate expectations ~1bp per event (~4% higher odds of a cut at the next FOMC), fading to zero beyond ~3 months, with a weaker dollar and flat inflation compensation and volatility; hawkish pressure has no detectable effect; holds excluding Trump terms. Site use: watch — a small, short-lived macro signal, not a stock-pick input.",
+        "zh-Hant": "當白宮或官員公開施壓聯準會（Fed）時，市場會不會買單？作者用一組開源語言模型，把 1988–2025 年約 37 年的路透社新聞分成「施壓要降息」和「施壓要升息」兩類，再看當天市場怎麼動。施壓要降息時，市場對近期利率的預期每次大約下降 1 個基點，相當於下次 Fed 開會降息的機率多約 4%，而且影響一路變小，大約三個月後就消失；美元略為走弱，通膨預期和波動幾乎不動。施壓要升息則看不出效果，而且排除川普任期後結果一樣成立。本站列為美股觀察：政治人物喊話 Fed 是又小又短的利率訊號，不是改變選股的理由。",
+        "zh-Hans": "当白宫或官员公开施压美联储（Fed）时，市场会不会买单？作者用一组开源语言模型，把 1988–2025 年约 37 年的路透社新闻分成“施压要降息”和“施压要加息”两类，再看当天市场怎么动。施压要降息时，市场对近期利率的预期每次大约下降 1 个基点，相当于下次 Fed 开会降息的概率多约 4%，而且影响一路变小，大约三个月后就消失；美元略为走弱，通胀预期和波动几乎不动。施压要加息则看不出效果，而且排除特朗普任期后结果一样成立。本站列为美股观察：政治人物喊话 Fed 是又小又短的利率信号，不是改变选股的理由。",
+        "ja": "1988–2025年のロイター記事をオープンLLM群で分類し、政権によるFRBへの利下げ圧力・利上げ圧力に市場が反応するかを検証。利下げ圧力1件あたり短期金利予想が約1bp低下（次回FOMCでの利下げ確率が約4%上昇）し、効果は徐々に薄れ約3か月で消える。ドルはやや下落、インフレ期待とボラティリティはほぼ不変。利上げ圧力は効果なし、トランプ政権期を除いても同じ。本サイトでは米国のウォッチ項目：小さく短命な金利シグナルで、銘柄選定の材料ではない。"
+      },
+      "titleLocalized": {
+        "en": "Jawboning the Fed: Do Markets Listen When Administrations Talk?",
+        "zh-Hant": "對聯準會喊話：政府開口時，市場有在聽嗎？",
+        "zh-Hans": "对美联储喊话：政府开口时，市场有在听吗？",
+        "ja": "FRBへの口先介入：政権が語る時、市場は聞いているか"
+      },
+      "formulas": [
+        "pressure event_t ∈ {dovish, hawkish, none} from LLM-ensemble classification of daily newswire stories",
+        "response: Δ rate expectation_{t→t+h} = β_h × dovish events_t + controls (daily, by horizon h)",
+        "reported: β ≈ −1bp per dovish event at short horizons, shrinking to 0 beyond ~3 months; hawkish β ≈ 0",
+        "cut-odds view: Δ P(cut at next FOMC) ≈ +4% per dovish event",
+        "site use: watch only — could tag US macro-calendar days with political Fed pressure; no screener change while the math gate is not passed"
+      ],
+      "plainTakeaways": [
+        "政治人物要 Fed 降息，市場會稍微調低利率預期",
+        "影響很小，而且大約三個月內就消失",
+        "要 Fed 升息的喊話，市場幾乎不理",
+        "本站只當美股觀察，不拿來改選股"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: a macro context signal for the US calendar, effect size ~1bp and short-lived; not a stock-selection rule. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2610.32300",
+        "https://doi.org/10.48550/arXiv.2610.32300"
+      ],
+      "tags": [
+        "us",
+        "fed",
+        "rates",
+        "macro",
+        "news",
+        "llm",
+        "watch"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "政治人物要 Fed 降息，市場會稍微調低利率預期",
+          "影響很小，而且大約三個月內就消失",
+          "要 Fed 升息的喊話，市場幾乎不理",
+          "本站只當美股觀察，不拿來改選股"
+        ],
+        "zh-Hans": [
+          "政治人物要 Fed 降息，市场会稍微调低利率预期",
+          "影响很小，而且大约三个月内就消失",
+          "要 Fed 加息的喊话，市场几乎不理",
+          "本站只当美股观察，不拿来改选股"
+        ],
+        "en": [
+          "Political calls for Fed cuts nudge rate expectations slightly lower",
+          "The effect is small and gone within about three months",
+          "Calls for higher rates are basically ignored",
+          "Site use: US watch item only, not a stock-pick input"
+        ],
+        "ja": [
+          "政権の利下げ要求で金利予想はわずかに低下",
+          "効果は小さく約3か月で消える",
+          "利上げ要求はほぼ無視される",
+          "本サイトでは米国のウォッチのみ、銘柄選定には使わない"
+        ]
+      },
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-both-forecasting-benchmarks-finance-2026",
+      "market": "BOTH",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "How do standard time series forecasting benchmarks translate to finance? A broad study of risk adjusted performance",
+      "authors": [
+        "Adir Saly-Kaufmann",
+        "Kieran Wood",
+        "Jan-Peter Calliess",
+        "Stefan Zohren"
+      ],
+      "year": 2026,
+      "summary": "Many fancy forecasting models top general time-series leaderboards; this study checks whether that carries over to trading. The authors trained 16 deep-learning designs (Transformers, state-space models, xLSTM, recurrent hybrids and more) on 15 years of daily futures data, judging each by the risk-adjusted return of a volatility-targeted strategy built on its forecasts. Several popular 'state-of-the-art' models, including plain Transformers and state-space models, did worse than a simple one-step autoregressive baseline. The best results came from simpler recurrent hybrids: a variable-selection network feeding an LSTM had the highest Sharpe ratio, and xLSTM held up best when trading costs were added. Accepted in the Journal of Forecasting. Takeaway for the site: a watch item that backs our current approach — keep simple, checkable rules and always compare any new model against a dumb baseline after costs.",
+      "summaryLocalized": {
+        "en": "Benchmarks 16 deep-learning forecasters on 15 years of daily futures with a volatility-targeted Sharpe objective. Generic Transformers and SSMs underperformed a simple AR(1) baseline; a Variable Selection Network + LSTM had the best Sharpe and xLSTM was most robust to costs. Leaderboard wins don't reliably transfer to finance. Site use: watch — supports keeping simple rules and always beating a simple baseline net of costs.",
+        "zh-Hant": "很多花俏的預測模型在一般時間序列排行榜上名列前茅，這篇研究檢查它們拿來交易是否一樣厲害。作者用 15 年的每日期貨資料，訓練 16 種深度學習模型（Transformer、狀態空間模型、xLSTM、循環網路混合型等），用「依預測做、並把波動控制在目標水準的策略」的風險調整後報酬來評分。結果好幾個熱門的「最先進」模型，包括一般 Transformer 和狀態空間模型，輸給最簡單的「只看前一天」自我迴歸基準。表現最好的是比較簡單的循環網路混合型：變數篩選網路接 LSTM 的夏普值最高，xLSTM 在加上交易成本後最穩。已被《Journal of Forecasting》接受。本站列為觀察：支持我們現在的做法——規則保持簡單、可檢查，新模型一定要先在扣成本後贏過笨基準。",
+        "zh-Hans": "很多花哨的预测模型在一般时间序列排行榜上名列前茅，这篇研究检查它们拿来交易是否一样厉害。作者用 15 年的每日期货数据，训练 16 种深度学习模型（Transformer、状态空间模型、xLSTM、循环网络混合型等），用“依预测做、并把波动控制在目标水平的策略”的风险调整后报酬来评分。结果好几个热门的“最先进”模型，包括一般 Transformer 和状态空间模型，输给最简单的“只看前一天”自回归基准。表现最好的是比较简单的循环网络混合型：变量筛选网络接 LSTM 的夏普值最高，xLSTM 在加上交易成本后最稳。已被《Journal of Forecasting》接受。本站列为观察：支持我们现在的做法——规则保持简单、可检查，新模型一定要先在扣成本后赢过笨基准。",
+        "ja": "15年分の日次先物データで16種の深層学習予測モデルを、ボラティリティ目標型戦略のシャープレシオで比較。汎用Transformerや状態空間モデルは単純なAR(1)基準に負け、変数選択ネットワーク＋LSTMがシャープ最高、xLSTMが取引コストに最も強かった。一般ベンチマークの好成績は金融では通用しにくい。本サイトではウォッチ：単純で検証可能なルールを保ち、新モデルはコスト控除後に単純基準を上回ることを必須にする。"
+      },
+      "titleLocalized": {
+        "en": "How do standard time series forecasting benchmarks translate to finance? A broad study of risk adjusted performance",
+        "zh-Hant": "一般時間序列預測的排行榜，放到金融還準嗎？風險調整後績效的大型比較",
+        "zh-Hans": "一般时间序列预测的排行榜，放到金融还准吗？风险调整后绩效的大型比较",
+        "ja": "汎用時系列予測ベンチマークは金融で通用するか：リスク調整後パフォーマンスの大規模比較"
+      },
+      "formulas": [
+        "baseline: forecast r̂_{t+1} = φ × r_t (AR(1)), fitted on the training window only",
+        "position_t = (σ_target / σ̂_t) × signal_t (volatility targeting)",
+        "score = annualized Sharpe = mean(net return) / stdev(net return) × √252",
+        "net return_t = position_{t−1} × r_t − cost × |position_t − position_{t−1}|",
+        "site use: any future model must beat this simple baseline net of costs out of sample before it can even be a candidate; no screener change while the math gate is not passed"
+      ],
+      "plainTakeaways": [
+        "排行榜上很強的模型，拿來交易不一定贏",
+        "好幾個熱門模型輸給「只看前一天」的簡單基準",
+        "比較簡單的模型反而表現最好、最耐交易成本",
+        "本站觀察：新方法一定要先扣成本後贏過簡單基準"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: a methodology check (always compare against a simple baseline net of costs, out of sample), not a new signal. Tested on futures, not US/TW single stocks. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2603.01820",
+        "https://doi.org/10.48550/arXiv.2603.01820"
+      ],
+      "tags": [
+        "both",
+        "forecasting",
+        "deep-learning",
+        "baseline",
+        "backtest",
+        "transaction-costs",
+        "watch"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "排行榜上很強的模型，拿來交易不一定贏",
+          "好幾個熱門模型輸給「只看前一天」的簡單基準",
+          "比較簡單的模型反而表現最好、最耐交易成本",
+          "本站觀察：新方法一定要先扣成本後贏過簡單基準"
+        ],
+        "zh-Hans": [
+          "排行榜上很强的模型，拿来交易不一定赢",
+          "好几个热门模型输给“只看前一天”的简单基准",
+          "比较简单的模型反而表现最好、最耐交易成本",
+          "本站观察：新方法一定要先扣成本后赢过简单基准"
+        ],
+        "en": [
+          "Leaderboard-topping models don't necessarily win at trading",
+          "Several popular models lost to a simple yesterday-based baseline",
+          "Simpler models did best and handled trading costs best",
+          "Site use: watch — any new method must first beat a simple baseline after costs"
+        ],
+        "ja": [
+          "ベンチマーク上位のモデルが取引で勝つとは限らない",
+          "人気モデルの多くが前日だけを見る単純基準に負けた",
+          "単純なモデルが最も良く、取引コストにも強い",
+          "本サイトはウォッチ：新手法はコスト控除後に単純基準を上回ることが先"
         ]
       },
       "coverUrl": "./covers/placeholder-paper.svg",
