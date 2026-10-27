@@ -6,6 +6,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { techSnapshotFromBars } from "./math-core.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -19,47 +20,10 @@ function round(n, d = 2) {
   return Math.round(n * p) / p;
 }
 
-function sma(arr, n) {
-  if (!arr || arr.length < n) return null;
-  let s = 0;
-  for (let i = arr.length - n; i < arr.length; i++) {
-    if (!Number.isFinite(arr[i])) return null;
-    s += arr[i];
-  }
-  return s / n;
-}
-
-function techFromBars(bars) {
-  if (!bars || bars.length < 60) return null;
-  const closes = bars.map((b) => b.c);
-  const vols = bars.map((b) => b.v);
-  const last = bars[bars.length - 1];
-  const prev = bars[bars.length - 2];
-  const sma20 = sma(closes, 20);
-  const sma50 = sma(closes, 50);
-  const sma200 = closes.length >= 200 ? sma(closes, 200) : null;
-  const avgVol20 = sma(vols, 20);
-  const volRatio = avgVol20 > 0 ? last.v / avgVol20 : null;
-  const dayPct = prev?.c ? ((last.c - prev.c) / prev.c) * 100 : null;
-  const c5 = bars.length >= 6 ? bars[bars.length - 6].c : null;
-  const c21 = bars.length >= 22 ? bars[bars.length - 22].c : null;
-  const pct5d = c5 ? ((last.c - c5) / c5) * 100 : null;
-  const pct1m = c21 ? ((last.c - c21) / c21) * 100 : null;
-  const avgVol5 = sma(vols, 5);
-  return {
-    price: last.c,
-    dayPct,
-    pct5d,
-    pct1m,
-    sma20,
-    sma50,
-    sma200,
-    volRatio,
-    avgVol5,
-    aboveSma20: sma20 != null ? last.c > sma20 : null,
-    aboveSma50: sma50 != null ? last.c > sma50 : null,
-    aboveSma200: sma200 != null ? last.c > sma200 : null,
-  };
+// SMA / volume ratio / day-5d-1m % / above-SMA flags: math-core.techSnapshotFromBars (guarded, 2026-10-28;
+// same arithmetic as the former inline techFromBars, junk bars ⇒ null instead of NaN/Infinity)
+export function techFromBars(bars) {
+  return techSnapshotFromBars(bars, { minBars: 60 });
 }
 
 /** Public mega-cap / semi chain watchlists (not tips; fixed for reproducibility). */

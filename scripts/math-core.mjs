@@ -797,3 +797,47 @@ export function blockGrowth(values, block = 4, { minAbsPrev = 1e-9 } = {}) {
   if (values.length >= 2) return signedGrowth(values[values.length - 1], values[values.length - 2], { minAbsPrev });
   return null;
 }
+
+/**
+ * Gooaye pack technical snapshot from daily bars (oldest → newest), 2026-10-28. Same arithmetic and
+ * evaluation order as the legacy gooaye-strategies techFromBars, so finite published-precision inputs give
+ * bit-identical values: SMA20/50/200 of closes (left-to-right sum / n; SMA200 only with ≥ 200 bars),
+ * volRatio = last volume / SMA20 of volume (SMA ≤ 0 ⇒ null), dayPct / pct5d / pct1m = (last − ref)/ref × 100
+ * with ref = close 1 / 5 / 21 bars back (ref 0 or junk ⇒ null), avgVol5 = SMA5 of volume, above* = last close >
+ * SMA (null when either side is missing). Fewer than minBars bars or non-array ⇒ null. Guards added: non-finite
+ * or non-number closes/volumes never leak NaN/±Infinity (legacy: NaN close ⇒ NaN pct, string close coerced,
+ * overflow ⇒ Infinity); every numeric output is finite or null.
+ */
+export function techSnapshotFromBars(bars, { minBars = 60 } = {}) {
+  if (!Array.isArray(bars) || bars.length < minBars || bars.length < 2) return null;
+  const closes = bars.map((b) => b?.c);
+  const vols = bars.map((b) => b?.v);
+  const n = bars.length;
+  const lastC = closes[n - 1];
+  const lastV = vols[n - 1];
+  const sma20 = finiteOrNull(sma(closes, 20));
+  const sma50 = finiteOrNull(sma(closes, 50));
+  const sma200 = n >= 200 ? finiteOrNull(sma(closes, 200)) : null;
+  const avgVol20 = finiteOrNull(sma(vols, 20));
+  const volRatio = avgVol20 != null && avgVol20 > 0 && isFiniteNumber(lastV) ? finiteOrNull(lastV / avgVol20) : null;
+  const back = (k) => (n >= k + 1 ? closes[n - 1 - k] : null);
+  const pctBack = (k) => {
+    const ref = back(k);
+    return isFiniteNumber(ref) && ref !== 0 ? finiteOrNull(pctChange(ref, lastC)) : null;
+  };
+  const above = (s) => (s != null && isFiniteNumber(lastC) ? lastC > s : null);
+  return {
+    price: finiteOrNull(lastC),
+    dayPct: pctBack(1),
+    pct5d: pctBack(5),
+    pct1m: pctBack(21),
+    sma20,
+    sma50,
+    sma200,
+    volRatio,
+    avgVol5: finiteOrNull(sma(vols, 5)),
+    aboveSma20: above(sma20),
+    aboveSma50: above(sma50),
+    aboveSma200: above(sma200),
+  };
+}

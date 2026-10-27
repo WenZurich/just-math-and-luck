@@ -2251,6 +2251,186 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
   ok(`fundamental growth (${n} cases: signedGrowth 30000 published-precision pairs = verbatim legacy in all 3 call forms (EPS/ROE/margin 1e-9, revenue prev>0, pretax ≠0), sign/zero, ≥ −100% from positive base, exact power-of-2 scaling, g·|prev| = Δ, reciprocal identity; 1e-9 / 0 / negative-base boundaries; junk/string/∞/overflow ⇒ null; meanOrNull = legacy avg bit-for-bit, within [min,max], junk ⇒ null (legacy read [0.3,null] as 0.15); trailingSum = brute, locality, window junk ⇒ null; growthStreak = brute, threshold-monotone, flat step ends streak, exact +10% FP boundary documented; blockGrowth = brute incl. 7/8/9 & 1/2 lengths; caller path annualGrowthSeries + sumRecentRoe/epsGrowthStreak/roeGrowthLatest on 20000 random funds = legacy; junk caller ⇒ null at same index; wiring; live 大師 hits meet their thresholds)`);
 }
 
+// ── Gooaye pack technicals: SMA20/50/200, volume ratio, day/5d/1m %, above-SMA flags (2026-10-28) ──
+// Dependencies: [sma k] last k closes; [volRatio] last 20 volumes; [dayPct] closes n−1, n−2; [pct5d] n−1, n−6;
+// [pct1m] n−1, n−22; [avgVol5] last 5 volumes; [sma200] only when ≥ 200 bars. Each check runs the function on data.
+{
+  const { techSnapshotFromBars } = await import("./math-core.mjs");
+  const G = await import("./gooaye-strategies.mjs");
+  const { writeFileSync, mkdtempSync } = await import("node:fs");
+  const { tmpdir } = await import("node:os");
+  const { pathToFileURL } = await import("node:url");
+  let n = 0;
+  const bad = (m) => fail(`gooaye technicals: ${m}`);
+  let s = 20261028 >>> 0;
+  const rnd = () => ((s = (Math.imul(s, 1664525) + 1013904223) >>> 0) / 4294967296);
+  const ri = (a, b) => a + Math.floor(rnd() * (b - a + 1));
+  const enc = (k, v) => (typeof v === "number" && (!Number.isFinite(v) || Object.is(v, -0)) ? `#num:${Object.is(v, -0) ? "-0" : String(v)}` : v);
+  const same = (x, y) => (x === null || y === null || typeof x !== "object" || typeof y !== "object" ? Object.is(x, y) : JSON.stringify(x, enc) === JSON.stringify(y, enc));
+  n++; if (same(Infinity, null) || same([NaN], [null]) || same(-0, 0) || !same({ a: [1, null] }, { a: [1, null] })) bad(`strict comparator broken`);
+  // verbatim legacy (gooaye-strategies.mjs before 2026-10-28)
+  const LEGACY_SRC = `function sma(arr, n) {
+  if (!arr || arr.length < n) return null;
+  let s = 0;
+  for (let i = arr.length - n; i < arr.length; i++) {
+    if (!Number.isFinite(arr[i])) return null;
+    s += arr[i];
+  }
+  return s / n;
+}
+
+function techFromBars(bars) {
+  if (!bars || bars.length < 60) return null;
+  const closes = bars.map((b) => b.c);
+  const vols = bars.map((b) => b.v);
+  const last = bars[bars.length - 1];
+  const prev = bars[bars.length - 2];
+  const sma20 = sma(closes, 20);
+  const sma50 = sma(closes, 50);
+  const sma200 = closes.length >= 200 ? sma(closes, 200) : null;
+  const avgVol20 = sma(vols, 20);
+  const volRatio = avgVol20 > 0 ? last.v / avgVol20 : null;
+  const dayPct = prev?.c ? ((last.c - prev.c) / prev.c) * 100 : null;
+  const c5 = bars.length >= 6 ? bars[bars.length - 6].c : null;
+  const c21 = bars.length >= 22 ? bars[bars.length - 22].c : null;
+  const pct5d = c5 ? ((last.c - c5) / c5) * 100 : null;
+  const pct1m = c21 ? ((last.c - c21) / c21) * 100 : null;
+  const avgVol5 = sma(vols, 5);
+  return {
+    price: last.c,
+    dayPct,
+    pct5d,
+    pct1m,
+    sma20,
+    sma50,
+    sma200,
+    volRatio,
+    avgVol5,
+    aboveSma20: sma20 != null ? last.c > sma20 : null,
+    aboveSma50: sma50 != null ? last.c > sma50 : null,
+    aboveSma200: sma200 != null ? last.c > sma200 : null,
+  };
+}
+`;
+  const L = new Function(`${LEGACY_SRC}\nreturn techFromBars;`)();
+  // published precision: US closes 2 dp (Yahoo floats like 216.69999694824219 too), TW closes on the TWSE tick grid, integer volumes (some 0)
+  const twTick = (p) => (p < 10 ? 0.01 : p < 50 ? 0.05 : p < 100 ? 0.1 : p < 500 ? 0.5 : p < 1000 ? 1 : 5);
+  const genBars = (len, { tw = rnd() < 0.5, yahooFloat = rnd() < 0.3, trend = (rnd() - 0.45) * 0.01, surge = rnd() < 0.4 } = {}) => {
+    let p = tw ? 10 + rnd() * 900 : 5 + rnd() * 600; const out = []; let v0 = 10 ** ri(4, 7);
+    for (let i = 0; i < len; i++) {
+      p = Math.max(0.5, p * (1 + trend + (rnd() - 0.5) * 0.06));
+      let c = tw ? Math.round(p / twTick(p)) * twTick(p) : Math.round(p * 100) / 100;
+      if (tw) c = Number(c.toFixed(2)); else if (yahooFloat) c = Math.fround(c);
+      let v = rnd() < 0.02 ? 0 : Math.round(v0 * (0.3 + rnd() * 1.5) * (surge && i === len - 1 ? 1 + rnd() * 3 : 1));
+      out.push({ t: 1.7e9 + i * 86400, o: c, h: c, l: c, c, v });
+    }
+    return out;
+  };
+  const FIELDS = ["price", "dayPct", "pct5d", "pct1m", "sma20", "sma50", "sma200", "volRatio", "avgVol5", "aboveSma20", "aboveSma50", "aboveSma200"];
+  // 1) verbatim legacy on published-precision charts incl. 59/60/61 and 199/200/201 bar counts
+  let cmp = 0, s200 = 0, nulls59 = 0;
+  for (let k = 0; k < 6000; k++) {
+    const len = k % 10 === 0 ? [59, 60, 61, 199, 200, 201][k / 10 % 6] : ri(55, 260);
+    const b = genBars(len); const a = techSnapshotFromBars(b), l = L(b); n++; cmp++;
+    if (!same(a, l)) { bad(`≠ legacy at len ${len}: ${JSON.stringify(a, enc)} vs ${JSON.stringify(l, enc)}`); break; }
+    if (len < 60) { nulls59++; if (a !== null) bad(`len ${len} < 60 must be null`); continue; }
+    if (a && (a.sma200 != null) !== (len >= 200)) bad(`sma200 presence wrong at len ${len}`);
+    if (a?.sma200 != null) s200++;
+    if (a) for (const f of FIELDS) { n++; const v = a[f]; if (!(v === null || typeof v === "boolean" || Number.isFinite(v))) bad(`${f} non-finite ${v}`); }
+  }
+  if (!(cmp === 6000 && s200 > 500 && nulls59 > 100)) bad(`coverage: cmp ${cmp}, sma200 cases ${s200}, <60 cases ${nulls59}`);
+  // 2) brute oracles (independent formulas, tolerance) + exact definitions
+  let brute = 0;
+  for (let k = 0; k < 3000; k++) {
+    const b = genBars(ri(60, 230)), a = techSnapshotFromBars(b), N = b.length, C = b.map((x) => x.c), V = b.map((x) => x.v);
+    const mean = (xs) => { let t = 0; for (let i = xs.length - 1; i >= 0; i--) t += xs[i]; return t / xs.length; };
+    const close = (x, y) => x === y || Math.abs(x - y) <= 1e-9 * Math.max(1, Math.abs(y));
+    const ref = (j) => 100 * (C[N - 1] / C[N - 1 - j] - 1);
+    const chk = [[a.sma20, mean(C.slice(-20))], [a.sma50, mean(C.slice(-50))], [a.dayPct, ref(1)], [a.pct5d, ref(5)], [a.pct1m, ref(21)], [a.avgVol5, mean(V.slice(-5))]];
+    if (N >= 200) chk.push([a.sma200, mean(C.slice(-200))]);
+    const av = mean(V.slice(-20)); if (av > 0) chk.push([a.volRatio, V[N - 1] / av]); else { n++; if (a.volRatio !== null) bad(`avgVol20 = 0 ⇒ volRatio null`); }
+    for (const [x, y] of chk) { n++; brute++; if (!(x != null && close(x, y))) bad(`brute mismatch ${x} vs ${y}`); }
+    n++; if (a.aboveSma20 !== (C[N - 1] > a.sma20) || a.aboveSma50 !== (C[N - 1] > a.sma50)) bad(`above flags ≠ close > SMA`);
+    n++; if (a.price !== C[N - 1]) bad(`price ≠ last close`);
+  }
+  // 3) invariants: exact ×2 scaling (power of 2), locality, monotonicity of the last close
+  for (let k = 0; k < 2000; k++) {
+    const b = genBars(ri(60, 230)), a = techSnapshotFromBars(b);
+    const b2 = b.map((x) => ({ ...x, c: x.c * 2, v: x.v * 2 })), a2 = techSnapshotFromBars(b2); n++;
+    if (!(Object.is(a2.dayPct, a.dayPct) && Object.is(a2.pct5d, a.pct5d) && Object.is(a2.pct1m, a.pct1m) && Object.is(a2.volRatio, a.volRatio) && a2.sma20 === 2 * a.sma20 && a2.sma50 === 2 * a.sma50 && a2.avgVol5 === 2 * a.avgVol5 && a2.aboveSma20 === a.aboveSma20)) bad(`×2 scaling invariance`);
+    const N = b.length, cut = Math.max(0, N - (N >= 200 ? 200 : 50));
+    const b3 = b.map((x, i) => (i < cut - 0 && i < N - 50 && (N < 200 || i < N - 200) ? { ...x, c: x.c * 3 + 1, v: x.v + 7 } : x)), a3 = techSnapshotFromBars(b3); n++;
+    if (!same(a3, a)) bad(`bars outside every window changed the output (locality)`);
+    const b4 = b.map((x, i) => (i === N - 22 ? { ...x, c: x.c + 1 } : x)), a4 = techSnapshotFromBars(b4); n++;
+    if (!(Object.is(a4.dayPct, a.dayPct) && Object.is(a4.pct5d, a.pct5d) && a4.pct1m < a.pct1m && Object.is(a4.volRatio, a.volRatio))) bad(`bar n−22 must move pct1m only (down when its close rises)`);
+    const b5 = b.map((x, i) => (i === N - 1 ? { ...x, c: x.c + 1 } : x)), a5 = techSnapshotFromBars(b5); n++;
+    if (!(a5.dayPct > a.dayPct && a5.pct5d > a.pct5d && a5.pct1m > a.pct1m && a5.sma20 > a.sma20)) bad(`raising the last close must raise all returns and SMA20`);
+    const b6 = b.map((x, i) => (i === N - 21 ? { ...x, v: x.v + 1e6 } : x)), a6 = techSnapshotFromBars(b6); n++;
+    if (!(Object.is(a6.volRatio, a.volRatio) && Object.is(a6.avgVol5, a.avgVol5))) bad(`volume 21 bars back is outside the 20-bar window`);
+  }
+  // 4) exact boundaries and junk
+  {
+    const flat = (len, c = 10, v = 1000) => Array.from({ length: len }, (_, i) => ({ t: i, o: c, h: c, l: c, c, v }));
+    const f60 = techSnapshotFromBars(flat(60)); n++;
+    if (!(f60 && f60.dayPct === 0 && f60.pct5d === 0 && f60.pct1m === 0 && f60.volRatio === 1 && f60.sma20 === 10 && f60.aboveSma20 === false && f60.sma200 === null && f60.aboveSma200 === null)) bad(`flat 60-bar chart: 0%, ratio 1, not above, no SMA200`);
+    n++; if (techSnapshotFromBars(flat(59)) !== null || techSnapshotFromBars(null) !== null || techSnapshotFromBars("x".repeat(80)) !== null) bad(`<60 / non-array ⇒ null`);
+    n++; if (techSnapshotFromBars(flat(200)).sma200 !== 10 || techSnapshotFromBars(flat(199)).sma200 !== null) bad(`200-bar boundary for SMA200`);
+    const z = flat(80); z[78] = { ...z[78], c: 0 }; n++; { const a = techSnapshotFromBars(z), l = L(z); if (!(a.dayPct === null && l.dayPct === null && a.pct5d === 0)) bad(`prev close 0 ⇒ dayPct null (legacy also null)`); }
+    const v0 = flat(80, 10, 0); n++; if (techSnapshotFromBars(v0).volRatio !== null || L(v0).volRatio !== null) bad(`zero average volume ⇒ volRatio null`);
+    const up = flat(80); up[79] = { ...up[79], c: 11 }; n++; { const a = techSnapshotFromBars(up); if (!(Math.abs(a.dayPct - 10) < 1e-12 && Math.abs(a.pct1m - 10) < 1e-12 && a.aboveSma20 === true)) bad(`+10% last close`); }
+    // junk last close / volume: legacy leaks NaN or coerces strings; new ⇒ null, never NaN, flags null
+    for (const junk of [NaN, Infinity, -Infinity, "12", null, undefined]) {
+      const j = flat(80); j[79] = { ...j[79], c: junk }; const a = techSnapshotFromBars(j); n++;
+      if (!(a.price === null && a.dayPct === null && a.pct5d === null && a.pct1m === null && a.sma20 === null && a.aboveSma20 === null && a.aboveSma50 === null)) bad(`junk last close ${String(junk)} must null price/returns/SMAs/flags: ${JSON.stringify(a, enc)}`);
+      const jv = flat(80); jv[79] = { ...jv[79], v: junk }; const av = techSnapshotFromBars(jv); n++;
+      if (!(av.volRatio === null && av.avgVol5 === null && av.dayPct === 0)) bad(`junk last volume ${String(junk)} ⇒ volRatio/avgVol5 null only`);
+    }
+    const nanLeg = flat(80); nanLeg[79] = { ...nanLeg[79], c: NaN }; n++; if (!Number.isNaN(L(nanLeg).dayPct)) bad(`documented legacy NaN leak not reproduced (oracle drift)`);
+    const ref0 = flat(80); ref0[79 - 21] = { ...ref0[79 - 21], c: "10" }; n++; { const a = techSnapshotFromBars(ref0); if (!(a.pct1m === null && a.dayPct === 0 && a.sma50 === null)) bad(`string close 21 bars back ⇒ pct1m null, SMA50 null`); }
+    const tiny = flat(80, 1e-320); tiny[79] = { ...tiny[79], c: 1e300 }; n++; { const a = techSnapshotFromBars(tiny); if (!(a.dayPct === null && Number.isFinite(L(tiny).dayPct) === false)) bad(`overflow ⇒ null (legacy Infinity)`); }
+    // mutation round 1 holes (2026-10-28): minBars < 2 must still need 2 bars; finite-but-huge closes overflow the SMA sum
+    n++; if (techSnapshotFromBars([{ c: 10, v: 5 }], { minBars: 1 }) !== null || techSnapshotFromBars([], { minBars: 0 }) !== null || techSnapshotFromBars(flat(2), { minBars: 2 })?.dayPct !== 0) bad(`fewer than 2 bars ⇒ null whatever minBars`);
+    const huge = flat(80, 1.7e308); n++; { const a = techSnapshotFromBars(huge), l = L(huge); if (!(a.sma20 === null && a.sma50 === null && a.aboveSma20 === null && a.dayPct === 0 && l.sma20 === Infinity)) bad(`SMA overflow ⇒ null (legacy Infinity): ${JSON.stringify(a, enc)}`); }
+    const holes = flat(80); holes[3] = null; n++; if (!(techSnapshotFromBars(holes)?.sma20 === 10)) bad(`null bar outside every window must not throw`);
+  }
+  // 5) caller path: all four packs from the current module = the same module with the verbatim legacy techFromBars
+  let packCmp = 0, hitCount = 0;
+  {
+    const src = readFileSync(join(ROOT_MG, "scripts/gooaye-strategies.mjs"), "utf8");
+    const wrapRe = /\/\/ SMA \/ volume ratio[\s\S]*?export function techFromBars\(bars\) \{\n  return techSnapshotFromBars\(bars, \{ minBars: 60 \}\);\n\}\n/;
+    n++; if (!wrapRe.test(src) || !/import \{ techSnapshotFromBars \} from "\.\/math-core\.mjs";/.test(src) || /function sma\(/.test(src) || /\(\(last\.c - /.test(src)) bad(`gooaye-strategies not wired to math-core.techSnapshotFromBars`);
+    const legSrc = src.replace(/import \{ techSnapshotFromBars \} from "\.\/math-core\.mjs";\n/, "").replace(wrapRe, LEGACY_SRC.replace("function techFromBars", "export function techFromBars"));
+    const dir = mkdtempSync(join(tmpdir(), "gooaye-legacy-")); const f = join(dir, "gooaye-legacy.mjs"); writeFileSync(f, legSrc);
+    const LG = await import(pathToFileURL(f).href);
+    for (let k = 0; k < 400; k++) {
+      const map = new Map(), universe = [];
+      for (const r of [...G.TW_SEMICON_CHAIN, ...G.US_MEGA_TECH_SEMI]) if (rnd() < 0.9) map.set(r.ticker, { bars: genBars(ri(58, 140), { tw: r.ticker.endsWith(".TW"), surge: rnd() < 0.6, trend: rnd() * 0.012 - 0.002 }) });
+      for (let u = 0; u < 25; u++) { const tw = rnd() < 0.5, t = tw ? `${9000 + u}.TW` : `ZZ${u}`; universe.push({ ticker: t, market: tw ? "TW" : "US", name: t }); map.set(t, { bars: genBars(ri(58, 140), { tw, surge: rnd() < 0.7, trend: rnd() * 0.015 - 0.003 }) }); }
+      const ctx = [{}, { dUs10Y_20d: -0.1 }, { dUs10Y_20d: 0.1 }, { dUs10Y_20d: 0.3 }, { liquidityBias: "risk_off" }][k % 5];
+      const a = G.buildAllGooayePacks({ universe, ohlcvMap: map, rateCtx: ctx }), l = LG.buildAllGooayePacks({ universe, ohlcvMap: map, rateCtx: ctx });
+      n++; packCmp++; if (!same(a, l)) { bad(`buildAllGooayePacks ≠ legacy module (case ${k})`); break; }
+      for (const p of a) hitCount += (p.hits || []).length;
+    }
+    n++; if (!(hitCount > 400)) bad(`caller-path coverage too thin: ${hitCount} hits`);
+  }
+  // 6) live: published gooaye hits satisfy their own pack thresholds (finite metrics, volRatio floors)
+  try {
+    const scr = JSON.parse(readFileSync(join(ROOT_MG, "public/data/strategy-screener.json"), "utf8"));
+    const floor = { "gooaye-tw-vol-breakout": 1.5, "gooaye-us-fomo-filter": 1.0, "gooaye-tw-semicon-chain": 0.85 };
+    for (const st of scr.strategies || []) {
+      if (!String(st.id).startsWith("gooaye-")) continue;
+      for (const h of st.hits || []) {
+        const M = h.metrics || {}; n++;
+        for (const k of ["price", "dayPct", "pct5d", "pct1m", "volRatio"]) if (!(typeof M[k] === "number" && Number.isFinite(M[k]))) bad(`live ${st.id} ${h.ticker} ${k}=${M[k]}`);
+        const fl = st.id === "gooaye-us-risk-on" ? M.volFloor : floor[st.id]; n++;
+        if (!(M.volRatio >= fl - 0.005)) bad(`live ${st.id} ${h.ticker} volRatio ${M.volRatio} < floor ${fl}`);
+        n++; if (st.id !== "gooaye-us-risk-on" && M.aboveSma20 === false && st.id !== "gooaye-us-fomo-filter") bad(`live ${st.id} ${h.ticker} not above SMA20`);
+      }
+    }
+  } catch (e) { bad(`live gooaye check: ${e.message}`); }
+  ok(`gooaye technicals (${n} cases: techSnapshotFromBars 6000 published-precision charts (US 2 dp / Yahoo float32, TW tick grid, integer volumes incl. 0) = verbatim legacy techFromBars bit-for-bit, 59/60/61 and 199/200/201 bar boundaries, every output finite/boolean/null; ${brute} brute-oracle values (reverse-order means, ratio form of returns); exact ×2 scaling, locality outside all windows, bar n−22 moves pct1m only, last-close monotonicity, 21-bars-back volume outside window; flat chart, prev/ref close 0, zero volume, +10%; junk close/volume (NaN/±∞/string/null) ⇒ null never NaN (legacy NaN/Infinity leak reproduced); caller path: ${packCmp} random universes × 4 packs × 5 rate regimes = legacy module (${hitCount} hits); wiring; live hits meet their pack floors)`);
+}
+
 console.log("——");
 if (failures.length) {
   console.error(`▶ math-guards: ${failures.length} failure(s)`);
