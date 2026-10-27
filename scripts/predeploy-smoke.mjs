@@ -1814,6 +1814,11 @@ async function main() {
     }
     await i18nMod.setLang("zh-Hant");
     if (i18nMod.t("siteTitle") !== "每日數學選股") fail("i18n did not switch back to zh-Hant");
+    // rapid switch while chunks load: the last pick must win
+    const raceMod = await import(pathToFileURL(path.join(ROOT, "src/i18n.js")).href + "?race=1");
+    await Promise.all([raceMod.setLang("ja"), raceMod.setLang("en")]);
+    if (raceMod.getLang() !== "en") fail(`i18n rapid switch ja→en ended on ${raceMod.getLang()}`);
+    else ok("i18n rapid language switch: last pick wins");
   }
 
   if (errors.length) {

@@ -37,10 +37,13 @@ export function getLang() {
   return current;
 }
 
+let langRequest = 0;
 export async function setLang(lang) {
-  if (!LANG_IDS.includes(lang) || lang === current) return false;
-  if (!(await ensureLang(lang))) return false;
+  if (!LANG_IDS.includes(lang)) return false;
+  const req = ++langRequest; // last pick wins if the user switches again while a chunk loads
   if (lang === current) return false;
+  if (!(await ensureLang(lang))) return false;
+  if (req !== langRequest || lang === current) return false;
   current = lang;
   try {
     localStorage.setItem(STORAGE_KEY, lang);
@@ -1335,8 +1338,10 @@ export function bindLangSwitcher(root, onChange) {
   if (!sel) return;
   sel.value = current;
   sel.addEventListener("change", async () => {
-    const ok = await setLang(sel.value);
-    if (!ok) sel.value = current; // chunk failed (offline) — stay on current language
+    const want = sel.value;
+    const ok = await setLang(want);
+    // chunk failed (offline) — show the language actually in use
+    if (!ok && sel.isConnected && sel.value === want) sel.value = current;
     else if (typeof onChange === "function") onChange(sel.value);
   });
 }
