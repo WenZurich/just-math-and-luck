@@ -38,6 +38,14 @@ function findSourceAtFill(relPath, pred, maxVersions = 120) {
 }
 
 const ROOT = path.resolve(__dirname, "..");
+
+/** i18n strings live in src/i18n.js (zh-Hant, main bundle) + lazy chunks src/i18n/*.js. */
+function readI18nSources() {
+  const dir = path.join(ROOT, "src/i18n");
+  const parts = [fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8")];
+  for (const f of ["en.js", "zh-Hans.js", "ja.js"]) parts.push(fs.readFileSync(path.join(dir, f), "utf8"));
+  return parts.join("\n");
+}
 const SCREENER =
   process.env.SMOKE_SCREENER ||
   path.join(ROOT, "public/data/strategy-screener.json");
@@ -392,7 +400,7 @@ async function main() {
       } else {
         ok("research UI hides raw formulas / mathGateNote");
       }
-      const i18n = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+      const i18n = readI18nSources();
       if (i18n.includes("目前未過）— candidates only") || i18n.includes("目前未过）— candidates only") || i18n.includes("未通過）— candidates only")) {
         fail("i18n researchMathGateBanner still mixes English 'candidates only' into CJK");
       } else {
@@ -448,7 +456,7 @@ async function main() {
     fail("main.js missing options view wiring");
   } else ok("options view wired in main.js");
   {
-    const i18nOpt = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    const i18nOpt = readI18nSources();
     if (!i18nOpt.includes("navOptions") || !i18nOpt.includes("美股選擇權") || !i18nOpt.includes("非投資建議；選擇權風險高")) {
       fail("i18n missing options nav/title/disclaimer");
     } else ok("options i18n present");
@@ -543,7 +551,7 @@ async function main() {
     fail("main.js missing earnings view wiring");
   } else ok("earnings view wired in main.js");
   {
-    const i18nEr = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    const i18nEr = readI18nSources();
     if (!i18nEr.includes("navEarnings") || !i18nEr.includes("讀財報") || !i18nEr.includes("earningsDisclaimer")) {
       fail("i18n missing earnings nav/title/disclaimer");
     } else ok("earnings i18n present");
@@ -617,7 +625,7 @@ async function main() {
     fail("main.js missing SPA nav title/focus a11y helpers");
   } else ok("SPA nav document.title + main focus helpers present");
   {
-    const i18nSx = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    const i18nSx = readI18nSources();
     if (!i18nSx.includes("navSoxl") || !i18nSx.includes("soxlDisclaimer") || !i18nSx.includes("soxlTitle")) {
       fail("i18n missing soxl nav/title/disclaimer");
     } else ok("soxl i18n present");
@@ -690,7 +698,7 @@ async function main() {
     fail("txf should be under MOBILE_MORE (not a 6th primary tab)");
   } else ok("txf listed in MOBILE_MORE");
   {
-    const i18nTx = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    const i18nTx = readI18nSources();
     if (!i18nTx.includes("navTxf") || !i18nTx.includes("txfDisclaimer") || !i18nTx.includes("txfTitle")) {
       fail("i18n missing txf nav/title/disclaimer");
     } else ok("txf i18n present");
@@ -759,7 +767,7 @@ async function main() {
     if (!/parseHashRoute|parseHashRoute/.test(main) || !main.includes("setPodcastCategory") || !main.includes("setResearchCategory")) {
       fail("main.js missing nested hash / category route wiring");
     } else ok("main nested hash category routes");
-    const i18n = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    const i18n = readI18nSources();
     for (const k of ["podcastsCatMenu", "podcastsOpenCategory", "researchCatMenu", "researchOpenCategory", "researchCatBooks"]) {
       const n = (i18n.match(new RegExp(k + ":", "g")) || []).length;
       if (n < 4) fail(`i18n ${k} expected 4 langs, got ${n}`);
@@ -897,7 +905,7 @@ async function main() {
     fail("main.js missing jensen.css import");
   } else ok("jensen.css imported");
   {
-    const i18nGz = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    const i18nGz = readI18nSources();
     if (!i18nGz.includes("navPodcasts") || !i18nGz.includes("名人podcast") || !i18nGz.includes("godzillaDisclaimer")) {
       fail("i18n missing podcasts nav/title or godzilla disclaimer");
     } else ok("podcasts + godzilla i18n present");
@@ -1068,7 +1076,7 @@ async function main() {
     if (ids.length > 4) fail(`MOBILE_PRIMARY has ${ids.length} ids (primary tabs + More must be ≤5 total)`);
     else ok(`MOBILE_PRIMARY has ${ids.length} tabs (+ More = ${ids.length + 1})`);
   }
-  const i18nSrc = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+  const i18nSrc = readI18nSources();
   if (/navSocial|全頻彈幕|Site danmaku|社群聊天|usLobby/.test(i18nSrc)) {
     fail("obsolete social i18n strings still present");
   } else ok("obsolete social i18n cleaned");
@@ -1527,7 +1535,7 @@ async function main() {
       if (!/TW_STALE_CLOSE_RULE_RETRO\s*=\s*new Set\(\[[^\]]*"2026-10-12"/.test(pt)) fail("paper-trade post-closure guard must cover 2026-10-12 (TW_STALE_CLOSE_RULE_RETRO)");
       else ok("post-closure guard covers 2026-10-12");
     }
-    const i18nPaper = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    const i18nPaper = readI18nSources();
     if (/paperRuleBuy:\s*"[^"]*(風險1%|停距1\.5%|1% risk)/.test(i18nPaper)) fail("paperRuleBuy still describes the 1%-risk/stop rule that never binds");
     else ok("paperRuleBuy matches real sizing (8% cap, cash, whole lots)");
   }
@@ -1557,7 +1565,7 @@ async function main() {
     if (/passedGate\s*=\s*true/.test(derivUi) || /passedGate\s*=\s*true/.test(derivMath)) {
       fail("paper derivatives must not open screener math gate");
     } else ok("screener passedGate stays untouched by paper deriv");
-    const i18nSrc = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    const i18nSrc = readI18nSources();
     if (!/paperDerivUsTitle/.test(i18nSrc) || !/paperDerivTwTitle/.test(i18nSrc)) fail("i18n missing paperDeriv titles");
     else ok("paperDeriv i18n titles");
     const txfPath = path.join(ROOT, "public/data/txf-desk.json");
@@ -1783,6 +1791,29 @@ async function main() {
     else ok(`timezoneNote from asOf: ${tzNote}`);
     const scanSrc = fs.readFileSync(path.join(ROOT, "scripts/daily-scan.mjs"), "utf8");
     if (/9\/16 開盤前|美股用 9\/15 收盤/.test(scanSrc)) fail("daily-scan still hard-codes 9/15–9/16 in site notes");
+  }
+
+  // —— load speed: non-default languages are lazy chunks, not in the main bundle ——
+  {
+    const core = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    if (/^const (en|zhHans|ja) = \{/m.test(core) || !core.includes('import("./i18n/en.js")')) {
+      fail("i18n: en/zh-Hans/ja must be lazy chunks (src/i18n/*.js), not inlined in i18n.js");
+    } else ok("i18n: en / zh-Hans / ja are lazy chunks");
+    const mainSrc = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+    if (!/await langReady;[\s\S]*await mountUi\(app\)/.test(mainSrc)) fail("main.js must await i18nReady before first mount");
+    else ok("main.js awaits i18nReady before first mount");
+    const i18nMod = await import(pathToFileURL(path.join(ROOT, "src/i18n.js")).href + "?lazy=1");
+    const expect = { en: "Daily Quant Picks", "zh-Hans": "每日数学选股", ja: "毎日クオンツ選株" };
+    for (const [lang, title] of Object.entries(expect)) {
+      const okLoad = await i18nMod.ensureLang(lang);
+      if (!okLoad) { fail(`i18n ${lang} chunk failed to load`); continue; }
+      await i18nMod.setLang(lang);
+      if (i18nMod.t("siteTitle") !== title) fail(`i18n ${lang} siteTitle = ${i18nMod.t("siteTitle")}`);
+      else if (i18nMod.t("navMore") === "navMore") fail(`i18n ${lang} missing zh-Hant fallback`);
+      else ok(`i18n ${lang} lazy chunk loads (${title})`);
+    }
+    await i18nMod.setLang("zh-Hant");
+    if (i18nMod.t("siteTitle") !== "每日數學選股") fail("i18n did not switch back to zh-Hant");
   }
 
   if (errors.length) {

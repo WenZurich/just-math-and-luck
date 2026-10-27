@@ -7,6 +7,7 @@ import {
   renderLangSwitcher,
   bindLangSwitcher,
   onLangChange,
+  i18nReady,
 } from "./i18n.js";
 import {
   renderPaperSection,
@@ -1170,6 +1171,8 @@ async function remount() {
 
 async function main() {
   const app = document.getElementById("app");
+  // Saved non-default language: fetch its string chunk in parallel with data.
+  const langReady = i18nReady();
   applyDocumentLang();
   const loading = document.getElementById("loading");
   if (loading) loading.textContent = t("loading");
@@ -1178,6 +1181,8 @@ async function main() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     cachedData = await res.json();
     cachedPaper = await loadPaperPortfolio();
+    await langReady;
+    applyDocumentLang();
     await mountUi(app);
     if (!main._langHooked) {
       main._langHooked = true;
