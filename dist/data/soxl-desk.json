@@ -2,19 +2,19 @@
   "market": "US",
   "ticker": "SOXL",
   "fundName": "Direxion Daily Semiconductor Bull 3X ETF",
-  "asOf": "2026-10-27T00:19:55.965Z",
+  "asOf": "2026-10-28T00:17:12.474Z",
   "quote": {
-    "price": 94,
-    "change": 3.5,
-    "changePct": 3.87,
+    "price": 100.22,
+    "change": -0.86,
+    "changePct": -0.85,
     "currency": "USD",
     "session": "overnight / extended (Yahoo)",
     "source": "https://finance.yahoo.com/quote/SOXL/",
     "regularClose": {
-      "price": 90.5,
-      "change": 6.94,
-      "changePct": 8.31,
-      "session": "NYSE Arca regular close (October 26 at 4:00:01 PM EDT)"
+      "price": 101.08,
+      "change": 10.58,
+      "changePct": 11.69,
+      "session": "NYSE Arca regular close (October 27 at 4:00:01 PM EDT)"
     }
   },
   "holdingsAsOf": "2026-01-31",
@@ -30,8 +30,8 @@
     {
       "type": "anomaly",
       "severity": "high",
-      "title": "正規盤大波動 +8.31%",
-      "detail": "Yahoo 顯示 SOXL 正規收盤約 $90.5（+8.31% / +6.94）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
+      "title": "正規盤大波動 +11.69%",
+      "detail": "Yahoo 顯示 SOXL 正規收盤約 $101.08（+11.69% / +10.58）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
       "sources": [
         "https://finance.yahoo.com/quote/SOXL/"
       ]
@@ -141,10 +141,10 @@
       "published": "2026-09-14"
     },
     {
-      "title": "Daily ETF Flows: SOXL Inflows Total $520M",
-      "summary": "&lt;p&gt;Here are the daily ETF fund flows for August 25, 2026.&lt;/p&gt;",
-      "url": "http://www.etf.com/sections/daily-etf-flows/daily-etf-flows-soxl-inflows-total-520m?utm_source=yahoo-finance&amp;utm_medium=rss&amp;utm_campaign=yahoo-finance-rss&amp;.tsrc=rss",
-      "published": "2026-08-26"
+      "title": "SOXL, TQQQ Attract Record Inflows Amid Leveraged Bets: Retail Is Bullish On One ETF's AI Future",
+      "summary": "In a post on X, The Kobeissi Letter said the 10 largest U.S. leveraged equity ETFs have seen more than $12 billion in inflows over the last month.",
+      "url": "https://stocktwits.com/news-articles/markets/equity/soxl-tqqq-attract-record-inflows-amid-leveraged-bets-retail-is-bullish-on-one-etf-s-ai-future/cZUIU7uRBzn?.tsrc=rss",
+      "published": "2026-10-27"
     },
     {
       "title": "Nasdaq Futures Rise After Chip Selloff While S&amp;P 500, Dow Track Mixed Open: SLV, GLD, SOXL, BE In Focus",
@@ -535,7 +535,7 @@
     "Research seed: /workspace/soxl-research/soxl-holdings-raw.json",
     "SEC N-PORT: https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
     "Yahoo quote page: https://finance.yahoo.com/quote/SOXL/",
-    "Yahoo quote HTML refresh @ 2026-10-27T00:19:55.965Z",
+    "Yahoo quote HTML refresh @ 2026-10-28T00:17:12.474Z",
     "https://feeds.finance.yahoo.com/rss/2.0/headline?s=SOXL&region=US&lang=en-US"
   ],
   "blockers": [
