@@ -601,6 +601,51 @@ async function main() {
       } else ok("soxl disclaimer");
       if (!Array.isArray(desk.sourcesUsed) || !desk.sourcesUsed.length) fail("soxl sourcesUsed missing");
       else ok(`soxl sourcesUsed ${desk.sourcesUsed.length}`);
+      // Freshness: N-PORT is quarterly (public ~60 days after period end) ⇒ > 190 days old means a newer filing was missed.
+      const nportAgeDays = (Date.parse(desk.asOf) - Date.parse(desk.holdingsAsOf + "T00:00:00Z")) / 86400000;
+      if (!(nportAgeDays >= 0 && nportAgeDays <= 190)) fail(`soxl holdingsAsOf ${desk.holdingsAsOf} is ${Math.round(nportAgeDays)} days old (newer SEC N-PORT exists)`);
+      else ok(`soxl N-PORT age ${Math.round(nportAgeDays)} days`);
+      const eq = desk.holdings.filter((h) => h.instrumentType === "equity");
+      const eqDated = eq.filter((h) => h.changePct != null && h.changePctAsOf);
+      if (eq.length && eqDated.length < Math.ceil(eq.length * 0.8)) fail(`soxl equity daily moves missing (${eqDated.length}/${eq.length})`);
+      const staleMove = eqDated.find((h) => (Date.parse(desk.asOf) - Date.parse(h.changePctAsOf + "T00:00:00Z")) / 86400000 > 6);
+      if (staleMove) fail(`soxl ${staleMove.ticker} daily move is stale (${staleMove.changePctAsOf})`);
+      else ok(`soxl equity daily moves dated ${eqDated.length}/${eq.length}`);
+      const badContrib = eqDated.find((h) => Math.abs(h.contributionPct - (h.weightPct * h.changePct) / 100) > 1e-3);
+      if (badContrib) fail(`soxl contribution ≠ weight×move/100 for ${badContrib.ticker}`);
+      else ok("soxl contribution = weight × move ÷ 100");
+      if (desk.holdings.some((h) => h.instrumentType !== "equity" && h.changePct != null)) fail("soxl cash/swap rows must not carry a daily move");
+      const entityNews = (desk.news || []).find((n) => /&(amp|lt|gt|quot|#\d+);|<\/?p>/i.test(`${n.title} ${n.summary || ""}`));
+      if (entityNews) fail(`soxl news has raw HTML entities: ${entityNews.title}`);
+      else ok("soxl news text has no raw HTML entities");
+      const sxn = await import(pathToFileURL(path.join(ROOT, "scripts/soxl-nport.mjs")).href);
+      if (sxn.decodeEntities("S&amp;P 500 &amp;lt;p&amp;gt;Table&amp;lt;/p&amp;gt;") !== "S&P 500 Table") fail("decodeEntities double-escaped");
+      else ok("decodeEntities handles double-escaped feed text");
+      const fakeXml = `<seriesId>S000027920</seriesId><repPdDate>2026-07-31</repPdDate><netAssets>100</netAssets>
+        <invstOrSec><name>NVIDIA CORP</name><title>NVIDIA Corp. COM USD0.001</title><pctVal>6.5</pctVal><assetCat>EC</assetCat><identifiers><ticker value="NVDA"/></identifiers></invstOrSec>
+        <invstOrSec><name>LAM RESEARCH CORP</name><title>LAM RESEARCH CORP</title><pctVal>2.9</pctVal><assetCat>EC</assetCat><identifiers><ticker value="LRCX UW"/></identifiers></invstOrSec>
+        <invstOrSec><name>N/A</name><title>ICE SEMICONDUCTOR INDEX SWAP</title><pctVal>-3.1</pctVal><derivativeInfo><swapDeriv derivCat="SWP"><counterparties><counterpartyName>UBS AG</counterpartyName></counterparties></swapDeriv></derivativeInfo></invstOrSec>
+        <invstOrSec><name>DREYFUS</name><title>DREYFUS TRSRY SECURITIES CASH MGMT</title><pctVal>12</pctVal><assetCat>STIV</assetCat></invstOrSec>`;
+      const np = sxn.parseNportHoldings(fakeXml, 3);
+      const npOk =
+        np.repPdDate === "2026-07-31" && np.holdingsCount === 4 && np.holdings.length === 3 &&
+        np.holdings[0].instrument_type === "cash_equivalent" && np.holdings[0].name === "Dreyfus Treasury Securities Cash Management" &&
+        np.holdings[1].ticker === "NVDA" && np.holdings[1].name === "NVIDIA Corp." && np.holdings[1].weight_pct === 6.5 &&
+        np.holdings[2].ticker === "LRCX" && np.holdings[2].name === "Lam Research Corp";
+      if (!npOk) fail(`parseNportHoldings: ${JSON.stringify(np.holdings)}`);
+      else ok("parseNportHoldings: SEC weights kept, sorted, tickers/names cleaned, swap ⇒ no ticker");
+      const sw = sxn.parseNportHoldings(fakeXml, 4).holdings[3];
+      if (sw.instrument_type !== "swap" || sw.ticker !== null || sw.name !== "ICE Semiconductor Index Swap (UBS AG)") fail(`parseNportHoldings swap row ${JSON.stringify(sw)}`);
+      else ok("parseNportHoldings swap row (counterparty, negative weight kept)");
+      const day = (d) => Date.UTC(2026, 9, d, 20) / 1000; // 16:00 New York (EDT)
+      const chart = (ts, closes, end) => ({ chart: { result: [{ timestamp: ts, meta: { currentTradingPeriod: { regular: { end } } }, indicators: { quote: [{ close: closes }] } }] } });
+      const dc1 = sxn.dailyChangeFromChart(chart([day(23) - 23400, day(26) - 23400, day(27) - 23400], [100, 110, null], day(27)), day(28));
+      const dc2 = sxn.dailyChangeFromChart(chart([day(26) - 23400, day(27) - 23400], [100, 102], day(27)), day(27) - 3600);
+      const dc3 = sxn.dailyChangeFromChart(chart([day(26) - 23400, day(27) - 23400], [100, 103], day(27)), day(27) + 60);
+      if (!(dc1 && Math.abs(dc1.changePct - 10) < 1e-9 && dc1.date === "2026-10-26")) fail(`dailyChangeFromChart null-close ${JSON.stringify(dc1)}`);
+      else if (dc2 !== null) fail(`dailyChangeFromChart must drop the still-open session ${JSON.stringify(dc2)}`);
+      else if (!(dc3 && Math.abs(dc3.changePct - 3) < 1e-9 && dc3.date === "2026-10-27")) fail(`dailyChangeFromChart closed session ${JSON.stringify(dc3)}`);
+      else ok("dailyChangeFromChart: last completed close vs prior close; open session dropped; null closes skipped");
     } catch (e) {
       fail(`soxl-desk parse: ${e}`);
     }

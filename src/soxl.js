@@ -151,25 +151,35 @@ function paint(root, data) {
     </section>`;
 
   const holdings = Array.isArray(data?.holdings) ? data.holdings : [];
+  const TYPE_KEY = { equity: "soxlTypeEquity", cash_equivalent: "soxlTypeCash", swap: "soxlTypeSwap" };
+  const typeLabel = (it) => t(TYPE_KEY[it] || "soxlTypeOther");
+  const mdDate = (iso) => (/^\d{4}-(\d{2})-(\d{2})$/.test(iso || "") ? `${Number(iso.slice(5, 7))}/${Number(iso.slice(8, 10))}` : iso || "");
+  const moveDay = holdings.find((h) => h.changePctAsOf)?.changePctAsOf || null;
   const rows = holdings
     .map((h) => {
-      const label = h.ticker || h.instrumentType || "—";
+      const isEquity = h.instrumentType === "equity";
+      const label = h.ticker || typeLabel(h.instrumentType);
       const chgCls = dirClass(h.changePct);
       const contribCls = dirClass(h.contributionPct);
       const reasons = Array.isArray(h.reasons) ? h.reasons : [];
       const srcs = Array.isArray(h.sources) ? h.sources : [];
-      return `<tr>
-        <td>
+      const noMove = isEquity ? "—" : t("soxlNoDailyMove");
+      return `<tr class="sx-row sx-row-${escapeHtml(h.instrumentType || "other")}">
+        <td class="sx-cell-name">
           <div class="sx-tk">${escapeHtml(String(label))}</div>
           <div class="sx-name">${escapeHtml(h.name || "")}</div>
-          ${h.instrumentType ? `<span class="sx-itype">${escapeHtml(h.instrumentType)}</span>` : ""}
+          ${h.instrumentType && h.ticker ? `<span class="sx-itype">${escapeHtml(typeLabel(h.instrumentType))}</span>` : ""}
         </td>
-        <td class="sx-num">${h.weightPct != null ? escapeHtml(fmtNum(h.weightPct, 2)) + "%" : "—"}</td>
-        <td class="sx-num ${chgCls}">${h.changePct != null ? escapeHtml(fmtPct(h.changePct, 2)) : "—"}</td>
-        <td class="sx-num ${contribCls}" title="${escapeHtml(h.contributionNote || t("soxlContributionHint"))}">
-          ${h.contributionPct != null ? escapeHtml(fmtNum(h.contributionPct, 3)) + " pp*" : "—"}
+        <td class="sx-num" data-label="${escapeHtml(t("soxlColWeight"))}">${h.weightPct != null ? escapeHtml(fmtNum(h.weightPct, 2)) + "%" : "—"}</td>
+        <td class="sx-num ${chgCls}" data-label="${escapeHtml(t("soxlColReturn"))}">${
+          h.changePct != null
+            ? `${escapeHtml(fmtPct(h.changePct, 2))}${h.changePctAsOf ? `<span class="sx-asof">${escapeHtml(t("soxlReturnAsOf", { date: mdDate(h.changePctAsOf) }))}</span>` : ""}`
+            : `<span class="sx-na">${escapeHtml(noMove)}</span>`
+        }</td>
+        <td class="sx-num ${contribCls}" data-label="${escapeHtml(t("soxlColContrib"))}" title="${escapeHtml(t("soxlContributionHint"))}">
+          ${h.contributionPct != null ? `${escapeHtml(fmtMoney(h.contributionPct, 3))} <span class="sx-unit">${escapeHtml(t("soxlPp"))}</span>*` : `<span class="sx-na">${escapeHtml(noMove)}</span>`}
         </td>
-        <td class="sx-reasons">
+        <td class="sx-reasons" data-label="${escapeHtml(t("soxlColReasons"))}">
           <ul>${reasons.map((r) => `<li>${escapeHtml(r)}</li>`).join("")}</ul>
           ${
             srcs.length
@@ -187,20 +197,26 @@ function paint(root, data) {
     })
     .join("");
 
+  const holdingsLead = data?.holdingsAsOf
+    ? t("soxlHoldingsLeadDated", { date: data.holdingsAsOf, day: moveDay || "—" })
+    : t("soxlHoldingsLead");
+  const srcUrl = data?.holdingsSource?.index_url || data?.holdingsSource?.url;
   const holdingsHtml = `
     <section class="sx-holdings" aria-label="${escapeHtml(t("soxlHoldingsTitle"))}">
       <h3 class="sx-h3">${escapeHtml(t("soxlHoldingsTitle"))}</h3>
-      <p class="sx-panel-lead">${escapeHtml(data?.holdingsFreshnessNote || t("soxlHoldingsLead"))}</p>
-      <p class="sx-panel-lead sx-muted">${escapeHtml(data?.leverageNote || t("soxlContributionHint"))}</p>
+      <p class="sx-panel-lead">${escapeHtml(holdingsLead)}${
+        srcUrl ? ` <a href="${escapeHtml(srcUrl)}" target="_blank" rel="noopener noreferrer">SEC N-PORT</a>` : ""
+      }</p>
       <div class="sx-table-wrap">
         <table class="sx-table">
+          <caption class="sx-sr-only">${escapeHtml(t("soxlHoldingsTitle"))}</caption>
           <thead>
             <tr>
-              <th>${escapeHtml(t("soxlColName"))}</th>
-              <th>${escapeHtml(t("soxlColWeight"))}</th>
-              <th>${escapeHtml(t("soxlColReturn"))}</th>
-              <th>${escapeHtml(t("soxlColContrib"))}</th>
-              <th>${escapeHtml(t("soxlColReasons"))}</th>
+              <th scope="col">${escapeHtml(t("soxlColName"))}</th>
+              <th scope="col">${escapeHtml(t("soxlColWeight"))}</th>
+              <th scope="col">${escapeHtml(t("soxlColReturn"))}</th>
+              <th scope="col">${escapeHtml(t("soxlColContrib"))}</th>
+              <th scope="col">${escapeHtml(t("soxlColReasons"))}</th>
             </tr>
           </thead>
           <tbody>${rows || `<tr><td colspan="5">${escapeHtml(t("soxlHoldingsEmpty"))}</td></tr>`}</tbody>

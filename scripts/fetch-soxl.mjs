@@ -11,6 +11,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { decodeEntities, fetchDailyChange, fetchLatestSoxlNport, parseNportHoldings } from "./soxl-nport.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -191,10 +192,14 @@ async function fetchYahooNewsRss() {
 }
 
 /** Map researched headlines → plain-language per-holding reasons (citations only). */
-const HOLDING_REASON_MAP = {
+/** Set from the seed in main(): the official N-PORT filing the weights come from. */
+let NPORT_URL = "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=S000027920&type=NPORT-P";
+let NPORT_DATE = null;
+
+const holdingReasonMap = () => ({
   MU: [
     {
-      text: "近期報導把 SOXL 急漲連結到記憶體循環展望與美光股價走強（3x 日槓桿會放大半導體指數波動）。",
+      text: "2026 年 9 月報導把 SOXL 急漲連結到記憶體循環展望與美光股價走強（3x 日槓桿會放大半導體指數波動）。",
       sources: [
         "https://www.fool.com/investing/2026/09/21/why-direxion-daily-semiconductor-bull-3x-etf-just/",
         "https://www.weex.com/news/detail/soxl-stock-jumped-12-yesterday-three-companies-explain-the-entire-move-dmqllbso2t8pzjgltaciadyh",
@@ -203,7 +208,7 @@ const HOLDING_REASON_MAP = {
   ],
   AMD: [
     {
-      text: "公開報導提到 AMD 市值里程碑與半導體族群同步上漲，被視為支撐 SOXL 的成分動能之一。",
+      text: "2026 年 9 月報導提到 AMD 市值里程碑與半導體族群同步上漲，被視為支撐 SOXL 的成分動能之一。",
       sources: [
         "https://www.fool.com/investing/2026/09/21/why-direxion-daily-semiconductor-bull-3x-etf-just/",
         "https://www.weex.com/news/detail/soxl-stock-jumped-12-yesterday-three-companies-explain-the-entire-move-dmqllbso2t8pzjgltaciadyh",
@@ -212,7 +217,7 @@ const HOLDING_REASON_MAP = {
   ],
   INTC: [
     {
-      text: "報導指出英特爾走勢與市場對產業／政策預期有關，並被列為解釋 SOXL 近期波動的成分之一。",
+      text: "2026 年 9 月報導指出英特爾走勢與市場對產業／政策預期有關，並被列為解釋 SOXL 近期波動的成分之一。",
       sources: [
         "https://www.fool.com/investing/2026/09/21/why-direxion-daily-semiconductor-bull-3x-etf-just/",
         "https://www.weex.com/news/detail/soxl-stock-jumped-12-yesterday-three-companies-explain-the-entire-move-dmqllbso2t8pzjgltaciadyh",
@@ -223,7 +228,7 @@ const HOLDING_REASON_MAP = {
     {
       text: "NVIDIA 為半導體／AI 硬體權值之一；SOXL 透過 ICE Semiconductor 指數（含股票部位與指數交換）放大族群日報酬。",
       sources: [
-        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
+        NPORT_URL,
         "https://www.fool.com/investing/2026/09/21/why-direxion-daily-semiconductor-bull-3x-etf-just/",
       ],
     },
@@ -232,17 +237,18 @@ const HOLDING_REASON_MAP = {
     {
       text: "應用材料屬半導體設備鏈；設備股隨資本支出與製程需求預期波動，會進入指數／交換部位的日報酬。",
       sources: [
-        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
+        NPORT_URL,
       ],
     },
   ],
-};
+});
 
 function reasonsForHolding(h) {
   const reasons = [];
   const sources = new Set();
-  if (h.ticker && HOLDING_REASON_MAP[h.ticker]) {
-    for (const r of HOLDING_REASON_MAP[h.ticker]) {
+  const map = holdingReasonMap();
+  if (h.ticker && map[h.ticker]) {
+    for (const r of map[h.ticker]) {
       reasons.push(r.text);
       (r.sources || []).forEach((s) => sources.add(s));
     }
@@ -252,7 +258,7 @@ function reasonsForHolding(h) {
       "此列為 ICE Semiconductor Index 交換合約（swap）部位：SOXL 用交換取得約 3 倍日曝險，權重來自 SEC N-PORT，非個股直接持股。"
     );
     sources.add(
-      "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      NPORT_URL
     );
   }
   if (h.instrument_type === "cash_equivalent") {
@@ -260,15 +266,15 @@ function reasonsForHolding(h) {
       "現金／國庫約當現金部位：槓桿 ETF 常保留大量現金／附買回等以配合交換保證金與日結算；本身通常不是「漲跌主因」。"
     );
     sources.add(
-      "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      NPORT_URL
     );
   }
   if (!reasons.length) {
     reasons.push(
-      "公開報導未單獨點名此成分近期走勢；權重來自 SEC N-PORT（非當日），貢獻僅在有日報酬時估算出。"
+      "近期沒有公開報導特別點名這檔；權重來自 SEC 官方持股季報（不是今天即時），漲跌取最近一個美股交易日收盤。"
     );
     sources.add(
-      "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      NPORT_URL
     );
   }
   return { reasons, sources: [...sources] };
@@ -289,13 +295,9 @@ function buildEvents(quote, seed) {
   events.push({
     type: "structure",
     severity: "info",
-    title: "持倉權重日期：SEC N-PORT 2026-01-31（非當日）",
-    detail:
-      "下方持股權重來自最新可取得的 SOXL N-PORT（period ended 2026-01-31）。現金與指數交換常佔淨資產大宗；日權重會變動，勿當成今日即時持股。",
-    sources: [
-      seed?.holdings_source?.url ||
-        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
-    ],
+    title: `持股權重日期：SEC N-PORT ${seed?.holdings_asof || "—"}（官方季報，非當日）`,
+    detail: `下方持股權重來自美國證管會（SEC）最新公開的 SOXL N-PORT 持股申報（統計到 ${seed?.holdings_asof || "—"}${seed?.holdings_source?.filing_date ? `，${seed.holdings_source.filing_date} 公告` : ""}）。現金與指數交換常佔淨資產大宗；日權重會變動，勿當成今日即時持股。`,
+    sources: [seed?.holdings_source?.url || NPORT_URL],
   });
   const skHynixNews = (seed?.news || []).find((n) => /SK Hynix|SK Hanik|海力士/i.test(n.title + (n.summary || "")));
   if (skHynixNews) {
@@ -350,9 +352,10 @@ function buildOverallReasons(seed, holdings) {
   if (equityUp.length) {
     const names = equityUp
       .slice(0, 4)
-      .map((h) => `${h.ticker}（權重估 ${h.weightPct}%）`)
+      .map((h) => `${h.ticker}（權重 ${Number(h.weightPct).toFixed(2)}%、漲 ${Number(h.changePct).toFixed(2)}%）`)
       .join("、");
-    up.push(`N-PORT 權益部位中，目前有日報酬資料且為正的包括：${names}（貢獻＝權重×報酬，僅估算）。`);
+    const day = equityUp[0].changePctAsOf ? `（${equityUp[0].changePctAsOf} 美股收盤）` : "";
+    up.push(`持股中最近一個交易日${day}上漲的個股包括：${names}（貢獻＝權重×漲跌，僅估算）。`);
   }
   const newsDrop = (seed?.news || []).find((n) => /Dropped|下跌|跌/i.test(n.title));
   if (newsDrop) {
@@ -369,8 +372,8 @@ function mergeNews(seedNews, rssItems) {
     if (!key || seen.has(key)) return;
     seen.add(key);
     out.push({
-      title: n.title,
-      summary: n.summary || null,
+      title: decodeEntities(n.title),
+      summary: n.summary ? decodeEntities(n.summary) || null : null,
       url: n.url,
       published: n.published || null,
     });
@@ -378,6 +381,52 @@ function mergeNews(seedNews, rssItems) {
   for (const n of seedNews || []) push(n);
   for (const n of rssItems || []) push(n);
   return out.slice(0, 16);
+}
+
+/**
+ * Newer official holdings: EDGAR (needs SEC_CONTACT) or a locally downloaded official primary_doc.xml
+ * (`--nport-file path --accession 0001193125-26-404435 --filed 2026-09-28`). Only ever moves the snapshot forward.
+ */
+async function refreshHoldingsFromSec(seed, seedPath, blockers) {
+  const argv = process.argv.slice(2);
+  const arg = (k) => (argv.includes(k) ? argv[argv.indexOf(k) + 1] : null);
+  let latest = null;
+  try {
+    const file = arg("--nport-file");
+    if (file) {
+      const acc = arg("--accession");
+      if (!acc) throw new Error("--accession required with --nport-file");
+      const parsed = parseNportHoldings(fs.readFileSync(file, "utf8"));
+      if (parsed.seriesId !== "S000027920") throw new Error(`series mismatch ${parsed.seriesId}`);
+      const dir = `https://www.sec.gov/Archives/edgar/data/1424958/${acc.replace(/-/g, "")}`;
+      latest = { ...parsed, accession: acc, filingDate: arg("--filed"), url: `${dir}/${acc}.txt`, indexUrl: `${dir}/${acc}-index.htm` };
+    } else {
+      latest = await fetchLatestSoxlNport();
+    }
+  } catch (e) {
+    console.warn(`SEC N-PORT refresh skipped: ${e.message || e}`);
+    if (!/SEC_CONTACT/.test(String(e.message))) blockers.push(`SEC N-PORT refresh: ${e.message || e}`);
+    return;
+  }
+  if (!latest?.repPdDate || (seed.holdings_asof && latest.repPdDate <= seed.holdings_asof)) {
+    console.log(`SEC N-PORT: seed already at ${seed.holdings_asof}`);
+    return;
+  }
+  console.log(`SEC N-PORT: ${seed.holdings_asof} → ${latest.repPdDate} (${latest.accession})`);
+  seed.holdings_asof = latest.repPdDate;
+  seed.holdings_source = {
+    type: "SEC N-PORT-P",
+    accession: latest.accession,
+    url: latest.url,
+    index_url: latest.indexUrl,
+    filing_date: latest.filingDate || null,
+    net_assets_usd: latest.netAssets,
+    positions_reported: latest.holdingsCount,
+    note: `Official SOXL filing for period ended ${latest.repPdDate}; top ${latest.holdings.length} positions by SEC-reported percent of net assets (swap rows can be negative and fall outside the top list).`,
+  };
+  seed.holdings = latest.holdings;
+  seed.retrieved_at = new Date().toISOString();
+  if (seedPath) fs.writeFileSync(seedPath, JSON.stringify(seed, null, 2) + "\n");
 }
 
 async function main() {
@@ -390,6 +439,9 @@ async function main() {
   }
   const seed = seedInfo.data;
   sourcesUsed.push(`Research seed: ${seedInfo.path}`);
+  await refreshHoldingsFromSec(seed, seedInfo.path, blockers);
+  NPORT_URL = seed.holdings_source?.url || NPORT_URL;
+  NPORT_DATE = seed.holdings_asof || null;
   if (seed.holdings_source?.url) sourcesUsed.push(`SEC N-PORT: ${seed.holdings_source.url}`);
   sourcesUsed.push(`Yahoo quote page: ${YAHOO_QUOTE_URL}`);
 
@@ -460,20 +512,32 @@ async function main() {
     sourcesUsed.push(YAHOO_NEWS_RSS);
   }
 
+  // Per-holding return = last completed US session close vs the prior close (Yahoo chart), fetched today.
+  // The seed's old recent_change_pct is never shown (it was a one-off research snapshot).
+  const dayChanges = new Map();
+  for (const h of seed.holdings || []) {
+    if (h.instrument_type !== "equity" || !h.ticker || dayChanges.has(h.ticker)) continue;
+    const d = await fetchDailyChange(h.ticker, { ua: UA });
+    dayChanges.set(h.ticker, d);
+    if (!d) blockers.push(`Yahoo chart ${h.ticker}: no completed daily close pair`);
+    await sleep(120);
+  }
   const holdings = (seed.holdings || []).map((h) => {
     const weightPct = round(h.weight_pct, 4);
-    const changePct = h.recent_change_pct != null ? round(h.recent_change_pct, 2) : null;
+    const d = h.ticker ? dayChanges.get(h.ticker) : null;
+    const changePct = d ? round(d.changePct, 2) : null;
     // Estimate: weight% × return% / 100 → contribution in percentage points of basket (NOT 3x ETF points)
     const contributionPct =
       weightPct != null && changePct != null ? round((weightPct * changePct) / 100, 4) : null;
     const { reasons, sources } = reasonsForHolding(h);
+    if (d?.source) sources.push(d.source);
     return {
       ticker: h.ticker || null,
       name: h.name,
       weightPct,
-      price: null,
+      price: d ? round(d.close, 2) : null,
       changePct,
-      changePctAsOf: h.recent_change_asof || null,
+      changePctAsOf: d?.date || null,
       contributionPct,
       contributionNote:
         contributionPct != null
@@ -484,6 +548,7 @@ async function main() {
       sources,
     };
   });
+  if (dayChanges.size) sourcesUsed.push(`Yahoo chart daily closes for ${dayChanges.size} equity holdings`);
 
   const news = mergeNews(seed.news, liveNews.items);
   const { overallUpReasons, overallDownReasons } = buildOverallReasons(seed, holdings);
@@ -511,8 +576,7 @@ async function main() {
     },
     holdingsAsOf: seed.holdings_asof || null,
     holdingsSource: seed.holdings_source || null,
-    holdingsFreshnessNote:
-      "Holdings weights are from the latest SOXL SEC N-PORT located in research (period ended 2026-01-31), not a same-day Direxion CSV. Cash + index swaps dominate reported net assets; daily weights change.",
+    holdingsFreshnessNote: `Holdings weights are from the latest public SOXL SEC N-PORT (period ended ${seed.holdings_asof || "—"}), not a same-day Direxion CSV. Cash + index swaps dominate reported net assets; daily weights change.`,
     leverageNote:
       "SOXL seeks ~3× the daily performance of the ICE Semiconductor Index. Contribution ≈ weight × return is an unlevered basket estimate only; ETF moves are magnified and path-dependent.",
     events,
@@ -522,7 +586,7 @@ async function main() {
     overallDownReasons,
     disclaimers: [
       "非投資建議。SOXL 為 3 倍日槓桿 ETF，波動與虧損風險極高，不適合長期持有假設。",
-      "持股權重來自 SEC N-PORT（截至 2026-01-31），不是今日即時持股；貢獻度為估算（權重×報酬），未直接等於 ETF 點數。",
+      `持股權重來自 SEC N-PORT（截至 ${seed.holdings_asof || "—"}），不是今日即時持股；貢獻度為估算（權重×漲跌），未直接等於 ETF 點數。`,
       "報價來自公開 Yahoo Finance 頁面；缺欄不捏造。",
     ],
     sourcesUsed,

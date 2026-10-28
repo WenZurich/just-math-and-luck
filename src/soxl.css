@@ -201,9 +201,47 @@
 }
 .sx-empty { color: var(--text-muted); font-size: 0.9rem; }
 
+.sx-asof { display: block; margin-top: 0.1rem; font-family: inherit; font-size: 0.68rem; font-weight: 500; color: var(--text-muted); }
+.sx-unit { font-family: inherit; font-size: 0.72rem; font-weight: 600; }
+.sx-na { color: var(--text-muted); font-weight: 500; font-family: inherit; font-size: 0.78rem; }
+.sx-panel-lead a { color: var(--accent); font-weight: 600; }
+
 @media (max-width: 720px) {
   .sx-hero { grid-template-columns: 1fr; }
   .sx-price { font-size: 1.7rem; }
   .sx-overall-grid { grid-template-columns: 1fr; }
-  .sx-table { min-width: 560px; }
+  /* Mobile: each holding becomes a card (no sideways scrolling, nothing clipped). */
+  .sx-table-wrap { overflow: visible; }
+  .sx-table { min-width: 0; display: block; }
+  .sx-table thead { display: none; }
+  .sx-table tbody { display: grid; gap: 0.55rem; }
+  .sx-table tr.sx-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.35rem 0.6rem;
+    padding: 0.7rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface, transparent);
+  }
+  .sx-table td { display: block; padding: 0; border: 0; }
+  .sx-table td.sx-cell-name { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.5rem; }
+  .sx-table td.sx-cell-name .sx-name { flex: 1 1 60%; margin: 0; }
+  .sx-table td.sx-cell-name .sx-itype { margin: 0; }
+  .sx-table td.sx-num::before,
+  .sx-table td.sx-reasons::before {
+    content: attr(data-label);
+    display: block;
+    font-family: var(--font, inherit);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 0.1rem;
+  }
+  .sx-table td.sx-num { font-size: 0.95rem; white-space: normal; }
+  .sx-table td.sx-reasons { grid-column: 1 / -1; border-top: 1px dashed var(--border); padding-top: 0.4rem; }
+  .sx-table tr.sx-row-cash_equivalent td.sx-reasons,
+  .sx-table tr.sx-row-swap td.sx-reasons { font-size: 0.78rem; }
 }
+
+.sx-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

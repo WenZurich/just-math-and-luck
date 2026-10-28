@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-27T09:30:00+08:00",
+    "updated": "2026-10-28T09:20:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -10257,6 +10257,172 @@
           "本サイトはウォッチ：新手法はコスト控除後に単純基準を上回ることが先"
         ]
       },
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-simple-portfolios-consistent-returns-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "asset_allocation",
+      "title": "Simple Portfolios that Deliver Consistent Decent Returns",
+      "titleLocalized": {
+        "en": "Simple Portfolios that Deliver Consistent Decent Returns",
+        "zh-Hant": "簡單的投資組合，也能穩穩賺到不錯的報酬",
+        "zh-Hans": "简单的投资组合，也能稳稳赚到不错的报酬",
+        "ja": "シンプルなポートフォリオで安定してまずまずのリターンを"
+      },
+      "authors": [
+        "Oskar Edén Wallberg",
+        "Alexander Karolin"
+      ],
+      "year": 2026,
+      "summary": "Most portfolio research assumes shorting, leverage and frequent trading, which a regular saver cannot use. This study tests well-known portfolio methods under a private investor's real limits: a handful of liquid US ETFs, monthly rebalancing with trading costs, no shorting and no leverage, and every setting easy to explain. Without any return forecast, risk-only methods such as risk parity and minimum volatility (built on a statistical factor risk model) already work; with a forecast, the authors add momentum signals and a shrunk regression on top of the classic mean-variance setup. Portfolios of as few as three ETFs gave steady, decent returns over about twenty years without being tuned to the test period, and beat the standard 60/40 mix. The code is public. Takeaway for the site: a watch item for a future plain-language \"long-term ETF allocation\" panel, not a stock-picking signal.",
+      "summaryLocalized": {
+        "en": "Tests standard portfolio methods under private-investor limits (a few liquid US ETFs, monthly rebalancing with costs, no shorting or leverage, interpretable parameters). Risk-only methods (risk parity, minimum volatility on a factor risk model) and Markowitz plus momentum with ridge regression gave consistent, decent returns over ~20 years with as few as three ETFs, beating 60/40 without backtest tuning. Open-source code. Site use: watch — possible long-term ETF allocation panel, not a stock signal.",
+        "zh-Hant": "大部分投資組合研究都假設可以放空、開槓桿、頻繁交易，一般存錢的人根本做不到。這篇研究改用散戶的真實限制來測試常見方法：只用幾檔流動性好的美國 ETF、每月調整一次並扣交易成本、不放空、不借錢，而且每個設定都講得清楚。完全不預測報酬時，只看風險的做法（風險平價、最低波動）就已經有效；有預測時，再把動能訊號加進傳統的「報酬對風險」配置。只要三檔 ETF 的組合，在大約二十年間就能穩定拿到不錯的報酬，沒有針對回測期間調參數，還贏過常見的股六債四。程式碼公開。本站列為觀察：未來可做成白話的「長期 ETF 配置」區塊，不是選股訊號。",
+        "zh-Hans": "大部分投资组合研究都假设可以做空、开杠杆、频繁交易，一般存钱的人根本做不到。这篇研究改用散户的真实限制来测试常见方法：只用几只流动性好的美国 ETF、每月调整一次并扣交易成本、不做空、不借钱，而且每个设定都讲得清楚。完全不预测报酬时，只看风险的做法（风险平价、最低波动）就已经有效；有预测时，再把动量信号加进传统的“报酬对风险”配置。只要三只 ETF 的组合，在大约二十年间就能稳定拿到不错的报酬，没有针对回测期间调参数，还赢过常见的股六债四。代码公开。本站列为观察：未来可做成白话的“长期 ETF 配置”区块，不是选股信号。",
+        "ja": "多くのポートフォリオ研究は空売り・レバレッジ・頻繁な売買を前提にしているが、個人投資家には使えない。本研究は流動性の高い米国ETF数本、月次リバランス（コスト込み）、空売り・レバレッジなし、説明可能なパラメータという個人の現実的な制約で定番手法を検証。リターン予測なしでもリスクパリティや最小分散が機能し、予測ありではモメンタムを平均分散最適化に加える。わずか3本のETFでも約20年間、期間に合わせた調整なしで安定したまずまずのリターンを出し、60/40を上回った。コード公開。本サイトはウォッチ：長期ETF配分パネルの候補で、銘柄選択シグナルではない。"
+      },
+      "plainTakeaways": [
+        "只用三檔美國 ETF、每月調一次，也能穩穩贏過股六債四",
+        "不用預測報酬，光是控制風險就有效",
+        "規則簡單、每個設定都講得清楚，散戶做得到",
+        "本站觀察：可做長期 ETF 配置參考，不是選股訊號"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Just three US ETFs, rebalanced monthly, steadily beat a 60/40 mix",
+          "No return forecast needed — managing risk alone already works",
+          "Simple, explainable rules a regular investor can follow",
+          "Site use: watch — long-term ETF allocation idea, not a stock signal"
+        ],
+        "zh-Hant": [
+          "只用三檔美國 ETF、每月調一次，也能穩穩贏過股六債四",
+          "不用預測報酬，光是控制風險就有效",
+          "規則簡單、每個設定都講得清楚，散戶做得到",
+          "本站觀察：可做長期 ETF 配置參考，不是選股訊號"
+        ],
+        "zh-Hans": [
+          "只用三只美国 ETF、每月调一次，也能稳稳赢过股六债四",
+          "不用预测报酬，光是控制风险就有效",
+          "规则简单、每个设定都讲得清楚，散户做得到",
+          "本站观察：可做长期 ETF 配置参考，不是选股信号"
+        ],
+        "ja": [
+          "米国ETF3本・月次リバランスでも60/40を安定して上回る",
+          "リターン予測なしでもリスク管理だけで機能する",
+          "シンプルで説明できるルールなので個人でも実行可能",
+          "本サイトはウォッチ：長期ETF配分の参考で銘柄シグナルではない"
+        ]
+      },
+      "formulas": [
+        "risk parity: choose w ≥ 0, Σw = 1 so each ETF adds the same share of risk: w_i × (Σw)_i = (wᵀΣw) / N",
+        "minimum volatility: minimize wᵀΣw subject to w ≥ 0, Σw = 1 (no shorting, no leverage)",
+        "with forecast: maximize μ̂ᵀw − (γ/2) wᵀΣw − κ × Σ|w_i − w_i,prev| (trading-cost penalty), w ≥ 0, Σw = 1",
+        "μ̂ from momentum signals combined by ridge regression; Σ from a statistical factor model (fitted by expectation maximization)",
+        "rebalance monthly; compare net-of-cost return, volatility and max drawdown against 60/40",
+        "site use: watch only — no screener change while the math gate is not passed"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: an ETF allocation method for long-term savers, not a stock-picking signal. Would need our own net-of-cost backtest on the site universe first. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2610.36491",
+        "https://doi.org/10.48550/arXiv.2610.36491",
+        "https://github.com/AlexEmrik/consistent-decent-returns"
+      ],
+      "tags": [
+        "us",
+        "etf",
+        "asset-allocation",
+        "risk-parity",
+        "minimum-volatility",
+        "momentum",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-weekend-crypto-volatility-monday-risk-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "Weekend Crypto Volatility and Monday Market Risk",
+      "titleLocalized": {
+        "en": "Weekend Crypto Volatility and Monday Market Risk",
+        "zh-Hant": "週末加密貨幣大波動，週一美股風險跟著變大？",
+        "zh-Hans": "周末加密货币大波动，周一美股风险跟着变大？",
+        "ja": "週末の暗号資産ボラティリティと月曜の市場リスク"
+      },
+      "authors": [
+        "Pedram Ebadollahyvahed",
+        "Nneka Umeorah"
+      ],
+      "year": 2026,
+      "summary": "Crypto trades all weekend while stock and bond markets are closed. This study asks whether a wild weekend in crypto warns of a bumpier Monday elsewhere. Using daily high-low price ranges for Bitcoin, Ether and XRP plus the S&P 500, gold and a US Treasury ETF from 2017 to 2026, the authors add one shared \"weekend crypto swing\" measure to a standard volatility forecasting model. Before 2024 it told you little; since then it matters: a one-standard-deviation jump in weekend crypto swings came with roughly 27–54% more expected Monday variance, and out-of-sample forecast errors fell 11–22%, though the evidence is stronger in some markets than others. Friday crypto swings do not do the same thing, and the change point lands in late 2023, around the run-up to US spot-Bitcoin ETFs; why it happens is still unclear. Takeaway for the site: a watch item for a possible Monday risk note, not a buy or sell rule.",
+      "summaryLocalized": {
+        "en": "Adds a common weekend crypto (BTC/ETH/XRP) range-based volatility factor to HAR models for Monday variance of the S&P 500, gold and a Treasury ETF, 2017–2026. Weak before 2024, significant after: +1 s.d. ≈ 27–54% higher fitted Monday variance, 11–22% lower out-of-sample QLIKE loss, with mixed significance by market. Friday crypto volatility does not replicate; break estimated late 2023 near spot-Bitcoin ETF anticipation; mechanism unresolved. Site use: watch — possible Monday risk note, not a trade rule.",
+        "zh-Hant": "加密貨幣週末照常交易，股市債市卻休市。這篇研究問：週末幣圈震很大，週一其他市場會不會也比較顛簸？作者用 2017 到 2026 年比特幣、以太幣、XRP，以及標普 500、黃金、美國公債 ETF 每天的最高最低價差，在常見的波動預測模型裡加進一個共同的「週末幣圈震幅」指標。2024 年以前幾乎沒用；之後就有用了：週末幣圈震幅高出平常一個標準差，預估的週一波動大約多 27–54%，樣本外預測誤差少了 11–22%，不過各市場證據強弱不一。週五的幣圈震幅沒有同樣效果，轉折點大約在 2023 年底、市場期待美國比特幣現貨 ETF 的時候，原因還沒弄清楚。本站列為觀察：未來可當成「週一風險提醒」，不是買賣規則。",
+        "zh-Hans": "加密货币周末照常交易，股市债市却休市。这篇研究问：周末币圈震很大，周一其他市场会不会也比较颠簸？作者用 2017 到 2026 年比特币、以太币、XRP，以及标普 500、黄金、美国国债 ETF 每天的最高最低价差，在常见的波动预测模型里加进一个共同的“周末币圈震幅”指标。2024 年以前几乎没用；之后就有用了：周末币圈震幅高出平常一个标准差，预估的周一波动大约多 27–54%，样本外预测误差少了 11–22%，不过各市场证据强弱不一。周五的币圈震幅没有同样效果，转折点大约在 2023 年底、市场期待美国比特币现货 ETF 的时候，原因还没弄清楚。本站列为观察：未来可当成“周一风险提醒”，不是买卖规则。",
+        "ja": "暗号資産は週末も取引されるが、株式・債券市場は休場。本研究は週末の暗号資産の大きな値動きが月曜の他市場の荒れを予告するかを検証。2017〜2026年のBTC・ETH・XRPとS&P500・金・米国債ETFの日次高安レンジを使い、一般的なボラティリティ予測モデルに共通の「週末暗号資産ボラ」要因を追加。2024年以前はほぼ効果なし、以降は1標準偏差の上昇で月曜の予測分散が約27〜54%増え、サンプル外の予測誤差は11〜22%減少（市場により証拠の強さは異なる）。金曜のボラでは再現せず、構造変化は2023年末の現物ビットコインETF期待の時期で、仕組みは未解明。本サイトはウォッチ：月曜リスク注記の候補で売買ルールではない。"
+      },
+      "plainTakeaways": [
+        "週末幣圈震很大，週一美股波動常常也變大（2024 年起才明顯）",
+        "週末震幅高一個標準差，週一預估波動多約 27–54%",
+        "週五的幣圈波動沒有這個效果，原因還不清楚",
+        "本站觀察：可當週一風險提醒，不是買賣訊號"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Big weekend crypto swings now often mean a bumpier Monday for US stocks (clear only since 2024)",
+          "One standard deviation more weekend swing ≈ 27–54% more expected Monday variance",
+          "Friday crypto swings don't do this, and the reason is still unclear",
+          "Site use: watch — a Monday risk note, not a trade signal"
+        ],
+        "zh-Hant": [
+          "週末幣圈震很大，週一美股波動常常也變大（2024 年起才明顯）",
+          "週末震幅高一個標準差，週一預估波動多約 27–54%",
+          "週五的幣圈波動沒有這個效果，原因還不清楚",
+          "本站觀察：可當週一風險提醒，不是買賣訊號"
+        ],
+        "zh-Hans": [
+          "周末币圈震很大，周一美股波动常常也变大（2024 年起才明显）",
+          "周末震幅高一个标准差，周一预估波动多约 27–54%",
+          "周五的币圈波动没有这个效果，原因还不清楚",
+          "本站观察：可当周一风险提醒，不是买卖信号"
+        ],
+        "ja": [
+          "週末の暗号資産の大きな値動きは月曜の米株の荒れにつながりやすい（2024年以降）",
+          "週末ボラが1標準偏差高いと月曜の予測分散は約27〜54%増",
+          "金曜の暗号資産ボラでは同じ効果がなく理由は未解明",
+          "本サイトはウォッチ：月曜リスク注記で売買シグナルではない"
+        ]
+      },
+      "formulas": [
+        "daily range variance (Parkinson): RV_t = (ln H_t − ln L_t)² / (4 ln 2)",
+        "weekend crypto factor W = first principal component (or average of z-scores) of Sat+Sun range variance for BTC, ETH, XRP",
+        "HAR model: RV_Mon = β0 + βd RV_Fri + βw RV_week + βm RV_month + γ × W + ε",
+        "forecast loss QLIKE = RV / RV̂ − ln(RV / RV̂) − 1 (lower is better)",
+        "site use: watch only — no screener change while the math gate is not passed"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: predicts Monday volatility size, not direction, and only since 2024 with mixed significance. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2610.35702",
+        "https://doi.org/10.48550/arXiv.2610.35702"
+      ],
+      "tags": [
+        "us",
+        "volatility",
+        "crypto",
+        "calendar-effect",
+        "har",
+        "risk",
+        "watch"
+      ],
       "coverUrl": "./covers/placeholder-paper.svg",
       "coverFallback": "./covers/placeholder-paper.svg"
     }
