@@ -101,6 +101,25 @@ function click(el) {
 
 async function main() {
   console.log("▶ predeploy-smoke: start");
+  {
+    // SEC contact guard: default must be the site inbox; never a placeholder or the owner's name.
+    const sc = await import(pathToFileURL(path.join(ROOT, "scripts/sec-contact.mjs")).href);
+    const bad = (s) => /tzuhsiang|example\.(com|org|net)/i.test(String(s || ""));
+    const resolved = sc.resolveSecContact({});
+    if (bad(sc.SEC_DEFAULT_CONTACT) || bad(resolved) || bad(sc.SEC_UA)) fail("SEC contact contains a placeholder or the owner's name");
+    else if (resolved !== "JustMathAndLuck justmathluck@mail.grokbot.com") fail(`SEC default contact unexpected: ${resolved}`);
+    else if (sc.resolveSecContact({ SEC_CONTACT: ["x tzuhsiang", "example.com"].join("@") }) !== null || sc.isRealSecContact(["JML someone", "example.com"].join("@"))) fail("SEC guard must refuse placeholder/name contacts");
+    else ok("SEC contact = site inbox; placeholder/name contacts refused");
+    const scan = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((d) => {
+      const f = path.join(dir, d.name);
+      if (d.isDirectory()) return ["node_modules", ".git", "dist", "docs"].includes(d.name) ? [] : scan(f);
+      return /\.(m?js|json|md|toml|html|ya?ml|txt)$/.test(d.name) ? [f] : [];
+    });
+    const guardFiles = new Set(["scripts/predeploy-smoke.mjs", "scripts/sec-contact.mjs"]);
+    const hits = scan(ROOT).filter((f) => !guardFiles.has(path.relative(ROOT, f)) && /tzuhsiang|[\w.+-]+@example\.(com|org|net)/i.test(fs.readFileSync(f, "utf8")));
+    if (hits.length) fail(`owner name / example.com contact found in: ${hits.map((f) => path.relative(ROOT, f)).join(", ")}`);
+    else ok("no owner-name or example.com contact strings in repo sources");
+  }
   if (!fs.existsSync(SCREENER)) {
     fail(`missing screener ${SCREENER}`);
     process.exit(1);

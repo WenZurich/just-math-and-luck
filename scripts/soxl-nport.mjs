@@ -6,9 +6,10 @@
  */
 export const SOXL_SERIES_ID = "S000027920";
 export const SOXL_CIK = "1424958";
-// SEC fair-access policy: automated clients must send a User-Agent with a real contact email
-// (same convention as fetch-company-profiles.mjs). Unset ⇒ no EDGAR call; caller keeps the last official snapshot.
-export const SEC_UA = process.env.SEC_CONTACT ? `just-math-and-luck ${process.env.SEC_CONTACT}` : null;
+// SEC fair-access policy: automated clients must send a User-Agent with a real contact email.
+// Shared default lives in sec-contact.mjs (site inbox; SEC_CONTACT may override). No real contact ⇒ no EDGAR call.
+import { SEC_UA as SEC_UA_SHARED } from "./sec-contact.mjs";
+export const SEC_UA = SEC_UA_SHARED;
 
 const ENTITY = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " " };
 /** Decode HTML entities (repeatedly, for double-escaped feeds like &amp;lt;p&amp;gt;), then strip tags. */
@@ -107,7 +108,7 @@ export function parseNportHoldings(xml, topN = 20) {
 
 /** Newest SOXL N-PORT-P from EDGAR (series-level atom feed). */
 export async function fetchLatestSoxlNport({ fetchImpl = fetch, ua = SEC_UA } = {}) {
-  if (!ua) throw new Error("SEC_CONTACT not set; EDGAR refresh skipped");
+  if (!ua) throw new Error("No real SEC contact (SEC_CONTACT placeholder/invalid); EDGAR refresh skipped");
   const feed = `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${SOXL_SERIES_ID}&type=NPORT-P&dateb=&owner=include&count=5&output=atom`;
   const r = await fetchImpl(feed, { headers: { "User-Agent": ua, Accept: "application/atom+xml" } });
   if (!r.ok) throw new Error(`EDGAR feed HTTP ${r.status}`);

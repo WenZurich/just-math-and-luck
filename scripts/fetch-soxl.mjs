@@ -384,7 +384,7 @@ function mergeNews(seedNews, rssItems) {
 }
 
 /**
- * Newer official holdings: EDGAR (needs SEC_CONTACT) or a locally downloaded official primary_doc.xml
+ * Newer official holdings: EDGAR (site SEC contact from sec-contact.mjs) or a locally downloaded official primary_doc.xml
  * (`--nport-file path --accession 0001193125-26-404435 --filed 2026-09-28`). Only ever moves the snapshot forward.
  */
 async function refreshHoldingsFromSec(seed, seedPath, blockers) {
@@ -405,7 +405,7 @@ async function refreshHoldingsFromSec(seed, seedPath, blockers) {
     }
   } catch (e) {
     console.warn(`SEC N-PORT refresh skipped: ${e.message || e}`);
-    if (!/SEC_CONTACT/.test(String(e.message))) blockers.push(`SEC N-PORT refresh: ${e.message || e}`);
+    if (!/No real SEC contact/.test(String(e.message))) blockers.push(`SEC N-PORT refresh: ${e.message || e}`);
     return;
   }
   if (!latest?.repPdDate || (seed.holdings_asof && latest.repPdDate <= seed.holdings_asof)) {

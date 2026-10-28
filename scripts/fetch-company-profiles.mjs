@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { SEC_UA as SEC_UA_SHARED } from "./sec-contact.mjs";
 /**
  * Official company-profile snapshot for 查股「公司在做什麼」fallback.
  *
@@ -31,9 +32,9 @@ const SEC_TICKERS = "https://www.sec.gov/files/company_tickers.json";
 const SEC_SUB = (cik10) => `https://data.sec.gov/submissions/CIK${cik10}.json`;
 const UA_BROWSER = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36";
 // SEC fair-access policy: automated clients must send a User-Agent with a real contact email.
-// Set SEC_CONTACT="Name email@domain" (no default: we never make one up). Unset → SEC step skipped,
+// Default is the site's own inbox (sec-contact.mjs); SEC_CONTACT may override. No real contact → SEC step skipped,
 // previous US rows kept; the browser lookup still reads SEC submissions live as a fallback.
-const UA_SEC = process.env.SEC_CONTACT ? `just-math-and-luck ${process.env.SEC_CONTACT}` : null;
+const UA_SEC = SEC_UA_SHARED;
 
 const MOPS_MAX = Number(process.env.MOPS_MAX || 120); // MOPS requests per run (polite)
 const MOPS_GAP_MS = 1200;
@@ -200,7 +201,7 @@ async function main() {
 
   // --- US covered tickers from SEC EDGAR ---
   let cikMap = null;
-  if (!UA_SEC) { console.warn("SEC_CONTACT not set; skipping SEC refresh (keeping previous US rows)"); status.sec = "skipped: SEC_CONTACT unset"; }
+  if (!UA_SEC) { console.warn("No real SEC contact; skipping SEC refresh (keeping previous US rows)"); status.sec = "skipped: no real SEC contact"; }
   else try {
     const j = await getJson(SEC_TICKERS, UA_SEC);
     cikMap = new Map(Object.values(j).map((r) => [String(r.ticker).toUpperCase().replace(/\./g, "-"), r]));
