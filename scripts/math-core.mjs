@@ -841,3 +841,139 @@ export function techSnapshotFromBars(bars, { minBars = 60 } = {}) {
     aboveSma200: above(sma200),
   };
 }
+
+/**
+ * Regime-aware ranking dial + screen gates (moved from market-regime scoreAdjust / passesScreenA /
+ * listSizeForStance and daily-scan screensFor, 2026-10-29). Same branch order and the same left-to-right
+ * additions as the legacy code, so on the pipeline's real domain (metric fields number|null from round(),
+ * flags boolean, finite base score) every score, note, gate and tag is bit-identical.
+ * Field view: numbers (incl. ±Infinity, NaN) pass through unchanged; null/undefined ⇒ null; any other type
+ * (string, boolean, object) ⇒ null — legacy coerced "9" ≥ 8 to true. dayPct keeps the legacy distinction:
+ * null ⇒ RS = −index (legacy quirk, kept for bit-identity and flagged), undefined/junk ⇒ RS NaN (never passes).
+ * Index day % : null/undefined ⇒ 0 (legacy `?? 0`); a non-number ⇒ NaN (legacy coerced strings).
+ * Guards added: base score not a finite number ⇒ −1e9 (baseRankingScore's own junk sentinel) instead of
+ * NaN/±Infinity reaching the sort; m not an object ⇒ −1e9 / gate false / tags ["observe"] (legacy threw).
+ */
+const STANCE_SCORE_JUNK = -1e9;
+function regimeFieldView(m) {
+  const num = (v) => (typeof v === "number" ? v : null);
+  const d = m.dayPct;
+  return {
+    dayPct: typeof d === "number" || d === null ? d : undefined,
+    d5Pct: num(m.d5Pct),
+    d1mPct: num(m.d1mPct),
+    volRatio: num(m.volRatio),
+    above20: !!m.above20,
+    above50: !!m.above50,
+    above200: !!m.above200,
+  };
+}
+function indexDayView(indexDayPct) {
+  if (indexDayPct == null) return 0;
+  return typeof indexDayPct === "number" ? indexDayPct : NaN;
+}
+
+export function regimeScoreAdjust(baseScore, m, regime) {
+  if (!isFiniteNumber(baseScore)) return { score: STANCE_SCORE_JUNK, regimeNote: null };
+  if (!regime?.cycleStance) return { score: baseScore, regimeNote: null };
+  if (m === null || typeof m !== "object") return { score: STANCE_SCORE_JUNK, regimeNote: null };
+  const x = regimeFieldView(m);
+  const stance = regime.cycleStance;
+  let score = baseScore;
+  let regimeNote = null;
+  if (stance === "defensive" || stance === "selective") {
+    if (x.above20 && x.above50) score += 1.2;
+    else score -= 1.5;
+    if (x.d1mPct != null && x.d1mPct >= 8 && x.volRatio != null && x.volRatio < 0.8) {
+      score -= 2.5;
+      regimeNote = "週期偏熱：量能不足的高 RS 降權";
+    }
+    if (x.volRatio != null && x.volRatio < 0.7 && (x.dayPct ?? 0) > 2) {
+      score -= 1.2;
+      regimeNote = regimeNote || "週期偏熱：縮量上漲降權";
+    }
+    if (!regimeNote) regimeNote = "週期偏防禦：提高雙均線／品質門檻";
+  } else if (stance === "aggressive" || stance === "constructive") {
+    if ((x.d1mPct ?? 0) < 0 && x.volRatio != null && x.volRatio >= 1.5 && x.above200) {
+      score += 2.2;
+      regimeNote = "週期偏積極：價弱量增（firm-hands）加權";
+    }
+    if (x.volRatio != null && x.volRatio >= 1.1 && (x.dayPct ?? 0) > 0) {
+      score += 1.0;
+      regimeNote = regimeNote || "週期偏積極：早段放量相對強度加權";
+    }
+    if (!x.above50 && x.above200) {
+      score += 0.6;
+      regimeNote = regimeNote || "週期偏積極：允許站上 SMA200 但低於 SMA50";
+    }
+    if (!regimeNote) regimeNote = "週期偏積極：放寬進場節奏";
+  } else if (stance === "stabilize_first") {
+    score -= 3;
+    if (x.above20) score += 1.5;
+    else score -= 2;
+    regimeNote = "恐慌相位：先穩定再加碼，觀察權重";
+  }
+  return { score, regimeNote };
+}
+
+export function screenAPass(m, indexDayPct, regime) {
+  if (m === null || typeof m !== "object") return false;
+  const x = regimeFieldView(m);
+  const rs = x.dayPct - indexDayView(indexDayPct);
+  const stance = regime?.cycleStance;
+  if (stance === "stabilize_first") {
+    return !!x.above20 && (rs >= 1.0 || (x.volRatio ?? 0) >= 1.5);
+  }
+  if (stance === "defensive") {
+    const strong =
+      x.above20 && x.above50 && (rs >= 0.8 || (x.d5Pct ?? 0) >= 4) && (x.volRatio == null || x.volRatio >= 1.0);
+    if (strong && (x.d1mPct ?? 0) >= 12 && x.volRatio != null && x.volRatio < 0.8) return false;
+    return strong;
+  }
+  if (stance === "selective") {
+    return x.above50 && (rs >= 0.5 || (x.d5Pct ?? 0) >= 3 || ((x.d1mPct ?? 0) >= 6 && x.above20));
+  }
+  if (stance === "aggressive" || stance === "constructive") {
+    const early =
+      rs >= 0.3 ||
+      x.dayPct >= 1.0 ||
+      (x.d5Pct ?? 0) >= 2 ||
+      ((x.d1mPct ?? 0) >= 4 && x.above20) ||
+      (x.above200 && (x.volRatio ?? 0) >= 1.4 && (x.d1mPct ?? 0) < 0);
+    if (stance === "constructive") return early && (x.above20 || x.above200);
+    return early && (x.above200 || x.above20 || (x.volRatio ?? 0) >= 1.3);
+  }
+  const strongDay = rs >= 0.5 || x.dayPct >= 1.5;
+  const mom5 = (x.d5Pct ?? 0) >= 3;
+  const mom1m = (x.d1mPct ?? 0) >= 6 && x.above20;
+  const aboveBoth = x.above20 && x.above50 && ((x.d5Pct ?? 0) >= 0 || rs >= 0);
+  return strongDay || mom5 || mom1m || aboveBoth;
+}
+
+/** Screen B volume floor by stance (defensive 1.0, aggressive 1.1, else 1.2). */
+export function screenBVolFloor(stance) {
+  return stance === "defensive" ? 1.0 : stance === "aggressive" ? 1.1 : 1.2;
+}
+
+export function screenTags(m, indexDayPct, { forceObserve = false, regime = null } = {}) {
+  if (forceObserve) return ["observe"];
+  if (m === null || typeof m !== "object") return ["observe"];
+  const x = regimeFieldView(m);
+  const s = [];
+  if (screenAPass(m, indexDayPct, regime)) s.push("A");
+  if (x.volRatio != null && x.volRatio >= screenBVolFloor(regime?.cycleStance)) s.push("B");
+  if (!s.includes("A") && (x.d1mPct ?? 0) >= 8 && x.above20 && x.above50 && regime?.cycleStance !== "stabilize_first") {
+    s.push("A");
+  }
+  if (!s.length) s.push("observe");
+  return s;
+}
+
+/** Shortlist size by stance (legacy listSizeForStance, default 12). */
+export function stanceListSize(stance, defaultN = 12) {
+  if (stance === "defensive") return Math.max(6, Math.round(defaultN * 0.55));
+  if (stance === "selective") return Math.max(8, Math.round(defaultN * 0.75));
+  if (stance === "stabilize_first") return Math.max(5, Math.round(defaultN * 0.45));
+  if (stance === "aggressive") return Math.min(14, defaultN + 2);
+  return defaultN;
+}

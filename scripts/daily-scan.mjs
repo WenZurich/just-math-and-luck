@@ -15,7 +15,6 @@ import {
   seriesRet,
   computeMarketRegime,
   scoreAdjust,
-  passesScreenA,
   listSizeForStance,
   stubRegimeFromLatestIndices,
   buildKostolanyStrategyPack,
@@ -26,6 +25,7 @@ import {
   volumeRatioObserved,
   avgVolume,
   rsVsIndex,
+  screenTags,
   baseRankingScore,
   peakInWindow,
   drawdownFromPeak,
@@ -301,33 +301,9 @@ function scorePick(m, indexDayPct, { preferVol = true, regime = null } = {}) {
   return adj.score;
 }
 
-function passesA(m, indexDayPct, regime = null) {
-  return passesScreenA(m, indexDayPct, regime);
-}
-
 function screensFor(m, indexDayPct, { forceObserve = false, regime = null } = {}) {
-  if (forceObserve) return ["observe"];
-  const s = [];
-  if (passesA(m, indexDayPct, regime)) s.push("A");
-  const volFloor =
-    regime?.cycleStance === "defensive"
-      ? 1.0
-      : regime?.cycleStance === "aggressive"
-        ? 1.1
-        : 1.2;
-  if (m.volRatio != null && m.volRatio >= volFloor) s.push("B");
-  // mid-term momentum tag even if day weak
-  if (
-    !s.includes("A") &&
-    (m.d1mPct ?? 0) >= 8 &&
-    m.above20 &&
-    m.above50 &&
-    regime?.cycleStance !== "stabilize_first"
-  ) {
-    s.push("A");
-  }
-  if (!s.length) s.push("observe");
-  return s;
+  // math-core (guarded 2026-10-29): screen A gate, screen B volume floor by stance, 1m-momentum A tag
+  return screenTags(m, indexDayPct, { forceObserve, regime });
 }
 
 function whyZh(m, indexDayPct, market, regime = null) {

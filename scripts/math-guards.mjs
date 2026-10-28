@@ -2431,6 +2431,223 @@ function techFromBars(bars) {
   ok(`gooaye technicals (${n} cases: techSnapshotFromBars 6000 published-precision charts (US 2 dp / Yahoo float32, TW tick grid, integer volumes incl. 0) = verbatim legacy techFromBars bit-for-bit, 59/60/61 and 199/200/201 bar boundaries, every output finite/boolean/null; ${brute} brute-oracle values (reverse-order means, ratio form of returns); exact ×2 scaling, locality outside all windows, bar n−22 moves pct1m only, last-close monotonicity, 21-bars-back volume outside window; flat chart, prev/ref close 0, zero volume, +10%; junk close/volume (NaN/±∞/string/null) ⇒ null never NaN (legacy NaN/Infinity leak reproduced); caller path: ${packCmp} random universes × 4 packs × 5 rate regimes = legacy module (${hitCount} hits); wiring; live hits meet their pack floors)`);
 }
 
+// ── Regime ranking dial + screen gates: scoreAdjust, screen A, screen B floor, 1m-momentum tag, list size (2026-10-29) ──
+// Dependencies: [score] base + stance + dayPct/d1mPct/volRatio/above20/50/200; [A] stance + rs = dayPct − index day %
+// + d5Pct/d1mPct/volRatio/flags; [B] volRatio vs stance floor; [size] stance + defaultN. Each check runs the function on data.
+{
+  const C = await import("./math-core.mjs");
+  const MR = await import("./market-regime.mjs");
+  const L = await import("./study/legacy-regime-screen-2026-10-29.mjs");
+  const { writeFileSync, mkdtempSync } = await import("node:fs");
+  const { tmpdir } = await import("node:os");
+  const { pathToFileURL } = await import("node:url");
+  let n = 0, nBound = 0, nSpec = 0;
+  const bad = (m) => fail(`regime screen: ${m}`);
+  let s = 20261029 >>> 0;
+  const rnd = () => ((s = (Math.imul(s, 1664525) + 1013904223) >>> 0) / 4294967296);
+  const ri = (a, b) => a + Math.floor(rnd() * (b - a + 1));
+  const pick = (a) => a[Math.floor(rnd() * a.length)];
+  const enc = (k, v) => (typeof v === "number" && (!Number.isFinite(v) || Object.is(v, -0)) ? `#num:${Object.is(v, -0) ? "-0" : String(v)}` : v === undefined ? "#undef" : v);
+  const same = (x, y) => (x === null || y === null || typeof x !== "object" || typeof y !== "object" ? Object.is(x, y) : JSON.stringify(x, enc) === JSON.stringify(y, enc));
+  n++; if (same(Infinity, null) || same([NaN], [null]) || same(-0, 0) || same({ a: undefined }, { a: null }) || !same(["A", "B"], ["A", "B"])) bad(`strict comparator broken`);
+  const STANCES = ["defensive", "selective", "balanced", "constructive", "aggressive", "stabilize_first", undefined, null, "", "mid_cycle"];
+  const T = [0, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 2, 3, 4, 6, 8, 9.5, 12];
+  const r2 = (x) => Math.round(x * 100) / 100;
+  const boundary = () => { const t = pick(T), d = pick([-0.01, 0, 0, 0.01]); return r2(pick([1, -1]) * t + d); };
+  const val = (lo, hi, nullP) => (rnd() < nullP ? null : rnd() < 0.45 ? boundary() : r2(lo + rnd() * (hi - lo)));
+  const genM = () => ({ dayPct: val(-10, 10, 0.02), d5Pct: val(-20, 25, 0.06), d1mPct: val(-30, 40, 0.08), volRatio: rnd() < 0.08 ? null : rnd() < 0.5 ? Math.abs(boundary()) : r2(rnd() * 6), above20: rnd() < 0.55, above50: rnd() < 0.5, above200: rnd() < 0.6 });
+  const genIdx = () => (rnd() < 0.05 ? null : rnd() < 0.3 ? boundary() : r2(-4 + rnd() * 8));
+  // independent spec oracle written from the plain-language rules (rule tables, not the legacy branch code)
+  const spec = (base, m, stance, idx) => {
+    const day0 = m.dayPct ?? 0, d1 = m.d1mPct, vr = m.volRatio, d5 = m.d5Pct ?? 0, d1z = m.d1mPct ?? 0, vrz = m.volRatio ?? 0;
+    const rs = (m.dayPct === null ? 0 : m.dayPct) - (idx ?? 0);
+    const dayGE = (t) => m.dayPct !== null && m.dayPct >= t;
+    const rules = {
+      defensive: [[() => m.above20 && m.above50, 1.2, null, -1.5], [() => d1 != null && d1 >= 8 && vr != null && vr < 0.8, -2.5, "週期偏熱：量能不足的高 RS 降權"], [() => vr != null && vr < 0.7 && day0 > 2, -1.2, "週期偏熱：縮量上漲降權"]],
+      aggressive: [[() => d1z < 0 && vr != null && vr >= 1.5 && m.above200, 2.2, "週期偏積極：價弱量增（firm-hands）加權"], [() => vr != null && vr >= 1.1 && day0 > 0, 1.0, "週期偏積極：早段放量相對強度加權"], [() => !m.above50 && m.above200, 0.6, "週期偏積極：允許站上 SMA200 但低於 SMA50"]],
+      stabilize_first: [[() => true, -3, "恐慌相位：先穩定再加碼，觀察權重"], [() => m.above20, 1.5, null, -2]],
+    };
+    const fam = stance === "selective" ? "defensive" : stance === "constructive" ? "aggressive" : stance;
+    const deflt = { defensive: "週期偏防禦：提高雙均線／品質門檻", aggressive: "週期偏積極：放寬進場節奏" }[fam] ?? null;
+    let score = base, note = null;
+    if (stance && rules[fam]) for (const [c, d, nt, dElse] of rules[fam]) { if (c()) { score += d; if (nt && !note) note = nt; } else if (dElse !== undefined) score += dElse; }
+    if (stance && rules[fam] && !note) note = deflt;
+    let A;
+    if (stance === "stabilize_first") A = m.above20 && (rs >= 1 || vrz >= 1.5);
+    else if (stance === "defensive") A = m.above20 && m.above50 && (rs >= 0.8 || d5 >= 4) && (vr == null || vr >= 1) && !(d1z >= 12 && vr != null && vr < 0.8);
+    else if (stance === "selective") A = m.above50 && (rs >= 0.5 || d5 >= 3 || (d1z >= 6 && m.above20));
+    else if (fam === "aggressive") {
+      const e = rs >= 0.3 || dayGE(1) || d5 >= 2 || (d1z >= 4 && m.above20) || (m.above200 && vrz >= 1.4 && d1z < 0);
+      A = e && (stance === "constructive" ? m.above20 || m.above200 : m.above200 || m.above20 || vrz >= 1.3);
+    } else A = rs >= 0.5 || dayGE(1.5) || d5 >= 3 || (d1z >= 6 && m.above20) || (m.above20 && m.above50 && (d5 >= 0 || rs >= 0));
+    const tags = [];
+    if (A) tags.push("A");
+    if (vr != null && vr >= (stance === "defensive" ? 1 : stance === "aggressive" ? 1.1 : 1.2)) tags.push("B");
+    if (!A && d1z >= 8 && m.above20 && m.above50 && stance !== "stabilize_first") tags.push("A");
+    if (!tags.length) tags.push("observe");
+    return { score, note, A: !!A, tags };
+  };
+  // 1) verbatim legacy + spec oracle on 200,000 published-precision metric rows (45% of values on rule thresholds ±0.01)
+  let passA = 0, tagB = 0, momA = 0, notes = new Set();
+  for (let k = 0; k < 200000; k++) {
+    const m = genM(), idx = genIdx(), stance = pick(STANCES), regime = rnd() < 0.03 ? null : { cycleStance: stance, features: { ret21d: r2(rnd() * 0.2 - 0.1) } };
+    const base = C.baseRankingScore(m, idx, { preferVol: rnd() < 0.9 });
+    const a = C.regimeScoreAdjust(base, m, regime), l = L.scoreAdjust(base, m, regime, idx);
+    n++; if (!same(a, l)) { bad(`regimeScoreAdjust ≠ legacy: ${JSON.stringify({ base, m, idx, regime })} ${JSON.stringify(a, enc)} vs ${JSON.stringify(l, enc)}`); break; }
+    const pa = C.screenAPass(m, idx, regime), pl = L.passesScreenA(m, idx, regime);
+    n++; if (!Object.is(pa, !!pl) || typeof pa !== "boolean") { bad(`screenAPass ≠ legacy: ${JSON.stringify({ m, idx, regime })} ${pa} vs ${pl}`); break; }
+    const fo = rnd() < 0.03;
+    const ta = C.screenTags(m, idx, { regime, forceObserve: fo }), tl = L.screensFor(m, idx, { regime, forceObserve: fo });
+    n++; if (!same(ta, tl)) { bad(`screenTags ≠ legacy screensFor: ${JSON.stringify({ m, idx, regime })} ${ta} vs ${tl}`); break; }
+    const sp = spec(base, m, regime?.cycleStance, idx); nSpec++;
+    n++; if (!Object.is(sp.score, a.score) || sp.note !== a.regimeNote || sp.A !== pa || (!fo && !same(sp.tags, ta))) { bad(`spec oracle disagrees: ${JSON.stringify({ base, m, idx, stance: regime?.cycleStance })} spec ${JSON.stringify(sp)} core ${JSON.stringify({ a, pa, ta })}`); break; }
+    if (pa) passA++; if (ta.includes("B")) tagB++; if (!pa && ta.includes("A")) momA++; if (a.regimeNote) notes.add(a.regimeNote);
+  }
+  n++; if (!(passA > 30000 && tagB > 30000 && momA > 500 && notes.size === 8)) bad(`coverage too thin: A ${passA}, B ${tagB}, momentum-A ${momA}, notes ${notes.size}/8`);
+  // 2) list size: all stances × defaultN 0..40 (incl. non-integers) = legacy; published N=12 table
+  for (const st of STANCES) for (let N = 0; N <= 40; N += 0.5) { n++; if (!Object.is(C.stanceListSize(st, N), L.listSizeForStance(st, N))) bad(`stanceListSize(${st},${N})`); }
+  n++; { const tab = ["defensive", "selective", "balanced", "constructive", "aggressive", "stabilize_first"].map((x) => C.stanceListSize(x)).join(","); if (tab !== "7,9,12,12,14,5") bad(`N=12 table ${tab} ≠ 7,9,12,12,14,5`); }
+  n++; if (C.stanceListSize("defensive", 1) !== 6 || C.stanceListSize("selective", 2) !== 8 || C.stanceListSize("stabilize_first", 3) !== 5 || C.stanceListSize("aggressive", 20) !== 14 || C.stanceListSize("aggressive", 11) !== 13) bad(`list-size floors/cap`);
+  // 3) exact threshold boundaries: each rule fires at equality (>=) and not 0.01 below, or the reverse for strict (<, >)
+  const M0 = { dayPct: 0, d5Pct: null, d1mPct: null, volRatio: null, above20: false, above50: false, above200: false };
+  const B = (stance, m, idx = 0) => ({ A: C.screenAPass({ ...M0, ...m }, idx, { cycleStance: stance }), t: C.screenTags({ ...M0, ...m }, idx, { regime: { cycleStance: stance } }), s: C.regimeScoreAdjust(0, { ...M0, ...m }, { cycleStance: stance }) });
+  const edge = (label, got, want) => { nBound++; n++; if (!same(got, want)) bad(`boundary ${label}: got ${JSON.stringify(got, enc)} want ${JSON.stringify(want, enc)}`); };
+  edge("stab rs=1", B("stabilize_first", { dayPct: 1, above20: true }).A, true); edge("stab rs=.99", B("stabilize_first", { dayPct: 0.99, above20: true }).A, false);
+  edge("stab vr=1.5", B("stabilize_first", { volRatio: 1.5, above20: true }).A, true); edge("stab vr=1.49", B("stabilize_first", { volRatio: 1.49, above20: true }).A, false);
+  edge("stab needs SMA20", B("stabilize_first", { dayPct: 5 }).A, false);
+  const D = { above20: true, above50: true };
+  edge("def rs=.8", B("defensive", { ...D, dayPct: 0.8 }).A, true); edge("def rs=.79", B("defensive", { ...D, dayPct: 0.79 }).A, false);
+  edge("def d5=4", B("defensive", { ...D, d5Pct: 4 }).A, true); edge("def d5=3.99", B("defensive", { ...D, d5Pct: 3.99 }).A, false);
+  edge("def vr=1", B("defensive", { ...D, dayPct: 1, volRatio: 1 }).A, true); edge("def vr=.99", B("defensive", { ...D, dayPct: 1, volRatio: 0.99 }).A, false);
+  edge("def needs SMA50", B("defensive", { above20: true, dayPct: 3 }).A, false); edge("def needs SMA20", B("defensive", { above50: true, dayPct: 3 }).A, false);
+  edge("def parabolic d1m=12 vr=.79", B("defensive", { ...D, dayPct: 1, d1mPct: 12, volRatio: 0.79 }).A, false);
+  edge("def d1m=11.99 vr=.79 (vr<1 fails anyway)", B("defensive", { ...D, dayPct: 1, d1mPct: 11.99, volRatio: 0.79 }).A, false);
+  edge("def d1m=12 vr null", B("defensive", { ...D, dayPct: 1, d1mPct: 12 }).A, true);
+  edge("sel rs=.5", B("selective", { above50: true, dayPct: 0.5 }).A, true); edge("sel rs=.49", B("selective", { above50: true, dayPct: 0.49 }).A, false);
+  edge("sel d5=3", B("selective", { above50: true, d5Pct: 3 }).A, true); edge("sel d5=2.99", B("selective", { above50: true, d5Pct: 2.99 }).A, false);
+  edge("sel d1m=6+SMA20", B("selective", { ...D, d1mPct: 6 }).A, true); edge("sel d1m=5.99", B("selective", { ...D, d1mPct: 5.99 }).A, false); edge("sel d1m=6 no SMA20", B("selective", { above50: true, d1mPct: 6 }).A, false);
+  edge("sel needs SMA50", B("selective", { dayPct: 3 }).A, false);
+  edge("agg rs=.3", B("aggressive", { above20: true, dayPct: 0.3, idx: 0 }).A, true); edge("agg rs=.29", B("aggressive", { above20: true, dayPct: 0.29 }).A, false);
+  edge("agg day=1 vs idx 2 (rs<0)", B("aggressive", { above20: true, dayPct: 1 }, 2).A, true); edge("agg day=.99 idx 2", B("aggressive", { above20: true, dayPct: 0.99 }, 2).A, false);
+  edge("agg d5=2", B("aggressive", { above200: true, d5Pct: 2, dayPct: -1 }).A, true); edge("agg d5=1.99", B("aggressive", { above200: true, d5Pct: 1.99, dayPct: -1 }).A, false);
+  edge("agg d1m=4+SMA20", B("aggressive", { above20: true, d1mPct: 4, dayPct: -1 }).A, true); edge("agg d1m=3.99", B("aggressive", { above20: true, d1mPct: 3.99, dayPct: -1 }).A, false);
+  edge("agg firm hands vr=1.4", B("aggressive", { above200: true, volRatio: 1.4, d1mPct: -0.01, dayPct: -1 }).A, true); edge("agg firm vr=1.39", B("aggressive", { above200: true, volRatio: 1.39, d1mPct: -0.01, dayPct: -1 }).A, false); edge("agg firm d1m=0", B("aggressive", { above200: true, volRatio: 1.4, d1mPct: 0, dayPct: -1 }).A, false);
+  edge("agg early, no trend, vr=1.3", B("aggressive", { dayPct: 1, volRatio: 1.3 }).A, true); edge("agg vr=1.29", B("aggressive", { dayPct: 1, volRatio: 1.29 }).A, false);
+  edge("cons early needs SMA20/200", B("constructive", { dayPct: 1, volRatio: 3 }).A, false); edge("cons + SMA200", B("constructive", { dayPct: 1, above200: true }).A, true);
+  edge("bal rs=.5", B("balanced", { dayPct: 0.5 }, 0).A, true); edge("bal rs=.49", B("balanced", { dayPct: 0.49 }).A, false);
+  edge("bal day=1.5 idx 2", B("balanced", { dayPct: 1.5 }, 2).A, true); edge("bal day=1.49 idx 2", B("balanced", { dayPct: 1.49 }, 2).A, false);
+  edge("bal d5=3", B("balanced", { d5Pct: 3, dayPct: -1 }).A, true); edge("bal d5=2.99", B("balanced", { d5Pct: 2.99, dayPct: -1 }).A, false);
+  edge("bal d1m=6+SMA20", B("balanced", { d1mPct: 6, above20: true, dayPct: -1 }).A, true); edge("bal d1m=5.99", B("balanced", { d1mPct: 5.99, above20: true, dayPct: -1 }).A, false);
+  edge("bal both SMAs d5=0", B("balanced", { ...D, d5Pct: 0, dayPct: -1 }).A, true); edge("bal both SMAs d5=-.01 rs=-1", B("balanced", { ...D, d5Pct: -0.01, dayPct: -1 }).A, false); edge("bal both SMAs d5=-.01 rs=0", B("balanced", { ...D, d5Pct: -0.01, dayPct: 0 }).A, true);
+  for (const [st, f] of [["defensive", 1], ["aggressive", 1.1], ["balanced", 1.2], ["selective", 1.2], ["stabilize_first", 1.2], [undefined, 1.2]]) { edge(`B floor ${st}=${f}`, B(st, { volRatio: f, dayPct: -5 }).t.includes("B"), true); edge(`B floor ${st} −.01`, B(st, { volRatio: r2(f - 0.01), dayPct: -5 }).t.includes("B"), false); n++; if (C.screenBVolFloor(st) !== f) bad(`screenBVolFloor(${st})`); }
+  edge("momentum A d1m=8", B("selective", { above20: true, above50: false, d1mPct: 8, dayPct: -5 }).t, ["observe"]);
+  edge("momentum A d1m=8 both SMAs (defensive, rs fails)", B("defensive", { ...D, d1mPct: 8, dayPct: -5, volRatio: 0.9 }).t, ["A"]); edge("momentum d1m=7.99", B("defensive", { ...D, d1mPct: 7.99, dayPct: -5, volRatio: 0.9 }).t, ["observe"]);
+  edge("momentum blocked in panic", B("stabilize_first", { above50: true, d1mPct: 20, dayPct: -5 }).t, ["observe"]);
+  edge("A+B order", B("balanced", { dayPct: 2, volRatio: 2 }).t, ["A", "B"]); edge("forceObserve", C.screenTags({ ...M0, dayPct: 5, volRatio: 5 }, 0, { forceObserve: true, regime: { cycleStance: "balanced" } }), ["observe"]);
+  // score: exact deltas at thresholds (base 0)
+  edge("def both SMAs +1.2", B("defensive", D).s, { score: 1.2, regimeNote: "週期偏防禦：提高雙均線／品質門檻" }); edge("sel else −1.5", B("selective", {}).s, { score: -1.5, regimeNote: "週期偏防禦：提高雙均線／品質門檻" });
+  edge("def thin d1m=8 vr=.79", B("defensive", { ...D, d1mPct: 8, volRatio: 0.79 }).s.score, 1.2 - 2.5); edge("def thin vr=.8", B("defensive", { ...D, d1mPct: 8, volRatio: 0.8 }).s.score, 1.2); edge("def thin d1m=7.99", B("defensive", { ...D, d1mPct: 7.99, volRatio: 0.79 }).s.score, 1.2);
+  edge("def shrink vr=.69 day 2.01", B("defensive", { ...D, volRatio: 0.69, dayPct: 2.01 }).s, { score: 1.2 - 1.2, regimeNote: "週期偏熱：縮量上漲降權" }); edge("def shrink day=2 strict", B("defensive", { ...D, volRatio: 0.69, dayPct: 2 }).s.score, 1.2); edge("def shrink vr=.7 strict", B("defensive", { ...D, volRatio: 0.7, dayPct: 3 }).s.score, 1.2);
+  edge("def both demotes, first note wins", B("defensive", { ...D, d1mPct: 9, volRatio: 0.5, dayPct: 3 }).s, { score: 1.2 - 2.5 - 1.2, regimeNote: "週期偏熱：量能不足的高 RS 降權" });
+  edge("agg firm vr=1.5 +2.2", B("aggressive", { above200: true, above50: true, volRatio: 1.5, d1mPct: -0.01 }).s, { score: 2.2, regimeNote: "週期偏積極：價弱量增（firm-hands）加權" }); edge("agg firm vr=1.49", B("aggressive", { above200: true, above50: true, volRatio: 1.49, d1mPct: -0.01 }).s.score, 0); edge("agg firm d1m=0", B("aggressive", { above200: true, above50: true, volRatio: 1.5, d1mPct: 0 }).s.score, 0);
+  edge("agg early vr=1.1 day .01", B("constructive", { above50: true, volRatio: 1.1, dayPct: 0.01 }).s, { score: 1, regimeNote: "週期偏積極：早段放量相對強度加權" }); edge("agg early day=0 strict", B("constructive", { above50: true, volRatio: 1.1, dayPct: 0 }).s.score, 0); edge("agg early vr=1.09", B("constructive", { above50: true, volRatio: 1.09, dayPct: 1 }).s.score, 0);
+  edge("agg SMA200 not SMA50 +.6", B("aggressive", { above200: true }).s, { score: 0.6, regimeNote: "週期偏積極：允許站上 SMA200 但低於 SMA50" }); edge("agg all three", B("aggressive", { above200: true, volRatio: 2, d1mPct: -1, dayPct: 1 }).s, { score: 2.2 + 1.0 + 0.6, regimeNote: "週期偏積極：價弱量增（firm-hands）加權" });
+  edge("agg default note", B("aggressive", { above50: true }).s, { score: 0, regimeNote: "週期偏積極：放寬進場節奏" });
+  edge("panic +SMA20", B("stabilize_first", { above20: true }).s, { score: -3 + 1.5, regimeNote: "恐慌相位：先穩定再加碼，觀察權重" }); edge("panic no SMA20", B("stabilize_first", {}).s.score, -3 - 2);
+  edge("balanced untouched", B("balanced", { above20: true, volRatio: 3 }).s, { score: 0, regimeNote: null }); edge("no regime", C.regimeScoreAdjust(4.25, M0, null), { score: 4.25, regimeNote: null });
+  // 4) invariants on 30,000 rows: A monotone ↑ in dayPct and d5Pct, ↓ in index day %; score − base ∈ stance delta set; tags well-formed
+  const DELTA = { defensive: 1, aggressive: 1, stabilize_first: 1 };
+  // legal score − base values (base 0), built in the rules' own left-to-right order
+  const DSET = { defensive: new Set(), aggressive: new Set(), stabilize_first: new Set([-3 + 1.5, -3 - 2]) };
+  for (const a of [1.2, -1.5]) for (const b of [0, 1]) for (const c of [0, 1]) { let x = 0 + a; if (b) x -= 2.5; if (c) x -= 1.2; DSET.defensive.add(x); }
+  for (const a of [0, 1]) for (const b of [0, 1]) for (const c of [0, 1]) { let x = 0; if (a) x += 2.2; if (b) x += 1.0; if (c) x += 0.6; DSET.aggressive.add(x); }
+  for (let k = 0; k < 30000; k++) {
+    const m = genM(), idx = genIdx() ?? 0, stance = pick(STANCES), rg = { cycleStance: stance }, a0 = C.screenAPass(m, idx, rg);
+    if (m.dayPct != null) { n++; if (a0 && !C.screenAPass({ ...m, dayPct: m.dayPct + 0.5 }, idx, rg)) { bad(`A not monotone in dayPct ${JSON.stringify({ m, idx, stance })}`); break; } }
+    n++; if (a0 && !C.screenAPass({ ...m, d5Pct: (m.d5Pct ?? 0) + 1 }, idx, rg)) { bad(`A not monotone in d5Pct ${JSON.stringify({ m, idx, stance })}`); break; }
+    n++; if (a0 && !C.screenAPass(m, idx - 0.5, rg)) { bad(`A not antitone in index day % ${JSON.stringify({ m, idx, stance })}`); break; }
+    const t = C.screenTags(m, idx, { regime: rg }); n++;
+    if (!(t.length >= 1 && t.length <= 2 && new Set(t).size === t.length && (t[0] === "observe" ? t.length === 1 : t.every((x) => x === "A" || x === "B")) && (!a0 || t.includes("A")) && (t.includes("A") || !(m.d1mPct >= 8 && m.above20 && m.above50 && stance !== "stabilize_first")))) { bad(`malformed tags ${t}`); break; }
+    n++; if ((t.includes("B")) !== (m.volRatio != null && m.volRatio >= C.screenBVolFloor(stance))) { bad(`B tag ≠ floor rule`); break; }
+    const d = C.regimeScoreAdjust(0, m, rg).score, fam = stance === "selective" ? "defensive" : stance === "constructive" ? "aggressive" : stance;
+    n++; if (DELTA[fam] && !DSET[fam].has(d)) { bad(`score delta ${d} not a legal ${fam} rule sum`); break; }
+    n++; if (!DELTA[fam] && d !== 0) { bad(`stance ${stance} must not move score (${d})`); break; }
+  }
+  // 5) junk / domain: strings never coerced, non-finite base ⇒ −1e9, non-object m, legacy null-dayPct quirk pinned
+  const J = (m) => ({ ...M0, above20: true, above50: true, above200: true, ...m });
+  for (const st of ["defensive", "selective", "balanced", "aggressive", "constructive", "stabilize_first"]) {
+    const rg = { cycleStance: st };
+    for (const f of ["d5Pct", "d1mPct", "volRatio"]) for (const junk of ["9", "1.5", true, {}, [], undefined]) { n++; const a = J({ [f]: junk }), b = J({ [f]: null }); if (!(C.screenAPass(a, 0, rg) === C.screenAPass(b, 0, rg) && same(C.screenTags(a, 0, { regime: rg }), C.screenTags(b, 0, { regime: rg })) && same(C.regimeScoreAdjust(1, a, rg), C.regimeScoreAdjust(1, b, rg)))) bad(`${st}: junk ${f}=${JSON.stringify(junk)} must behave as missing`); }
+    n++; if (C.screenAPass(J({ dayPct: "5" }), 0, rg) !== C.screenAPass(J({ dayPct: undefined }), 0, rg)) bad(`${st}: string dayPct must behave as undefined`);
+    n++; if (C.screenAPass(J({ dayPct: 5 }), "0", rg) !== C.screenAPass(J({ dayPct: 5 }), NaN, rg)) bad(`${st}: string index must be NaN`);
+    for (const b of [NaN, Infinity, -Infinity, "3", null, undefined]) { n++; if (!same(C.regimeScoreAdjust(b, J({}), rg), { score: -1e9, regimeNote: null })) bad(`${st}: base ${String(b)} ⇒ −1e9`); }
+    for (const m of [null, undefined, 3, "m"]) { n++; try { if (C.screenAPass(m, 0, rg) !== false || !same(C.screenTags(m, 0, { regime: rg }), ["observe"]) || !same(C.regimeScoreAdjust(1, m, rg), { score: -1e9, regimeNote: null })) bad(`${st}: non-object m`); } catch (e) { bad(`${st}: non-object m ${String(m)} threw ${e.message}`); } }
+    // mutation round 1 hole (2026-10-29): undefined index day % must read as 0 (legacy `?? 0`), not NaN
+    n++; if (C.screenAPass({ ...M0, dayPct: 1 }, undefined, { cycleStance: st }) !== C.screenAPass({ ...M0, dayPct: 1 }, 0, { cycleStance: st }) || C.screenAPass({ ...M0, dayPct: 1 }, undefined, { cycleStance: st }) !== !!L.passesScreenA({ ...M0, dayPct: 1 }, undefined, { cycleStance: st })) bad(`${st}: undefined index ≠ 0`);
+    // legacy quirk kept bit-identical: dayPct null ⇒ rs = −index day % (so a down index can lift a no-quote row)
+    n++; if (!Object.is(C.screenAPass(J({ dayPct: null }), -2, rg), !!L.passesScreenA(J({ dayPct: null }), -2, rg))) bad(`${st}: null-dayPct quirk drifted from legacy`);
+  }
+  n++; if (C.screenAPass({ ...M0, dayPct: 1, above20: true }, undefined, { cycleStance: "balanced" }) !== true) bad(`undefined index: rs = 1 ≥ 0.5 must pass balanced`);
+  for (let k = 0; k < 20000; k++) { const m = genM(), rg = { cycleStance: pick(STANCES) }; n++; if (!same(C.screenAPass(m, undefined, rg), C.screenAPass(m, null, rg)) || !same(C.screenTags(m, undefined, { regime: rg }), L.screensFor(m, undefined, { regime: rg }))) { bad(`undefined index ≠ legacy`); break; } }
+  // mutation round 2 holes (2026-10-29): a regime object without a stance must not touch m (legacy returns base first);
+  // flags are read by truthiness but every gate result is a real boolean
+  for (const rg of [{}, { cycleStance: undefined }, { cycleStance: "" }, { cycleStance: null }]) { n++; if (!same(C.regimeScoreAdjust(1.5, null, rg), { score: 1.5, regimeNote: null }) || !same(L.scoreAdjust(1.5, null, rg, 0), { score: 1.5, regimeNote: null })) bad(`stance-less regime must return base untouched`); }
+  for (const st of STANCES) for (const f of ["above20", "above50", "above200"]) for (const v of [undefined, 0, "", null]) {
+    const m = { ...M0, above20: true, above50: true, above200: true, dayPct: 2, d5Pct: 5, d1mPct: 7, volRatio: 1.6, [f]: v }; const r = C.screenAPass(m, 0, { cycleStance: st }); n++;
+    if (typeof r !== "boolean" || r !== !!L.passesScreenA(m, 0, { cycleStance: st })) bad(`${st}: ${f}=${String(v)} gate must be boolean ${String(r)}`);
+  }
+  // dead rule (documented, kept for bit-identity): defensive screen A's "parabolic thin" demote needs volRatio < 0.8 but
+  // \`strong\` already needs volRatio null or ≥ 1.0, so it can never fire; the live thin-RS demote is the −2.5 in scoreAdjust
+  { let fired = 0; for (let k = 0; k < 50000; k++) { const m = genM(); const strong = m.above20 && m.above50 && (m.volRatio == null || m.volRatio >= 1.0); if (strong && (m.d1mPct ?? 0) >= 12 && m.volRatio != null && m.volRatio < 0.8) fired++; } n++; if (fired !== 0) bad(`dead-rule claim wrong: fired ${fired}`); }
+  n++; if (C.screenAPass(J({ dayPct: null }), -2, { cycleStance: "stabilize_first" }) !== true || C.screenAPass(J({ dayPct: undefined }), -2, { cycleStance: "stabilize_first" }) !== false) bad(`null-dayPct quirk not pinned (null ⇒ rs = 2 passes K6; undefined ⇒ NaN fails)`);
+  n++; if (L.passesScreenA(J({ d5Pct: "5" }), -9, { cycleStance: "selective" }) !== true || C.screenAPass(J({ d5Pct: "5" }), -9, { cycleStance: "selective" }) !== true) bad(`legacy string coercion reference`);
+  n++; if (L.passesScreenA(J({ above50: true, dayPct: -9, d5Pct: "5" }), 0, { cycleStance: "selective" }) !== true || C.screenAPass(J({ above50: true, dayPct: -9, d5Pct: "5" }), 0, { cycleStance: "selective" }) !== false) bad(`string "5" ≥ 3 coerced in legacy must be rejected in core`);
+  // 6) wiring + caller path: market-regime wrappers = core; Kostolany pack from current module = module with verbatim legacy helpers
+  const mrSrc = readFileSync(join(ROOT_MG, "scripts/market-regime.mjs"), "utf8"), dsSrc = readFileSync(join(ROOT_MG, "scripts/daily-scan.mjs"), "utf8");
+  const wrapRe = /export function scoreAdjust\(baseScore, m, regime, indexDayPct\) \{\n  return regimeScoreAdjust\(baseScore, m, regime\);\n\}\n\nexport function passesScreenA\(m, indexDayPct, regime\) \{\n  return screenAPass\(m, indexDayPct, regime\);\n\}\n\nexport function listSizeForStance\(stance, defaultN = 12\) \{\n  return stanceListSize\(stance, defaultN\);\n\}\n/;
+  n++; if (!wrapRe.test(mrSrc) || /volRatio < 0\.8/.test(mrSrc.replace(/export function buildKostolanyStrategyPack[\s\S]*$/, ""))) bad(`market-regime not wired to math-core`);
+  n++; if (!/function screensFor\(m, indexDayPct, \{ forceObserve = false, regime = null \} = \{\}\) \{\n  \/\/[^\n]*\n  return screenTags\(m, indexDayPct, \{ forceObserve, regime \}\);\n\}/.test(dsSrc) || /volFloor/.test(dsSrc) || /passesScreenA/.test(dsSrc) || !/const adj = scoreAdjust\(score, m, regime, indexDayPct\);/.test(dsSrc) || !/listSizeForStance\(marketRegime\.us\.cycleStance, 12\)/.test(dsSrc)) bad(`daily-scan not wired to screenTags / scoreAdjust / listSizeForStance`);
+  for (let k = 0; k < 2000; k++) { const m = genM(), idx = genIdx(), rg = { cycleStance: pick(STANCES) }, b = C.baseRankingScore(m, idx); n++; if (!same(MR.scoreAdjust(b, m, rg, idx), L.scoreAdjust(b, m, rg, idx)) || MR.passesScreenA(m, idx, rg) !== !!L.passesScreenA(m, idx, rg) || MR.listSizeForStance(rg.cycleStance, 12) !== L.listSizeForStance(rg.cycleStance, 12)) { bad(`market-regime wrapper ≠ legacy`); break; } }
+  let packCmp = 0, packHits = 0;
+  {
+    const legHelpers = readFileSync(join(ROOT_MG, "scripts/study/legacy-regime-screen-2026-10-29.mjs"), "utf8").replace(/^\/\/[^\n]*\n/, "").replace(/\nexport function screensFor[\s\S]*$/, "\n");
+    const legSrc = mrSrc.replace(wrapRe, legHelpers.replace(/^\/\*\*[\s\S]*?\*\/\n/, "")).replace(/from "\.\/math-core\.mjs"/, `from ${JSON.stringify(pathToFileURL(join(ROOT_MG, "scripts/math-core.mjs")).href)}`);
+    n++; if (legSrc === mrSrc || !/volRatio < 0\.8/.test(legSrc)) bad(`legacy module substitution did not change the source`);
+    const dir = mkdtempSync(join(tmpdir(), "mr-legacy-")), f = join(dir, "mr-legacy.mjs"); writeFileSync(f, legSrc);
+    const LM = await import(pathToFileURL(f).href);
+    const PH = ["euphoric", "late_optimism", "mid_cycle", "cautious_recovery", "despondent", "panic"];
+    for (let k = 0; k < 600; k++) {
+      const mk = (pre, cnt) => Array.from({ length: cnt }, (_, i) => ({ symbol: `${pre}${i}`, name: `${pre}${i}`, price: r2(10 + rnd() * 500), ...genM() }));
+      const usMetrics = mk("U", ri(5, 30)), twMetrics = mk("T", ri(5, 30)).map((x) => ({ ...x, symbol: x.symbol + ".TW" }));
+      const regimeOf = () => { const ph = pick(PH); return { psychologyPhase: ph, cycleStance: MR.PHASE_TO_STANCE[ph], liquidityBias: pick(["risk_on", "neutral", "risk_off"]), sizeMult: 1, temperatureScore: ri(0, 100) }; };
+      const args = { marketRegime: { us: regimeOf(), tw: regimeOf() }, usMetrics, twMetrics, usMeta: {}, twMeta: {}, spxIdx: genIdx(), twIdx: genIdx() };
+      const a = MR.buildKostolanyStrategyPack(args), l = LM.buildKostolanyStrategyPack(args);
+      n++; packCmp++; if (!same(a, l)) { bad(`buildKostolanyStrategyPack ≠ legacy module (case ${k})`); break; }
+      packHits += JSON.stringify(a).split('"ticker"').length - 1;
+    }
+    n++; if (!(packHits > 2000)) bad(`caller-path coverage too thin: ${packHits} hits`);
+  }
+  // 7) live latest.json: published screens (non-forced) = recomputed, regime note appears in why, A-passers in score order, list size
+  let live = 0;
+  try {
+    const j = JSON.parse(readFileSync(join(ROOT_MG, "public/data/latest.json"), "utf8"));
+    for (const [mk, ik, must] of [["us", "spx", "TSM"], ["tw", "tw", "2330.TW"]]) {
+      const rg = j.marketRegime?.[mk], idx = j.indices?.[ik]?.dayPct, picks = j[mk] || [];
+      n++; if (picks.length !== C.stanceListSize(rg?.cycleStance, 12) && picks.length > 0) bad(`live ${mk}: ${picks.length} picks ≠ list size ${C.stanceListSize(rg?.cycleStance, 12)} for ${rg?.cycleStance}`);
+      let prev = Infinity;
+      for (const p of picks) {
+        const m = { dayPct: p.dayPct, d5Pct: p.pct5d, d1mPct: p.pct1m, volRatio: p.volRatio, above20: p.aboveSma20, above50: p.aboveSma50, above200: p.aboveSma200 };
+        const t = C.screenTags(m, idx, { regime: rg }), forced = p.ticker === must && same(p.screens, ["observe"]) && !t.includes("A");
+        n++; live++; if (!forced && !same(p.screens, t)) bad(`live ${mk} ${p.ticker}: published screens ${p.screens} ≠ recomputed ${t}`);
+        const a = C.regimeScoreAdjust(C.baseRankingScore(m, idx), m, rg);
+        n++; if (a.regimeNote && !String(p.why).includes(a.regimeNote)) bad(`live ${mk} ${p.ticker}: regime note missing from why`);
+        if (t.includes("A") && !forced) { n++; if (a.score > prev) bad(`live ${mk} ${p.ticker}: A-pass list not in score order`); prev = a.score; }
+      }
+    }
+  } catch (e) { bad(`live regime screen check: ${e.message}`); }
+  ok(`regime ranking dial + screen gates (${n} cases: regimeScoreAdjust / screenAPass / screenTags / stanceListSize = verbatim legacy scoreAdjust / passesScreenA / screensFor / listSizeForStance on 200,000 published-precision rows (45% of values on rule thresholds ±0.01, 10 stance values) with strict Object.is comparator, ${nSpec} rows vs an independent rule-table spec oracle (A ${passA}, B ${tagB}, momentum-A ${momA}, 8/8 notes); ${nBound} exact threshold boundaries (>= vs > at every rule); monotone in dayPct/d5Pct, antitone in index; junk strings never coerced, non-finite base ⇒ −1e9, null-dayPct legacy quirk pinned; wiring; market-regime wrappers; caller path ${packCmp} Kostolany packs = legacy module (${packHits} hits); live latest.json ${live} picks: screens, notes, A-order, list size)`);
+}
+
 console.log("——");
 if (failures.length) {
   console.error(`▶ math-guards: ${failures.length} failure(s)`);
