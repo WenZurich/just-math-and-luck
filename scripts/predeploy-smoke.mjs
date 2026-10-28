@@ -7,6 +7,7 @@
  * - Asserts main hash routes exist in source
  * Exits non-zero on any failure. Do not push until this passes.
  */
+import crypto from "node:crypto";
 import fs from "node:fs";
 import { execFileSync } from "node:child_process";
 import path from "node:path";
@@ -104,19 +105,22 @@ async function main() {
   {
     // SEC contact guard: default must be the site inbox; never a placeholder or the owner's name.
     const sc = await import(pathToFileURL(path.join(ROOT, "scripts/sec-contact.mjs")).href);
-    const bad = (s) => /tzuhsiang|example\.(com|org|net)/i.test(String(s || ""));
+    const bad = (s) => /example\.(com|org|net)/i.test(String(s || "")) || sc.containsHashedWord(s);
     const resolved = sc.resolveSecContact({});
     if (bad(sc.SEC_DEFAULT_CONTACT) || bad(resolved) || bad(sc.SEC_UA)) fail("SEC contact contains a placeholder or the owner's name");
     else if (resolved !== "JustMathAndLuck justmathluck@mail.grokbot.com") fail(`SEC default contact unexpected: ${resolved}`);
-    else if (sc.resolveSecContact({ SEC_CONTACT: ["x tzuhsiang", "example.com"].join("@") }) !== null || sc.isRealSecContact(["JML someone", "example.com"].join("@"))) fail("SEC guard must refuse placeholder/name contacts");
+    else if (sc.isRealSecContact(["JML someone", "example.com"].join("@"))) fail("SEC guard must refuse placeholder contacts");
+    else if ((() => { const w = "zqjxmathl"; const spec = { len: w.length, rk: sc.rkOf(w), sha256: crypto.createHash("sha256").update(w).digest("hex") };
+      return !sc.containsHashedWord(`ua x${w.toUpperCase()}@mail.test`, spec) || sc.containsHashedWord("justmathluck@mail.grokbot.com", spec) || sc.containsHashedWord("zqjxmath l", spec); })()) fail("hashed-name matcher self-test failed");
+    else if (!/^[0-9a-f]{64}$/.test(sc.OWNER_WORD.sha256) || sc.rkOf("a") !== 97) fail("owner-name hash constant malformed");
     else ok("SEC contact = site inbox; placeholder/name contacts refused");
     const scan = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((d) => {
       const f = path.join(dir, d.name);
       if (d.isDirectory()) return ["node_modules", ".git", "dist", "docs"].includes(d.name) ? [] : scan(f);
       return /\.(m?js|json|md|toml|html|ya?ml|txt)$/.test(d.name) ? [f] : [];
     });
-    const guardFiles = new Set(["scripts/predeploy-smoke.mjs", "scripts/sec-contact.mjs"]);
-    const hits = scan(ROOT).filter((f) => !guardFiles.has(path.relative(ROOT, f)) && /tzuhsiang|[\w.+-]+@example\.(com|org|net)/i.test(fs.readFileSync(f, "utf8")));
+    const guardFiles = new Set();
+    const hits = scan(ROOT).filter((f) => !guardFiles.has(path.relative(ROOT, f)) && (() => { const t = fs.readFileSync(f, "utf8"); return /[\w.+-]+@example\.(com|org|net)/i.test(t) || sc.containsHashedWord(t); })());
     if (hits.length) fail(`owner name / example.com contact found in: ${hits.map((f) => path.relative(ROOT, f)).join(", ")}`);
     else ok("no owner-name or example.com contact strings in repo sources");
   }
