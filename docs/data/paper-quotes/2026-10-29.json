@@ -1,0 +1,138 @@
+{
+  "scanAsOf": "2026-10-29T00:14:58Z",
+  "date": "2026-10-29",
+  "sessions": {
+    "US": "2026-10-28",
+    "TW": null
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "market": "US",
+      "session": "2026-10-28",
+      "price": 343.83,
+      "dayPct": -0.94,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ROKU",
+      "name": "Roku",
+      "market": "US",
+      "session": "2026-10-28",
+      "price": 155.33,
+      "dayPct": -0.85,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "PANW",
+      "name": "Palo Alto Networks",
+      "market": "US",
+      "session": "2026-10-28",
+      "price": 394.49,
+      "dayPct": -1.79,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "FTNT",
+      "name": "Fortinet",
+      "market": "US",
+      "session": "2026-10-28",
+      "price": 174.08,
+      "dayPct": -5.9,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike",
+      "market": "US",
+      "session": "2026-10-28",
+      "price": 266.66,
+      "dayPct": -0.51,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "OKTA",
+      "name": "Okta",
+      "market": "US",
+      "session": "2026-10-28",
+      "price": 222.66,
+      "dayPct": -1.51,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "SNOW",
+      "name": "Snowflake",
+      "market": "US",
+      "session": "2026-10-28",
+      "price": 339.91,
+      "dayPct": 0.74,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "MU",
+      "name": "Micron",
+      "market": "US",
+      "session": "2026-10-28",
+      "price": 983.23,
+      "dayPct": 5.86,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir",
+      "market": "US",
+      "session": "2026-10-28",
+      "price": 196.81,
+      "dayPct": -0.97,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": [
+    {
+      "ticker": "2468.TW",
+      "market": "TW",
+      "why": "找不到掃描對應的交易時段"
+    },
+    {
+      "ticker": "2884.TW",
+      "market": "TW",
+      "why": "找不到掃描對應的交易時段"
+    },
+    {
+      "ticker": "2317.TW",
+      "market": "TW",
+      "why": "找不到掃描對應的交易時段"
+    },
+    {
+      "ticker": "3231.TW",
+      "market": "TW",
+      "why": "找不到掃描對應的交易時段"
+    },
+    {
+      "ticker": "2891.TW",
+      "market": "TW",
+      "why": "找不到掃描對應的交易時段"
+    },
+    {
+      "ticker": "2882.TW",
+      "market": "TW",
+      "why": "找不到掃描對應的交易時段"
+    },
+    {
+      "ticker": "2881.TW",
+      "market": "TW",
+      "why": "找不到掃描對應的交易時段"
+    }
+  ]
+}

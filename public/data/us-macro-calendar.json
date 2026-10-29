@@ -1,17 +1,17 @@
 {
-  "asOf": "2026-10-28T00:10:45.749Z",
+  "asOf": "2026-10-29T00:15:42.390Z",
   "market": "US",
   "timezone": "America/New_York",
   "timezoneLabel": "US ET",
   "window": {
-    "from": "2026-10-27",
-    "to": "2026-12-01"
+    "from": "2026-10-28",
+    "to": "2026-12-02"
   },
   "source": {
     "name": "XOOMAR",
     "url": "https://xoomar.com/api/markets/calendar",
     "docs": "https://xoomar.com/markets/api/calendar",
-    "remoteUpdatedAt": "2026-10-27T17:30:03.669Z",
+    "remoteUpdatedAt": "2026-10-28T18:01:00.075Z",
     "attribution": "Credit XOOMAR with a link to the dataset page on xoomar.com when you republish this data",
     "license": "https://xoomar.com/terms"
   },
@@ -29,8 +29,8 @@
       "periodLabel": "October 27-28, 2026 meeting",
       "source": "fed",
       "officialUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
-      "actual": null,
-      "previous": null,
+      "actual": "3.8750",
+      "previous": "3.8750",
       "unit": "%, target range midpoint"
     },
     {

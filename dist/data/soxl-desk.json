@@ -2,19 +2,19 @@
   "market": "US",
   "ticker": "SOXL",
   "fundName": "Direxion Daily Semiconductor Bull 3X ETF",
-  "asOf": "2026-10-28T01:45:54.481Z",
+  "asOf": "2026-10-29T00:20:56.163Z",
   "quote": {
-    "price": 102.54,
-    "change": 1.46,
-    "changePct": 1.44,
+    "price": 102.1,
+    "change": -5.25,
+    "changePct": -4.89,
     "currency": "USD",
     "session": "overnight / extended (Yahoo)",
     "source": "https://finance.yahoo.com/quote/SOXL/",
     "regularClose": {
-      "price": 101.08,
-      "change": 10.58,
-      "changePct": 11.69,
-      "session": "NYSE Arca regular close (October 27 at 4:00:01 PM EDT)"
+      "price": 107.35,
+      "change": 6.27,
+      "changePct": 6.2,
+      "session": "NYSE Arca regular close (October 28 at 4:00:01 PM EDT)"
     }
   },
   "holdingsAsOf": "2026-07-31",
@@ -34,8 +34,8 @@
     {
       "type": "anomaly",
       "severity": "high",
-      "title": "正規盤大波動 +11.69%",
-      "detail": "Yahoo 顯示 SOXL 正規收盤約 $101.08（+11.69% / +10.58）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
+      "title": "正規盤大波動 +6.2%",
+      "detail": "Yahoo 顯示 SOXL 正規收盤約 $107.35（+6.2% / +6.27）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
       "sources": [
         "https://finance.yahoo.com/quote/SOXL/"
       ]
@@ -553,7 +553,7 @@
     "Research seed: /workspace/soxl-research/soxl-holdings-raw.json",
     "SEC N-PORT: https://www.sec.gov/Archives/edgar/data/1424958/000119312526404435/0001193125-26-404435.txt",
     "Yahoo quote page: https://finance.yahoo.com/quote/SOXL/",
-    "Yahoo quote HTML refresh @ 2026-10-28T01:45:54.481Z",
+    "Yahoo quote HTML refresh @ 2026-10-29T00:20:56.163Z",
     "https://feeds.finance.yahoo.com/rss/2.0/headline?s=SOXL&region=US&lang=en-US",
     "Yahoo chart daily closes for 14 equity holdings"
   ],
