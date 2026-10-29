@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-28T09:20:00+08:00",
+    "updated": "2026-10-29T09:25:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -10421,6 +10421,167 @@
         "calendar-effect",
         "har",
         "risk",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-round-numbers-hold-prices-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "Do Round Numbers Hold Prices? Occupation Densities and Depth-Conditioned Hazards in the Limit Order Book",
+      "titleLocalized": {
+        "en": "Do Round Numbers Hold Prices?",
+        "zh-Hant": "整數關卡真的撐得住股價嗎？",
+        "zh-Hans": "整数关卡真的撑得住股价吗？",
+        "ja": "キリの良い価格は株価を支えるのか？"
+      },
+      "authors": [
+        "Jiwon Jung",
+        "Kiseop Lee"
+      ],
+      "year": 2026,
+      "summary": "Stock prices spend extra time at round numbers like $20.00, and traders often read that as a support or resistance wall. This study checks a simpler explanation: more buy and sell orders simply pile up at round prices, and a thicker queue takes longer to clear. Using full order-book data for five Nasdaq stocks through 2025, the authors find round prices do attract more resting orders, but once you account for how deep the queue is, prices do not linger there any longer than at other prices. Two stocks (Intel and SoFi) showed prices tending to move away from round levels. Takeaway for the site: treat 'round-number support' as mostly a crowd-of-orders effect, not a rule to buy or sell on.",
+      "summaryLocalized": {
+        "en": "Round-number price clustering vs. a mechanical depth explanation. Tick-grid local-time framework on 2025 order-book data for 5 Nasdaq stocks: round levels hold more liquidity but show no longer depth-adjusted durations; INTC and SOFI show departures biased away from round levels. Site use: watch — a caution against round-number 'support' rules, not a signal.",
+        "zh-Hant": "股價常在 20.00 這種整數價位停比較久，很多人把它當成支撐或壓力。這篇研究檢查一個更簡單的解釋：整數價位本來就掛比較多買賣單，排隊的單越多，價格要走過去就越久。作者用 2025 年五檔那斯達克股票的完整委託簿資料發現：整數價位確實掛單比較多，但把掛單厚度考慮進去後，價格在整數價位並沒有停得比較久。英特爾和 SoFi 兩檔反而有價格傾向離開整數價位的現象。本站列為觀察：「整數關卡支撐」大多只是掛單擠在那裡，不是買賣規則。",
+        "zh-Hans": "股价常在 20.00 这种整数价位停比较久，很多人把它当成支撑或压力。这篇研究检查一个更简单的解释：整数价位本来就挂比较多买卖单，排队的单越多，价格要走过去就越久。作者用 2025 年五档纳斯达克股票的完整委托簿数据发现：整数价位确实挂单比较多，但把挂单厚度考虑进去后，价格在整数价位并没有停得比较久。英特尔和 SoFi 两档反而有价格倾向离开整数价位的现象。本站列为观察：“整数关卡支撑”大多只是挂单挤在那里，不是买卖规则。",
+        "ja": "株価は20.00ドルのようなキリの良い価格に長く留まりがちで、支持線・抵抗線と解釈されることが多い。本研究は、そこに注文が多く積まれ厚い待ち行列ほど抜けるのに時間がかかるという単純な説明を検証。2025年のナスダック5銘柄の板データでは、キリの良い価格には注文が多く集まるが、板の厚さを考慮すると滞在時間は長くない。インテルとSoFiでは逆にキリ番から離れる傾向も。本サイトはウォッチ：キリ番の支持は主に注文の集中で、売買ルールではない。"
+      },
+      "plainTakeaways": [
+        "整數價位掛單比較多，所以價格看起來「卡住」",
+        "把掛單厚度算進去後，整數價位並沒有特別撐得住",
+        "英特爾、SoFi 甚至傾向離開整數價位",
+        "本站觀察：別把整數關卡當買賣訊號"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "More orders rest at round prices, so prices look 'stuck' there",
+          "After adjusting for order depth, round prices don't hold any better",
+          "Intel and SoFi even tended to move away from round prices",
+          "Site use: watch — don't treat round numbers as a trade signal"
+        ],
+        "zh-Hant": [
+          "整數價位掛單比較多，所以價格看起來「卡住」",
+          "把掛單厚度算進去後，整數價位並沒有特別撐得住",
+          "英特爾、SoFi 甚至傾向離開整數價位",
+          "本站觀察：別把整數關卡當買賣訊號"
+        ],
+        "zh-Hans": [
+          "整数价位挂单比较多，所以价格看起来“卡住”",
+          "把挂单厚度算进去后，整数价位并没有特别撑得住",
+          "英特尔、SoFi 甚至倾向离开整数价位",
+          "本站观察：别把整数关卡当买卖信号"
+        ],
+        "ja": [
+          "キリの良い価格には注文が多く、価格が「止まって」見える",
+          "板の厚さを考慮するとキリ番が特に支えるわけではない",
+          "インテルとSoFiはむしろキリ番から離れる傾向",
+          "本サイトはウォッチ：キリ番を売買シグナルにしない"
+        ]
+      },
+      "formulas": [
+        "occupation density at price level k: L_k = number of departures from tick k over the sample",
+        "depth-adjusted hazard: departures_k / (time at k) compared across round vs non-round k after controlling for queue depth",
+        "round-level flag: k mod 100 cents == 0 (or mod 50 / mod 10)",
+        "site use: watch only — no screener change while the math gate is not passed"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: 5 Nasdaq stocks, one year, intraday order-book effect; mostly argues against round-number support rules. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2610.34787",
+        "https://doi.org/10.48550/arXiv.2610.34787"
+      ],
+      "tags": [
+        "us",
+        "microstructure",
+        "order-book",
+        "round-numbers",
+        "support-resistance",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-both-regime-switching-nco-turnover-2026",
+      "market": "BOTH",
+      "type": "paper",
+      "shelf": "asset_allocation",
+      "title": "Market Regime-Based Multi-Asset Portfolio Optimization Using Nested Clustered Optimization for Tactical Asset Allocation",
+      "titleLocalized": {
+        "en": "Does Switching by Market Regime Help a Multi-Asset Portfolio?",
+        "zh-Hant": "依「多空盤勢」切換配置，真的比較好嗎？",
+        "zh-Hans": "依“多空盘势”切换配置，真的比较好吗？",
+        "ja": "相場局面で配分を切り替えると本当に良くなるのか？"
+      },
+      "authors": [
+        "Supriadi",
+        "Bambang Siswoyo"
+      ],
+      "year": 2026,
+      "summary": "Many systems try to detect whether the market is in a calm or stormy phase and change the portfolio accordingly. This study tests that idea on a small mix of Indonesian assets (government bonds, a stock index, gold, a currency and Bitcoin), monthly from January 2021 to August 2025, using a clustering-based way to spread money across assets. The plain version, with no phase detection, returned about 30% in total (about 5.8% a year) with a worst drop of only about 2.2% and little trading. Adding an automatic phase detector made it trade far more (47 rebalances, about a quarter of the portfolio each month), cut the total return to about 1.6% and deepened the worst drop to about 10%. Lesson: a phase switch that flips too easily can add noise and costs instead of protection. Takeaway for the site: a warning to keep our own market-regime dial slow and sticky, not a new rule.",
+      "summaryLocalized": {
+        "en": "Tests HMM regime conditioning of Nested Clustered Optimization on a monthly Indonesian multi-asset universe (bonds, LQ45, gold, CNY/IDR, BTC), Jan 2021–Aug 2025 walk-forward. Regime-agnostic NCO: ~29.97% cumulative (5.78%/yr), max drawdown 2.18%, turnover 5.41%/month. Unconstrained HMM-conditioned NCO: 47 rebalances, 24.58% monthly turnover, 1.60% cumulative, 9.99% drawdown. Without transition persistence, regime switching can hurt. Site use: watch — supports keeping regime changes sticky; no rule change.",
+        "zh-Hant": "很多系統會先判斷現在是平穩盤還是動盪盤，再跟著換配置。這篇研究用一小組印尼資產（政府公債、股價指數、黃金、匯率、比特幣），從 2021 年 1 月到 2025 年 8 月每月測試，用一種「先分群再分配資金」的方法。不判斷盤勢的單純版本，總報酬約 30%（每年約 5.8%），最大跌幅只有約 2.2%，交易也很少。加上自動盤勢判斷後，交易暴增（換了 47 次，每月約四分之一的部位在換），總報酬掉到約 1.6%，最大跌幅加深到約 10%。結論：太容易切換的盤勢開關，帶來的是雜訊和成本，不是保護。本站列為觀察：提醒我們自己的多空盤勢判斷要慢、要穩，不新增規則。",
+        "zh-Hans": "很多系统会先判断现在是平稳盘还是动荡盘，再跟着换配置。这篇研究用一小组印尼资产（政府国债、股价指数、黄金、汇率、比特币），从 2021 年 1 月到 2025 年 8 月每月测试，用一种“先分群再分配资金”的方法。不判断盘势的单纯版本，总报酬约 30%（每年约 5.8%），最大跌幅只有约 2.2%，交易也很少。加上自动盘势判断后，交易暴增（换了 47 次，每月约四分之一的部位在换），总报酬掉到约 1.6%，最大跌幅加深到约 10%。结论：太容易切换的盘势开关，带来的是杂讯和成本，不是保护。本站列为观察：提醒我们自己的多空盘势判断要慢、要稳，不新增规则。",
+        "ja": "多くのシステムは相場が平穏か荒れているかを判定して配分を変える。本研究はインドネシアの少数資産（国債、株価指数、金、為替、ビットコイン）で2021年1月〜2025年8月を月次で検証。局面判定なしの単純版は累計約30%（年約5.8%）、最大下落約2.2%で売買も少ない。自動の局面判定を加えると売買が急増（47回、毎月約4分の1を入替）、累計約1.6%に低下し最大下落は約10%に。切り替えやすすぎる局面判定はノイズとコストを増やす。本サイトはウォッチ：自サイトの相場局面判定はゆっくり安定させるべきという注意で、新ルールではない。"
+      },
+      "plainTakeaways": [
+        "不判斷盤勢的單純配置：約 30% 總報酬、最大跌幅約 2.2%",
+        "加上太敏感的盤勢開關：交易暴增，報酬掉到約 1.6%、跌幅約 10%",
+        "盤勢切換要有「黏性」，不然只是多付手續費",
+        "本站觀察：我們的多空判斷維持慢而穩，不改規則"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Plain allocation without regime detection: ~30% total, worst drop ~2.2%",
+          "With a jumpy regime switch: far more trading, ~1.6% total, ~10% worst drop",
+          "Regime switches need stickiness, or they just add costs",
+          "Site use: watch — keep our regime dial slow and steady; no rule change"
+        ],
+        "zh-Hant": [
+          "不判斷盤勢的單純配置：約 30% 總報酬、最大跌幅約 2.2%",
+          "加上太敏感的盤勢開關：交易暴增，報酬掉到約 1.6%、跌幅約 10%",
+          "盤勢切換要有「黏性」，不然只是多付手續費",
+          "本站觀察：我們的多空判斷維持慢而穩，不改規則"
+        ],
+        "zh-Hans": [
+          "不判断盘势的单纯配置：约 30% 总报酬、最大跌幅约 2.2%",
+          "加上太敏感的盘势开关：交易暴增，报酬掉到约 1.6%、跌幅约 10%",
+          "盘势切换要有“黏性”，不然只是多付手续费",
+          "本站观察：我们的多空判断维持慢而稳，不改规则"
+        ],
+        "ja": [
+          "局面判定なしの単純配分：累計約30%、最大下落約2.2%",
+          "敏感すぎる局面切替：売買急増、累計約1.6%、最大下落約10%",
+          "局面切替には粘着性が必要で、なければコストが増えるだけ",
+          "本サイトはウォッチ：相場局面判定はゆっくり安定、ルール変更なし"
+        ]
+      },
+      "formulas": [
+        "regime: causal rolling Gaussian HMM state s_t from monthly returns",
+        "NCO: cluster assets by correlation, optimize weights within each cluster, then across clusters",
+        "turnover_t = ½ Σ_i |w_i,t − w_i,t−1|",
+        "persistence guard idea: switch regime only if P(s_t = new) > threshold for k consecutive months",
+        "site use: watch only — no screener change while the math gate is not passed"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: small Indonesian universe, 56 months; useful as a caution on regime-dial stickiness, not a new rule. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2610.27751",
+        "https://doi.org/10.48550/arXiv.2610.27751"
+      ],
+      "tags": [
+        "both",
+        "asset-allocation",
+        "regime",
+        "hmm",
+        "turnover",
         "watch"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",
