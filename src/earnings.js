@@ -4,7 +4,8 @@
  * Never invents metrics; missing fields omitted (no 資料不足 badge spam).
  */
 import { escapeHtml } from "./glossary.js";
-import { t, numberLocale } from "./i18n.js";
+import { t, numberLocale, getLang } from "./i18n.js";
+import { companyZh } from "./earnings-zh.js";
 
 const DATA_URL = "./data/earnings-digest.json";
 
@@ -89,8 +90,103 @@ export function earningsTiming(row, today = todayEt()) {
   const diff = daysBetweenYmd(today, d);
   if (diff == null) return { state: "unknown", days: null };
   if (diff < 0) return { state: "reported", days: -diff };
-  if (diff === 0) return { state: "today", days: 0 };
+  if (diff === 0) {
+    // Same ET day but the numbers are already in (after-close report seen in the evening ET /
+    // next morning Taipei): Yahoo's lastReport is the quarter that just ended → show 已公布,
+    // never "今天公布 + 市場預估這一季" (that estimate is already the NEXT quarter's).
+    if (sameDayResultIn(row)) return { state: "reported", days: 0 };
+    return { state: "today", days: 0 };
+  }
   return { state: "upcoming", days: diff };
+}
+
+/**
+ * True when lastReport covers the quarter being reported on nextEarningsDate:
+ * quarter end 0–75 days before the report date and an actual EPS present.
+ * (The previous quarter is always ≥ ~100 days earlier, so it can never pass.)
+ */
+export function sameDayResultIn(row) {
+  const lr = row?.lastReport;
+  if (!lr || lr.epsActual == null || !Number.isFinite(Number(lr.epsActual))) return false;
+  const gap = daysBetweenYmd(lr.quarter, row.nextEarningsDate);
+  return gap != null && gap >= 0 && gap <= 75;
+}
+
+/** zh-Hant shows our plain one-liner when we have one; other languages keep Yahoo's English. */
+export function whatItDoesText(row, lang = getLang()) {
+  if (lang === "zh-Hant") {
+    const zh = companyZh(row?.ticker);
+    if (zh) return { text: zh, zh: true };
+  }
+  return { text: row?.whatItDoes || "", zh: false };
+}
+
+function shortDate(ymd) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(ymd || "");
+  if (!m) return ymd || "";
+  let wd = "";
+  try {
+    wd = new Date(`${ymd}T12:00:00Z`).toLocaleDateString(numberLocale(), { weekday: "short", timeZone: "UTC" });
+  } catch {
+    /* ignore */
+  }
+  return `${Number(m[2])}/${Number(m[3])}${wd ? `（${wd}）` : ""}`;
+}
+
+/**
+ * Schedule strip at the top: every company on this page grouped by report date (ET),
+ * tap a ticker to jump to its card. Already-reported names are grouped as 已公布.
+ */
+export function scheduleGroups(rows, today = todayEt()) {
+  const seen = new Set();
+  const upcoming = new Map();
+  const reported = [];
+  for (const r of rows) {
+    if (!r?.ticker || seen.has(r.ticker)) continue;
+    seen.add(r.ticker);
+    const tm = earningsTiming(r, today);
+    if (tm.state === "reported") reported.push(r);
+    else if (tm.state === "today" || tm.state === "upcoming") {
+      const d = r.nextEarningsDate;
+      if (!upcoming.has(d)) upcoming.set(d, { date: d, today: tm.state === "today", days: tm.days, rows: [] });
+      upcoming.get(d).rows.push(r);
+    }
+  }
+  const groups = [...upcoming.values()].sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+  reported.sort((a, b) => (a.nextEarningsDate < b.nextEarningsDate ? 1 : -1));
+  return { groups, reported };
+}
+
+function cardId(ticker) {
+  return `er-c-${String(ticker).replace(/[^A-Za-z0-9-]/g, "")}`;
+}
+
+function chip(r) {
+  return `<button type="button" class="er-chip" data-er-jump="${escapeHtml(cardId(r.ticker))}">${escapeHtml(r.ticker)}</button>`;
+}
+
+function renderSchedule(rows) {
+  const { groups, reported } = scheduleGroups(rows);
+  if (!groups.length && !reported.length) return "";
+  const lines = groups.map(
+    (g) => `<li class="er-sched-row${g.today ? " is-today" : ""}">
+        <span class="er-sched-date">${escapeHtml(shortDate(g.date))}${
+          g.today ? `<em>${escapeHtml(t("earningsToday"))}</em>` : `<em>${escapeHtml(t("earningsInDays", { n: g.days }))}</em>`
+        }${g.rows.every((r) => r.nextEarningsDateIsEstimate) ? `<em>${escapeHtml(t("earningsEstimate"))}</em>` : ""}</span>
+        <span class="er-sched-chips">${g.rows.map(chip).join("")}</span>
+      </li>`
+  );
+  if (reported.length) {
+    lines.unshift(`<li class="er-sched-row is-done">
+        <span class="er-sched-date">${escapeHtml(t("earningsSchedDone"))}</span>
+        <span class="er-sched-chips">${reported.map(chip).join("")}</span>
+      </li>`);
+  }
+  return `<nav class="er-sched" aria-label="${escapeHtml(t("earningsSchedTitle"))}">
+      <h3 class="er-sched-title">${escapeHtml(t("earningsSchedTitle"))}</h3>
+      <p class="er-sched-lead">${escapeHtml(t("earningsSchedLead"))}</p>
+      <ul class="er-sched-list">${lines.join("")}</ul>
+    </nav>`;
 }
 
 function plainWatch(row, timing) {
@@ -144,6 +240,7 @@ function renderCard(row, { hot = false } = {}) {
     ? `${cell(next)}${countdown ? `<span class="er-sub">${escapeHtml(countdown)}</span>` : ""}`
     : null;
   const watch = plainWatch(row, timing);
+  const does = whatItDoesText(row);
   const lastEps =
     row.lastReport?.epsActual != null
       ? `${fmtNum(row.lastReport.epsActual, 2)}${
@@ -157,7 +254,7 @@ function renderCard(row, { hot = false } = {}) {
       : `<span class="er-badge">${escapeHtml(t("earningsMag7Badge"))}</span>`;
 
   return `
-    <article class="er-card${reported ? " er-card-reported" : ""}" data-ticker="${escapeHtml(row.ticker)}">
+    <article class="er-card${reported ? " er-card-reported" : ""}" id="${escapeHtml(cardId(row.ticker))}" tabindex="-1" data-ticker="${escapeHtml(row.ticker)}">
       <div class="er-card-head">
         <div>
           <div class="er-ticker">${escapeHtml(row.ticker)}</div>
@@ -167,9 +264,9 @@ function renderCard(row, { hot = false } = {}) {
       </div>
       <div>
         <div class="er-label">${escapeHtml(t("earningsWhatItDoes"))}</div>
-        <p class="er-does"${row.whatItDoes ? ` title="${escapeHtml(row.whatItDoes)}"` : ""}>${
-          row.whatItDoes ? escapeHtml(row.whatItDoes) : ""
-        }</p>
+        <p class="er-does${does.zh ? " er-does-zh" : ""}"${!does.zh && does.text ? ` title="${escapeHtml(does.text)}"` : ""}${
+          does.zh ? "" : ' lang="en"'
+        }>${does.text ? escapeHtml(does.text) : ""}</p>
       </div>
       <div class="er-metrics">
         ${metricBlock(reported ? t("earningsLatestDate") : t("earningsNextDate"), nextHtml)}
@@ -201,6 +298,7 @@ function paint(root, data) {
   root.innerHTML = `
     <p class="er-meta">${escapeHtml(t("dataAsOf"))} ${escapeHtml(fmtAsOf(data?.asOf))} · ${escapeHtml(t("earningsUsFocus"))}</p>
     <p class="er-stub" role="note">${escapeHtml(t("earningsTwStub"))}</p>
+    ${renderSchedule([...mag7, ...hot])}
     <div class="er-rule"><strong>${escapeHtml(t("earningsSelectionTitle"))}</strong> ${escapeHtml(t("earningsSelectionFallback"))}</div>
         <div class="er-panels">
       <section class="er-panel" aria-label="${escapeHtml(t("earningsMag7Title"))}">
@@ -252,6 +350,21 @@ export async function initEarnings(selector = "#er-root") {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     paint(root, data);
+    if (!root.dataset.jumpBound) {
+      root.dataset.jumpBound = "1";
+      root.addEventListener("click", (ev) => {
+        const b = ev.target.closest?.("[data-er-jump]");
+        if (!b) return;
+        const card = root.querySelector(`#${b.dataset.erJump}`);
+        if (!card) return;
+        const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+        card.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+        card.focus({ preventScroll: true });
+        card.classList.remove("er-flash");
+        void card.offsetWidth;
+        card.classList.add("er-flash");
+      });
+    }
     return { ok: true, data };
   } catch (err) {
     root.innerHTML = `

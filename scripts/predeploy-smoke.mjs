@@ -537,6 +537,29 @@ async function main() {
       else if (daysBetweenYmd("2026-03-07", "2026-03-09") !== 2) fail("daysBetweenYmd across US DST change wrong");
       else if (tt(null, "2026-10-22").state !== "unknown") fail("earningsTiming: missing date not unknown");
       else ok("earningsTiming: past next-date shown as 已公布, countdown days exact");
+      // Same-day after-close report already in (e.g. MSFT 10/28 seen 10/29 Taipei): 已公布, not 今天公布.
+      {
+        const { sameDayResultIn, scheduleGroups, whatItDoesText } = await import(pathToFileURL(path.join(ROOT, "src/earnings.js")).href);
+        const inRow = { ticker: "X", nextEarningsDate: "2026-10-28", lastReport: { quarter: "2026-09-30", epsActual: 4.89 } };
+        const prevQ = { ticker: "Y", nextEarningsDate: "2026-10-29", lastReport: { quarter: "2026-06-30", epsActual: 5.75 } };
+        const noEps = { ticker: "Z", nextEarningsDate: "2026-10-28", lastReport: { quarter: "2026-09-30", epsActual: null } };
+        if (earningsTiming(inRow, "2026-10-28").state !== "reported") fail("earningsTiming: same-day with this quarter's EPS must be reported");
+        else if (earningsTiming(prevQ, "2026-10-29").state !== "today") fail("earningsTiming: previous-quarter EPS must stay today");
+        else if (earningsTiming(noEps, "2026-10-28").state !== "today") fail("earningsTiming: same-day without EPS must stay today");
+        else if (sameDayResultIn({ nextEarningsDate: "2026-11-17", lastReport: { quarter: "2026-07-31", epsActual: 2.2 } })) fail("sameDayResultIn: 109-day gap must be false");
+        else ok("earningsTiming: same-day result already in ⇒ 已公布; previous quarter / missing EPS ⇒ 今天公布");
+        const sg = scheduleGroups([inRow, prevQ, noEps, { ticker: "W", nextEarningsDate: "2026-11-02" }, prevQ], "2026-10-28");
+        if (sg.reported.length !== 1 || sg.groups.map((g) => g.date).join() !== "2026-10-28,2026-10-29,2026-11-02" || sg.groups[1].rows.length !== 1) fail(`scheduleGroups wrong: ${JSON.stringify(sg).slice(0, 300)}`);
+        else ok("財報時程: grouped by date, deduped, reported separate");
+        const all = [...(dig.mag7 || []), ...(dig.watchlistHot || [])];
+        const missingZh = all.filter((r) => !whatItDoesText(r, "zh-Hant").zh).map((r) => r.ticker);
+        if (missingZh.length) console.log(`WARN: 讀財報 no 繁中 company one-liner for ${missingZh.join(", ")} (shows Yahoo English; add to src/earnings-zh.js)`);
+        else ok(`讀財報 繁中 company one-liners cover all ${all.length} cards`);
+        if (whatItDoesText(all[0] || {}, "en").zh) fail("whatItDoesText: English UI must keep Yahoo text");
+        const zhSrc = fs.readFileSync(path.join(ROOT, "src/earnings-zh.js"), "utf8");
+        if (/\d+(\.\d+)?\s*(%|億|萬|美元)/.test(zhSrc)) fail("earnings-zh.js must not contain numbers/metrics (descriptions only)");
+        else ok("earnings-zh.js: plain descriptions, no numbers");
+      }
     } catch (e) {
       fail(`earnings-digest parse: ${e}`);
     }
