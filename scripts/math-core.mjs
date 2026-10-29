@@ -977,3 +977,69 @@ export function stanceListSize(stance, defaultN = 12) {
   if (stance === "aggressive") return Math.min(14, defaultN + 2);
   return defaultN;
 }
+
+/**
+ * Paper-trade exit rule chain (legacy paper-trade applySells, moved 2026-10-30).
+ * First match wins, in this order (stop before take-profit):
+ *   1 stop            ret ≤ stopLossRet                                  → sell all
+ *   2 limit-up-chase  limitUpStyle, opened before today, dayPct ≤ chase  → sell all
+ *   3 momentum-break  aboveSma20 === false and dayPct < momentumDayPct    → sell all
+ *   4 off-list        not in today's list and (mark − avgCost)·qty < 0    → sell all
+ *   5 take-profit     ret ≥ takeProfitRet                                → takeProfitQty (half, whole lots)
+ * ret = unrealizedReturn(mark, avgCost), P&L = unrealizedPnlOf(mark, avgCost, qty) — the same helpers
+ * the legacy code called, in the same order, so decisions are bit-identical on the pipeline domain
+ * (qty positive integer, dayPct finite or missing, aboveSma20 boolean or missing, dates YYYY-MM-DD,
+ * limitUpStyle boolean or missing). Junk: non-finite dayPct counts as missing (legacy let −Infinity
+ * trigger a sale), non-boolean limitUpStyle/aboveSma20 count as false/unknown, qty must be a positive
+ * integer (legacy returned an action that the sale then refused). Returns {reason, qty} or null.
+ * Disjointness: rule 1 needs ret ≤ −3%, rule 5 ret ≥ +12%, rule 4 needs P&L < 0 (⇒ ret < 0), so
+ * 4 and 5 never compete; the order only decides the label among the full-sell rules 1–4.
+ */
+export const PAPER_EXIT_RULES = Object.freeze({ stopLossRet: -0.03, takeProfitRet: 0.12, momentumDayPct: -2, limitUpChaseDrop: -5 });
+const YMD_RE = /^\d{4}-\d{2}-\d{2}$/;
+export function paperExitAction(
+  { mark, avgCost, qty, dayPct = null, aboveSma20 = null, limitUpStyle = false, openedOn = null, date = null, inList = true, lotSize = 1 } = {},
+  rules = PAPER_EXIT_RULES
+) {
+  if (!(Number.isInteger(qty) && qty > 0)) return null;
+  const { stopLossRet, takeProfitRet, momentumDayPct, limitUpChaseDrop } = rules || {};
+  const ret = unrealizedReturn(mark, avgCost);
+  const day = isFiniteNumber(dayPct) ? dayPct : null;
+  if (ret != null && ret <= stopLossRet) return { reason: "stop", qty };
+  if (
+    limitUpStyle === true &&
+    typeof openedOn === "string" && YMD_RE.test(openedOn) &&
+    typeof date === "string" && YMD_RE.test(date) &&
+    openedOn < date &&
+    day != null && day <= limitUpChaseDrop
+  ) return { reason: "limit-up-chase", qty };
+  if (aboveSma20 === false && day != null && day < momentumDayPct) return { reason: "momentum-break", qty };
+  if (inList === false) {
+    const u = unrealizedPnlOf(mark, avgCost, qty);
+    if (u != null && u < 0) return { reason: "off-list", qty };
+  }
+  if (ret != null && ret >= takeProfitRet) {
+    const q = takeProfitQty(qty, lotSize);
+    return q == null ? null : { reason: "take-profit", qty: q };
+  }
+  return null;
+}
+
+/**
+ * Buy-day limit-up style flag (legacy paper-trade isLimitUpStyle): dayPct ≥ threshold (default 9.5)
+ * or the risk/why text mentions 漲停. Non-finite dayPct is ignored (legacy: +Infinity counted).
+ */
+export function limitUpStyleFlag(dayPct, text = "", threshold = 9.5) {
+  if (isFiniteNumber(dayPct) && dayPct >= threshold) return true;
+  return typeof text === "string" && text.includes("漲停");
+}
+
+/**
+ * Add-on headroom (legacy applyBuys roomVal): equity·maxPosPct − qty·mark, same evaluation order.
+ * Non-finite inputs / result ⇒ null (caller skips the add; legacy NaN fell through to sizing).
+ */
+export function addOnRoom(equity, maxPosPct, qty, mark) {
+  if (!isFiniteNumber(equity) || !isFiniteNumber(maxPosPct) || !isFiniteNumber(qty) || !isFiniteNumber(mark)) return null;
+  const r = equity * maxPosPct - qty * mark;
+  return isFiniteNumber(r) ? r : null;
+}

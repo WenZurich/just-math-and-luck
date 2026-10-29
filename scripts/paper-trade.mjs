@@ -64,7 +64,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { avgCostAfterBuy, realizedPnl, roundHalfAway, positionSizeShares, unrealizedReturn, takeProfitQty, bookMarkValue, unrealizedPnlOf, windowPerformance } from "./math-core.mjs";
+import { avgCostAfterBuy, realizedPnl, roundHalfAway, positionSizeShares, unrealizedReturn, bookMarkValue, unrealizedPnlOf, windowPerformance, paperExitAction, limitUpStyleFlag, addOnRoom } from "./math-core.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -95,6 +95,14 @@ const TAKE_PROFIT_RET = 0.12; // 未實現 >= +12% 停利
 const MOMENTUM_DAY_PCT = -2; // 未站上 SMA20 且日漲跌 < -2%
 const LIMIT_UP_DAY_PCT = 9.5; // 接近漲停
 const LIMIT_UP_CHASE_DROP = -5; // 隔日急殺
+const EXIT_RULES = { stopLossRet: STOP_LOSS_RET, takeProfitRet: TAKE_PROFIT_RET, momentumDayPct: MOMENTUM_DAY_PCT, limitUpChaseDrop: LIMIT_UP_CHASE_DROP };
+const EXIT_TEXT = {
+  stop: "停損：未實現報酬 ≤ −3%",
+  "limit-up-chase": "漲停追價隔日急殺：買進時近漲停，今日日漲跌 ≤ −5%",
+  "momentum-break": "動能轉弱：未站上 SMA20 且當日跌超過 2%",
+  "off-list": "離開當日名單且未實現虧損",
+  "take-profit": "停利：未實現報酬 ≥ +12%（賣一半或全數）",
+};
 const MAX_TRADES = 400;
 const WINDOWS = [
   { key: "week", days: 7, title: "週" },
@@ -194,9 +202,8 @@ function isObserveOnly(stock) {
 
 function isLimitUpStyle(stock) {
   if (!stock) return false;
-  if (typeof stock.dayPct === "number" && stock.dayPct >= LIMIT_UP_DAY_PCT) return true;
-  const blob = `${stock.risk || ""} ${stock.why || ""}`;
-  return blob.includes("漲停");
+  // dayPct ≥ 9.5 or text mentions 漲停 — guarded in math-core limitUpStyleFlag
+  return limitUpStyleFlag(stock.dayPct, `${stock.risk || ""} ${stock.why || ""}`, LIMIT_UP_DAY_PCT);
 }
 
 /**
@@ -359,51 +366,26 @@ function applySells(book, latest, market, quotes) {
     }
     const mark = q.price;
     pos.mark = mark;
-    const ret = unrealizedRet(pos);
     const dayPct = q && typeof q.dayPct === "number" ? q.dayPct : pos.dayPct;
     const aboveSma20 = q && typeof q.aboveSma20 === "boolean" ? q.aboveSma20 : pos.aboveSma20;
 
-    let action = null;
-    // 1 停損
-    if (ret != null && ret <= STOP_LOSS_RET) {
-      action = { reason: "stop", text: "停損：未實現報酬 ≤ −3%", qty: pos.qty };
-    }
-    // 2 漲停追價隔日急殺
-    else if (
-      pos.limitUpStyle &&
-      pos.openedOn &&
-      pos.openedOn < date &&
-      typeof dayPct === "number" &&
-      dayPct <= LIMIT_UP_CHASE_DROP
-    ) {
-      action = {
-        reason: "limit-up-chase",
-        text: "漲停追價隔日急殺：買進時近漲停，今日日漲跌 ≤ −5%",
+    // rule chain stop → limit-up-chase → momentum-break → off-list → take-profit — guarded in math-core paperExitAction
+    const exit = paperExitAction(
+      {
+        mark,
+        avgCost: pos.avgCost,
         qty: pos.qty,
-      };
-    }
-    // 3 動能轉弱（需要當日報價的 aboveSma20 / dayPct）
-    else if (aboveSma20 === false && typeof dayPct === "number" && dayPct < MOMENTUM_DAY_PCT) {
-      action = {
-        reason: "momentum-break",
-        text: "動能轉弱：未站上 SMA20 且當日跌超過 2%",
-        qty: pos.qty,
-      };
-    }
-    // 4 離開名單且虧損
-    else if (!inList.has(pos.ticker) && unrealizedPnl(pos) < 0) {
-      action = {
-        reason: "off-list",
-        text: "離開當日名單且未實現虧損",
-        qty: pos.qty,
-      };
-    }
-    // 5 停利賣一半
-    else if (ret != null && ret >= TAKE_PROFIT_RET) {
-      // half, rounded down to whole lots; ≤ 1 lot (or half < 1 lot) ⇒ all — guarded in math-core
-      const qty = takeProfitQty(pos.qty, lotSizeOf(market));
-      if (qty != null) action = { reason: "take-profit", text: "停利：未實現報酬 ≥ +12%（賣一半或全數）", qty };
-    }
+        dayPct,
+        aboveSma20,
+        limitUpStyle: pos.limitUpStyle === true,
+        openedOn: pos.openedOn,
+        date,
+        inList: inList.has(pos.ticker),
+        lotSize: lotSizeOf(market),
+      },
+      EXIT_RULES
+    );
+    const action = exit ? { reason: exit.reason, text: EXIT_TEXT[exit.reason], qty: exit.qty } : null;
 
     if (action) {
       sellPosition(book, pos, action.qty, mark, action.reason, action.text, date, latest.asOf);
@@ -514,8 +496,8 @@ function applyBuys(book, latest, market, soldToday) {
       // 持續買進：仍在名單、未滿 8%、今天還沒加過、今天沒賣過
       if (soldToday.has(stock.ticker)) continue;
       if (pos.lastAddDate === date) continue;
-      const roomVal = equity * MAX_POS_PCT - pos.qty * pos.mark;
-      if (roomVal <= 0) continue;
+      const roomVal = addOnRoom(equity, MAX_POS_PCT, pos.qty, pos.mark); // equity·8% − qty·mark; null on junk ⇒ skip
+      if (roomVal == null || roomVal <= 0) continue;
       const qty = sizeShares({
         market,
         price: stock.price,

@@ -2648,6 +2648,242 @@ function techFromBars(bars) {
   ok(`regime ranking dial + screen gates (${n} cases: regimeScoreAdjust / screenAPass / screenTags / stanceListSize = verbatim legacy scoreAdjust / passesScreenA / screensFor / listSizeForStance on 200,000 published-precision rows (45% of values on rule thresholds ±0.01, 10 stance values) with strict Object.is comparator, ${nSpec} rows vs an independent rule-table spec oracle (A ${passA}, B ${tagB}, momentum-A ${momA}, 8/8 notes); ${nBound} exact threshold boundaries (>= vs > at every rule); monotone in dayPct/d5Pct, antitone in index; junk strings never coerced, non-finite base ⇒ −1e9, null-dayPct legacy quirk pinned; wiring; market-regime wrappers; caller path ${packCmp} Kostolany packs = legacy module (${packHits} hits); live latest.json ${live} picks: screens, notes, A-order, list size)`);
 }
 
+// ── Paper-trade exit rule chain + limit-up flag + add-on headroom (2026-10-30) ──
+// Dependencies: [exit] mark, avgCost, qty, dayPct (quote, else last mark's), aboveSma20 (same fallback), limitUpStyle,
+// openedOn vs today, in today's list, lot size; [flag] buy-day dayPct + risk/why text; [room] equity, 8%, qty, mark.
+{
+  const C = await import("./math-core.mjs");
+  const L = await import("./study/legacy-paper-exit-2026-10-30.mjs");
+  let n = 0, nSpec = 0, specFpDiff = 0, exactOnBoundary = 0;
+  const bad = (m) => fail(`paper exit: ${m}`);
+  let s = 20261030 >>> 0;
+  const rnd = () => ((s = (Math.imul(s, 1664525) + 1013904223) >>> 0) / 4294967296);
+  const ri = (a, b) => a + Math.floor(rnd() * (b - a + 1));
+  const pick = (a) => a[Math.floor(rnd() * a.length)];
+  const enc = (k, v) => (typeof v === "number" && (!Number.isFinite(v) || Object.is(v, -0)) ? `#num:${Object.is(v, -0) ? "-0" : String(v)}` : v === undefined ? "#undef" : v);
+  const same = (x, y) => (x === null || y === null || typeof x !== "object" || typeof y !== "object" ? Object.is(x, y) : JSON.stringify(x, enc) === JSON.stringify(y, enc));
+  n++; if (same(Infinity, null) || same([NaN], [null]) || same(-0, 0) || same({ a: undefined }, { a: null }) || !same({ reason: "stop", qty: 3 }, { reason: "stop", qty: 3 })) bad(`strict comparator broken`);
+  const RULES = { stopLossRet: -0.03, takeProfitRet: 0.12, momentumDayPct: -2, limitUpChaseDrop: -5 };
+  const TEXT = {
+    stop: "停損：未實現報酬 ≤ −3%",
+    "limit-up-chase": "漲停追價隔日急殺：買進時近漲停，今日日漲跌 ≤ −5%",
+    "momentum-break": "動能轉弱：未站上 SMA20 且當日跌超過 2%",
+    "off-list": "離開當日名單且未實現虧損",
+    "take-profit": "停利：未實現報酬 ≥ +12%（賣一半或全數）",
+  };
+  n++; if (!same(C.PAPER_EXIT_RULES, RULES) || !Object.isFrozen(C.PAPER_EXIT_RULES)) bad(`PAPER_EXIT_RULES ≠ legacy constants`);
+  // the caller adapter = the exact statements in paper-trade applySells (checked against the source in the wiring step)
+  const viaCaller = (pos, q, { date, market, inList }) => {
+    const mark = q.price;
+    pos.mark = mark;
+    const dayPct = q && typeof q.dayPct === "number" ? q.dayPct : pos.dayPct;
+    const aboveSma20 = q && typeof q.aboveSma20 === "boolean" ? q.aboveSma20 : pos.aboveSma20;
+    const exit = C.paperExitAction({ mark, avgCost: pos.avgCost, qty: pos.qty, dayPct, aboveSma20, limitUpStyle: pos.limitUpStyle === true, openedOn: pos.openedOn, date, inList: inList.has(pos.ticker), lotSize: market === "TW" ? 1000 : 1 }, RULES);
+    return exit ? { reason: exit.reason, text: TEXT[exit.reason], qty: exit.qty } : null;
+  };
+  // exact rational of a finite double (BigInt numerator / power-of-two denominator)
+  const frac = (x) => {
+    if (x === 0) return [0n, 1n];
+    const dv = new DataView(new ArrayBuffer(8)); dv.setFloat64(0, x);
+    const hi = dv.getUint32(0), lo = dv.getUint32(4), e = (hi >>> 20) & 0x7ff;
+    let mant = (BigInt(hi & 0xfffff) << 32n) | BigInt(lo), ex;
+    if (e === 0) ex = -1074; else { mant |= 1n << 52n; ex = e - 1075; }
+    const sg = hi >>> 31 ? -1n : 1n;
+    return ex >= 0 ? [sg * (mant << BigInt(ex)), 1n] : [sg * mant, 1n << BigInt(-ex)];
+  };
+  n++; { const [a, b] = frac(0.1); if (a * 10n === b || !(a * 10n > b)) bad(`frac(0.1) not exact (0.1 double is slightly above 1/10)`); }
+  // published prices are decimals: read each number as the decimal it prints as (shortest round-trip string), exactly
+  const fracDec = (x) => { const m = /^(-?)(\d+)(?:\.(\d+))?$/.exec(String(x)); if (!m) return frac(x); const d = m[3] || ""; return [(m[1] ? -1n : 1n) * BigInt(m[2] + d), 10n ** BigInt(d.length)]; };
+  n++; { const [a, b] = fracDec(0.1), [c, d] = fracDec(2.91); if (a !== 1n || b !== 10n || c !== 291n || d !== 100n || fracDec(1e21)[1] !== 1n) bad(`fracDec wrong`); }
+  // sign of (P·mark − Q·avg) exactly, on the decimal values
+  const cmpExact = (mark, avg, P, Q) => { const [mn, md] = fracDec(mark), [an, ad] = fracDec(avg); const d = P * mn * ad - Q * an * md; return d > 0n ? 1 : d < 0n ? -1 : 0; };
+  // independent spec oracle from the published rule table, exact rational returns
+  const spec = (pos, q, { date, market, inList }) => {
+    const m = q.price, a = pos.avgCost, qty = pos.qty;
+    const day = typeof q.dayPct === "number" ? q.dayPct : pos.dayPct;
+    const up = typeof q.aboveSma20 === "boolean" ? q.aboveSma20 : pos.aboveSma20;
+    const retOk = m > 0 && a > 0;
+    if (retOk && cmpExact(m, a, 100n, 97n) <= 0) return { reason: "stop", qty };
+    if (pos.limitUpStyle === true && pos.openedOn < date && typeof day === "number" && day <= -5) return { reason: "limit-up-chase", qty };
+    if (up === false && typeof day === "number" && day < -2) return { reason: "momentum-break", qty };
+    if (!inList.has(pos.ticker) && a > 0 && m >= 0 && m < a) return { reason: "off-list", qty };
+    if (retOk && cmpExact(m, a, 100n, 112n) >= 0) {
+      const lot = market === "TW" ? 1000 : 1, lots = qty / lot;
+      return { reason: "take-profit", qty: lots <= 1 || Math.floor(lots / 2) < 1 ? qty : Math.floor(lots / 2) * lot };
+    }
+    return null;
+  };
+  const tick = (p) => (p < 10 ? 0.01 : p < 50 ? 0.05 : p < 100 ? 0.1 : p < 500 ? 0.5 : p < 1000 ? 1 : 5);
+  const onGrid = (p, mk) => { if (mk === "US") return Math.round(p * 100) / 100; const t = tick(p); return Math.round(Math.round(p / t) * t * 100) / 100; };
+  const DAYS = ["2026-09-16", "2026-10-01", "2026-10-15", "2026-10-28", "2026-10-29"];
+  const genCase = () => {
+    const market = rnd() < 0.5 ? "US" : "TW";
+    const base = onGrid(market === "US" ? 5 + rnd() * 900 : 8 + rnd() * 1200, market) || 1;
+    let avg = base, qty = market === "TW" ? 1000 * ri(1, 10) : ri(1, 300);
+    const kind = rnd();
+    if (kind < 0.35 && market === "US") { // blended adds (avgCostAfterBuy floats)
+      let q0 = ri(1, 100); for (let k = 0; k < ri(1, 3); k++) { const q1 = ri(1, 100), p1 = onGrid(base * (0.9 + rnd() * 0.25), market); avg = C.avgCostAfterBuy(q0, avg, q1, p1); q0 += q1; } qty = q0;
+    } else if (kind < 0.35) { let q0 = qty; for (let k = 0; k < ri(1, 2); k++) { const q1 = 1000 * ri(1, 3), p1 = onGrid(base * (0.9 + rnd() * 0.25), market); avg = C.avgCostAfterBuy(q0, avg, q1, p1); q0 += q1; } qty = q0; }
+    let mark;
+    const mk = rnd();
+    if (mk < 0.12) { avg = ri(5, 900); mark = Math.round(avg * pick([97, 112])) / 100; } // exact decimal −3.00% / +12.00%
+    else if (mk < 0.3) { mark = avg * pick([0.97, 1.12]); if (rnd() < 0.7) mark = onGrid(mark, market); }
+    else if (mk < 0.45) { const t = (market === "US" ? 0.01 : tick(avg)) * pick([-1, 0, 1]); mark = onGrid(avg * pick([0.97, 1.12]) + t, market); }
+    else if (mk < 0.5) mark = avg;
+    else mark = onGrid(avg * (0.85 + rnd() * 0.35), market);
+    const dp = () => (rnd() < 0.35 ? Math.round((pick([-5, -2, 9.5, 0]) + pick([-0.01, 0, 0, 0.01])) * 100) / 100 : Math.round((-10 + rnd() * 20) * 100) / 100);
+    const date = pick(DAYS);
+    const pos = { ticker: market === "TW" ? `${ri(1101, 9999)}.TW` : pick(["NVDA", "AMD", "MSFT", "CRWD", "ZS", "TSM"]), qty, avgCost: avg, mark: avg, openedOn: pick([...DAYS, date, date]), limitUpStyle: rnd() < 0.3, dayPct: rnd() < 0.5 ? dp() : undefined, aboveSma20: rnd() < 0.5 ? rnd() < 0.5 : undefined };
+    const q = { ticker: pos.ticker, price: mark };
+    if (rnd() < 0.9) q.dayPct = dp();
+    if (rnd() < 0.85) q.aboveSma20 = rnd() < 0.5;
+    const inList = new Set(rnd() < 0.5 ? [pos.ticker] : []);
+    return { pos, q, ctx: { date, market, inList } };
+  };
+  // 1) verbatim legacy oracle + exact spec oracle on 300,000 published-precision cases
+  const reasons = {};
+  for (let k = 0; k < 300000; k++) {
+    const { pos, q, ctx } = genCase();
+    const a = viaCaller({ ...pos }, q, ctx), l = L.legacyExitAction({ ...pos }, q, ctx);
+    n++; if (!same(a, l)) { bad(`≠ legacy: ${JSON.stringify({ pos, q, date: ctx.date, a, l })}`); break; }
+    const r = C.paperExitAction({ mark: q.price, avgCost: pos.avgCost, qty: pos.qty, dayPct: typeof q.dayPct === "number" ? q.dayPct : pos.dayPct, aboveSma20: typeof q.aboveSma20 === "boolean" ? q.aboveSma20 : pos.aboveSma20, limitUpStyle: pos.limitUpStyle, openedOn: pos.openedOn, date: ctx.date, inList: ctx.inList.has(pos.ticker), lotSize: ctx.market === "TW" ? 1000 : 1 });
+    reasons[r?.reason ?? "hold"] = (reasons[r?.reason ?? "hold"] || 0) + 1;
+    if (r !== null && !(Number.isInteger(r.qty) && r.qty > 0 && r.qty <= pos.qty)) { bad(`qty out of range ${JSON.stringify(r)}`); break; }
+    if (r && r.reason !== "take-profit" && r.qty !== pos.qty) { bad(`full-sell rule sold partial`); break; }
+    if (r && r.reason === "take-profit" && r.qty !== pos.qty && (r.qty % (ctx.market === "TW" ? 1000 : 1) !== 0 || r.qty > pos.qty / 2)) { bad(`take-profit qty not half in whole lots`); break; }
+    const sp = spec(pos, q, ctx); nSpec++;
+    const ret = (q.price - pos.avgCost) / pos.avgCost;
+    if (cmpExact(q.price, pos.avgCost, 100n, 97n) === 0 || cmpExact(q.price, pos.avgCost, 100n, 112n) === 0) exactOnBoundary++;
+    if (!same(r, sp)) {
+      specFpDiff++;
+      // the only allowed disagreement: float ret lands on the other side of an exact −3% / +12% boundary (≤ 1e-15 away)
+      if (!(Math.abs(ret + 0.03) <= 1e-15 || Math.abs(ret - 0.12) <= 1e-15)) { bad(`≠ exact spec away from a ret boundary: ${JSON.stringify({ pos, q, r, sp, ret })}`); break; }
+    }
+  }
+  for (const k of ["stop", "limit-up-chase", "momentum-break", "off-list", "take-profit", "hold"]) { n++; if (!(reasons[k] > 2000)) bad(`coverage: ${k} only ${reasons[k]}`); }
+  n++; if (!(exactOnBoundary > 20000 && specFpDiff > 2000)) bad(`boundary coverage too thin: exact ${exactOnBoundary}, fp diffs ${specFpDiff}`);
+  // 2) hand boundaries (exact >= / > and priority)
+  const P = (o) => C.paperExitAction({ mark: 100, avgCost: 100, qty: 10, dayPct: 0, aboveSma20: true, limitUpStyle: false, openedOn: "2026-10-01", date: "2026-10-29", inList: true, lotSize: 1, ...o });
+  const R = (o) => P(o)?.reason ?? null, Q = (o) => P(o)?.qty ?? null;
+  const H = [
+    [{ mark: 97 }, "stop"], [{ mark: 97.01 }, null], [{ mark: 96.99 }, "stop"], [{ mark: 112 }, "take-profit"], [{ mark: 111.99 }, null], [{ mark: 112.01 }, "take-profit"],
+    [{ limitUpStyle: true, dayPct: -5 }, "limit-up-chase"], [{ limitUpStyle: true, dayPct: -4.99 }, null], [{ limitUpStyle: true, dayPct: -5, openedOn: "2026-10-29" }, null], [{ limitUpStyle: true, dayPct: -5, openedOn: "2026-10-30" }, null],
+    [{ limitUpStyle: true, dayPct: -5, aboveSma20: false }, "limit-up-chase"], [{ limitUpStyle: "true", dayPct: -6 }, null], [{ limitUpStyle: true, dayPct: -6, openedOn: null }, null], [{ limitUpStyle: true, dayPct: -6, openedOn: "2026-9-1" }, null],
+    [{ aboveSma20: false, dayPct: -2 }, null], [{ aboveSma20: false, dayPct: -2.01 }, "momentum-break"], [{ aboveSma20: undefined, dayPct: -9 }, null], [{ aboveSma20: null, dayPct: -9 }, null], [{ aboveSma20: 0, dayPct: -9 }, null],
+    [{ inList: false, mark: 99.99 }, "off-list"], [{ inList: false, mark: 100 }, null], [{ inList: false, mark: 97 }, "stop"], [{ inList: false, mark: 112 }, "take-profit"], [{ inList: false, mark: 99, aboveSma20: false, dayPct: -3 }, "momentum-break"],
+    [{ mark: 96, limitUpStyle: true, dayPct: -6, aboveSma20: false, inList: false }, "stop"], [{ mark: 113, aboveSma20: false, dayPct: -3 }, "momentum-break"], [{ mark: 113, limitUpStyle: true, dayPct: -5 }, "limit-up-chase"],
+    [{ dayPct: NaN, aboveSma20: false }, null], [{ dayPct: -Infinity, aboveSma20: false }, null], [{ dayPct: -Infinity, limitUpStyle: true }, null], [{ dayPct: "-9", aboveSma20: false }, null],
+    [{ mark: 0, inList: false }, "off-list"], [{ mark: -1, inList: false }, null], [{ avgCost: 0, mark: 50 }, null], [{ mark: NaN, inList: false }, null], [{ mark: Infinity }, null],
+    [{ qty: 0, mark: 50 }, null], [{ qty: -10, mark: 50 }, null], [{ qty: 1.5, mark: 50 }, null], [{ qty: "10", mark: 50 }, null], [{ qty: NaN, mark: 50 }, null],
+  ];
+  for (const [o, want] of H) { n++; if (R(o) !== want) bad(`boundary ${JSON.stringify(o, enc)} ⇒ ${R(o)} (want ${want})`); }
+  // mutation round 1 holes: missing ret/dayPct must never fire even under non-negative custom thresholds (null ≤ 0 / null < 1 coerce to true);
+  // malformed dates that still compare '<' as strings; non-boolean inList; non-string text
+  const ZR = { stopLossRet: 0, takeProfitRet: 0, momentumDayPct: 1, limitUpChaseDrop: 1 };
+  const base0 = { avgCost: 100, qty: 10, aboveSma20: false, limitUpStyle: true, openedOn: "2026-10-01", date: "2026-10-29", inList: true };
+  for (const [o, want] of [
+    [{ mark: NaN, dayPct: null }, null], [{ mark: NaN, dayPct: undefined, limitUpStyle: false }, null], [{ mark: 0, dayPct: NaN, aboveSma20: true, limitUpStyle: false }, null],
+    [{ mark: 101, dayPct: 0.5 }, "limit-up-chase"], [{ mark: 101, dayPct: 0.5, limitUpStyle: false }, "momentum-break"], [{ mark: 101, dayPct: 3, aboveSma20: true }, "take-profit"], [{ mark: 100, dayPct: 3, aboveSma20: true }, "stop"],
+  ]) { n++; const got = C.paperExitAction({ ...base0, ...o }, ZR)?.reason ?? null; if (got !== want) bad(`custom-threshold ${JSON.stringify(o, enc)} ⇒ ${got} (want ${want})`); }
+  n++; if (C.paperExitAction({ ...base0, mark: NaN, dayPct: null, aboveSma20: true, limitUpStyle: false }, { ...ZR, stopLossRet: -1 }) !== null) bad(`missing ret must not take profit at a 0% target`);
+  for (const [od, dt] of [["2025", "2026-10-29"], ["2026-1-5", "2026-10-29"], [["2026-10-01"], "2026-10-29"], [20261001, "2026-10-29"], ["2026-10-01", "2026-12"], ["2026-10-01", 20261029], ["2026-10-01", "2026-10-29x"], ["x2026-10-01", "2026-10-29"]]) {
+    n++; if (R({ limitUpStyle: true, dayPct: -6, openedOn: od, date: dt }) !== null) bad(`malformed openedOn/date ${JSON.stringify([od, dt])} must not fire limit-up-chase`);
+  }
+  for (const il of [undefined, null, 0, "", "no", NaN]) { n++; if (R({ inList: il, mark: 99 }) !== null || R({ inList: false, mark: 99 }) !== "off-list") bad(`inList=${String(il)} must not count as off-list`); }
+  for (const t of [["漲停"], { toString: () => "漲停" }, 123, null, undefined]) { n++; if (C.limitUpStyleFlag(0, t) !== false) bad(`limitUpStyleFlag non-string text ${String(t)} must be false`); }
+  // FINDING pinned (not changed — rule decision): float ret misses some exact decimal boundaries, e.g. cost 3.00 → 2.91 is exactly −3.00%
+  // but (2.91 − 3)/3 = −0.029999999999999954 > −0.03 ⇒ no stop; cost 1.25 → 1.40 is exactly +12.00% but reads 0.11999999999999993 ⇒ no take-profit
+  n++; if (R({ avgCost: 3, mark: 2.91 }) !== null || R({ avgCost: 1.25, mark: 1.4 }) !== null || L.legacyExitAction({ ticker: "X", qty: 10, avgCost: 3, mark: 3, openedOn: "2026-10-01" }, { price: 2.91 }, { date: "2026-10-29", market: "US", inList: new Set(["X"]) }) !== null) bad(`FP boundary finding reference changed`);
+  // legacy reference for the junk differences (documented): −Infinity dayPct sold, string limitUpStyle counted
+  const lj = (pos, q) => L.legacyExitAction({ ticker: "X", qty: 10, avgCost: 100, mark: 100, openedOn: "2026-10-01", limitUpStyle: false, ...pos }, { price: 100, ...q }, { date: "2026-10-29", market: "US", inList: new Set(["X"]) })?.reason ?? null;
+  n++; if (lj({}, { dayPct: -Infinity, aboveSma20: false }) !== "momentum-break" || lj({ limitUpStyle: "yes" }, { dayPct: -6 }) !== "limit-up-chase") bad(`legacy junk reference changed`);
+  for (const [qty, lot, want] of [[1, 1, 1], [2, 1, 1], [3, 1, 1], [4, 1, 2], [101, 1, 50], [1000, 1000, 1000], [2000, 1000, 1000], [3000, 1000, 1000], [5000, 1000, 2000], [1500, 1000, 1500]]) {
+    n++; if (Q({ mark: 120, qty, lotSize: lot }) !== want) bad(`take-profit qty ${qty}/${lot} ⇒ ${Q({ mark: 120, qty, lotSize: lot })} want ${want}`);
+  }
+  n++; if (P({ mark: 120, lotSize: 0 }) !== null || P({ mark: 120, lotSize: 1.5 }) !== null) bad(`bad lot size must give no take-profit action`);
+  // 3) invariants: scale (mark, avg ×2 exact), monotonicity in mark, off-list ⇒ ret < take-profit, junk never leaks
+  for (let k = 0; k < 40000; k++) {
+    const { pos, q, ctx } = genCase();
+    const args = { mark: q.price, avgCost: pos.avgCost, qty: pos.qty, dayPct: q.dayPct, aboveSma20: q.aboveSma20, limitUpStyle: pos.limitUpStyle, openedOn: pos.openedOn, date: ctx.date, inList: ctx.inList.has(pos.ticker), lotSize: ctx.market === "TW" ? 1000 : 1 };
+    const r = C.paperExitAction(args);
+    n++; if (!same(r, C.paperExitAction({ ...args, mark: args.mark * 2, avgCost: args.avgCost * 2 }))) { bad(`not scale-invariant`); break; }
+    const lower = C.paperExitAction({ ...args, mark: args.mark * 0.9 }), higher = C.paperExitAction({ ...args, mark: args.mark * 1.1 });
+    n++; if (r?.reason === "stop" && lower?.reason !== "stop") { bad(`stop not monotone in mark`); break; }
+    n++; if (r?.reason === "take-profit" && higher?.reason !== "take-profit") { bad(`take-profit not monotone in mark`); break; }
+    n++; if (r === null && lower?.reason === "take-profit") { bad(`lower mark took profit while higher held`); break; }
+    const u = C.unrealizedPnlOf(args.mark, args.avgCost, args.qty), rt = C.unrealizedReturn(args.mark, args.avgCost);
+    n++; if (u != null && u < 0 && rt != null && rt >= 0.12) { bad(`off-list and take-profit overlap`); break; }
+    n++; if (["limit-up-chase", "momentum-break"].includes(r?.reason) && !same(r, C.paperExitAction({ ...args, mark: args.mark * 1.001 })) && !(rt != null && Math.abs(rt * 1.001 + 0.001 + 0.03) < 0.01)) { bad(`day rules depend on mark away from stop`); break; }
+    const junk = pick([NaN, Infinity, -Infinity, "5", null, undefined, {}, -0]);
+    const key = pick(["mark", "avgCost", "qty", "dayPct", "aboveSma20", "limitUpStyle", "openedOn", "date", "inList", "lotSize"]);
+    const j = C.paperExitAction({ ...args, [key]: junk });
+    n++; if (!(j === null || (["stop", "limit-up-chase", "momentum-break", "off-list", "take-profit"].includes(j.reason) && Number.isInteger(j.qty) && j.qty > 0))) { bad(`junk ${key}=${String(junk)} leaked ${JSON.stringify(j, enc)}`); break; }
+  }
+  n++; if (C.paperExitAction() !== null || C.paperExitAction({}) !== null || C.paperExitAction({ mark: 50, avgCost: 100, qty: 1 }, {}) !== null) bad(`missing args/rules must give null`);
+  // 4) limitUpStyleFlag = legacy isLimitUpStyle through the caller's text build
+  const lu = (stock) => { if (!stock) return false; return C.limitUpStyleFlag(stock.dayPct, `${stock.risk || ""} ${stock.why || ""}`, 9.5); };
+  for (let k = 0; k < 60000; k++) {
+    const st = rnd() < 0.02 ? pick([null, undefined]) : { dayPct: rnd() < 0.1 ? pick([undefined, null, "10", NaN]) : Math.round((pick([9.5, 9.49, 9.51, 10, 9.99]) * (rnd() < 0.6 ? 1 : 0) + (rnd() < 0.4 ? 0 : -10 + rnd() * 20)) * 100) / 100, risk: pick([undefined, null, "", "接近漲停，追高風險", "量縮"]), why: pick([undefined, "強勢漲停鎖住", "RS 強", 0]) };
+    n++; if (lu(st) !== L.isLimitUpStyle(st)) { bad(`limitUpStyleFlag ≠ legacy ${JSON.stringify(st)}`); break; }
+  }
+  for (const [d, t, w] of [[9.5, "", true], [9.49, "", false], [9.4999, "", false], [Infinity, "", false], [NaN, "漲停", true], ["9.6", "", false], [10, null, true], [0, 5, false]]) { n++; if (C.limitUpStyleFlag(d, t) !== w) bad(`limitUpStyleFlag(${d}, ${t}) ≠ ${w}`); }
+  n++; if (L.isLimitUpStyle({ dayPct: Infinity }) !== true) bad(`legacy +Infinity reference changed`);
+  // 5) addOnRoom = legacy roomVal bit-for-bit on finite data, sign decides the skip identically; junk ⇒ null
+  for (let k = 0; k < 60000; k++) {
+    const mk = rnd() < 0.5 ? "US" : "TW", eq = Math.round((mk === "US" ? 9e4 + rnd() * 3e4 : 2.7e6 + rnd() * 6e5) * 100) / 100;
+    const mark = onGrid(mk === "US" ? 5 + rnd() * 900 : 8 + rnd() * 1200, mk) || 1;
+    const qty = rnd() < 0.2 ? Math.max(mk === "TW" ? 1000 : 1, Math.round((eq * 0.08) / mark / (mk === "TW" ? 1000 : 1)) * (mk === "TW" ? 1000 : 1)) : mk === "TW" ? 1000 * ri(1, 8) : ri(1, 120);
+    const a = C.addOnRoom(eq, 0.08, qty, mark), l = L.legacyRoomVal(eq, { qty, mark });
+    n++; if (!Object.is(a, l)) { bad(`addOnRoom ≠ legacy ${eq} ${qty} ${mark}: ${a} vs ${l}`); break; }
+  }
+  for (const args of [[NaN, 0.08, 1, 1], [1e6, 0.08, Infinity, 1], [1e6, "0.08", 1, 1], [1e308, 8, 1, 1], [1e6, 0.08, null, 5], [1e6, 0.08, 1, undefined]]) { n++; if (C.addOnRoom(...args) !== null) bad(`addOnRoom junk ${args} ⇒ ${C.addOnRoom(...args)}`); }
+  n++; if (!Object.is(C.addOnRoom(100000, 0.08, 80, 100), 0) || C.addOnRoom(100000, 0.08, 81, 100) >= 0) bad(`addOnRoom 8% boundary`);
+  // 6) wiring: paper-trade calls the core with exactly the adapter above, texts and constants unchanged, no inline chain left
+  const ptSrc = readFileSync(join(ROOT_MG, "scripts/paper-trade.mjs"), "utf8");
+  const callBlock = `    const mark = q.price;
+    pos.mark = mark;
+    const dayPct = q && typeof q.dayPct === "number" ? q.dayPct : pos.dayPct;
+    const aboveSma20 = q && typeof q.aboveSma20 === "boolean" ? q.aboveSma20 : pos.aboveSma20;
+
+    // rule chain stop → limit-up-chase → momentum-break → off-list → take-profit — guarded in math-core paperExitAction
+    const exit = paperExitAction(
+      {
+        mark,
+        avgCost: pos.avgCost,
+        qty: pos.qty,
+        dayPct,
+        aboveSma20,
+        limitUpStyle: pos.limitUpStyle === true,
+        openedOn: pos.openedOn,
+        date,
+        inList: inList.has(pos.ticker),
+        lotSize: lotSizeOf(market),
+      },
+      EXIT_RULES
+    );
+    const action = exit ? { reason: exit.reason, text: EXIT_TEXT[exit.reason], qty: exit.qty } : null;
+`;
+  n++; if (!ptSrc.includes(callBlock)) bad(`paper-trade applySells not wired to paperExitAction with the guarded adapter`);
+  n++; if (/ret <= STOP_LOSS_RET|ret >= TAKE_PROFIT_RET|dayPct <= LIMIT_UP_CHASE_DROP|dayPct < MOMENTUM_DAY_PCT|stock\.dayPct >= LIMIT_UP_DAY_PCT|equity \* MAX_POS_PCT - pos\.qty/.test(ptSrc)) bad(`inline exit/flag/room math still in paper-trade`);
+  n++; if (!/const EXIT_RULES = \{ stopLossRet: STOP_LOSS_RET, takeProfitRet: TAKE_PROFIT_RET, momentumDayPct: MOMENTUM_DAY_PCT, limitUpChaseDrop: LIMIT_UP_CHASE_DROP \};/.test(ptSrc)) bad(`EXIT_RULES not built from the rule constants`);
+  for (const [k, v] of [["STOP_LOSS_RET", "-0.03"], ["TAKE_PROFIT_RET", "0.12"], ["MOMENTUM_DAY_PCT", "-2"], ["LIMIT_UP_DAY_PCT", "9.5"], ["LIMIT_UP_CHASE_DROP", "-5"], ["MAX_POS_PCT", "0.08"], ["TW_LOT", "1000"]]) { n++; if (!new RegExp(`const ${k} = ${v.replace(".", "\\.")};`).test(ptSrc)) bad(`paper-trade constant ${k} ≠ ${v}`); }
+  for (const [k, v] of Object.entries(TEXT)) { n++; if (!ptSrc.includes(`${JSON.stringify(k).replace(/^"(stop)"$/, "$1")}: ${JSON.stringify(v)}`)) bad(`EXIT_TEXT ${k} changed`); }
+  n++; if (!ptSrc.includes('return limitUpStyleFlag(stock.dayPct, `${stock.risk || ""} ${stock.why || ""}`, LIMIT_UP_DAY_PCT);') || !ptSrc.includes("const roomVal = addOnRoom(equity, MAX_POS_PCT, pos.qty, pos.mark);") || !ptSrc.includes("if (roomVal == null || roomVal <= 0) continue;")) bad(`limit-up flag / add-on room not wired`);
+  // 7) live published book: every SELL's reason is consistent with its own price vs avgCostAtSale and the rule order
+  let live = 0;
+  try {
+    const folio = JSON.parse(readFileSync(join(ROOT_MG, "public/data/paper-portfolio.json"), "utf8"));
+    for (const mk of ["TW", "US"]) for (const t of folio.books[mk].trades.filter((x) => x.side === "SELL")) {
+      const ret = (t.price - t.avgCostAtSale) / t.avgCostAtSale; live++;
+      n++; if (TEXT[t.reason] !== t.reasonText) bad(`live ${mk} ${t.ticker} ${t.date}: reasonText ≠ rule text`);
+      const ok = t.reason === "stop" ? ret <= -0.03 + 1e-9 : t.reason === "take-profit" ? ret >= 0.12 - 1e-9 : t.reason === "off-list" ? ret < 0 && ret > -0.03 - 1e-9 : ret > -0.03 - 1e-9;
+      n++; if (!ok) bad(`live ${mk} ${t.ticker} ${t.date} ${t.reason}: ret ${(ret * 100).toFixed(3)}% inconsistent with rule order`);
+    }
+  } catch (e) { bad(`live paper exit check: ${e.message}`); }
+  n++; if (!(live > 30)) bad(`live coverage too thin: ${live} sells`);
+  ok(`paper exit rule chain (${n} cases: paperExitAction through the paper-trade adapter = verbatim legacy applySells chain on 300,000 published-precision positions (US 2 dp, TW tick grid, blended avgCostAfterBuy costs, 30% marks on −3%/+12% ±1 tick, dayPct on −5/−2/9.5 ±0.01, quote→last-mark fallbacks) with strict Object.is comparator; ${nSpec} vs an exact decimal-rational spec oracle (BigInt) — ${specFpDiff} disagreements, all float ret within 1e-15 of an exact −3%/+12% boundary (${exactOnBoundary} exact-boundary cases); ${H.length} hand boundaries (≤/< per rule, rule priority, same-day chase, junk); take-profit lots; scale invariance, monotone stop/take-profit in mark, off-list ∩ take-profit = ∅, junk never leaks; limitUpStyleFlag = legacy on 60,000 stocks; addOnRoom = legacy roomVal bit-for-bit on 60,000; wiring + constants + texts; live ${live} published sells consistent)`);
+}
+
 console.log("——");
 if (failures.length) {
   console.error(`▶ math-guards: ${failures.length} failure(s)`);
