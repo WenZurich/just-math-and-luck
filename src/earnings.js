@@ -203,6 +203,12 @@ function plainWatch(row, timing) {
       if (lr.epsEstimate != null && lr.epsSurprisePct != null && Number.isFinite(lr.epsSurprisePct)) {
         const key = lr.epsSurprisePct > 0 ? "earningsBeat" : lr.epsSurprisePct < 0 ? "earningsMiss" : "earningsInline";
         s += t(key, { e: fmtNum(lr.epsEstimate, 2), p: Math.abs(lr.epsSurprisePct).toFixed(1) });
+        // Actual and estimate are one same-basis pair (scripts/eps-basis.mjs); say so when GAAP differs.
+        if (lr.epsGaap != null && Math.abs(Number(lr.epsGaap) - Number(lr.epsActual)) >= 0.005) {
+          s += t("earningsGaapNote", { g: fmtNum(lr.epsGaap, 2) });
+        }
+      } else if (lr.epsBasis === "gaap-estimate-dropped") {
+        s += t("earningsNoSameBasis");
       }
       parts.push(s);
     }

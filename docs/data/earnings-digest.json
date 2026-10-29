@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-29T00:20:08.002Z",
+  "asOf": "2026-10-29T02:00:48.052Z",
   "market": "US",
   "twStub": {
     "status": "planned",
@@ -22,16 +22,27 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-06-30",
+        "currency": "USD",
+        "epsGaap": 2.02,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 2.02,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
         "epsActual": 2.02,
         "epsEstimate": 1.8924,
         "epsSurprisePct": 6.74,
-        "currency": "USD"
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "provider-pair (equals GAAP)",
+        "epsBasisNote": null
       },
       "revenueYoYPct": 16.4,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 28.7,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 39.43,
+      "pe": 39.8,
       "forwardPe": 35.96,
       "marketCap": 5017916932096,
       "consensusEpsNext": 1.9826,
@@ -39,7 +50,8 @@
       "whatItDoes": "Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-11-02",
@@ -58,10 +70,21 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-09-30",
+        "currency": "USD",
+        "epsGaap": null,
+        "epsGaapSource": null,
+        "epsGaapCheck": {
+          "value": 4.9213,
+          "approx": true,
+          "source": "Yahoo net income ÷ latest diluted shares (GAAP check only)"
+        },
         "epsActual": 4.89,
         "epsEstimate": 4.7207,
         "epsSurprisePct": 3.59,
-        "currency": "USD"
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
       },
       "revenueYoYPct": 17.7,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
@@ -75,7 +98,8 @@
       "whatItDoes": "Microsoft Corporation, a technology company, develops and supports a portfolio of technology solutions for individuals and businesses worldwide.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-10-28",
@@ -94,10 +118,21 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-07-31",
+        "currency": "USD",
+        "epsGaap": 2.46,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 2.46,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
         "epsActual": 2.22,
         "epsEstimate": 2.0911,
         "epsSurprisePct": 6.16,
-        "currency": "USD"
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
       },
       "revenueYoYPct": 105.9,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
@@ -111,7 +146,8 @@
       "whatItDoes": "NVIDIA Corporation operates as a data center scale AI infrastructure company in the United States, Taiwan, China, Hong Kong, Europe, and internationally. It operates through Compute & Networking, and Graphics segments.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-11-17",
@@ -130,10 +166,26 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-06-30",
-        "epsActual": 5.75,
-        "epsEstimate": 1.8246,
-        "epsSurprisePct": 215.14,
-        "currency": "USD"
+        "currency": "USD",
+        "epsGaap": 5.75,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 5.75,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
+        "epsActual": 1.88,
+        "epsEstimate": 1.83,
+        "epsSurprisePct": 2.73,
+        "epsActualSource": "Nasdaq earnings-surprise (eps/consensusForecast, Zacks)",
+        "epsEstimateSource": "Nasdaq earnings-surprise (eps/consensusForecast, Zacks)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": "primary actual 5.75 equals GAAP diluted EPS; replaced by same-provider adjusted pair",
+        "replacedPair": {
+          "epsActual": 5.75,
+          "epsEstimate": 1.8246,
+          "source": "Yahoo earningsHistory (epsActual/epsEstimate)"
+        }
       },
       "revenueYoYPct": 19.6,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
@@ -147,11 +199,12 @@
       "whatItDoes": "Amazon.com, Inc. engages in the retail sale of consumer products, advertising, and subscriptions service through online and physical stores in North America and internationally.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-10-29",
-        "最近一季（2026-06-30）：EPS 5.75",
+        "最近一季（2026-06-30）：EPS 1.88",
         "市場預估下次 EPS 約 1.9925（Yahoo）"
       ],
       "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +19.6%（Yahoo）；獲利成長約 +242.3%（Yahoo earningsGrowth）"
@@ -166,16 +219,32 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-09-30",
-        "epsActual": 2.12,
-        "epsEstimate": 3.0078,
-        "epsSurprisePct": -29.52,
-        "currency": "USD"
+        "currency": "USD",
+        "epsGaap": 2.12,
+        "epsGaapSource": "Yahoo earningsHistory (epsActual/epsEstimate) (matches Yahoo net income ÷ latest diluted shares (GAAP check only))",
+        "epsGaapCheck": {
+          "value": 2.1261,
+          "approx": true,
+          "source": "Yahoo net income ÷ latest diluted shares (GAAP check only)"
+        },
+        "epsActual": 2.67,
+        "epsEstimate": 3.017,
+        "epsSurprisePct": -11.5,
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate) via GOOG",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate) via GOOG",
+        "epsBasis": "adjusted",
+        "epsBasisNote": "primary actual 2.12 equals GAAP diluted EPS; replaced by same-provider adjusted pair",
+        "replacedPair": {
+          "epsActual": 2.12,
+          "epsEstimate": 3.0078,
+          "source": "Yahoo earningsHistory (epsActual/epsEstimate)"
+        }
       },
       "revenueYoYPct": 24.2,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 294,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 16.3,
+      "pe": 16.08,
       "forwardPe": 21.39,
       "marketCap": 3973383716864,
       "consensusEpsNext": 3.3262,
@@ -183,12 +252,13 @@
       "whatItDoes": "Alphabet Inc. offers various products and platforms in the United States, Europe, the Middle East, Africa, the Asia-Pacific, Canada, and Latin America.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "Alphabet Class A；GOOG 為 Class C",
         "下次財報約 2026-10-28",
-        "最近一季（2026-09-30）：EPS 2.12",
+        "最近一季（2026-09-30）：EPS 2.67",
         "市場預估下次 EPS 約 3.3262（Yahoo）"
       ],
       "whatToWatch": "關注 2026-10-28 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +24.2%（Yahoo）；獲利成長約 +294%（Yahoo earningsGrowth）"
@@ -203,16 +273,27 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-09-30",
+        "currency": "USD",
+        "epsGaap": 2.12,
+        "epsGaapSource": "Yahoo earningsHistory (epsActual/epsEstimate) (matches Yahoo net income ÷ latest diluted shares (GAAP check only))",
+        "epsGaapCheck": {
+          "value": 2.1261,
+          "approx": true,
+          "source": "Yahoo net income ÷ latest diluted shares (GAAP check only)"
+        },
         "epsActual": 2.67,
         "epsEstimate": 3.017,
         "epsSurprisePct": -11.5,
-        "currency": "USD"
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
       },
       "revenueYoYPct": 24.2,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 294,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 16.15,
+      "pe": 15.9,
       "forwardPe": 21.19,
       "marketCap": 3936694042624,
       "consensusEpsNext": 3.3262,
@@ -220,7 +301,8 @@
       "whatItDoes": "Alphabet Inc. offers various products and platforms in the United States, Europe, the Middle East, Africa, the Asia-Pacific, Canada, and Latin America.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "Alphabet Class C；與 GOOGL 同一公司，財報日通常一致",
@@ -240,10 +322,26 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-09-30",
-        "epsActual": 3.83,
-        "epsEstimate": 5.4648,
-        "epsSurprisePct": -29.91,
-        "currency": "USD"
+        "currency": "USD",
+        "epsGaap": 3.83,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 3.83,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
+        "epsActual": 7.4,
+        "epsEstimate": 6.52,
+        "epsSurprisePct": 13.5,
+        "epsActualSource": "Nasdaq earnings-surprise (eps/consensusForecast, Zacks)",
+        "epsEstimateSource": "Nasdaq earnings-surprise (eps/consensusForecast, Zacks)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": "primary actual 3.83 equals GAAP diluted EPS; replaced by same-provider adjusted pair",
+        "replacedPair": {
+          "epsActual": 3.83,
+          "epsEstimate": 5.4648,
+          "source": "Yahoo earningsHistory (epsActual/epsEstimate)"
+        }
       },
       "revenueYoYPct": 26.1,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
@@ -257,11 +355,12 @@
       "whatItDoes": "Meta Platforms, Inc. engages in the development of products that enable people to connect and share with friends and family through mobile devices, personal computers, virtual reality (VR) headsets, and AI glasses in the…",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-10-21",
-        "最近一季（2026-09-30）：EPS 3.83",
+        "最近一季（2026-09-30）：EPS 7.4",
         "市場預估下次 EPS 約 8.554（Yahoo）"
       ],
       "whatToWatch": "關注 2026-10-21 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +26.1%（Yahoo）；獲利成長約 +264.8%（Yahoo earningsGrowth）"
@@ -276,16 +375,27 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-09-30",
+        "currency": "USD",
+        "epsGaap": 0.22,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 0.22,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
         "epsActual": 0.48,
         "epsEstimate": 0.4511,
-        "epsSurprisePct": 6.4,
-        "currency": "USD"
+        "epsSurprisePct": 6.41,
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
       },
       "revenueYoYPct": -0.2,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": -43.6,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 444.2,
+      "pe": 449.13,
       "forwardPe": 187.55,
       "marketCap": 1597772529664,
       "consensusEpsNext": 0.5033,
@@ -293,7 +403,8 @@
       "whatItDoes": "Tesla, Inc. designs, develops, manufactures, leases, and sells electric vehicles, and energy generation and storage systems in the United States, China, and internationally.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-10-21",
@@ -314,16 +425,27 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-06-30",
+        "currency": "USD",
+        "epsGaap": 11.912,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 11.912,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
         "epsActual": 6.0255,
         "epsEstimate": 5.1326,
         "epsSurprisePct": 17.4,
-        "currency": "USD"
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
       },
       "revenueYoYPct": 10,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 107.8,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 13.59,
+      "pe": 13.66,
       "forwardPe": 24.09,
       "marketCap": 1156711186432,
       "consensusEpsNext": 6.1353,
@@ -331,7 +453,8 @@
       "whatItDoes": "Berkshire Hathaway Inc., together with its subsidiaries, engages in the insurance, freight rail transportation, and utility businesses.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-11-07（預估日）",
@@ -353,10 +476,21 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-06-30",
+        "currency": "USD",
+        "epsGaap": 7.94,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 7.94,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
         "epsActual": 8.38,
         "epsEstimate": 6.5845,
         "epsSurprisePct": 27.27,
-        "currency": "USD"
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
       },
       "revenueYoYPct": 47.7,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
@@ -370,7 +504,8 @@
       "whatItDoes": "Eli Lilly and Company discovers, develops, manufactures, and markets human pharmaceutical products in the United States, Europe, China, Japan, and internationally.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-10-29",
@@ -392,10 +527,21 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-06-30",
+        "currency": "USD",
+        "epsGaap": 1.38,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 1.38,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
         "epsActual": 1.66,
         "epsEstimate": 1.6084,
         "epsSurprisePct": 3.21,
-        "currency": "USD"
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
       },
       "revenueYoYPct": 50.1,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
@@ -409,7 +555,8 @@
       "whatItDoes": "Advanced Micro Devices, Inc. operates as a semiconductor company internationally. It operates in three segments: Data Center, Client and Gaming, and Embedded.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-11-03",
@@ -431,16 +578,27 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-06-30",
+        "currency": "USD",
+        "epsGaap": 3.48,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 3.48,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
         "epsActual": 3.52,
         "epsEstimate": 3.6289,
         "epsSurprisePct": -3,
-        "currency": "USD"
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
       },
       "revenueYoYPct": 44.1,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 112.8,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 23.43,
+      "pe": 23.16,
       "forwardPe": 14.91,
       "marketCap": 748450217984,
       "consensusEpsNext": 4.0321,
@@ -448,7 +606,8 @@
       "whatItDoes": "ExxonMobil Holdings Corporation engages in the exploration and production of crude oil and natural gas in the United States, Canada, and internationally.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-10-30",
@@ -470,10 +629,21 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-06-30",
+        "currency": "USD",
+        "epsGaap": 4.97,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 4.97,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
         "epsActual": 5.04,
         "epsEstimate": 4.7761,
         "epsSurprisePct": 5.53,
-        "currency": "USD"
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
       },
       "revenueYoYPct": 14.1,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
@@ -487,7 +657,8 @@
       "whatItDoes": "Mastercard Incorporated, a technology company, provides transaction processing and other payment-related products and services in the United States and internationally.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-10-29",
@@ -509,10 +680,21 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-06-30",
+        "currency": "USD",
+        "epsGaap": 2.03,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 2.03,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
         "epsActual": 3.65,
         "epsEstimate": 3.6084,
         "epsSurprisePct": 1.15,
-        "currency": "USD"
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
       },
       "revenueYoYPct": 10.2,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
@@ -526,7 +708,8 @@
       "whatItDoes": "AbbVie Inc., a research-based biopharmaceutical company, engages in the research and development, manufacturing, commercializing, and sale of medicines and therapies worldwide.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-10-30",
@@ -548,10 +731,21 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-06-30",
+        "currency": "USD",
+        "epsGaap": -2.16,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": -2.16,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
         "epsActual": 0.42,
         "epsEstimate": 0.2158,
-        "epsSurprisePct": 94.59,
-        "currency": "USD"
+        "epsSurprisePct": 94.62,
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
       },
       "revenueYoYPct": 25.4,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
@@ -568,7 +762,8 @@
         "pe"
       ],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-10-29",
@@ -591,10 +786,21 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-06-30",
+        "currency": "USD",
+        "epsGaap": 0.41,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 0.41,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
         "epsActual": 0.41,
         "epsEstimate": 0.346,
-        "epsSurprisePct": 18.51,
-        "currency": "USD"
+        "epsSurprisePct": 18.5,
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "provider-pair (equals GAAP)",
+        "epsBasisNote": null
       },
       "revenueYoYPct": 92.8,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
@@ -608,7 +814,8 @@
       "whatItDoes": "Palantir Technologies Inc. builds and deploys software platforms for the intelligence community to assist in counterterrorism investigations and operations in the United States, the United Kingdom, and internationally.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-11-02",
@@ -630,16 +837,27 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-07-31",
+        "currency": "USD",
+        "epsGaap": 0.97,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 0.97,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
         "epsActual": 1.22,
         "epsEstimate": 1.1688,
         "epsSurprisePct": 4.38,
-        "currency": "USD"
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
       },
       "revenueYoYPct": 17.6,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 52.1,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 33.12,
+      "pe": 33.42,
       "forwardPe": 19.62,
       "marketCap": 434827919360,
       "consensusEpsNext": 1.3243,
@@ -647,7 +865,8 @@
       "whatItDoes": "Cisco Systems, Inc. designs, develops, and sells technologies to power, help, secure, and draw insights from the internet in the Americas, Europe, the Middle East, Africa, the Asia Pacific, Japan, and China.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-11-12",
@@ -669,16 +888,27 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-07-31",
+        "currency": "USD",
+        "epsGaap": 3.17,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 3.17,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
         "epsActual": 3.5,
         "epsEstimate": 3.3944,
         "epsSurprisePct": 3.11,
-        "currency": "USD"
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
       },
       "revenueYoYPct": 24.8,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 42.8,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 35.89,
+      "pe": 34.15,
       "forwardPe": 22.5,
       "marketCap": 330136551424,
       "consensusEpsNext": 4.0558,
@@ -686,7 +916,8 @@
       "whatItDoes": "Applied Materials, Inc. provides materials engineering solutions, equipment, services, and software to the semiconductor and related industries in the United States, China, Korea, Taiwan, Japan, Southeast Asia, Europe, a…",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-11-12",
@@ -708,10 +939,21 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-06-30",
+        "currency": "USD",
+        "epsGaap": null,
+        "epsGaapSource": null,
+        "epsGaapCheck": {
+          "value": 7.7136,
+          "approx": true,
+          "source": "Yahoo net income ÷ latest diluted shares (GAAP check only)"
+        },
         "epsActual": 8.17,
         "epsEstimate": 6.1974,
         "epsSurprisePct": 31.83,
-        "currency": "USD"
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
       },
       "revenueYoYPct": 24,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
@@ -725,7 +967,8 @@
       "whatItDoes": "Caterpillar Inc. provides construction and mining equipment, off-highway diesel and natural gas engines, industrial gas turbines, and diesel-electric locomotives in the United States and internationally.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-10-29",
@@ -747,10 +990,21 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-06-30",
+        "currency": "USD",
+        "epsGaap": 1.16,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 1.16,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
         "epsActual": 0.42,
         "epsEstimate": 0.3998,
         "epsSurprisePct": 5.05,
-        "currency": "USD"
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
       },
       "revenueYoYPct": 33.7,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
@@ -764,7 +1018,8 @@
       "whatItDoes": "Shopify Inc., a commerce technology company, provides tools to start, scale, market, and run a business of various sizes in Canada, the United States, Europe, the Middle East, Africa, the Asia Pacific, and Latin America.…",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-11-03",
@@ -786,16 +1041,27 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-06-30",
+        "currency": "USD",
+        "epsGaap": 1.87,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 1.87,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
         "epsActual": 2.21,
         "epsEstimate": 2.2264,
         "epsSurprisePct": -0.74,
-        "currency": "USD"
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
       },
       "revenueYoYPct": -4,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": -23,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 21.18,
+      "pe": 21.33,
       "forwardPe": 17.96,
       "marketCap": 195382591488,
       "consensusEpsNext": 2.1561,
@@ -803,7 +1069,8 @@
       "whatItDoes": "QUALCOMM Incorporated engages in the development and commercialization of foundational technologies for the wireless industry worldwide.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-11-04",
@@ -825,10 +1092,25 @@
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-06-30",
+        "currency": "USD",
+        "epsGaap": 1.17,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 1.17,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
         "epsActual": 1.17,
-        "epsEstimate": 0.8344,
-        "epsSurprisePct": 40.22,
-        "currency": "USD"
+        "epsEstimate": null,
+        "epsSurprisePct": null,
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": null,
+        "epsBasis": "gaap-estimate-dropped",
+        "epsBasisNote": "actual equals GAAP diluted EPS but consensus is adjusted; no same-basis pair found",
+        "droppedEstimate": {
+          "value": 0.8344,
+          "source": "Yahoo earningsHistory (epsActual/epsEstimate)"
+        }
       },
       "revenueYoYPct": 12.2,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
@@ -842,7 +1124,8 @@
       "whatItDoes": "Uber Technologies, Inc. develops and operates proprietary technology applications in the United States, Canada, Latin America, Europe, the Middle East, Africa, and the Asia Pacific.",
       "missingFields": [],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
         "下次財報約 2026-11-04",

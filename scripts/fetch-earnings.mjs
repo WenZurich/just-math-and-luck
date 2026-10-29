@@ -11,6 +11,17 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  resolveEpsPair,
+  surprisePct,
+  isGaapValue,
+  siblingOf,
+  sameQuarter,
+  SUSPECT_SURPRISE_PCT,
+  SHARE_CLASS_SIBLINGS,
+  SRC_NASDAQ,
+  SRC_YAHOO,
+} from "./eps-basis.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -221,14 +232,103 @@ function pickLastReport(history) {
   // Prefer period === '-1q'
   const last = history.find((h) => h.period === "-1q") || sorted[sorted.length - 1] || history[history.length - 1];
   if (!last) return null;
+  // Raw provider pair (actual + estimate from the SAME Yahoo row). Basis is resolved by eps-basis.mjs.
   return {
     period: last.period || null,
     quarter: last.quarter?.fmt || fmtDate(last.quarter) || null,
     epsActual: round(raw(last.epsActual), 4),
     epsEstimate: round(raw(last.epsEstimate), 4),
-    epsSurprisePct: round(raw(last.surprisePercent) != null ? raw(last.surprisePercent) * 100 : null, 2),
     currency: last.currency || "USD",
+    source: SRC_YAHOO,
   };
+}
+
+/** GAAP diluted EPS for one quarter: Yahoo timeseries field (exact) or net income ÷ diluted shares (approx, check only). */
+async function fetchGaapEps(session, ticker, quarter, incomeHist) {
+  if (!quarter) return null;
+  const p2 = Math.floor(Date.now() / 1000);
+  const p1 = p2 - 86400 * 400;
+  const res = await yahooJson(
+    session,
+    `/ws/fundamentals-timeseries/v1/finance/timeseries/${encodeURIComponent(ticker)}?type=quarterlyDilutedEPS,quarterlyDilutedAverageShares&period1=${p1}&period2=${p2}`
+  );
+  const series = {};
+  for (const s of res.data?.timeseries?.result || []) {
+    const k = s?.meta?.type?.[0];
+    if (k) series[k] = (s[k] || []).filter(Boolean);
+  }
+  const exact = (series.quarterlyDilutedEPS || []).find((x) => x.asOfDate === quarter);
+  if (exact && raw(exact.reportedValue) != null) {
+    return { value: raw(exact.reportedValue), approx: false, source: "Yahoo timeseries quarterlyDilutedEPS (GAAP)" };
+  }
+  const ni = (incomeHist || []).find((h) => (h.endDate?.fmt || fmtDate(h.endDate)) === quarter);
+  const shares = (series.quarterlyDilutedAverageShares || []).map((x) => raw(x.reportedValue)).filter((x) => x > 0).pop();
+  const net = raw(ni?.netIncome);
+  if (net != null && shares) {
+    return { value: net / shares, approx: true, source: "Yahoo net income ÷ latest diluted shares (GAAP check only)" };
+  }
+  return null;
+}
+
+/** Nasdaq/Zacks earnings-surprise: same-provider (actual, consensus) pairs. */
+async function fetchNasdaqSurprise(ticker) {
+  try {
+    const res = await fetch(`https://api.nasdaq.com/api/company/${encodeURIComponent(ticker)}/earnings-surprise`, {
+      headers: { Accept: "application/json", "User-Agent": UA },
+    });
+    if (!res.ok) return [];
+    const j = await res.json();
+    return (j?.data?.earningsSurpriseTable?.rows || [])
+      .map((r) => ({
+        quarter: r.fiscalQtrEnd,
+        epsActual: Number(r.eps),
+        epsEstimate: parseEpsForecast(r.consensusForecast),
+        source: SRC_NASDAQ,
+      }))
+      .filter((r) => Number.isFinite(r.epsActual) && Number.isFinite(r.epsEstimate));
+  } catch {
+    return [];
+  }
+}
+
+function isSuspect(primary, gaap) {
+  const pct = surprisePct(primary?.epsActual, primary?.epsEstimate);
+  return pct != null && Math.abs(pct) > SUSPECT_SURPRISE_PCT && isGaapValue(primary.epsActual, gaap);
+}
+
+/** Re-resolve share-class siblings (GOOGL/GOOG) with each other's pair as an alternative; drop helper fields. */
+function finalizeEps(rows) {
+  const byT = new Map(rows.filter((r) => r?._eps).map((r) => [r.ticker, r]));
+  for (const group of SHARE_CLASS_SIBLINGS) {
+    for (const t of group) {
+      const row = byT.get(t);
+      if (!row) continue;
+      const alts = [];
+      for (const sib of siblingOf(t)) {
+        const sr = byT.get(sib);
+        if (sr?._eps?.primary && sameQuarter(sr._eps.primary.quarter, row._eps.primary.quarter)) {
+          alts.push({ ...sr._eps.primary, via: sib });
+        }
+      }
+      alts.push(...(row._eps.nasdaq || []));
+      row.lastReport = resolveEpsPair({ primary: row._eps.primary, gaap: row._eps.gaap, alts });
+    }
+    // One company: show the GAAP figure on every class when one class's provider row carried it.
+    const lrs = group.map((t) => byT.get(t)?.lastReport).filter(Boolean);
+    const withG = lrs.find((l) => l.epsGaap != null);
+    for (const l of lrs) {
+      if (l.epsGaap == null && withG && sameQuarter(l.quarter, withG.quarter)) {
+        l.epsGaap = withG.epsGaap;
+        l.epsGaapSource = withG.epsGaapSource;
+      }
+    }
+  }
+  for (const r of rows) {
+    if (!r?._eps) continue;
+    delete r._eps;
+    r.notes = buildNotes(r);
+    r.whatToWatch = whatToWatch(r);
+  }
 }
 
 function buildNotes(row) {
@@ -361,7 +461,14 @@ async function fetchTicker(session, ticker, nameHint) {
     price.shortName || price.longName || nameHint || ticker;
   const whatItDoes = truncatePlain(block.summaryProfile?.longBusinessSummary);
 
-  const lastReport = pickLastReport(block.earningsHistory?.history || []);
+  const epsPrimary = pickLastReport(block.earningsHistory?.history || []);
+  let gaap = null;
+  let nasdaq = [];
+  if (epsPrimary?.quarter && epsPrimary.epsActual != null) {
+    gaap = await fetchGaapEps(session, ticker, epsPrimary.quarter, hist);
+    if (isSuspect(epsPrimary, gaap)) nasdaq = await fetchNasdaqSurprise(ticker);
+  }
+  const lastReport = epsPrimary ? resolveEpsPair({ primary: epsPrimary, gaap, alts: nasdaq }) : null;
   const consensusEpsNext = round(raw(cal.earningsAverage), 4);
   const consensusRevNext = raw(cal.revenueAverage);
 
@@ -404,10 +511,12 @@ async function fetchTicker(session, ticker, nameHint) {
     missingFields,
     sources: [
       "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+      "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted",
     ],
   };
   row.notes = buildNotes(row);
   row.whatToWatch = whatToWatch(row);
+  if (epsPrimary) row._eps = { primary: epsPrimary, gaap, nasdaq };
   return row;
 }
 
@@ -602,6 +711,8 @@ async function main() {
     await sleep(SLEEP_MS);
   }
 
+  finalizeEps(mag7);
+
   // —— watchlistHot ——
   const watchlistHot = [];
   const seen = new Set(mag7Set);
@@ -671,6 +782,7 @@ async function main() {
     for (const [ticker, meta] of poolTickers) {
       console.log("watch-cand", ticker);
       const row = await fetchTicker(session, ticker, meta.nameHint);
+      finalizeEps([row]);
       const days = daysFrom(asOfDate, row.nextEarningsDate);
       let lastReportDaysAgo = null;
       if (row.lastReport?.quarter) {

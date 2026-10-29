@@ -36,6 +36,8 @@ export default {
   earningsBeat: " vs. {e} expected — beat by {p}%. ",
   earningsMiss: " vs. {e} expected — missed by {p}%. ",
   earningsInline: " — in line with {e} expected. ",
+  earningsGaapNote: "Both figures use the adjusted basis (excluding one-off or non-cash items), so they compare like for like; under standard accounting (GAAP) EPS was {g}. ",
+  earningsNoSameBasis: ". This figure includes one-off gains or charges that the estimate leaves out, so we don't call it a beat or a miss. ",
   earningsNextUnknown: "Next report date not announced yet.",
   earningsReportedPending: "Reported {date}; the data source has not updated the numbers yet — check back tomorrow.",
   earningsInDays: "in {n} days",

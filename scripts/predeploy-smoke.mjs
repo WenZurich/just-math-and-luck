@@ -560,6 +560,51 @@ async function main() {
         if (/\d+(\.\d+)?\s*(%|億|萬|美元)/.test(zhSrc)) fail("earnings-zh.js must not contain numbers/metrics (descriptions only)");
         else ok("earnings-zh.js: plain descriptions, no numbers");
       }
+      // EPS same-basis guard: actual and estimate must be ONE provider pair on ONE basis (never GAAP actual vs
+      // adjusted consensus — GOOGL 2026-10-28 showed GAAP 2.12 vs 3.01 = −29.5% while GOOG had 2.67 vs 3.02 = −11.5%).
+      {
+        const eb = await import(pathToFileURL(path.join(ROOT, "scripts/eps-basis.mjs")).href);
+        const all = [...(dig.mag7 || []), ...(dig.watchlistHot || [])];
+        const viol = eb.epsBasisViolations(all);
+        if (viol.length) fail(`讀財報 EPS basis: ${viol.join("; ")}`);
+        else ok(`讀財報 EPS basis: ${all.filter((r) => r.lastReport?.epsEstimate != null).length} actual/estimate pairs from one source each; GOOGL/GOOG agree`);
+        const noSrc = all.filter((r) => r.lastReport && r.lastReport.epsActual != null && !r.lastReport.epsActualSource).map((r) => r.ticker);
+        if (noSrc.length) fail(`讀財報 EPS basis: lastReport without epsActualSource (re-run npm run fetch-earnings): ${noSrc.join(", ")}`);
+        const gl = all.find((r) => r.ticker === "GOOGL")?.lastReport;
+        const gc = all.find((r) => r.ticker === "GOOG")?.lastReport;
+        if (gl && gc && eb.sameQuarter(gl.quarter, gc.quarter)) {
+          const d = Math.abs((gl.epsSurprisePct ?? 0) - (gc.epsSurprisePct ?? 0));
+          if (d > eb.SIBLING_SURPRISE_TOL_PP) fail(`GOOGL/GOOG surprise diverge ${gl.epsSurprisePct}% vs ${gc.epsSurprisePct}%`);
+          else ok(`GOOGL/GOOG same quarter ${gl.quarter}: ${gl.epsActual} vs ${gl.epsEstimate} (${gl.epsSurprisePct}%) on both`);
+        }
+        // Self-tests on the resolver (synthetic inputs shaped like the 2026-10-28 Alphabet / 2026-10-21 Meta rows).
+        const Y = eb.SRC_YAHOO, N = eb.SRC_NASDAQ, q = "2026-09-30";
+        const gaapA = { value: 26170 / 12309, approx: true, source: "ni/sh" };
+        const a = eb.resolveEpsPair({ primary: { quarter: q, epsActual: 2.12, epsEstimate: 3.0078, source: Y }, gaap: gaapA, alts: [{ quarter: q, epsActual: 2.67, epsEstimate: 3.017, source: Y, via: "GOOG" }] });
+        const c = eb.resolveEpsPair({ primary: { quarter: q, epsActual: 2.67, epsEstimate: 3.017, source: Y }, gaap: gaapA, alts: [{ quarter: q, epsActual: 2.12, epsEstimate: 3.0078, source: Y, via: "GOOGL" }] });
+        const m = eb.resolveEpsPair({ primary: { quarter: q, epsActual: 3.83, epsEstimate: 5.4648, source: Y }, gaap: { value: 3.83, source: "ts" }, alts: [{ quarter: "Sep 2026", epsActual: 7.4, epsEstimate: 6.52, source: N }] });
+        const u = eb.resolveEpsPair({ primary: { quarter: "2026-06-30", epsActual: 1.17, epsEstimate: 0.8344, source: Y }, gaap: { value: 1.17, source: "ts" }, alts: [{ quarter: "Jun 2026", epsActual: 1.17, epsEstimate: 0.83, source: N }] });
+        const pl = eb.resolveEpsPair({ primary: { quarter: "2026-06-30", epsActual: 0.41, epsEstimate: 0.346, source: Y }, gaap: { value: 0.41, source: "ts" }, alts: [{ quarter: "Jun 2026", epsActual: 0.31, epsEstimate: 0.28, source: N }] });
+        const ms = eb.resolveEpsPair({ primary: { quarter: q, epsActual: 4.89, epsEstimate: 4.7207, source: Y }, gaap: { value: 36629 / 7443, approx: true, source: "ni/sh" } });
+        const mixed = [{ ticker: "X", lastReport: { quarter: q, epsActual: 2.12, epsEstimate: 3.0078, epsSurprisePct: -29.52, epsActualSource: Y, epsEstimateSource: N } }];
+        const gaapVsAdj = [{ ticker: "X", lastReport: { quarter: q, epsActual: 2.12, epsEstimate: 3.0078, epsSurprisePct: -29.52, epsActualSource: Y, epsEstimateSource: Y, epsGaap: 2.12 } }];
+        const sibs = [
+          { ticker: "GOOGL", lastReport: { quarter: q, epsActual: 2.12, epsEstimate: 3.0078, epsSurprisePct: -29.52, epsActualSource: Y, epsEstimateSource: Y } },
+          { ticker: "GOOG", lastReport: { quarter: q, epsActual: 2.67, epsEstimate: 3.017, epsSurprisePct: -11.5, epsActualSource: Y, epsEstimateSource: Y } },
+        ];
+        const errs = [];
+        if (a.epsActual !== 2.67 || a.epsEstimate !== 3.017 || a.epsSurprisePct !== -11.5 || a.epsGaap !== 2.12) errs.push(`GOOGL GAAP pair not replaced by GOOG adjusted pair: ${JSON.stringify(a)}`);
+        if (c.epsActual !== 2.67 || c.epsSurprisePct !== -11.5 || c.replacedPair) errs.push("GOOG adjusted pair must stay");
+        if (m.epsActual !== 7.4 || m.epsEstimate !== 6.52 || m.epsActualSource !== m.epsEstimateSource) errs.push("META: GAAP 3.83 vs adjusted consensus must become one same-provider adjusted pair");
+        if (u.epsEstimate !== null || u.epsSurprisePct !== null || u.epsActual !== 1.17) errs.push("UBER: GAAP actual with no adjusted pair must drop the estimate");
+        if (pl.epsActual !== 0.41 || pl.epsEstimate !== 0.346) errs.push("PLTR: GAAP = adjusted (+18.5%) must keep its own pair");
+        if (ms.epsActual !== 4.89 || ms.epsSurprisePct !== 3.59) errs.push("MSFT: adjusted pair must stay");
+        if (!eb.epsBasisViolations(mixed).length) errs.push("guard must flag actual/estimate from different sources");
+        if (!eb.epsBasisViolations(gaapVsAdj).length) errs.push("guard must flag GAAP actual vs estimate 25%+ away");
+        if (!eb.epsBasisViolations(sibs).some((x) => /GOOGL\/GOOG/.test(x))) errs.push("guard must flag GOOGL/GOOG divergence");
+        if (errs.length) fail(`eps-basis self-test: ${errs.join("; ")}`);
+        else ok("eps-basis self-test: GOOGL→GOOG pair, META→same-provider adjusted, UBER estimate dropped, PLTR/MSFT kept, guard flags mixed sources + sibling divergence");
+      }
     } catch (e) {
       fail(`earnings-digest parse: ${e}`);
     }

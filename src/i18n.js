@@ -116,6 +116,8 @@ const zhHant = {
   earningsBeat: "，市場原本預估 {e}，高於預估 {p}%。",
   earningsMiss: "，市場原本預估 {e}，低於預估 {p}%。",
   earningsInline: "，與市場預估 {e} 相同。",
+  earningsGaapNote: "這兩個數字都是調整後的算法（扣掉一次性或非現金項目），用同一套標準比；照會計準則算是 {g} 美元。",
+  earningsNoSameBasis: "。這個數字含一次性收益或費用，市場預估沒有含，兩者不能直接比，所以不標高於或低於預估。",
   earningsNextUnknown: "下一次財報日期公司尚未公布。",
   earningsReportedPending: "{date} 已公布；這次的數字資料源還沒更新，明天再看。",
   earningsInDays: "還有 {n} 天",

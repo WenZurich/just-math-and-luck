@@ -362,6 +362,26 @@ function pickQuoteSummary(data) {
   };
 }
 
+/** Pick ONE (actual, estimate, surprise) pair — basis-checked digest pair for the same quarter, else the live one. */
+export function lastEpsPair(summary, dlr) {
+  const useDig =
+    dlr && dlr.epsBasis && dlr.epsActual != null && (!summary?.lastEpsQuarter || summary.lastEpsQuarter === dlr.quarter);
+  if (useDig || (summary?.lastEpsActual == null && dlr)) {
+    return {
+      lastEpsActual: dlr.epsActual ?? null,
+      lastEpsEstimate: dlr.epsEstimate ?? null,
+      lastEpsSurprisePct: dlr.epsEstimate != null ? dlr.epsSurprisePct ?? null : null,
+      lastEpsQuarter: dlr.quarter ?? null,
+    };
+  }
+  return {
+    lastEpsActual: summary?.lastEpsActual ?? null,
+    lastEpsEstimate: summary?.lastEpsEstimate ?? null,
+    lastEpsSurprisePct: summary?.lastEpsSurprisePct ?? null,
+    lastEpsQuarter: summary?.lastEpsQuarter ?? null,
+  };
+}
+
 async function yahooSession() {
   try {
     await fetch("https://guce.yahoo.com/consent?brandType=nonEu", {
@@ -927,11 +947,9 @@ function mergeSnapshot({ market, symbol, chart, search, summary, digest }) {
     beta: summary?.beta ?? null,
     nextEarningsDate: summary?.nextEarningsDate ?? digest?.nextEarningsDate ?? null,
     nextEarningsEstimate: summary?.nextEarningsEstimate ?? digest?.consensusEpsNext ?? null,
-    lastEpsActual: summary?.lastEpsActual ?? digest?.lastReport?.epsActual ?? null,
-    lastEpsEstimate: summary?.lastEpsEstimate ?? digest?.lastReport?.epsEstimate ?? null,
-    lastEpsSurprisePct:
-      summary?.lastEpsSurprisePct ?? digest?.lastReport?.epsSurprisePct ?? null,
-    lastEpsQuarter: summary?.lastEpsQuarter ?? digest?.lastReport?.quarter ?? null,
+    // Same-basis EPS pair: the digest's lastReport is basis-checked (scripts/eps-basis.mjs — e.g. Yahoo's GOOGL
+    // row carried GAAP 2.12 vs an adjusted 3.01 estimate). Prefer it for the same quarter; never mix fields.
+    ...lastEpsPair(summary, digest?.lastReport),
     website: summary?.website || null,
     sources: [],
     filings: null,
