@@ -1652,6 +1652,17 @@ async function main() {
     const paperSrc = fs.readFileSync(path.join(ROOT, "src/paper.js"), "utf8");
     if (!/data-lq="pos"/.test(paperSrc) || !/data-lq-book/.test(paperSrc)) fail("paper.js should expose live mark hooks");
     else ok("paper.js live mark hooks");
+    {
+      // ≤639px positions → cards: every number cell carries its column label, DOM column order kept for live-quote patching.
+      const labels = (paperSrc.match(/data-label="\$\{L\.(\w+)\}"/g) || []).map((m) => m.replace(/.*L\.(\w+).*/, "$1"));
+      const want = ["qty", "mark", "mktValue", "dayPnl", "dayPct", "unrealizedPnl", "unrealizedPct", "costBasis", "avgCost", "weightPct"];
+      const posCss = fs.readFileSync(path.join(ROOT, "src/style.css"), "utf8");
+      if (!/class="pos-table pos-table--cards"/.test(paperSrc)) fail("paper positions table should use pos-table--cards");
+      else if (labels.join(",") !== want.join(",")) fail(`paper position cells data-label order ${labels.join(",")} ≠ ${want.join(",")}`);
+      else if (!/@media \(max-width: 639px\)[\s\S]*?\.pos-table--cards tbody tr\.pos-row \{[\s\S]*?display: grid/.test(posCss) || !/\.pos-table--cards td\.num::before \{[\s\S]*?content: attr\(data-label\)/.test(posCss))
+        fail("pos-table--cards mobile card CSS missing");
+      else ok("paper positions: mobile cards with labelled cells (未實現損益 visible without sideways scroll), column order kept for live quotes");
+    }
     if (!/function renderTradeHistory/.test(paperSrc) || !/<details class="trade-day"/.test(paperSrc)) fail("paper.js trade history should be grouped by day (details.trade-day)");
     else ok("paper trade history grouped by trading day");
     if (!/function fmtSignedMoney/.test(paperSrc) || /fmtMoney\(r\.value/.test(paperSrc)) fail("realized P&L must use signed money (+NT$ / −NT$), not NT$-");

@@ -149,6 +149,12 @@ function positionRows(positions, currency, positionsValue) {
     return `<tr><td colspan="${colCount}" class="empty-cell">${escapeHtml(t("noPositions"))}</td></tr>`;
   }
   const bookMv = positionsValue > 0 ? positionsValue : positions.reduce((s, p) => s + (p.mark || 0) * (p.qty || 0), 0);
+  // Column labels repeated on each cell so the ≤639px card layout can show them (CSS ::before).
+  const L = Object.fromEntries(
+    ["qty", "mark", "mktValue", "dayPnl", "dayPct", "unrealizedPnl", "unrealizedPct", "costBasis", "avgCost", "weightPct"].map(
+      (k) => [k, escapeHtml(t(k))]
+    )
+  );
   return positions
     .map((p) => {
       const mv = (p.mark || 0) * (p.qty || 0);
@@ -168,16 +174,16 @@ function positionRows(positions, currency, positionsValue) {
           <span class="ticker">${escapeHtml(p.ticker)}</span>
           ${name ? `<span class="pos-name">${name}</span>` : ""}
         </td>
-        <td class="num">${p.qty?.toLocaleString(numberLocale())}</td>
-        <td class="num" data-lq-field="price">${fmtPrice(p.mark, currency)}</td>
-        <td class="num">${fmtMoney(mv, currency)}</td>
-        <td class="num ${pctClass(dayPnl)}">${dayPnl == null ? "—" : fmtSignedMoney(dayPnl, currency)}</td>
-        <td class="num ${pctClass(p.dayPct)}" data-lq-field="dayPct">${fmtPct(p.dayPct)}</td>
-        <td class="num ${pctClass(u)}">${fmtSignedMoney(u, currency)}</td>
-        <td class="num ${pctClass(r)}">${fmtPct(r)}</td>
-        <td class="num">${fmtMoney(cost, currency)}</td>
-        <td class="num">${fmtPrice(p.avgCost, currency)}</td>
-        <td class="num">${weight == null ? "—" : `${weight.toFixed(2)}%`}</td>
+        <td class="num" data-label="${L.qty}">${p.qty?.toLocaleString(numberLocale())}</td>
+        <td class="num" data-label="${L.mark}" data-lq-field="price">${fmtPrice(p.mark, currency)}</td>
+        <td class="num" data-label="${L.mktValue}">${fmtMoney(mv, currency)}</td>
+        <td class="num ${pctClass(dayPnl)}" data-label="${L.dayPnl}">${dayPnl == null ? "—" : fmtSignedMoney(dayPnl, currency)}</td>
+        <td class="num ${pctClass(p.dayPct)}" data-label="${L.dayPct}" data-lq-field="dayPct">${fmtPct(p.dayPct)}</td>
+        <td class="num ${pctClass(u)}" data-label="${L.unrealizedPnl}">${fmtSignedMoney(u, currency)}</td>
+        <td class="num ${pctClass(r)}" data-label="${L.unrealizedPct}">${fmtPct(r)}</td>
+        <td class="num" data-label="${L.costBasis}">${fmtMoney(cost, currency)}</td>
+        <td class="num" data-label="${L.avgCost}">${fmtPrice(p.avgCost, currency)}</td>
+        <td class="num" data-label="${L.weightPct}">${weight == null ? "—" : `${weight.toFixed(2)}%`}</td>
       </tr>`;
     })
     .join("");
@@ -390,7 +396,7 @@ function renderPosTable(positions, currency, positionsValue) {
         <span class="pos-scroll-hint">${escapeHtml(t("posScrollHint"))}</span>
       </div>
       <div class="pos-scroll" role="region" tabindex="0" aria-label="${escapeHtml(t("positions"))}">
-        <table class="pos-table">
+        <table class="pos-table pos-table--cards">
           <thead>
             <tr>
               <th class="pos-sym">${term("ticker", t("ticker"))}</th>
