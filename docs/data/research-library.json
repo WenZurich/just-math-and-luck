@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-29T09:25:00+08:00",
+    "updated": "2026-10-30T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -10582,6 +10582,167 @@
         "regime",
         "hmm",
         "turnover",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-deepseek-kimi-ai-release-market-reaction-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "The Reaction of Financial Markets to the Releases of DeepSeek R1 and Kimi K3: A Critical Analysis",
+      "titleLocalized": {
+        "en": "Why DeepSeek Hit Chip Stocks but Kimi K3 Did Not",
+        "zh-Hant": "為什麼 DeepSeek 重挫晶片股，Kimi K3 卻沒有？",
+        "zh-Hans": "为什么 DeepSeek 重挫芯片股，Kimi K3 却没有？",
+        "ja": "DeepSeekは半導体株を急落させ、Kimi K3はそうでなかった理由"
+      },
+      "authors": [
+        "Marco Taboga"
+      ],
+      "year": 2026,
+      "summary": "Compares how markets reacted to two Chinese AI model launches. DeepSeek R1 (January 2025) came with open weights and very low reported training and running costs, so investors questioned how much computing hardware the world would need, and chip and data-centre stocks fell hard. Kimi K3 (July 2026) launched at roughly frontier prices, so the hit landed mostly on rival Chinese AI labs instead. The author argues that cheap open models move profits around the AI supply chain rather than wiping them out, and that incumbents are protected by distribution, bundling, switching costs, data, serving capacity and trust. The evidence is descriptive event windows, not a tested trading rule. Takeaway for the site: when a new AI model launches, first ask whether it changes the cost of compute; only then is a sharp semiconductor sell-off the likely reaction.",
+      "summaryLocalized": {
+        "en": "Event-window comparison of DeepSeek R1 (Jan 2025: open weights, very low reported training/inference cost, large drops in semiconductor and data-centre stocks) and Kimi K3 (Jul 2026: frontier-level pricing, reaction concentrated in rival Chinese AI labs). Argues open-weight models redistribute rents along the AI value chain rather than eliminate them; incumbents keep complementary assets (distribution, bundling, switching costs, data, serving capacity, trust). Descriptive, no tested rule. Site use: watch — a checklist for reading AI-launch shocks to semis/SOXL.",
+        "zh-Hant": "比較兩次中國 AI 模型發表後的股市反應。DeepSeek R1（2025 年 1 月）開放權重、宣稱訓練和使用成本極低，投資人開始懷疑全世界到底需要多少算力，晶片股和資料中心股大跌。Kimi K3（2026 年 7 月）定價跟頂尖模型差不多，所以受傷的主要是其他中國 AI 公司，而不是晶片股。作者認為便宜的開源模型是把 AI 產業鏈的利潤「搬家」，不是讓利潤消失；大公司靠通路、綁售、轉換成本、資料、伺服器產能和客戶信任守住地位。證據是事件前後的描述性比較，不是驗證過的交易規則。本站觀察：新 AI 模型發表時，先看它有沒有改變「算力成本」，有的話半導體才比較可能急跌。",
+        "zh-Hans": "比较两次中国 AI 模型发布后的股市反应。DeepSeek R1（2025 年 1 月）开放权重、宣称训练和使用成本极低，投资人开始怀疑全世界到底需要多少算力，芯片股和数据中心股大跌。Kimi K3（2026 年 7 月）定价跟顶尖模型差不多，所以受伤的主要是其他中国 AI 公司，而不是芯片股。作者认为便宜的开源模型是把 AI 产业链的利润“搬家”，不是让利润消失；大公司靠渠道、捆绑、转换成本、数据、服务器产能和客户信任守住地位。证据是事件前后的描述性比较，不是验证过的交易规则。本站观察：新 AI 模型发布时，先看它有没有改变“算力成本”，有的话半导体才比较可能急跌。",
+        "ja": "中国AIモデル2件の発表に対する市場反応を比較。DeepSeek R1（2025年1月）はオープンウェイトで学習・推論コストが非常に低いとされ、計算資源需要への疑念から半導体・データセンター株が急落。Kimi K3（2026年7月）は最先端並みの価格で、打撃は主に競合の中国AI企業に集中。著者はオープンモデルが利益を消すのではなくAIバリューチェーン内で移すと論じ、既存大手は流通・バンドル・乗換コスト・データ・提供能力・信頼で守られるとする。記述的な比較で検証済みルールではない。本サイトはウォッチ：AI新モデル発表時は「計算コストを変えるか」をまず確認。"
+      },
+      "plainTakeaways": [
+        "DeepSeek 便宜又開源 → 市場懷疑算力需求 → 晶片股大跌",
+        "Kimi K3 價格不便宜 → 受傷的是中國同業，不是晶片股",
+        "開源模型是把利潤搬家，大公司靠通路與信任守住",
+        "本站觀察：AI 新模型先看「算力成本」有沒有變，再判斷 SOXL 風險"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "DeepSeek was cheap and open → doubts about compute demand → chip stocks fell hard",
+          "Kimi K3 was not cheap → the hit went to Chinese rivals, not chips",
+          "Open models move profits around; incumbents defend with distribution and trust",
+          "Site use: watch — on an AI launch, first check whether compute cost changes before judging SOXL risk"
+        ],
+        "zh-Hant": [
+          "DeepSeek 便宜又開源 → 市場懷疑算力需求 → 晶片股大跌",
+          "Kimi K3 價格不便宜 → 受傷的是中國同業，不是晶片股",
+          "開源模型是把利潤搬家，大公司靠通路與信任守住",
+          "本站觀察：AI 新模型先看「算力成本」有沒有變，再判斷 SOXL 風險"
+        ],
+        "zh-Hans": [
+          "DeepSeek 便宜又开源 → 市场怀疑算力需求 → 芯片股大跌",
+          "Kimi K3 价格不便宜 → 受伤的是中国同业，不是芯片股",
+          "开源模型是把利润搬家，大公司靠渠道与信任守住",
+          "本站观察：AI 新模型先看“算力成本”有没有变，再判断 SOXL 风险"
+        ],
+        "ja": [
+          "DeepSeekは安価でオープン → 計算需要への疑念 → 半導体株急落",
+          "Kimi K3は安くない → 打撃は中国の競合へ、半導体ではない",
+          "オープンモデルは利益を移すだけ、大手は流通と信頼で防御",
+          "本サイトはウォッチ：AI新モデルは計算コストの変化を先に確認してSOXLリスクを判断"
+        ]
+      },
+      "formulas": [
+        "event abnormal return: AR_i,t = R_i,t − β_i·R_m,t over a ±k-day window around the model release",
+        "CAR_i = Σ_t AR_i,t, compared across groups (semis/data-centre vs Chinese AI labs)",
+        "screening idea: flag \"compute-cost shock\" when a release claims ≥ x% lower training/inference cost at near-frontier capability",
+        "site use: watch only — no screener change while the math gate is not passed"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: descriptive two-event comparison, no out-of-sample rule; useful as a news-radar checklist for AI-launch shocks to semis. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2610.30886",
+        "https://doi.org/10.48550/arXiv.2610.30886"
+      ],
+      "tags": [
+        "us",
+        "semiconductors",
+        "ai",
+        "event-study",
+        "soxl",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-both-institutional-intraday-forecasting-liquidity-2026",
+      "market": "BOTH",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "Intraday Forecasting Ability and Liquidity Provision of Institutional Traders",
+      "titleLocalized": {
+        "en": "Do Skilled Institutional Day Traders Win by Forecasting or by Waiting in the Queue?",
+        "zh-Hant": "法人當沖賺錢，靠預測還是靠掛單？",
+        "zh-Hans": "机构日内交易赚钱，靠预测还是靠挂单？",
+        "ja": "機関の日中売買の儲けは予測力か、指値で待つことか"
+      },
+      "authors": [
+        "Xinlei Hao",
+        "Jiajun Guo",
+        "Jussi Keppo",
+        "Xianhua Peng"
+      ],
+      "year": 2026,
+      "summary": "Uses detailed trade-by-trade data from one stock exchange to see what makes institutional traders' own intraday trading profitable. Some traders show forecasting skill that persists over time; simply copying their order flow on paper would have had extremely high risk-adjusted returns (Sharpe ratios of 16 to 63), but that needs exchange-level data nobody outside has in real time. Matching each buy to its sell, better forecasting goes with more profit per trade, and so does using resting limit orders: trades where both legs waited in the order book earned clearly more than trades where both legs crossed the spread. Takeaway for the site: for retail-sized orders, patient limit orders beat paying the spread; the copy-the-pros returns are not reachable with public data.",
+      "summaryLocalized": {
+        "en": "High-frequency exchange data on institutional proprietary intraday trading. Forecasting skill is persistent; hypothetical flow-following strategies on skilled traders' executions reach annualized Sharpe 16–63 (needs non-public account-level data). Matched-position P&L rises 1.02–1.19 currency units per 1-SD forecasting skill; one passive leg adds 1.28–1.31 units vs none, two passive legs a further 3.79–3.82. Site use: watch — supports limit-order execution in the paper book; flow-following is not reproducible with public data.",
+        "zh-Hant": "用某交易所逐筆成交資料，研究法人自營部位的當日交易靠什麼賺錢。有些交易員的預測能力會持續；如果紙上照抄他們的下單方向，風險調整後報酬極高（夏普值 16 到 63），但這需要交易所才有的帳戶級即時資料，外人拿不到。把每筆買和賣配對後發現：預測越準，每筆賺越多；而且用「掛單等成交」比「直接吃市價」賺得多，兩邊都掛單的部位明顯最好。本站觀察：散戶規模下單，耐心掛限價單比付買賣價差划算；「跟著法人」的高報酬用公開資料做不到。",
+        "zh-Hans": "用某交易所逐笔成交数据，研究机构自营部位的当日交易靠什么赚钱。有些交易员的预测能力会持续；如果纸上照抄他们的下单方向，风险调整后报酬极高（夏普值 16 到 63），但这需要交易所才有的账户级实时数据，外人拿不到。把每笔买和卖配对后发现：预测越准，每笔赚越多；而且用“挂单等成交”比“直接吃市价”赚得多，两边都挂单的部位明显最好。本站观察：散户规模下单，耐心挂限价单比付买卖价差划算；“跟着机构”的高报酬用公开数据做不到。",
+        "ja": "ある取引所の高頻度データで、機関の自己勘定日中取引の収益源を分析。一部トレーダーの予測力は持続的で、その注文フローに追随する仮想戦略はシャープ比16〜63（ただし非公開の口座単位データが必要）。売買を対応付けると、予測力が高いほど1件あたり利益が大きく、指値で待つ約定が多いほど利益も大きい（両側とも指値が最良）。本サイトはウォッチ：小口は指値で待つほうが有利、プロ追随の高収益は公開データでは再現不可。"
+      },
+      "plainTakeaways": [
+        "部分法人的當沖預測能力是持續的",
+        "照抄他們的單紙上夏普值 16–63，但要交易所內部資料",
+        "掛限價單等成交，比直接吃市價賺得多",
+        "本站觀察：模擬單維持限價思維，不新增「跟法人」規則"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Some institutional day traders have persistent forecasting skill",
+          "Copying their flow shows Sharpe 16–63 on paper, but needs exchange-internal data",
+          "Resting limit orders earn more than crossing the spread",
+          "Site use: watch — keep limit-order thinking in the paper book; no follow-the-pros rule"
+        ],
+        "zh-Hant": [
+          "部分法人的當沖預測能力是持續的",
+          "照抄他們的單紙上夏普值 16–63，但要交易所內部資料",
+          "掛限價單等成交，比直接吃市價賺得多",
+          "本站觀察：模擬單維持限價思維，不新增「跟法人」規則"
+        ],
+        "zh-Hans": [
+          "部分机构的日内预测能力是持续的",
+          "照抄他们的单纸上夏普值 16–63，但要交易所内部数据",
+          "挂限价单等成交，比直接吃市价赚得多",
+          "本站观察：模拟单维持限价思维，不新增“跟机构”规则"
+        ],
+        "ja": [
+          "一部の機関トレーダーの予測力は持続的",
+          "追随戦略は机上でシャープ比16〜63だが取引所内部データが必要",
+          "指値で待つほうが成行より儲かる",
+          "本サイトはウォッチ：模擬売買は指値前提を維持、追随ルールは追加しない"
+        ]
+      },
+      "formulas": [
+        "matched position P&L = (P_sell − P_buy)·q, buy and sell executions paired per trader",
+        "passive count k ∈ {0,1,2} = number of legs filled as resting limit orders",
+        "P&L_j = a + b·Skill_j + c1·1[k=1] + c2·1[k=2] + controls (b≈1.02–1.19, c1≈1.28–1.31, c2−c1≈3.79–3.82 currency units)",
+        "site use: watch only — no screener change while the math gate is not passed"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: needs non-public account-level exchange data; flow-following Sharpe is hypothetical and gross. Only the limit-order execution lesson is usable. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2610.31141",
+        "https://doi.org/10.48550/arXiv.2610.31141"
+      ],
+      "tags": [
+        "both",
+        "microstructure",
+        "institutional",
+        "limit-orders",
+        "execution",
         "watch"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",
