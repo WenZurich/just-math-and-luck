@@ -2,19 +2,19 @@
   "market": "US",
   "ticker": "SOXL",
   "fundName": "Direxion Daily Semiconductor Bull 3X ETF",
-  "asOf": "2026-10-29T00:20:56.163Z",
+  "asOf": "2026-10-30T00:19:27.170Z",
   "quote": {
-    "price": 102.1,
-    "change": -5.25,
-    "changePct": -4.89,
+    "price": 87.68,
+    "change": -14.71,
+    "changePct": -14.37,
     "currency": "USD",
     "session": "overnight / extended (Yahoo)",
     "source": "https://finance.yahoo.com/quote/SOXL/",
     "regularClose": {
-      "price": 107.35,
-      "change": 6.27,
-      "changePct": 6.2,
-      "session": "NYSE Arca regular close (October 28 at 4:00:01 PM EDT)"
+      "price": 102.39,
+      "change": -4.96,
+      "changePct": -4.62,
+      "session": "NYSE Arca regular close (October 29 at 4:00:01 PM EDT)"
     }
   },
   "holdingsAsOf": "2026-07-31",
@@ -31,15 +31,6 @@
   "holdingsFreshnessNote": "Holdings weights are from the latest public SOXL SEC N-PORT (period ended 2026-07-31), not a same-day Direxion CSV. Cash + index swaps dominate reported net assets; daily weights change.",
   "leverageNote": "SOXL seeks ~3× the daily performance of the ICE Semiconductor Index. Contribution ≈ weight × return is an unlevered basket estimate only; ETF moves are magnified and path-dependent.",
   "events": [
-    {
-      "type": "anomaly",
-      "severity": "high",
-      "title": "正規盤大波動 +6.2%",
-      "detail": "Yahoo 顯示 SOXL 正規收盤約 $107.35（+6.2% / +6.27）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
-      "sources": [
-        "https://finance.yahoo.com/quote/SOXL/"
-      ]
-    },
     {
       "type": "structure",
       "severity": "info",
@@ -139,12 +130,6 @@
       "published": "2026-09-14"
     },
     {
-      "title": "Ed Yardeni Says ‘I’m Not Particularly Concerned’ About AI Slowdown Fears, Maintains 8,400 Year-End S&P 500 Target",
-      "summary": "In an interview with CNBC, Yardeni stated that existing data center constraints make a significant slowdown in AI infrastructure construction unlikely.",
-      "url": "https://stocktwits.com/news-articles/markets/equity/ai-stocks-slide-slowdown-fears-ed-yardeni-not-particularly-concerned/cZtmbt4RBRZ?.tsrc=rss",
-      "published": "2026-09-14"
-    },
-    {
       "title": "SOXL, TQQQ Attract Record Inflows Amid Leveraged Bets: Retail Is Bullish On One ETF's AI Future",
       "summary": "In a post on X, The Kobeissi Letter said the 10 largest U.S. leveraged equity ETFs have seen more than $12 billion in inflows over the last month.",
       "url": "https://stocktwits.com/news-articles/markets/equity/soxl-tqqq-attract-record-inflows-amid-leveraged-bets-retail-is-bullish-on-one-etf-s-ai-future/cZUIU7uRBzn?.tsrc=rss",
@@ -173,6 +158,12 @@
       "summary": "Table below reflects daily flows on October 21, 2026 and asset totals as of that date.",
       "url": "http://www.etf.com/sections/etf-league-tables/etf-league-tables-direxion-gains-assets?utm_source=yahoo-finance&amp;utm_medium=rss&amp;utm_campaign=yahoo-finance-rss&amp;.tsrc=rss",
       "published": "2026-10-22"
+    },
+    {
+      "title": "2 ETFs to Watch for Outsized Volume in Semiconductor Trading",
+      "summary": "SOXS and SOXL see trading volumes surge to 1.53 and 1.48 times their averages, respectively, as semiconductor ETFs post sharply divergent daily moves.",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/2-etfs-watch-outsized-volume-124500884.html?.tsrc=rss",
+      "published": "2026-10-20"
     }
   ],
   "holdings": [
@@ -231,10 +222,10 @@
       "ticker": "NVDA",
       "name": "NVIDIA Corp.",
       "weightPct": 5.9941,
-      "price": 217.94,
-      "changePct": 0.9,
-      "changePctAsOf": "2026-10-27",
-      "contributionPct": 0.0539,
+      "price": 215.38,
+      "changePct": -1.17,
+      "changePctAsOf": "2026-10-28",
+      "contributionPct": -0.0701,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -250,10 +241,10 @@
       "ticker": "AMD",
       "name": "Advanced Micro Devices, Inc.",
       "weightPct": 5.8164,
-      "price": 560.26,
-      "changePct": 5.45,
-      "changePctAsOf": "2026-10-27",
-      "contributionPct": 0.317,
+      "price": 578.44,
+      "changePct": 3.24,
+      "changePctAsOf": "2026-10-28",
+      "contributionPct": 0.1885,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -269,10 +260,10 @@
       "ticker": "AVGO",
       "name": "Broadcom Inc",
       "weightPct": 5.4933,
-      "price": 342.33,
-      "changePct": 4,
-      "changePctAsOf": "2026-10-27",
-      "contributionPct": 0.2197,
+      "price": 351.81,
+      "changePct": 2.77,
+      "changePctAsOf": "2026-10-28",
+      "contributionPct": 0.1522,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -287,10 +278,10 @@
       "ticker": "MU",
       "name": "Micron Technology Inc.",
       "weightPct": 5.3456,
-      "price": 928.76,
-      "changePct": 2.77,
-      "changePctAsOf": "2026-10-27",
-      "contributionPct": 0.1481,
+      "price": 983.23,
+      "changePct": 5.86,
+      "changePctAsOf": "2026-10-28",
+      "contributionPct": 0.3133,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -323,10 +314,10 @@
       "ticker": "INTC",
       "name": "Intel Corporation",
       "weightPct": 3.5865,
-      "price": 93.74,
-      "changePct": 3.61,
-      "changePctAsOf": "2026-10-27",
-      "contributionPct": 0.1295,
+      "price": 95.53,
+      "changePct": 1.91,
+      "changePctAsOf": "2026-10-28",
+      "contributionPct": 0.0685,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -342,10 +333,10 @@
       "ticker": "AMAT",
       "name": "Applied Materials Inc.",
       "weightPct": 3.5558,
-      "price": 395.93,
-      "changePct": 2.15,
-      "changePctAsOf": "2026-10-27",
-      "contributionPct": 0.0764,
+      "price": 416,
+      "changePct": 5.07,
+      "changePctAsOf": "2026-10-28",
+      "contributionPct": 0.1803,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -377,10 +368,10 @@
       "ticker": "TSM",
       "name": "Taiwan Semiconductor Manufacturing Co., Ltd.",
       "weightPct": 3.1654,
-      "price": 436.87,
-      "changePct": 2.95,
-      "changePctAsOf": "2026-10-27",
-      "contributionPct": 0.0934,
+      "price": 439.51,
+      "changePct": 0.6,
+      "changePctAsOf": "2026-10-28",
+      "contributionPct": 0.019,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -395,10 +386,10 @@
       "ticker": "KLAC",
       "name": "KLA Corporation",
       "weightPct": 2.9987,
-      "price": 153.66,
-      "changePct": 2.98,
-      "changePctAsOf": "2026-10-27",
-      "contributionPct": 0.0894,
+      "price": 158.77,
+      "changePct": 3.33,
+      "changePctAsOf": "2026-10-28",
+      "contributionPct": 0.0999,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -413,10 +404,10 @@
       "ticker": "LRCX",
       "name": "Lam Research Corp",
       "weightPct": 2.9032,
-      "price": 240.85,
-      "changePct": 1.41,
-      "changePctAsOf": "2026-10-27",
-      "contributionPct": 0.0409,
+      "price": 253.82,
+      "changePct": 5.39,
+      "changePctAsOf": "2026-10-28",
+      "contributionPct": 0.1565,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -431,10 +422,10 @@
       "ticker": "MRVL",
       "name": "Marvell Technology Inc",
       "weightPct": 2.8841,
-      "price": 243.57,
-      "changePct": 4.19,
-      "changePctAsOf": "2026-10-27",
-      "contributionPct": 0.1208,
+      "price": 251.65,
+      "changePct": 3.32,
+      "changePctAsOf": "2026-10-28",
+      "contributionPct": 0.0958,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -449,10 +440,10 @@
       "ticker": "TXN",
       "name": "Texas Instruments Incorporated",
       "weightPct": 2.843,
-      "price": 308.91,
-      "changePct": 3.62,
-      "changePctAsOf": "2026-10-27",
-      "contributionPct": 0.1029,
+      "price": 309.83,
+      "changePct": 0.3,
+      "changePctAsOf": "2026-10-28",
+      "contributionPct": 0.0085,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -467,10 +458,10 @@
       "ticker": "ADI",
       "name": "Analog Devices Inc.",
       "weightPct": 2.7985,
-      "price": 425.35,
-      "changePct": 4.27,
-      "changePctAsOf": "2026-10-27",
-      "contributionPct": 0.1195,
+      "price": 428.27,
+      "changePct": 0.69,
+      "changePctAsOf": "2026-10-28",
+      "contributionPct": 0.0193,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -485,10 +476,10 @@
       "ticker": "MPWR",
       "name": "Monolithic Power Systems Inc.",
       "weightPct": 2.6481,
-      "price": 1211.89,
-      "changePct": 3.82,
-      "changePctAsOf": "2026-10-27",
-      "contributionPct": 0.1012,
+      "price": 1211.22,
+      "changePct": -0.06,
+      "changePctAsOf": "2026-10-28",
+      "contributionPct": -0.0016,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -520,10 +511,10 @@
       "ticker": "NXPI",
       "name": "NXP Semiconductors NV",
       "weightPct": 2.2473,
-      "price": 253.5,
-      "changePct": 3.12,
-      "changePctAsOf": "2026-10-27",
-      "contributionPct": 0.0701,
+      "price": 251.69,
+      "changePct": -0.71,
+      "changePctAsOf": "2026-10-28",
+      "contributionPct": -0.016,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -538,7 +529,7 @@
   "overallUpReasons": [
     "半導體指數成分（如美光、AMD、英特爾等）同步上漲時，SOXL 以約 3 倍日槓桿放大指數日報酬（見 Motley Fool／WEEX 對近期急漲的整理）。",
     "基金透過 ICE Semiconductor Index 交換合約取得槓桿曝險；指數上漲日，交換部位損益會主導 ETF 淨值方向（SEC N-PORT 可見交換權重）。",
-    "持股中最近一個交易日（2026-10-27 美股收盤）上漲的個股包括：NVDA（權重 5.99%、漲 0.90%）、AMD（權重 5.82%、漲 5.45%）、AVGO（權重 5.49%、漲 4.00%）、MU（權重 5.35%、漲 2.77%）（貢獻＝權重×漲跌，僅估算）。"
+    "持股中最近一個交易日（2026-10-28 美股收盤）上漲的個股包括：AMD（權重 5.82%、漲 3.24%）、AVGO（權重 5.49%、漲 2.77%）、MU（權重 5.35%、漲 5.86%）、INTC（權重 3.59%、漲 1.91%）（貢獻＝權重×漲跌，僅估算）。"
   ],
   "overallDownReasons": [
     "反向亦然：指數單日下跌時，3x 日重置會放大虧損；連續下跌日還有複利／路徑依賴，報酬不會等於「3 × 區間漲跌」。",
@@ -553,7 +544,7 @@
     "Research seed: /workspace/soxl-research/soxl-holdings-raw.json",
     "SEC N-PORT: https://www.sec.gov/Archives/edgar/data/1424958/000119312526404435/0001193125-26-404435.txt",
     "Yahoo quote page: https://finance.yahoo.com/quote/SOXL/",
-    "Yahoo quote HTML refresh @ 2026-10-29T00:20:56.163Z",
+    "Yahoo quote HTML refresh @ 2026-10-30T00:19:27.170Z",
     "https://feeds.finance.yahoo.com/rss/2.0/headline?s=SOXL&region=US&lang=en-US",
     "Yahoo chart daily closes for 14 equity holdings"
   ],

@@ -1,0 +1,108 @@
+{
+  "scanAsOf": "2026-10-30T00:12:48Z",
+  "date": "2026-10-30",
+  "sessions": {
+    "US": "2026-10-29",
+    "TW": null
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "PANW",
+      "name": "Palo Alto Networks",
+      "market": "US",
+      "session": "2026-10-29",
+      "price": 380.57,
+      "dayPct": -3.53,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike",
+      "market": "US",
+      "session": "2026-10-29",
+      "price": 261.15,
+      "dayPct": -2.07,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "SNOW",
+      "name": "Snowflake",
+      "market": "US",
+      "session": "2026-10-29",
+      "price": 330.27,
+      "dayPct": -2.84,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "MU",
+      "name": "Micron",
+      "market": "US",
+      "session": "2026-10-29",
+      "price": 934.27,
+      "dayPct": -4.98,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir",
+      "market": "US",
+      "session": "2026-10-29",
+      "price": 196.42,
+      "dayPct": -0.2,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices",
+      "market": "US",
+      "session": "2026-10-29",
+      "price": 566.42,
+      "dayPct": -2.08,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft",
+      "market": "US",
+      "session": "2026-10-29",
+      "price": 530.14,
+      "dayPct": -0.16,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "MSTR",
+      "name": "MicroStrategy",
+      "market": "US",
+      "session": "2026-10-29",
+      "price": 141.62,
+      "dayPct": -2.44,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": [
+    {
+      "ticker": "2317.TW",
+      "market": "TW",
+      "why": "找不到掃描對應的交易時段"
+    },
+    {
+      "ticker": "3231.TW",
+      "market": "TW",
+      "why": "找不到掃描對應的交易時段"
+    },
+    {
+      "ticker": "6226.TW",
+      "market": "TW",
+      "why": "找不到掃描對應的交易時段"
+    }
+  ]
+}

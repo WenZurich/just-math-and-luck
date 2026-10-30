@@ -76,11 +76,12 @@ function setupDom() {
   const { window } = dom;
   globalThis.window = window;
   globalThis.document = window.document;
-  globalThis.navigator = window.navigator;
+  // Node 21+ defines a getter-only global navigator; override it explicitly.
+  Object.defineProperty(globalThis, "navigator", { value: window.navigator, configurable: true, writable: true });
   globalThis.HTMLElement = window.HTMLElement;
   globalThis.Element = window.Element;
   globalThis.Node = window.Node;
-  globalThis.localStorage = window.localStorage;
+  Object.defineProperty(globalThis, "localStorage", { value: window.localStorage, configurable: true, writable: true });
   globalThis.sessionStorage = window.sessionStorage;
   globalThis.Event = window.Event;
   globalThis.MouseEvent = window.MouseEvent;

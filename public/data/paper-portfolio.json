@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-10-29T00:14:58Z",
-  "lastProcessedAsOf": "2026-10-29T00:14:58Z",
+  "asOf": "2026-10-30T00:12:48Z",
+  "lastProcessedAsOf": "2026-10-30T00:12:48Z",
   "startDate": "2026-09-15",
   "disclaimer": "累積模擬帳戶（自 2026-09-15 起）。成交價＝當日 latest 標的價，下單即成交；不會每日歸零。非真實券商委託。兩本帳分開計價。",
   "rules": {
@@ -32,38 +32,24 @@
       "market": "TW",
       "currency": "TWD",
       "startCash": 3000000,
-      "cash": 1201650,
-      "equity": 3115800,
-      "positionsValue": 1914150,
-      "realizedPnl": 48570,
+      "cash": 1150550,
+      "equity": 3128250,
+      "positionsValue": 1977700,
+      "realizedPnl": 62250,
       "positions": [
-        {
-          "ticker": "2468.TW",
-          "name": "華經",
-          "qty": 3000,
-          "avgCost": 46.54,
-          "mark": 55,
-          "currency": "TWD",
-          "openedOn": "2026-10-13",
-          "lastAddDate": "2026-10-20",
-          "limitUpStyle": true,
-          "dayPct": 0,
-          "aboveSma20": true,
-          "volRatio": 4.48
-        },
         {
           "ticker": "2884.TW",
           "name": "玉山金",
           "qty": 5000,
           "avgCost": 46.5,
-          "mark": 49.75,
+          "mark": 49,
           "currency": "TWD",
           "openedOn": "2026-10-14",
           "lastAddDate": "2026-10-14",
           "limitUpStyle": false,
-          "dayPct": 0,
+          "dayPct": 1.34,
           "aboveSma20": true,
-          "volRatio": null
+          "volRatio": 0.87
         },
         {
           "ticker": "2317.TW",
@@ -98,28 +84,28 @@
           "name": "中信金",
           "qty": 3000,
           "avgCost": 74.8,
-          "mark": 75,
+          "mark": 75.3,
           "currency": "TWD",
           "openedOn": "2026-10-22",
           "lastAddDate": "2026-10-22",
           "limitUpStyle": false,
-          "dayPct": 0.13,
+          "dayPct": 1.48,
           "aboveSma20": true,
-          "volRatio": 1.66
+          "volRatio": 1.07
         },
         {
           "ticker": "2882.TW",
           "name": "國泰金",
           "qty": 2000,
           "avgCost": 114,
-          "mark": 113.5,
+          "mark": 116.5,
           "currency": "TWD",
           "openedOn": "2026-10-22",
           "lastAddDate": "2026-10-22",
           "limitUpStyle": false,
-          "dayPct": 0,
+          "dayPct": 0.87,
           "aboveSma20": true,
-          "volRatio": null
+          "volRatio": 0.5
         },
         {
           "ticker": "2881.TW",
@@ -131,20 +117,23 @@
           "openedOn": "2026-10-22",
           "lastAddDate": "2026-10-22",
           "limitUpStyle": false,
-          "dayPct": 2.21,
+          "dayPct": 0.62,
           "aboveSma20": true,
-          "volRatio": 1.49
+          "volRatio": 0.68
         },
         {
           "ticker": "3035.TW",
           "name": "智原",
           "qty": 1000,
           "avgCost": 210.5,
-          "mark": 210.5,
+          "mark": 231.5,
           "currency": "TWD",
           "openedOn": "2026-10-29",
           "lastAddDate": "2026-10-29",
-          "limitUpStyle": true
+          "limitUpStyle": true,
+          "dayPct": 9.98,
+          "aboveSma20": true,
+          "volRatio": 7.75
         },
         {
           "ticker": "6226.TW",
@@ -156,6 +145,17 @@
           "openedOn": "2026-10-29",
           "lastAddDate": "2026-10-29",
           "limitUpStyle": true
+        },
+        {
+          "ticker": "2468.TW",
+          "name": "華經",
+          "qty": 4000,
+          "avgCost": 51.1,
+          "mark": 51.1,
+          "currency": "TWD",
+          "openedOn": "2026-10-30",
+          "lastAddDate": "2026-10-30",
+          "limitUpStyle": false
         }
       ],
       "trades": [
@@ -818,6 +818,31 @@
           "reason": "screen-buy",
           "reasonText": "名單新開倉（單檔上限 8%）",
           "realizedPnl": 0
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "SELL",
+          "ticker": "2468.TW",
+          "name": "華經",
+          "qty": 3000,
+          "price": 51.1,
+          "avgCostAtSale": 46.54,
+          "reason": "limit-up-chase",
+          "reasonText": "漲停追價隔日急殺：買進時近漲停，今日日漲跌 ≤ −5%",
+          "realizedPnl": 13680
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "BUY",
+          "ticker": "2468.TW",
+          "name": "華經",
+          "qty": 4000,
+          "price": 51.1,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（單檔上限 8%）",
+          "realizedPnl": 0
         }
       ],
       "dailyEquity": [
@@ -976,6 +1001,12 @@
           "equity": 3115800,
           "cash": 1201650,
           "positionsValue": 1914150
+        },
+        {
+          "date": "2026-10-30",
+          "equity": 3128250,
+          "cash": 1150550,
+          "positionsValue": 1977700
         }
       ],
       "startDate": "2026-09-15"
@@ -984,131 +1015,120 @@
       "market": "US",
       "currency": "USD",
       "startCash": 100000,
-      "cash": 228.96,
-      "equity": 110496.08,
-      "positionsValue": 110267.12,
-      "realizedPnl": 6146.77,
+      "cash": 58793.94,
+      "equity": 109448.35,
+      "positionsValue": 50654.41,
+      "realizedPnl": 6771.09,
       "positions": [
         {
           "ticker": "AAPL",
           "name": "Apple",
           "qty": 24,
           "avgCost": 330.65,
-          "mark": 343.83,
+          "mark": 352.05,
           "currency": "USD",
           "openedOn": "2026-09-15",
           "lastAddDate": "2026-09-15",
           "limitUpStyle": false,
-          "dayPct": -0.94,
-          "aboveSma20": true
+          "dayPct": 2.39,
+          "aboveSma20": true,
+          "volRatio": 1.08
         },
         {
           "ticker": "ISRG",
           "name": "Intuitive Surgical",
           "qty": 19,
           "avgCost": 406.4715789473684,
-          "mark": 445.46,
+          "mark": 451.4,
           "currency": "USD",
           "openedOn": "2026-09-16",
           "lastAddDate": "2026-10-15",
           "limitUpStyle": false,
-          "dayPct": -0.09,
-          "aboveSma20": true,
-          "volRatio": 0.79
-        },
-        {
-          "ticker": "LLY",
-          "name": "Eli Lilly",
-          "qty": 6,
-          "avgCost": 1211.98,
-          "mark": 1309.72,
-          "currency": "USD",
-          "openedOn": "2026-10-15",
-          "lastAddDate": "2026-10-15",
-          "limitUpStyle": false,
-          "dayPct": 2.17,
-          "aboveSma20": true,
-          "volRatio": 0.88
-        },
-        {
-          "ticker": "ROKU",
-          "name": "Roku",
-          "qty": 54,
-          "avgCost": 154.67,
-          "mark": 155.33,
-          "currency": "USD",
-          "openedOn": "2026-10-16",
-          "lastAddDate": "2026-10-16",
-          "limitUpStyle": false,
-          "dayPct": -0.85,
-          "aboveSma20": true
-        },
-        {
-          "ticker": "QLYS",
-          "name": "Qualys",
-          "qty": 3,
-          "avgCost": 190.08,
-          "mark": 223.52,
-          "currency": "USD",
-          "openedOn": "2026-10-20",
-          "lastAddDate": "2026-10-20",
-          "limitUpStyle": false,
-          "dayPct": -1.92,
-          "aboveSma20": true,
-          "volRatio": 0.92
-        },
-        {
-          "ticker": "ESTC",
-          "name": "Elastic",
-          "qty": 22,
-          "avgCost": 94.6,
-          "mark": 106.58,
-          "currency": "USD",
-          "openedOn": "2026-10-20",
-          "lastAddDate": "2026-10-20",
-          "limitUpStyle": false,
-          "dayPct": 1,
+          "dayPct": 1.63,
           "aboveSma20": true,
           "volRatio": 0.82
         },
         {
-          "ticker": "ZS",
-          "name": "Zscaler",
+          "ticker": "LLY",
+          "name": "Eli Lilly",
           "qty": 3,
-          "avgCost": 212.5,
-          "mark": 242.04,
+          "avgCost": 1211.98,
+          "mark": 1383.32,
+          "currency": "USD",
+          "openedOn": "2026-10-15",
+          "lastAddDate": "2026-10-15",
+          "limitUpStyle": false,
+          "dayPct": 7.38,
+          "aboveSma20": true,
+          "volRatio": 1.92
+        },
+        {
+          "ticker": "ROKU",
+          "name": "Roku",
+          "qty": 56,
+          "avgCost": 154.72928571428568,
+          "mark": 156.33,
+          "currency": "USD",
+          "openedOn": "2026-10-16",
+          "lastAddDate": "2026-10-30",
+          "limitUpStyle": false,
+          "dayPct": 0.64,
+          "aboveSma20": true,
+          "volRatio": 1.18
+        },
+        {
+          "ticker": "QLYS",
+          "name": "Qualys",
+          "qty": 2,
+          "avgCost": 190.08,
+          "mark": 230.29,
           "currency": "USD",
           "openedOn": "2026-10-20",
           "lastAddDate": "2026-10-20",
           "limitUpStyle": false,
-          "dayPct": -6.96,
+          "dayPct": 3.03,
           "aboveSma20": true,
-          "volRatio": 0.87
+          "volRatio": 0.99
         },
         {
-          "ticker": "PANW",
-          "name": "Palo Alto Networks",
-          "qty": 12,
-          "avgCost": 355,
-          "mark": 394.49,
+          "ticker": "ESTC",
+          "name": "Elastic",
+          "qty": 84,
+          "avgCost": 101.02142857142856,
+          "mark": 103.3,
           "currency": "USD",
-          "openedOn": "2026-10-23",
-          "lastAddDate": "2026-10-23",
+          "openedOn": "2026-10-20",
+          "lastAddDate": "2026-10-30",
           "limitUpStyle": false,
-          "dayPct": -1.79,
-          "aboveSma20": true
+          "dayPct": -3.08,
+          "aboveSma20": true,
+          "volRatio": 1.11
+        },
+        {
+          "ticker": "ZS",
+          "name": "Zscaler",
+          "qty": 2,
+          "avgCost": 212.5,
+          "mark": 247.82,
+          "currency": "USD",
+          "openedOn": "2026-10-20",
+          "lastAddDate": "2026-10-20",
+          "limitUpStyle": false,
+          "dayPct": -3.12,
+          "aboveSma20": true,
+          "volRatio": 0.96
         },
         {
           "ticker": "CRWD",
           "name": "CrowdStrike",
           "qty": 9,
           "avgCost": 237.65,
-          "mark": 266.66,
+          "mark": 261.15,
           "currency": "USD",
           "openedOn": "2026-10-23",
           "lastAddDate": "2026-10-23",
           "limitUpStyle": false,
-          "dayPct": -0.51,
+          "dayPct": -2.07,
           "aboveSma20": true
         },
         {
@@ -1116,102 +1136,14 @@
           "name": "Okta",
           "qty": 40,
           "avgCost": 214.7,
-          "mark": 222.66,
+          "mark": 218.51,
           "currency": "USD",
           "openedOn": "2026-10-26",
           "lastAddDate": "2026-10-26",
           "limitUpStyle": false,
-          "dayPct": -1.51,
-          "aboveSma20": true
-        },
-        {
-          "ticker": "SNOW",
-          "name": "Snowflake",
-          "qty": 26,
-          "avgCost": 326.5,
-          "mark": 339.91,
-          "currency": "USD",
-          "openedOn": "2026-10-26",
-          "lastAddDate": "2026-10-26",
-          "limitUpStyle": false,
-          "dayPct": 0.74,
-          "aboveSma20": true
-        },
-        {
-          "ticker": "MU",
-          "name": "Micron",
-          "qty": 9,
-          "avgCost": 894.62,
-          "mark": 983.23,
-          "currency": "USD",
-          "openedOn": "2026-10-26",
-          "lastAddDate": "2026-10-26",
-          "limitUpStyle": false,
-          "dayPct": 5.86,
-          "aboveSma20": true
-        },
-        {
-          "ticker": "PLTR",
-          "name": "Palantir",
-          "qty": 26,
-          "avgCost": 196.75,
-          "mark": 196.81,
-          "currency": "USD",
-          "openedOn": "2026-10-26",
-          "lastAddDate": "2026-10-26",
-          "limitUpStyle": false,
-          "dayPct": -0.97,
-          "aboveSma20": false
-        },
-        {
-          "ticker": "AMD",
-          "name": "Advanced Micro Devices",
-          "qty": 15,
-          "avgCost": 562.05,
-          "mark": 568.1,
-          "currency": "USD",
-          "openedOn": "2026-10-28",
-          "lastAddDate": "2026-10-28",
-          "limitUpStyle": false,
-          "dayPct": 1.4,
-          "aboveSma20": false,
-          "volRatio": 0.96
-        },
-        {
-          "ticker": "TSM",
-          "name": "TSMC (ADR)",
-          "qty": 20,
-          "avgCost": 437.04,
-          "mark": 433.33,
-          "currency": "USD",
-          "openedOn": "2026-10-28",
-          "lastAddDate": "2026-10-28",
-          "limitUpStyle": false,
-          "dayPct": -0.81,
-          "aboveSma20": false,
-          "volRatio": 0.7
-        },
-        {
-          "ticker": "MSFT",
-          "name": "Microsoft",
-          "qty": 16,
-          "avgCost": 546.24,
-          "mark": 546.24,
-          "currency": "USD",
-          "openedOn": "2026-10-29",
-          "lastAddDate": "2026-10-29",
-          "limitUpStyle": false
-        },
-        {
-          "ticker": "MSTR",
-          "name": "MicroStrategy",
-          "qty": 61,
-          "avgCost": 144.13,
-          "mark": 144.13,
-          "currency": "USD",
-          "openedOn": "2026-10-29",
-          "lastAddDate": "2026-10-29",
-          "limitUpStyle": false
+          "dayPct": -1.86,
+          "aboveSma20": true,
+          "volRatio": 1.06
         }
       ],
       "trades": [
@@ -3577,6 +3509,173 @@
           "reason": "screen-buy",
           "reasonText": "名單新開倉（單檔上限 8%）",
           "realizedPnl": 0
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "SELL",
+          "ticker": "LLY",
+          "name": "Eli Lilly",
+          "qty": 3,
+          "price": 1383.32,
+          "avgCostAtSale": 1211.98,
+          "reason": "take-profit",
+          "reasonText": "停利：未實現報酬 ≥ +12%（賣一半或全數）",
+          "realizedPnl": 514.02
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "SELL",
+          "ticker": "QLYS",
+          "name": "Qualys",
+          "qty": 1,
+          "price": 230.29,
+          "avgCostAtSale": 190.08,
+          "reason": "take-profit",
+          "reasonText": "停利：未實現報酬 ≥ +12%（賣一半或全數）",
+          "realizedPnl": 40.21
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "SELL",
+          "ticker": "ZS",
+          "name": "Zscaler",
+          "qty": 1,
+          "price": 247.82,
+          "avgCostAtSale": 212.5,
+          "reason": "take-profit",
+          "reasonText": "停利：未實現報酬 ≥ +12%（賣一半或全數）",
+          "realizedPnl": 35.32
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "SELL",
+          "ticker": "PANW",
+          "name": "Palo Alto Networks",
+          "qty": 12,
+          "price": 380.57,
+          "avgCostAtSale": 355,
+          "reason": "momentum-break",
+          "reasonText": "動能轉弱：未站上 SMA20 且當日跌超過 2%",
+          "realizedPnl": 306.84
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "SELL",
+          "ticker": "SNOW",
+          "name": "Snowflake",
+          "qty": 26,
+          "price": 330.27,
+          "avgCostAtSale": 326.5,
+          "reason": "momentum-break",
+          "reasonText": "動能轉弱：未站上 SMA20 且當日跌超過 2%",
+          "realizedPnl": 98.02
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "SELL",
+          "ticker": "MU",
+          "name": "Micron",
+          "qty": 9,
+          "price": 934.27,
+          "avgCostAtSale": 894.62,
+          "reason": "momentum-break",
+          "reasonText": "動能轉弱：未站上 SMA20 且當日跌超過 2%",
+          "realizedPnl": 356.85
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "SELL",
+          "ticker": "PLTR",
+          "name": "Palantir",
+          "qty": 26,
+          "price": 196.42,
+          "avgCostAtSale": 196.75,
+          "reason": "off-list",
+          "reasonText": "離開當日名單且未實現虧損",
+          "realizedPnl": -8.58
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "SELL",
+          "ticker": "AMD",
+          "name": "Advanced Micro Devices",
+          "qty": 15,
+          "price": 566.42,
+          "avgCostAtSale": 562.05,
+          "reason": "momentum-break",
+          "reasonText": "動能轉弱：未站上 SMA20 且當日跌超過 2%",
+          "realizedPnl": 65.55
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "SELL",
+          "ticker": "TSM",
+          "name": "TSMC (ADR)",
+          "qty": 20,
+          "price": 418.38,
+          "avgCostAtSale": 437.04,
+          "reason": "stop",
+          "reasonText": "停損：未實現報酬 ≤ −3%",
+          "realizedPnl": -373.2
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "SELL",
+          "ticker": "MSFT",
+          "name": "Microsoft",
+          "qty": 16,
+          "price": 530.14,
+          "avgCostAtSale": 546.24,
+          "reason": "off-list",
+          "reasonText": "離開當日名單且未實現虧損",
+          "realizedPnl": -257.6
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "SELL",
+          "ticker": "MSTR",
+          "name": "MicroStrategy",
+          "qty": 61,
+          "price": 141.62,
+          "avgCostAtSale": 144.13,
+          "reason": "momentum-break",
+          "reasonText": "動能轉弱：未站上 SMA20 且當日跌超過 2%",
+          "realizedPnl": -153.11
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "BUY",
+          "ticker": "ROKU",
+          "name": "Roku",
+          "qty": 2,
+          "price": 156.33,
+          "reason": "add",
+          "reasonText": "持續買進：仍在名單且未滿 8% 權益上限",
+          "realizedPnl": 0
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "BUY",
+          "ticker": "ESTC",
+          "name": "Elastic",
+          "qty": 62,
+          "price": 103.3,
+          "reason": "add",
+          "reasonText": "持續買進：仍在名單且未滿 8% 權益上限",
+          "realizedPnl": 0
         }
       ],
       "dailyEquity": [
@@ -3735,6 +3834,12 @@
           "equity": 110496.08,
           "cash": 228.96,
           "positionsValue": 110267.12
+        },
+        {
+          "date": "2026-10-30",
+          "equity": 109448.35,
+          "cash": 58793.94,
+          "positionsValue": 50654.41
         }
       ],
       "startDate": "2026-09-15"
@@ -3742,87 +3847,87 @@
   },
   "metrics": {
     "TW": {
-      "totalPnl": 115800,
-      "totalPnlPct": 3.86,
-      "realizedPnl": 48570,
-      "unrealizedPnl": 67230,
+      "totalPnl": 128250,
+      "totalPnlPct": 4.275,
+      "realizedPnl": 62250,
+      "unrealizedPnl": 66000,
       "week": {
-        "pct": 0.7714,
-        "pnl": 23850,
+        "pct": 0.6192,
+        "pnl": 19250,
         "label": "7日",
         "sinceInception": false,
         "days": 7,
-        "fromDate": "2026-10-22",
-        "toDate": "2026-10-29"
+        "fromDate": "2026-10-23",
+        "toDate": "2026-10-30"
       },
       "month": {
-        "pct": 0.9329,
-        "pnl": 28800,
+        "pct": 1.1544,
+        "pnl": 35700,
         "label": "30日",
         "sinceInception": false,
         "days": 30,
-        "fromDate": "2026-09-25",
-        "toDate": "2026-10-29"
+        "fromDate": "2026-09-30",
+        "toDate": "2026-10-30"
       },
       "quarter": {
-        "pct": 3.86,
-        "pnl": 115800,
+        "pct": 4.275,
+        "pnl": 128250,
         "label": "成立以來",
         "sinceInception": true,
         "days": 90,
         "fromDate": "2026-09-15",
-        "toDate": "2026-10-29"
+        "toDate": "2026-10-30"
       },
       "year": {
-        "pct": 3.86,
-        "pnl": 115800,
+        "pct": 4.275,
+        "pnl": 128250,
         "label": "成立以來",
         "sinceInception": true,
         "days": 365,
         "fromDate": "2026-09-15",
-        "toDate": "2026-10-29"
+        "toDate": "2026-10-30"
       }
     },
     "US": {
-      "totalPnl": 10496.08,
-      "totalPnlPct": 10.4961,
-      "realizedPnl": 6146.77,
-      "unrealizedPnl": 4349.31,
+      "totalPnl": 9448.35,
+      "totalPnlPct": 9.4484,
+      "realizedPnl": 6771.09,
+      "unrealizedPnl": 2677.26,
       "week": {
-        "pct": 4.2124,
-        "pnl": 4466.44,
+        "pct": 3.4191,
+        "pnl": 3618.44,
         "label": "7日",
         "sinceInception": false,
         "days": 7,
-        "fromDate": "2026-10-22",
-        "toDate": "2026-10-29"
+        "fromDate": "2026-10-23",
+        "toDate": "2026-10-30"
       },
       "month": {
-        "pct": 3.0399,
-        "pnl": 3259.88,
+        "pct": 3.0948,
+        "pnl": 3285.48,
         "label": "30日",
         "sinceInception": false,
         "days": 30,
-        "fromDate": "2026-09-25",
-        "toDate": "2026-10-29"
+        "fromDate": "2026-09-30",
+        "toDate": "2026-10-30"
       },
       "quarter": {
-        "pct": 10.4961,
-        "pnl": 10496.08,
+        "pct": 9.4484,
+        "pnl": 9448.35,
         "label": "成立以來",
         "sinceInception": true,
         "days": 90,
         "fromDate": "2026-09-15",
-        "toDate": "2026-10-29"
+        "toDate": "2026-10-30"
       },
       "year": {
-        "pct": 10.4961,
-        "pnl": 10496.08,
+        "pct": 9.4484,
+        "pnl": 9448.35,
         "label": "成立以來",
         "sinceInception": true,
         "days": 365,
         "fromDate": "2026-09-15",
-        "toDate": "2026-10-29"
+        "toDate": "2026-10-30"
       }
     },
     "combinedNote": "台股帳與美股帳完全獨立；不做匯率加總。"
