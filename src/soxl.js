@@ -257,19 +257,7 @@ function paint(root, data) {
   `;
 }
 
-export function renderSoxlSection() {
-  return `
-    <section class="section soxl-section" aria-label="${escapeHtml(t("soxlTitle"))}">
-      <header class="view-header">
-        <h2 class="view-title">${escapeHtml(t("soxlTitle"))}</h2>
-        <p class="view-lead">${escapeHtml(t("soxlLead"))}</p>
-      </header>
-      <p class="sx-disclaimer sx-disclaimer-top" role="note">${escapeHtml(t("soxlDisclaimer"))}</p>
-      <div id="sx-root" class="sx-root">
-        <p class="sx-loading">${escapeHtml(t("loading"))}</p>
-      </div>
-    </section>`;
-}
+export { renderSoxlSection } from "./section-shells.js";
 
 export async function initSoxl(selector = "#sx-root") {
   const root = typeof selector === "string" ? document.querySelector(selector) : selector;

@@ -378,19 +378,7 @@ function paint(root, data, state) {
   });
 }
 
-export function renderOptionsSection() {
-  return `
-    <section class="section options-section" aria-label="${escapeHtml(t("optionsTitle"))}">
-      <header class="view-header">
-        <h2 class="view-title">${escapeHtml(t("optionsTitle"))}</h2>
-        <p class="view-lead">${escapeHtml(t("optionsLead"))}</p>
-      </header>
-      <p class="uo-disclaimer uo-disclaimer-top" role="note">${escapeHtml(t("optionsDisclaimer"))}</p>
-      <div id="uo-root" class="uo-root">
-        <p class="uo-loading">${escapeHtml(t("loading"))}</p>
-      </div>
-    </section>`;
-}
+export { renderOptionsSection } from "./section-shells.js";
 
 export async function initOptions(selector = "#uo-root") {
   const root = typeof selector === "string" ? document.querySelector(selector) : selector;

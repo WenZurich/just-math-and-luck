@@ -1395,32 +1395,7 @@ function paintResult(root, result) {
     </article>`;
 }
 
-export function renderLookupSection() {
-  return `
-    <section class="section lookup-section" aria-label="${escapeHtml(t("lookupTitle"))}">
-      <header class="view-header">
-        <h2 class="view-title">${escapeHtml(t("lookupTitle"))}</h2>
-        <p class="view-lead">${escapeHtml(t("lookupLead"))}</p>
-      </header>
-      <p class="lk-disclaimer lk-disclaimer-top" role="note">${escapeHtml(t("lookupDisclaimer"))}</p>
-      <div class="lk-market-tabs" role="tablist" aria-label="${escapeHtml(t("market"))}">
-        <button type="button" class="lk-tab is-active" data-lk-market="US" role="tab" aria-selected="true">${escapeHtml(t("usStock"))}</button>
-        <button type="button" class="lk-tab" data-lk-market="TW" role="tab" aria-selected="false">${escapeHtml(t("twStock"))}</button>
-      </div>
-      <form class="lk-form" data-lk-form>
-        <label class="lk-label" for="lk-input">${escapeHtml(t("lookupInputLabel"))}</label>
-        <div class="lk-row">
-          <input id="lk-input" class="lk-input" name="symbol" type="text" autocomplete="off" spellcheck="false"
-            placeholder="${escapeHtml(t("lookupPlaceholderUs"))}" data-lk-input />
-          <button type="submit" class="lk-submit">${escapeHtml(t("lookupSearch"))}</button>
-        </div>
-        <p class="lk-hint" data-lk-hint>${escapeHtml(t("lookupHintUs"))}</p>
-      </form>
-      <div id="lk-root" class="lk-root" aria-live="polite">
-        <p class="lk-muted">${escapeHtml(t("lookupIdle"))}</p>
-      </div>
-    </section>`;
-}
+export { renderLookupSection } from "./section-shells.js";
 
 export function initLookup(selector = "#lk-root") {
   const root = typeof selector === "string" ? document.querySelector(selector) : selector;

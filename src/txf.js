@@ -322,19 +322,7 @@ function paint(root, data) {
   `;
 }
 
-export function renderTxfSection() {
-  return `
-    <section class="section txf-section" aria-label="${escapeHtml(t("txfTitle"))}">
-      <header class="view-header">
-        <h2 class="view-title">${escapeHtml(t("txfTitle"))}</h2>
-        <p class="view-lead">${escapeHtml(t("txfLead"))}</p>
-      </header>
-      <p class="txf-disclaimer txf-disclaimer-top" role="note">${escapeHtml(t("txfDisclaimer"))}</p>
-      <div id="txf-root" class="txf-root">
-        <p class="txf-loading">${escapeHtml(t("loading"))}</p>
-      </div>
-    </section>`;
-}
+export { renderTxfSection } from "./section-shells.js";
 
 export async function initTxf(selector = "#txf-root") {
   const root = typeof selector === "string" ? document.querySelector(selector) : selector;

@@ -22,6 +22,14 @@ import {
   initStrategies,
 } from "./strategies.js";
 import { renderLogicSection, renderRegimeStrip } from "./logic.js";
+// 查股/選擇權/財報日/SOXL/台指期: shells from the entry bundle, logic chunks via import() on first visit.
+import {
+  renderLookupSection,
+  renderOptionsSection,
+  renderEarningsSection,
+  renderSoxlSection,
+  renderTxfSection,
+} from "./section-shells.js";
 import "./research.css";
 import {
   renderResearchSection,
@@ -30,30 +38,10 @@ import {
   normalizeResearchCategory,
 } from "./research.js";
 import "./options.css";
-import {
-  renderOptionsSection,
-  initOptions,
-} from "./options.js";
 import "./earnings.css";
-import {
-  renderEarningsSection,
-  initEarnings,
-} from "./earnings.js";
 import "./lookup.css";
-import {
-  renderLookupSection,
-  initLookup,
-} from "./lookup.js";
 import "./soxl.css";
-import {
-  renderSoxlSection,
-  initSoxl,
-} from "./soxl.js";
 import "./txf.css";
-import {
-  renderTxfSection,
-  initTxf,
-} from "./txf.js";
 import { startLiveQuotes, stopLiveQuotes, repaintLiveQuotes } from "./live-quotes.js";
 import {
   renderUsMacroStripSlot,
@@ -1109,11 +1097,11 @@ const LAZY_SECTIONS = {
       shelf: r.view === "research" ? r.shelf : null,
       syncUrl: false,
     }),
-  options: () => initOptions("#uo-root"),
-  earnings: () => initEarnings("#er-root"),
-  lookup: () => initLookup("#lk-root"),
-  soxl: () => initSoxl("#sx-root"),
-  txf: () => initTxf("#txf-root"),
+  options: () => import("./options.js").then((mod) => mod.initOptions("#uo-root")),
+  earnings: () => import("./earnings.js").then((mod) => mod.initEarnings("#er-root")),
+  lookup: () => import("./lookup.js").then((mod) => mod.initLookup("#lk-root")),
+  soxl: () => import("./soxl.js").then((mod) => mod.initSoxl("#sx-root")),
+  txf: () => import("./txf.js").then((mod) => mod.initTxf("#txf-root")),
   podcasts: (r) =>
     initPodcasts("#pc-root", {
       category: r.view === "podcasts" ? r.sub || "menu" : "menu",

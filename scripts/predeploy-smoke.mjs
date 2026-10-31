@@ -1293,9 +1293,22 @@ async function main() {
   } else ok("hash decodeURIComponent present");
 
   // —— Stock lookup (#lookup / #quote) ——
-  if (!/from "\.\/lookup\.js"/.test(mainSrc) && !/from '\.\/lookup\.js'/.test(mainSrc)) {
-    fail("main.js should import lookup.js");
-  } else ok("lookup.js imported in main.js");
+  if (!/import\("\.\/lookup\.js"\)/.test(mainSrc)) {
+    fail("main.js should lazy-import lookup.js");
+  } else ok("lookup.js lazy-imported in main.js");
+  // Load speed (2026-10-31): 查股/選擇權/財報日/SOXL/台指期 logic ships as separate chunks.
+  {
+    const shellsSrc = fs.readFileSync(path.join(ROOT, "src/section-shells.js"), "utf8");
+    let lazyBad = 0;
+    for (const [f, N] of [["lookup", "Lookup"], ["options", "Options"], ["earnings", "Earnings"], ["soxl", "Soxl"], ["txf", "Txf"]]) {
+      if (new RegExp(`from ["']\\./${f}\\.js["']`).test(mainSrc)) { fail(`main.js must not statically import ${f}.js (keeps it out of the entry bundle)`); lazyBad++; }
+      if (!mainSrc.includes(`import("./${f}.js").then((mod) => mod.init${N}(`)) { fail(`LAZY_SECTIONS ${f} must import() its chunk`); lazyBad++; }
+      if (!shellsSrc.includes(`export function render${N}Section()`)) { fail(`section-shells.js missing render${N}Section`); lazyBad++; }
+      const modSrc = fs.readFileSync(path.join(ROOT, `src/${f}.js`), "utf8");
+      if (!modSrc.includes(`export { render${N}Section } from "./section-shells.js"`)) { fail(`${f}.js should re-export render${N}Section`); lazyBad++; }
+    }
+    if (!lazyBad) ok("查股/選擇權/財報日/SOXL/台指期 load as on-demand chunks; shells stay in entry");
+  }
   if (!fs.existsSync(path.join(ROOT, "src/lookup.js")) || !fs.existsSync(path.join(ROOT, "src/lookup.css"))) {
     fail("src/lookup.js or lookup.css missing");
   } else ok("lookup.js + lookup.css present");

@@ -334,19 +334,7 @@ function paint(root, data) {
   `;
 }
 
-export function renderEarningsSection() {
-  return `
-    <section class="section earnings-section" aria-label="${escapeHtml(t("earningsTitle"))}">
-      <header class="view-header">
-        <h2 class="view-title">${escapeHtml(t("earningsTitle"))}</h2>
-        <p class="view-lead">${escapeHtml(t("earningsLead"))}</p>
-      </header>
-      <p class="er-disclaimer er-disclaimer-top" role="note">${escapeHtml(t("earningsDisclaimer"))}</p>
-      <div id="er-root" class="er-root">
-        <p class="er-loading">${escapeHtml(t("loading"))}</p>
-      </div>
-    </section>`;
-}
+export { renderEarningsSection } from "./section-shells.js";
 
 export async function initEarnings(selector = "#er-root") {
   const root = typeof selector === "string" ? document.querySelector(selector) : selector;
