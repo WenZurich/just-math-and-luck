@@ -710,6 +710,7 @@ export default {
   macroStale: "Stale (showing last successful fetch)",
   macroToday: "Today",
   macroNext: "Next",
+  macroPast: "Released",
   macroHighImpact: "High impact",
   macroEmpty: "No high-impact US events nearby (or data not refreshed yet)",
   macroLoadError: "Could not load US market movers ({msg})",

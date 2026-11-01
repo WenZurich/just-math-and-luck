@@ -692,6 +692,7 @@ export default {
   macroStale: "数据偏旧（仍显示上次成功抓取）",
   macroToday: "今日",
   macroNext: "即将",
+  macroPast: "已公布",
   macroHighImpact: "高影响",
   macroEmpty: "近期无高影响美股大事（或数据尚未更新）",
   macroLoadError: "无法载入美股大事（{msg}）",

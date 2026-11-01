@@ -98,6 +98,7 @@ function renderChip(ev, { todayTw, nextId, timeZone }) {
   const badges = [];
   if (isToday) badges.push(`<span class="macro-chip-tag">${escapeHtml(t("macroToday"))}</span>`);
   else if (isNext) badges.push(`<span class="macro-chip-tag macro-chip-tag--next">${escapeHtml(t("macroNext"))}</span>`);
+  else if (isPast) badges.push(`<span class="macro-chip-tag macro-chip-tag--past">${escapeHtml(t("macroPast"))}</span>`);
   if (ev.highImpact || ev.importance === "high") {
     badges.push(`<span class="macro-chip-tag macro-chip-tag--high">${escapeHtml(t("macroHighImpact"))}</span>`);
   }

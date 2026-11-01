@@ -531,8 +531,12 @@ a.macro-chip:focus-visible {
   border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
 }
 
+/* Past events: muted by colour, not opacity — opacity 0.55 dropped the
+   time/name/tag text to 2.3–4.0:1 (axe color-contrast, WCAG 1.4.3).
+   Every colour below stays ≥ 4.5:1 on the chip, and a 已公布 tag says it
+   in words so state is not carried by fading alone (WCAG 1.4.1). */
 .macro-chip--past {
-  opacity: 0.55;
+  opacity: 1;
 }
 
 .macro-chip-when {
@@ -3533,6 +3537,13 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 }
 .macro-chip-tag--high { background: var(--warn-bg); color: var(--warn); }
 .macro-chip-tag--next { background: var(--surface-2); color: var(--text-muted); }
+.macro-chip--past,
+a.macro-chip--past { background: var(--bg); border-style: dashed; border-color: var(--border); }
+.macro-chip--past .macro-chip-when { color: var(--text-dim); }
+.macro-chip--past .macro-chip-name { color: var(--text-muted); font-weight: 500; }
+.macro-chip--past .macro-chip-tag,
+.macro-chip--past .macro-chip-tag--high { background: var(--surface-2); color: var(--text-muted); }
+.macro-chip-tag--past { background: var(--surface-2); color: var(--text-muted); }
 a.macro-chip:hover,
 a.macro-chip:focus-visible { box-shadow: none; border-color: var(--accent); }
 

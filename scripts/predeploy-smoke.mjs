@@ -1676,6 +1676,24 @@ async function main() {
         fail("pos-table--cards mobile card CSS missing");
       else ok("paper positions: mobile cards with labelled cells (未實現損益 visible without sideways scroll), column order kept for live quotes");
     }
+    {
+      // Past macro chips: AA contrast (no opacity fade) + a 已公布 word tag, in both US and TW strips, all 4 locales.
+      const css = fs.readFileSync(path.join(ROOT, "src/style.css"), "utf8");
+      const pastRule = css.match(/\.macro-chip--past \{([^}]*)\}/);
+      const missing = [];
+      if (!pastRule || /opacity:\s*0?\.\d/.test(pastRule[1])) missing.push("css: .macro-chip--past must not fade with opacity");
+      if (!/\.macro-chip--past \.macro-chip-name \{[^}]*color: var\(--text-muted\)/.test(css)) missing.push("css: past name colour");
+      if (!/\.macro-chip-tag--past \{/.test(css)) missing.push("css: .macro-chip-tag--past");
+      for (const m of ["us-macro.js", "tw-macro.js"]) {
+        const src = fs.readFileSync(path.join(ROOT, "src", m), "utf8");
+        if (!/else if \(isPast\) badges\.push\(`<span class="macro-chip-tag macro-chip-tag--past">\$\{escapeHtml\(t\("macroPast"\)\)\}/.test(src)) missing.push(`${m}: past tag`);
+      }
+      for (const loc of ["i18n.js", "i18n/en.js", "i18n/zh-Hans.js", "i18n/ja.js"]) {
+        if (!/\bmacroPast: "[^"]+"/.test(fs.readFileSync(path.join(ROOT, "src", loc), "utf8"))) missing.push(`${loc}: macroPast`);
+      }
+      if (missing.length) fail(`past macro chips a11y: ${missing.join("; ")}`);
+      else ok("past macro chips: readable contrast (no opacity fade) + 已公布 tag in US/TW strips, 4 locales");
+    }
     if (!/function renderTradeHistory/.test(paperSrc) || !/<details class="trade-day"/.test(paperSrc)) fail("paper.js trade history should be grouped by day (details.trade-day)");
     else ok("paper trade history grouped by trading day");
     if (!/function fmtSignedMoney/.test(paperSrc) || /fmtMoney\(r\.value/.test(paperSrc)) fail("realized P&L must use signed money (+NT$ / −NT$), not NT$-");

@@ -692,6 +692,7 @@ export default {
   macroStale: "データが古い（前回成功分を表示）",
   macroToday: "本日",
   macroNext: "次",
+  macroPast: "発表済",
   macroHighImpact: "高影響",
   macroEmpty: "直近の高影響イベントなし（または未更新）",
   macroLoadError: "米株重要日程を読み込めません（{msg}）",

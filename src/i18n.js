@@ -790,6 +790,7 @@ const zhHant = {
   macroStale: "資料偏舊（仍顯示上次成功抓取）",
   macroToday: "今日",
   macroNext: "即將",
+  macroPast: "已公布",
   macroHighImpact: "高影響",
   macroEmpty: "近期無高影響美股大事（或資料尚未更新）",
   macroLoadError: "無法載入美股大事（{msg}）",
