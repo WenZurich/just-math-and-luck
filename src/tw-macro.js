@@ -160,12 +160,14 @@ function paint(root, data) {
     Boolean(data?.stale) ||
     (!Number.isNaN(ageMs) && ageMs > STALE_MS);
 
-  let meta = `${escapeHtml(t("twMacroTz"))}`;
-  if (asOf) {
-    meta += ` · ${escapeHtml(t("macroAsOf"))} ${escapeHtml(fmtAsOfShort(asOf))}`;
-  }
+  // Meta is split into separate lines so phones (narrow side column) show the
+  // update time and stale warning instead of cutting them off with "…".
+  const metaParts = [t("twMacroTz")];
+  if (asOf) metaParts.push(`${t("macroAsOf")} ${fmtAsOfShort(asOf)}`);
+  const metaTitle = escapeHtml(stale ? [...metaParts, t("macroStale")].join(" · ") : metaParts.join(" · "));
+  let meta = metaParts.map((p) => `<span class="macro-meta-line">${escapeHtml(p)}</span>`).join("");
   if (stale) {
-    meta += ` · ${escapeHtml(t("macroStale"))}`;
+    meta += `<span class="macro-meta-line macro-meta-stale">${escapeHtml(t("macroStale"))}</span>`;
   }
 
   if (!events.length) {
@@ -173,7 +175,7 @@ function paint(root, data) {
       <div class="macro-strip" role="region" aria-label="${escapeHtml(t("twMacroTitle"))}">
         <div class="macro-strip-side">
           <span class="macro-strip-label">${escapeHtml(t("twMacroTitle"))}</span>
-          <span class="macro-strip-meta">${meta}</span>
+          <span class="macro-strip-meta" title="${metaTitle}">${meta}</span>
         </div>
         <p class="macro-strip-empty">${escapeHtml(t("twMacroEmpty"))}</p>
       </div>`;
@@ -188,7 +190,7 @@ function paint(root, data) {
     <div class="macro-strip" role="region" aria-label="${escapeHtml(t("twMacroTitle"))}">
       <div class="macro-strip-side">
         <span class="macro-strip-label">${escapeHtml(t("twMacroTitle"))}</span>
-        <span class="macro-strip-meta" title="${meta}">${meta}</span>
+        <span class="macro-strip-meta" title="${metaTitle}">${meta}</span>
       </div>
       <div class="index-strip index-strip--marquee macro-strip-marquee">
         <div class="index-marquee" tabindex="0">

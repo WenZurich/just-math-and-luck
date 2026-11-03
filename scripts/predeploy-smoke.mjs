@@ -1694,6 +1694,22 @@ async function main() {
       if (missing.length) fail(`past macro chips a11y: ${missing.join("; ")}`);
       else ok("past macro chips: readable contrast (no opacity fade) + 已公布 tag in US/TW strips, 4 locales");
     }
+    {
+      // 2026-11-03: macro strip meta split into lines (no "…" hiding update time / stale warning) + fold chevrons.
+      const css = fs.readFileSync(path.join(ROOT, "src/style.css"), "utf8");
+      const missing = [];
+      for (const m of ["us-macro.js", "tw-macro.js"]) {
+        const src = fs.readFileSync(path.join(ROOT, "src", m), "utf8");
+        if (!/class="macro-meta-line"/.test(src)) missing.push(`${m}: meta lines`);
+        if (!/macro-meta-line macro-meta-stale/.test(src)) missing.push(`${m}: stale line`);
+        if ((src.match(/title="\$\{metaTitle\}"/g) || []).length !== 2) missing.push(`${m}: plain-text title on both strips`);
+      }
+      if (!/\.macro-meta-line \{[^}]*display: block/.test(css)) missing.push("css: .macro-meta-line");
+      if (!/\.paper-rules > summary::after \{[^}]*border-right: 2px solid currentColor/.test(css)) missing.push("css: fold chevron");
+      if (!/\.paper-rules\[open\] > summary::after \{ transform/.test(css)) missing.push("css: open chevron flip");
+      if (missing.length) fail(`macro meta / fold chevrons: ${missing.join("; ")}`);
+      else ok("macro strip meta shows update time + stale on phones; fold cards show an open/close chevron");
+    }
     if (!/function renderTradeHistory/.test(paperSrc) || !/<details class="trade-day"/.test(paperSrc)) fail("paper.js trade history should be grouped by day (details.trade-day)");
     else ok("paper trade history grouped by trading day");
     if (!/function fmtSignedMoney/.test(paperSrc) || /fmtMoney\(r\.value/.test(paperSrc)) fail("realized P&L must use signed money (+NT$ / −NT$), not NT$-");
