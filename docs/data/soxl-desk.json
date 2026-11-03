@@ -2,20 +2,15 @@
   "market": "US",
   "ticker": "SOXL",
   "fundName": "Direxion Daily Semiconductor Bull 3X ETF",
-  "asOf": "2026-10-30T00:19:27.170Z",
+  "asOf": "2026-11-03T00:11:21.454Z",
   "quote": {
-    "price": 87.68,
-    "change": -14.71,
-    "changePct": -14.37,
+    "price": 68.17,
+    "change": -8.88,
+    "changePct": -11.53,
     "currency": "USD",
-    "session": "overnight / extended (Yahoo)",
+    "session": "NYSE Arca regular close (November 2 at 4:00:00 PM EST)",
     "source": "https://finance.yahoo.com/quote/SOXL/",
-    "regularClose": {
-      "price": 102.39,
-      "change": -4.96,
-      "changePct": -4.62,
-      "session": "NYSE Arca regular close (October 29 at 4:00:01 PM EDT)"
-    }
+    "regularClose": null
   },
   "holdingsAsOf": "2026-07-31",
   "holdingsSource": {
@@ -31,6 +26,15 @@
   "holdingsFreshnessNote": "Holdings weights are from the latest public SOXL SEC N-PORT (period ended 2026-07-31), not a same-day Direxion CSV. Cash + index swaps dominate reported net assets; daily weights change.",
   "leverageNote": "SOXL seeks ~3× the daily performance of the ICE Semiconductor Index. Contribution ≈ weight × return is an unlevered basket estimate only; ETF moves are magnified and path-dependent.",
   "events": [
+    {
+      "type": "anomaly",
+      "severity": "high",
+      "title": "正規盤大波動 -11.53%",
+      "detail": "Yahoo 顯示 SOXL 正規收盤約 $68.17（-11.53% / -8.88）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
+      "sources": [
+        "https://finance.yahoo.com/quote/SOXL/"
+      ]
+    },
     {
       "type": "structure",
       "severity": "info",
@@ -56,15 +60,6 @@
       "detail": "DividendInvestor reports a $0.0929 per-share distribution declared September 21, with a September 29 payment date for holders of record September 22.",
       "sources": [
         "https://www.dividendinvestor.com/dividend-news/20260921/daily-semiconductor-bull-3x-shs-direxion-shares-exchange-traded-fund-trust-nyse-soxl-declared-a-dividend-of-$0.0929-per-share/"
-      ]
-    },
-    {
-      "type": "session",
-      "severity": "info",
-      "title": "目前顯示隔夜／延長時段報價",
-      "detail": "最新報價時段：overnight / extended (Yahoo)。正規收盤另見 hero 備註。",
-      "sources": [
-        "https://finance.yahoo.com/quote/SOXL/"
       ]
     }
   ],
@@ -222,10 +217,10 @@
       "ticker": "NVDA",
       "name": "NVIDIA Corp.",
       "weightPct": 5.9941,
-      "price": 215.38,
-      "changePct": -1.17,
-      "changePctAsOf": "2026-10-28",
-      "contributionPct": -0.0701,
+      "price": 202.06,
+      "changePct": -1.26,
+      "changePctAsOf": "2026-11-02",
+      "contributionPct": -0.0755,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -241,10 +236,10 @@
       "ticker": "AMD",
       "name": "Advanced Micro Devices, Inc.",
       "weightPct": 5.8164,
-      "price": 578.44,
-      "changePct": 3.24,
-      "changePctAsOf": "2026-10-28",
-      "contributionPct": 0.1885,
+      "price": 466.84,
+      "changePct": -7.52,
+      "changePctAsOf": "2026-11-02",
+      "contributionPct": -0.4374,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -260,10 +255,10 @@
       "ticker": "AVGO",
       "name": "Broadcom Inc",
       "weightPct": 5.4933,
-      "price": 351.81,
-      "changePct": 2.77,
-      "changePctAsOf": "2026-10-28",
-      "contributionPct": 0.1522,
+      "price": 322.23,
+      "changePct": -1.18,
+      "changePctAsOf": "2026-11-02",
+      "contributionPct": -0.0648,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -278,10 +273,10 @@
       "ticker": "MU",
       "name": "Micron Technology Inc.",
       "weightPct": 5.3456,
-      "price": 983.23,
-      "changePct": 5.86,
-      "changePctAsOf": "2026-10-28",
-      "contributionPct": 0.3133,
+      "price": 833.59,
+      "changePct": -5.78,
+      "changePctAsOf": "2026-11-02",
+      "contributionPct": -0.309,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -314,10 +309,10 @@
       "ticker": "INTC",
       "name": "Intel Corporation",
       "weightPct": 3.5865,
-      "price": 95.53,
-      "changePct": 1.91,
-      "changePctAsOf": "2026-10-28",
-      "contributionPct": 0.0685,
+      "price": 59.97,
+      "changePct": -8.8,
+      "changePctAsOf": "2026-11-02",
+      "contributionPct": -0.3156,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -333,10 +328,10 @@
       "ticker": "AMAT",
       "name": "Applied Materials Inc.",
       "weightPct": 3.5558,
-      "price": 416,
-      "changePct": 5.07,
-      "changePctAsOf": "2026-10-28",
-      "contributionPct": 0.1803,
+      "price": 374.53,
+      "changePct": -3.99,
+      "changePctAsOf": "2026-11-02",
+      "contributionPct": -0.1419,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -368,10 +363,10 @@
       "ticker": "TSM",
       "name": "Taiwan Semiconductor Manufacturing Co., Ltd.",
       "weightPct": 3.1654,
-      "price": 439.51,
-      "changePct": 0.6,
-      "changePctAsOf": "2026-10-28",
-      "contributionPct": 0.019,
+      "price": 398.63,
+      "changePct": -1.85,
+      "changePctAsOf": "2026-11-02",
+      "contributionPct": -0.0586,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -386,10 +381,10 @@
       "ticker": "KLAC",
       "name": "KLA Corporation",
       "weightPct": 2.9987,
-      "price": 158.77,
-      "changePct": 3.33,
-      "changePctAsOf": "2026-10-28",
-      "contributionPct": 0.0999,
+      "price": 153.11,
+      "changePct": -3.04,
+      "changePctAsOf": "2026-11-02",
+      "contributionPct": -0.0912,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -404,10 +399,10 @@
       "ticker": "LRCX",
       "name": "Lam Research Corp",
       "weightPct": 2.9032,
-      "price": 253.82,
-      "changePct": 5.39,
-      "changePctAsOf": "2026-10-28",
-      "contributionPct": 0.1565,
+      "price": 227.56,
+      "changePct": -4.83,
+      "changePctAsOf": "2026-11-02",
+      "contributionPct": -0.1402,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -422,10 +417,10 @@
       "ticker": "MRVL",
       "name": "Marvell Technology Inc",
       "weightPct": 2.8841,
-      "price": 251.65,
-      "changePct": 3.32,
-      "changePctAsOf": "2026-10-28",
-      "contributionPct": 0.0958,
+      "price": 171.41,
+      "changePct": -12.72,
+      "changePctAsOf": "2026-11-02",
+      "contributionPct": -0.3669,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -440,10 +435,10 @@
       "ticker": "TXN",
       "name": "Texas Instruments Incorporated",
       "weightPct": 2.843,
-      "price": 309.83,
-      "changePct": 0.3,
-      "changePctAsOf": "2026-10-28",
-      "contributionPct": 0.0085,
+      "price": 302.02,
+      "changePct": 0.39,
+      "changePctAsOf": "2026-11-02",
+      "contributionPct": 0.0111,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -458,10 +453,10 @@
       "ticker": "ADI",
       "name": "Analog Devices Inc.",
       "weightPct": 2.7985,
-      "price": 428.27,
-      "changePct": 0.69,
-      "changePctAsOf": "2026-10-28",
-      "contributionPct": 0.0193,
+      "price": 412.85,
+      "changePct": -1.02,
+      "changePctAsOf": "2026-11-02",
+      "contributionPct": -0.0285,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -476,10 +471,10 @@
       "ticker": "MPWR",
       "name": "Monolithic Power Systems Inc.",
       "weightPct": 2.6481,
-      "price": 1211.22,
-      "changePct": -0.06,
-      "changePctAsOf": "2026-10-28",
-      "contributionPct": -0.0016,
+      "price": 1243.95,
+      "changePct": 2.67,
+      "changePctAsOf": "2026-11-02",
+      "contributionPct": 0.0707,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -511,10 +506,10 @@
       "ticker": "NXPI",
       "name": "NXP Semiconductors NV",
       "weightPct": 2.2473,
-      "price": 251.69,
-      "changePct": -0.71,
-      "changePctAsOf": "2026-10-28",
-      "contributionPct": -0.016,
+      "price": 257.24,
+      "changePct": -0.91,
+      "changePctAsOf": "2026-11-02",
+      "contributionPct": -0.0205,
       "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
       "instrumentType": "equity",
       "reasons": [
@@ -529,7 +524,7 @@
   "overallUpReasons": [
     "半導體指數成分（如美光、AMD、英特爾等）同步上漲時，SOXL 以約 3 倍日槓桿放大指數日報酬（見 Motley Fool／WEEX 對近期急漲的整理）。",
     "基金透過 ICE Semiconductor Index 交換合約取得槓桿曝險；指數上漲日，交換部位損益會主導 ETF 淨值方向（SEC N-PORT 可見交換權重）。",
-    "持股中最近一個交易日（2026-10-28 美股收盤）上漲的個股包括：AMD（權重 5.82%、漲 3.24%）、AVGO（權重 5.49%、漲 2.77%）、MU（權重 5.35%、漲 5.86%）、INTC（權重 3.59%、漲 1.91%）（貢獻＝權重×漲跌，僅估算）。"
+    "持股中最近一個交易日（2026-11-02 美股收盤）上漲的個股包括：TXN（權重 2.84%、漲 0.39%）、MPWR（權重 2.65%、漲 2.67%）（貢獻＝權重×漲跌，僅估算）。"
   ],
   "overallDownReasons": [
     "反向亦然：指數單日下跌時，3x 日重置會放大虧損；連續下跌日還有複利／路徑依賴，報酬不會等於「3 × 區間漲跌」。",
@@ -544,7 +539,7 @@
     "Research seed: /workspace/soxl-research/soxl-holdings-raw.json",
     "SEC N-PORT: https://www.sec.gov/Archives/edgar/data/1424958/000119312526404435/0001193125-26-404435.txt",
     "Yahoo quote page: https://finance.yahoo.com/quote/SOXL/",
-    "Yahoo quote HTML refresh @ 2026-10-30T00:19:27.170Z",
+    "Yahoo quote HTML refresh @ 2026-11-03T00:11:21.454Z",
     "https://feeds.finance.yahoo.com/rss/2.0/headline?s=SOXL&region=US&lang=en-US",
     "Yahoo chart daily closes for 14 equity holdings"
   ],

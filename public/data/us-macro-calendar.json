@@ -1,70 +1,22 @@
 {
-  "asOf": "2026-10-30T00:14:00.091Z",
+  "asOf": "2026-11-03T00:10:40.790Z",
   "market": "US",
   "timezone": "America/New_York",
   "timezoneLabel": "US ET",
   "window": {
-    "from": "2026-10-29",
-    "to": "2026-12-03"
+    "from": "2026-11-02",
+    "to": "2026-12-07"
   },
   "source": {
     "name": "XOOMAR",
     "url": "https://xoomar.com/api/markets/calendar",
     "docs": "https://xoomar.com/markets/api/calendar",
-    "remoteUpdatedAt": "2026-10-29T17:30:03.590Z",
+    "remoteUpdatedAt": "2026-11-02T15:19:00.042Z",
     "attribution": "Credit XOOMAR with a link to the dataset page on xoomar.com when you republish this data",
     "license": "https://xoomar.com/terms"
   },
   "stale": false,
   "events": [
-    {
-      "id": "pce-2026-10-29T12:30:00.000Z",
-      "eventKey": "pce",
-      "eventName": "Personal Income and Outlays (PCE)",
-      "shortName": "PCE",
-      "importance": "high",
-      "highImpact": true,
-      "scheduledAt": "2026-10-29T12:30:00.000Z",
-      "dayEt": "2026-10-29",
-      "periodLabel": "September 2026",
-      "source": "bea",
-      "officialUrl": "https://www.bea.gov/data/personal-consumption-expenditures-price-index",
-      "actual": "3.6000",
-      "previous": "3.4000",
-      "unit": "% y/y, PCE price index"
-    },
-    {
-      "id": "joblessClaims-2026-10-29T12:30:00.000Z",
-      "eventKey": "joblessClaims",
-      "eventName": "Initial Jobless Claims",
-      "shortName": "Jobless Claims",
-      "importance": "high",
-      "highImpact": true,
-      "scheduledAt": "2026-10-29T12:30:00.000Z",
-      "dayEt": "2026-10-29",
-      "periodLabel": "Week ending 2026-10-24",
-      "source": "dol",
-      "officialUrl": "https://www.dol.gov/ui/data.pdf",
-      "actual": "194.0000",
-      "previous": "195.0000",
-      "unit": "thousands, week ending Saturday"
-    },
-    {
-      "id": "gdp-2026-10-29T12:30:00.000Z",
-      "eventKey": "gdp",
-      "eventName": "GDP (Advance Estimate), 3rd Quarter 2026",
-      "shortName": "GDP",
-      "importance": "high",
-      "highImpact": true,
-      "scheduledAt": "2026-10-29T12:30:00.000Z",
-      "dayEt": "2026-10-29",
-      "periodLabel": null,
-      "source": "bea",
-      "officialUrl": "https://www.bea.gov/data/gdp/gross-domestic-product",
-      "actual": "3.4000",
-      "previous": "2.2000",
-      "unit": "% q/q annualized, real GDP"
-    },
     {
       "id": "joblessClaims-2026-11-05T13:30:00.000Z",
       "eventKey": "joblessClaims",
@@ -256,6 +208,22 @@
       "actual": null,
       "previous": null,
       "unit": null
+    },
+    {
+      "id": "nfp-2026-12-04T13:30:00.000Z",
+      "eventKey": "nfp",
+      "eventName": "Nonfarm Payrolls (Employment Situation)",
+      "shortName": "NFP",
+      "importance": "high",
+      "highImpact": true,
+      "scheduledAt": "2026-12-04T13:30:00.000Z",
+      "dayEt": "2026-12-04",
+      "periodLabel": "November 2026",
+      "source": "bls",
+      "officialUrl": "https://www.bls.gov/schedule/news_release/empsit.htm",
+      "actual": null,
+      "previous": null,
+      "unit": "thousands, monthly change"
     }
   ],
   "refreshHint": "npm run fetch-us-macro  （可選 FETCH_US_MACRO=1 接在 daily-scan 後）"

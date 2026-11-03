@@ -1,11 +1,11 @@
 {
-  "asOf": "2026-10-30T00:14:00.725Z",
+  "asOf": "2026-11-03T00:10:41.133Z",
   "market": "TW",
   "timezone": "Asia/Taipei",
   "timezoneLabel": "台北時間",
   "window": {
-    "from": "2026-10-30",
-    "to": "2026-12-04"
+    "from": "2026-11-03",
+    "to": "2026-12-08"
   },
   "source": {
     "name": "DGBAS / CBC / TWSE / MOEA",
@@ -22,19 +22,6 @@
   },
   "stale": false,
   "events": [
-    {
-      "id": "dgbasGdpFlash-2026-10-30T16:00:00+08:00",
-      "eventKey": "dgbasGdpFlash",
-      "eventName": "國民所得概估統計",
-      "shortName": "GDP 概估",
-      "importance": "high",
-      "highImpact": true,
-      "scheduledAt": "2026-10-30T08:00:00.000Z",
-      "dayTw": "2026-10-30",
-      "periodLabel": "(116Q2)",
-      "source": "行政院主計總處",
-      "officialUrl": "https://www.stat.gov.tw/News.aspx?n=2677&sms=10980"
-    },
     {
       "id": "dgbasCpi-2026-11-06T16:00:00+08:00",
       "eventKey": "dgbasCpi",
@@ -112,6 +99,19 @@
       "periodLabel": "(116Q3~117年)",
       "source": "行政院主計總處",
       "officialUrl": "https://www.stat.gov.tw/News.aspx?n=2677&sms=10980"
+    },
+    {
+      "id": "dgbasCpi-2026-12-07T16:00:00+08:00",
+      "eventKey": "dgbasCpi",
+      "eventName": "消費者物價指數",
+      "shortName": "CPI 消費者物價",
+      "importance": "high",
+      "highImpact": true,
+      "scheduledAt": "2026-12-07T08:00:00.000Z",
+      "dayTw": "2026-12-07",
+      "periodLabel": "(11608)",
+      "source": "行政院主計總處",
+      "officialUrl": "https://www.stat.gov.tw/cl.aspx?n=2663"
     }
   ],
   "refreshHint": "npm run fetch-tw-macro  （可選 FETCH_TW_MACRO=1 接在 daily-scan 後）"
