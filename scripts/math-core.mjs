@@ -1043,3 +1043,31 @@ export function addOnRoom(equity, maxPosPct, qty, mark) {
   const r = equity * maxPosPct - qty * mark;
   return isFiniteNumber(r) ? r : null;
 }
+
+/**
+ * Cross-market Top-5 (legacy daily-scan "Top5 across markets"): drop picks whose screens include "observe",
+ * US first then TW (each tagged with market), stable sort by internal score descending, take n, strip _score.
+ * Same comparator as legacy for finite / null / undefined scores (missing ⇒ −1e9); non-finite or non-number
+ * scores also rank as −1e9 (legacy NaN/±∞ made the comparator inconsistent, strings were coerced).
+ */
+export function crossMarketTop(usPicks, twPicks, n = 5) {
+  const key = (p) => (isFiniteNumber(p._score) ? p._score : -1e9);
+  const combined = [
+    ...usPicks.filter((p) => !p.screens.includes("observe")).map((p) => ({ ...p, market: "US" })),
+    ...twPicks.filter((p) => !p.screens.includes("observe")).map((p) => ({ ...p, market: "TW" })),
+  ].sort((a, b) => key(b) - key(a));
+  return combined.slice(0, n).map(({ _score, ...rest }) => rest);
+}
+
+/**
+ * ADR parity (TSM vs 2330): implied USD per ADR = local·adsRatio / fx; premium % = (adr / implied − 1)·100.
+ * Same evaluation order as legacy. Any input non-finite or ≤ 0 (or a non-finite result) ⇒ null
+ * (legacy published Infinity/NaN-derived nulls or a −100% premium for a 0 / missing quote).
+ */
+export function adrParity(localPrice, adrPrice, fx, adsRatio = 5) {
+  for (const x of [localPrice, adrPrice, fx, adsRatio]) if (!isFiniteNumber(x) || x <= 0) return null;
+  const implied = (localPrice * adsRatio) / fx;
+  const premiumPct = ((adrPrice / implied) - 1) * 100;
+  if (!isFiniteNumber(implied) || !isFiniteNumber(premiumPct) || implied <= 0) return null;
+  return { implied, premiumPct };
+}

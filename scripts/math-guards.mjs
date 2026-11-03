@@ -2884,6 +2884,156 @@ function techFromBars(bars) {
   ok(`paper exit rule chain (${n} cases: paperExitAction through the paper-trade adapter = verbatim legacy applySells chain on 300,000 published-precision positions (US 2 dp, TW tick grid, blended avgCostAfterBuy costs, 30% marks on −3%/+12% ±1 tick, dayPct on −5/−2/9.5 ±0.01, quote→last-mark fallbacks) with strict Object.is comparator; ${nSpec} vs an exact decimal-rational spec oracle (BigInt) — ${specFpDiff} disagreements, all float ret within 1e-15 of an exact −3%/+12% boundary (${exactOnBoundary} exact-boundary cases); ${H.length} hand boundaries (≤/< per rule, rule priority, same-day chase, junk); take-profit lots; scale invariance, monotone stop/take-profit in mark, off-list ∩ take-profit = ∅, junk never leaks; limitUpStyleFlag = legacy on 60,000 stocks; addOnRoom = legacy roomVal bit-for-bit on 60,000; wiring + constants + texts; live ${live} published sells consistent)`);
 }
 
+// ── Cross-market Top-5 + TSM / 2330 ADR parity (2026-11-04) ──
+// Dependencies: [top5] US/TW published picks (screens, internal _score), market order US→TW, n = 5;
+// [parity] 2330 close, TSM close, Yahoo USDTWD, ADS ratio 5.
+{
+  const C = await import("./math-core.mjs");
+  const L = await import("./study/legacy-top5-parity-2026-11-04.mjs");
+  let n = 0, nSpec = 0, nPar = 0, parSpecDiff = 0, parOnHalf = 0, live = 0, junkN = 0;
+  const bad = (m) => fail(`top5/parity: ${m}`);
+  let s = 20261104 >>> 0;
+  const rnd = () => ((s = (Math.imul(s, 1664525) + 1013904223) >>> 0) / 4294967296);
+  const ri = (a, b) => a + Math.floor(rnd() * (b - a + 1));
+  const pick = (a) => a[Math.floor(rnd() * a.length)];
+  const enc = (k, v) => (typeof v === "number" && (!Number.isFinite(v) || Object.is(v, -0)) ? `#num:${Object.is(v, -0) ? "-0" : String(v)}` : v === undefined ? "#undef" : v);
+  const J = (x) => JSON.stringify(x, enc);
+  n++; if (J([NaN]) === J([null]) || J({ a: undefined }) === J({ a: null }) || J([-0]) === J([0])) bad(`strict comparator broken`);
+  const SCREENS = [["A"], ["A", "B"], ["B"], ["observe"], ["A", "momentum"], ["B", "observe"], []];
+  const r2 = (x) => Math.round(x * 100) / 100;
+  // published-precision score: the real ranking formula over 2 dp inputs, often tied on purpose
+  const genScore = (pool) => {
+    const u = rnd();
+    if (u < 0.06) return null;
+    if (u < 0.09) return undefined;
+    if (u < 0.11) return -1e9;
+    if (u < 0.45) return pick(pool);
+    const day = r2((rnd() - 0.4) * 12), d5 = r2((rnd() - 0.4) * 20), d1m = r2((rnd() - 0.4) * 40), idx = r2((rnd() - 0.5) * 3);
+    const base = C.baseRankingScore({ dayPct: day, d5Pct: d5, d1mPct: d1m, above20: rnd() < 0.5, above50: rnd() < 0.5, above200: rnd() < 0.5, volRatio: rnd() < 0.2 ? null : r2(rnd() * 4) }, idx);
+    return base + pick([0, 1.2, -1.5, -2.5, -1.2, 2.2, 1.0, 0.6]);
+  };
+  const genList = (mk, len, pool, tick) => Array.from({ length: len }, (_, i) => {
+    const p = { ticker: `${mk}${tick}_${i}`, name: `n${i}`, price: r2(rnd() * 900 + 5), dayPct: r2((rnd() - 0.4) * 12), screens: pick(SCREENS).slice(), why: "w", risk: "r" };
+    const sc = genScore(pool); if (sc !== undefined || rnd() < 0.5) p._score = sc;
+    return p;
+  });
+  const keyOf = (p) => (typeof p._score === "number" && Number.isFinite(p._score) ? p._score : -1e9);
+  // independent spec oracle: rank by (#strictly larger keys) + (#equal keys earlier in US→TW order)
+  const spec = (us, tw, k) => {
+    const items = [...us.filter((p) => !p.screens.includes("observe")).map((p) => ({ p, market: "US" })), ...tw.filter((p) => !p.screens.includes("observe")).map((p) => ({ p, market: "TW" }))];
+    const ranked = items.map((it, i) => ({ it, rank: items.filter((o, j) => keyOf(o.p) > keyOf(it.p) || (keyOf(o.p) === keyOf(it.p) && j < i)).length }));
+    return ranked.filter((x) => x.rank < k).sort((a, b) => a.rank - b.rank).map(({ it }) => { const o = { ...it.p, market: it.market }; delete o._score; return o; });
+  };
+  // 1) + 2) + 3) random lists: new = verbatim legacy (strict), = spec oracle, properties
+  for (let t = 0; t < 60000; t++) {
+    const pool = Array.from({ length: ri(1, 4) }, () => r2((rnd() - 0.3) * 30));
+    const us = genList("U", ri(0, 14), pool, t), tw = genList("T", ri(0, 14), pool, t);
+    const snap = J([us, tw]);
+    const got = C.crossMarketTop(us, tw, 5), leg = L.legacyTop5(us, tw);
+    n++; if (J(got) !== J(leg)) { bad(`legacy ≠ new #${t}: ${J(leg.map((p) => p.ticker))} vs ${J(got.map((p) => p.ticker))}`); break; }
+    n++; if (J([us, tw]) !== snap) bad(`inputs mutated #${t}`);
+    const sp = spec(us, tw, 5); nSpec++;
+    n++; if (J(got) !== J(sp)) { bad(`spec ≠ new #${t}`); break; }
+    const elig = us.filter((p) => !p.screens.includes("observe")).length + tw.filter((p) => !p.screens.includes("observe")).length;
+    n++; if (got.length !== Math.min(5, elig)) bad(`length ${got.length} ≠ min(5, ${elig})`);
+    for (let i = 0; i < got.length; i++) {
+      const src = (got[i].market === "US" ? us : tw).find((p) => p.ticker === got[i].ticker);
+      n++; if (!src || src.screens.includes("observe") || "_score" in got[i] || !["US", "TW"].includes(got[i].market) || !got[i].ticker.startsWith(got[i].market === "US" ? "U" : "T")) bad(`bad member ${J(got[i])}`);
+      if (i) { n++; const a = keyOf((got[i - 1].market === "US" ? us : tw).find((p) => p.ticker === got[i - 1].ticker)), b = keyOf(src); if (b > a) bad(`not sorted at ${i}`); }
+    }
+    if (t % 10 === 0) for (let k = 0; k < 8; k++) { n++; const a = C.crossMarketTop(us, tw, k), b = C.crossMarketTop(us, tw, k + 1); if (J(a) !== J(b.slice(0, k))) bad(`top-${k} not a prefix of top-${k + 1}`); }
+    if (t % 10 === 1) { n++; const sw = C.crossMarketTop(tw, us, 5).map((p) => keyOf((p.market === "US" ? tw : us).find((q) => q.ticker === p.ticker))).join(), or = got.map((p) => keyOf((p.market === "US" ? us : tw).find((q) => q.ticker === p.ticker))).join(); if (sw !== or) bad(`swapping markets changed the key multiset`); }
+  }
+  // exhaustive tiny: every assignment of 3 US + 3 TW picks over scores {null, 1, 2} × observe/not
+  { const vals = [null, 1, 2, undefined]; let cnt = 0;
+    for (let m = 0; m < 4 ** 6 * 64; m += 1) {
+      let x = m; const sc = [], ob = [];
+      for (let i = 0; i < 6; i++) { sc.push(vals[x % 4]); x = Math.floor(x / 4); }
+      for (let i = 0; i < 6; i++) { ob.push(x % 2 === 1); x = Math.floor(x / 2); }
+      const mk = (i, pre) => { const p = { ticker: pre + i, screens: ob[i] ? ["observe"] : ["A"] }; if (sc[i] !== undefined) p._score = sc[i]; return p; };
+      const us = [0, 1, 2].map((i) => mk(i, "U")), tw = [3, 4, 5].map((i) => mk(i, "T"));
+      for (const k of [1, 3, 5]) { n++; cnt++; const g = C.crossMarketTop(us, tw, k); if (J(g) !== J(spec(us, tw, k)) || (k === 5 && J(g) !== J(L.legacyTop5(us, tw)))) { bad(`exhaustive tiny mismatch ${J([us, tw])}`); m = Infinity; } }
+    }
+    n++; if (cnt !== 4 ** 6 * 64 * 3) bad(`exhaustive count ${cnt}`);
+  }
+  // 4) junk scores rank as missing (−1e9), never ahead of a finite score; legacy quirks pinned
+  for (const j of [NaN, Infinity, -Infinity, "7", true, {}, [], 10n]) {
+    const us = [{ ticker: "UJ", screens: ["A"], _score: j }, { ticker: "U1", screens: ["A"], _score: -3 }], tw = [{ ticker: "T1", screens: ["B"], _score: 0.5 }];
+    const g = C.crossMarketTop(us, tw, 5).map((p) => p.ticker).join(); junkN++;
+    n++; if (g !== "T1,U1,UJ") bad(`junk score ${String(j)} ⇒ ${g}`);
+  }
+  n++; if (L.legacyTop5([{ ticker: "UJ", screens: ["A"], _score: "7" }, { ticker: "U1", screens: ["A"], _score: 5 }], []).map((p) => p.ticker).join() !== "UJ,U1") bad(`legacy string-coercion quirk not reproduced`);
+  n++; if (J(C.crossMarketTop([], [], 5)) !== "[]" || C.crossMarketTop([{ ticker: "a", screens: ["observe"], _score: 9 }], [], 5).length !== 0) bad(`empty / all-observe`);
+  // 5) ADR parity: published-precision inputs, new = verbatim legacy bit-for-bit, exact rational spec, properties, junk
+  const twTick = (p) => (p < 10 ? 0.01 : p < 50 ? 0.05 : p < 100 ? 0.1 : p < 500 ? 0.5 : p < 1000 ? 1 : 5);
+  const pow10 = (d) => 10n ** BigInt(d);
+  const toRat = (x, d) => [BigInt(Math.round(x * 10 ** d)), pow10(d)]; // exact decimal (inputs generated on that grid)
+  // round-half-up of an exact rational a/b to 2 dp (Math.round semantics: ties toward +∞), returned as integer cents
+  const roundCents = (a, b) => { const num = a * 100n, q = num / b, rem = num - q * b; let fl = q; if (rem < 0n) fl -= 1n; const r2x = (num - fl * b) * 2n; return r2x >= b ? fl + 1n : fl; };
+  for (let t = 0; t < 120000; t++) {
+    let tw = ri(300, 2600); tw = Math.round(tw / twTick(tw)) * twTick(tw); tw = Math.round(tw * 100) / 100;
+    const fxD = pick([3, 4, 5, 6]); const fx = Math.round((27 + rnd() * 8) * 10 ** fxD) / 10 ** fxD;
+    let tsm;
+    if (rnd() < 0.15) tsm = Math.round(((tw * 5) / fx) * 100) / 100; // near-zero premium
+    else tsm = Math.round((50 + rnd() * 550) * 100) / 100;
+    const got = C.adrParity(tw, tsm, fx, 5), leg = L.legacyParity({ price: tw }, { price: tsm }, fx);
+    nPar++;
+    n++; if (!got) { bad(`null on valid ${tw},${tsm},${fx}`); break; }
+    n++; if (!Object.is(got.implied, (tw * 5) / fx) || !Object.is(got.premiumPct, ((tsm / ((tw * 5) / fx)) - 1) * 100)) bad(`raw expression drift ${tw},${tsm},${fx}`);
+    n++; if (!Object.is(L.round(got.implied, 2), leg.impliedUsdTaipeiFx) || !Object.is(L.round(got.premiumPct, 2), leg.premiumPct)) { bad(`legacy ≠ new ${tw},${tsm},${fx}`); break; }
+    // exact spec: implied = 5·tw/fx, premium% = (tsm·fx/(5·tw) − 1)·100
+    const [twN, twD] = toRat(tw, 2), [fxN, fxD2] = toRat(fx, fxD), [tsN, tsD] = toRat(tsm, 2);
+    const impA = 5n * twN * fxD2, impB = twD * fxN;
+    const preA = (tsN * fxN * twD - 5n * twN * tsD * fxD2) * 100n, preB = 5n * twN * tsD * fxD2;
+    const ci = roundCents(impA, impB), cp = roundCents(preA, preB);
+    const fi = BigInt(Math.round(leg.impliedUsdTaipeiFx * 100)), fp = BigInt(Math.round(leg.premiumPct * 100));
+    if (ci !== fi || cp !== fp) {
+      parSpecDiff++;
+      // must be a float artefact at an exact half-cent: |x·100 − (k + ½)| tiny
+      const nearHalf = (A, B) => { const x = Number(A * 100000000n / B) / 1e6; return Math.abs(x - Math.floor(x) - 0.5) < 1e-6; };
+      n++; if (!(ci !== fi ? nearHalf(impA, impB) : nearHalf(preA, preB))) bad(`spec disagreement off a half-cent: ${tw},${tsm},${fx}`); else parOnHalf++;
+    }
+    // sign: exact premium sign ⇔ float sign (or float 0 when exact |premium| < 1e-12)
+    const sgn = preA === 0n ? 0 : (preA > 0n) === (preB > 0n) ? 1 : -1;
+    n++; if (!(Math.sign(got.premiumPct) === sgn || Math.abs(got.premiumPct) < 1e-9)) bad(`premium sign ${tw},${tsm},${fx}`);
+    if (t % 4 === 0) { n++; const g2 = C.adrParity(tw * 2, tsm, fx * 2, 5), g3 = C.adrParity(tw * 4, tsm * 4, fx, 5); if (!Object.is(g2.implied, got.implied) || !Object.is(g2.premiumPct, got.premiumPct) || !Object.is(g3.implied, got.implied * 4) || !Object.is(g3.premiumPct, got.premiumPct)) bad(`power-of-2 scale invariance ${tw},${tsm},${fx}`); }
+    if (t % 4 === 1) { n++; const up = C.adrParity(tw, tsm + 0.01, fx, 5); if (!(up.premiumPct > got.premiumPct)) bad(`premium not increasing in ADR price`); const dn = C.adrParity(tw + twTick(tw), tsm, fx, 5); n++; if (!(dn.premiumPct < got.premiumPct)) bad(`premium not decreasing in 2330 price`); }
+  }
+  // exact boundary: implied = ADR exactly ⇒ premium 0 exactly
+  for (const [tw, fx, tsm] of [[1000, 32, 156.25], [1250, 25, 250], [800, 32, 125], [2000, 32, 312.5]]) { n++; const g = C.adrParity(tw, tsm, fx, 5); if (!Object.is(g.premiumPct, 0) || !Object.is(g.implied, tsm)) bad(`zero-premium boundary ${tw}/${fx}`); }
+  // live example from the 11/03 scan: 2330 @ 2330, TSM 400.88, FX 32.584 ⇒ 357.54 / +12.12%
+  { n++; const g = C.adrParity(2330, 400.88, 32.584, 5); if (L.round(g.implied, 2) !== 357.54 || L.round(g.premiumPct, 2) !== 12.12) bad(`11/03 hand case ${J(g)}`); }
+  for (const j of [0, -1, NaN, Infinity, -Infinity, null, undefined, "1000", true]) for (const pos of [0, 1, 2, 3]) {
+    const args = [1000, 156.25, 32, 5]; args[pos] = j; junkN++;
+    if (pos === 3 && j === undefined) { n++; if (!Object.is(C.adrParity(...args)?.premiumPct, 0)) bad(`undefined ratio must use the default 5`); continue; }
+    n++; if (C.adrParity(...args) !== null) bad(`junk ${String(j)} at arg ${pos} ⇒ ${J(C.adrParity(...args))}`);
+  }
+  // overflow / underflow: implied must be a finite positive number or no parity
+  for (const args of [[1e308, 400, 32, 5], [2330, 400, 1e-320, 5], [1e-320, 400, 1e300, 5], [2330, 1e308, 1e-300, 5]]) { n++; junkN++; const g = C.adrParity(...args); if (g !== null && !(Number.isFinite(g.implied) && g.implied > 0 && Number.isFinite(g.premiumPct))) bad(`overflow leak ${J(args)} ⇒ ${J(g)}`); }
+  n++; if (C.adrParity(1e308, 400, 32, 5) !== null || C.adrParity(1e-320, 400, 1e300, 5) !== null) bad(`overflowed / underflowed implied must give null`);
+  // legacy quirks pinned (why junk now ⇒ no parity): 0 local price ⇒ Infinity premium; 0 ADR ⇒ −100%
+  n++; if (L.legacyParity({ price: 0 }, { price: 400 }, 32).premiumPct !== Infinity || L.legacyParity({ price: 2330 }, { price: 0 }, 32.5).premiumPct !== -100) bad(`legacy junk quirks not reproduced`);
+  // 6) wiring
+  const dsSrc = readFileSync(join(ROOT_MG, "scripts/daily-scan.mjs"), "utf8");
+  n++; if (!dsSrc.includes("const top5 = crossMarketTop(usPicks, twPicks, 5);")) bad(`daily-scan top5 not wired to crossMarketTop`);
+  n++; if (!dsSrc.includes("const par = tw2330 && tsm && taipeiFx ? adrParity(tw2330.price, tsm.price, taipeiFx, 5) : null;") || !dsSrc.includes("impliedUsdTaipeiFx: round(par.implied, 2),") || !dsSrc.includes("premiumPct: round(par.premiumPct, 2),")) bad(`daily-scan parity not wired to adrParity`);
+  n++; if (/_score \?\? -1e9|\(tw2330\.price \* 5\) \/ taipeiFx|\(\(tsm\.price \/ implied\) - 1\) \* 100/.test(dsSrc)) bad(`inline top5/parity math still in daily-scan`);
+  // 7) live latest.json: top5 members are non-observe picks of their market; parity numbers consistent with the note's FX
+  try {
+    const lj = JSON.parse(readFileSync(join(ROOT_MG, "public/data/latest.json"), "utf8"));
+    const elig = { US: lj.us.filter((p) => !p.screens.includes("observe")), TW: lj.tw.filter((p) => !p.screens.includes("observe")) };
+    n++; if (lj.top5.length !== Math.min(5, elig.US.length + elig.TW.length)) bad(`live top5 length`);
+    for (const p of lj.top5) { live++; n++; if (!elig[p.market]?.some((q) => q.ticker === p.ticker && q.price === p.price) || "_score" in p) bad(`live top5 ${p.ticker} not an eligible ${p.market} pick`); }
+    if (lj.parity) {
+      const fx = Number((/USDTWD=X ([0-9.]+)/.exec(lj.parity.note) || [])[1]);
+      const g = C.adrParity(lj.parity.tw2330, lj.parity.tsm, fx, 5); live++;
+      const tolImp = (lj.parity.tw2330 * 5) / (fx * fx) * 0.0005 + 0.005;
+      n++; if (!g || Math.abs(g.implied - lj.parity.impliedUsdTaipeiFx) > tolImp || Math.abs(((lj.parity.tsm / lj.parity.impliedUsdTaipeiFx) - 1) * 100 - lj.parity.premiumPct) > 0.01) bad(`live parity inconsistent ${J(lj.parity)}`);
+    }
+  } catch (e) { bad(`live top5/parity check: ${e.message}`); }
+  ok(`cross-market top5 + ADR parity (${n} cases: crossMarketTop = verbatim legacy Top5 block on 60,000 random US/TW pick lists (0–14 each, 7 screen sets incl. observe, published-precision ranking scores with forced ties, null/undefined/−1e9) with strict comparator, = independent rank-count spec oracle (${nSpec}), inputs never mutated, length = min(5, eligible), sorted, US→TW stable ties, top-k prefix, market swap keeps key multiset; exhaustive 3+3 picks × scores {null,1,2,missing} × observe (${4 ** 6 * 64 * 3}); junk scores (${junkN} incl. parity) rank as missing, legacy string coercion pinned; adrParity = legacy raw expressions + rounded outputs on ${nPar} published-precision quotes (TW tick grid, 2 dp ADR, 3–6 dp FX), exact BigInt spec: ${parSpecDiff} rounding disagreements, all on an exact half-cent (${parOnHalf}); premium sign exact, ×2/×4 scale invariance, monotone in ADR / 2330 price, zero-premium boundaries, 11/03 hand case; junk / 0 / negative ⇒ null (legacy ∞ / −100% pinned); wiring; live ${live} top5/parity items)`);
+}
+
 console.log("——");
 if (failures.length) {
   console.error(`▶ math-guards: ${failures.length} failure(s)`);

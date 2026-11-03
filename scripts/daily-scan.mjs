@@ -31,6 +31,8 @@ import {
   drawdownFromPeak,
   pctFromSma,
   breadthShare,
+  crossMarketTop,
+  adrParity,
 } from "./math-core.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -620,23 +622,8 @@ async function main() {
     return pick;
   });
 
-  // Top5 across markets
-  const combined = [
-    ...usPicks
-      .filter((p) => !p.screens.includes("observe"))
-      .map((p) => ({
-        ...p,
-        market: "US",
-      })),
-    ...twPicks
-      .filter((p) => !p.screens.includes("observe"))
-      .map((p) => ({
-        ...p,
-        market: "TW",
-      })),
-  ].sort((a, b) => (b._score ?? -1e9) - (a._score ?? -1e9));
-
-  const top5 = combined.slice(0, 5).map(({ _score, ...rest }) => rest);
+  // Top5 across markets — math-core.crossMarketTop (guarded 2026-11-04): non-observe, US then TW, stable score sort
+  const top5 = crossMarketTop(usPicks, twPicks, 5);
   // do not leak internal scores into published picks
   for (const p of usPicks) delete p._score;
   for (const p of twPicks) delete p._score;
@@ -648,15 +635,15 @@ async function main() {
   // Prefer known Taipei close if we can; else Yahoo only
   const taipeiFx = yahooFx; // no separate CNA fetch; note in parity
   let parity = null;
-  if (tw2330 && tsm && taipeiFx) {
-    const implied = (tw2330.price * 5) / taipeiFx;
-    const premiumPct = ((tsm.price / implied) - 1) * 100;
+  // math-core.adrParity (guarded 2026-11-04): same order of operations; junk / 0 quotes ⇒ no parity instead of ∞ / −100%
+  const par = tw2330 && tsm && taipeiFx ? adrParity(tw2330.price, tsm.price, taipeiFx, 5) : null;
+  if (par) {
     parity = {
       adsRatio: "5:1",
       tw2330: tw2330.price,
       tsm: tsm.price,
-      impliedUsdTaipeiFx: round(implied, 2),
-      premiumPct: round(premiumPct, 2),
+      impliedUsdTaipeiFx: round(par.implied, 2),
+      premiumPct: round(par.premiumPct, 2),
       note: `FX 用 Yahoo USDTWD=X ${round(yahooFx, 3)}（台北外匯官價未另取）；台股用 ${closeLabel(bySym["^TWII"]?.lastBarDate)}、美股用 ${closeLabel(bySym["^GSPC"]?.lastBarDate)}；非套利指令。`,
     };
   }
