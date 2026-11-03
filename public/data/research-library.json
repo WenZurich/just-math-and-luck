@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-30T09:30:00+08:00",
+    "updated": "2026-11-03T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -10743,6 +10743,168 @@
         "institutional",
         "limit-orders",
         "execution",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-finllm-kg-sentiment-10k-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "FinLLM-KG: Knowledge Graph-Enhanced LLMs for Financial Sentiment Analysis in Algorithmic Trading",
+      "titleLocalized": {
+        "en": "Does Giving an AI the Company's 10-K Make It Read News Better?",
+        "zh-Hant": "讓 AI 先讀過公司年報，判讀新聞會更準嗎？",
+        "zh-Hans": "让 AI 先读过公司年报，判读新闻会更准吗？",
+        "ja": "AIに年次報告書を読ませるとニュース判定は良くなるか？"
+      },
+      "authors": [
+        "Giorgos Iacovides",
+        "Oliver Hannibal",
+        "Wuyang Zhou",
+        "Danilo Mandic"
+      ],
+      "year": 2026,
+      "summary": "Most AI news-sentiment tools score each article on its own, with no idea what the company actually does. This framework feeds the language model a short company profile or a few ranked facts pulled from the firm's SEC 10-K at the moment it reads the article, without retraining the model. It also shows which sentences and which facts drove each score, so a human can check the reasoning. In the authors' simulations, portfolios built on these scores did better than a strong existing baseline. Takeaway for the site: a cheap idea for the news radar is to give the model the company's own filing context and keep the evidence visible; the portfolio gains are simulated, not live.",
+      "summaryLocalized": {
+        "en": "Model-agnostic framework that injects time-stamped company knowledge from SEC 10-K filings (natural-language profile or relevance-ranked triples) into a causal LLM at inference, no weight updates. Sentence- and fact-level attribution makes each sentiment score inspectable. Simulated portfolios beat the state-of-the-art financial-LLM baseline. Site use: watch — context-enriched, explainable sentiment for the news radar; results are backtest simulations only.",
+        "zh-Hant": "多數 AI 新聞情緒工具只看單篇文章，不知道公司實際在做什麼。這個方法在 AI 讀新聞時，順便塞給它一段從公司 SEC 年報（10-K）整理出的簡介或幾條排序過的事實，不用重新訓練模型。它還會標出是哪幾句話、哪幾條事實影響了分數，讓人可以檢查。作者的模擬中，用這種分數做的投資組合比現有強基準好。本站觀察：消息雷達可以低成本借用「附上公司年報背景、保留證據」的做法；報酬改善是模擬，不是實盤。",
+        "zh-Hans": "多数 AI 新闻情绪工具只看单篇文章，不知道公司实际在做什么。这个方法在 AI 读新闻时，顺便塞给它一段从公司 SEC 年报（10-K）整理出的简介或几条排序过的事实，不用重新训练模型。它还会标出是哪几句话、哪几条事实影响了分数，让人可以检查。作者的模拟中，用这种分数做的投资组合比现有强基准好。本站观察：消息雷达可以低成本借用“附上公司年报背景、保留证据”的做法；报酬改善是模拟，不是实盘。",
+        "ja": "多くのAIニュース感情分析は記事単体で判定し、会社の実態を知らない。本手法は推論時にSEC年次報告書（10-K）から作った会社概要や関連度順の事実をLLMに与え、再学習は不要。どの文・どの事実がスコアを動かしたかも示すので人が検証できる。著者のシミュレーションでは既存の強いベースラインを上回るポートフォリオ成績。本サイトはウォッチ：ニュースレーダーに会社背景と根拠表示を低コストで導入できる案。成績は実運用ではなくシミュレーション。"
+      },
+      "plainTakeaways": [
+        "AI 讀新聞時附上公司年報背景，情緒判讀更有脈絡",
+        "不用重新訓練模型，成本幾乎為零",
+        "會標出影響分數的句子和事實，可人工檢查",
+        "本站觀察：可借給消息雷達；報酬改善只是模擬"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Giving the AI the company's 10-K context makes news sentiment less isolated",
+          "No model retraining, almost zero extra cost",
+          "It shows which sentences and facts drove the score",
+          "Site use: watch — idea for the news radar; portfolio gains are simulated"
+        ],
+        "zh-Hant": [
+          "AI 讀新聞時附上公司年報背景，情緒判讀更有脈絡",
+          "不用重新訓練模型，成本幾乎為零",
+          "會標出影響分數的句子和事實，可人工檢查",
+          "本站觀察：可借給消息雷達；報酬改善只是模擬"
+        ],
+        "zh-Hans": [
+          "AI 读新闻时附上公司年报背景，情绪判读更有脉络",
+          "不用重新训练模型，成本几乎为零",
+          "会标出影响分数的句子和事实，可人工检查",
+          "本站观察：可借给消息雷达；报酬改善只是模拟"
+        ],
+        "ja": [
+          "10-Kの会社背景を与えるとニュース感情判定に文脈が加わる",
+          "再学習不要でコストはほぼゼロ",
+          "スコアを動かした文と事実を表示できる",
+          "本サイトはウォッチ：レーダーへの応用案、成績はシミュレーション"
+        ]
+      },
+      "formulas": [
+        "context_i,t = top-k KG triples from latest 10-K filed before t, ranked by relevance to article",
+        "s_article = LLM(article ⊕ context) ∈ [−1, 1]",
+        "score_firm,t = mean of s_article over articles on firm in day t",
+        "site use: watch only — no screener change while the math gate is not passed"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: gains are simulated backtests with an LLM whose training cutoff may leak future info; no live out-of-sample evidence. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2610.36083",
+        "https://doi.org/10.48550/arXiv.2610.36083"
+      ],
+      "tags": [
+        "us",
+        "nlp",
+        "llm",
+        "sentiment",
+        "sec-filings",
+        "news",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-hawkes-event-definition-nbbo-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "Event definition and the branching ratio: Hawkes estimates of price-change clustering in the consolidated quote feed",
+      "titleLocalized": {
+        "en": "Are US Quotes Really That Jumpy, or Is It the Data Feed?",
+        "zh-Hant": "美股報價真的那麼愛連環跳，還是資料源造成的錯覺？",
+        "zh-Hans": "美股报价真的那么爱连环跳，还是数据源造成的错觉？",
+        "ja": "米国株の気配は本当に連鎖的に動くのか、それともデータの錯覚か"
+      },
+      "authors": [
+        "Hyoeun Lee"
+      ],
+      "year": 2026,
+      "summary": "Earlier studies fitting 'self-exciting' models to the official consolidated US best-quote feed found price changes triggering more price changes within a fraction of a millisecond, and a market almost at the edge of runaway feedback. This paper shows much of that is how the feed is built: in heavily traded low-priced stocks, about half of best-quote changes are brief locked or empty quotes that fix themselves within a millisecond. Counting a price change only when the mid-price stays put for one millisecond removes the sub-millisecond effect, and raw fits overstate short-term clustering about threefold. Takeaway for the site: tick-level 'momentum bursts' measured on raw quotes can be data artifacts; clean the events before trusting any short-term signal.",
+      "summaryLocalized": {
+        "en": "Hawkes fits on the US consolidated NBBO show a sub-millisecond kernel and near-critical branching ratio. In large-tick stocks this is feed construction: half of NBBO changes are locked or depleted quotes resolved within 1 ms. Defining an event as a mid-price level persisting 1 ms removes the component; raw fits put ~3× the clean kernel mass within one second (reproduced by simulation). Because total branching ratio trades off with baseline, report kernel mass on a fixed window. Site use: watch — data-hygiene caution for any intraday signal.",
+        "zh-Hant": "過去用「自我激發」模型分析美股官方合併最佳報價時，發現價格一變就在不到一毫秒內引發更多變動，市場彷彿快要失控。這篇指出很大部分是資料源造成的：交易量大、股價低的股票，約一半最佳報價變動其實是一毫秒內就自己恢復的「鎖價」或「空檔」報價。改成「中間價維持一毫秒才算一次變動」後，這個超短效果消失；原始資料把一秒內的連環跳高估約三倍。本站觀察：用原始報價算出的「瞬間動能」可能是假象，任何短線訊號都要先清資料。",
+        "zh-Hans": "过去用“自我激发”模型分析美股官方合并最佳报价时，发现价格一变就在不到一毫秒内引发更多变动，市场仿佛快要失控。这篇指出很大部分是数据源造成的：交易量大、股价低的股票，约一半最佳报价变动其实是一毫秒内就自己恢复的“锁价”或“空档”报价。改成“中间价维持一毫秒才算一次变动”后，这个超短效果消失；原始数据把一秒内的连环跳高估约三倍。本站观察：用原始报价算出的“瞬间动能”可能是假象，任何短线信号都要先清数据。",
+        "ja": "米国の統合最良気配（NBBO）にホークス過程を当てはめると、1ミリ秒未満の自己励起と臨界に近い分岐比が出る。だが大ティック銘柄ではNBBO変化の約半分が1ミリ秒以内に解消するロック／枯渇気配で、データ構造の産物。中値が1ミリ秒維持された場合のみ事象とすると消え、生データは1秒以内の連鎖を約3倍過大評価。本サイトはウォッチ：短期シグナルは事象定義を整えてから使うべき。"
+      },
+      "plainTakeaways": [
+        "美股合併報價裡約一半的瞬間跳動是一毫秒內自己恢復的假報價",
+        "把「價格維持一毫秒」才算變動，超短連環效應就消失",
+        "原始資料把一秒內的連環跳高估約三倍",
+        "本站觀察：短線訊號要先清資料，不新增規則"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "About half of instant NBBO changes are locked or empty quotes that vanish within 1 ms",
+          "Counting a change only if it lasts 1 ms removes the sub-millisecond clustering",
+          "Raw data overstates clustering within one second about threefold",
+          "Site use: watch — clean event data before any short-term signal; no new rule"
+        ],
+        "zh-Hant": [
+          "美股合併報價裡約一半的瞬間跳動是一毫秒內自己恢復的假報價",
+          "把「價格維持一毫秒」才算變動，超短連環效應就消失",
+          "原始資料把一秒內的連環跳高估約三倍",
+          "本站觀察：短線訊號要先清資料，不新增規則"
+        ],
+        "zh-Hans": [
+          "美股合并报价里约一半的瞬间跳动是一毫秒内自己恢复的假报价",
+          "把“价格维持一毫秒”才算变动，超短连环效应就消失",
+          "原始数据把一秒内的连环跳高估约三倍",
+          "本站观察：短线信号要先清数据，不新增规则"
+        ],
+        "ja": [
+          "NBBOの瞬間変化の約半分は1ミリ秒内に消えるロック／空気配",
+          "1ミリ秒持続した変化だけ数えると超短期の連鎖は消える",
+          "生データは1秒内の連鎖を約3倍過大評価",
+          "本サイトはウォッチ：短期シグナルの前にデータ整備、新ルールなし"
+        ]
+      },
+      "formulas": [
+        "λ(t) = μ + Σ_{t_i<t} φ(t − t_i)  (Hawkes intensity)",
+        "event = mid-price level change that persists ≥ 1 ms (filters locks/depleted quotes)",
+        "report kernel mass ∫_0^W φ(s) ds on fixed window W instead of total branching ratio n = ∫_0^∞ φ",
+        "site use: watch only — no screener change while the math gate is not passed"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: a measurement/data-hygiene result for tick data, not a trading signal; the site uses daily data. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2610.36317",
+        "https://doi.org/10.48550/arXiv.2610.36317"
+      ],
+      "tags": [
+        "us",
+        "microstructure",
+        "hawkes",
+        "nbbo",
+        "data-quality",
         "watch"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",
