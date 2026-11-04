@@ -143,7 +143,31 @@ function dayPnlOf(p) {
   return (p.mark * p.qty * p.dayPct) / 100;
 }
 
-function positionRows(positions, currency, positionsValue) {
+// 每檔持股的市價從哪來：當天選股名單（scan）、補抓的同時段收盤（paper-quotes 的 quotes），
+// 或當天抓不到（missing：市價沿用上次、當天不買賣）。資料來自 paper-quotes/<台北日期>.json。
+function markSourceOf(ticker, held) {
+  if (!held) return null;
+  const miss = (held.missing || []).find((m) => m.ticker === ticker);
+  if (miss) return { kind: "stale", why: miss.why || "" };
+  const q = (held.quotes || []).find((x) => x.ticker === ticker);
+  if (q) return { kind: "held", session: q.session || "", source: q.source || "" };
+  return { kind: "scan" };
+}
+
+function shortDate(ymd) {
+  const m = /^\d{4}-(\d{2})-(\d{2})$/.exec(ymd || "");
+  return m ? `${m[1]}/${m[2]}` : ymd || "";
+}
+
+function markSourceTag(src) {
+  if (!src || src.kind === "scan") return "";
+  if (src.kind === "stale") {
+    return `<span class="pos-mark-src pos-mark-src--stale" title="${escapeHtml(src.why)}">${escapeHtml(t("markStale"))}</span>`;
+  }
+  return `<span class="pos-mark-src" title="${escapeHtml(src.source)}">${escapeHtml(t("markHeld", { date: shortDate(src.session) }))}</span>`;
+}
+
+function positionRows(positions, currency, positionsValue, held) {
   const colCount = 11;
   if (!positions.length) {
     return `<tr><td colspan="${colCount}" class="empty-cell">${escapeHtml(t("noPositions"))}</td></tr>`;
@@ -164,6 +188,7 @@ function positionRows(positions, currency, positionsValue) {
       const dayPnl = dayPnlOf(p);
       const weight = bookMv > 0 ? (mv / bookMv) * 100 : null;
       const name = p.name ? escapeHtml(p.name) : "";
+      const srcTag = markSourceTag(markSourceOf(p.ticker, held));
       return `
       <tr class="pos-row" data-lq="pos" data-lq-sym="${escapeHtml(p.ticker)}"
           data-ticker="${escapeHtml(p.ticker)}"
@@ -173,6 +198,7 @@ function positionRows(positions, currency, positionsValue) {
         <td class="pos-sym">
           <span class="ticker">${escapeHtml(p.ticker)}</span>
           ${name ? `<span class="pos-name">${name}</span>` : ""}
+          ${srcTag}
         </td>
         <td class="num" data-label="${L.qty}">${p.qty?.toLocaleString(numberLocale())}</td>
         <td class="num" data-label="${L.mark}" data-lq-field="price">${fmtPrice(p.mark, currency)}</td>
@@ -388,13 +414,27 @@ function renderTradeHistory(all, currency, asOfDate) {
     </div>`;
 }
 
-function renderPosTable(positions, currency, positionsValue) {
+function markSourceNote(positions, held) {
+  if (!held || !positions.length) return "";
+  const srcs = positions.map((p) => markSourceOf(p.ticker, held));
+  const nHeld = srcs.filter((x) => x?.kind === "held").length;
+  const nStale = srcs.filter((x) => x?.kind === "stale").length;
+  if (!nHeld && !nStale) return `<p class="pos-mark-note">${escapeHtml(t("markNoteAllScan"))}</p>`;
+  const parts = [t("markNoteScan", { n: String(positions.length - nHeld - nStale) })];
+  if (nHeld) parts.push(t("markNoteHeld", { n: String(nHeld) }));
+  if (nStale) parts.push(t("markNoteStale", { n: String(nStale) }));
+  return `<p class="pos-mark-note${nStale ? " pos-mark-note--warn" : ""}" role="note">${escapeHtml(parts.join(t("listSep")))}</p>`;
+}
+
+function renderPosTable(positions, currency, positionsValue, held) {
+  const bookHeld = held ? { quotes: held.quotes || [], missing: held.missing || [] } : null;
   return `
     <div class="paper-table-block paper-pos-block">
       <div class="pos-block-head">
         <h4>${escapeHtml(t("positions"))}</h4>
         <span class="pos-scroll-hint">${escapeHtml(t("posScrollHint"))}</span>
       </div>
+      ${markSourceNote(positions, bookHeld)}
       <div class="pos-scroll" role="region" tabindex="0" aria-label="${escapeHtml(t("positions"))}">
         <table class="pos-table pos-table--cards">
           <thead>
@@ -412,13 +452,13 @@ function renderPosTable(positions, currency, positionsValue) {
               <th class="num">${escapeHtml(t("weightPct"))}</th>
             </tr>
           </thead>
-          <tbody>${positionRows(positions, currency, positionsValue)}</tbody>
+          <tbody>${positionRows(positions, currency, positionsValue, bookHeld)}</tbody>
         </table>
       </div>
     </div>`;
 }
 
-function renderBookPanel(id, book, metrics, asOfDate, active, startDate) {
+function renderBookPanel(id, book, metrics, asOfDate, active, startDate, held) {
   if (!book) return "";
   const currency = book.currency;
   const all = [...(book.trades || [])].sort((a, b) =>
@@ -436,9 +476,18 @@ function renderBookPanel(id, book, metrics, asOfDate, active, startDate) {
       <p class="paper-session-note">${escapeHtml(t("paperSession", { date: asOfDate || "—", inception }))}</p>
       ${renderTradeTable(`${t("buy")} ${asOfDate || ""}`, todayBuys, currency)}
       ${renderTradeTable(`${t("sell")} ${asOfDate || ""}`, todaySells, currency, { showSessionRealized: true })}
-      ${renderPosTable(book.positions || [], currency, book.positionsValue)}
+      ${renderPosTable(book.positions || [], currency, book.positionsValue, held)}
       ${renderTradeHistory(all, currency, asOfDate)}
     </div>`;
+}
+
+// 只用跟帳本同一天的補價檔；日期對不上就不顯示來源（不猜）。
+function heldFor(hq, market, asOfDate) {
+  if (!hq || hq.date !== asOfDate) return null;
+  return {
+    quotes: (hq.quotes || []).filter((q) => q.market === market),
+    missing: (hq.missing || []).filter((m) => m.market === market),
+  };
 }
 
 export function renderPaperSection(paper) {
@@ -483,8 +532,8 @@ export function renderPaperSection(paper) {
         <button type="button" class="paper-tab-btn active" data-paper-tab="TW" role="tab" aria-selected="true">${escapeHtml(t("paperTabTw"))}</button>
         <button type="button" class="paper-tab-btn" data-paper-tab="US" role="tab" aria-selected="false">${escapeHtml(t("paperTabUs"))}</button>
       </div>
-      ${renderBookPanel("TW", tw, paper.metrics?.TW, asOfDate, true, startDate)}
-      ${renderBookPanel("US", us, paper.metrics?.US, asOfDate, false, startDate)}
+      ${renderBookPanel("TW", tw, paper.metrics?.TW, asOfDate, true, startDate, heldFor(paper.heldQuotes, "TW", asOfDate))}
+      ${renderBookPanel("US", us, paper.metrics?.US, asOfDate, false, startDate, heldFor(paper.heldQuotes, "US", asOfDate))}
     </section>`;
 }
 
@@ -509,7 +558,17 @@ export async function loadPaperPortfolio() {
   try {
     const res = await fetch(PAPER_URL);
     if (!res.ok) return null;
-    return await res.json();
+    const paper = await res.json();
+    try {
+      const d = new Date(paper.asOf).toLocaleDateString("en-CA", { timeZone: "Asia/Taipei" });
+      if (/^\d{4}-\d{2}-\d{2}$/.test(d)) {
+        const hr = await fetch(`./data/paper-quotes/${d}.json`);
+        if (hr.ok) paper.heldQuotes = await hr.json();
+      }
+    } catch {
+      /* 補價檔缺了就不顯示來源 */
+    }
+    return paper;
   } catch {
     return null;
   }

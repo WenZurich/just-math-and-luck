@@ -1,9 +1,12 @@
 {
+  "sessionSource": {
+    "TW": "加權指數收盤先比 Yahoo ^TWII；Yahoo 該日 close 為空時改用證交所 MI_5MINS_HIST 官方收盤"
+  },
   "scanAsOf": "2026-10-28T00:10:03Z",
   "date": "2026-10-28",
   "sessions": {
     "US": "2026-10-27",
-    "TW": null
+    "TW": "2026-10-27"
   },
   "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
   "quotes": [
@@ -96,18 +99,27 @@
       "dayPct": 1.46,
       "aboveSma20": false,
       "source": "Yahoo Finance 日線收盤（一般交易時段）"
-    }
-  ],
-  "missing": [
+    },
     {
       "ticker": "2884.TW",
+      "name": "玉山金",
       "market": "TW",
-      "why": "找不到掃描對應的交易時段"
+      "session": "2026-10-27",
+      "price": 49.45,
+      "dayPct": -0.6,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
     },
     {
       "ticker": "2882.TW",
+      "name": "國泰金",
       "market": "TW",
-      "why": "找不到掃描對應的交易時段"
+      "session": "2026-10-27",
+      "price": 114,
+      "dayPct": 0.44,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
     }
-  ]
+  ],
+  "missing": []
 }

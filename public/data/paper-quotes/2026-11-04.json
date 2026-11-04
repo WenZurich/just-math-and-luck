@@ -1,9 +1,12 @@
 {
+  "sessionSource": {
+    "TW": "加權指數收盤先比 Yahoo ^TWII；Yahoo 該日 close 為空時改用證交所 MI_5MINS_HIST 官方收盤"
+  },
   "scanAsOf": "2026-11-04T00:12:18Z",
   "date": "2026-11-04",
   "sessions": {
     "US": "2026-11-03",
-    "TW": null
+    "TW": "2026-11-03"
   },
   "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
   "quotes": [
@@ -76,18 +79,17 @@
       "dayPct": 0.37,
       "aboveSma20": false,
       "source": "Yahoo Finance 日線收盤（一般交易時段）"
-    }
-  ],
-  "missing": [
-    {
-      "ticker": "3035.TW",
-      "market": "TW",
-      "why": "找不到掃描對應的交易時段"
     },
     {
-      "ticker": "6226.TW",
+      "ticker": "3035.TW",
+      "name": "智原",
       "market": "TW",
-      "why": "找不到掃描對應的交易時段"
+      "session": "2026-11-03",
+      "price": 191,
+      "dayPct": -8.83,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
     }
-  ]
+  ],
+  "missing": []
 }

@@ -1,17 +1,17 @@
 {
-  "asOf": "2026-11-03T00:10:40.790Z",
+  "asOf": "2026-11-04T00:13:06.854Z",
   "market": "US",
   "timezone": "America/New_York",
   "timezoneLabel": "US ET",
   "window": {
-    "from": "2026-11-02",
-    "to": "2026-12-07"
+    "from": "2026-11-03",
+    "to": "2026-12-08"
   },
   "source": {
     "name": "XOOMAR",
     "url": "https://xoomar.com/api/markets/calendar",
     "docs": "https://xoomar.com/markets/api/calendar",
-    "remoteUpdatedAt": "2026-11-02T15:19:00.042Z",
+    "remoteUpdatedAt": "2026-11-03T16:00:05.997Z",
     "attribution": "Credit XOOMAR with a link to the dataset page on xoomar.com when you republish this data",
     "license": "https://xoomar.com/terms"
   },

@@ -32,49 +32,24 @@
       "market": "TW",
       "currency": "TWD",
       "startCash": 3000000,
-      "cash": 1156950,
-      "equity": 3087150,
-      "positionsValue": 1930200,
-      "realizedPnl": 81550,
+      "cash": 1829350,
+      "equity": 3066650,
+      "positionsValue": 1237300,
+      "realizedPnl": 61550,
       "positions": [
         {
           "ticker": "2891.TW",
           "name": "中信金",
           "qty": 3000,
-          "avgCost": 74.8,
+          "avgCost": 75.3,
           "mark": 74.2,
           "currency": "TWD",
-          "openedOn": "2026-10-22",
-          "lastAddDate": "2026-10-22",
+          "openedOn": "2026-10-30",
+          "lastAddDate": "2026-10-30",
           "limitUpStyle": false,
           "dayPct": -1.07,
           "aboveSma20": true,
           "volRatio": 1.26
-        },
-        {
-          "ticker": "3035.TW",
-          "name": "智原",
-          "qty": 1000,
-          "avgCost": 210.5,
-          "mark": 209.5,
-          "currency": "TWD",
-          "openedOn": "2026-10-29",
-          "lastAddDate": "2026-10-29",
-          "limitUpStyle": true,
-          "dayPct": -1.87,
-          "aboveSma20": true,
-          "volRatio": 1.66
-        },
-        {
-          "ticker": "6226.TW",
-          "name": "光鼎",
-          "qty": 6000,
-          "avgCost": 39.65,
-          "mark": 39.65,
-          "currency": "TWD",
-          "openedOn": "2026-10-29",
-          "lastAddDate": "2026-10-29",
-          "limitUpStyle": true
         },
         {
           "ticker": "2468.TW",
@@ -107,17 +82,6 @@
           "qty": 5000,
           "avgCost": 47.4,
           "mark": 47.4,
-          "currency": "TWD",
-          "openedOn": "2026-11-04",
-          "lastAddDate": "2026-11-04",
-          "limitUpStyle": false
-        },
-        {
-          "ticker": "2317.TW",
-          "name": "鴻海",
-          "qty": 1000,
-          "avgCost": 245.5,
-          "mark": 245.5,
           "currency": "TWD",
           "openedOn": "2026-11-04",
           "lastAddDate": "2026-11-04",
@@ -786,6 +750,32 @@
         {
           "date": "2026-10-29",
           "asOf": "2026-10-29T00:14:58Z",
+          "side": "SELL",
+          "ticker": "2468.TW",
+          "name": "華經",
+          "qty": 1000,
+          "price": 55.1,
+          "avgCostAtSale": 46.54,
+          "reason": "take-profit",
+          "reasonText": "停利：未實現報酬 ≥ +12%（賣一半或全數）",
+          "realizedPnl": 8560
+        },
+        {
+          "date": "2026-10-29",
+          "asOf": "2026-10-29T00:14:58Z",
+          "side": "SELL",
+          "ticker": "2891.TW",
+          "name": "中信金",
+          "qty": 3000,
+          "price": 74.2,
+          "avgCostAtSale": 74.8,
+          "reason": "off-list",
+          "reasonText": "離開當日名單且未實現虧損",
+          "realizedPnl": -1800
+        },
+        {
+          "date": "2026-10-29",
+          "asOf": "2026-10-29T00:14:58Z",
           "side": "BUY",
           "ticker": "3035.TW",
           "name": "智原",
@@ -813,12 +803,37 @@
           "side": "SELL",
           "ticker": "2468.TW",
           "name": "華經",
-          "qty": 3000,
+          "qty": 2000,
           "price": 51.1,
           "avgCostAtSale": 46.54,
           "reason": "limit-up-chase",
           "reasonText": "漲停追價隔日急殺：買進時近漲停，今日日漲跌 ≤ −5%",
-          "realizedPnl": 13680
+          "realizedPnl": 9120
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "SELL",
+          "ticker": "6226.TW",
+          "name": "光鼎",
+          "qty": 6000,
+          "price": 39.2,
+          "avgCostAtSale": 39.65,
+          "reason": "off-list",
+          "reasonText": "離開當日名單且未實現虧損",
+          "realizedPnl": -2700
+        },
+        {
+          "date": "2026-10-30",
+          "asOf": "2026-10-30T00:12:48Z",
+          "side": "BUY",
+          "ticker": "2891.TW",
+          "name": "中信金",
+          "qty": 3000,
+          "price": 75.3,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（單檔上限 8%）",
+          "realizedPnl": 0
         },
         {
           "date": "2026-10-30",
@@ -913,6 +928,19 @@
         {
           "date": "2026-11-04",
           "asOf": "2026-11-04T00:12:18Z",
+          "side": "SELL",
+          "ticker": "3035.TW",
+          "name": "智原",
+          "qty": 1000,
+          "price": 191,
+          "avgCostAtSale": 210.5,
+          "reason": "stop",
+          "reasonText": "停損：未實現報酬 ≤ −3%",
+          "realizedPnl": -19500
+        },
+        {
+          "date": "2026-11-04",
+          "asOf": "2026-11-04T00:12:18Z",
           "side": "BUY",
           "ticker": "2468.TW",
           "name": "華經",
@@ -942,18 +970,6 @@
           "name": "玉山金",
           "qty": 5000,
           "price": 47.4,
-          "reason": "screen-buy",
-          "reasonText": "名單新開倉（單檔上限 8%）",
-          "realizedPnl": 0
-        },
-        {
-          "date": "2026-11-04",
-          "asOf": "2026-11-04T00:12:18Z",
-          "side": "BUY",
-          "ticker": "2317.TW",
-          "name": "鴻海",
-          "qty": 1000,
-          "price": 245.5,
           "reason": "screen-buy",
           "reasonText": "名單新開倉（單檔上限 8%）",
           "realizedPnl": 0
@@ -1130,33 +1146,33 @@
         },
         {
           "date": "2026-10-28",
-          "equity": 3115800,
+          "equity": 3115300,
           "cash": 1650050,
-          "positionsValue": 1465750
+          "positionsValue": 1465250
         },
         {
           "date": "2026-10-29",
-          "equity": 3115800,
-          "cash": 1201650,
-          "positionsValue": 1914150
+          "equity": 3117700,
+          "cash": 1479350,
+          "positionsValue": 1638350
         },
         {
           "date": "2026-10-30",
-          "equity": 3128250,
-          "cash": 1150550,
-          "positionsValue": 1977700
+          "equity": 3124750,
+          "cash": 1386450,
+          "positionsValue": 1738300
         },
         {
           "date": "2026-11-03",
-          "equity": 3133450,
-          "cash": 1267550,
-          "positionsValue": 1865900
+          "equity": 3122450,
+          "cash": 1503450,
+          "positionsValue": 1619000
         },
         {
           "date": "2026-11-04",
-          "equity": 3087150,
-          "cash": 1156950,
-          "positionsValue": 1930200
+          "equity": 3066650,
+          "cash": 1829350,
+          "positionsValue": 1237300
         }
       ],
       "startDate": "2026-09-15"
@@ -4316,13 +4332,13 @@
   },
   "metrics": {
     "TW": {
-      "totalPnl": 87150,
-      "totalPnlPct": 2.905,
-      "realizedPnl": 81550,
-      "unrealizedPnl": 5600,
+      "totalPnl": 66650,
+      "totalPnlPct": 2.2217,
+      "realizedPnl": 61550,
+      "unrealizedPnl": 5100,
       "week": {
-        "pct": -0.9195,
-        "pnl": -28650,
+        "pct": -1.5616,
+        "pnl": -48650,
         "label": "7日",
         "sinceInception": false,
         "days": 7,
@@ -4330,8 +4346,8 @@
         "toDate": "2026-11-04"
       },
       "month": {
-        "pct": -0.6261,
-        "pnl": -19450,
+        "pct": -1.286,
+        "pnl": -39950,
         "label": "30日",
         "sinceInception": false,
         "days": 30,
@@ -4339,8 +4355,8 @@
         "toDate": "2026-11-04"
       },
       "quarter": {
-        "pct": 2.905,
-        "pnl": 87150,
+        "pct": 2.2217,
+        "pnl": 66650,
         "label": "成立以來",
         "sinceInception": true,
         "days": 90,
@@ -4348,8 +4364,8 @@
         "toDate": "2026-11-04"
       },
       "year": {
-        "pct": 2.905,
-        "pnl": 87150,
+        "pct": 2.2217,
+        "pnl": 66650,
         "label": "成立以來",
         "sinceInception": true,
         "days": 365,

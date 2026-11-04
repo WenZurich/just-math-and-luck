@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-03T09:30:00+08:00",
+    "updated": "2026-11-04T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -10905,6 +10905,169 @@
         "hawkes",
         "nbbo",
         "data-quality",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-anytime-valid-backtest-promotion-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "Can We Stop the Backtest Yet? Anytime-Valid Promotion Tests for Adaptive Financial Research Agents",
+      "titleLocalized": {
+        "en": "When Can You Trust a Rule an AI Keeps Backtesting?",
+        "zh-Hant": "AI 一直回測找策略，什麼時候才能相信它？",
+        "zh-Hans": "AI 一直回测找策略，什么时候才能相信它？",
+        "ja": "AIが回測を続ける戦略、いつ信じてよいのか"
+      },
+      "authors": [
+        "Eric Benhamou",
+        "Jean-Jacques Ohana",
+        "Beatrice Guez",
+        "Ethan Setrouk",
+        "Chamyl Saadi",
+        "Thomas Jacquot"
+      ],
+      "year": 2026,
+      "summary": "Automated research agents invent and watch trading rules nonstop, then report whichever crosses a threshold, which makes ordinary significance tests meaningless. The authors give each new rule a fixed slice of a total 'testing budget' when it is born and let evidence grow only from returns after that date, net of costs. As long as the slices add up to at most one, the chance of ever promoting a rule with no real edge stays bounded, no matter how long you keep watching. On ETF and industry data, naive repeated testing falsely promoted something in 94.5% of no-edge simulations versus 0% for this method, and on real data nothing survived after costs. Takeaway for the site: a principled way to decide when a candidate strategy has earned promotion.",
+      "summaryLocalized": {
+        "en": "PROMOTE gives each candidate rule predictable testing wealth at birth and builds a cost-aware e-process only from later returns; with lifetime allocations summing to ≤1, a weighted Ville bound caps the probability of ever promoting a rule whose net score has nonpositive conditional mean, allowing dependent candidates, adaptive births and indefinite monitoring. Null replay: unadjusted repeated tests 94.5% false-family crossings vs 0.0%; 70.1% power at a 15-bp perturbation; zero promotions after costs on real ETF data. Site use: watch — a candidate design for the strategy-promotion gate.",
+        "zh-Hant": "AI 研究代理會不停產生、監看交易規則，再挑越過門檻的來報告，這讓一般的顯著性檢定失效。作者讓每條新規則「出生」時分到總測試預算的一小份，而且只用出生之後、扣掉成本的報酬累積證據。只要所有份額加起來不超過 1，不管監看多久，誤把沒優勢的規則升級的機率都有上限。在 ETF 與產業資料上，天真的重複檢定在 94.5% 的無優勢模擬中誤報，這個方法是 0%；真實資料扣成本後沒有任何規則過關。本站觀察：可作為候選策略何時「轉正」的嚴謹判準。",
+        "zh-Hans": "AI 研究代理会不停产生、监看交易规则，再挑越过门槛的来报告，这让一般的显著性检验失效。作者让每条新规则“出生”时分到总测试预算的一小份，而且只用出生之后、扣掉成本的报酬累积证据。只要所有份额加起来不超过 1，不管监看多久，误把没优势的规则升级的概率都有上限。在 ETF 与产业数据上，天真的重复检验在 94.5% 的无优势模拟中误报，这个方法是 0%；真实数据扣成本后没有任何规则过关。本站观察：可作为候选策略何时“转正”的严谨判准。",
+        "ja": "AI研究エージェントは売買ルールを次々生成・監視し、閾値を超えたものだけ報告するため通常の有意性検定は無効になる。PROMOTEは各ルールの誕生時に検定予算の一部を割り当て、以後のコスト控除後リターンだけで証拠（e過程）を積む。割当合計が1以下なら、優位性のないルールを昇格させる確率は監視期間に関係なく抑えられる。帰無シミュレーションで単純反復検定94.5%誤昇格に対し0%、実データではコスト後の昇格ゼロ。本サイトはウォッチ：候補戦略の昇格判定の設計案。"
+      },
+      "plainTakeaways": [
+        "一直回測、挑最好的報，普通檢定幾乎一定會誤報",
+        "每條規則出生時分一份測試預算，只用之後扣成本的報酬算證據",
+        "預算總和不超過 1，就能控制「誤升級」的機率",
+        "本站觀察：可當候選策略轉正的判準，不新增規則"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Backtest forever and report the best, and ordinary tests almost always false-alarm",
+          "Each rule gets a testing budget at birth; only later after-cost returns count as evidence",
+          "If budgets sum to at most 1, the chance of a false promotion is controlled",
+          "Site use: watch — candidate criterion for promoting strategies; no new rule"
+        ],
+        "zh-Hant": [
+          "一直回測、挑最好的報，普通檢定幾乎一定會誤報",
+          "每條規則出生時分一份測試預算，只用之後扣成本的報酬算證據",
+          "預算總和不超過 1，就能控制「誤升級」的機率",
+          "本站觀察：可當候選策略轉正的判準，不新增規則"
+        ],
+        "zh-Hans": [
+          "一直回测、挑最好的报，普通检验几乎一定会误报",
+          "每条规则出生时分一份测试预算，只用之后扣成本的报酬算证据",
+          "预算总和不超过 1，就能控制“误升级”的概率",
+          "本站观察：可当候选策略转正的判准，不新增规则"
+        ],
+        "ja": [
+          "回測を続けて最良だけ報告すると通常の検定はほぼ必ず誤報する",
+          "各ルールに誕生時の検定予算を与え、以後のコスト後リターンだけを証拠にする",
+          "予算合計が1以下なら誤昇格確率を制御できる",
+          "本サイトはウォッチ：戦略昇格の判定基準候補、新ルールなし"
+        ]
+      },
+      "formulas": [
+        "E_i(t) = w_i · Π_{s=b_i+1}^{t} (1 + λ_s · x_{i,s})  (e-process from birth b_i, x = bounded net-of-cost score, λ predictable)",
+        "Σ_i w_i ≤ 1  (lifetime testing-wealth budget)",
+        "promote rule i when E_i(t) ≥ 1/α;  P(ever promote a null rule) ≤ α (weighted Ville inequality)",
+        "site use: watch only — no screener change while the math gate is not passed"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: a statistical promotion protocol, useful as a future candidate-to-adopted gate design, not a trading signal. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.03384",
+        "https://doi.org/10.48550/arXiv.2611.03384"
+      ],
+      "tags": [
+        "us",
+        "backtesting",
+        "multiple-testing",
+        "e-values",
+        "research-agents",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-interpretable-allocation-mpc-rebalancing-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "Interpretable Allocation and Model-Predictive Rebalancing of Equity Portfolios, Tested on Real and Synthetic Markets",
+      "titleLocalized": {
+        "en": "Picking Stocks Mattered More Than How You Weighted Them",
+        "zh-Hant": "選哪些股票，比怎麼配權重更重要",
+        "zh-Hans": "选哪些股票，比怎么配权重更重要",
+        "ja": "銘柄選びはウェイト付けより重要だった"
+      },
+      "authors": [
+        "Jeffrey D. Varner"
+      ],
+      "year": 2026,
+      "summary": "One system picks stocks (by score, by a learning 'bandit', or at random), sizes them with one of seven weighting rules under budget, single-stock, volatility and turnover limits, and re-plans trades when the portfolio drifts outside its forecast band or hits a drawdown stop. Tested on 373 US stocks traded from January 2025 to September 2026, which stocks were chosen mattered more for final wealth than the weighting rule, and early re-plans mostly cut the worst drawdown without reliably adding return. In simulated deep crashes even random picks beat SPY in the median, so the edge came from the shared risk limits, and a tightening beta cap cost money on real prices but helped in long simulated slumps. Takeaway: risk limits and drawdown-triggered re-plans are worth studying; synthetic tests can flatter trend-based picking.",
+      "summaryLocalized": {
+        "en": "373 US equities, calibrated 2014–2024, traded Jan 2025–Sep 2026. Selection (score / bandit / random) × 7 weighting rules (4 utilities, 3 standard) under budget, max-weight, volatility and turnover limits; preference weight = bounded score of trend, beta and market direction. An MPC with multi-asset GBM forecasts re-plans at horizon, on band exit or drawdown stop. Real data: selection > weighting for terminal wealth; early re-plans cut max drawdown in most combos without consistently raising wealth. HMM-with-jumps synthetic crashes: all combos, random included, beat simulated SPY in the median, crediting shared constraints; persistent synthetic trends favour score selection. Site use: watch.",
+        "zh-Hant": "一套系統負責選股（依分數、用會學習的「多臂賭徒」法，或隨機）、在預算、單股上限、波動和週轉限制下用七種權重法之一配股數，並在組合偏離預測區間或觸發回撤停損時重新規劃。以 373 檔美股、2025 年 1 月到 2026 年 9 月實際交易測試：選了哪些股票對最終財富的影響大於權重法；提前重新規劃多半壓低最大回撤，但不穩定增加報酬。模擬深度崩盤中連隨機選股的中位數都贏 SPY，可見優勢來自共同的風控限制；隨市場轉弱收緊 beta 上限在真實資料上虧錢，在長期模擬下跌中才有用。本站觀察：風控上限與回撤觸發的再平衡值得研究，但合成市場測試可能高估趨勢選股。",
+        "zh-Hans": "一套系统负责选股（依分数、用会学习的“多臂赌徒”法，或随机）、在预算、单股上限、波动和周转限制下用七种权重法之一配股数，并在组合偏离预测区间或触发回撤止损时重新规划。以 373 只美股、2025 年 1 月到 2026 年 9 月实际交易测试：选了哪些股票对最终财富的影响大于权重法；提前重新规划多半压低最大回撤，但不稳定增加报酬。模拟深度崩盘中连随机选股的中位数都赢 SPY，可见优势来自共同的风控限制；随市场转弱收紧 beta 上限在真实数据上亏钱，在长期模拟下跌中才有用。本站观察：风控上限与回撤触发的再平衡值得研究，但合成市场测试可能高估趋势选股。",
+        "ja": "米国株373銘柄（2014–2024で較正、2025年1月–2026年9月で運用）。スコア／バンディット／ランダムの選択と7種のウェイト法を、予算・単一銘柄上限・ボラティリティ・回転率の制約下で組み合わせ、予測帯の逸脱やドローダウン停止でMPCが再計画。実データでは銘柄選択がウェイト法より最終資産に効き、早期再計画は最大ドローダウンを縮めたがリターンは安定して増えず。合成暴落ではランダム選択も中央値でSPY超え＝共通の制約が効いた。本サイトはウォッチ。"
+      },
+      "plainTakeaways": [
+        "選了哪些股票，比權重怎麼配更影響最後賺多少",
+        "回撤觸發的提前調倉多半能壓低最大跌幅，但不保證多賺",
+        "模擬崩盤裡連隨機選股都贏大盤，功勞在共同的風控上限",
+        "本站觀察：研究風控上限，不新增規則"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Which stocks you pick mattered more than how you weighted them",
+          "Drawdown-triggered early rebalancing mostly cut the worst drop but did not reliably add return",
+          "In simulated crashes even random picks beat the index, so the shared risk limits did the work",
+          "Site use: watch — study risk caps; no new rule"
+        ],
+        "zh-Hant": [
+          "選了哪些股票，比權重怎麼配更影響最後賺多少",
+          "回撤觸發的提前調倉多半能壓低最大跌幅，但不保證多賺",
+          "模擬崩盤裡連隨機選股都贏大盤，功勞在共同的風控上限",
+          "本站觀察：研究風控上限，不新增規則"
+        ],
+        "zh-Hans": [
+          "选了哪些股票，比权重怎么配更影响最后赚多少",
+          "回撤触发的提前调仓多半能压低最大跌幅，但不保证多赚",
+          "模拟崩盘里连随机选股都赢大盘，功劳在共同的风控上限",
+          "本站观察：研究风控上限，不新增规则"
+        ],
+        "ja": [
+          "どの銘柄を選ぶかがウェイト付けより最終資産に効いた",
+          "ドローダウン連動の早期リバランスは最大下落を抑えたがリターン増は不安定",
+          "合成暴落ではランダム選択も指数超え、共通のリスク制約の効果",
+          "本サイトはウォッチ：リスク上限を研究、新ルールなし"
+        ]
+      },
+      "formulas": [
+        "max_n U(n)  s.t.  Σ n_i p_i ≤ B,  w_i ≤ w_max,  σ_p ≤ σ_max,  turnover ≤ τ_max",
+        "preference weight γ_i = clip(a·trend_i + b·β_i + c·marketDir, lo, hi)",
+        "re-plan when V_t ∉ [L_t, U_t] (GBM forecast band) or drawdown ≥ D_stop, else at horizon H",
+        "site use: watch only — no screener change while the math gate is not passed"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: single-author preprint with a short live window; risk-limit and drawdown re-plan ideas are candidates for paper-book study, not screener changes. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.03022",
+        "https://doi.org/10.48550/arXiv.2611.03022"
+      ],
+      "tags": [
+        "us",
+        "portfolio-construction",
+        "rebalancing",
+        "mpc",
+        "drawdown",
         "watch"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",

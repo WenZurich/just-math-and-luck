@@ -1677,6 +1677,27 @@ async function main() {
       else ok("paper positions: mobile cards with labelled cells (未實現損益 visible without sideways scroll), column order kept for live quotes");
     }
     {
+      // 市價來源標籤：持股市價是今天掃描、補抓同日收盤、還是沒抓到（沿用舊價），4 語系都要有字。
+      const keys = ["markHeld", "markStale", "markNoteAllScan", "markNoteScan", "markNoteHeld", "markNoteStale", "listSep"];
+      const locs = ["src/i18n.js", "src/i18n/en.js", "src/i18n/zh-Hans.js", "src/i18n/ja.js"].map((f) => [f, fs.readFileSync(path.join(ROOT, f), "utf8")]);
+      const missKeys = locs.flatMap(([f, src]) => keys.filter((k) => !new RegExp(`\\b${k}:`).test(src)).map((k) => `${f}:${k}`));
+      if (!/function markSourceOf\(/.test(paperSrc) || !/paper-quotes\//.test(paperSrc) || !/pos-mark-src--stale/.test(paperSrc)) fail("paper.js should tag each holding's mark source from paper-quotes/<date>.json");
+      else if (missKeys.length) fail(`mark-source i18n keys missing: ${missKeys.join(", ")}`);
+      else ok("paper positions: mark-source tags (補價／市價未更新) wired, 4 locales");
+      // Held-quote TW session must resolve when the scan has a TW close date (Yahoo null-close bars fall back to TWSE official close).
+      const latestJ = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/latest.json"), "utf8"));
+      const pp = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/paper-portfolio.json"), "utf8"));
+      const day = new Date(latestJ.asOf).toLocaleDateString("en-CA", { timeZone: "Asia/Taipei" });
+      const hqPath = path.join(ROOT, "public/data/paper-quotes", `${day}.json`);
+      if (fs.existsSync(hqPath)) {
+        const hq = JSON.parse(fs.readFileSync(hqPath, "utf8"));
+        const twMissing = (hq.missing || []).filter((m) => m.market === "TW" && /交易時段/.test(m.why || ""));
+        if (latestJ.twCloseDate && (pp.books?.TW?.positions || []).length && hq.sessions?.TW == null && twMissing.length)
+          fail(`paper-quotes ${day}: TW session unresolved though scan twCloseDate=${latestJ.twCloseDate} (${twMissing.map((m) => m.ticker).join(",")} left at stale marks)`);
+        else ok(`paper-quotes ${day}: TW session ${hq.sessions?.TW ?? "n/a"} (scan TW close ${latestJ.twCloseDate ?? "n/a"})`);
+      }
+    }
+    {
       // Past macro chips: AA contrast (no opacity fade) + a 已公布 word tag, in both US and TW strips, all 4 locales.
       const css = fs.readFileSync(path.join(ROOT, "src/style.css"), "utf8");
       const pastRule = css.match(/\.macro-chip--past \{([^}]*)\}/);

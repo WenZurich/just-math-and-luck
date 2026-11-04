@@ -1366,6 +1366,39 @@ table.pos-table {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+/* 市價來源：補價／未更新標籤（資料完整度：讓人看得出哪檔市價不是今天掃描的） */
+.pos-table td.pos-sym .pos-mark-src {
+  display: inline-block;
+  margin-top: 0.15rem;
+  padding: 0.05rem 0.3rem;
+  border: 1px solid var(--border, currentColor);
+  border-radius: 3px;
+  font-size: 0.6rem;
+  line-height: 1.25;
+  color: var(--text-muted);
+  white-space: nowrap;
+  width: fit-content;
+  max-width: 100%;
+  justify-self: start;
+}
+.pos-table td.pos-sym .pos-mark-src--stale {
+  border-color: var(--warn);
+  background: var(--warn-bg);
+  color: var(--text);
+  font-weight: 600;
+}
+.pos-mark-note {
+  margin: 0.25rem 0 0.4rem;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+.pos-mark-note--warn {
+  padding: 0.3rem 0.5rem;
+  border-left: 3px solid var(--warn);
+  background: var(--warn-bg);
+  color: var(--text);
+}
 @media (min-width: 900px) {
   .pos-scroll-hint { display: none; }
   table.pos-table { font-size: 0.8rem; }

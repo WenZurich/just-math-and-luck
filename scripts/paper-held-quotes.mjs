@@ -32,6 +32,58 @@ const taipeiDate = (iso) => new Date(iso).toLocaleDateString("en-CA", { timeZone
 const round = (n, d) => (n == null || !Number.isFinite(n) ? null : Math.round(n * 10 ** d) / 10 ** d);
 const cache = new Map();
 
+// 證交所（TWSE）官方每日收盤，只用來補 Yahoo 日線 close 為 null 的台股 K 棒。
+// 加權指數：MI_5MINS_HIST；上市個股：STOCK_DAY（.TWO 上櫃股不在此來源，維持不補）。
+const twseCache = new Map();
+function twseCode(symbol) {
+  if (symbol === "^TWII") return "TAIEX";
+  const m = /^(\d{4,6}[A-Z]?)\.TW$/.exec(symbol);
+  return m ? m[1] : null;
+}
+async function twseMonthCloses(code, ym) {
+  const key = `${code}:${ym}`;
+  if (twseCache.has(key)) return twseCache.get(key);
+  const d = `${ym.replace("-", "")}01`;
+  const url = code === "TAIEX"
+    ? `https://www.twse.com.tw/rwd/zh/TAIEX/MI_5MINS_HIST?date=${d}&response=json`
+    : `https://www.twse.com.tw/rwd/zh/afterTrading/STOCK_DAY?date=${d}&stockNo=${encodeURIComponent(code)}&response=json`;
+  const closeCol = code === "TAIEX" ? 4 : 6;
+  const map = new Map();
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const res = await fetch(url, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(20000) });
+      if (res.ok) {
+        const j = await res.json();
+        if (j?.stat === "OK" && Array.isArray(j.data)) {
+          for (const row of j.data) {
+            const [y, mo, da] = String(row[0]).split("/").map(Number);
+            const c = Number(String(row[closeCol]).replace(/,/g, ""));
+            if (y && mo && da && Number.isFinite(c) && c > 0) {
+              map.set(`${y + 1911}-${String(mo).padStart(2, "0")}-${String(da).padStart(2, "0")}`, c);
+            }
+          }
+          break;
+        }
+        if (j?.stat) break; // 官方明確回覆無資料：不重試
+      }
+    } catch {}
+    await new Promise((r) => setTimeout(r, 1200 * (attempt + 1)));
+  }
+  twseCache.set(key, map);
+  return map;
+}
+async function fillTwseCloses(symbol, bars) {
+  const code = twseCode(symbol);
+  const out = [];
+  for (const b of bars) {
+    if (!b.needsTwse) { out.push(b); continue; }
+    const c = code ? (await twseMonthCloses(code, b.date.slice(0, 7))).get(b.date) : undefined;
+    // 證交所當天沒有這筆（休市或查不到）：丟掉這根，不猜價格。
+    if (Number.isFinite(c)) out.push({ date: b.date, c, fromTwse: true });
+  }
+  return out;
+}
+
 async function dailyBars(symbol, endYmd) {
   const key = symbol;
   if (cache.has(key)) return cache.get(key);
@@ -47,10 +99,12 @@ async function dailyBars(symbol, endYmd) {
         const q = r?.indicators?.quote?.[0];
         if (r?.timestamp?.length && q) {
           const off = r.meta?.gmtoffset ?? 0;
-          out = r.timestamp
+          const raw = r.timestamp
             .map((t, k) => ({ date: new Date((t + off) * 1000).toISOString().slice(0, 10), c: q.close?.[k] }))
             .filter((b, k) => {
               if (Number.isFinite(b.c)) return true;
+              // 台股：Yahoo 常把前一個交易日的日線 close 留空（null）。先標記，稍後用證交所官方收盤補。
+              if (twseCode(symbol) && b.date < endYmd) { b.needsTwse = true; return true; }
               // Yahoo 有時把最新一根日線的 close 留空（null），但 meta.regularMarketPrice
               // 就是同一天 16:00 收盤後的官方收盤價。只有在 regularMarketTime 落在這根 K 的同一天、
               // 且已是收盤時間（當地 16:00 之後）時才補上，否則丟掉這根（不猜價格）。
@@ -64,6 +118,7 @@ async function dailyBars(symbol, endYmd) {
               b.fromMetaClose = true;
               return true;
             });
+          out = await fillTwseCloses(symbol, raw);
         }
       }
     } catch {}
@@ -111,11 +166,12 @@ async function main() {
         price: round(price, price >= 100 ? 2 : 4),
         dayPct: round(pctChange(closes[k - 1], price), 2),
         aboveSma20: s20 != null ? price >= s20 : undefined,
-        source: "Yahoo Finance 日線收盤（一般交易時段）",
+        source: bars[k].fromTwse ? "臺灣證券交易所 STOCK_DAY 官方收盤（Yahoo 當日缺值）" : "Yahoo Finance 日線收盤（一般交易時段）",
       });
     }
   }
   const out = {
+    sessionSource: { TW: "加權指數收盤先比 Yahoo ^TWII；Yahoo 該日 close 為空時改用證交所 MI_5MINS_HIST 官方收盤" },
     scanAsOf: scan.asOf,
     date,
     sessions,
