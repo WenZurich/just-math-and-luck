@@ -1,0 +1,93 @@
+{
+  "scanAsOf": "2026-11-04T00:12:18Z",
+  "date": "2026-11-04",
+  "sessions": {
+    "US": "2026-11-03",
+    "TW": null
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "market": "US",
+      "session": "2026-11-03",
+      "price": 331.9,
+      "dayPct": -1.9,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ISRG",
+      "name": "Intuitive Surgical",
+      "market": "US",
+      "session": "2026-11-03",
+      "price": 440.75,
+      "dayPct": 0.89,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "QLYS",
+      "name": "Qualys",
+      "market": "US",
+      "session": "2026-11-03",
+      "price": 210.57,
+      "dayPct": 1.43,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon",
+      "market": "US",
+      "session": "2026-11-03",
+      "price": 250.69,
+      "dayPct": 2.06,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "NFLX",
+      "name": "Netflix",
+      "market": "US",
+      "session": "2026-11-03",
+      "price": 63.42,
+      "dayPct": 1.73,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "MSTR",
+      "name": "MicroStrategy",
+      "market": "US",
+      "session": "2026-11-03",
+      "price": 135.63,
+      "dayPct": 3.72,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet",
+      "market": "US",
+      "session": "2026-11-03",
+      "price": 280.03,
+      "dayPct": 0.37,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": [
+    {
+      "ticker": "3035.TW",
+      "market": "TW",
+      "why": "找不到掃描對應的交易時段"
+    },
+    {
+      "ticker": "6226.TW",
+      "market": "TW",
+      "why": "找不到掃描對應的交易時段"
+    }
+  ]
+}
