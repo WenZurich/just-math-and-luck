@@ -473,7 +473,8 @@ function applyIndexChip(root, key, quote, fxExtra) {
           fxExtra.taipeiClose != null ? fmtNum(fxExtra.taipeiClose, 3) : "—";
         pctEl.className = "pct flat";
         pctEl.style.fontSize = "0.7rem";
-        pctEl.textContent = `${t("taipeiClose")} ${taipei} · Yahoo ${fmtNum(quote.price, 3)}`;
+        const md = fxExtra.taipeiDate ? ` ${fxExtra.taipeiDate}` : "";
+        pctEl.textContent = `${t("taipeiClose")}${md} ${taipei} · Yahoo ${fmtNum(quote.price, 3)}`;
       }
     } else if (quote.changePct != null) {
       if (!pctEl) {
@@ -736,6 +737,7 @@ function paintQuotes(map, ok) {
       : null;
   applyIndexChip(rootEl, "usdTwd", fxQ, {
     taipeiClose: Number.isFinite(taipeiClose) ? taipeiClose : null,
+    taipeiDate: fxChip?.getAttribute("data-lq-taipei-date") || "",
   });
 
   // Every displayed ticker node

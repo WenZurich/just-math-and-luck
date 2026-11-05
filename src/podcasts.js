@@ -222,7 +222,7 @@ function categoryMenuCards() {
       ? `<p class="pc-menu-handle">${escapeHtml(t(c.handleKey))}</p>`
       : "";
     return `
-      <button type="button" class="pc-menu-card" data-pc-cat="${escapeHtml(c.id)}" aria-label="${escapeHtml(t(c.titleKey))}">
+      <button type="button" class="pc-menu-card" data-pc-cat="${escapeHtml(c.id)}">
         <div class="pc-menu-badges">
           ${feat}
           <span class="pc-card-badge ${mktClass}">${escapeHtml(t(c.marketKey))}</span>

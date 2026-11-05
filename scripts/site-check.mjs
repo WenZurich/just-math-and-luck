@@ -288,6 +288,7 @@ async function checkFreshness(where) {
   const blocks = [
     ["txf-desk.json", "台指期"], ["soxl-desk.json", "SOXL"], ["us-macro-calendar.json", "美股大事"],
     ["tw-macro-calendar.json", "台股大事"], ["us-options-snapshot.json", "選擇權"], ["earnings-digest.json", "財報日"],
+    ["usd-twd-taipei.json", "台北收匯率"],
   ];
   for (const [file, label] of blocks) {
     try {

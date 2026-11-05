@@ -79,6 +79,7 @@ import {
 } from "./manbao.js";
 
 const DATA_URL = "./data/latest.json";
+const TAIPEI_FX_URL = "./data/usd-twd-taipei.json";
 
 /** Taiwan convention: 紅漲綠跌 */
 function pctClass(n) {
@@ -219,9 +220,12 @@ function renderIndexStrip(indices) {
     const fx = indices.usdTwd;
     const show = fx.taipeiClose ?? fx.yahoo;
     const href = INDEX_OFFICIAL_URLS.usdTwd;
+    const fxMd = /^\d{4}-\d{2}-\d{2}$/.test(fx.taipeiCloseDate || "")
+      ? `${fx.taipeiCloseDate.slice(5, 7)}/${fx.taipeiCloseDate.slice(8, 10)}`
+      : "";
     const tip = [
       "USD/TWD",
-      t("taipeiClose") + (fx.taipeiClose != null ? ` ${fmtNum(fx.taipeiClose, 3)}` : " —"),
+      t("taipeiClose") + (fxMd ? ` ${fxMd}` : "") + (fx.taipeiClose != null ? ` ${fmtNum(fx.taipeiClose, 3)}` : " —"),
       fx.yahoo != null ? `Yahoo ${fmtNum(fx.yahoo, 3)}` : null,
       "CBC / 台北外匯 official ↗",
     ]
@@ -230,12 +234,13 @@ function renderIndexStrip(indices) {
     chips.push(`
       <a class="index-chip" data-lq="index" data-lq-key="usdTwd"
          data-lq-taipei-close="${fx.taipeiClose != null ? escapeHtml(String(fx.taipeiClose)) : ""}"
+         data-lq-taipei-date="${escapeHtml(fxMd)}"
          href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer"
          title="${escapeHtml(tip)}">
         <div class="label">${term("usdtwd", t("usdtwd"))}</div>
         <div class="value" data-lq-field="value">${fmtNum(show, 3)}</div>
         <div class="pct flat" data-lq-field="dayPct" style="font-size:0.7rem">
-          ${escapeHtml(t("taipeiClose"))} ${fx.taipeiClose != null ? fmtNum(fx.taipeiClose, 3) : "—"}
+          ${escapeHtml(t("taipeiClose"))}${fxMd ? ` ${escapeHtml(fxMd)}` : ""} ${fx.taipeiClose != null ? fmtNum(fx.taipeiClose, 3) : "—"}
           · Yahoo ${fx.yahoo != null ? fmtNum(fx.yahoo, 3) : "—"}
         </div>
       </a>
@@ -1157,6 +1162,29 @@ async function remount() {
   await mountUi(app);
 }
 
+/** Official CBC / 台北外匯 USD/TWD close (display-only; never blocks the page). */
+async function loadTaipeiFx() {
+  try {
+    const r = await fetch(TAIPEI_FX_URL);
+    if (!r.ok) return null;
+    return await r.json();
+  } catch {
+    return null;
+  }
+}
+
+/** Fill indices.usdTwd.taipeiClose from usd-twd-taipei.json when the scan left it empty. */
+function mergeTaipeiFx(data, fx) {
+  const slot = data?.indices?.usdTwd;
+  const close = fx?.latest?.close;
+  const date = fx?.latest?.date;
+  if (!slot || slot.taipeiClose != null) return data;
+  if (!Number.isFinite(close) || close < 20 || close > 50 || !/^\d{4}-\d{2}-\d{2}$/.test(date || "")) return data;
+  slot.taipeiClose = close;
+  slot.taipeiCloseDate = date;
+  return data;
+}
+
 async function main() {
   const app = document.getElementById("app");
   // Saved non-default language: fetch its string chunk in parallel with data.
@@ -1165,9 +1193,11 @@ async function main() {
   const loading = document.getElementById("loading");
   if (loading) loading.textContent = t("loading");
   try {
+    const fxP = loadTaipeiFx();
     const res = await fetch(DATA_URL);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     cachedData = await res.json();
+    mergeTaipeiFx(cachedData, await fxP);
     cachedPaper = await loadPaperPortfolio();
     await langReady;
     applyDocumentLang();

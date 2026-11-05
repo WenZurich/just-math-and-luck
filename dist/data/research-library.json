@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-04T09:30:00+08:00",
+    "updated": "2026-11-05T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -11069,6 +11069,170 @@
         "mpc",
         "drawdown",
         "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-olivia-llm-news-priced-at-open-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "Thinking Fast, Trading Late: System One Decision Models vs the Market",
+      "titleLocalized": {
+        "en": "AI Reads the News, but the Market Reads It First",
+        "zh-Hant": "AI 會讀新聞，但市場讀得更快",
+        "zh-Hans": "AI 会读新闻，但市场读得更快",
+        "ja": "AIはニュースを読むが、市場はもっと速く読む"
+      },
+      "authors": [
+        "Amir Dehkordi",
+        "Alireza Kargarzadeh",
+        "Nariman Khaledian",
+        "Navid Parvini",
+        "Sid Ghatak",
+        "Arman Khaledian"
+      ],
+      "year": 2026,
+      "summary": "The authors build a strict test protocol (OLIVIA) for whether language-model readings of company news predict S&P 500 returns: point-in-time inputs with company names masked, model choice on validation data only, a hash-frozen analysis plan, and a test period opened once. A fine-tuned model looked good in validation (daily rank IC about 0.06) but faded to about 0.02 on the blinded Jan–Jul 2026 test. Commercial models' scores matched the overnight gap to the open (IC about 0.075) but not the move after the open, so the news was already priced by the time a trader could act. No pre-registered strategy survived costs and a deflated Sharpe ratio, and masking names failed because models still guessed the company 62–74% of the time. Takeaway: news-driven signals are mostly in the opening gap; useful as an honesty check for the news radar, not a trading rule.",
+      "summaryLocalized": {
+        "en": "OLIVIA protocol: point-in-time, identity-masked news on S&P 500 names; selection on validation only; hash-frozen plan; one logged unblinding. Fine-tuned open model: validation daily IC 0.055/0.065 → blinded Jan–Jul 2026 test 0.020 (t=1.7). Commercial models: IC 0.074–0.077 with close→open gap, ~0 with open→close. No over/under-reaction discrimination; no strategy survives costs + deflated Sharpe. Models re-identify masked firms 62–74% vs 28% baseline. Site use: watch (news-radar priced-in check).",
+        "zh-Hant": "作者設計一套嚴格檢驗流程（OLIVIA）測試語言模型讀公司新聞能否預測標普 500 個股報酬：只用當時可得資料並遮住公司名、只用驗證期挑模型、分析計畫先用雜湊鎖定、測試期只開一次。自己微調的模型在驗證期每日排序相關約 0.06，到盲測的 2026 年 1–7 月掉到約 0.02。商用模型的判讀只對得上「收盤到隔天開盤」的跳空（約 0.075），對開盤之後的走勢沒用，也就是交易者能動手時新聞已經反映完。扣成本與修正後夏普值後沒有任何預先登記的策略存活；遮名也沒用，模型仍有 62–74% 猜得出是哪家公司。本站觀察：新聞效應多半在開盤跳空，可當消息雷達「已反映多少」的檢查，不當交易規則。",
+        "zh-Hans": "作者设计一套严格检验流程（OLIVIA）测试语言模型读公司新闻能否预测标普 500 个股报酬：只用当时可得数据并遮住公司名、只用验证期挑模型、分析计划先用哈希锁定、测试期只开一次。自己微调的模型在验证期每日排序相关约 0.06，到盲测的 2026 年 1–7 月掉到约 0.02。商用模型的判读只对得上“收盘到次日开盘”的跳空（约 0.075），对开盘之后的走势没用，也就是交易者能动手时新闻已经反映完。扣成本与修正后夏普值后没有任何预先登记的策略存活；遮名也没用，模型仍有 62–74% 猜得出是哪家公司。本站观察：新闻效应多半在开盘跳空，可当消息雷达“已反映多少”的检查，不当交易规则。",
+        "ja": "OLIVIAプロトコル：時点整合・社名マスクのニュースでS&P500銘柄を検証、選択は検証期間のみ、分析計画はハッシュで凍結、テストは一度だけ開封。微調整モデルは検証で日次IC約0.06→盲検の2026年1–7月で0.020。商用モデルは終値→寄付のギャップとIC約0.075だが寄付後とは無関係＝行動できる時点で織り込み済み。コストとデフレーテッド・シャープ後に残る戦略なし。マスクしても62–74%で企業を特定。本サイトはウォッチ。"
+      },
+      "plainTakeaways": [
+        "AI 讀新聞的預測力，多半在開盤跳空時就被吃掉",
+        "嚴格盲測後，回測裡好看的訊號從 0.06 掉到 0.02",
+        "扣成本後沒有任何新聞策略賺得到錢",
+        "本站觀察：當消息雷達「已反映多少」的檢查，不新增規則"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Most of the predictive power of AI news reading is gone by the opening gap",
+          "Under a strict blind test, a signal that looked good fell from 0.06 to 0.02",
+          "No news strategy made money after costs",
+          "Site use: watch — a priced-in check for the news radar; no new rule"
+        ],
+        "zh-Hant": [
+          "AI 讀新聞的預測力，多半在開盤跳空時就被吃掉",
+          "嚴格盲測後，回測裡好看的訊號從 0.06 掉到 0.02",
+          "扣成本後沒有任何新聞策略賺得到錢",
+          "本站觀察：當消息雷達「已反映多少」的檢查，不新增規則"
+        ],
+        "zh-Hans": [
+          "AI 读新闻的预测力，多半在开盘跳空时就被吃掉",
+          "严格盲测后，回测里好看的信号从 0.06 掉到 0.02",
+          "扣成本后没有任何新闻策略赚得到钱",
+          "本站观察：当消息雷达“已反映多少”的检查，不新增规则"
+        ],
+        "ja": [
+          "AIのニュース読解の予測力は寄付ギャップでほぼ消える",
+          "厳格な盲検で0.06の信号が0.02に低下",
+          "コスト控除後に儲かるニュース戦略はなし",
+          "本サイトはウォッチ：ニュースレーダーの織り込み確認、新ルールなし"
+        ]
+      },
+      "formulas": [
+        "IC_t = SpearmanCorr(score_{i,t}, r_{i,t+1}) across S&P 500 names; report mean IC and t-stat",
+        "split r_{t+1} = r_gap (close→open) + r_intraday (open→close); tradable edge requires IC(score, r_intraday) > 0",
+        "deflated Sharpe: DSR = Φ((SR − SR_0)·√(T−1) / √(1 − γ3·SR + (γ4−1)/4·SR²)), SR_0 from number of trials",
+        "news-radar check: if gap already ≥ typical event move, mark item 'mostly priced in'",
+        "site use: watch only — no screener change while the math gate is not passed"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: strongest use is as a priced-in / overfitting check for the news radar and paper book, not a screener rule. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.03985",
+        "https://doi.org/10.48550/arXiv.2611.03985"
+      ],
+      "tags": [
+        "us",
+        "news",
+        "llm",
+        "event-study",
+        "overnight-gap",
+        "backtest-overfitting",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-volatility-response-to-trend-lag-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "How market volatility responds to a preceding price trend: a lag-resolved measurement in cryptocurrencies and equities",
+      "titleLocalized": {
+        "en": "Does a Price Trend Change Volatility Minutes Later?",
+        "zh-Hant": "價格一波趨勢後，幾分鐘內波動會怎麼變？",
+        "zh-Hans": "价格一波趋势后，几分钟内波动会怎么变？",
+        "ja": "値動きのトレンドは数分後のボラティリティを変えるか"
+      },
+      "authors": [
+        "Gulsah Bicki",
+        "Taylan Akdogan"
+      ],
+      "year": 2026,
+      "summary": "Using minute-level trades from 2020 to 2026, the authors measure how volatility reacts to a price trend that came just before it, lag by lag, in Bitcoin, Ether and another large coin versus three large US stocks and the S&P 500 ETF. In the coins, volatility rose asymmetrically after moves (same sign as the leverage effect), strongest at about 20 minutes and halving by roughly 90 minutes, with a detectable one-way-in-time part. In the US stocks no such one-way part showed up at 20 minutes, though the ETF's return-variance link did show a time direction. Controls on shuffled and simulated data came out at zero. Takeaway: a short-lived trend-then-volatility effect is clear in crypto but weak in single US stocks, so it does not justify an intraday stock rule.",
+      "summaryLocalized": {
+        "en": "Minute data 2020–2026: 3 large cryptocurrencies (one exchange) vs 3 large US stocks + SPY. Lag-resolved trend→volatility asymmetry; T-even / T-odd decomposition under time reversal. Crypto: positive asymmetry (leverage-effect sign), peak at 20-min lag, half-life ~1.5 h for BTC/ETH, T-odd part 0.4–0.9 of T-even. US single stocks: no detectable T-odd part at 20 min; SPY return-variance correlation shows an arrow of time. Null on shuffled/simulated data. Site use: no (crypto-specific, intraday).",
+        "zh-Hant": "用 2020–2026 年的分鐘成交資料，逐個時間差測量「前一段價格趨勢」之後波動怎麼反應，對象是三種大型加密貨幣和三檔美國大型股加標普 500 ETF。加密貨幣在價格走一段後波動不對稱上升（方向和槓桿效應相同），約 20 分鐘最強、比特幣和以太幣約 90 分鐘減半，而且測得出只朝時間一個方向的成分。美國個股在 20 分鐘測不到這種單向成分，ETF 的報酬與變異關係則有時間方向。打亂或模擬資料的對照結果為零。本站結論：趨勢帶動波動的短效應在加密貨幣明顯、在美股個股很弱，不足以做盤中股票規則。",
+        "zh-Hans": "用 2020–2026 年的分钟成交数据，逐个时间差测量“前一段价格趋势”之后波动怎么反应，对象是三种大型加密货币和三只美国大型股加标普 500 ETF。加密货币在价格走一段后波动不对称上升（方向和杠杆效应相同），约 20 分钟最强、比特币和以太币约 90 分钟减半，而且测得出只朝时间一个方向的成分。美国个股在 20 分钟测不到这种单向成分，ETF 的报酬与方差关系则有时间方向。打乱或模拟数据的对照结果为零。本站结论：趋势带动波动的短效应在加密货币明显、在美股个股很弱，不足以做盘中股票规则。",
+        "ja": "2020–2026年の分足で、直前のトレンドに対するボラティリティ反応をラグ別に測定（大型暗号資産3種 vs 米大型株3銘柄＋SPY）。暗号資産はレバレッジ効果と同符号の非対称性が20分で最大、BTC/ETHは約90分で半減、時間一方向の成分も検出。米個別株は20分で一方向成分なし、SPYは時間の矢あり。シャッフル・模擬データではゼロ。本サイトは不採用（暗号資産特有・日中）。"
+      },
+      "plainTakeaways": [
+        "加密貨幣走一段後，約 20 分鐘內波動會不對稱放大",
+        "這個效應約一個半小時減半",
+        "美股個股幾乎測不到，ETF 才有一點",
+        "本站結論：不適用於本站的日線選股，不新增規則"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "After a crypto price run, volatility rises asymmetrically within about 20 minutes",
+          "The effect halves in about an hour and a half",
+          "It barely shows up in single US stocks; only the S&P ETF shows a little",
+          "Site use: no — not relevant to the site's daily screener; no new rule"
+        ],
+        "zh-Hant": [
+          "加密貨幣走一段後，約 20 分鐘內波動會不對稱放大",
+          "這個效應約一個半小時減半",
+          "美股個股幾乎測不到，ETF 才有一點",
+          "本站結論：不適用於本站的日線選股，不新增規則"
+        ],
+        "zh-Hans": [
+          "加密货币走一段后，约 20 分钟内波动会不对称放大",
+          "这个效应约一个半小时减半",
+          "美股个股几乎测不到，ETF 才有一点",
+          "本站结论：不适用于本站的日线选股，不新增规则"
+        ],
+        "ja": [
+          "暗号資産は値動き後約20分でボラが非対称に拡大",
+          "効果は約1時間半で半減",
+          "米個別株ではほぼ検出されず、ETFでわずか",
+          "本サイトは不採用：日足スクリーナーに無関係、新ルールなし"
+        ]
+      },
+      "formulas": [
+        "A(τ) = Corr(trend_{t−τ→t}, σ²_{t→t+w}) − Corr(−trend, σ²) as a function of lag τ",
+        "A = A_even + A_odd under time reversal; only A_odd carries an arrow of time",
+        "site use: none — intraday and crypto-specific"
+      ],
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — no: intraday, crypto-specific effect that is undetected in single US stocks; kept for reference only. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.04533",
+        "https://doi.org/10.48550/arXiv.2611.04533"
+      ],
+      "tags": [
+        "us",
+        "volatility",
+        "leverage-effect",
+        "intraday",
+        "crypto-comparison"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",
       "coverFallback": "./covers/placeholder-paper.svg"

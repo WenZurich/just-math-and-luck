@@ -374,7 +374,7 @@ function categoryMenuHtml(items) {
   const cards = RESEARCH_MENU.map((c) => {
     const n = countForMenuItem(items, c);
     return `
-      <button type="button" class="rl-menu-card" data-rl-cat="${escapeHtml(c.id)}" aria-label="${escapeHtml(t(c.titleKey))}">
+      <button type="button" class="rl-menu-card" data-rl-cat="${escapeHtml(c.id)}">
         <h3 class="rl-menu-title">${escapeHtml(t(c.titleKey))}</h3>
         <p class="rl-menu-count">${n}</p>
         <span class="rl-menu-cta">${escapeHtml(t("researchOpenCategory"))}</span>

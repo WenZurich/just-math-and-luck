@@ -2000,6 +2000,30 @@ async function main() {
     else ok("docs/data strategy ids match public/data");
   }
 
+  // 台北收 USD/TWD: official CBC table parse + snapshot shape (display-only)
+  {
+    const { parseCbcFxRows } = await import(pathToFileURL(path.join(ROOT, "scripts/fetch-tw-fx.mjs")).href);
+    const html = `<tr><td data-th="標題(日期)"><span>2026/11/03</span></td><td data-th="NTD/USD"><span>32.760</span></td></tr>
+      <tr><td data-th="標題(日期)"><span>2026/11/04</span></td><td data-th="NTD/USD"><span>32.821</span></td></tr>
+      <tr><td data-th="標題(日期)"><span>2026/11/05</span></td><td data-th="NTD/USD"><span>999.0</span></td></tr>`;
+    const rows = parseCbcFxRows(html);
+    if (rows.length !== 2 || rows[0].date !== "2026-11-04" || rows[0].close !== 32.821) fail(`parseCbcFxRows wrong: ${JSON.stringify(rows)}`);
+    else ok("parseCbcFxRows: newest first, rejects implausible values");
+    if (parseCbcFxRows("<html>garbage</html>").length !== 0) fail("parseCbcFxRows must return [] on garbage (never invent)");
+    else ok("parseCbcFxRows returns [] on garbage");
+    const fxFp = path.join(ROOT, "public/data/usd-twd-taipei.json");
+    if (!fs.existsSync(fxFp)) fail("public/data/usd-twd-taipei.json missing (npm run fetch-tw-fx)");
+    else {
+      const fx = JSON.parse(fs.readFileSync(fxFp, "utf8"));
+      const c = fx?.latest?.close;
+      if (!Number.isFinite(c) || c < 20 || c > 50 || !/^\d{4}-\d{2}-\d{2}$/.test(fx?.latest?.date || "") || !/cbc\.gov\.tw/.test(fx.sourceUrl || "")) fail(`usd-twd-taipei.json bad shape: ${JSON.stringify(fx?.latest)}`);
+      else ok(`台北收 USD/TWD ${c} (${fx.latest.date}, CBC)`);
+    }
+    const mainFx = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+    if (!/mergeTaipeiFx\(cachedData/.test(mainFx) || !/usd-twd-taipei\.json/.test(mainFx)) fail("main.js must merge usd-twd-taipei.json into the 熱門 USD/TWD chip");
+    else ok("main.js merges CBC 台北收 into the USD/TWD chip");
+  }
+
   // 櫃買 index: official TPEx source, never 資料不全 on the 熱門 strip
   {
     const { parseTpexIndexRows } = await import(pathToFileURL(path.join(ROOT, "scripts/tpex-index.mjs")).href);

@@ -824,6 +824,23 @@ async function main() {
 
 
   
+  // Default ON (set FETCH_TW_FX=0 to skip): official CBC/台北外匯 USD/TWD close for the 熱門「台北收」chip.
+  // Display-only (separate usd-twd-taipei.json); parity above stays on Yahoo FX.
+  if (process.env.FETCH_TW_FX !== "0") {
+    try {
+      const { spawnSync } = await import("node:child_process");
+      console.log("\n▶ fetch-tw-fx (default on)…");
+      const fr = spawnSync(process.execPath, [join(__dirname, "fetch-tw-fx.mjs")], {
+        stdio: "inherit",
+        cwd: ROOT,
+        timeout: 120000,
+      });
+      if (fr.status !== 0) console.warn("fetch-tw-fx exited", fr.status);
+    } catch (e) {
+      console.warn("fetch-tw-fx skipped:", e?.message || e);
+    }
+  }
+
   // Optional: FETCH_TXF=1 → also refresh Taiwan Index Futures desk
   if (process.env.FETCH_TXF === "1") {
     try {

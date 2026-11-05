@@ -17,6 +17,7 @@
     "predeploy": "npm run test:smoke && npm run build",
     "fetch-soxl": "node scripts/fetch-soxl.mjs",
     "fetch-txf": "node scripts/fetch-txf-desk.mjs",
+    "fetch-tw-fx": "node scripts/fetch-tw-fx.mjs",
     "fetch-us-macro": "node scripts/fetch-us-macro-calendar.mjs",
     "fetch-tw-macro": "node scripts/fetch-tw-macro-calendar.mjs",
     "fetch-gooaye": "node scripts/fetch-gooaye-episodes.mjs",
