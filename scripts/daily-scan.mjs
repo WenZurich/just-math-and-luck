@@ -160,7 +160,9 @@ async function yahooChart(symbol) {
     const local = new Date((rmt + offset) * 1000);
     const rmtDate = local.toISOString().slice(0, 10);
     const last = bars[bars.length - 1];
-    const price = m.fulldayPrice ?? m.regularMarketPrice;
+    // Official regular-session close only: fulldayPrice includes after-hours/extended trading
+    // (e.g. APP 11/04 AH 334.98 vs official 271.75) and must never be the day close.
+    const price = m.regularMarketPrice;
     if (
       price != null &&
       rmtDate > last.date &&
