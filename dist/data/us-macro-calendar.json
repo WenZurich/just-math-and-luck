@@ -1,17 +1,17 @@
 {
-  "asOf": "2026-11-04T00:13:06.854Z",
+  "asOf": "2026-11-05T00:14:37.751Z",
   "market": "US",
   "timezone": "America/New_York",
   "timezoneLabel": "US ET",
   "window": {
-    "from": "2026-11-03",
-    "to": "2026-12-08"
+    "from": "2026-11-04",
+    "to": "2026-12-09"
   },
   "source": {
     "name": "XOOMAR",
     "url": "https://xoomar.com/api/markets/calendar",
     "docs": "https://xoomar.com/markets/api/calendar",
-    "remoteUpdatedAt": "2026-11-03T16:00:05.997Z",
+    "remoteUpdatedAt": "2026-11-04T17:30:03.909Z",
     "attribution": "Credit XOOMAR with a link to the dataset page on xoomar.com when you republish this data",
     "license": "https://xoomar.com/terms"
   },
@@ -224,6 +224,22 @@
       "actual": null,
       "previous": null,
       "unit": "thousands, monthly change"
+    },
+    {
+      "id": "fomcDecision-2026-12-09T19:00:00.000Z",
+      "eventKey": "fomcDecision",
+      "eventName": "FOMC Rate Decision",
+      "shortName": "FOMC Decision",
+      "importance": "high",
+      "highImpact": true,
+      "scheduledAt": "2026-12-09T19:00:00.000Z",
+      "dayEt": "2026-12-09",
+      "periodLabel": "December 8-9, 2026 meeting",
+      "source": "fed",
+      "officialUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "actual": null,
+      "previous": null,
+      "unit": "%, target range midpoint"
     }
   ],
   "refreshHint": "npm run fetch-us-macro  （可選 FETCH_US_MACRO=1 接在 daily-scan 後）"
