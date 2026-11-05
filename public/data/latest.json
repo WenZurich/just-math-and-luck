@@ -1,7 +1,7 @@
 {
-  "asOf": "2026-11-05T00:13:29Z",
+  "asOf": "2026-11-05T00:21:05Z",
   "disclaimer": "本站內容為依公開行情的數學篩選候選，不是投資建議，亦不保證獲利。",
-  "timezoneNote": "資料抓取 2026-11-05 08:13（台北）；台股為 2026-11-04 收盤；美股為 2026-11-04 收盤（美東）。以 asOf 為準。",
+  "timezoneNote": "資料抓取 2026-11-05 08:21（台北）；台股為 2026-11-04 收盤；美股為 2026-11-04 收盤（美東）。以 asOf 為準。",
   "twCloseDate": "2026-11-04",
   "indices": {
     "tw": {
@@ -18,7 +18,7 @@
       "dayPct": -0.58,
       "source": "TPEx OpenAPI tpex_index",
       "sourceUrl": "https://www.tpex.org.tw/zh-tw/mainboard/trading/info/daily-indices.html",
-      "fetchedAt": "2026-11-05T00:13:49.448Z"
+      "fetchedAt": "2026-11-05T00:21:30.724Z"
     },
     "spx": {
       "name": "S&P 500",
@@ -81,7 +81,7 @@
         "dUs10y20d": -0.383,
         "dUs10y60d": 0.21,
         "dUsdtwd20d": null,
-        "breadthProxy": 0.281,
+        "breadthProxy": 0.25,
         "hygVsLqd20d": -0.0191,
         "lastBarDate": "2026-11-04"
       },
@@ -132,30 +132,6 @@
   },
   "top5": [
     {
-      "ticker": "APP",
-      "name": "AppLovin",
-      "price": 335.02,
-      "currency": "USD",
-      "dayPct": 36.46,
-      "pct5d": 28.87,
-      "pct1m": 20.17,
-      "volRatio": 3.36,
-      "aboveSma20": true,
-      "aboveSma50": true,
-      "aboveSma200": false,
-      "screens": [
-        "A",
-        "B"
-      ],
-      "business": "行動廣告與應用變現平台。",
-      "why": "日漲跌 +36.46%（相對 S&P 約 +34.88pp）；五日約 +28.87%；一個月約 +20.17%；量比約 3.36×；站上雙均線；市場週期姿態 balanced（相位 mid_cycle）。",
-      "risk": "接近漲停，追價風險高",
-      "cycleStance": "balanced",
-      "sizeMult": 1,
-      "rsVsIndexPp": 34.88,
-      "market": "US"
-    },
-    {
       "ticker": "2468.TW",
       "name": "華經",
       "price": 60.8,
@@ -182,11 +158,11 @@
     {
       "ticker": "ISRG",
       "name": "Intuitive Surgical",
-      "price": 478.5,
+      "price": 482.1,
       "currency": "USD",
-      "dayPct": 8.56,
-      "pct5d": 7.73,
-      "pct1m": 18.22,
+      "dayPct": 9.38,
+      "pct5d": 8.54,
+      "pct1m": 19.11,
       "volRatio": 1.91,
       "aboveSma20": true,
       "aboveSma50": true,
@@ -196,11 +172,35 @@
         "B"
       ],
       "business": "達文西手術機器人。",
-      "why": "日漲跌 +8.56%（相對 S&P 約 +6.98pp）；五日約 +7.73%；一個月約 +18.22%；量比約 1.91×；站上雙均線；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
+      "why": "日漲跌 +9.38%（相對 S&P 約 +7.8pp）；五日約 +8.54%；一個月約 +19.11%；量比約 1.91×；站上雙均線；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
       "risk": "—",
       "cycleStance": "balanced",
       "sizeMult": 1,
-      "rsVsIndexPp": 6.98,
+      "rsVsIndexPp": 7.8,
+      "market": "US"
+    },
+    {
+      "ticker": "APP",
+      "name": "AppLovin",
+      "price": 271.75,
+      "currency": "USD",
+      "dayPct": 10.69,
+      "pct5d": 4.53,
+      "pct1m": -2.52,
+      "volRatio": 3.36,
+      "aboveSma20": true,
+      "aboveSma50": false,
+      "aboveSma200": false,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "行動廣告與應用變現平台。",
+      "why": "日漲跌 +10.69%（相對 S&P 約 +9.11pp）；五日約 +4.53%；一個月約 -2.52%；量比約 3.36×；站上 SMA20；市場週期姿態 balanced（相位 mid_cycle）。",
+      "risk": "接近漲停，追價風險高；低於 SMA50 或近月偏弱",
+      "cycleStance": "balanced",
+      "sizeMult": 1,
+      "rsVsIndexPp": 9.11,
       "market": "US"
     },
     {
@@ -230,11 +230,11 @@
     {
       "ticker": "MSFT",
       "name": "Microsoft",
-      "price": 554.39,
+      "price": 555.8,
       "currency": "USD",
-      "dayPct": 6.41,
-      "pct5d": 4.4,
-      "pct1m": 4.74,
+      "dayPct": 6.68,
+      "pct5d": 4.67,
+      "pct1m": 5.01,
       "volRatio": 2.27,
       "aboveSma20": true,
       "aboveSma50": true,
@@ -244,46 +244,23 @@
         "B"
       ],
       "business": "雲端 Azure、Office、Windows 與 AI。",
-      "why": "日漲跌 +6.41%（相對 S&P 約 +4.83pp）；五日約 +4.4%；一個月約 +4.74%；量比約 2.27×；站上雙均線；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
+      "why": "日漲跌 +6.68%（相對 S&P 約 +5.1pp）；五日約 +4.67%；一個月約 +5.01%；量比約 2.27×；站上雙均線；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
       "risk": "—",
       "cycleStance": "balanced",
       "sizeMult": 1,
-      "rsVsIndexPp": 4.83,
+      "rsVsIndexPp": 5.1,
       "market": "US"
     }
   ],
   "us": [
     {
-      "ticker": "APP",
-      "name": "AppLovin",
-      "price": 335.02,
-      "currency": "USD",
-      "dayPct": 36.46,
-      "pct5d": 28.87,
-      "pct1m": 20.17,
-      "volRatio": 3.36,
-      "aboveSma20": true,
-      "aboveSma50": true,
-      "aboveSma200": false,
-      "screens": [
-        "A",
-        "B"
-      ],
-      "business": "行動廣告與應用變現平台。",
-      "why": "日漲跌 +36.46%（相對 S&P 約 +34.88pp）；五日約 +28.87%；一個月約 +20.17%；量比約 3.36×；站上雙均線；市場週期姿態 balanced（相位 mid_cycle）。",
-      "risk": "接近漲停，追價風險高",
-      "cycleStance": "balanced",
-      "sizeMult": 1,
-      "rsVsIndexPp": 34.88
-    },
-    {
       "ticker": "ISRG",
       "name": "Intuitive Surgical",
-      "price": 478.5,
+      "price": 482.1,
       "currency": "USD",
-      "dayPct": 8.56,
-      "pct5d": 7.73,
-      "pct1m": 18.22,
+      "dayPct": 9.38,
+      "pct5d": 8.54,
+      "pct1m": 19.11,
       "volRatio": 1.91,
       "aboveSma20": true,
       "aboveSma50": true,
@@ -293,20 +270,43 @@
         "B"
       ],
       "business": "達文西手術機器人。",
-      "why": "日漲跌 +8.56%（相對 S&P 約 +6.98pp）；五日約 +7.73%；一個月約 +18.22%；量比約 1.91×；站上雙均線；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
+      "why": "日漲跌 +9.38%（相對 S&P 約 +7.8pp）；五日約 +8.54%；一個月約 +19.11%；量比約 1.91×；站上雙均線；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
       "risk": "—",
       "cycleStance": "balanced",
       "sizeMult": 1,
-      "rsVsIndexPp": 6.98
+      "rsVsIndexPp": 7.8
+    },
+    {
+      "ticker": "APP",
+      "name": "AppLovin",
+      "price": 271.75,
+      "currency": "USD",
+      "dayPct": 10.69,
+      "pct5d": 4.53,
+      "pct1m": -2.52,
+      "volRatio": 3.36,
+      "aboveSma20": true,
+      "aboveSma50": false,
+      "aboveSma200": false,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "行動廣告與應用變現平台。",
+      "why": "日漲跌 +10.69%（相對 S&P 約 +9.11pp）；五日約 +4.53%；一個月約 -2.52%；量比約 3.36×；站上 SMA20；市場週期姿態 balanced（相位 mid_cycle）。",
+      "risk": "接近漲停，追價風險高；低於 SMA50 或近月偏弱",
+      "cycleStance": "balanced",
+      "sizeMult": 1,
+      "rsVsIndexPp": 9.11
     },
     {
       "ticker": "MSFT",
       "name": "Microsoft",
-      "price": 554.39,
+      "price": 555.8,
       "currency": "USD",
-      "dayPct": 6.41,
-      "pct5d": 4.4,
-      "pct1m": 4.74,
+      "dayPct": 6.68,
+      "pct5d": 4.67,
+      "pct1m": 5.01,
       "volRatio": 2.27,
       "aboveSma20": true,
       "aboveSma50": true,
@@ -316,11 +316,11 @@
         "B"
       ],
       "business": "雲端 Azure、Office、Windows 與 AI。",
-      "why": "日漲跌 +6.41%（相對 S&P 約 +4.83pp）；五日約 +4.4%；一個月約 +4.74%；量比約 2.27×；站上雙均線；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
+      "why": "日漲跌 +6.68%（相對 S&P 約 +5.1pp）；五日約 +4.67%；一個月約 +5.01%；量比約 2.27×；站上雙均線；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
       "risk": "—",
       "cycleStance": "balanced",
       "sizeMult": 1,
-      "rsVsIndexPp": 4.83
+      "rsVsIndexPp": 5.1
     },
     {
       "ticker": "AMZN",
@@ -348,11 +348,11 @@
     {
       "ticker": "AAPL",
       "name": "Apple",
-      "price": 350.5,
+      "price": 349.51,
       "currency": "USD",
-      "dayPct": 5.6,
-      "pct5d": 1.94,
-      "pct1m": 5.06,
+      "dayPct": 5.31,
+      "pct5d": 1.65,
+      "pct1m": 4.76,
       "volRatio": 2.04,
       "aboveSma20": true,
       "aboveSma50": true,
@@ -362,33 +362,11 @@
         "B"
       ],
       "business": "消費電子／服務與手機生態系。",
-      "why": "日漲跌 +5.6%（相對 S&P 約 +4.02pp）；五日約 +1.94%；一個月約 +5.06%；量比約 2.04×；站上雙均線；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
+      "why": "日漲跌 +5.31%（相對 S&P 約 +3.73pp）；五日約 +1.65%；一個月約 +4.76%；量比約 2.04×；站上雙均線；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
       "risk": "—",
       "cycleStance": "balanced",
       "sizeMult": 1,
-      "rsVsIndexPp": 4.02
-    },
-    {
-      "ticker": "MSTR",
-      "name": "MicroStrategy",
-      "price": 144,
-      "currency": "USD",
-      "dayPct": 6.17,
-      "pct5d": -0.8,
-      "pct1m": -12.49,
-      "volRatio": 1.02,
-      "aboveSma20": true,
-      "aboveSma50": false,
-      "aboveSma200": true,
-      "screens": [
-        "A"
-      ],
-      "business": "商業智慧軟體；資產負債表大量持有比特幣。",
-      "why": "日漲跌 +6.17%（相對 S&P 約 +4.59pp）；五日約 -0.8%；一個月約 -12.49%；站上 SMA20；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
-      "risk": "低於 SMA50 或近月偏弱",
-      "cycleStance": "balanced",
-      "sizeMult": 1,
-      "rsVsIndexPp": 4.59
+      "rsVsIndexPp": 3.73
     },
     {
       "ticker": "LLY",
@@ -416,11 +394,11 @@
     {
       "ticker": "NFLX",
       "name": "Netflix",
-      "price": 66.35,
+      "price": 66.39,
       "currency": "USD",
-      "dayPct": 4.62,
-      "pct5d": 7.03,
-      "pct1m": -3.41,
+      "dayPct": 4.68,
+      "pct5d": 7.1,
+      "pct1m": -3.35,
       "volRatio": 1.1,
       "aboveSma20": false,
       "aboveSma50": false,
@@ -429,11 +407,11 @@
         "A"
       ],
       "business": "訂閱制串流影音。",
-      "why": "日漲跌 +4.62%（相對 S&P 約 +3.04pp）；五日約 +7.03%；一個月約 -3.41%；市場週期姿態 balanced（相位 mid_cycle）。",
+      "why": "日漲跌 +4.68%（相對 S&P 約 +3.1pp）；五日約 +7.1%；一個月約 -3.35%；市場週期姿態 balanced（相位 mid_cycle）。",
       "risk": "低於 SMA50 或近月偏弱",
       "cycleStance": "balanced",
       "sizeMult": 1,
-      "rsVsIndexPp": 3.04
+      "rsVsIndexPp": 3.1
     },
     {
       "ticker": "ROKU",
@@ -458,13 +436,35 @@
       "rsVsIndexPp": -0.08
     },
     {
+      "ticker": "MSTR",
+      "name": "MicroStrategy",
+      "price": 142.54,
+      "currency": "USD",
+      "dayPct": 5.09,
+      "pct5d": -1.8,
+      "pct1m": -13.38,
+      "volRatio": 1.02,
+      "aboveSma20": false,
+      "aboveSma50": false,
+      "aboveSma200": true,
+      "screens": [
+        "A"
+      ],
+      "business": "商業智慧軟體；資產負債表大量持有比特幣。",
+      "why": "日漲跌 +5.09%（相對 S&P 約 +3.51pp）；五日約 -1.8%；一個月約 -13.38%；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
+      "risk": "低於 SMA50 或近月偏弱",
+      "cycleStance": "balanced",
+      "sizeMult": 1,
+      "rsVsIndexPp": 3.51
+    },
+    {
       "ticker": "COIN",
       "name": "Coinbase",
-      "price": 151.88,
+      "price": 151.5,
       "currency": "USD",
-      "dayPct": 4.42,
-      "pct5d": -6.43,
-      "pct1m": -18.23,
+      "dayPct": 4.16,
+      "pct5d": -6.67,
+      "pct1m": -18.43,
       "volRatio": 1.05,
       "aboveSma20": false,
       "aboveSma50": false,
@@ -473,20 +473,20 @@
         "A"
       ],
       "business": "加密貨幣交易與託管平台。",
-      "why": "日漲跌 +4.42%（相對 S&P 約 +2.84pp）；五日約 -6.43%；一個月約 -18.23%；市場週期姿態 balanced（相位 mid_cycle）。",
+      "why": "日漲跌 +4.16%（相對 S&P 約 +2.58pp）；五日約 -6.67%；一個月約 -18.43%；市場週期姿態 balanced（相位 mid_cycle）。",
       "risk": "低於 SMA50 或近月偏弱",
       "cycleStance": "balanced",
       "sizeMult": 1,
-      "rsVsIndexPp": 2.84
+      "rsVsIndexPp": 2.58
     },
     {
       "ticker": "GOOGL",
       "name": "Alphabet",
-      "price": 291.6,
+      "price": 288.93,
       "currency": "USD",
-      "dayPct": 4.13,
-      "pct5d": -10.25,
-      "pct1m": -16.13,
+      "dayPct": 3.18,
+      "pct5d": -11.07,
+      "pct1m": -16.9,
       "volRatio": 1.47,
       "aboveSma20": false,
       "aboveSma50": false,
@@ -496,20 +496,20 @@
         "B"
       ],
       "business": "搜尋、YouTube、雲端與廣告。",
-      "why": "日漲跌 +4.13%（相對 S&P 約 +2.55pp）；五日約 -10.25%；一個月約 -16.13%；量比約 1.47×；市場週期姿態 balanced（相位 mid_cycle）。",
+      "why": "日漲跌 +3.18%（相對 S&P 約 +1.6pp）；五日約 -11.07%；一個月約 -16.9%；量比約 1.47×；市場週期姿態 balanced（相位 mid_cycle）。",
       "risk": "低於 SMA50 或近月偏弱",
       "cycleStance": "balanced",
       "sizeMult": 1,
-      "rsVsIndexPp": 2.55
+      "rsVsIndexPp": 1.6
     },
     {
       "ticker": "TSM",
       "name": "TSMC (ADR)",
-      "price": 392.65,
+      "price": 395.75,
       "currency": "USD",
-      "dayPct": -3,
-      "pct5d": -10.66,
-      "pct1m": -18.59,
+      "dayPct": -2.24,
+      "pct5d": -9.96,
+      "pct1m": -17.95,
       "volRatio": 1.18,
       "aboveSma20": false,
       "aboveSma50": false,
@@ -518,11 +518,11 @@
         "observe"
       ],
       "business": "先進製程晶圓代工（台積電 ADR）。",
-      "why": "日漲跌 -3%（相對 S&P 約 -4.58pp）；五日約 -10.66%；一個月約 -18.59%；市場週期姿態 balanced（相位 mid_cycle）。",
+      "why": "日漲跌 -2.24%（相對 S&P 約 -3.82pp）；五日約 -9.96%；一個月約 -17.95%；市場週期姿態 balanced（相位 mid_cycle）。",
       "risk": "低於 SMA50 或近月偏弱",
       "cycleStance": "balanced",
       "sizeMult": 1,
-      "rsVsIndexPp": -4.58
+      "rsVsIndexPp": -3.82
     }
   ],
   "tw": [
@@ -801,9 +801,9 @@
   "parity": {
     "adsRatio": "5:1",
     "tw2330": 2260,
-    "tsm": 392.65,
+    "tsm": 395.75,
     "impliedUsdTaipeiFx": 344.3,
-    "premiumPct": 14.04,
+    "premiumPct": 14.94,
     "note": "FX 用 Yahoo USDTWD=X 32.82（台北外匯官價未另取）；台股用 11/4 收盤、美股用 11/4 收盤；非套利指令。"
   },
   "method": {

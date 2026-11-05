@@ -2,7 +2,7 @@
   "sessionSource": {
     "TW": "加權指數收盤先比 Yahoo ^TWII；Yahoo 該日 close 為空時改用證交所 MI_5MINS_HIST 官方收盤"
   },
-  "scanAsOf": "2026-11-05T00:13:29Z",
+  "scanAsOf": "2026-11-05T00:21:05Z",
   "date": "2026-11-05",
   "sessions": {
     "US": "2026-11-04",
