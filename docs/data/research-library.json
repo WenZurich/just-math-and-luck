@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-05T09:30:00+08:00",
+    "updated": "2026-11-06T09:20:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -11233,6 +11233,169 @@
         "leverage-effect",
         "intraday",
         "crypto-comparison"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-costs-benefits-leveraged-etfs-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "The Costs and Benefits of Leveraged ETFs",
+      "titleLocalized": {
+        "en": "When Do Leveraged ETFs Help Investors — and When Do They Hurt?",
+        "zh-Hant": "槓桿 ETF 何時幫投資人、何時反而傷？",
+        "zh-Hans": "杠杆 ETF 何时帮投资人、何时反而伤？",
+        "ja": "レバレッジETFはいつ投資家の味方で、いつ敵か"
+      },
+      "authors": [
+        "Chris Murray",
+        "Marco Sammon"
+      ],
+      "year": 2026,
+      "summary": "Harvard Business School authors study leveraged and inverse ETFs from 2006 through September 2025, separating broad equity-index products from single-stock ones. Long broad-index LETFs produced over US$100 billion in investor gains, including more than US$40 billion versus putting the same flows into the unlevered underlying, because volatility was modest and financing spreads stayed under about 1%. Single-stock LETFs are launched on volatile recent winners (median near the 94th percentile of volatility and 92nd of past six-month return), face funding spreads of roughly 7–10%, and attract more AUM the more volatile the stock. Inverse LETFs took large dollar flows but lost about US$80 billion for investors in-sample. Flows into long LETFs are contrarian and do not predict future returns. Takeaway for this site: 2×/3× index products can overcome drag in strong, lower-vol markets; single-stock and inverse LETFs (including semis inverse names) carry much higher breakeven hurdles — treat as short-horizon tools, not buy-and-hold.",
+      "summaryLocalized": {
+        "en": "2006–Sep 2025 LETF sample. Broad equity-index longs: >$100B investor PnL, >$40B vs same-flow unlevered counterfactual; funding spreads <1%. Single-stock LETFs launch on volatile recent winners (~94th vol / ~92nd 6m return), funding spreads ~6.8–9.8%, AUM rises with underlying vol. Inverse: +$93B flows, −$80B investor PnL. Long LETF flows contrarian, no timing skill. Breakeven for 2× rises fast with daily vol (≈16.9% at 2% daily vol; ≈98% at 5%). Site use: watch — context for SOXL/SOXS-style products; not a screener rule.",
+        "zh-Hant": "作者研究 2006 至 2025 年 9 月的槓桿／反向 ETF，把「寬基指數型」和「個股型」分開看。寬基多頭槓桿產品幫投資人創造逾 1,000 億美元獲利，相對把同樣資金流進未槓桿標的還多出逾 400 億，因為波動不大、融資價差約不到 1%。個股槓桿 ETF 卻多在高波動、近半年大漲的股票上推出（中位數約在波動與報酬分布的 94／92 百分位），融資價差約 7–10%，標的愈波動、吸金愈多。反向 ETF 流入大、樣本內投資人虧約 800 億。多頭槓桿的資金流偏逆向、也預測不了後續報酬。對本站：2×／3× 指數型在強勢、低波動市況有機會蓋過損耗；個股與反向（含半導體反向）損益兩平門檻高很多，宜當短線工具而非長期持有。",
+        "zh-Hans": "作者研究 2006 至 2025 年 9 月的杠杆／反向 ETF，把“宽基指数型”和“个股型”分开看。宽基多头杠杆产品帮投资人创造逾 1,000 亿美元获利，相对把同样资金流进未杠杆标的还多出逾 400 亿，因为波动不大、融资价差约不到 1%。个股杠杆 ETF 却多在高波动、近半年大涨的股票上推出（中位数约在波动与报酬分布的 94／92 百分位），融资价差约 7–10%，标的愈波动、吸金愈多。反向 ETF 流入大、样本内投资人亏约 800 亿。多头杠杆的资金流偏逆向、也预测不了后续报酬。对本站：2×／3× 指数型在强势、低波动市况有机会盖过损耗；个股与反向（含半导体反向）损益两平门槛高很多，宜当短线工具而非长期持有。",
+        "ja": "2006–2025年9月のレバ／インバースETF。広範指数ロングは投資家PnL>$100B、同一フローのアンレバ対比で+$40B超；調達スプレッドは概ね1%未満。単一株レバは高ボラ・直近勝者に設定され、調達スプレッド約7–10%。インバースは流入大だが投資家損失約$80B。ロングのフローは逆張りでタイミング技能なし。本サイトはウォッチ（SOXL/SOXS文脈）。"
+      },
+      "plainTakeaways": [
+        "寬基指數槓桿 ETF 在樣本內幫投資人賺到大錢；個股槓桿與反向則門檻高很多",
+        "波動愈高、2×／3× 要打平未槓桿標的所需報酬愈誇張",
+        "個股槓桿常開在「剛大漲又很波動」的股票上，吸金卻也最容易被損耗吃掉",
+        "本站觀察：SOXL／SOXS 類商品當短線工具理解，不新增篩選規則"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Broad-index LETFs made large investor gains in-sample; single-stock and inverse face much higher hurdles",
+          "Higher underlying volatility sharply raises the breakeven return for 2×/3× products",
+          "Single-stock LETFs launch on volatile recent winners — attractive AUM, harsh drag",
+          "Site use: watch — context for SOXL/SOXS-style products; no screener change"
+        ],
+        "zh-Hant": [
+          "寬基指數槓桿 ETF 在樣本內幫投資人賺到大錢；個股槓桿與反向則門檻高很多",
+          "波動愈高、2×／3× 要打平未槓桿標的所需報酬愈誇張",
+          "個股槓桿常開在「剛大漲又很波動」的股票上，吸金卻也最容易被損耗吃掉",
+          "本站觀察：SOXL／SOXS 類商品當短線工具理解，不新增篩選規則"
+        ],
+        "zh-Hans": [
+          "宽基指数杠杆 ETF 在样本内帮投资人赚到大钱；个股杠杆与反向则门槛高很多",
+          "波动愈高、2×／3× 要打平未杠杆标的所需报酬愈夸张",
+          "个股杠杆常开在“刚大涨又很波动”的股票上，吸金却也最容易被损耗吃掉",
+          "本站观察：SOXL／SOXS 类商品当短线工具理解，不新增筛选规则"
+        ],
+        "ja": [
+          "広範指数レバはサンプル内で大きな投資家利益；単一株・インバースはハードルが高い",
+          "原資産ボラが高いほど2×/3×の損益分岐リターンが急上昇",
+          "単一株レバは直近の高ボラ勝者に設定されやすい",
+          "本サイトはウォッチ：SOXL/SOXS文脈、スクリーナー変更なし"
+        ]
+      },
+      "formulas": [
+        "daily target: R_LETF,t ≈ L · R_u,t (before fees/financing/tracking error)",
+        "vol drag (approx): Σ log(1+L R_u) − L Σ log(1+R_u) ≈ −½ L(L−1) Σ R_u²",
+        "funding: R_LETF = L R_u − (L−1)(R_rf + s/252) − ER/252 + ε; estimate s from return gap",
+        "breakeven underlying annual return rises sharply with daily σ_u (e.g. 2× at 5% daily vol ≈ 98%)",
+        "site use: watch only — educational context for leveraged/inverse ETF holdings; no screener change while passedGate=false"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: useful framing for 2×/3× and inverse ETF drag (SOXL/SOXS context), not a live screener rule. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.01392",
+        "https://doi.org/10.48550/arXiv.2611.01392"
+      ],
+      "tags": [
+        "us",
+        "leveraged-etf",
+        "volatility-drag",
+        "inverse-etf",
+        "soxl-soxs-context",
+        "retail",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-asym-sticky-nco-sector-rotation-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "asset_allocation",
+      "title": "Mitigating Return Drag and Regime Whipsaws in Sector Rotation: An Asymmetric Downside-Aware Nested Clustered Optimization Framework",
+      "titleLocalized": {
+        "en": "Sector Rotation Without Punishing Upside or Whipsawing Regimes",
+        "zh-Hant": "類股輪動：不懲罰上漲、也少切換市況狀態",
+        "zh-Hans": "类股轮动：不惩罚上涨、也少切换市况状态",
+        "ja": "セクターローテーション：上昇を罰せず、レジーム切替も抑える"
+      },
+      "authors": [
+        "Supriadi"
+      ],
+      "year": 2026,
+      "summary": "Builds on Nested Clustered Optimization (NCO) for all 11 S&P 500 GICS sector ETFs. Classical NCO uses symmetric covariance, which treats upside jumps as risk and underweights momentum sectors (return drag). Unconstrained HMMs also flip regimes too often (whipsaw), raising turnover. The proposed Asym-Sticky-NCO replaces covariance with Bawa–Lindenberg downside semi-covariance in clustering and allocation, and uses a sticky two-state Gaussian HMM on SPY returns plus VIX with persistence prior κ and confidence threshold δ. Walk-forward monthly test Aug 2020–Dec 2025 (65 OOS months): CAGR 13.41% vs 10.65% Plain NCO, max drawdown 14.22% vs SPY 23.93%, Calmar 0.94, regime switches cut 75% (16→4), monthly turnover ~30% vs ~61% for naive Regime-NCO. Caveats: Sharpe/Sortino still below buy-and-hold SPY; PBO on the hyperparameter grid is high (0.85) though a performance plateau softens that. Takeaway: watch as a downside-aware sector-rotation candidate — do not adopt while the math gate is closed.",
+      "summaryLocalized": {
+        "en": "Asym-Sticky-NCO on 11 SPDR sector ETFs. Downside semi-covariance + sticky 2D HMM (SPY, VIX; κ=0.30, δ=0.65). 65-mo walk-forward Aug 2020–Dec 2025: CAGR 13.41% (+276 bps vs Plain NCO), MaxDD −14.22% (SPY −23.93%), Calmar 0.94, switches 4 vs 16, turnover 30.5% vs 60.8%. Ablation: sticky HMM drives most of the gain. DSR≈0.998 but PBO=0.85 on κ×δ grid. Site use: watch (US sector rotation methodology); not adopted.",
+        "zh-Hant": "在標普 500 十一檔類股 ETF 上改良巢狀分群最佳化（NCO）：用下檔半共變異數取代對稱共變異，並加上「黏性」雙狀態隱馬可夫模型（看 SPY 報酬與 VIX，加持續先驗與信心門檻），減少把上漲當風險、也減少市況狀態亂切換。2020/8–2025/12 共 65 個樣本外月：年化約 13.41%（比普通 NCO 高約 2.76 個百分點）、最大回撤約 14.22%（同期 SPY 約 23.93%）、Calmar 0.94，狀態切換從 16 次降到 4 次、月周轉約減半。限制：夏普／索提諾仍低於長期抱 SPY；超參數格子的回測過度配適機率偏高。本站列為觀察中的美股類股輪動方法，數學閘門未過前不納入正式策略。",
+        "zh-Hans": "在标普 500 十一档类股 ETF 上改良巢状分群最佳化（NCO）：用下档半协方差取代对称协方差，并加上“粘性”双状态隐马尔可夫模型（看 SPY 报酬与 VIX，加持续先验与信心门槛），减少把上涨当风险、也减少市况状态乱切换。2020/8–2025/12 共 65 个样本外月：年化约 13.41%（比普通 NCO 高约 2.76 个百分点）、最大回撤约 14.22%（同期 SPY 约 23.93%）、Calmar 0.94，状态切换从 16 次降到 4 次、月周转约减半。限制：夏普／索提诺仍低于长期抱 SPY；超参数格子的回测过度配适概率偏高。本站列为观察中的美股类股轮动方法，数学闸门未过前不纳入正式策略。",
+        "ja": "S&P500の11セクターETFでNCOを改良：下方半共分散＋粘性HMM（SPY・VIX）。2020/8–2025/12の65ヶ月OOSでCAGR13.41%、MaxDD14.22%、Calmar0.94、レジーム切替75%減。シャープはSPY未満、PBO高め。本サイトはウォッチ。"
+      },
+      "plainTakeaways": [
+        "對稱風險會把「大漲」也當風險，類股輪動容易抱不住強勢類股",
+        "下檔風險＋較黏的市況狀態，回測上年化與回撤都比普通 NCO 好看",
+        "夏普仍輸長期抱大盤，且超參數有過度配適疑慮",
+        "本站觀察：美股類股輪動方法候補，不新增正式規則"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Symmetric risk treats big upside as risk, so rotation underweights winning sectors",
+          "Downside risk plus sticky regimes improved CAGR and drawdown vs plain NCO in the backtest",
+          "Sharpe still trails buy-and-hold SPY; hyperparameter overfitting risk remains",
+          "Site use: watch — US sector-rotation candidate; no live rule yet"
+        ],
+        "zh-Hant": [
+          "對稱風險會把「大漲」也當風險，類股輪動容易抱不住強勢類股",
+          "下檔風險＋較黏的市況狀態，回測上年化與回撤都比普通 NCO 好看",
+          "夏普仍輸長期抱大盤，且超參數有過度配適疑慮",
+          "本站觀察：美股類股輪動方法候補，不新增正式規則"
+        ],
+        "zh-Hans": [
+          "对称风险会把“大涨”也当风险，类股轮动容易抱不住强势类股",
+          "下档风险＋较粘的市况状态，回测上年化与回撤都比普通 NCO 好看",
+          "夏普仍输长期抱大盘，且超参数有过度配适疑虑",
+          "本站观察：美股类股轮动方法候补，不新增正式规则"
+        ],
+        "ja": [
+          "対称リスクは上昇も罰するため強勢セクターを過小保有しやすい",
+          "下方リスク＋粘性レジームでNCOよりCAGRとDDが改善",
+          "シャープは買い持ちSPY未満、過学習リスクあり",
+          "本サイトはウォッチ：米セクターローテ候補、正式ルールなし"
+        ]
+      },
+      "formulas": [
+        "downside residual: R̃_i,t^− = min(R_i,t − τ_t, 0); Σ_ij^− = (1/T) Σ_t R̃_i,t^− R̃_j,t^−",
+        "distance for clustering: d_ij^− = √((1−ρ_ij^−)/2) from downside semi-correlation",
+        "sticky HMM: ã_jj = (a_jj+κ)/(1+κ); switch only if posterior ≥ δ (κ=0.30, δ=0.65 in paper)",
+        "bull: Sortino-style obj on Σ^−; bear: min downside variance; both with turnover L1 penalty",
+        "site use: watch only — candidate US sector-rotation method; no screener change while passedGate=false"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: promising downside-aware NCO + sticky regime sector rotation on US sectors, but Sharpe < SPY and high PBO on hyperparams. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.05310",
+        "https://doi.org/10.48550/arXiv.2611.05310"
+      ],
+      "tags": [
+        "us",
+        "sector-rotation",
+        "nco",
+        "downside-risk",
+        "hmm-regime",
+        "portfolio",
+        "watch"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",
       "coverFallback": "./covers/placeholder-paper.svg"
