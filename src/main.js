@@ -225,8 +225,10 @@ function renderIndexStrip(indices) {
       : "";
     const tip = [
       "USD/TWD",
-      t("taipeiClose") + (fxMd ? ` ${fxMd}` : "") + (fx.taipeiClose != null ? ` ${fmtNum(fx.taipeiClose, 3)}` : " —"),
-      fx.yahoo != null ? `Yahoo ${fmtNum(fx.yahoo, 3)}` : null,
+      fx.taipeiClose != null
+        ? `${t("taipeiClose")}${fxMd ? ` ${fxMd}` : ""} ${fmtNum(fx.taipeiClose, 3)}（主數字）`
+        : `${t("taipeiClose")} —`,
+      fx.yahoo != null ? `Yahoo ${fmtNum(fx.yahoo, 3)}（副標）` : null,
       "CBC / 台北外匯 official ↗",
     ]
       .filter(Boolean)

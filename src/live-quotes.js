@@ -454,6 +454,33 @@ function applyIndexChip(root, key, quote, fxExtra) {
   nodes.forEach((chip) => {
     chip.classList.remove("incomplete");
     const valEl = chip.querySelector("[data-lq-field='value'], .value");
+    let pctEl = chip.querySelector("[data-lq-field='dayPct'], .pct");
+
+    // USD/TWD: hero digit stays official CBC 台北收 when known. Yahoo only refreshes
+    // the subtitle leg — never silently replaces the big number (was confusing after
+    // live quotes connected: CBC rendered first, then Yahoo overwrote it).
+    if (key === "usdTwd") {
+      const hasTaipei =
+        fxExtra &&
+        fxExtra.taipeiClose != null &&
+        Number.isFinite(Number(fxExtra.taipeiClose));
+      if (valEl) {
+        if (hasTaipei) {
+          patchText(valEl, fmtNum(fxExtra.taipeiClose, digits), { flash: false });
+        } else {
+          patchText(valEl, fmtNum(quote.price, digits), { flash: true });
+        }
+      }
+      if (pctEl) {
+        const taipei = hasTaipei ? fmtNum(fxExtra.taipeiClose, 3) : "—";
+        pctEl.className = "pct flat";
+        pctEl.style.fontSize = "0.7rem";
+        const md = fxExtra?.taipeiDate ? ` ${fxExtra.taipeiDate}` : "";
+        pctEl.textContent = `${t("taipeiClose")}${md} ${taipei} · Yahoo ${fmtNum(quote.price, 3)}`;
+      }
+      return;
+    }
+
     patchText(valEl, fmtNum(quote.price, digits), { flash: true });
     // Keep the chip's session date honest when a live quote replaces the close
     const dateEl = chip.querySelector("[data-lq-field='date']");
@@ -465,18 +492,7 @@ function applyIndexChip(root, key, quote, fxExtra) {
         dateEl.textContent = md;
       } catch { /* keep server date */ }
     }
-    let pctEl = chip.querySelector("[data-lq-field='dayPct'], .pct");
-    if (key === "usdTwd") {
-      // Keep CBC taipeiClose line; refresh Yahoo leg when known
-      if (pctEl && fxExtra) {
-        const taipei =
-          fxExtra.taipeiClose != null ? fmtNum(fxExtra.taipeiClose, 3) : "—";
-        pctEl.className = "pct flat";
-        pctEl.style.fontSize = "0.7rem";
-        const md = fxExtra.taipeiDate ? ` ${fxExtra.taipeiDate}` : "";
-        pctEl.textContent = `${t("taipeiClose")}${md} ${taipei} · Yahoo ${fmtNum(quote.price, 3)}`;
-      }
-    } else if (quote.changePct != null) {
+    if (quote.changePct != null) {
       if (!pctEl) {
         pctEl = document.createElement("div");
         pctEl.className = "pct";

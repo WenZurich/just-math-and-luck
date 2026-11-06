@@ -2022,6 +2022,13 @@ async function main() {
     const mainFx = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
     if (!/mergeTaipeiFx\(cachedData/.test(mainFx) || !/usd-twd-taipei\.json/.test(mainFx)) fail("main.js must merge usd-twd-taipei.json into the 熱門 USD/TWD chip");
     else ok("main.js merges CBC 台北收 into the USD/TWD chip");
+    const lqFx = fs.readFileSync(path.join(ROOT, "src/live-quotes.js"), "utf8");
+    const fxFn = lqFx.slice(lqFx.indexOf("function applyIndexChip"), lqFx.indexOf("function applyTickerNodes"));
+    if (!/hero digit stays official CBC/.test(fxFn) || !/never silently replaces the big number/.test(fxFn)) {
+      fail("live-quotes applyIndexChip must keep CBC 台北收 as USD/TWD hero when known");
+    } else if (!/key === "usdTwd"/.test(fxFn) || !/hasTaipei/.test(fxFn) || !/Yahoo \$\{fmtNum\(quote\.price/.test(fxFn)) {
+      fail("live-quotes USD/TWD path must refresh Yahoo only on the subtitle leg");
+    } else ok("live-quotes keeps CBC 台北收 as USD/TWD hero; Yahoo stays on subtitle");
   }
 
   // 櫃買 index: official TPEx source, never 資料不全 on the 熱門 strip
