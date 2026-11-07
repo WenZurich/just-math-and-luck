@@ -2063,6 +2063,20 @@ async function main() {
     else ok(`timezoneNote from asOf: ${tzNote}`);
     const scanSrc = fs.readFileSync(path.join(ROOT, "scripts/daily-scan.mjs"), "utf8");
     if (/9\/16 開盤前|美股用 9\/15 收盤/.test(scanSrc)) fail("daily-scan still hard-codes 9/15–9/16 in site notes");
+    if (!/usCloseDate:\s*bySym\["\^GSPC"\]/.test(scanSrc)) fail("daily-scan must write usCloseDate from ^GSPC lastBarDate");
+    else ok("daily-scan writes usCloseDate");
+    const usClose = latest.usCloseDate;
+    if (usClose != null && !/^\d{4}-\d{2}-\d{2}$/.test(usClose)) fail(`latest.json usCloseDate bad: ${usClose}`);
+    if (usClose && !tzNote.includes(usClose)) fail(`timezoneNote missing usCloseDate ${usClose}`);
+    else if (usClose) ok(`latest.json usCloseDate ${usClose}`);
+    else ok("latest.json usCloseDate absent (allowed until next scan writes it)");
+    const mainTz = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+    if (!/timezoneNote/.test(mainTz) || !/class="tz-note"/.test(mainTz)) fail("今日選股 must render timezoneNote via .tz-note");
+    else ok("今日選股 surfaces timezoneNote (.tz-note)");
+    const cssTz = fs.readFileSync(path.join(ROOT, "src/style.css"), "utf8");
+    if (!/\.tz-note\s*\{/.test(cssTz) || !/border-left/.test(cssTz.slice(cssTz.indexOf(".tz-note"), cssTz.indexOf(".tz-note") + 350))) {
+      fail(".tz-note needs visible callout styles (border-left)");
+    } else ok(".tz-note callout styles present");
   }
 
   // —— load speed: non-default languages are lazy chunks, not in the main bundle ——

@@ -182,8 +182,15 @@ h1 {
 }
 
 .tz-note {
-  font-size: 0.8rem;
-  color: var(--text-dim);
+  margin: 0.35rem 0 0;
+  max-width: 40rem;
+  padding: 0.45rem 0.7rem;
+  border-left: 3px solid var(--accent, #2f5d9f);
+  border-radius: 0 0.35rem 0.35rem 0;
+  background: color-mix(in srgb, var(--bg-elevated, #f4f6f8) 88%, var(--accent, #2f5d9f) 12%);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--text-muted, #5a6570);
 }
 
 

@@ -729,6 +729,7 @@ function renderApp(data, paper) {
         <span id="today" class="view-anchor" tabindex="-1"></span>
         <header class="view-header view-header-tight">
           <h2 class="view-title">${escapeHtml(t("todayPicks"))}</h2>
+          ${data.timezoneNote ? `<p class="tz-note" role="note">${escapeHtml(data.timezoneNote)}</p>` : ""}
         </header>
         ${renderRegimeStrip(data.marketRegime)}
         <div class="tabs market-tabs" role="tablist" aria-label="${escapeHtml(t("market"))}">
