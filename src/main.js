@@ -194,18 +194,26 @@ function renderIndexStrip(indices) {
       "official ↗",
     ].filter(Boolean).join(" · ");
     const title = href ? `title="${escapeHtml(tip)}"` : "";
+    const otcOfficialAttrs =
+      key === "otc" && item.value != null
+        ? ` data-lq-tpex-close="${escapeHtml(String(item.value))}" data-lq-tpex-date="${
+            item.date && /^\d{4}-\d{2}-\d{2}$/.test(item.date)
+              ? `${item.date.slice(5, 7)}/${item.date.slice(8, 10)}`
+              : ""
+          }" data-lq-tpex-pct="${item.dayPct != null ? escapeHtml(String(item.dayPct)) : ""}"`
+        : "";
     const inner = `
         <div class="label">${labelHtml}${session}${dateTag}</div>
         <div class="value" data-lq-field="value">${val}</div>
         ${pct}`;
     if (href) {
       chips.push(`
-      <a class="index-chip ${incomplete && item.value == null ? "incomplete" : ""}" data-lq="index" data-lq-key="${escapeHtml(key)}" href="${escapeHtml(href)}"
+      <a class="index-chip ${incomplete && item.value == null ? "incomplete" : ""}" data-lq="index" data-lq-key="${escapeHtml(key)}"${otcOfficialAttrs} href="${escapeHtml(href)}"
          target="_blank" rel="noopener noreferrer" ${title}>${inner}
       </a>`);
     } else {
       chips.push(`
-      <div class="index-chip ${incomplete ? "incomplete" : ""}" data-lq="index" data-lq-key="${escapeHtml(key)}">${inner}
+      <div class="index-chip ${incomplete ? "incomplete" : ""}" data-lq="index" data-lq-key="${escapeHtml(key)}"${otcOfficialAttrs}>${inner}
       </div>`);
     }
   };

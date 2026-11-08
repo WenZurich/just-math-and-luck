@@ -10,6 +10,18 @@ const DATA_URL = "./data/tw-macro-calendar.json";
 const REFRESH_MS = 15 * 60 * 1000; // near-real-time while page open
 const STALE_MS = 36 * 60 * 60 * 1000; // honest stale note if asOf older than ~36h
 
+function isWeekendTaipei(now = new Date()) {
+  try {
+    const wd = new Intl.DateTimeFormat("en-US", {
+      timeZone: "Asia/Taipei",
+      weekday: "short",
+    }).format(now);
+    return wd === "Sat" || wd === "Sun";
+  } catch {
+    return false;
+  }
+}
+
 let refreshTimer = null;
 
 function eventLabel(ev) {
@@ -156,9 +168,11 @@ function paint(root, data) {
 
   const asOf = data?.asOf || null;
   const ageMs = asOf ? Date.now() - Date.parse(asOf) : NaN;
+  // Weekend readers sit >36h after the Friday morning fetch by design; don't
+  // paint 「資料偏舊」 until a weekday scan window could actually have been missed.
   const stale =
     Boolean(data?.stale) ||
-    (!Number.isNaN(ageMs) && ageMs > STALE_MS);
+    (!Number.isNaN(ageMs) && ageMs > STALE_MS && !isWeekendTaipei());
 
   // Meta is split into separate lines so phones (narrow side column) show the
   // update time and stale warning instead of cutting them off with "…".

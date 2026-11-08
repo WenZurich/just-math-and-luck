@@ -271,7 +271,9 @@ function preferTwMisCode(yahooOrTicker) {
 
 function remember(sym, quote) {
   if (!sym || quote?.price == null || Number.isNaN(quote.price)) return;
-  lastGood.set(sym, { ...quote, asOfMs: quote.asOfMs || Date.now() });
+  // Keep asOfMs as the quote's own timestamp (may be null). Do not fill Date.now()
+  // here — applyIndexChip would then stamp weekend chips with today's calendar date.
+  lastGood.set(sym, { ...quote });
 }
 
 function parseSparkResult(data) {
@@ -294,7 +296,7 @@ function parseSparkResult(data) {
     const asOfMs =
       typeof meta.regularMarketTime === "number"
         ? meta.regularMarketTime * (meta.regularMarketTime < 1e12 ? 1000 : 1)
-        : Date.now();
+        : null;
     out.push({
       symbol: sym,
       price: Number(price),
@@ -348,7 +350,11 @@ function parseMisPayload(data) {
   for (const m of arr) {
     const code = m?.c;
     if (!code) continue;
-    const price = parseMisNum(m.z) ?? parseMisNum(m.pz) ?? parseMisNum(m.o);
+    // Last trade `z` only. After the close / on weekends, `z` is often "-" while
+    // `y` has already rolled to the official close and `pz`/`o` still hold an
+    // intra-day leftover — painting that pair as a live quote invents a fake
+    // day-change and, if tlong is missing, today's calendar date.
+    const price = parseMisNum(m.z);
     const prev = parseMisNum(m.y);
     if (price == null) continue;
     let changePct = null;
@@ -362,7 +368,9 @@ function parseMisPayload(data) {
     if (code === "t00") symbol = "__MIS_TWII";
     else if (code === "o00") symbol = "__MIS_OTC";
     else symbol = `${code}.${ex === "otc" ? "TWO" : "TW"}`;
-    const tlong = parseMisNum(m.tlong);
+    const tlongRaw = parseMisNum(m.tlong);
+    const asOfMs =
+      tlongRaw == null ? null : tlongRaw < 1e12 ? tlongRaw * 1000 : tlongRaw;
     out.push({
       symbol,
       price,
@@ -370,10 +378,11 @@ function parseMisPayload(data) {
       change,
       changePct,
       currency: "TWD",
-      asOfMs: tlong || Date.now(),
+      asOfMs,
       source: "twse-mis",
       misCode: code,
       misEx: ex,
+      misField: "z",
     });
   }
   return out;
@@ -479,6 +488,38 @@ function applyIndexChip(root, key, quote, fxExtra) {
         pctEl.textContent = `${t("taipeiClose")}${md} ${taipei} · Yahoo ${fmtNum(quote.price, 3)}`;
       }
       return;
+    }
+
+    // 櫃買: official TPEx close stays the hero outside the TW cash session.
+    // MIS last-tick (`z`) is fine while the market is open, but after 13:35 /
+    // on weekends it can be an intra-day leftover (not the closing auction)
+    // and would overwrite the official number — same class of bug as USD/TWD.
+    if (key === "otc") {
+      const officialCloseAttr = chip.getAttribute("data-lq-tpex-close");
+      const officialClose =
+        officialCloseAttr != null && officialCloseAttr !== ""
+          ? Number(officialCloseAttr)
+          : null;
+      const hasOfficial = Number.isFinite(officialClose);
+      const liveLast = quote.misField === "z" && quote.price != null;
+      const inSession = marketSessions().twOpen;
+      if (hasOfficial && !(inSession && liveLast)) {
+        if (valEl) patchText(valEl, fmtNum(officialClose, 2), { flash: false });
+        const dateEl = chip.querySelector("[data-lq-field='date']");
+        const officialMd = chip.getAttribute("data-lq-tpex-date") || "";
+        if (dateEl && officialMd) dateEl.textContent = officialMd;
+        const officialPctAttr = chip.getAttribute("data-lq-tpex-pct");
+        const officialPct =
+          officialPctAttr != null && officialPctAttr !== ""
+            ? Number(officialPctAttr)
+            : null;
+        if (pctEl && Number.isFinite(officialPct)) {
+          pctEl.className = `pct ${pctClass(officialPct)}`;
+          pctEl.setAttribute("data-lq-field", "dayPct");
+          patchText(pctEl, fmtPct(officialPct), { flash: false });
+        }
+        return;
+      }
     }
 
     patchText(valEl, fmtNum(quote.price, digits), { flash: true });

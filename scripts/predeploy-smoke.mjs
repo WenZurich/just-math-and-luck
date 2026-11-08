@@ -2053,6 +2053,47 @@ async function main() {
     const lqSrc = fs.readFileSync(path.join(ROOT, "src/live-quotes.js"), "utf8");
     if (!/liveQuotesClosed/.test(lqSrc)) fail("live suffix must say 休市 when both markets are closed");
     else ok("live suffix shows 休市 outside TW/US sessions");
+    if (!/data-lq-tpex-close/.test(mainSrcOtc) || !/data-lq-tpex-date/.test(mainSrcOtc) || !/data-lq-tpex-pct/.test(mainSrcOtc)) {
+      fail("main.js OTC chip must expose official TPEx close/date/pct for live overlay");
+    } else ok("main.js OTC chip carries data-lq-tpex-close/date/pct");
+    const otcFn = lqSrc.slice(lqSrc.indexOf("function applyIndexChip"), lqSrc.indexOf("function applyTickerNodes"));
+    if (!/key === "otc"/.test(otcFn) || !/data-lq-tpex-close/.test(otcFn) || !/marketSessions\(\)\.twOpen/.test(otcFn)) {
+      fail("live-quotes applyIndexChip must keep official TPEx 櫃買 as hero outside the TW session");
+    } else ok("live-quotes keeps official TPEx 櫃買 as hero outside TW session");
+    if (!/parseMisNum\(m\.z\)/.test(lqSrc) || /parseMisNum\(m\.z\) \?\? parseMisNum\(m\.pz\)/.test(lqSrc)) {
+      fail("parseMisPayload must use last trade z only (no pz/o fallback)");
+    } else ok("parseMisPayload uses last trade z only");
+    {
+      const { _test: lqTest } = await import(pathToFileURL(path.join(ROOT, "src/live-quotes.js")).href);
+      const none = lqTest.parseMisPayload({
+        msgArray: [{ c: "o00", ex: "otc", z: "-", pz: "297.24", o: "313.77", y: "304.02", tlong: "" }],
+      });
+      if (none.length !== 0) fail(`parseMisPayload must ignore OTC rows without last trade z: ${JSON.stringify(none)}`);
+      else ok("parseMisPayload ignores MIS open/揭示 when last trade z is missing");
+      const got = lqTest.parseMisPayload({
+        msgArray: [{ c: "o00", ex: "otc", z: "304.02", y: "321.47", tlong: "1762473600000" }],
+      });
+      if (got.length !== 1 || got[0].symbol !== "__MIS_OTC" || got[0].price !== 304.02 || got[0].misField !== "z" || got[0].asOfMs !== 1762473600000) {
+        fail(`parseMisPayload z row wrong: ${JSON.stringify(got)}`);
+      } else ok("parseMisPayload keeps last trade z and tlong as asOfMs");
+      const before = Date.now();
+      const noTs = lqTest.parseMisPayload({
+        msgArray: [{ c: "o00", ex: "otc", z: "304.02", y: "321.47" }],
+      });
+      const after = Date.now();
+      if (noTs[0]?.asOfMs != null && noTs[0].asOfMs >= before && noTs[0].asOfMs <= after) {
+        fail("parseMisPayload must not stamp asOfMs with Date.now() when tlong is missing");
+      } else if (noTs[0]?.asOfMs) {
+        fail(`parseMisPayload unexpected asOfMs without tlong: ${noTs[0].asOfMs}`);
+      } else ok("parseMisPayload omits asOfMs when tlong is missing");
+    }
+    for (const macroFile of ["src/us-macro.js", "src/tw-macro.js"]) {
+      const macroSrc = fs.readFileSync(path.join(ROOT, macroFile), "utf8");
+      if (!/function isWeekendTaipei/.test(macroSrc) || !/ageMs > STALE_MS && !isWeekendTaipei\(\)/.test(macroSrc)) {
+        fail(`${macroFile} must not flag 「資料偏舊」 on Taipei weekends after a Friday fetch`);
+      }
+    }
+    ok("US/TW macro strips skip 資料偏舊 on Taipei weekends");
     // timezoneNote is generated from asOf + real close dates, never a fixed date.
     const { buildTimezoneNote } = await import(pathToFileURL(path.join(ROOT, "scripts/timezone-note.mjs")).href);
     const sample = buildTimezoneNote({ asOf: "2026-10-08T00:12:28Z", twCloseDate: "2026-10-07", usCloseDate: "2026-10-07" });
