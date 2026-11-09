@@ -1,0 +1,85 @@
+{
+  "sessionSource": {
+    "TW": "加權指數收盤先比 Yahoo ^TWII；Yahoo 該日 close 為空時改用證交所 MI_5MINS_HIST 官方收盤"
+  },
+  "scanAsOf": "2026-11-09T00:13:56Z",
+  "date": "2026-11-09",
+  "sessions": {
+    "US": "2026-11-06",
+    "TW": "2026-11-06"
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "market": "US",
+      "session": "2026-11-06",
+      "price": 342.37,
+      "dayPct": -0.52,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ISRG",
+      "name": "Intuitive Surgical",
+      "market": "US",
+      "session": "2026-11-06",
+      "price": 452.8,
+      "dayPct": -3.36,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "NFLX",
+      "name": "Netflix",
+      "market": "US",
+      "session": "2026-11-06",
+      "price": 63.41,
+      "dayPct": -3.28,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft",
+      "market": "US",
+      "session": "2026-11-06",
+      "price": 530.61,
+      "dayPct": -0.99,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet",
+      "market": "US",
+      "session": "2026-11-06",
+      "price": 284.78,
+      "dayPct": 0.78,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "QLYS",
+      "name": "Qualys",
+      "market": "US",
+      "session": "2026-11-06",
+      "price": 190.41,
+      "dayPct": -4.62,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2317.TW",
+      "name": "鴻海",
+      "market": "TW",
+      "session": "2026-11-06",
+      "price": 224.5,
+      "dayPct": -4.47,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": []
+}
