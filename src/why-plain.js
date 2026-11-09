@@ -82,3 +82,38 @@ export function whyListHtml(why, escapeHtml) {
   if (!pts.length) return "";
   return `<ul class="why-list">${pts.map((p) => `<li>${escapeHtml(p)}</li>`).join("")}</ul>`;
 }
+
+/**
+ * Plain-language 風險 (display only). The scan writes short risk phrases joined by 「；」
+ * (scripts/daily-scan.mjs riskZh). The raw text stays untouched in the JSON — paper-trade.mjs
+ * still keys its limit-up rule off it — this only rewords what readers see. Thresholds in the
+ * copy are the scan's own (≥9.5% day, ≥5× volume, 5-day ≥12% with day <2%). US stocks have
+ * no daily price limit, so 「漲停／跌停」 is never shown for a US pick.
+ */
+const RISK_RULES = [
+  [/^接近漲停，追價風險高$/, (us) => (us ? "今天大漲近 10%（美股沒有漲跌停），追高風險高" : "今天漲到接近漲停（10% 上限），追高風險高")],
+  [/^接近跌停$/, (us) => (us ? "今天大跌近 10%（美股沒有漲跌停）" : "今天跌到接近跌停（10% 下限）")],
+  [/^異常放量，波動風險高$/, () => "成交量是近 20 日平均的 5 倍以上，接下來可能大起大落"],
+  [/^低於 SMA50 或近月偏弱$/, () => "股價在近 50 日平均價之下，近一個月也在跌"],
+  [/^短線已大漲後追價風險$/, () => "近 5 個交易日已漲 12% 以上，現在追進風險較高"],
+];
+
+/** Array of plain-language risk lines; [] for empty / 「—」. */
+export function riskPoints(risk, market) {
+  if (risk == null) return [];
+  const s = String(risk).trim();
+  if (!s || s === "—") return [];
+  const us = String(market || "").toUpperCase() === "US";
+  return s
+    .replace(/[。.]\s*$/, "")
+    .split("；")
+    .map((seg) => {
+      const t = seg.trim();
+      if (!t) return "";
+      for (const [re, fn] of RISK_RULES) if (re.test(t)) return fn(us);
+      // Unknown phrasing: pass through, but never call a US move 漲停/跌停.
+      const base = t.replace(/SMA(\d+)/g, "近 $1 日平均價");
+      return us ? base.replace(/漲停/g, "大漲近 10%").replace(/跌停/g, "大跌近 10%") : base;
+    })
+    .filter(Boolean);
+}

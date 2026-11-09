@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-06T09:20:00+08:00",
+    "updated": "2026-11-09T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -11395,6 +11395,172 @@
         "downside-risk",
         "hmm-regime",
         "portfolio",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-collision-aware-layer-crowding-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "asset_allocation",
+      "title": "Penalize the Common Trade: A Collision-Aware Layer for Learned Portfolios",
+      "titleLocalized": {
+        "en": "Penalize the Common Trade: A Crowding-Aware Portfolio Layer",
+        "zh-Hant": "懲罰「大家都在做的交易」：防擁擠的投組後處理層",
+        "zh-Hans": "惩罚“大家都在做的交易”：防拥挤的投组后处理层",
+        "ja": "皆が同じ取引をする時に罰する：混雑回避ポートフォリオ層"
+      },
+      "authors": [
+        "Eric Benhamou",
+        "Jean-Jacques Ohana",
+        "Beatrice Guez",
+        "Ethan Setrouk",
+        "Chamyl Saadi",
+        "Thomas Jacquot"
+      ],
+      "year": 2026,
+      "summary": "Argues that different models trained on similar data tend to make the same trade (a 'signal collision'), which crowds the market even when the models look diverse. A simple game shows each allocator takes too much common exposure because it ignores the price impact it imposes on others. The proposed fix is a post-model layer that subtracts a penalty for loading on the recent common return mode (leading eigenportfolio) before forming weights. On ten liquid cross-asset ETFs, 760 weeks Jan 2012–Jul 2026, 10 bp costs: max drawdown fell from 23.6% to 14.1% and volatility from 12.6% to 10.7%, while Sharpe barely moved (0.664 to 0.667). The bootstrap 95% interval for the drawdown improvement includes zero, so it is a risk-control association rather than proven alpha. Site use: watch as a drawdown-control overlay idea.",
+      "summaryLocalized": {
+        "en": "Post-model penalty on exposure to the recent common return mode (top eigenportfolio). 10 cross-asset ETFs, 760 weeks 2012–2026, 10 bp costs: MaxDD 23.6%→14.1%, vol 12.6%→10.7%, Sharpe 0.664→0.667. Bootstrap CI for DD gain [−3.3, 18.4] pp includes zero. Site use: watch (drawdown overlay), not adopted.",
+        "zh-Hant": "不同模型吃相同資料時，常會做出同一筆交易（作者稱為「訊號碰撞」），造成擁擠。作者提出在模型輸出之後加一層：對「近期共同報酬方向」（第一主成分投組）的曝險扣分再配權重。十檔跨資產 ETF、2012/1–2026/7 共 760 週、含 10bp 成本：最大回撤由 23.6% 降到 14.1%、波動 12.6% 降到 10.7%，夏普幾乎不變（0.664→0.667）。拔靴法信賴區間包含零，只能算風控上的關聯、不是已證明的超額報酬。本站列為觀察：回撤控制疊加層的候補想法。",
+        "zh-Hans": "不同模型吃相同数据时，常会做出同一笔交易（作者称为“信号碰撞”），造成拥挤。作者提出在模型输出之后加一层：对“近期共同报酬方向”（第一主成分投组）的曝险扣分再配权重。十档跨资产 ETF、2012/1–2026/7 共 760 周、含 10bp 成本：最大回撤由 23.6% 降到 14.1%、波动 12.6% 降到 10.7%，夏普几乎不变（0.664→0.667）。自助法置信区间包含零，只能算风控上的关联、不是已证明的超额报酬。本站列为观察：回撤控制叠加层的候补想法。",
+        "ja": "モデル出力後に直近の共通リターン方向（第1固有ポートフォリオ）への露出を罰する層。10資産ETF・760週・コスト10bpでMaxDD 23.6%→14.1%、ボラ12.6%→10.7%、シャープほぼ不変。DD改善の信頼区間はゼロを含む。本サイトはウォッチ。"
+      },
+      "plainTakeaways": [
+        "模型看起來不同，最後常做同一筆交易，市場就會擁擠",
+        "對「大家共同的方向」扣分，回測回撤明顯變小",
+        "夏普幾乎沒變，且統計區間包含零，不是穩賺訊號",
+        "本站觀察：回撤控制疊加層候補，不改正式選股"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Models that look different often make the same trade, which crowds the market",
+          "Penalizing the common direction cut backtest drawdown noticeably",
+          "Sharpe barely changed and the CI includes zero — not an alpha signal",
+          "Site use: watch — drawdown-overlay candidate; no screener change"
+        ],
+        "zh-Hant": [
+          "模型看起來不同，最後常做同一筆交易，市場就會擁擠",
+          "對「大家共同的方向」扣分，回測回撤明顯變小",
+          "夏普幾乎沒變，且統計區間包含零，不是穩賺訊號",
+          "本站觀察：回撤控制疊加層候補，不改正式選股"
+        ],
+        "zh-Hans": [
+          "模型看起来不同，最后常做同一笔交易，市场就会拥挤",
+          "对“大家共同的方向”扣分，回测回撤明显变小",
+          "夏普几乎没变，且统计区间包含零，不是稳赚信号",
+          "本站观察：回撤控制叠加层候补，不改正式选股"
+        ],
+        "ja": [
+          "異なるモデルも同じ取引をしがちで市場が混雑する",
+          "共通方向を罰するとバックテストDDが縮小",
+          "シャープはほぼ不変、区間はゼロを含む",
+          "本サイトはウォッチ：DD抑制層候補、選股変更なし"
+        ]
+      },
+      "formulas": [
+        "common mode: v1 = leading eigenvector of trailing return covariance Σ_t (lookback L weeks)",
+        "collision exposure: c_t = w_raw · v1",
+        "adjusted weights: w = argmax_w [ μ·w − (γ/2) w'Σw − λ (w·v1)^2 ] (penalty on loading the common direction)",
+        "evaluate with 10 bp per dollar traded; report MaxDD, vol, Sharpe with stationary-bootstrap CI",
+        "site use: watch only — no screener change while passedGate=false"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: drawdown reduction is large in-sample but the bootstrap CI includes zero and Sharpe is unchanged. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.03453",
+        "https://doi.org/10.48550/arXiv.2611.03453"
+      ],
+      "tags": [
+        "us",
+        "crowding",
+        "eigenportfolio",
+        "drawdown-control",
+        "portfolio-overlay",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-both-neural-realized-measures-vol-2026",
+      "market": "BOTH",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "Neural Realized Measures: Forecast-Supervised Intraday Aggregation for Volatility Forecasting",
+      "titleLocalized": {
+        "en": "Learning How to Add Up Intraday Bars for Better Volatility Forecasts",
+        "zh-Hant": "學會怎麼加總盤中K棒：改良已實現波動預測",
+        "zh-Hans": "学会怎么加总盘中K棒：改良已实现波动预测",
+        "ja": "日中バーの集計を学習してボラティリティ予測を改善"
+      },
+      "authors": [
+        "Brian Sing Fan Chan",
+        "Jennifer So Kuen Chan"
+      ],
+      "year": 2026,
+      "summary": "Realized volatility is normally built by summing intraday squared returns with equal weight, then fed into a forecaster such as HAR. This paper learns the aggregation weights from the forecasting objective instead: each intraday contribution keeps its classic form, but gets a positive, mean-normalized, context-dependent weight; equal weights recover the classic measure exactly. In Heston simulations it lowers error for both same-day and next-day variance. On six cryptocurrencies with 5-minute bars it improves QLIKE in all 54 paired out-of-sample comparisons (mean gains about 7–9% under SF, HAR and MIDAS), and the learned weights show clear time-of-day patterns. Evidence is crypto-only so far; for US/TW stocks it is a method idea for volatility forecasts (position sizing, option IV vs RV), not a return signal.",
+      "summaryLocalized": {
+        "en": "NRM: forecast-supervised, mean-normalized weights on intraday realized-measure contributions (uniform weights = classic RV). Heston sims: lower RMSE. 6 cryptos, 5-min bars: QLIKE better in 54/54 OOS pairs, mean gains 7.23% (SF), 8.15% (HAR), 9.22% (MIDAS). Time-of-day effects in weights. Site use: watch (vol forecasting for sizing); equities untested.",
+        "zh-Hant": "一般「已實現波動」是把盤中每根K棒的平方報酬等權加總，再丟進 HAR 等模型預測。本文改成讓「怎麼加總」也由預測目標學出來：每根K棒的貢獻形式不變，但給正值、平均為一、依情境而變的權重；全部等權時就回到傳統算法。模擬中當天與隔天波動的誤差都下降；在六種加密貨幣的 5 分鐘資料上，54 組樣本外比較全部改善 QLIKE，平均約 7–9%，且權重有明顯的盤中時段效應。目前只驗證在加密貨幣；對美股／台股而言是波動預測（部位大小、選擇權隱含波動 vs 實現波動）的方法候補，不是報酬訊號。",
+        "zh-Hans": "一般“已实现波动”是把盘中每根K棒的平方报酬等权加总，再丢进 HAR 等模型预测。本文改成让“怎么加总”也由预测目标学出来：每根K棒的贡献形式不变，但给正值、平均为一、依情境而变的权重；全部等权时就回到传统算法。模拟中当天与隔天波动的误差都下降；在六种加密货币的 5 分钟数据上，54 组样本外比较全部改善 QLIKE，平均约 7–9%，且权重有明显的盘中时段效应。目前只验证在加密货币；对美股／台股而言是波动预测（部位大小、期权隐含波动 vs 实现波动）的方法候补，不是报酬信号。",
+        "ja": "日中の実現ボラ寄与に予測目的で学習した重みを付ける（等重みで従来RV）。暗号資産6種・5分足で54/54のOOS比較でQLIKE改善（平均7–9%）。株式は未検証。本サイトはウォッチ。"
+      },
+      "plainTakeaways": [
+        "傳統波動是每根K棒等權加總，這篇讓權重自己學",
+        "加密貨幣上 54 組比較全部比傳統好，平均約 7–9%",
+        "盤中不同時段的重要性不一樣",
+        "本站觀察：波動預測方法候補，美台股尚未驗證"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Classic RV weights every intraday bar equally; this learns the weights",
+          "Beat the classic measure in 54/54 crypto comparisons, ~7–9% on average",
+          "Different times of day matter differently",
+          "Site use: watch — vol-forecast method; untested on US/TW stocks"
+        ],
+        "zh-Hant": [
+          "傳統波動是每根K棒等權加總，這篇讓權重自己學",
+          "加密貨幣上 54 組比較全部比傳統好，平均約 7–9%",
+          "盤中不同時段的重要性不一樣",
+          "本站觀察：波動預測方法候補，美台股尚未驗證"
+        ],
+        "zh-Hans": [
+          "传统波动是每根K棒等权加总，这篇让权重自己学",
+          "加密货币上 54 组比较全部比传统好，平均约 7–9%",
+          "盘中不同时段的重要性不一样",
+          "本站观察：波动预测方法候补，美台股尚未验证"
+        ],
+        "ja": [
+          "従来RVは各バー等重み、本論文は重みを学習",
+          "暗号資産54/54比較で改善、平均7–9%",
+          "時間帯ごとに重要度が異なる",
+          "本サイトはウォッチ：米台株は未検証"
+        ]
+      },
+      "formulas": [
+        "classic: RV_t = Σ_i r_{t,i}^2 (5-min returns)",
+        "NRM: RV*_t = Σ_i ω_{t,i} r_{t,i}^2 with ω_{t,i} > 0 and (1/n) Σ_i ω_{t,i} = 1; ω ≡ 1 recovers RV",
+        "HAR forecast: RV_{t+1} = β0 + βd RV*_t + βw RV*_{t−4:t} + βm RV*_{t−21:t}",
+        "loss: QLIKE = RV/ĥ − ln(RV/ĥ) − 1",
+        "site use: watch only — vol forecasting for sizing; no screener change while passedGate=false"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: consistent volatility-forecast gains but crypto-only evidence and needs intraday bars the site does not ingest. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.07287",
+        "https://doi.org/10.48550/arXiv.2611.07287"
+      ],
+      "tags": [
+        "both",
+        "volatility",
+        "realized-volatility",
+        "har",
+        "intraday",
         "watch"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",

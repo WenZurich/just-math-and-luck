@@ -632,6 +632,31 @@ async function main() {
   } catch (e) {
     fail(`why-plain: ${e}`);
   }
+  // 風險 shown in plain words; US picks never say 漲停/跌停 (US has no daily price limit).
+  try {
+    const { riskPoints } = await import(pathToFileURL(path.join(ROOT, "src/why-plain.js")).href);
+    const lj = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/latest.json"), "utf8"));
+    const errs = [];
+    const us = riskPoints("接近漲停，追價風險高；低於 SMA50 或近月偏弱", "US");
+    if (us.some((x) => /漲停|跌停(?!）)/.test(x.replace("美股沒有漲跌停", "")))) errs.push(`US says 漲停: ${us.join("|")}`);
+    if (!us[0]?.includes("美股沒有漲跌停")) errs.push(`US limit note missing: ${us.join("|")}`);
+    const tw = riskPoints("接近漲停，追價風險高", "TW");
+    if (!tw[0]?.includes("漲停")) errs.push(`TW lost 漲停: ${tw.join("|")}`);
+    if (riskPoints("—", "US").length || riskPoints("", "TW").length) errs.push("— / empty must yield no risk line");
+    for (const p of lj.us || []) {
+      const out = riskPoints(p.risk, "US").join("|").replace(/美股沒有漲跌停/g, "");
+      if (/漲停|跌停|SMA\d/.test(out)) errs.push(`${p.ticker}: ${out}`);
+    }
+    for (const p of [...(lj.us || []), ...(lj.tw || [])]) {
+      if (p.risk && p.risk !== "—" && !riskPoints(p.risk, "TW").length) errs.push(`${p.ticker}: risk dropped`);
+    }
+    const mainSrc = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+    if (!/why-cell">\$\{whyListHtml\(s\.why, escapeHtml\)\}\$\{riskLine\(s, "why-risk"\)\}/.test(mainSrc)) errs.push("desktop list why-cell lost 風險 line");
+    if (errs.length) for (const e of errs.slice(0, 5)) fail(`risk-plain: ${e}`);
+    else ok("risk-plain: 風險 in plain words, US never says 漲停, desktop list shows 風險 like mobile");
+  } catch (e) {
+    fail(`risk-plain: ${e}`);
+  }
   const erJs = fs.readFileSync(path.join(ROOT, "src/earnings.js"), "utf8");
   if (/Black-Scholes|\\bN\(d1\)|d1\s*=\s*\(/.test(erJs)) {
     fail("earnings.js appears to dump raw formulas");

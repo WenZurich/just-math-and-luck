@@ -15,7 +15,7 @@ import {
   loadPaperPortfolio,
 } from "./paper.js";
 import { initPaperDerivatives } from "./paper-derivatives.js";
-import { whyListHtml } from "./why-plain.js";
+import { whyListHtml, riskPoints } from "./why-plain.js";
 import "./strategies.css";
 import {
   renderStrategiesSection,
@@ -288,6 +288,7 @@ function renderTopCard(stock, rank) {
         ? `<div class="metric"><div class="m-label">${term("priorClose", t("priorCloseFull"))}</div><div class="m-val ${pctClass(stock.priorClosePct)}">${fmtPct(stock.priorClosePct)}</div></div>`
         : `<div class="metric"><div class="m-label">${term("rs", "RS")}</div><div class="m-val">—</div></div>`;
 
+  const risk = riskHtml(stock);
   return `
     <article class="pick-card" data-lq="pick" data-lq-sym="${escapeHtml(stock.ticker)}">
       <div class="rank">TOP ${rank}</div>
@@ -312,20 +313,34 @@ function renderTopCard(stock, rank) {
         <div class="metric"><div class="m-label">${term("pct1m", t("pct1m"))}</div><div class="m-val ${pctClass(stock.pct1m)}">${fmtPct(stock.pct1m)}</div></div>
         <div class="metric"><div class="m-label">${term("volRatio", t("volRatio"))}</div><div class="m-val">${stock.volRatio != null ? fmtNum(stock.volRatio, 2) + "×" : "—"}</div></div>
       </div>
-      ${(stock.business || stock.why || stock.risk) ? `<details class="fold-block card-fold"><summary>${escapeHtml(t("details"))}</summary>
+      ${(stock.business || stock.why || risk) ? `<details class="fold-block card-fold"><summary>${escapeHtml(t("details"))}</summary>
         ${stock.business ? `<p class="card-text"><strong>${escapeHtml(t("business"))}</strong>　${escapeHtml(stock.business)}</p>` : ""}
         ${stock.why ? `<div class="card-text"><strong>${escapeHtml(t("reason"))}</strong>${whyListHtml(stock.why, escapeHtml)}</div>` : ""}
-        ${stock.risk ? `<p class="card-text risk"><strong>${escapeHtml(t("risk"))}</strong>　${linkRiskText(stock.risk)}</p>` : ""}
+        ${risk ? `<p class="card-text risk"><strong>${escapeHtml(t("risk"))}</strong>　${risk}</p>` : ""}
       </details>` : ""}
     </article>
   `;
 }
 
-function linkRiskText(text) {
+function linkRiskText(text, market) {
   let s = escapeHtml(text);
-  s = s.replace(/漲停/g, term("limitUp", t("limitUp")));
+  // 漲停 is a TW-only concept; US lines never contain it (riskPoints rewords them).
+  if (String(market || "").toUpperCase() !== "US") s = s.replace(/漲停/g, term("limitUp", t("limitUp")));
   s = s.replace(/動能/g, term("momentum", t("momentum")));
   return s;
+}
+
+/** Plain-language risk lines as escaped HTML joined by 「；」, or "" when there is no risk. */
+function riskHtml(stock) {
+  const market = stockMarket(stock);
+  const pts = riskPoints(stock?.risk, market);
+  return pts.length ? pts.map((p) => linkRiskText(p, market)).join("；") : "";
+}
+
+/** One 「風險：…」 line (desktop table + mobile list share it so both show the same warning). */
+function riskLine(s, cls) {
+  const risk = riskHtml(s);
+  return risk ? `<p class="${cls}">${escapeHtml(t("risk"))}：${risk}</p>` : "";
 }
 
 function tableRows(list) {
@@ -350,7 +365,7 @@ function tableRows(list) {
         <td class="num">${s.volRatio != null ? fmtNum(s.volRatio, 2) + "×" : "—"}</td>
         <td>${smaBadges(s)}</td>
         <td>${screenBadges(s.screens)}</td>
-        <td class="why-cell">${whyListHtml(s.why, escapeHtml)}</td>
+        <td class="why-cell">${whyListHtml(s.why, escapeHtml)}${riskLine(s, "why-risk")}</td>
       </tr>`;
     })
     .join("");
@@ -385,7 +400,7 @@ function mobileCards(list) {
         </div>
         <div class="flags" style="margin-bottom:0.4rem">${smaBadges(s)}${screenBadges(s.screens)}</div>
         ${s.why ? `<div class="lc-why">${whyListHtml(s.why, escapeHtml)}</div>` : ""}
-        ${s.risk && s.risk !== "—" ? `<p class="lc-why lc-risk">${escapeHtml(t("risk"))}：${linkRiskText(s.risk)}</p>` : ""}
+        ${riskLine(s, "lc-why lc-risk")}
       </div>`;
     })
     .join("");
