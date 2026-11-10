@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-09T09:30:00+08:00",
+    "updated": "2026-11-10T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -11561,6 +11561,171 @@
         "realized-volatility",
         "har",
         "intraday",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-end-of-day-reversal-post2019-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "The End-of-Day Reversal After 2019: A Pre-Registered Test on S&P 500 Stocks Excluding Heavily Traded Names",
+      "titleLocalized": {
+        "en": "Do Intraday Losers Still Bounce in the Last Half Hour?",
+        "zh-Hant": "盤中輸家最後半小時還會反彈嗎？2019 年後的預先登記檢驗",
+        "zh-Hans": "盘中输家最后半小时还会反弹吗？2019 年后的预先登记检验",
+        "ja": "日中の負け銘柄は最後の30分で反発するか？2019年以降の事前登録検証"
+      },
+      "authors": [
+        "Alex Vidovich",
+        "Zivana Zerjal"
+      ],
+      "year": 2026,
+      "summary": "An earlier study found that US stocks that fell most during the day tend to beat the day's winners over the last 30 minutes before the close (through 2019). This paper re-tests it out of sample under a private pre-registration, on point-in-time S&P 500 members minus about 80 heavily traded names. The volume-weighted reversal is about 3.1 bps/day in 2016–2019 and about 3.05 bps in 2023–2026, but it is roughly zero in 2020–2022, 2023 carries much of the later number, and on the full index it shrinks from 3.40 to 0.74 bps, weakest in the very largest stocks. No mechanism test passed. A few bps a day is near or below typical trading costs, so it is a timing note rather than a stand-alone strategy.",
+      "summaryLocalized": {
+        "en": "Last-30-min reversal (intraday losers beat winners into the close): ~3.13 bps/day 2016–19, ~3.05 bps 2023–26 on S&P 500 ex ~80 heavy names; ~0 in 2020–22; full index 3.40→0.74 bps, weakest in megacaps. Pre-registered; no mechanism test passed. Site use: watch (entry timing near close), not a signal.",
+        "zh-Hant": "舊研究發現：美股盤中跌最多的股票，在收盤前最後 30 分鐘常會贏過盤中漲最多的（資料到 2019）。本文用預先登記的方式重新檢驗，樣本是當時的 S&P 500 成分股但排除約 80 檔成交最熱的。量加權後 2016–2019 每天約 3.1 個基點、2023–2026 約 3.05 個基點，但 2020–2022 幾乎是零，後期多半靠 2023；全指數則從 3.40 縮到 0.74 個基點，超大型股最弱，機制檢驗也都沒過。每天幾個基點接近或低於交易成本，比較像「收盤前進場時機」的參考，不是獨立策略。",
+        "zh-Hans": "旧研究发现：美股盘中跌最多的股票，在收盘前最后 30 分钟常会赢过盘中涨最多的（数据到 2019）。本文用预先登记的方式重新检验，样本是当时的 S&P 500 成分股但排除约 80 只成交最热的。量加权后 2016–2019 每天约 3.1 个基点、2023–2026 约 3.05 个基点，但 2020–2022 几乎为零，后期多半靠 2023；全指数则从 3.40 缩到 0.74 个基点，超大型股最弱，机制检验也都没过。每天几个基点接近或低于交易成本，更像“收盘前进场时机”的参考，不是独立策略。",
+        "ja": "日中の負け銘柄が大引け前30分で勝ち銘柄を上回る反転を事前登録で再検証。2016–19年約3.1bps/日、2023–26年約3.05bps、2020–22年はほぼゼロ。全指数では3.40→0.74bpsに縮小。メカニズム検定は不通過。本サイトはウォッチ。"
+      },
+      "plainTakeaways": [
+        "盤中跌最多的股票，最後半小時常小幅反彈",
+        "2020–2022 幾乎消失，近年也主要靠 2023",
+        "超大型股效果最弱，全指數只剩約 0.74 個基點",
+        "本站觀察：收盤前進場時機參考，不改選股"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Intraday losers tend to bounce slightly in the last half hour",
+          "Gone in 2020–2022; recent edge mostly from 2023",
+          "Weakest in megacaps; full index only ~0.74 bps",
+          "Site use: watch — close-timing note, no screener change"
+        ],
+        "zh-Hant": [
+          "盤中跌最多的股票，最後半小時常小幅反彈",
+          "2020–2022 幾乎消失，近年也主要靠 2023",
+          "超大型股效果最弱，全指數只剩約 0.74 個基點",
+          "本站觀察：收盤前進場時機參考，不改選股"
+        ],
+        "zh-Hans": [
+          "盘中跌最多的股票，最后半小时常小幅反弹",
+          "2020–2022 几乎消失，近年也主要靠 2023",
+          "超大型股效果最弱，全指数只剩约 0.74 个基点",
+          "本站观察：收盘前进场时机参考，不改选股"
+        ],
+        "ja": [
+          "日中の負け銘柄は最後の30分でやや反発",
+          "2020–22年は消失、近年は主に2023年",
+          "超大型株で最弱、全指数では約0.74bps",
+          "本サイトはウォッチ：選定ロジック変更なし"
+        ]
+      },
+      "formulas": [
+        "intraday return to 15:30: r_id = P(15:30)/P(prev close) − 1",
+        "sort: losers = bottom quantile of r_id, winners = top quantile",
+        "outcome: r_eod = P(last trade before closing auction)/P(15:30) − 1",
+        "reversal = DVW mean r_eod(losers) − DVW mean r_eod(winners) ≈ 3 bps/day (2016–19, 2023–26), ≈0 (2020–22)",
+        "site use: watch only — compare to round-trip cost; no screener change while passedGate=false"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: effect is a few bps/day, unstable across 2020–2022, weak in megacaps, and needs intraday data the site does not ingest. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.09286",
+        "https://doi.org/10.48550/arXiv.2611.09286"
+      ],
+      "tags": [
+        "us",
+        "intraday",
+        "reversal",
+        "close",
+        "pre-registered",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-both-logic-of-factor-portfolios-2026",
+      "market": "BOTH",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "The Logic of Factor Portfolios: Boolean Rules, Interactions, and Trading Costs",
+      "titleLocalized": {
+        "en": "Screens as Logic: Why AND-Rules Trade More and Earn Less After Costs",
+        "zh-Hant": "選股規則就是邏輯：為何「且」條件換手高、扣成本後賺更少",
+        "zh-Hans": "选股规则就是逻辑：为何“且”条件换手高、扣成本后赚更少",
+        "ja": "スクリーンは論理式：AND条件ほど回転が多くコスト後に不利な理由"
+      },
+      "authors": [
+        "Ziyao Wang",
+        "Svetlozar T. Rachev",
+        "Frank J. Fabozzi"
+      ],
+      "year": 2026,
+      "summary": "Most stock screens are yes/no rules on signal ranks (top decile, high momentum AND low volatility, exclude names failing a filter). The authors write such rules as Boolean functions and split each rule's return into exposure to single signals and to interactions between signals; an AND and an OR of the same two screens load on the interaction with opposite signs. The same decomposition predicts turnover: interactions are less persistent than their parts, so rules leaning on multi-signal combinations trade more, and hard thresholds trade more than smooth rank products at equal risk. In US stocks 1973–2024 predicted and realized turnover line up almost perfectly (slope 1.02). After quoted-spread costs, 58% of single-signal portfolios still have premia above costs, versus 24% for two-signal and 6% for three-signal interactions; out of sample, interactions still add Sharpe to single-signal portfolios. Directly relevant to how this site's screener stacks AND conditions.",
+      "summaryLocalized": {
+        "en": "Boolean rules on signal ranks → Walsh decomposition into single-signal and interaction exposures; AND vs OR of two screens have opposite interaction exposure. Interactions are less persistent → more turnover; thresholds trade more than smooth rank products. US 1973–2024: predicted vs realized persistence corr ≥0.999, turnover slope 1.02. Premia above spread cost: 58% (1-signal), 24% (2-signal), 6% (3-signal). OOS interactions raise tangency Sharpe. Site use: watch — audit AND-stacked screener rules for turnover/cost.",
+        "zh-Hant": "選股常是「前 10%」「高動能且低波動」「沒過門檻就剔除」這類是／否規則。作者把它們寫成布林函數，再把報酬拆成「單一訊號」與「訊號交互作用」兩部分；同樣兩個條件，用「且」和用「或」，交互作用的方向剛好相反。同一套拆解也能預測換手：交互作用比單一訊號更不持久，所以疊越多條件換手越高；硬門檻也比平滑的排名相乘更常換股。1973–2024 美股中，預測與實際換手幾乎完全吻合（斜率 1.02）。扣掉買賣價差後，單一訊號組合有 58% 仍賺過成本，兩訊號交互只剩 24%、三訊號 6%；但樣本外交互作用仍能提升夏普。這和本站選股疊加多個「且」條件的做法直接相關。",
+        "zh-Hans": "选股常是“前 10%”“高动能且低波动”“没过门槛就剔除”这类是／否规则。作者把它们写成布尔函数，再把报酬拆成“单一信号”与“信号交互作用”两部分；同样两个条件，用“且”和用“或”，交互作用的方向刚好相反。同一套拆解也能预测换手：交互作用比单一信号更不持久，所以叠越多条件换手越高；硬门槛也比平滑的排名相乘更常换股。1973–2024 美股中，预测与实际换手几乎完全吻合（斜率 1.02）。扣掉买卖价差后，单一信号组合有 58% 仍赚过成本，两信号交互只剩 24%、三信号 6%；但样本外交互作用仍能提升夏普。这和本站选股叠加多个“且”条件的做法直接相关。",
+        "ja": "シグナル順位のブール規則をWalsh分解し、単一シグナルと交互作用のエクスポージャーに分解。交互作用は持続性が低く回転が増える。米国1973–2024で回転予測の傾き1.02。スプレッド後にプレミアムが残るのは単一58%、2シグナル24%、3シグナル6%。本サイトはウォッチ。"
+      },
+      "plainTakeaways": [
+        "選股條件用「且」或「或」，曝險方向剛好相反",
+        "條件疊越多，換手越高、成本越重",
+        "硬門檻比平滑排名分數更常換股",
+        "本站觀察：可用來檢查多重「且」條件的成本"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "AND vs OR of the same screens gives opposite interaction exposure",
+          "More stacked conditions mean more turnover and cost",
+          "Hard thresholds trade more than smooth rank scores",
+          "Site use: watch — audit cost of AND-stacked screens"
+        ],
+        "zh-Hant": [
+          "選股條件用「且」或「或」，曝險方向剛好相反",
+          "條件疊越多，換手越高、成本越重",
+          "硬門檻比平滑排名分數更常換股",
+          "本站觀察：可用來檢查多重「且」條件的成本"
+        ],
+        "zh-Hans": [
+          "选股条件用“且”或“或”，曝险方向刚好相反",
+          "条件叠越多，换手越高、成本越重",
+          "硬门槛比平滑排名分数更常换股",
+          "本站观察：可用来检查多重“且”条件的成本"
+        ],
+        "ja": [
+          "同じ条件のANDとORで交互作用の向きが逆",
+          "条件を重ねるほど回転とコストが増える",
+          "硬い閾値は滑らかな順位スコアより回転が多い",
+          "本サイトはウォッチ：AND条件のコスト点検"
+        ]
+      },
+      "formulas": [
+        "statement s_k = 1{rank_k ≥ τ_k} mapped to x_k ∈ {−1,+1}",
+        "Walsh expansion: f(x) = Σ_{S⊆K} f̂(S) Π_{k∈S} x_k (|S|=1 single-signal, |S|≥2 interactions)",
+        "with x_k=+1 meaning pass: 1{AND} = (1 + x1 + x2 + x1·x2)/4, 1{OR} = (3 + x1 + x2 − x1·x2)/4 → opposite-sign interaction exposure",
+        "persistence of interaction Π_{k∈S} x_k ≈ Π_{k∈S} ρ_k → turnover rises with order |S|",
+        "smooth alternative: score = Π rank_k (fewer trades than thresholded AND at equal risk)",
+        "site use: watch only — no screener change while passedGate=false"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only: strong US evidence on turnover and costs of multi-condition screens; worth a future audit of the site's AND-stacked rules, but no screener math change. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.09834",
+        "https://doi.org/10.48550/arXiv.2611.09834"
+      ],
+      "tags": [
+        "both",
+        "factor",
+        "screening",
+        "boolean-rules",
+        "turnover",
+        "trading-costs",
         "watch"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",
