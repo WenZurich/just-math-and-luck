@@ -145,8 +145,18 @@ function dayPnlOf(p) {
 
 // 每檔持股的市價從哪來：當天選股名單（scan）、補抓的同時段收盤（paper-quotes 的 quotes），
 // 或當天抓不到（missing：市價沿用上次、當天不買賣）。資料來自 paper-quotes/<台北日期>.json。
+// 已下市（例如被併購）：官方公告的最後交易日早於帳本日期 → 標「已下市」並說明換股條件。
+// 只顯示，帳本數字不動（paper-trade 目前沒有併購規則）。
+function delistingOf(ticker, held) {
+  const ca = (held?.corporateActions || []).find((a) => a.ticker === ticker);
+  if (!ca || !ca.lastTradingDate || !held.asOfDate || ca.lastTradingDate >= held.asOfDate) return null;
+  return ca;
+}
+
 function markSourceOf(ticker, held) {
   if (!held) return null;
+  const ca = delistingOf(ticker, held);
+  if (ca) return { kind: "delisted", ca };
   const miss = (held.missing || []).find((m) => m.ticker === ticker);
   if (miss) return { kind: "stale", why: miss.why || "" };
   const q = (held.quotes || []).find((x) => x.ticker === ticker);
@@ -161,6 +171,10 @@ function shortDate(ymd) {
 
 function markSourceTag(src) {
   if (!src || src.kind === "scan") return "";
+  if (src.kind === "delisted") {
+    const into = src.ca.acquirerTicker || src.ca.acquirer || "";
+    return `<span class="pos-mark-src pos-mark-src--delisted">${escapeHtml(t("markDelisted", { into }))}</span>`;
+  }
   if (src.kind === "stale") {
     return `<span class="pos-mark-src pos-mark-src--stale" title="${escapeHtml(src.why)}">${escapeHtml(t("markStale"))}</span>`;
   }
@@ -185,15 +199,19 @@ function positionRows(positions, currency, positionsValue, held) {
       const cost = (p.avgCost || 0) * (p.qty || 0);
       const u = (p.mark - p.avgCost) * p.qty;
       const r = p.avgCost ? ((p.mark - p.avgCost) / p.avgCost) * 100 : 0;
-      const dayPnl = dayPnlOf(p);
+      const src = markSourceOf(p.ticker, held);
+      // 已下市：沒有「今天」的漲跌，日損益顯示 —；也不接即時報價（data-lq-frozen），但市值仍算進帳戶總值。
+      const gone = src?.kind === "delisted";
+      const dayPct = gone ? null : p.dayPct;
+      const dayPnl = gone ? null : dayPnlOf(p);
       const weight = bookMv > 0 ? (mv / bookMv) * 100 : null;
       const name = p.name ? escapeHtml(p.name) : "";
-      const srcTag = markSourceTag(markSourceOf(p.ticker, held));
+      const srcTag = markSourceTag(src);
       return `
       <tr class="pos-row" data-lq="pos" data-lq-sym="${escapeHtml(p.ticker)}"
           data-ticker="${escapeHtml(p.ticker)}"
           data-lq-qty="${p.qty ?? ""}" data-lq-avg="${p.avgCost ?? ""}" data-lq-ccy="${escapeHtml(currency)}"
-          data-lq-mark="${p.mark ?? ""}" data-lq-daypct="${p.dayPct ?? ""}"
+          data-lq-mark="${p.mark ?? ""}" data-lq-daypct="${dayPct ?? ""}"${gone ? ' data-lq-frozen="1"' : ""}
           tabindex="0">
         <td class="pos-sym">
           <span class="ticker">${escapeHtml(p.ticker)}</span>
@@ -204,7 +222,7 @@ function positionRows(positions, currency, positionsValue, held) {
         <td class="num" data-label="${L.mark}" data-lq-field="price">${fmtPrice(p.mark, currency)}</td>
         <td class="num" data-label="${L.mktValue}">${fmtMoney(mv, currency)}</td>
         <td class="num ${pctClass(dayPnl)}" data-label="${L.dayPnl}">${dayPnl == null ? "—" : fmtSignedMoney(dayPnl, currency)}</td>
-        <td class="num ${pctClass(p.dayPct)}" data-label="${L.dayPct}" data-lq-field="dayPct">${fmtPct(p.dayPct)}</td>
+        <td class="num ${pctClass(dayPct)}" data-label="${L.dayPct}" data-lq-field="dayPct">${dayPct == null ? "—" : fmtPct(dayPct)}</td>
         <td class="num ${pctClass(u)}" data-label="${L.unrealizedPnl}">${fmtSignedMoney(u, currency)}</td>
         <td class="num ${pctClass(r)}" data-label="${L.unrealizedPct}">${fmtPct(r)}</td>
         <td class="num" data-label="${L.costBasis}">${fmtMoney(cost, currency)}</td>
@@ -419,15 +437,48 @@ function markSourceNote(positions, held) {
   const srcs = positions.map((p) => markSourceOf(p.ticker, held));
   const nHeld = srcs.filter((x) => x?.kind === "held").length;
   const nStale = srcs.filter((x) => x?.kind === "stale").length;
-  if (!nHeld && !nStale) return `<p class="pos-mark-note">${escapeHtml(t("markNoteAllScan"))}</p>`;
-  const parts = [t("markNoteScan", { n: String(positions.length - nHeld - nStale) })];
+  const delisted = srcs.filter((x) => x?.kind === "delisted").map((x) => x.ca);
+  const nGone = delisted.length;
+  const caNote = delisted.map((ca) => delistedNote(ca, positions.find((p) => p.ticker === ca.ticker))).join("");
+  if (!nHeld && !nStale && !nGone) return `<p class="pos-mark-note">${escapeHtml(t("markNoteAllScan"))}</p>`;
+  const parts = [t("markNoteScan", { n: String(positions.length - nHeld - nStale - nGone) })];
   if (nHeld) parts.push(t("markNoteHeld", { n: String(nHeld) }));
   if (nStale) parts.push(t("markNoteStale", { n: String(nStale) }));
-  return `<p class="pos-mark-note${nStale ? " pos-mark-note--warn" : ""}" role="note">${escapeHtml(parts.join(t("listSep")))}</p>`;
+  if (nGone) parts.push(t("markNoteDelisted", { n: String(nGone) }));
+  return `<p class="pos-mark-note${nStale ? " pos-mark-note--warn" : ""}" role="note">${escapeHtml(parts.join(t("listSep")))}</p>${caNote}`;
+}
+
+// 白話說明：哪天最後交易、每股換什麼、帳本現在怎麼算，附官方來源連結。
+function delistedNote(ca, pos) {
+  const ccy = ca.currency || "USD";
+  const srcLinks = (ca.sources || [])
+    .filter((s) => /^https:\/\//.test(s.url || ""))
+    .map((s) => `<a href="${escapeHtml(s.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(s.label || s.url)}</a>`)
+    .join("、");
+  const body = t("delistedBody", {
+    ticker: ca.ticker,
+    acquirer: ca.acquirer || "",
+    last: shortDate(ca.lastTradingDate),
+    cash: fmtPrice(ca.cashPerShare, ccy),
+    shares: String(ca.sharesPerShare ?? ""),
+    into: ca.acquirerTicker || "",
+  });
+  const ledger = t("delistedLedger", {
+    mark: fmtPrice(pos?.mark ?? ca.lastClose, ccy),
+    last: shortDate(ca.lastTradingDate),
+  });
+  return `<div class="pos-ca-note" role="note">
+      <p class="pos-ca-title"><strong>${escapeHtml(t("delistedTitle", { ticker: ca.ticker }))}</strong></p>
+      <p>${escapeHtml(body)}</p>
+      <p>${escapeHtml(ledger)}</p>
+      ${srcLinks ? `<p class="pos-ca-src">${escapeHtml(t("delistedSource"))}${srcLinks}</p>` : ""}
+    </div>`;
 }
 
 function renderPosTable(positions, currency, positionsValue, held) {
-  const bookHeld = held ? { quotes: held.quotes || [], missing: held.missing || [] } : null;
+  const bookHeld = held
+    ? { quotes: held.quotes || [], missing: held.missing || [], corporateActions: held.corporateActions || [], asOfDate: held.asOfDate || "" }
+    : null;
   return `
     <div class="paper-table-block paper-pos-block">
       <div class="pos-block-head">
@@ -482,11 +533,15 @@ function renderBookPanel(id, book, metrics, asOfDate, active, startDate, held) {
 }
 
 // 只用跟帳本同一天的補價檔；日期對不上就不顯示來源（不猜）。
-function heldFor(hq, market, asOfDate) {
+function heldFor(hq, market, asOfDate, ca) {
+  const actions = (ca?.actions || []).filter((a) => a.market === market);
   if (!hq || hq.date !== asOfDate) return null;
   return {
     quotes: (hq.quotes || []).filter((q) => q.market === market),
-    missing: (hq.missing || []).filter((m) => m.market === market),
+    // 已下市的檔不再算「抓不到」，改由已下市說明處理
+    missing: (hq.missing || []).filter((m) => m.market === market && !actions.some((a) => a.ticker === m.ticker && a.lastTradingDate < asOfDate)),
+    corporateActions: actions,
+    asOfDate,
   };
 }
 
@@ -532,8 +587,8 @@ export function renderPaperSection(paper) {
         <button type="button" class="paper-tab-btn active" data-paper-tab="TW" role="tab" aria-selected="true">${escapeHtml(t("paperTabTw"))}</button>
         <button type="button" class="paper-tab-btn" data-paper-tab="US" role="tab" aria-selected="false">${escapeHtml(t("paperTabUs"))}</button>
       </div>
-      ${renderBookPanel("TW", tw, paper.metrics?.TW, asOfDate, true, startDate, heldFor(paper.heldQuotes, "TW", asOfDate))}
-      ${renderBookPanel("US", us, paper.metrics?.US, asOfDate, false, startDate, heldFor(paper.heldQuotes, "US", asOfDate))}
+      ${renderBookPanel("TW", tw, paper.metrics?.TW, asOfDate, true, startDate, heldFor(paper.heldQuotes, "TW", asOfDate, paper.corporateActions))}
+      ${renderBookPanel("US", us, paper.metrics?.US, asOfDate, false, startDate, heldFor(paper.heldQuotes, "US", asOfDate, paper.corporateActions))}
     </section>`;
 }
 
@@ -567,6 +622,12 @@ export async function loadPaperPortfolio() {
       }
     } catch {
       /* 補價檔缺了就不顯示來源 */
+    }
+    try {
+      const cr = await fetch("./data/corporate-actions.json");
+      if (cr.ok) paper.corporateActions = await cr.json();
+    } catch {
+      /* 沒有公司行動檔就照舊顯示 */
     }
     return paper;
   } catch {

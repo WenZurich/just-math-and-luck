@@ -1709,6 +1709,23 @@ async function main() {
       if (!/function markSourceOf\(/.test(paperSrc) || !/paper-quotes\//.test(paperSrc) || !/pos-mark-src--stale/.test(paperSrc)) fail("paper.js should tag each holding's mark source from paper-quotes/<date>.json");
       else if (missKeys.length) fail(`mark-source i18n keys missing: ${missKeys.join(", ")}`);
       else ok("paper positions: mark-source tags (補價／市價未更新) wired, 4 locales");
+      // 已下市（併購）：公司行動檔只放官方來源，持股表標「已下市」並白話說明換股條件（帳本不動）。
+      {
+        const caPath = path.join(ROOT, "public/data/corporate-actions.json");
+        const caKeys = ["markDelisted", "markNoteDelisted", "delistedTitle", "delistedBody", "delistedLedger", "delistedSource"];
+        const caMiss = locs.flatMap(([f, src]) => caKeys.filter((k) => !new RegExp(`\\b${k}:`).test(src)).map((k) => `${f}:${k}`));
+        if (!fs.existsSync(caPath)) fail("public/data/corporate-actions.json missing");
+        else {
+          const ca = JSON.parse(fs.readFileSync(caPath, "utf8"));
+          const bad = (ca.actions || []).filter(
+            (a) => !a.ticker || !/^\d{4}-\d{2}-\d{2}$/.test(a.lastTradingDate || "") || !(a.sources || []).length || (a.sources || []).some((x) => !/^https:\/\//.test(x.url || ""))
+          );
+          if (bad.length) fail(`corporate-actions: entries need ticker, lastTradingDate and https sources: ${bad.map((a) => a.ticker).join(",")}`);
+          else if (!/function delistingOf\(/.test(paperSrc) || !/corporate-actions\.json/.test(paperSrc) || !/pos-mark-src--delisted/.test(paperSrc)) fail("paper.js should tag delisted holdings from corporate-actions.json");
+          else if (caMiss.length) fail(`delisted i18n keys missing: ${caMiss.join(", ")}`);
+          else ok(`paper positions: delisted (merger) holdings tagged + explained with official sources (${(ca.actions || []).map((a) => a.ticker).join(", ") || "none"}), 4 locales`);
+        }
+      }
       // Held-quote TW session must resolve when the scan has a TW close date (Yahoo null-close bars fall back to TWSE official close).
       const latestJ = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/latest.json"), "utf8"));
       const pp = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/paper-portfolio.json"), "utf8"));

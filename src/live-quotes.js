@@ -405,6 +405,7 @@ function collectWatchlist(root) {
   const mis = new Set(Object.values(INDEX_MIS));
 
   root.querySelectorAll("[data-lq-sym]").forEach((el) => {
+    if (el.hasAttribute("data-lq-frozen")) return; // 已下市持股：不抓即時報價
     const sym = el.getAttribute("data-lq-sym");
     const y = yahooSymFromTicker(sym);
     if (y) yahoo.add(y);
@@ -800,6 +801,7 @@ function paintQuotes(map, ok) {
   // Every displayed ticker node
   const seen = new Set();
   rootEl.querySelectorAll("[data-lq-sym]").forEach((el) => {
+    if (el.hasAttribute("data-lq-frozen")) return; // 已下市持股：市價固定在最後收盤
     const sym = el.getAttribute("data-lq-sym");
     if (!sym || seen.has(sym)) return;
     seen.add(sym);

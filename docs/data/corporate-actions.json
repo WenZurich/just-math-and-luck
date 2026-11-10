@@ -1,0 +1,24 @@
+{
+  "asOf": "2026-11-10",
+  "note": "Display-only corporate actions for paper-book holdings (official sources only). Does not change paper-portfolio.json or any picking math; the paper engine has no merger rule yet, so a delisted holding keeps its last official close as mark and is not traded.",
+  "actions": [
+    {
+      "ticker": "ROKU",
+      "market": "US",
+      "type": "merger",
+      "acquirer": "Fox Corporation",
+      "acquirerTicker": "FOXA",
+      "closedOn": "2026-11-06",
+      "lastTradingDate": "2026-11-06",
+      "suspendedFrom": "2026-11-09",
+      "lastClose": 160.52,
+      "cashPerShare": 95.3,
+      "sharesPerShare": 0.9799,
+      "currency": "USD",
+      "sources": [
+        { "label": "Nasdaq Equity Corporate Actions Alert #2026-806", "url": "https://www.nasdaqtrader.com/TraderNews.aspx?id=eca2026-806" },
+        { "label": "SEC Form 8-K (Roku, 2026-11-06)", "url": "https://www.sec.gov/Archives/edgar/data/1428439/000119312526451874/d181620d8k.htm" }
+      ]
+    }
+  ]
+}
