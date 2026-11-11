@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-10T09:30:00+08:00",
+    "updated": "2026-11-11T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -11726,6 +11726,173 @@
         "boolean-rules",
         "turnover",
         "trading-costs",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-track-or-follow-web-news-lags-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "Track or Follow? A Jev-Compatible Multi-Agent Trading System When Web News Lags the Market",
+      "titleLocalized": {
+        "en": "Does the News Lead the Price, or Just Report It?",
+        "zh-Hant": "新聞是領先股價，還是只是在報導漲跌？",
+        "zh-Hans": "新闻是领先股价，还是只是在报道涨跌？",
+        "ja": "ニュースは株価に先行するのか、値動きを後追いするだけか"
+      },
+      "authors": [
+        "Yebo Feng",
+        "Guangyan Gan",
+        "Liangrui Pan",
+        "Ruichao Liang",
+        "Cong Wu",
+        "Jiahua Xu",
+        "Yang Liu"
+      ],
+      "year": 2026,
+      "summary": "Much web news about US-listed firms is written after, and about, the price move it describes, so an LLM reader can look predictive just by echoing the market. The authors build a multi-agent trading system with point-in-time data stores and test whether LLM judgments of news track the reaction to the underlying event or merely follow the price. Judgments correlate with announcement-window abnormal returns (weekly Spearman 0.119) and event types match 8-K filings (AUC 0.833), but 72% of earnings news items appear after the company's own filing, and measured from the first trade after publication the association drops to 0.023; at a weekly horizon there is no rank information beyond code-only features. Lesson for this site's news radar: the edge is in the earliest primary source (SEC/MOPS filings), not in later news articles.",
+      "summaryLocalized": {
+        "en": "LLM news judgments correlate with event-window abnormal returns (weekly Spearman 0.119; 8-K event-type AUC 0.833), but 72% of earnings news lands after the issuer's filing; from first trade after publication the correlation falls to 0.023 and adds nothing over code-only features weekly. Site use: watch — supports earliest-primary-source rule in the news radar.",
+        "zh-Hant": "很多美股網路新聞是在股價已經動了之後才寫、而且內容就是在講那段漲跌，所以 AI 讀新聞看起來「很準」，其實可能只是跟著市場走。作者用只看當時可得資料的多代理交易系統測試：AI 對新聞的判斷和事件期間的異常報酬有關（每週 Spearman 0.119），事件分類也和 8-K 公告吻合（AUC 0.833）；但 72% 的財報新聞出現在公司自己公告之後，若從新聞發布後第一筆成交開始算，關聯只剩 0.023，以週為單位也沒有比純程式特徵多出資訊。對本站消息雷達的啟示：優勢在最早的原始來源（SEC／公開資訊觀測站），不是後來的新聞稿。",
+        "zh-Hans": "很多美股网络新闻是在股价已经动了之后才写、而且内容就是在讲那段涨跌，所以 AI 读新闻看起来“很准”，其实可能只是跟着市场走。作者用只看当时可得数据的多代理交易系统测试：AI 对新闻的判断和事件期间的异常报酬有关（每周 Spearman 0.119），事件分类也和 8-K 公告吻合（AUC 0.833）；但 72% 的财报新闻出现在公司自己公告之后，若从新闻发布后第一笔成交开始算，关联只剩 0.023，以周为单位也没有比纯程序特征多出信息。对本站消息雷达的启示：优势在最早的原始来源（SEC／公开信息观测站），不是后来的新闻稿。",
+        "ja": "米国株のウェブニュースの多くは値動きの後に書かれ、LLMの判断は市場を後追いしがち。イベント期間の異常リターンとの相関は週次Spearman 0.119だが、決算ニュースの72%は会社の開示後に出現し、公表後最初の約定から測ると0.023に低下。本サイトはウォッチ：最速の一次情報を優先。"
+      },
+      "plainTakeaways": [
+        "很多新聞是在股價動完才寫的",
+        "AI 讀新聞看似準，常只是跟著價格",
+        "從新聞發布後才進場，優勢幾乎歸零",
+        "本站觀察：消息雷達要追最早的原始公告"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Much news is written after the price already moved",
+          "LLM news reads often just follow the price",
+          "Trading from publication time leaves almost no edge",
+          "Site use: watch — radar should chase the earliest primary filing"
+        ],
+        "zh-Hant": [
+          "很多新聞是在股價動完才寫的",
+          "AI 讀新聞看似準，常只是跟著價格",
+          "從新聞發布後才進場，優勢幾乎歸零",
+          "本站觀察：消息雷達要追最早的原始公告"
+        ],
+        "zh-Hans": [
+          "很多新闻是在股价动完才写的",
+          "AI 读新闻看似准，常只是跟着价格",
+          "从新闻发布后才进场，优势几乎归零",
+          "本站观察：消息雷达要追最早的原始公告"
+        ],
+        "ja": [
+          "多くのニュースは値動きの後に書かれる",
+          "LLMのニュース判断は価格の後追いになりがち",
+          "公表時点から売買すると優位性はほぼ消える",
+          "本サイトはウォッチ：最速の一次開示を追う"
+        ]
+      },
+      "formulas": [
+        "lag_i = t_publish(news_i) − t_filing(8-K_i); flag item as 'follower' if lag_i > 0",
+        "event-window score: ρ_event = Spearman(LLM_score, CAR[t_event−1, t_event+1])",
+        "tradable score: ρ_trade = Spearman(LLM_score, R[t_first_trade_after_publish, +1w]) (paper: 0.119 → 0.023)",
+        "incremental test: rank-IC of LLM_score after residualizing on code-only features ≈ 0 at weekly horizon",
+        "site use: watch only — log news lag vs primary filing in radar reports"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only; no screener or radar math change. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.10414",
+        "https://doi.org/10.48550/arXiv.2611.10414"
+      ],
+      "tags": [
+        "us",
+        "news",
+        "llm",
+        "event-study",
+        "look-ahead-bias",
+        "news-radar",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-llm-research-agents-return-predictability-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "Evaluating LLM Research Agents as Tests of Return Predictability",
+      "titleLocalized": {
+        "en": "AI Research Agents Say 'It Predicts Returns' Too Often",
+        "zh-Hant": "AI 研究代理太常說「這能預測報酬」",
+        "zh-Hans": "AI 研究代理太常说“这能预测报酬”",
+        "ja": "AIリサーチエージェントは「予測できる」と言いすぎる"
+      },
+      "authors": [
+        "Chang Liu"
+      ],
+      "year": 2026,
+      "summary": "Treats an LLM research agent's verdict on whether a forecasting model beats the historical-mean benchmark as a statistical test, run on simulated return series where the true signal (if any) is known. Commercial agents detect weak signals more often than an out-of-sample test mainly because they accept weaker evidence; at the same false-positive rate a plain in-sample test does as well or better. All four models tested claim predictability too often when there is none, state miscalibrated probabilities, and flip verdicts after a single sentence about prior research. Recommendation: neutral brief, a decision rule fixed outside the agent, and a sealed holdout — consistent with this site's math gate.",
+      "summaryLocalized": {
+        "en": "LLM agents' 'beats historical mean' verdicts tested on simulated returns with known signal: higher detection comes from accepting weaker evidence; at matched false-positive rate an in-sample test is as good or better. All models over-claim predictability under no signal, miscalibrate probabilities, and flip after one sentence about prior research. Fix: neutral brief, external decision rule, sealed holdout. Site use: watch — supports keeping the math gate.",
+        "zh-Hant": "把 AI 研究代理對「這個預測模型有沒有贏過歷史平均」的判斷，當成一個統計檢定來評分，並用事先知道真實訊號強弱的模擬報酬來測。商用模型抓到弱訊號的比例比樣本外檢定高，主要是因為它們接受比較弱的證據；在同樣的誤判率下，傳統樣本內檢定一樣好甚至更好。四個模型在根本沒有訊號時都太常宣稱「可以預測」，給的機率也不準，而且只要多加一句「過去研究發現…」就會改變結論。建議：中立的指示、由代理以外固定的判斷規則、封存的保留樣本——和本站的數學閘門一致。",
+        "zh-Hans": "把 AI 研究代理对“这个预测模型有没有赢过历史平均”的判断，当成一个统计检定来评分，并用事先知道真实信号强弱的模拟报酬来测。商用模型抓到弱信号的比例比样本外检定高，主要是因为它们接受比较弱的证据；在同样的误判率下，传统样本内检定一样好甚至更好。四个模型在根本没有信号时都太常宣称“可以预测”，给的概率也不准，而且只要多加一句“过去研究发现…”就会改变结论。建议：中立的指示、由代理以外固定的判断规则、封存的保留样本——和本站的数学闸门一致。",
+        "ja": "LLMエージェントの「履歴平均に勝つ」判定を、真のシグナルが既知の模擬リターンで統計検定として評価。検出率の高さは弱い証拠を受け入れるため。シグナルなしでも予測可能と言いすぎ、確率は較正不良、先行研究の一文で判定が変わる。中立な指示・外部の判定ルール・封印ホールドアウトを推奨。本サイトはウォッチ。"
+      },
+      "plainTakeaways": [
+        "AI 很容易把雜訊說成「能預測」",
+        "一句「過去研究說…」就能改變 AI 結論",
+        "判斷規則要事先固定、保留樣本要封存",
+        "本站觀察：支持維持數學閘門"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "AI agents easily call noise 'predictable'",
+          "One sentence about prior research can flip the verdict",
+          "Fix the decision rule in advance and seal a holdout",
+          "Site use: watch — supports keeping the math gate"
+        ],
+        "zh-Hant": [
+          "AI 很容易把雜訊說成「能預測」",
+          "一句「過去研究說…」就能改變 AI 結論",
+          "判斷規則要事先固定、保留樣本要封存",
+          "本站觀察：支持維持數學閘門"
+        ],
+        "zh-Hans": [
+          "AI 很容易把杂讯说成“能预测”",
+          "一句“过去研究说…”就能改变 AI 结论",
+          "判断规则要事先固定、保留样本要封存",
+          "本站观察：支持维持数学闸门"
+        ],
+        "ja": [
+          "AIはノイズを「予測可能」と言いやすい",
+          "先行研究の一文で判定が変わる",
+          "判定ルールを事前固定し、ホールドアウトを封印",
+          "本サイトはウォッチ：数学ゲート維持を支持"
+        ]
+      },
+      "formulas": [
+        "benchmark: out-of-sample R²_OS = 1 − Σ(r_t − r̂_t)² / Σ(r_t − r̄_t)², r̄_t = historical mean",
+        "treat agent verdict V∈{0,1} as a test: size = P(V=1 | β=0), power = P(V=1 | β≠0) on simulated r_t = α + β·x_{t−1} + ε_t",
+        "compare at matched size: power(agent) vs power(in-sample t-test with critical value set to agent's size)",
+        "robustness: Δverdict after adding one 'prior research found…' sentence (should be 0)",
+        "site use: watch only — keep external decision rule + sealed holdout in math gate"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only; no screener or radar math change. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.04070",
+        "https://doi.org/10.48550/arXiv.2611.04070"
+      ],
+      "tags": [
+        "us",
+        "llm",
+        "return-predictability",
+        "backtest-overfitting",
+        "research-process",
         "watch"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",

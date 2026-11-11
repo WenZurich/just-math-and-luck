@@ -30,7 +30,7 @@ export function buildTimezoneNote({ asOf, twCloseDate, usCloseDate }) {
   const head = tp ? `資料抓取 ${tp.date} ${tp.time}（台北）` : `資料抓取 ${asOf}`;
   const tw = isYmd(twCloseDate) ? `台股為 ${twCloseDate} 收盤` : "台股收盤日未取得";
   const us = isYmd(usCloseDate) ? `美股為 ${usCloseDate} 收盤（美東）` : "美股收盤日未取得";
-  return `${head}；${tw}；${us}。以 asOf 為準。`;
+  return `${head}；${tw}；${us}。`;
 }
 
 /** Short label for other notes, e.g. "10/7 收盤" or "收盤日未取得". */

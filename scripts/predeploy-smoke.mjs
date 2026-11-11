@@ -2139,6 +2139,16 @@ async function main() {
     // timezoneNote is generated from asOf + real close dates, never a fixed date.
     const { buildTimezoneNote } = await import(pathToFileURL(path.join(ROOT, "scripts/timezone-note.mjs")).href);
     const sample = buildTimezoneNote({ asOf: "2026-10-08T00:12:28Z", twCloseDate: "2026-10-07", usCloseDate: "2026-10-07" });
+    if (/asOf/.test(sample)) fail(`buildTimezoneNote should not show field-name jargon asOf: ${sample}`);
+    else ok("timezone note: plain words (no 以 asOf 為準)");
+    {
+      const mainSrc = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+      const i18nSrc = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+      if (!/plainTimezoneNote\(data\.timezoneNote\)/.test(mainSrc)) fail("today tz-note should strip archived 以 asOf 為準 via plainTimezoneNote");
+      else ok("today tz-note strips archived asOf jargon");
+      if (/psychologyPhase: "心理相位"|liquidityBias: "流動性偏誤"|\n  rs: "RS",/.test(i18nSrc)) fail("regime/RS labels regressed to jargon (心理相位/流動性偏誤/RS)");
+      else ok("regime/RS labels in plain words (市場情緒/資金面/比大盤)");
+    }
     if (!sample.includes("2026-10-08 08:12（台北）") || !sample.includes("台股為 2026-10-07 收盤") || !sample.includes("美股為 2026-10-07 收盤")) fail(`buildTimezoneNote wrong: ${sample}`);
     const tzNote = String(latest.timezoneNote || "");
     const asOfTpe = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" }).format(new Date(latest.asOf));

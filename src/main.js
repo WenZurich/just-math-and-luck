@@ -72,12 +72,18 @@ import {
   normalizeLettersCategory,
 } from "./letters.js";
 import {
+
   renderManbaoSection,
   initManbao,
   setManbaoCategory,
   normalizeManbaoCategory,
 } from "./manbao.js";
 
+
+/** Archive notes end with「以 asOf 為準」(field-name jargon); the note already leads with the fetch time. */
+function plainTimezoneNote(note) {
+  return String(note).replace(/[，,；;]?\s*以\s*asOf\s*為準。?$/, "").replace(/[，,；;]\s*$/, "").replace(/([^。])$/, "$1。");
+}
 const DATA_URL = "./data/latest.json";
 const TAIPEI_FX_URL = "./data/usd-twd-taipei.json";
 
@@ -752,7 +758,7 @@ function renderApp(data, paper) {
         <span id="today" class="view-anchor" tabindex="-1"></span>
         <header class="view-header view-header-tight">
           <h2 class="view-title">${escapeHtml(t("todayPicks"))}</h2>
-          ${data.timezoneNote ? `<p class="tz-note" role="note">${escapeHtml(data.timezoneNote)}</p>` : ""}
+          ${data.timezoneNote ? `<p class="tz-note" role="note">${escapeHtml(plainTimezoneNote(data.timezoneNote))}</p>` : ""}
         </header>
         ${renderRegimeStrip(data.marketRegime)}
         <div class="tabs market-tabs" role="tablist" aria-label="${escapeHtml(t("market"))}">
