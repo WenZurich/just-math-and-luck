@@ -1,38 +1,22 @@
 {
-  "asOf": "2026-11-11T00:13:50.985Z",
+  "asOf": "2026-11-12T00:17:23.544Z",
   "market": "US",
   "timezone": "America/New_York",
   "timezoneLabel": "US ET",
   "window": {
-    "from": "2026-11-10",
-    "to": "2026-12-15"
+    "from": "2026-11-11",
+    "to": "2026-12-16"
   },
   "source": {
     "name": "XOOMAR",
     "url": "https://xoomar.com/api/markets/calendar",
     "docs": "https://xoomar.com/markets/api/calendar",
-    "remoteUpdatedAt": "2026-11-10T21:30:07.271Z",
+    "remoteUpdatedAt": "2026-11-06T17:30:04.152Z",
     "attribution": "Credit XOOMAR with a link to the dataset page on xoomar.com when you republish this data",
     "license": "https://xoomar.com/terms"
   },
   "stale": false,
   "events": [
-    {
-      "id": "cpi-2026-11-10T13:30:00.000Z",
-      "eventKey": "cpi",
-      "eventName": "CPI (Consumer Price Index)",
-      "shortName": "CPI",
-      "importance": "high",
-      "highImpact": true,
-      "scheduledAt": "2026-11-10T13:30:00.000Z",
-      "dayEt": "2026-11-10",
-      "periodLabel": "October 2026",
-      "source": "bls",
-      "officialUrl": "https://www.bls.gov/schedule/news_release/cpi.htm",
-      "actual": null,
-      "previous": null,
-      "unit": "% y/y, all items"
-    },
     {
       "id": "joblessClaims-2026-11-12T13:30:00.000Z",
       "eventKey": "joblessClaims",
@@ -253,6 +237,22 @@
       "periodLabel": "November 2026",
       "source": "bls",
       "officialUrl": "https://www.bls.gov/schedule/news_release/ppi.htm",
+      "actual": null,
+      "previous": null,
+      "unit": null
+    },
+    {
+      "id": "retailSales-2026-12-16T13:30:00.000Z",
+      "eventKey": "retailSales",
+      "eventName": "Retail Sales (Advance)",
+      "shortName": "Retail Sales",
+      "importance": "high",
+      "highImpact": true,
+      "scheduledAt": "2026-12-16T13:30:00.000Z",
+      "dayEt": "2026-12-16",
+      "periodLabel": "November 2026",
+      "source": "census",
+      "officialUrl": "https://www.census.gov/retail/index.html",
       "actual": null,
       "previous": null,
       "unit": null

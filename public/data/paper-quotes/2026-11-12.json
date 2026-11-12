@@ -1,0 +1,111 @@
+{
+  "sessionSource": {
+    "TW": "加權指數收盤先比 Yahoo ^TWII；Yahoo 該日 close 為空時改用證交所 MI_5MINS_HIST 官方收盤"
+  },
+  "scanAsOf": "2026-11-12T00:16:33Z",
+  "date": "2026-11-12",
+  "sessions": {
+    "US": "2026-11-11",
+    "TW": "2026-11-11"
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "ISRG",
+      "name": "Intuitive Surgical",
+      "market": "US",
+      "session": "2026-11-11",
+      "price": 449.53,
+      "dayPct": -0.11,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon",
+      "market": "US",
+      "session": "2026-11-11",
+      "price": 266.17,
+      "dayPct": -1.74,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft",
+      "market": "US",
+      "session": "2026-11-11",
+      "price": 521.13,
+      "dayPct": -2.26,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet",
+      "market": "US",
+      "session": "2026-11-11",
+      "price": 293.45,
+      "dayPct": 2.11,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ASML",
+      "name": "ASML",
+      "market": "US",
+      "session": "2026-11-11",
+      "price": 1534.42,
+      "dayPct": 1.76,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "SNOW",
+      "name": "Snowflake",
+      "market": "US",
+      "session": "2026-11-11",
+      "price": 301.22,
+      "dayPct": 1.85,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms",
+      "market": "US",
+      "session": "2026-11-11",
+      "price": 628.77,
+      "dayPct": -1.97,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "OKTA",
+      "name": "Okta",
+      "market": "US",
+      "session": "2026-11-11",
+      "price": 182.25,
+      "dayPct": 2.18,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "3231.TW",
+      "name": "緯創",
+      "market": "TW",
+      "session": "2026-11-11",
+      "price": 174.5,
+      "dayPct": 2.05,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": [
+    {
+      "ticker": "ROKU",
+      "market": "US",
+      "why": "Yahoo 日線沒有 2026-11-11 收盤"
+    }
+  ]
+}

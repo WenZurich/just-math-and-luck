@@ -1,11 +1,11 @@
 {
-  "asOf": "2026-11-11T00:13:51.320Z",
+  "asOf": "2026-11-12T00:17:23.947Z",
   "market": "TW",
   "timezone": "Asia/Taipei",
   "timezoneLabel": "台北時間",
   "window": {
-    "from": "2026-11-11",
-    "to": "2026-12-16"
+    "from": "2026-11-12",
+    "to": "2026-12-17"
   },
   "source": {
     "name": "DGBAS / CBC / TWSE / MOEA",
@@ -99,6 +99,19 @@
       "periodLabel": "(11608)",
       "source": "行政院主計總處",
       "officialUrl": "https://www.stat.gov.tw/cl.aspx?n=2663"
+    },
+    {
+      "id": "cbcDecision-2026-12-17T02:00:00.000Z",
+      "eventKey": "cbcDecision",
+      "eventName": "中央銀行理監事聯席會議（貨幣政策）",
+      "shortName": "CBC 利率決議",
+      "importance": "high",
+      "highImpact": true,
+      "scheduledAt": "2026-12-17T02:00:00.000Z",
+      "dayTw": "2026-12-17",
+      "periodLabel": null,
+      "source": "cbc",
+      "officialUrl": "https://www.cbc.gov.tw/tw/cp-357-189514-82841-1.html"
     }
   ],
   "refreshHint": "npm run fetch-tw-macro  （可選 FETCH_TW_MACRO=1 接在 daily-scan 後）"
