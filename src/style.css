@@ -4074,3 +4074,13 @@ a.macro-chip:focus-visible { box-shadow: none; border-color: var(--accent); }
 .pos-ca-note p { margin: 0.15rem 0; }
 .pos-ca-note .pos-ca-src { color: var(--text-muted); font-size: 0.72rem; overflow-wrap: anywhere; }
 .pos-ca-note a { color: inherit; text-decoration: underline; }
+
+/* ---- 2026-11-12 desktop pick lists: finance-portal numeric columns ----
+ * Price / % / ratio columns right-aligned on tabular figures (header + cells), so decimal points and
+ * % signs line up down a column and the eye can compare rows the way quote tables on finance portals read. */
+.pick-table th.num,
+.pick-table td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.table-wrap--picks:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

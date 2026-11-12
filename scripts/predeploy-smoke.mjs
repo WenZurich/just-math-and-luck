@@ -2149,6 +2149,18 @@ async function main() {
       if (/psychologyPhase: "心理相位"|liquidityBias: "流動性偏誤"|\n  rs: "RS",/.test(i18nSrc)) fail("regime/RS labels regressed to jargon (心理相位/流動性偏誤/RS)");
       else ok("regime/RS labels in plain words (市場情緒/資金面/比大盤)");
     }
+    {
+      // 2026-11-12: desktop pick lists read like a quote table — numeric headers/cells right-aligned,
+      // header cells scoped to columns, scrollable wrapper is a labelled, keyboard-focusable region.
+      const mainSrc = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+      const css = fs.readFileSync(path.join(ROOT, "src/style.css"), "utf8");
+      const numTh = (mainSrc.match(/<th class="num" scope="col">/g) || []).length;
+      const wraps = (mainSrc.match(/class="table-wrap table-wrap--picks" role="region" tabindex="0" aria-label=/g) || []).length;
+      if (numTh !== 6) fail(`pick table: expected 6 right-aligned numeric headers, got ${numTh}`);
+      else if (wraps !== 2) fail(`pick table: US/TW wrappers must be labelled focusable regions (got ${wraps})`);
+      else if (!/\.pick-table th\.num,\s*\.pick-table td\.num\s*\{\s*text-align: right;/.test(css)) fail("pick table: numeric columns not right-aligned in CSS");
+      else ok("pick tables: numeric columns right-aligned, th scope=col, labelled focusable regions");
+    }
     if (!sample.includes("2026-10-08 08:12（台北）") || !sample.includes("台股為 2026-10-07 收盤") || !sample.includes("美股為 2026-10-07 收盤")) fail(`buildTimezoneNote wrong: ${sample}`);
     const tzNote = String(latest.timezoneNote || "");
     const asOfTpe = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" }).format(new Date(latest.asOf));

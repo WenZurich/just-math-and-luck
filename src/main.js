@@ -415,17 +415,17 @@ function mobileCards(list) {
 function renderListHeaders() {
   return `
     <tr>
-      <th>${term("ticker", t("ticker"))}</th>
-      <th>${escapeHtml(t("name"))}</th>
-      <th>${escapeHtml(t("price"))}</th>
-      <th>${term("dayPct", t("dayPct"))}</th>
-      <th>${term("rs", "RS")}／${term("priorClose", t("priorClose"))}</th>
-      <th>${term("pct5d", t("pct5d"))}</th>
-      <th>${term("pct1m", t("pct1m"))}</th>
-      <th>${term("volRatio", t("volRatio"))}</th>
-      <th>${escapeHtml(t("ma"))}</th>
-      <th>${term("screening", t("screening"))}</th>
-      <th>${escapeHtml(t("reason"))}</th>
+      <th scope="col">${term("ticker", t("ticker"))}</th>
+      <th scope="col">${escapeHtml(t("name"))}</th>
+      <th class="num" scope="col">${escapeHtml(t("price"))}</th>
+      <th class="num" scope="col">${term("dayPct", t("dayPct"))}</th>
+      <th class="num" scope="col">${term("rs", "RS")}／${term("priorClose", t("priorClose"))}</th>
+      <th class="num" scope="col">${term("pct5d", t("pct5d"))}</th>
+      <th class="num" scope="col">${term("pct1m", t("pct1m"))}</th>
+      <th class="num" scope="col">${term("volRatio", t("volRatio"))}</th>
+      <th scope="col">${escapeHtml(t("ma"))}</th>
+      <th scope="col">${term("screening", t("screening"))}</th>
+      <th scope="col">${escapeHtml(t("reason"))}</th>
     </tr>`;
 }
 
@@ -772,8 +772,8 @@ function renderApp(data, paper) {
           </section>
           <section class="section">
             <h2 class="section-title">${escapeHtml(t("usList"))}</h2>
-            <div class="table-wrap">
-              <table class="stock-table">
+            <div class="table-wrap table-wrap--picks" role="region" tabindex="0" aria-label="${escapeHtml(t("usList"))}">
+              <table class="stock-table pick-table">
                 <thead>${headers}</thead>
                 <tbody>${tableRows(us)}</tbody>
               </table>
@@ -788,8 +788,8 @@ function renderApp(data, paper) {
           </section>
           <section class="section">
             <h2 class="section-title">${escapeHtml(t("twList"))}</h2>
-            <div class="table-wrap">
-              <table class="stock-table">
+            <div class="table-wrap table-wrap--picks" role="region" tabindex="0" aria-label="${escapeHtml(t("twList"))}">
+              <table class="stock-table pick-table">
                 <thead>${headers}</thead>
                 <tbody>${tableRows(tw)}</tbody>
               </table>

@@ -157,6 +157,9 @@ async function checkLookup(page, where, { market, q }) {
   if (r.unreach) {
     // The page says the quote relay refused/timed out. That is only acceptable when the relay is
     // provably blocking THIS checker's network (probe at start); then the stored-data card must still be useful.
+    // r.jina.ai can start refusing this checker's IP partway through a run (its own traffic trips
+    // "bad IP reputation"), so re-probe before blaming the site.
+    if (!report.relayBlockedForChecker) await probeRelay();
     if (!report.relayBlockedForChecker) return fail(where, `lookup ${market} ${q} says quote source unreachable, but the relay probe was fine`);
     if (!r.badge.includes(market === "TW" ? "lk-badge-tw" : "lk-badge-us")) fail(where, `lookup ${market} ${q} offline card: wrong/missing market badge`);
     if (!r.retry) fail(where, `lookup ${market} ${q} offline card: no 重試 button`);

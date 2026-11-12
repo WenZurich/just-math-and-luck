@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-11T09:30:00+08:00",
+    "updated": "2026-11-12T10:20:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -11893,6 +11893,165 @@
         "return-predictability",
         "backtest-overfitting",
         "research-process",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-point-in-time-earnings-call-encoders-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "Point-in-Time Encoders for Earnings Calls",
+      "titleLocalized": {
+        "en": "Backtest-Safe Text Models for Earnings Calls",
+        "zh-Hant": "不偷看未來的法說會文字模型",
+        "zh-Hans": "不偷看未来的业绩会文字模型",
+        "ja": "未来を覗かない決算説明会テキストモデル"
+      },
+      "authors": [
+        "Alessio Brini"
+      ],
+      "year": 2026,
+      "summary": "Text encoders used in backtests usually were trained on text written after the test date, a hidden look-ahead bias. The author trains yearly 'vintages' (2010–2024 cutoffs) of small encoders on about 412k earnings-call transcripts, each reading only text dated on or before its cutoff. These 34M-parameter call-only encoders retrieve answers better than general retrievers in every test quarter and raise the rank correlation between next-day returns and simple past-return/size forecasts by about half. But they do not forecast returns better on their own, and the earnings-surprise gain has an interval that includes zero on unseen calls. Lesson: point-in-time text models matter for honest backtests and retrieval, not as a new return signal.",
+      "summaryLocalized": {
+        "en": "Yearly 'vintage' encoders trained only on earnings calls dated before each cutoff remove look-ahead bias. They beat general retrievers and lift next-day return rank-correlation of simple forecasts by ~half, but give no standalone return-forecast gain; earnings-surprise gain not significant on unseen calls. Site use: watch — any text feature in a backtest must be point-in-time.",
+        "zh-Hant": "一般拿來做回測的文字模型，訓練時往往已經讀過測試日之後的文章，等於偷看未來。作者用約 41 萬份法說會逐字稿，按年度切點（2010–2024）各訓練一個「年份版」小模型，每版只讀切點以前的文字。這些小模型找答案比通用檢索模型好，也讓「用過去報酬和市值做的簡單預測」與隔日報酬的排名相關提高約一半；但單獨預測報酬沒有更好，預測財報驚喜的改善在沒看過的法說會上也不顯著。結論：時間點正確的文字模型是讓回測誠實的工具，不是新的賺錢訊號。",
+        "zh-Hans": "一般拿来做回测的文字模型，训练时往往已经读过测试日之后的文章，等于偷看未来。作者用约 41 万份业绩会逐字稿，按年度切点（2010–2024）各训练一个“年份版”小模型，每版只读切点以前的文字。这些小模型找答案比通用检索模型好，也让“用过去报酬和市值做的简单预测”与隔日报酬的排名相关提高约一半；但单独预测报酬没有更好，预测财报惊喜的改善在没看过的业绩会上也不显著。结论：时间点正确的文字模型是让回测诚实的工具，不是新的赚钱信号。",
+        "ja": "決算説明会約41万件で、各年の基準日以前の文章だけを読む「年次版」エンコーダーを学習し先読みバイアスを除去。検索精度は汎用モデルを上回り、単純予測と翌日リターンの順位相関を約5割改善。ただし単独のリターン予測は改善せず、決算サプライズ予測も未読データでは有意でない。本サイトはウォッチ：回測の文字特徴は時点整合が必須。"
+      },
+      "plainTakeaways": [
+        "回測用的 AI 文字模型常偷看未來",
+        "每年只讀「當時以前」的文字才公平",
+        "找資料變準，但不等於能多賺",
+        "本站觀察：文字訊號回測必須時間點正確"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "AI text models in backtests often peek at the future",
+          "Train each year only on text available then",
+          "Better retrieval ≠ better returns",
+          "Site use: watch — text signals must be point-in-time"
+        ],
+        "zh-Hant": [
+          "回測用的 AI 文字模型常偷看未來",
+          "每年只讀「當時以前」的文字才公平",
+          "找資料變準，但不等於能多賺",
+          "本站觀察：文字訊號回測必須時間點正確"
+        ],
+        "zh-Hans": [
+          "回测用的 AI 文字模型常偷看未来",
+          "每年只读“当时以前”的文字才公平",
+          "找资料变准，但不等于能多赚",
+          "本站观察：文字信号回测必须时间点正确"
+        ],
+        "ja": [
+          "回測のAI文字モデルは未来を覗きがち",
+          "各年はその時点までの文章だけで学習",
+          "検索精度向上≠リターン向上",
+          "本サイトはウォッチ：文字シグナルは時点整合必須"
+        ]
+      },
+      "formulas": [
+        "vintage rule: encoder E_y trained only on docs with date ≤ Dec-31 of year y; for a vector at date t use E_{y(t)} with y(t) = year(t) − 1",
+        "look-ahead check: for each feature x_t assert max(train_doc_date(model used at t)) ≤ t",
+        "evaluation: Δ Spearman ρ(r_{t+1}, f̂_t) where f̂_t = forecast from past returns + log size, with vs without call vectors",
+        "site use: watch only — any news/text feature added to screener backtests must be point-in-time"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only; no screener or radar math change. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.14325",
+        "https://doi.org/10.48550/arXiv.2611.14325"
+      ],
+      "tags": [
+        "us",
+        "earnings-calls",
+        "nlp",
+        "look-ahead-bias",
+        "point-in-time",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-tabular-foundation-models-earnings-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "financials",
+      "title": "Tabular Foundation Models in Financial Predictions",
+      "titleLocalized": {
+        "en": "Pre-Trained Table Models for Predicting Earnings Changes",
+        "zh-Hant": "用預訓練表格模型預測明年獲利變化",
+        "zh-Hans": "用预训练表格模型预测明年获利变化",
+        "ja": "事前学習済み表形式モデルで来期利益変化を予測"
+      },
+      "authors": [
+        "Ed deHaan",
+        "Allen H. Huang"
+      ],
+      "year": 2026,
+      "summary": "A technical note testing tabular foundation models (pre-trained on synthetic tables, so they cannot have memorized real firms' outcomes) on a standard accounting task: predicting whether a firm's next-year earnings rise or fall. Google Research's TabFM, used in-context with no extra training, was more accurate than a fine-tuned open-weight LLM from recent accounting research and several tree-based models, and cheaper than the LLM; some tree models are faster. The authors stress it is one benchmark and no model class wins everywhere. For this site it is a possible future tool for fundamentals-based features, not a trading signal.",
+      "summaryLocalized": {
+        "en": "TabFM, pre-trained on synthetic tables (no look-ahead from memorized firms), predicts next-year earnings changes more accurately than a fine-tuned LLM and tree models, with no task training; trees remain faster. Single benchmark only. Site use: watch — possible fundamentals-feature tool, not a signal.",
+        "zh-Hant": "這篇技術短文測試「表格基礎模型」：它只在人造表格上預訓練，所以不可能事先背過真實公司的結果。拿來預測公司明年獲利會增加還是減少，Google 研究團隊的 TabFM 不用另外訓練、直接看範例就做，準確度贏過會計研究裡微調過的開源大型語言模型和幾種樹狀模型，運算也比語言模型省；部分樹狀模型速度更快。作者強調只測了一個任務，沒有一種模型會處處最好。對本站：將來做基本面特徵時可以考慮的工具，不是交易訊號。",
+        "zh-Hans": "这篇技术短文测试“表格基础模型”：它只在人造表格上预训练，所以不可能事先背过真实公司的结果。拿来预测公司明年获利会增加还是减少，Google 研究团队的 TabFM 不用另外训练、直接看范例就做，准确度赢过会计研究里微调过的开源大型语言模型和几种树状模型，运算也比语言模型省；部分树状模型速度更快。作者强调只测了一个任务，没有一种模型会处处最好。对本站：将来做基本面特征时可以考虑的工具，不是交易信号。",
+        "ja": "合成表データのみで事前学習したTabFMは実企業の結果を記憶できず先読みがない。来期利益の増減予測で、追加学習なしに微調整LLMや木モデルより高精度でLLMより軽量。木モデルの一部はより高速。単一ベンチマークのみ。本サイトはウォッチ：ファンダ特徴の候補ツールでありシグナルではない。"
+      },
+      "plainTakeaways": [
+        "只用人造表格訓練，不會偷背真實答案",
+        "預測明年獲利增減比 AI 語言模型準",
+        "只測一個任務，別過度推論",
+        "本站觀察：基本面工具候選，不是買賣訊號"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Trained on synthetic tables, so no memorized answers",
+          "Beat an LLM at next-year earnings-change prediction",
+          "One benchmark only — don't over-generalize",
+          "Site use: watch — fundamentals tool, not a trade signal"
+        ],
+        "zh-Hant": [
+          "只用人造表格訓練，不會偷背真實答案",
+          "預測明年獲利增減比 AI 語言模型準",
+          "只測一個任務，別過度推論",
+          "本站觀察：基本面工具候選，不是買賣訊號"
+        ],
+        "zh-Hans": [
+          "只用人造表格训练，不会偷背真实答案",
+          "预测明年获利增减比 AI 语言模型准",
+          "只测一个任务，别过度推论",
+          "本站观察：基本面工具候选，不是买卖信号"
+        ],
+        "ja": [
+          "合成表で学習、実データの答えを記憶しない",
+          "来期利益の増減予測でLLMより高精度",
+          "単一ベンチマーク、過度な一般化は禁物",
+          "本サイトはウォッチ：ファンダ用ツール候補"
+        ]
+      },
+      "formulas": [
+        "target: y_{i,t+1} = 1[EPS_{i,t+1} − EPS_{i,t} > 0] (next-year earnings change direction)",
+        "in-context prediction: ŷ = TFM(context = {(X_j, y_j)}_{train window ≤ t}, query = X_{i,t}); no gradient updates",
+        "compare accuracy / AUC vs gradient-boosted trees on same X (financial-statement ratios), same point-in-time window",
+        "site use: watch only — candidate fundamentals feature, must pass math gate before any screener use"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only; no screener or radar math change. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.13550",
+        "https://doi.org/10.48550/arXiv.2611.13550"
+      ],
+      "tags": [
+        "us",
+        "fundamentals",
+        "earnings-prediction",
+        "foundation-models",
+        "look-ahead-bias",
         "watch"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",
