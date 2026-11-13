@@ -2161,6 +2161,18 @@ async function main() {
       else if (!/\.pick-table th\.num,\s*\.pick-table td\.num\s*\{\s*text-align: right;/.test(css)) fail("pick table: numeric columns not right-aligned in CSS");
       else ok("pick tables: numeric columns right-aligned, th scope=col, labelled focusable regions");
     }
+    {
+      // 2026-11-13: mobile 清單 cards fold 入選理由 (bullets repeat the metric row) but keep 風險 visible.
+      const mainSrc = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+      const m = mainSrc.match(/function mobileCards[\s\S]*?\n}\n/);
+      const body = m ? m[0] : "";
+      const riskAt = body.indexOf('riskLine(s, "lc-why lc-risk")');
+      const foldAt = body.indexOf('<details class="fold-block card-fold lc-why-fold">');
+      if (foldAt < 0) fail("mobile list cards: 入選理由 should be a collapsed <details> (lc-why-fold)");
+      else if (riskAt < 0 || riskAt > foldAt) fail("mobile list cards: 風險 line must stay visible above the folded 入選理由");
+      else if (/lc-why-fold" open/.test(body)) fail("mobile list cards: 入選理由 fold should start closed");
+      else ok("mobile list cards: 入選理由 folded, 風險 stays visible");
+    }
     if (!sample.includes("2026-10-08 08:12（台北）") || !sample.includes("台股為 2026-10-07 收盤") || !sample.includes("美股為 2026-10-07 收盤")) fail(`buildTimezoneNote wrong: ${sample}`);
     const tzNote = String(latest.timezoneNote || "");
     const asOfTpe = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" }).format(new Date(latest.asOf));

@@ -4084,3 +4084,20 @@ a.macro-chip:focus-visible { box-shadow: none; border-color: var(--accent); }
   font-variant-numeric: tabular-nums;
 }
 .table-wrap--picks:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* 2026-11-13 site check: mobile 清單 cards fold their 入選理由 bullets (the first lines just
+   repeat the metric row above), keeping the 風險 line visible. Cuts each card by ~half. */
+.list-card .lc-why-fold { margin-top: 0.15rem; }
+.list-card .lc-why-fold > summary { min-height: 44px; }
+.list-card .lc-why-fold .lc-why { padding-bottom: 0.5rem; }
+.lc-why-count {
+  margin-left: 0.4rem;
+  min-width: 1.25rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-size: var(--fs-2xs);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}

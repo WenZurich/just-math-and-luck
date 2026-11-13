@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-12T10:20:00+08:00",
+    "updated": "2026-11-13T10:25:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -12052,6 +12052,167 @@
         "earnings-prediction",
         "foundation-models",
         "look-ahead-bias",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-hidden-sharpe-ratio-max-sr-bounds-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "market_analysis",
+      "title": "The Hidden Sharpe Ratio",
+      "titleLocalized": {
+        "en": "How High Could the Best Possible Sharpe Ratio Be?",
+        "zh-Hant": "市場裡「最好可能的夏普值」到底有多高？",
+        "zh-Hans": "市场里“最好可能的夏普值”到底有多高？",
+        "ja": "市場で達成しうる最大シャープレシオはどこまで高いか"
+      },
+      "authors": [
+        "Mikhail Chernov",
+        "Bryan T. Kelly",
+        "Semyon Malamud",
+        "Johannes Schwab"
+      ],
+      "year": 2026,
+      "summary": "An NBER working paper that estimates the highest Sharpe ratio available in a large cross-section of assets without first building the optimal portfolio. Because covariance matrices of many stocks must be shrunk (regularized), the usual ridge-style Markowitz portfolios throw away the small-eigenvalue directions; the authors recover that lost part step by step and give upper and lower bounds with confidence intervals. For US stocks they estimate a maximum annual Sharpe of about 7.4 (about 5.0 without micro-caps), well above the 1-4 achieved by published portfolios; corporate bonds add little; nonlinear weights beat linear ones; characteristics introduced after 2004 add little. For this site: a ceiling and diagnostic for any factor/screener backtest, not a tradable signal — the gap is theoretical and mostly not reachable by a small cash account.",
+      "summaryLocalized": {
+        "en": "Estimates the maximum attainable Sharpe ratio in US stocks directly (~7.4; ~5.0 ex micro-caps) with confidence bounds, and shows ridge-shrunk Markowitz portfolios fall short by a fixed factor. Nonlinear weights beat linear; post-2004 characteristics add little. Site use: watch — benchmark/ceiling for backtests, not a signal.",
+        "zh-Hant": "這篇 NBER 工作論文不先組出最佳投資組合，而是直接估算一大群資產「最高能達到的夏普值」。股票一多，共變異數矩陣必須做收縮，常見的嶺迴歸式 Markowitz 組合會把小特徵值方向的貢獻丟掉；作者把這部分逐步找回，並給出上下界與信賴區間。美股估計的年化最大夏普值約 7.4（排除微型股約 5.0），遠高於現有組合的 1～4；加入公司債提升不顯著；非線性權重勝過線性權重；2004 年後才提出的因子幾乎沒有增加夏普。對本站：可當選股回測的「天花板」與檢查工具，不是交易訊號；這個差距多半是理論上的，小額現金帳戶很難實際拿到。",
+        "zh-Hans": "这篇 NBER 工作论文不先组出最佳投资组合，而是直接估算一大群资产“最高能达到的夏普值”。股票一多，协方差矩阵必须做收缩，常见的岭回归式 Markowitz 组合会把小特征值方向的贡献丢掉；作者把这部分逐步找回，并给出上下界与置信区间。美股估计的年化最大夏普值约 7.4（排除微型股约 5.0），远高于现有组合的 1～4；加入公司债提升不显著；非线性权重胜过线性权重；2004 年后才提出的因子几乎没有增加夏普。对本站：可当选股回测的“天花板”与检查工具，不是交易信号；这个差距多半是理论上的，小额现金账户很难实际拿到。",
+        "ja": "最適ポートフォリオを作らずに、大規模な資産群で達成可能な最大シャープレシオを直接推定し信頼区間付きの上下限を示す。米国株で年率約7.4（マイクロ株除外で約5.0）、既存ポートフォリオの1〜4を大きく上回る。リッジ型Markowitzは一定倍率で届かない。非線形ウェイトが優位、2004年以降の特性はほぼ寄与なし。本サイトはウォッチ：バックテストの上限・診断用で、売買シグナルではない。"
+      },
+      "plainTakeaways": [
+        "直接估「最好能多好」，不用先組最佳組合",
+        "美股理論最大夏普約 7.4，排除微型股約 5",
+        "常見的收縮式組合會固定少拿一截",
+        "本站觀察：回測天花板工具，不是買賣訊號"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "Estimates 'how good it could get' without building the portfolio",
+          "US max Sharpe ~7.4, ~5 ex micro-caps",
+          "Ridge-shrunk portfolios miss by a fixed factor",
+          "Site use: watch — backtest ceiling, not a trade signal"
+        ],
+        "zh-Hant": [
+          "直接估「最好能多好」，不用先組最佳組合",
+          "美股理論最大夏普約 7.4，排除微型股約 5",
+          "常見的收縮式組合會固定少拿一截",
+          "本站觀察：回測天花板工具，不是買賣訊號"
+        ],
+        "zh-Hans": [
+          "直接估“最好能多好”，不用先组最佳组合",
+          "美股理论最大夏普约 7.4，排除微型股约 5",
+          "常见的收缩式组合会固定少拿一截",
+          "本站观察：回测天花板工具，不是买卖信号"
+        ],
+        "ja": [
+          "最適ポートフォリオを作らず「上限」を直接推定",
+          "米国株の最大シャープ約7.4、マイクロ株除外で約5",
+          "リッジ型ポートフォリオは一定割合届かない",
+          "本サイトはウォッチ：バックテストの上限指標、シグナルではない"
+        ]
+      },
+      "formulas": [
+        "max squared Sharpe: SR*² = μ' Σ⁻¹ μ (μ = mean excess returns, Σ = covariance)",
+        "ridge portfolio: w(z) = (Σ̂ + zI)⁻¹ μ̂ — shrinkage z suppresses small-eigenvalue directions; paper shows OOS SR(w(z)) < SR* by a non-vanishing multiplicative factor",
+        "diagnostic for this site: report realized screener-book Sharpe vs a ridge-Markowitz benchmark on the same universe and window; a book Sharpe far above any benchmark is a red flag for look-ahead or overfitting",
+        "site use: watch only — must pass math gate before any screener use"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only; no screener or radar math change. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://www.nber.org/papers/w35988"
+      ],
+      "tags": [
+        "us",
+        "portfolio-construction",
+        "sharpe-ratio",
+        "covariance-shrinkage",
+        "factor-zoo",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-risk-and-return-government-bonds-beta-2026",
+      "market": "US",
+      "type": "paper",
+      "shelf": "econ_analysis",
+      "title": "Risk and Return in Government Bonds",
+      "titleLocalized": {
+        "en": "Treasury Risk Premia Move With Bonds' Stock-Market Beta",
+        "zh-Hant": "美債該給多少報酬，跟它和股市的連動度有關",
+        "zh-Hans": "美债该给多少报酬，跟它和股市的联动度有关",
+        "ja": "国債のリスクプレミアムは株式とのベータで動く"
+      },
+      "authors": [
+        "Matteo Leombroni",
+        "Carolin Pflueger",
+        "Adi Sunderam"
+      ],
+      "year": 2026,
+      "summary": "An NBER working paper asking whether investors demand more return from government bonds when the bonds are riskier. Using market yields plus professional yield forecasts to measure expected excess returns on US Treasuries (monthly, by maturity, 1988-2024), the authors find a 67% correlation with the bonds' beta to the stock market, driven mainly by market yields rather than forecasts. The link to realized returns is weak alone but becomes large and significant after controlling for monetary-policy and macro forecast surprises; other developed markets look similar. They attribute more than half of the long fall in US long yields since the mid-1980s, and of their rise since 2020, to changing bond risk. For this site: macro context for when stocks and bonds fall together (positive bond-stock beta, as with today's ~5% 10-year yields), not a stock-picking signal.",
+      "summaryLocalized": {
+        "en": "Expected excess returns on US Treasuries (1988-2024) track bonds' stock-market beta (correlation 67%); realized link appears once policy/macro surprises are controlled. Changing bond risk explains over half of the long-yield decline since the 1980s and the rise since 2020. Site use: watch — macro regime context, not a stock signal.",
+        "zh-Hant": "這篇 NBER 工作論文問：債券風險變大時，投資人是不是要求更高報酬？作者用市場殖利率加上專業機構的殖利率預測，估算美國公債（1988～2024 年，按月、按年期）的預期超額報酬，發現它和「公債對股市的 beta」相關係數達 67%，主要來自市場殖利率本身而不是預測。只看實際報酬時關係很弱，但扣掉貨幣政策和總經預測的意外後就變得大而顯著；其他已開發國家結果類似。作者認為 1980 年代中期以來長天期殖利率的下降、以及 2020 年以來的上升，超過一半是公債風險改變造成的。對本站：解釋「股債同跌」時期（公債與股市正相關，例如現在 10 年期殖利率約 5%）的總經背景，不是選股訊號。",
+        "zh-Hans": "这篇 NBER 工作论文问：债券风险变大时，投资人是不是要求更高报酬？作者用市场收益率加上专业机构的收益率预测，估算美国国债（1988～2024 年，按月、按期限）的预期超额报酬，发现它和“国债对股市的 beta”相关系数达 67%，主要来自市场收益率本身而不是预测。只看实际报酬时关系很弱，但扣掉货币政策和宏观预测的意外后就变得大而显著；其他发达国家结果类似。作者认为 1980 年代中期以来长期收益率的下降、以及 2020 年以来的上升，超过一半是国债风险改变造成的。对本站：解释“股债同跌”时期（国债与股市正相关，例如现在 10 年期收益率约 5%）的宏观背景，不是选股信号。",
+        "ja": "米国債（1988〜2024年、月次・年限別）の期待超過リターンは株式市場ベータと相関67%。実現リターンとの関係は政策・マクロ予測誤差を制御すると大きく有意。1980年代半ば以降の長期金利低下と2020年以降の上昇の半分超を債券リスクの変化で説明。本サイトはウォッチ：株債同時安局面のマクロ背景で、銘柄選択シグナルではない。"
+      },
+      "plainTakeaways": [
+        "公債越像股票（跟股市同漲同跌），投資人要的報酬越高",
+        "預期超額報酬和股債 beta 相關 67%",
+        "2020 年以來殖利率上升，一半以上來自公債變得更有風險",
+        "本站觀察：股債同跌時的總經背景，不是買賣訊號"
+      ],
+      "plainTakeawaysLocalized": {
+        "en": [
+          "The more bonds move with stocks, the more return investors demand",
+          "Expected excess return vs bond-stock beta: 67% correlation",
+          "Over half of the post-2020 yield rise is from higher bond risk",
+          "Site use: watch — macro context, not a trade signal"
+        ],
+        "zh-Hant": [
+          "公債越像股票（跟股市同漲同跌），投資人要的報酬越高",
+          "預期超額報酬和股債 beta 相關 67%",
+          "2020 年以來殖利率上升，一半以上來自公債變得更有風險",
+          "本站觀察：股債同跌時的總經背景，不是買賣訊號"
+        ],
+        "zh-Hans": [
+          "国债越像股票（跟股市同涨同跌），投资人要的报酬越高",
+          "预期超额报酬和股债 beta 相关 67%",
+          "2020 年以来收益率上升，一半以上来自国债变得更有风险",
+          "本站观察：股债同跌时的宏观背景，不是买卖信号"
+        ],
+        "ja": [
+          "債券が株と連動するほど要求リターンは高い",
+          "期待超過リターンと株債ベータの相関は67%",
+          "2020年以降の利回り上昇の半分超は債券リスク増加",
+          "本サイトはウォッチ：マクロ背景、売買シグナルではない"
+        ]
+      },
+      "formulas": [
+        "bond-stock beta: β_bond,t = Cov_t(r_bond, r_mkt) / Var_t(r_mkt), rolling window (e.g. 60 trading days of 10Y Treasury futures/ETF vs S&P 500)",
+        "expected excess return: E_t[rx_{t+h}^{(n)}] ≈ y_t^{(n)} − (n−h)/h · (E_t^{SPF}[y_{t+h}^{(n−h)}] − y_t^{(n)}) − y_t^{(h)} (yield + survey forecast)",
+        "regression: E_t[rx] = a + b·β_bond,t + ε; realized rx = a + b·β_bond,t + c·(policy/macro forecast errors) + ε",
+        "site use: watch only — possible regime flag (β_bond>0 ⇒ stocks and bonds fall together), must pass math gate before any screener use"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — watch only; no screener or radar math change. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://www.nber.org/papers/w35973"
+      ],
+      "tags": [
+        "us",
+        "treasuries",
+        "bond-stock-correlation",
+        "risk-premia",
+        "macro-regime",
         "watch"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",

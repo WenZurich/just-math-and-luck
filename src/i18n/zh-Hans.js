@@ -748,6 +748,7 @@ export default {
   ma: "均线",
   screening: "筛选",
   reason: "理由",
+  whyPicked: "入选理由",
   details: "详情",
   business: "本业",
   risk: "风险",

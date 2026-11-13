@@ -847,6 +847,7 @@ const zhHant = {
   ma: "均線",
   screening: "篩選",
   reason: "理由",
+  whyPicked: "入選理由",
   details: "詳情",
   business: "本業",
   risk: "風險",

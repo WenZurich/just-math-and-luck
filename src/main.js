@@ -15,7 +15,7 @@ import {
   loadPaperPortfolio,
 } from "./paper.js";
 import { initPaperDerivatives } from "./paper-derivatives.js";
-import { whyListHtml, riskPoints } from "./why-plain.js";
+import { whyListHtml, whyPoints, riskPoints } from "./why-plain.js";
 import "./strategies.css";
 import {
   renderStrategiesSection,
@@ -405,8 +405,8 @@ function mobileCards(list) {
           <span>${term("volRatio", t("volRatio"))} ${s.volRatio != null ? fmtNum(s.volRatio, 2) + "×" : "—"}</span>
         </div>
         <div class="flags" style="margin-bottom:0.4rem">${smaBadges(s)}${screenBadges(s.screens)}</div>
-        ${s.why ? `<div class="lc-why">${whyListHtml(s.why, escapeHtml)}</div>` : ""}
         ${riskLine(s, "lc-why lc-risk")}
+        ${s.why ? `<details class="fold-block card-fold lc-why-fold"><summary>${escapeHtml(t("whyPicked"))}<span class="lc-why-count">${whyPoints(s.why).length}</span></summary><div class="lc-why">${whyListHtml(s.why, escapeHtml)}</div></details>` : ""}
       </div>`;
     })
     .join("");

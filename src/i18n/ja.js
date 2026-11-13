@@ -748,6 +748,7 @@ export default {
   ma: "移動平均",
   screening: "スクリーニング",
   reason: "理由",
+  whyPicked: "選ばれた理由",
   details: "詳細",
   business: "事業",
   risk: "リスク",

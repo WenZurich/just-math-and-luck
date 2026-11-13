@@ -767,6 +767,7 @@ export default {
   ma: "MAs",
   screening: "Screen",
   reason: "Why",
+  whyPicked: "Why it was picked",
   details: "Details",
   business: "Business",
   risk: "Risk",
