@@ -1,17 +1,17 @@
 {
-  "asOf": "2026-11-12T00:17:23.544Z",
+  "asOf": "2026-11-13T00:08:22.038Z",
   "market": "US",
   "timezone": "America/New_York",
   "timezoneLabel": "US ET",
   "window": {
-    "from": "2026-11-11",
-    "to": "2026-12-16"
+    "from": "2026-11-12",
+    "to": "2026-12-17"
   },
   "source": {
     "name": "XOOMAR",
     "url": "https://xoomar.com/api/markets/calendar",
     "docs": "https://xoomar.com/markets/api/calendar",
-    "remoteUpdatedAt": "2026-11-06T17:30:04.152Z",
+    "remoteUpdatedAt": "2026-11-12T21:30:04.522Z",
     "attribution": "Credit XOOMAR with a link to the dataset page on xoomar.com when you republish this data",
     "license": "https://xoomar.com/terms"
   },
@@ -29,9 +29,9 @@
       "periodLabel": "Week ending 2026-11-07",
       "source": "dol",
       "officialUrl": "https://www.dol.gov/ui/data.pdf",
-      "actual": null,
-      "previous": null,
-      "unit": null
+      "actual": "200.0000",
+      "previous": "191.0000",
+      "unit": "thousands, week ending Saturday"
     },
     {
       "id": "ppi-2026-11-13T13:30:00.000Z",
@@ -253,6 +253,22 @@
       "periodLabel": "November 2026",
       "source": "census",
       "officialUrl": "https://www.census.gov/retail/index.html",
+      "actual": null,
+      "previous": null,
+      "unit": null
+    },
+    {
+      "id": "joblessClaims-2026-12-17T13:30:00.000Z",
+      "eventKey": "joblessClaims",
+      "eventName": "Initial Jobless Claims",
+      "shortName": "Jobless Claims",
+      "importance": "high",
+      "highImpact": true,
+      "scheduledAt": "2026-12-17T13:30:00.000Z",
+      "dayEt": "2026-12-17",
+      "periodLabel": "Week ending 2026-12-12",
+      "source": "dol",
+      "officialUrl": "https://www.dol.gov/ui/data.pdf",
       "actual": null,
       "previous": null,
       "unit": null

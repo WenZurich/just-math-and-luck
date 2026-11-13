@@ -1,0 +1,101 @@
+{
+  "sessionSource": {
+    "TW": "加權指數收盤先比 Yahoo ^TWII；Yahoo 該日 close 為空時改用證交所 MI_5MINS_HIST 官方收盤"
+  },
+  "scanAsOf": "2026-11-13T00:07:31Z",
+  "date": "2026-11-13",
+  "sessions": {
+    "US": "2026-11-12",
+    "TW": "2026-11-12"
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "ISRG",
+      "name": "Intuitive Surgical",
+      "market": "US",
+      "session": "2026-11-12",
+      "price": 439.89,
+      "dayPct": -2.14,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ASML",
+      "name": "ASML",
+      "market": "US",
+      "session": "2026-11-12",
+      "price": 1497.12,
+      "dayPct": -2.43,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "SNOW",
+      "name": "Snowflake",
+      "market": "US",
+      "session": "2026-11-12",
+      "price": 298.7,
+      "dayPct": -0.84,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "OKTA",
+      "name": "Okta",
+      "market": "US",
+      "session": "2026-11-12",
+      "price": 182.54,
+      "dayPct": 0.16,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ARM",
+      "name": "Arm Holdings",
+      "market": "US",
+      "session": "2026-11-12",
+      "price": 199.78,
+      "dayPct": -1.76,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro",
+      "market": "US",
+      "session": "2026-11-12",
+      "price": 26.99,
+      "dayPct": -11.3,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "3231.TW",
+      "name": "緯創",
+      "market": "TW",
+      "session": "2026-11-12",
+      "price": 170,
+      "dayPct": -2.58,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "3035.TW",
+      "name": "智原",
+      "market": "TW",
+      "session": "2026-11-12",
+      "price": 178.5,
+      "dayPct": -2.99,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": [
+    {
+      "ticker": "ROKU",
+      "market": "US",
+      "why": "Yahoo 日線沒有 2026-11-12 收盤"
+    }
+  ]
+}
