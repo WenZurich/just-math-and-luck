@@ -1875,6 +1875,22 @@ async function main() {
       if (!(typeof c0.premium === "number") || c0.premium < 0) fail(`bad premium on ${row.ticker}`);
     }
     ok("paperChain premiums non-negative sample");
+    const derivSettleSrc = fs.readFileSync(path.join(ROOT, "src/paper-derivatives-settle.js"), "utf8");
+    const derivSettleScript = fs.readFileSync(path.join(ROOT, "scripts/paper-settle-derivatives.mjs"), "utf8");
+    const pkgJson = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8"));
+    if (!/settleExpiredDerivatives/.test(derivSettleSrc) || !/missing-official-close/.test(derivSettleSrc)) {
+      fail("paper-derivatives-settle.js must auto-settle only with official prices");
+    } else ok("paper-derivatives settle engine present");
+    if (!/paper-settle-derivatives\.mjs/.test(pkgJson.scripts?.paper || "")) {
+      fail("npm run paper must run paper-settle-derivatives.mjs before paper-trade");
+    } else ok("npm run paper hooks expired-derivative auto-settle");
+    if (!/settleExpiredDerivatives/.test(derivSettleScript) || !/taifex\.com\.tw\/cht\/5\/futIndxFSP/.test(derivSettleScript)) {
+      fail("paper-settle-derivatives.mjs must use official TAIFEX FSP URL");
+    } else ok("settle runner cites official TAIFEX FSP");
+    const loadServerSrc = fs.readFileSync(path.join(ROOT, "src/paper-derivatives.js"), "utf8");
+    if (/if \(!usOk \|\| !twOk\) return null/.test(loadServerSrc)) {
+      fail("loadServerBook must still load after expired positions are settled (trades remain)");
+    } else ok("loadServerBook accepts a settled (flat) server book");
     const derivBookPath = path.join(ROOT, "public/data/paper-derivatives.json");
     if (!fs.existsSync(derivBookPath)) fail("missing public/data/paper-derivatives.json");
     else {
@@ -1883,47 +1899,87 @@ async function main() {
       else ok("paper-derivatives.json v1 separate books");
       if (book.screenerMathGate !== "closed") fail("paper-derivatives.json must keep screener math gate closed");
       else ok("paper-derivatives.json screener gate closed");
-      const usPos = book.US?.positions || [];
-      const twPos = book.TW?.positions || [];
-      const usFill = usPos.find((p) => p.asset === "option" && p.qtySigned);
-      const twFill = twPos.find((p) => p.asset === "futures" && (p.code === "TX" || p.code === "MTX") && p.qtySigned);
-      if (!usFill) fail("paper-derivatives.json needs a US option fill");
-      else ok(`paper US option fill ${usFill.underlying} ${usFill.right} ${usFill.strike} x${usFill.qtySigned} @ ${usFill.avgPremium}`);
-      if (!twFill) fail("paper-derivatives.json needs a TW futures fill");
-      else ok(`paper TW futures fill ${twFill.code} ${twFill.month} x${twFill.qtySigned} @ ${twFill.avgPrice}`);
-      if (usFill && twFill) {
-        const debit = usFill.avgPremium * 100 * usFill.qtySigned;
-        if (!(usFill.qtySigned > 0) || book.US?.cashAdj !== -debit) {
-          fail("US paper option cash debit must equal premium×100×qty");
-        } else ok(`US option debit US$${debit}`);
-        // Fills are verified against the source snapshot that existed at fill time
-        // (current file first, then committed history), so a held position stays
-        // checkable after the daily refresh rotates prices/tickers.
+      const usTrades = book.US?.trades || [];
+      const twTrades = book.TW?.trades || [];
+      const usOpen = usTrades.find((t) => t.asset === "option" && String(t.side).toUpperCase() === "BUY" && t.reason === "server-open");
+      const twOpen = twTrades.find((t) => t.asset === "futures" && String(t.side).toUpperCase() === "BUY" && t.reason === "server-open");
+      if (!usOpen) fail("paper-derivatives.json needs a US option opening fill (trade)");
+      else ok(`paper US option open ${usOpen.underlying} ${usOpen.right} ${usOpen.strike} x${usOpen.qty} @ ${usOpen.premium}`);
+      if (!twOpen) fail("paper-derivatives.json needs a TW futures opening fill (trade)");
+      else ok(`paper TW futures open ${twOpen.code} ${twOpen.month} x${twOpen.qty} @ ${twOpen.price}`);
+      if (usOpen && twOpen) {
+        const debit = usOpen.premium * 100 * usOpen.qty;
+        const usSettle = usTrades.find((t) => t.reason === "expiry-settle" && t.underlying === usOpen.underlying && t.expiry === usOpen.expiry && Number(t.strike) === Number(usOpen.strike));
+        const twSettle = twTrades.find((t) => t.reason === "expiry-settle" && t.code === twOpen.code && t.month === twOpen.month);
+        const usStillOpen = (book.US?.positions || []).some((p) => p.asset === "option" && p.underlying === usOpen.underlying && p.expiry === usOpen.expiry && Number(p.strike) === Number(usOpen.strike) && p.qtySigned);
+        const twStillOpen = (book.TW?.positions || []).some((p) => p.asset === "futures" && p.code === twOpen.code && p.month === twOpen.month && p.qtySigned);
+        // Opening fills are verified against the source snapshot that existed at fill time
+        // (current file first, then committed history).
         const twMonthRow = (j) => {
-          const sp = j?.contracts?.[twFill.code];
-          return (sp?.near?.month === twFill.month && sp.near) || (sp?.next?.month === twFill.month && sp.next) || null;
+          const sp = j?.contracts?.[twOpen.code];
+          return (sp?.near?.month === twOpen.month && sp.near) || (sp?.next?.month === twOpen.month && sp.next) || null;
         };
         const txfAtFill = findSourceAtFill("public/data/txf-desk.json", (j) =>
-          j?.sessionDate === twFill.sessionDate && twMonthRow(j) != null);
-        const spec = (txfAtFill || JSON.parse(fs.readFileSync(txfPath, "utf8"))).contracts?.[twFill.code];
+          j?.sessionDate === twOpen.sessionDate && twMonthRow(j) != null);
+        const spec = (txfAtFill || JSON.parse(fs.readFileSync(txfPath, "utf8"))).contracts?.[twOpen.code];
         const monthRow = txfAtFill ? twMonthRow(txfAtFill) : null;
-        if (!monthRow || monthRow.last !== twFill.avgPrice) {
+        if (!monthRow || monthRow.last !== twOpen.price) {
           fail("TW futures fill price must equal txf-desk last for that month (fill-session snapshot)");
-        } else ok(`TW ${twFill.code} fill matches desk last ${monthRow.last} (session ${twFill.sessionDate})`);
-        const hold = spec.margin.initial * Math.abs(twFill.qtySigned);
-        if (book.TW?.marginHold !== hold) fail(`TW margin hold ${book.TW?.marginHold} != official initial×qty ${hold}`);
-        else ok(`TW margin hold ${hold}`);
+        } else ok(`TW ${twOpen.code} fill matches desk last ${monthRow.last} (session ${twOpen.sessionDate})`);
+        const hold = spec.margin.initial * Math.abs(twOpen.qty);
         const optAtFill = findSourceAtFill("public/data/us-options-snapshot.json", (j) =>
-          j?.asOf === usFill.openedAsOf);
-        if (!optAtFill) fail(`US option fill: no us-options snapshot with asOf ${usFill.openedAsOf} (current or git history)`);
-        const nv = (optAtFill?.tickers || []).find((r) => r.ticker === usFill.underlying);
+          j?.asOf === usOpen.asOf);
+        if (!optAtFill) fail(`US option fill: no us-options snapshot with asOf ${usOpen.asOf} (current or git history)`);
+        const nv = (optAtFill?.tickers || []).find((r) => r.ticker === usOpen.underlying);
         const chain = nv?.options?.paperChain;
-        const list = (usFill.right === "put" ? chain?.puts : chain?.calls) || [];
-        const hit = list.find((c) => c.strike === usFill.strike);
-        if (!hit || hit.premium !== usFill.avgPremium) fail("US option fill premium must equal paperChain (fill-time snapshot)");
-        else ok(`US option fill matches paperChain premium ${hit.premium} (snapshot ${usFill.openedAsOf})`);
-        if (!chain?.expiration || usFill.expiry !== chain.expiration) fail("US option expiry must match paperChain");
+        const list = (usOpen.right === "put" ? chain?.puts : chain?.calls) || [];
+        const hit = list.find((c) => c.strike === usOpen.strike);
+        if (!hit || hit.premium !== usOpen.premium) fail("US option fill premium must equal paperChain (fill-time snapshot)");
+        else ok(`US option fill matches paperChain premium ${hit.premium} (snapshot ${usOpen.asOf})`);
+        if (!chain?.expiration || usOpen.expiry !== chain.expiration) fail("US option expiry must match paperChain");
         else ok("US option expiry matches paperChain");
+
+        // Past-expiry contracts must be settled at official close / FSP, not left open.
+        const todayTp = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Taipei" });
+        if (usOpen.expiry && todayTp > usOpen.expiry) {
+          if (usStillOpen || !usSettle) fail("expired US option must be settled at official close (not left open)");
+          else {
+            if (usOpen.underlying === "NVDA" && usOpen.expiry === "2026-10-30" && Number(usOpen.strike) === 270) {
+              if (usSettle.officialClose !== 204.64) fail(`NVDA 10/30 official close must be 204.64 (got ${usSettle.officialClose})`);
+              else if (usSettle.officialClose < usOpen.strike && usSettle.realizedPnl !== -debit) {
+                fail(`OTM expiry realized P&L must equal −premium×100×qty (${-debit}), got ${usSettle.realizedPnl}`);
+              } else if (book.US?.cashAdj !== -debit + (usSettle.cashDelta || 0)) {
+                fail(`US cashAdj after OTM expiry should stay at −debit (${-debit}), got ${book.US?.cashAdj}`);
+              } else ok(`US NVDA 270C expired OTM @ official close ${usSettle.officialClose}, realized US$${usSettle.realizedPnl}`);
+            } else ok(`US option expiry-settle ${usOpen.underlying} ${usOpen.expiry} @ ${usSettle.officialClose}`);
+          }
+        } else if (usStillOpen) {
+          if (!(usOpen.qty > 0) || book.US?.cashAdj !== -debit) fail("US paper option cash debit must equal premium×100×qty");
+          else ok(`US option debit US$${debit}`);
+        }
+
+        if (twOpen.month === "202610" || (todayTp > "2026-10-21" && twOpen.month && twOpen.month <= "202610")) {
+          // 202610 last trading day 2026-10-21; must be settled at official FSP 46650
+          if (twStillOpen || !twSettle) fail("expired TW 202610 futures must be settled at official TAIFEX FSP (not left open)");
+          else {
+            const expectedPnl = (46650 - twOpen.price) * 200 * twOpen.qty; // TX long: (FSP − entry) × 200 × qty
+            if (twSettle.officialSettlement !== 46650 && twSettle.price !== 46650) {
+              fail(`TX 202610 official FSP must be 46650 (got ${twSettle.officialSettlement ?? twSettle.price})`);
+            } else if (twSettle.realizedPnl !== expectedPnl) {
+              fail(`TX 202610 realized P&L must be ${expectedPnl} (got ${twSettle.realizedPnl})`);
+            } else if (book.TW?.marginHold !== 0) {
+              fail(`TW margin must be released after expiry (got ${book.TW?.marginHold})`);
+            } else if (book.TW?.cashAdj !== expectedPnl || book.TW?.realizedPnl !== expectedPnl) {
+              fail(`TW cashAdj/realized after 202610 settle must be ${expectedPnl} (got ${book.TW?.cashAdj}/${book.TW?.realizedPnl})`);
+            } else ok(`TW ${twOpen.code} 202610 settled at official FSP 46650, realized NT$${expectedPnl}, margin released`);
+          }
+        } else if (twStillOpen) {
+          if (book.TW?.marginHold !== hold) fail(`TW margin hold ${book.TW?.marginHold} != official initial×qty ${hold}`);
+          else ok(`TW margin hold ${hold}`);
+        } else if (twSettle) {
+          if (book.TW?.marginHold !== 0) fail(`TW margin must be 0 after expiry settle (got ${book.TW?.marginHold})`);
+          else ok(`TW futures expiry-settle ${twOpen.code} ${twOpen.month} @ ${twSettle.officialSettlement ?? twSettle.price}`);
+        }
       }
     }
   }

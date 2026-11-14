@@ -52,6 +52,9 @@ import {
   optionPositionMarkValue,
   optionUnrealizedPnl,
   optionExpirySettlement,
+  optionExpiryRealizedPnl,
+  canSettleExpiredContract,
+  isYmd,
   txfMultiplier,
   futuresPnlTwd,
   futuresMarkPnlTwd,
@@ -66,6 +69,7 @@ import {
   resolveTradeRealizedPnl,
   sumSellRealizedPnl,
 } from "../src/paper-derivatives-math.js";
+import { settleExpiredDerivatives } from "../src/paper-derivatives-settle.js";
 import { readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -568,6 +572,125 @@ assert(futuresMarginHold({ contracts: 1, initialMarginPerContract: -1 }) === nul
   assert(okBuy.ok, "can buy option with cash");
   const no = canBuyOption({ freeCash: 100, premium: 2.5, contracts: 2 });
   assert(!no.ok, "block option buy when cash < debit");
+}
+
+assert(isYmd("2026-10-30") && !isYmd("20261030") && !isYmd("2026-10-30T00:00:00Z"), "isYmd only accepts YYYY-MM-DD");
+
+{
+  const early = canSettleExpiredContract("2026-10-30", "2026-10-29", { officialPrice: 204.64 });
+  assert(early.ok && !early.due, "must not settle an option before expiry");
+  const dueMissing = canSettleExpiredContract("2026-10-30", "2026-11-14", {});
+  assert(dueMissing.ok && dueMissing.due && dueMissing.missingOfficialPrice, "due but no official close → do not invent");
+  const dueOk = canSettleExpiredContract("2026-10-30", "2026-10-30", { officialPrice: 204.64 });
+  assert(dueOk.ok && dueOk.due && !dueOk.missingOfficialPrice, "expiry day with official close may settle");
+  const futZero = canSettleExpiredContract("2026-10-21", "2026-11-14", { officialPrice: 0, requirePositivePrice: true });
+  assert(futZero.ok && futZero.due && futZero.missingOfficialPrice, "futures settlement 0 is not official");
+  const badDate = canSettleExpiredContract("20261021", "2026-11-14", { officialPrice: 46650 });
+  assert(!badDate.ok, "reject non-YMD dates");
+}
+
+{
+  // This book's NVDA 270 call, official 10/30 close 204.64 → OTM, cash 0, loss = premium paid
+  const otm = optionExpiryRealizedPnl({
+    qtySigned: 1,
+    avgPremium: 0.35,
+    officialClose: 204.64,
+    strike: 270,
+    right: "call",
+  });
+  assert(otm.ok && approx(otm.intrinsic, 0) && approx(otm.settlePremium, 0) && approx(otm.cashDelta, 0) && approx(otm.realizedPnl, -35),
+    `NVDA 270C OTM @204.64 realized −35 (got cash ${otm.cashDelta} pnl ${otm.realizedPnl})`);
+  // ITM cash-settled call: (280−270)×100 = +1000 cash; vs 0.35 premium → realized 965
+  const itm = optionExpiryRealizedPnl({ qtySigned: 1, avgPremium: 0.35, officialClose: 280, strike: 270, right: "call" });
+  assert(itm.ok && approx(itm.intrinsic, 10) && approx(itm.cashDelta, 1000) && approx(itm.realizedPnl, 965),
+    `ITM call cash 1000 realized 965 (got cash ${itm.cashDelta} pnl ${itm.realizedPnl})`);
+  const shortOtmPut = optionExpiryRealizedPnl({ qtySigned: -1, avgPremium: 2, officialClose: 110, strike: 100, right: "put" });
+  assert(shortOtmPut.ok && approx(shortOtmPut.cashDelta, 0) && approx(shortOtmPut.realizedPnl, 200),
+    "short OTM put keeps premium as realized profit");
+  const shortItmCall = optionExpiryRealizedPnl({ qtySigned: -1, avgPremium: 1, officialClose: 110, strike: 100, right: "call" });
+  assert(shortItmCall.ok && approx(shortItmCall.cashDelta, -1000) && approx(shortItmCall.realizedPnl, -900),
+    "short ITM call pays intrinsic; realized = intrinsic loss minus premium");
+  assert(!optionExpiryRealizedPnl({ qtySigned: 1, avgPremium: -0.1, officialClose: 100, strike: 90, right: "call" }).ok, "reject negative avgPremium");
+}
+
+{
+  // TX 202610 long 1 @ 48671, official FSP 46650, multiplier 200 → (46650−48671)×200 = −404,200
+  const pnl = futuresMarkPnlTwd({ entryPrice: 48671, markPrice: 46650, code: "TX", contractsSigned: 1 });
+  assert(approx(pnl, -404200), `TX 202610 official FSP P&L −404200 (got ${pnl})`);
+  const hold = futuresMarginHold({ contracts: 1, initialMarginPerContract: 701000 });
+  assert(hold === 701000, "release initial margin 701000");
+}
+
+{
+  const book = {
+    version: 1,
+    booksSeparate: true,
+    screenerMathGate: "closed",
+    US: {
+      cashAdj: -35,
+      marginHold: 0,
+      realizedPnl: 0,
+      positions: [{
+        asset: "option", origin: "server", underlying: "NVDA", right: "call",
+        expiry: "2026-10-30", strike: 270, qtySigned: 1, avgPremium: 0.35, multiplier: 100,
+      }],
+      trades: [],
+    },
+    TW: {
+      cashAdj: 0,
+      marginHold: 701000,
+      realizedPnl: 0,
+      positions: [{
+        asset: "futures", origin: "server", code: "TX", month: "202610", qtySigned: 1,
+        avgPrice: 48671, multiplier: 200, initialMarginPerContract: 701000, lastTradingDay: "2026-10-21",
+      }],
+      trades: [],
+    },
+  };
+  const tooEarly = settleExpiredDerivatives(book, { asOfYmd: "2026-10-20" });
+  assert(tooEarly.ok && tooEarly.settled.length === 0 && tooEarly.book.TW.positions.length === 1 && tooEarly.book.US.positions.length === 1,
+    "engine must not settle before expiry / last trading day");
+
+  const noPx = settleExpiredDerivatives(book, { asOfYmd: "2026-11-14", options: [], futures: [] });
+  assert(noPx.ok && noPx.settled.length === 0, "engine must not invent official prices");
+  assert(noPx.skipped.some((s) => s.reason === "missing-official-close"), "flag missing option close");
+  assert(noPx.skipped.some((s) => s.reason === "missing-official-settlement"), "flag missing futures FSP");
+  assert(noPx.book.TW.marginHold === 701000 && noPx.book.US.cashAdj === -35, "book unchanged without official prices");
+
+  const quotes = {
+    asOfYmd: "2026-11-14",
+    asOfIso: "2026-11-14T11:00:00+08:00",
+    options: [{ underlying: "NVDA", expiry: "2026-10-30", officialClose: 204.64, sourceUrl: "https://investor.nvidia.com/stock-info/stock-quote-and-chart/" }],
+    futures: [{ code: "TX", month: "202610", officialSettlement: 46650, finalSettlementDay: "2026-10-21", sourceUrl: "https://www.taifex.com.tw/cht/5/futIndxFSP" }],
+  };
+  const once = settleExpiredDerivatives(book, quotes);
+  assert(once.ok && once.settled.length === 2, `settle both expired legs (got ${once.settled.length})`);
+  assert(approx(once.book.US.cashAdj, -35) && approx(once.book.US.realizedPnl, -35), `US cashAdj/realized −35 (got ${once.book.US.cashAdj} / ${once.book.US.realizedPnl})`);
+  assert(once.book.US.positions.length === 0, "US option position closed");
+  assert(once.book.TW.cashAdj === -404200 && once.book.TW.realizedPnl === -404200, `TW realized −404200 (got ${once.book.TW.realizedPnl})`);
+  assert(once.book.TW.marginHold === 0, "TW margin released to 0");
+  assert(once.book.TW.positions.length === 0, "TW futures position closed");
+  const usTr = once.book.US.trades.find((t) => t.reason === "expiry-settle");
+  const twTr = once.book.TW.trades.find((t) => t.reason === "expiry-settle");
+  assert(usTr && usTr.officialClose === 204.64 && approx(usTr.premium, 0) && usTr.date === "2026-10-30", "US settle trade uses official close and expiry date");
+  assert(twTr && twTr.officialSettlement === 46650 && twTr.marginReleased === 701000 && twTr.date === "2026-10-21", "TW settle trade uses official FSP and settlement day");
+
+  const twice = settleExpiredDerivatives(once.book, quotes);
+  assert(twice.ok && twice.settled.length === 0, "second run is idempotent (no double settle)");
+  assert(twice.book.US.realizedPnl === -35 && twice.book.TW.realizedPnl === -404200, "idempotent P&L unchanged");
+  assert((twice.book.US.trades || []).filter((t) => t.reason === "expiry-settle").length === 1, "no duplicate US settle trade");
+  assert((twice.book.TW.trades || []).filter((t) => t.reason === "expiry-settle").length === 1, "no duplicate TW settle trade");
+
+  const badCode = settleExpiredDerivatives({
+    ...book,
+    US: { cashAdj: 0, marginHold: 0, realizedPnl: 0, positions: [], trades: [] },
+    TW: { cashAdj: 0, marginHold: 100, realizedPnl: 0, positions: [{
+      asset: "futures", code: "XYZ", month: "202610", qtySigned: 1, avgPrice: 100, multiplier: 1,
+      initialMarginPerContract: 100, lastTradingDay: "2026-10-21",
+    }], trades: [] },
+  }, { asOfYmd: "2026-11-14", futures: [{ code: "XYZ", month: "202610", officialSettlement: 90 }] });
+  assert(badCode.ok && badCode.settled.length === 0 && badCode.skipped.some((s) => s.reason === "unknown-contract-code"),
+    "refuse unknown futures code even with a price");
 }
 
 assert(assertFinitePayload({ a: 1, b: { c: 2 } }).ok, "finite payload ok");

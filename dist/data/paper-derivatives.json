@@ -1,7 +1,7 @@
 {
   "version": 1,
   "startDate": "2026-09-15",
-  "asOf": "2026-10-03T11:35:14+08:00",
+  "asOf": "2026-11-14T10:00:56+08:00",
   "cumulative": true,
   "booksSeparate": true,
   "screenerMathGate": "closed",
@@ -10,36 +10,10 @@
   "US": {
     "cashAdj": -35,
     "marginHold": 0,
-    "realizedPnl": 0,
-    "summaryZh": "已成交：買進 NVDA 2026-10-30 270 Call 1 口，權利金 0.35，現金借記 US$35.00。成交後美股可用現金約 US$5.66（股票帳現金 US$40.66 − 35）。",
-    "summaryEn": "Filled: buy 1 NVDA 2026-10-30 270 call at 0.35. Cash debit US$35.00. US free cash about US$5.66 after (stock-book cash US$40.66 − 35).",
-    "positions": [
-      {
-        "asset": "option",
-        "origin": "server",
-        "underlying": "NVDA",
-        "name": "NVIDIA",
-        "right": "call",
-        "expiry": "2026-10-30",
-        "strike": 270,
-        "qtySigned": 1,
-        "avgPremium": 0.35,
-        "markPremium": 0.35,
-        "markAsOf": "2026-10-02T00:10:41.679Z",
-        "markSource": "yahoo-paperChain-lastPrice",
-        "openedAsOf": "2026-10-02T00:10:41.679Z",
-        "openedOn": "2026-10-03",
-        "lastTradeAsOf": "2026-10-02T00:10:41.679Z",
-        "currency": "USD",
-        "multiplier": 100,
-        "contractSymbol": "NVDA261030C00270000",
-        "spotAtFill": 230.86,
-        "bid": 0.33,
-        "ask": 0.37,
-        "fillSource": "成交價 0.35＝Yahoo Finance 公開期權鏈 paperChain lastPrice（NVDA261030C00270000）；來源檔 us-options-snapshot.json。現金＝0.35×100×1＝US$35.00 借記。",
-        "fillSourceEn": "Fill 0.35 = Yahoo Finance public paperChain lastPrice (NVDA261030C00270000) in us-options-snapshot.json. Cash debit = 0.35×100×1 = US$35.00."
-      }
-    ],
+    "realizedPnl": -35,
+    "summaryZh": "已到期結算：NVDA 2026-10-30 270 CALL 1 口，官方收盤 204.64，實現損益 US$-35.00。來源 https://investor.nvidia.com/stock-info/stock-quote-and-chart/。選擇權現金調整 US$-35.00。",
+    "summaryEn": "Expired and settled: 1 NVDA 2026-10-30 270 call at official close 204.64. Realized P&L US$-35.00. Source https://investor.nvidia.com/stock-info/stock-quote-and-chart/. Option cashAdj US$-35.00.",
+    "positions": [],
     "trades": [
       {
         "date": "2026-10-03",
@@ -61,39 +35,40 @@
         "realizedPnl": 0,
         "source": "public/data/us-options-snapshot.json options.paperChain",
         "contractSymbol": "NVDA261030C00270000"
+      },
+      {
+        "date": "2026-10-30",
+        "asOf": "2026-11-14T10:00:56+08:00",
+        "market": "US",
+        "asset": "option",
+        "origin": "server",
+        "side": "SELL",
+        "underlying": "NVDA",
+        "name": "NVIDIA",
+        "right": "call",
+        "expiry": "2026-10-30",
+        "strike": 270,
+        "qty": 1,
+        "premium": 0,
+        "officialClose": 204.64,
+        "cashDelta": 0,
+        "reason": "expiry-settle",
+        "reasonText": "到期結算：官方收盤 204.64 相對履約價 270 為價外，權利金歸零。實現損益 US$-35.00。",
+        "realizedPnl": -35,
+        "source": "NVIDIA official stock quote & chart (XNAS:NVDA close 2026-10-30)",
+        "sourceUrl": "https://investor.nvidia.com/stock-info/stock-quote-and-chart/",
+        "contractSymbol": "NVDA261030C00270000",
+        "multiplier": 100
       }
     ]
   },
   "TW": {
-    "cashAdj": 0,
-    "marginHold": 701000,
-    "realizedPnl": 0,
-    "summaryZh": "已成交：TX 202610 多 1 口，成交價 48671（近月 last）。初始保證金占用 NT$701,000。台股股票帳現金 NT$1,245,200，占用後可用約 NT$544,200。未實現損益在成交價為 0。",
-    "summaryEn": "Filled: long 1 TX 202610 at 48671 (near last). Initial margin hold NT$701,000. TW stock-book cash NT$1,245,200; free after hold about NT$544,200. Unrealized P&L is 0 at the fill.",
-    "positions": [
-      {
-        "asset": "futures",
-        "origin": "server",
-        "code": "TX",
-        "name": "臺股期貨",
-        "month": "202610",
-        "qtySigned": 1,
-        "avgPrice": 48671,
-        "mark": 48671,
-        "settleAtFill": 48669,
-        "markAsOf": "2026-10-03T11:35:14+08:00",
-        "markSource": "txf-desk-near-last",
-        "openedAsOf": "2026-10-03T11:35:14+08:00",
-        "openedOn": "2026-10-03",
-        "currency": "TWD",
-        "multiplier": 200,
-        "initialMarginPerContract": 701000,
-        "lastTradingDay": "2026-10-21",
-        "sessionDate": "2026-10-02",
-        "fillSource": "成交價 48671＝台指期桌近月 last（session 2026-10-02；同列 settle 48669 僅對照，未當成交價）。來源檔 txf-desk.json，期交所 DailyMarketReportFut。保證金＝官方初始 701000×1 口。損益＝點數差×200×口數。",
-        "fillSourceEn": "Fill 48671 = txf-desk near last (session 2026-10-02; settle 48669 is reference only). Source txf-desk.json / TAIFEX DailyMarketReportFut. Margin = official initial 701000 × 1. P&L = points × 200 × contracts."
-      }
-    ],
+    "cashAdj": -404200,
+    "marginHold": 0,
+    "realizedPnl": -404200,
+    "summaryZh": "已到期結算：TX 202610 1 口，期交所最後結算價 46650。保證金已釋放 NT$701,000，實現損益 NT$-404,200。來源 https://www.taifex.com.tw/cht/5/futIndxFSP?commodityIds=1&end_month=10&end_year=2026&start_month=10&start_year=2026。占用保證金現為 NT$0。",
+    "summaryEn": "Expired and settled: 1 TX 202610 at official final settlement 46650. Margin released NT$701,000; realized P&L NT$-404,200. Source https://www.taifex.com.tw/cht/5/futIndxFSP?commodityIds=1&end_month=10&end_year=2026&start_month=10&start_year=2026. Margin hold is now NT$0.",
+    "positions": [],
     "trades": [
       {
         "date": "2026-10-03",
@@ -112,6 +87,51 @@
         "marginHold": 701000,
         "source": "public/data/txf-desk.json contracts.TX.near.last",
         "sessionDate": "2026-10-02"
+      },
+      {
+        "date": "2026-10-21",
+        "asOf": "2026-11-14T10:00:56+08:00",
+        "market": "TW",
+        "asset": "futures",
+        "origin": "server",
+        "side": "SELL",
+        "code": "TX",
+        "name": "臺股期貨",
+        "month": "202610",
+        "qty": 1,
+        "price": 46650,
+        "officialSettlement": 46650,
+        "reason": "expiry-settle",
+        "reasonText": "到期結算：期交所 TX 202610 最後結算價 46650。保證金釋放 NT$701,000，實現損益 NT$-404,200。",
+        "realizedPnl": -404200,
+        "marginHold": 0,
+        "marginReleased": 701000,
+        "source": "TAIFEX 指數期貨最後結算價（臺股期貨 TX/MTX/TMF 契約月份 202610）",
+        "sourceUrl": "https://www.taifex.com.tw/cht/5/futIndxFSP?commodityIds=1&end_month=10&end_year=2026&start_month=10&start_year=2026",
+        "sessionDate": "2026-10-21",
+        "multiplier": 200
+      }
+    ]
+  },
+  "officialSettlements": {
+    "asOf": "2026-11-14T10:00:56+08:00",
+    "options": [
+      {
+        "underlying": "NVDA",
+        "expiry": "2026-10-30",
+        "officialClose": 204.64,
+        "source": "NVIDIA official stock quote & chart (XNAS:NVDA close 2026-10-30)",
+        "sourceUrl": "https://investor.nvidia.com/stock-info/stock-quote-and-chart/"
+      }
+    ],
+    "futures": [
+      {
+        "code": "TX",
+        "month": "202610",
+        "officialSettlement": 46650,
+        "finalSettlementDay": "2026-10-21",
+        "source": "TAIFEX 指數期貨最後結算價（臺股期貨 TX/MTX/TMF 契約月份 202610）",
+        "sourceUrl": "https://www.taifex.com.tw/cht/5/futIndxFSP?commodityIds=1&end_month=10&end_year=2026&start_month=10&start_year=2026"
       }
     ]
   }

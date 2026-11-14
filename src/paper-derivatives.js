@@ -169,11 +169,8 @@ export async function loadServerBook() {
       TW: { cashAdj: book.TW.cashAdj, marginHold: book.TW.marginHold, realizedPnl: book.TW.realizedPnl },
     });
     if (!check.ok) return null;
-    const usOk = (book.US.positions || []).some((p) => p.asset === "option" && Number.isInteger(p.qtySigned) && p.qtySigned !== 0);
-    const twOk = (book.TW.positions || []).some(
-      (p) => p.asset === "futures" && (p.code === "TX" || p.code === "MTX") && Number.isInteger(p.qtySigned) && p.qtySigned !== 0
-    );
-    if (!usOk || !twOk) return null;
+    // Open positions are optional: expired contracts are settled on the server
+    // book (positions may be empty) and the fill / expiry-settle trades still display.
     return book;
   } catch {
     return null;

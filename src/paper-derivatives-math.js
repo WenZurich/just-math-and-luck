@@ -272,3 +272,76 @@ export function sumSellRealizedPnl(trades) {
   if (!isFiniteNumber(sum)) return { ok: false, sum: null, missing, counted };
   return { ok: true, sum, missing, counted };
 }
+
+
+/**
+ * Calendar day YYYY-MM-DD (no time). Used as the only date comparison for expiry.
+ */
+export function isYmd(s) {
+  return typeof s === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s);
+}
+
+/**
+ * An expired derivative may settle only on/after its expiry (options) or last
+ * trading / official final-settlement day (futures). Never settles early.
+ * Official price is required — this helper does not invent one.
+ *
+ * officialPrice: options = official underlying close on expiry (≥ 0 finite);
+ * futures = official final settlement price (> 0 finite).
+ *
+ * @returns {{ ok: true, due: boolean, missingOfficialPrice: boolean } | { ok: false, due: false, error: string }}
+ */
+export function canSettleExpiredContract(expiryOrLastTradingDay, asOfYmd, { officialPrice, requirePositivePrice = false } = {}) {
+  if (!isYmd(expiryOrLastTradingDay) || !isYmd(asOfYmd)) {
+    return { ok: false, due: false, missingOfficialPrice: true, error: "dates must be YYYY-MM-DD" };
+  }
+  if (asOfYmd < expiryOrLastTradingDay) {
+    return { ok: true, due: false, missingOfficialPrice: false };
+  }
+  const priceOk = isFiniteNumber(officialPrice) && (requirePositivePrice ? officialPrice > 0 : officialPrice >= 0);
+  if (!priceOk) {
+    return { ok: true, due: true, missingOfficialPrice: true };
+  }
+  return { ok: true, due: true, missingOfficialPrice: false };
+}
+
+/**
+ * Expiry P&L vs premium paid, using official underlying close (never a live mid-price).
+ * cashDelta = intrinsic × multiplier × qtySigned (what the OCC cash-settles / assignment is worth).
+ * realizedPnl = (settlePremium − avgPremium) × multiplier × qtySigned.
+ * OTM close < strike for a long call → cashDelta 0 and realizedPnl = −premium×mult×qty.
+ */
+export function optionExpiryRealizedPnl({
+  qtySigned,
+  avgPremium,
+  officialClose,
+  strike,
+  right,
+  multiplier = US_OPTION_MULTIPLIER,
+}) {
+  const set = optionExpirySettlement({
+    qtySigned,
+    spot: officialClose,
+    strike,
+    right,
+    multiplier,
+  });
+  if (!set.ok) return set;
+  if (!isFiniteNumber(avgPremium) || avgPremium < 0) {
+    return { ok: false, error: "avgPremium must be ≥ 0 finite" };
+  }
+  const realized = optionUnrealizedPnl({
+    qtySigned,
+    avgPremium,
+    markPremium: set.settlePremium,
+    multiplier,
+  });
+  if (realized == null) return { ok: false, error: "realized non-finite" };
+  return {
+    ok: true,
+    intrinsic: set.intrinsic,
+    settlePremium: set.settlePremium,
+    cashDelta: set.cashDelta,
+    realizedPnl: realized,
+  };
+}
