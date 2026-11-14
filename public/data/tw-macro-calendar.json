@@ -1,11 +1,11 @@
 {
-  "asOf": "2026-11-13T00:08:22.412Z",
+  "asOf": "2026-11-14T01:41:45.561Z",
   "market": "TW",
   "timezone": "Asia/Taipei",
   "timezoneLabel": "台北時間",
   "window": {
-    "from": "2026-11-13",
-    "to": "2026-12-18"
+    "from": "2026-11-14",
+    "to": "2026-12-19"
   },
   "source": {
     "name": "DGBAS / CBC / TWSE / MOEA",
@@ -16,8 +16,7 @@
     "notes": [
       "DGBAS NoticeCalendar",
       "MOEA via DGBAS board",
-      "CBC board schedule",
-      "TWSE holidaySchedule"
+      "CBC board schedule"
     ]
   },
   "stale": false,

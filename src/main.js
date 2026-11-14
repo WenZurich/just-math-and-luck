@@ -746,7 +746,10 @@ function renderApp(data, paper) {
       </div>
       <p class="disclaimer-line" role="note">${disclaimer}</p>
       <div class="market-strip-wrap" aria-label="${escapeHtml(t("marketQuotes"))}">
-        <span class="market-strip-label">${escapeHtml(t("hot"))}</span>
+        <div class="market-strip-side">
+          <span class="market-strip-label">${escapeHtml(t("hot"))}</span>
+          ${renderMarqueeToggle()}
+        </div>
         ${renderIndexStrip(data.indices || {})}
       </div>
       ${renderUsMacroStripSlot()}
@@ -1054,6 +1057,44 @@ function applyCategoryRoute(route) {
 }
 
 
+/* ---- Ticker motion control (WCAG 2.2.2 Pause, Stop, Hide) ----
+ * The three header tickers (熱門 / 美股大事 / 台股大事) scroll forever. Press-and-hold
+ * only pauses while a finger is down, so give readers a real stop button: one toggle
+ * stops all three, resets them to the first item and turns them into swipeable rows.
+ * The choice is remembered on this device (localStorage). */
+const MARQUEE_PREF_KEY = "jml-marquee-static";
+function readMarqueeStatic() {
+  try { return localStorage.getItem(MARQUEE_PREF_KEY) === "1"; } catch { return false; }
+}
+function applyMarqueeStatic(on) {
+  document.documentElement.classList.toggle("marquee-static", !!on);
+}
+const MARQUEE_ICON_PAUSE = '<svg class="marquee-toggle-icon" viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><rect x="3.5" y="3" width="3" height="10" rx="1"/><rect x="9.5" y="3" width="3" height="10" rx="1"/></svg>';
+const MARQUEE_ICON_PLAY = '<svg class="marquee-toggle-icon" viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><path d="M4.5 2.8v10.4a.6.6 0 0 0 .92.5l8.1-5.2a.6.6 0 0 0 0-1L5.42 2.3a.6.6 0 0 0-.92.5z"/></svg>';
+function marqueeToggleInner(isStatic) {
+  return `${isStatic ? MARQUEE_ICON_PLAY : MARQUEE_ICON_PAUSE}<span class="marquee-toggle-text">${escapeHtml(t(isStatic ? "marqueePlay" : "marqueePause"))}</span>`;
+}
+function renderMarqueeToggle() {
+  const isStatic = readMarqueeStatic();
+  return `<button type="button" class="marquee-toggle" data-marquee-toggle
+    title="${escapeHtml(t(isStatic ? "marqueePlayHint" : "marqueePauseHint"))}">${marqueeToggleInner(isStatic)}</button>`;
+}
+function bindMarqueeToggle(root) {
+  applyMarqueeStatic(readMarqueeStatic());
+  const btn = root.querySelector("[data-marquee-toggle]");
+  if (!btn || btn.dataset.bound === "1") return;
+  btn.dataset.bound = "1";
+  btn.addEventListener("click", () => {
+    const next = !document.documentElement.classList.contains("marquee-static");
+    try { localStorage.setItem(MARQUEE_PREF_KEY, next ? "1" : "0"); } catch { /* private mode */ }
+    applyMarqueeStatic(next);
+    btn.innerHTML = marqueeToggleInner(next);
+    btn.title = t(next ? "marqueePlayHint" : "marqueePauseHint");
+    if (next) document.querySelectorAll(".index-marquee").forEach((m) => { m.scrollLeft = 0; });
+  });
+}
+applyMarqueeStatic(readMarqueeStatic());
+
 /** Pause/resume 「熱門」 ticker on press (CSS :hover / :active also cover pointer). */
 function bindMarketMarquee(root) {
   const el = root.querySelector(".index-marquee");
@@ -1106,6 +1147,7 @@ async function mountUi(app) {
   showView(app, viewBefore, { updateHash: !keepNested, scrollTop: false });
   bindTabs(app);
   bindMarketMarquee(app);
+  bindMarqueeToggle(app);
   await initUsMacroStrip("#us-macro-strip");
   await initTwMacroStrip("#tw-macro-strip");
   bindPaperTabs(app);

@@ -2173,6 +2173,20 @@ async function main() {
       else if (/lc-why-fold" open/.test(body)) fail("mobile list cards: 入選理由 fold should start closed");
       else ok("mobile list cards: 入選理由 folded, 風險 stays visible");
     }
+    {
+      // 2026-11-14: header tickers get a real stop button (WCAG 2.2.2), not only press-and-hold.
+      const mainSrc = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+      const css = fs.readFileSync(path.join(ROOT, "src/style.css"), "utf8");
+      const langs = ["src/i18n.js", "src/i18n/en.js", "src/i18n/zh-Hans.js", "src/i18n/ja.js"];
+      const missing = langs.filter((f) => !["marqueePause", "marqueePlay", "marqueePauseHint", "marqueePlayHint"]
+        .every((k) => new RegExp(`\\b${k}: "`).test(fs.readFileSync(path.join(ROOT, f), "utf8"))));
+      if (!/<button type="button" class="marquee-toggle" data-marquee-toggle/.test(mainSrc)) fail("ticker stop: 熱門 strip needs a <button> marquee-toggle");
+      else if (!/bindMarqueeToggle\(app\)/.test(mainSrc)) fail("ticker stop: bindMarqueeToggle(app) not called on mount");
+      else if (!/html\.marquee-static \.macro-strip \.index-marquee-track \{\s*animation: none !important;/.test(css)) fail("ticker stop: CSS must also stop the 美股/台股大事 macro tickers");
+      else if (!/html\.marquee-static \.index-marquee-group--clone/.test(css)) fail("ticker stop: stopped tickers must hide the duplicate loop group");
+      else if (missing.length) fail(`ticker stop: i18n keys missing in ${missing.join(", ")}`);
+      else ok("ticker stop button: one toggle stops all 3 header tickers (swipeable, remembered), i18n x4");
+    }
     if (!sample.includes("2026-10-08 08:12（台北）") || !sample.includes("台股為 2026-10-07 收盤") || !sample.includes("美股為 2026-10-07 收盤")) fail(`buildTimezoneNote wrong: ${sample}`);
     const tzNote = String(latest.timezoneNote || "");
     const asOfTpe = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" }).format(new Date(latest.asOf));
