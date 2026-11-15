@@ -1148,10 +1148,18 @@ async function mountUi(app) {
   bindTabs(app);
   bindMarketMarquee(app);
   bindMarqueeToggle(app);
-  await initUsMacroStrip("#us-macro-strip");
-  await initTwMacroStrip("#tw-macro-strip");
   bindPaperTabs(app);
-  if (paper) await initPaperDerivatives(app, paper);
+  // Load speed: the 美股大事 / 台股大事 strips and the paper derivatives overlay
+  // each fetch their own small JSON into their own DOM slot, so run them in
+  // parallel instead of one after another (was a ~1s serial chain on 4G).
+  const stripInits = await Promise.allSettled([
+    initUsMacroStrip("#us-macro-strip"),
+    initTwMacroStrip("#tw-macro-strip"),
+    paper ? initPaperDerivatives(app, paper) : null,
+  ]);
+  for (const s of stripInits) {
+    if (s.status === "rejected") console.warn("strip init failed", s.reason);
+  }
   bindLangSwitcher(app);
   // Load speed: only the section being opened fetches its JSON now; the rest
   // (研究 ~550KB, 股東信, 曼報, 選擇權, SOXL…) load on first visit, so 今日
@@ -1267,12 +1275,16 @@ async function main() {
   const loading = document.getElementById("loading");
   if (loading) loading.textContent = t("loading");
   try {
+    // Load speed: picks, 台北收匯率 and the paper ledger are independent files —
+    // request them together (index.html also preloads latest.json) instead of
+    // waiting for latest.json before asking for the paper book.
     const fxP = loadTaipeiFx();
+    const paperP = loadPaperPortfolio();
     const res = await fetch(DATA_URL);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     cachedData = await res.json();
     mergeTaipeiFx(cachedData, await fxP);
-    cachedPaper = await loadPaperPortfolio();
+    cachedPaper = await paperP;
     await langReady;
     applyDocumentLang();
     await mountUi(app);

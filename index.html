@@ -14,9 +14,15 @@
     <link rel="icon" href="%BASE_URL%favicon.svg" type="image/svg+xml" />
     <link rel="icon" type="image/png" href="%BASE_URL%favicon.png?v=5" />
     <title>每日數學選股</title>
+    <!-- Load speed: start the 今日 data files while the app bundle downloads (same URL/mode as main.js fetch). -->
+    <link rel="preload" href="%BASE_URL%data/latest.json" as="fetch" crossorigin="anonymous" />
+    <link rel="preload" href="%BASE_URL%data/paper-portfolio.json" as="fetch" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+    <!-- Load speed: the Google Fonts CSS (~100KB with the Noto Sans TC subsets) no longer blocks first render
+         or competes with the app bundle; text shows in the system font and swaps in (display=swap). -->
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" fetchpriority="low" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" /></noscript>
   </head>
   <body>
     <div id="app">

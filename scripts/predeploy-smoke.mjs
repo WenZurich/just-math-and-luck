@@ -1519,6 +1519,24 @@ async function main() {
     } else ok("lookup.css official filings styles present");
   }
 
+  // —— Load speed (2026-11-15): 今日 data requests in parallel, not a serial chain ——
+  {
+    const htmlSrc = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+    if (!/rel="preload" href="%BASE_URL%data\/latest\.json" as="fetch" crossorigin="anonymous"/.test(htmlSrc)) {
+      fail("index.html should preload data/latest.json (as=fetch, crossorigin=anonymous)");
+    } else ok("index.html preloads latest.json");
+    if (!/const paperP = loadPaperPortfolio\(\);[\s\S]{0,200}await fetch\(DATA_URL\)/.test(mainSrc)) {
+      fail("main(): paper ledger should be requested in parallel with latest.json");
+    } else ok("main(): paper ledger fetched in parallel with picks");
+    if (!/Promise\.allSettled\(\[\s*initUsMacroStrip[\s\S]{0,120}initTwMacroStrip[\s\S]{0,120}initPaperDerivatives/.test(mainSrc)) {
+      fail("mountUi: macro strips + paper derivatives should init in parallel");
+    } else ok("mountUi: macro strips + derivatives init in parallel");
+    const paperSrcLS = fs.readFileSync(path.join(ROOT, "src/paper.js"), "utf8");
+    if (!/const corpP = fetch\("\.\/data\/corporate-actions\.json"\)[\s\S]{0,200}await fetch\(PAPER_URL\)/.test(paperSrcLS)) {
+      fail("loadPaperPortfolio: corporate-actions should be fetched alongside paper-portfolio");
+    } else ok("loadPaperPortfolio: corporate-actions fetched in parallel");
+  }
+
   // —— 「熱門」 market-index marquee/ticker (desktop + mobile) ——
   if (!/index-strip--marquee/.test(mainSrc) || !/index-marquee-track/.test(mainSrc)) {
     fail("renderIndexStrip should emit index-strip--marquee + index-marquee-track");

@@ -610,6 +610,11 @@ export function bindPaperTabs(root) {
 }
 
 export async function loadPaperPortfolio() {
+  // Load speed: corporate-actions.json does not depend on the book, so ask for
+  // it at the same time as paper-portfolio.json (only paper-quotes needs asOf).
+  const corpP = fetch("./data/corporate-actions.json")
+    .then((cr) => (cr.ok ? cr.json() : null))
+    .catch(() => null);
   try {
     const res = await fetch(PAPER_URL);
     if (!res.ok) return null;
@@ -623,12 +628,8 @@ export async function loadPaperPortfolio() {
     } catch {
       /* 補價檔缺了就不顯示來源 */
     }
-    try {
-      const cr = await fetch("./data/corporate-actions.json");
-      if (cr.ok) paper.corporateActions = await cr.json();
-    } catch {
-      /* 沒有公司行動檔就照舊顯示 */
-    }
+    const corp = await corpP; // 沒有公司行動檔就照舊顯示
+    if (corp) paper.corporateActions = corp;
     return paper;
   } catch {
     return null;
