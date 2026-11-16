@@ -438,12 +438,29 @@ function stockMarket(s) {
 
 
 
-function renderTop5ByMarket(list, marketLabel) {
+function renderTop5ByMarket(top5, market) {
+  const marketLabel = market === "US" ? t("usStock") : t("twStock");
+  const list = top5.filter((s) => stockMarket(s) === market);
   if (!list.length) {
-    return `<div class="empty-state">${escapeHtml(t("emptyTop", { market: marketLabel }))}</div>`;
+    const otherMarket = market === "US" ? "TW" : "US";
+    const other = top5.filter((s) => stockMarket(s) === otherMarket);
+    if (!other.length) {
+      return `<div class="empty-state">${escapeHtml(t("emptyTop", { market: marketLabel }))}</div>`;
+    }
+    const otherLabel = otherMarket === "US" ? t("usStock") : t("twStock");
+    const chips = other
+      .map((s) => `<li><span class="top-elsewhere-rank">${top5.indexOf(s) + 1}</span>${escapeHtml(String(s.ticker || "").replace(/\.TW(O)?$/i, ""))}<span class="top-elsewhere-name">${escapeHtml(s.name || "")}</span></li>`)
+      .join("");
+    return `
+      <div class="empty-state top-elsewhere" role="note">
+        <p class="top-elsewhere-lead">${escapeHtml(t("topElsewhereLead", { market: marketLabel, other: otherLabel, n: other.length }))}</p>
+        <p class="top-elsewhere-why">${escapeHtml(t("topElsewhereWhy", { market: marketLabel }))}</p>
+        <ol class="top-elsewhere-list" aria-label="${escapeHtml(t("topElsewhereListLabel", { other: otherLabel }))}">${chips}</ol>
+        <button type="button" class="top-elsewhere-btn" data-tab-jump="${otherMarket.toLowerCase()}">${escapeHtml(t("topElsewhereBtn", { other: otherLabel }))}</button>
+      </div>`;
   }
   return `<div class="top5-grid">${list
-    .map((s, i) => renderTopCard(s, i + 1))
+    .map((s) => renderTopCard(s, top5.indexOf(s) + 1))
     .join("")}</div>`;
 }
 
@@ -771,7 +788,7 @@ function renderApp(data, paper) {
         <div class="panel active" id="panel-us" role="tabpanel">
           <section class="section">
             <h2 class="section-title">${escapeHtml(t("usTop"))}</h2>
-            ${renderTop5ByMarket(top5.filter((s) => stockMarket(s) === "US"), t("usStock"))}
+            ${renderTop5ByMarket(top5, "US")}
           </section>
           <section class="section">
             <h2 class="section-title">${escapeHtml(t("usList"))}</h2>
@@ -787,7 +804,7 @@ function renderApp(data, paper) {
         <div class="panel" id="panel-tw" role="tabpanel">
           <section class="section">
             <h2 class="section-title">${escapeHtml(t("twTop"))}</h2>
-            ${renderTop5ByMarket(top5.filter((s) => stockMarket(s) === "TW"), t("twStock"))}
+            ${renderTop5ByMarket(top5, "TW")}
           </section>
           <section class="section">
             <h2 class="section-title">${escapeHtml(t("twList"))}</h2>
@@ -1113,17 +1130,30 @@ function bindMarketMarquee(root) {
 
 function bindTabs(root) {
   const buttons = root.querySelectorAll(".tab-btn");
+  const select = (tab) => {
+    buttons.forEach((b) => {
+      const on = b.dataset.tab === tab;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    root.querySelectorAll(".panel").forEach((p) => {
+      p.classList.toggle("active", p.id === `panel-${tab}`);
+    });
+  };
   buttons.forEach((btn) => {
+    btn.addEventListener("click", () => select(btn.dataset.tab));
+  });
+  // "Top 5 is all in the other market" note → jump to that tab, keep focus on its tab button.
+  root.querySelectorAll("[data-tab-jump]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const tab = btn.dataset.tab;
-      buttons.forEach((b) => {
-        const on = b.dataset.tab === tab;
-        b.classList.toggle("active", on);
-        b.setAttribute("aria-selected", on ? "true" : "false");
-      });
-      root.querySelectorAll(".panel").forEach((p) => {
-        p.classList.toggle("active", p.id === `panel-${tab}`);
-      });
+      const tab = btn.dataset.tabJump;
+      select(tab);
+      const target = root.querySelector(`.tab-btn[data-tab="${tab}"]`);
+      if (target) {
+        target.focus({ preventScroll: true });
+        const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+        target.scrollIntoView({ block: "nearest", behavior: reduce ? "auto" : "smooth" });
+      }
     });
   });
 }

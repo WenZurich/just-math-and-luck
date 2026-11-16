@@ -2261,6 +2261,19 @@ async function main() {
       else if (missing.length) fail(`ticker stop: i18n keys missing in ${missing.join(", ")}`);
       else ok("ticker stop button: one toggle stops all 3 header tickers (swipeable, remembered), i18n x4");
     }
+    {
+      // 2026-11-16: a market with no Top 5 stock explains why (cross-market ranking) and jumps to the other tab;
+      // Top cards keep their overall cross-market rank (no two "TOP 1").
+      const mainSrc = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+      const langs = ["src/i18n.js", "src/i18n/en.js", "src/i18n/zh-Hans.js", "src/i18n/ja.js"];
+      const missing = langs.filter((f) => !["topElsewhereLead", "topElsewhereWhy", "topElsewhereListLabel", "topElsewhereBtn"]
+        .every((k) => new RegExp(`\\b${k}: "`).test(fs.readFileSync(path.join(ROOT, f), "utf8"))));
+      if (!/renderTop5ByMarket\(top5, "US"\)/.test(mainSrc) || !/renderTop5ByMarket\(top5, "TW"\)/.test(mainSrc)) fail("Top 5 by market: must receive the full cross-market top5");
+      else if (!/renderTopCard\(s, top5\.indexOf\(s\) \+ 1\)/.test(mainSrc)) fail("Top 5 by market: cards must show the overall cross-market rank");
+      else if (!/<button type="button" class="top-elsewhere-btn" data-tab-jump=/.test(mainSrc) || !/\[data-tab-jump\]/.test(mainSrc)) fail("Top 5 empty market: needs a jump <button> bound in bindTabs");
+      else if (missing.length) fail(`Top 5 empty market: i18n keys missing in ${missing.join(", ")}`);
+      else ok("Top 5 empty market: plain why + other-market tickers + jump button, overall rank kept, i18n x4");
+    }
     if (!sample.includes("2026-10-08 08:12（台北）") || !sample.includes("台股為 2026-10-07 收盤") || !sample.includes("美股為 2026-10-07 收盤")) fail(`buildTimezoneNote wrong: ${sample}`);
     const tzNote = String(latest.timezoneNote || "");
     const asOfTpe = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" }).format(new Date(latest.asOf));

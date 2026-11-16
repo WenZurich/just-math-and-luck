@@ -4177,3 +4177,72 @@ html.marquee-static .macro-strip .index-marquee-group--clone {
   /* already static & wrapped; the stop button has nothing to do */
   .marquee-toggle { display: none; }
 }
+
+/* 今日: one market has no Top 5 stock → say why in plain words + jump to the other tab (2026-11-16) */
+.empty-state.top-elsewhere {
+  text-align: left;
+  color: var(--text);
+  padding: 1rem 1rem 1.1rem;
+}
+.top-elsewhere-lead {
+  margin: 0 0 0.35rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+.top-elsewhere-why {
+  margin: 0 0 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+.top-elsewhere-list {
+  list-style: none;
+  margin: 0 0 0.85rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.top-elsewhere-list li {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.top-elsewhere-rank {
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+.top-elsewhere-rank::before { content: "#"; }
+.top-elsewhere-name {
+  font-family: var(--font);
+  font-weight: 400;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.top-elsewhere-btn {
+  font-family: var(--font);
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-height: 44px;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.top-elsewhere-btn:hover { background: var(--accent-strong); border-color: var(--accent-strong); }
+.top-elsewhere-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 480px) {
+  .top-elsewhere-btn { width: 100%; }
+}
