@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-14T01:42:36.520Z",
+  "asOf": "2026-11-16T00:06:31.770Z",
   "market": "US",
   "twStub": {
     "status": "planned",
@@ -43,7 +43,7 @@
       "epsYoYPct": 14.1,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 39.67,
-      "forwardPe": 33.78,
+      "forwardPe": 33.7,
       "marketCap": 5177380175872,
       "consensusEpsNext": 2.9106,
       "consensusRevNext": 156429989490,
@@ -93,7 +93,7 @@
       "pe": 27.34,
       "forwardPe": 21.65,
       "marketCap": 3890434801664,
-      "consensusEpsNext": 4.8575,
+      "consensusEpsNext": 4.8557,
       "consensusRevNext": 96691687890,
       "whatItDoes": "Microsoft Corporation, a technology company, develops and supports a portfolio of technology solutions for individuals and businesses worldwide.",
       "missingFields": [],
@@ -104,7 +104,7 @@
       "notes": [
         "下次財報約 2027-01-27（預估日）",
         "最近一季（2026-09-30）：EPS 4.89",
-        "市場預估下次 EPS 約 4.8575（Yahoo）"
+        "市場預估下次 EPS 約 4.8557（Yahoo）"
       ],
       "whatToWatch": "關注 2027-01-27 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +18.8%（Yahoo）；獲利成長約 +32.3%（Yahoo earningsGrowth）"
     },
@@ -139,7 +139,7 @@
       "epsYoYPct": 127.8,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 20.59,
-      "forwardPe": 10.29,
+      "forwardPe": 10.27,
       "marketCap": 3932339044352,
       "consensusEpsNext": 2.4712,
       "consensusRevNext": 108731903900,
@@ -187,7 +187,7 @@
       "epsYoYPct": -3.1,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 21.56,
-      "forwardPe": 24.42,
+      "forwardPe": 24.41,
       "marketCap": 2883431432192,
       "consensusEpsNext": 2.4911,
       "consensusRevNext": 244858110420,
@@ -343,8 +343,8 @@
       "epsYoYPct": 264.8,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 21.89,
-      "forwardPe": 18.03,
-      "marketCap": 1640694153216,
+      "forwardPe": 17.99,
+      "marketCap": 1640314437632,
       "consensusEpsNext": 8.7188,
       "consensusRevNext": 75155372690,
       "whatItDoes": "Meta Platforms, Inc. engages in the development of products that enable people to connect and share with friends and family through mobile devices, personal computers, virtual reality (VR) headsets, and AI glasses in the…",
@@ -393,8 +393,8 @@
       "pe": 428.81,
       "forwardPe": 180.72,
       "marketCap": 1542445203456,
-      "consensusEpsNext": 0.5001,
-      "consensusRevNext": 29313093470,
+      "consensusEpsNext": 0.499,
+      "consensusRevNext": 29287236330,
       "whatItDoes": "Tesla, Inc. designs, develops, manufactures, leases, and sells electric vehicles, and energy generation and storage systems in the United States, China, and internationally.",
       "missingFields": [],
       "sources": [
@@ -404,7 +404,7 @@
       "notes": [
         "下次財報約 2027-01-27（預估日）",
         "最近一季（2026-09-30）：EPS 0.48",
-        "市場預估下次 EPS 約 0.5001（Yahoo）"
+        "市場預估下次 EPS 約 0.499（Yahoo）"
       ],
       "whatToWatch": "關注 2027-01-27 前後的營收與 EPS 是否達預估；近期營收 YoY 約 -0.2%（Yahoo）；獲利成長約 -43.6%（Yahoo earningsGrowth）"
     }
@@ -443,8 +443,8 @@
       "pe": 46.41,
       "forwardPe": 39.76,
       "marketCap": 1016233525248,
-      "consensusEpsNext": 0.6349,
-      "consensusRevNext": 187185091390,
+      "consensusEpsNext": 0.6356,
+      "consensusRevNext": 187256605980,
       "whatItDoes": "Walmart Inc. engages in the operation of retail and wholesale stores and clubs, ecommerce websites, and mobile applications worldwide.",
       "missingFields": [],
       "sources": [
@@ -454,11 +454,11 @@
       "notes": [
         "下次財報約 2026-11-19",
         "最近一季（2026-07-31）：EPS 0.81",
-        "市場預估下次 EPS 約 0.6349（Yahoo）"
+        "市場預估下次 EPS 約 0.6356（Yahoo）"
       ],
       "whatToWatch": "關注 2026-11-19 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +5.9%（Yahoo）；獲利成長約 -9.1%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 5,
+      "daysToEarnings": 3,
       "pool": "mega_cap"
     },
     {
@@ -492,10 +492,10 @@
       "epsYoYPct": 4.6,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 24.4,
-      "forwardPe": 21.86,
+      "forwardPe": 21.93,
       "marketCap": 347884388352,
-      "consensusEpsNext": 3.8373,
-      "consensusRevNext": 42778385490,
+      "consensusEpsNext": 3.838,
+      "consensusRevNext": 42779693430,
       "whatItDoes": "The Home Depot, Inc. operates as a home improvement retailer in the United States and internationally.",
       "missingFields": [],
       "sources": [
@@ -505,11 +505,11 @@
       "notes": [
         "下次財報約 2026-11-17",
         "最近一季（2026-07-31）：EPS 4.92",
-        "市場預估下次 EPS 約 3.8373（Yahoo）"
+        "市場預估下次 EPS 約 3.838（Yahoo）"
       ],
       "whatToWatch": "關注 2026-11-17 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +5.7%（Yahoo）；獲利成長約 +4.6%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 3,
+      "daysToEarnings": 1,
       "pool": "mega_cap"
     },
     {
@@ -545,8 +545,8 @@
       "pe": 24.53,
       "forwardPe": 15.88,
       "marketCap": 205423935488,
-      "consensusEpsNext": 1.6901,
-      "consensusRevNext": 25155317560,
+      "consensusEpsNext": 1.681,
+      "consensusRevNext": 25148666760,
       "whatItDoes": "The Walt Disney Company operates as an entertainment company in Americas, Europe, and the Asia Pacific. It operates in three segments: Entertainment, Sports, and Experiences.",
       "missingFields": [],
       "sources": [
@@ -556,11 +556,11 @@
       "notes": [
         "下次財報約 2026-11-17",
         "最近一季（2026-06-30）：EPS 2.06",
-        "市場預估下次 EPS 約 1.6901（Yahoo）"
+        "市場預估下次 EPS 約 1.681（Yahoo）"
       ],
       "whatToWatch": "關注 2026-11-17 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +6.8%（Yahoo）；獲利成長約 -48.3%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 3,
+      "daysToEarnings": 1,
       "pool": "mega_cap"
     },
     {
@@ -615,7 +615,7 @@
       ],
       "whatToWatch": "關注 2026-11-24 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +69.1%（Yahoo）；本益比暫缺，勿硬套估值",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 10,
+      "daysToEarnings": 8,
       "pool": "most_actives"
     },
     {
@@ -666,7 +666,7 @@
       ],
       "whatToWatch": "關注 2026-11-09 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +11.2%（Yahoo）；獲利成長約 -27.6%（Yahoo earningsGrowth）",
       "selectionTag": "recently_reported",
-      "daysToEarnings": -5,
+      "daysToEarnings": -7,
       "pool": "mega_cap"
     },
     {
@@ -700,8 +700,8 @@
       "epsYoYPct": 40.1,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 16.52,
-      "forwardPe": 12.12,
-      "marketCap": 63861706752,
+      "forwardPe": 12.24,
+      "marketCap": 63965421568,
       "consensusEpsNext": 0.28,
       "consensusRevNext": 6171589500,
       "whatItDoes": "Nu Holdings Ltd. provides digital banking platform in Brazil, Mexico, Colombia, the Cayman Islands, and the United States.",
@@ -717,7 +717,7 @@
       ],
       "whatToWatch": "關注 2026-11-12 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +34.4%（Yahoo）；獲利成長約 +40.1%（Yahoo earningsGrowth）",
       "selectionTag": "recently_reported",
-      "daysToEarnings": -2,
+      "daysToEarnings": -4,
       "pool": "most_actives"
     },
     {
@@ -751,10 +751,10 @@
       "epsYoYPct": null,
       "epsYoYSource": null,
       "pe": null,
-      "forwardPe": -30.49,
-      "marketCap": 29303138304,
-      "consensusEpsNext": -0.5963,
-      "consensusRevNext": 4817322500,
+      "forwardPe": -29.97,
+      "marketCap": 29546958848,
+      "consensusEpsNext": -0.6013,
+      "consensusRevNext": 4842690340,
       "whatItDoes": "CoreWeave, Inc. operates as a cloud infrastructure technology company in the United States, Denmark, Middle East and Asia Pacific.",
       "missingFields": [
         "epsYoYPct",
@@ -767,12 +767,12 @@
       "notes": [
         "下次財報約 2026-11-10",
         "最近一季（2026-09-30）：EPS -1.27",
-        "市場預估下次 EPS 約 -0.5963（Yahoo）",
+        "市場預估下次 EPS 約 -0.6013（Yahoo）",
         "缺欄：epsYoYPct, pe"
       ],
       "whatToWatch": "關注 2026-11-10 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +168.2%（Yahoo）；本益比暫缺，勿硬套估值",
       "selectionTag": "recently_reported",
-      "daysToEarnings": -4,
+      "daysToEarnings": -6,
       "pool": "most_actives"
     },
     {
@@ -788,13 +788,17 @@
         "currency": "USD",
         "epsGaap": null,
         "epsGaapSource": null,
-        "epsGaapCheck": null,
+        "epsGaapCheck": {
+          "value": -1.0679,
+          "approx": true,
+          "source": "Yahoo net income ÷ latest diluted shares (GAAP check only)"
+        },
         "epsActual": 0.1248,
         "epsEstimate": -0.1435,
         "epsSurprisePct": 186.97,
         "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
         "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
-        "epsBasis": "provider-pair",
+        "epsBasis": "adjusted",
         "epsBasisNote": null
       },
       "revenueYoYPct": 55.3,
@@ -802,10 +806,10 @@
       "epsYoYPct": null,
       "epsYoYSource": null,
       "pe": null,
-      "forwardPe": 63.15,
-      "marketCap": 25827962880,
-      "consensusEpsNext": 0.0687,
-      "consensusRevNext": 308532080,
+      "forwardPe": 58.5,
+      "marketCap": 26419324928,
+      "consensusEpsNext": 0.0814,
+      "consensusRevNext": 310427160,
       "whatItDoes": "Cerebras Systems Inc. operates as an artificial intelligence infrastructure company.",
       "missingFields": [
         "epsYoYPct",
@@ -818,12 +822,12 @@
       "notes": [
         "下次財報約 2026-11-12",
         "最近一季（2026-09-30）：EPS 0.1248",
-        "市場預估下次 EPS 約 0.0687（Yahoo）",
+        "市場預估下次 EPS 約 0.0814（Yahoo）",
         "缺欄：epsYoYPct, pe"
       ],
       "whatToWatch": "關注 2026-11-12 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +55.3%（Yahoo）；本益比暫缺，勿硬套估值",
       "selectionTag": "recently_reported",
-      "daysToEarnings": -2,
+      "daysToEarnings": -4,
       "pool": "most_actives"
     },
     {
@@ -857,8 +861,8 @@
       "epsYoYPct": null,
       "epsYoYSource": null,
       "pe": null,
-      "forwardPe": -258,
-      "marketCap": 3004681984,
+      "forwardPe": -33.29,
+      "marketCap": 3051842816,
       "consensusEpsNext": -0.09,
       "consensusRevNext": 255369550,
       "whatItDoes": "Ondas Inc. provides private wireless, drone, and automated data solutions in the United States and internationally. It operates through the Ondas Networks and Ondas Autonomous Systems segments.",
@@ -878,7 +882,7 @@
       ],
       "whatToWatch": "關注 2026-11-12 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +1558.6%（Yahoo）；本益比暫缺，勿硬套估值",
       "selectionTag": "recently_reported",
-      "daysToEarnings": -2,
+      "daysToEarnings": -4,
       "pool": "most_actives"
     },
     {
@@ -900,8 +904,8 @@
           "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
         },
         "epsActual": -0.5473,
-        "epsEstimate": -0.1,
-        "epsSurprisePct": -447.3,
+        "epsEstimate": -0.365,
+        "epsSurprisePct": -49.95,
         "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
         "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
         "epsBasis": "adjusted",
@@ -932,7 +936,7 @@
       ],
       "whatToWatch": "關注 2026-11-09 前後的營收與 EPS 是否達預估；近期營收 YoY 約 -34.9%（Yahoo）；獲利成長約 +382.3%（Yahoo earningsGrowth）；本益比暫缺，勿硬套估值",
       "selectionTag": "recently_reported",
-      "daysToEarnings": -5,
+      "daysToEarnings": -7,
       "pool": "most_actives"
     },
     {
@@ -983,7 +987,7 @@
       ],
       "whatToWatch": "關注 2026-12-02 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +10.8%（Yahoo）；獲利成長約 +118.9%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 18,
+      "daysToEarnings": 16,
       "pool": "mega_cap"
     },
     {
@@ -1017,7 +1021,7 @@
       "epsYoYPct": null,
       "epsYoYSource": null,
       "pe": null,
-      "forwardPe": 95.58,
+      "forwardPe": 94.96,
       "marketCap": 102664798208,
       "consensusEpsNext": 0.5999,
       "consensusRevNext": 1654183980,
@@ -1038,7 +1042,7 @@
       ],
       "whatToWatch": "關注 2026-12-02 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +35.1%（Yahoo）；本益比暫缺，勿硬套估值",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 18,
+      "daysToEarnings": 16,
       "pool": "mega_cap"
     },
     {
@@ -1089,7 +1093,7 @@
       ],
       "whatToWatch": "關注 2026-12-08 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +42.4%（Yahoo）；獲利成長約 +89.3%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 24,
+      "daysToEarnings": 22,
       "pool": "mega_cap"
     },
     {
@@ -1140,7 +1144,7 @@
       ],
       "whatToWatch": "關注 2026-12-09 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +85.5%（Yahoo）；獲利成長約 +215.3%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 25,
+      "daysToEarnings": 23,
       "pool": "mega_cap"
     }
   ],

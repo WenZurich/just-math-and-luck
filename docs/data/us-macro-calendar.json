@@ -1,11 +1,11 @@
 {
-  "asOf": "2026-11-14T01:41:44.690Z",
+  "asOf": "2026-11-16T00:07:08.733Z",
   "market": "US",
   "timezone": "America/New_York",
   "timezoneLabel": "US ET",
   "window": {
-    "from": "2026-11-13",
-    "to": "2026-12-18"
+    "from": "2026-11-15",
+    "to": "2026-12-20"
   },
   "source": {
     "name": "XOOMAR",
@@ -17,22 +17,6 @@
   },
   "stale": false,
   "events": [
-    {
-      "id": "ppi-2026-11-13T13:30:00.000Z",
-      "eventKey": "ppi",
-      "eventName": "PPI (Producer Price Index)",
-      "shortName": "PPI",
-      "importance": "high",
-      "highImpact": true,
-      "scheduledAt": "2026-11-13T13:30:00.000Z",
-      "dayEt": "2026-11-13",
-      "periodLabel": "October 2026",
-      "source": "bls",
-      "officialUrl": "https://www.bls.gov/schedule/news_release/ppi.htm",
-      "actual": "0.3000",
-      "previous": "1.4000",
-      "unit": "% m/m, final demand"
-    },
     {
       "id": "retailSales-2026-11-17T13:30:00.000Z",
       "eventKey": "retailSales",

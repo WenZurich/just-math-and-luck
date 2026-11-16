@@ -1,0 +1,105 @@
+{
+  "sessionSource": {
+    "TW": "加權指數收盤先比 Yahoo ^TWII；Yahoo 該日 close 為空時改用證交所 MI_5MINS_HIST 官方收盤"
+  },
+  "scanAsOf": "2026-11-16T00:06:19Z",
+  "date": "2026-11-16",
+  "sessions": {
+    "US": "2026-11-13",
+    "TW": "2026-11-13"
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet",
+      "market": "US",
+      "session": "2026-11-13",
+      "price": 295.77,
+      "dayPct": -0.98,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices",
+      "market": "US",
+      "session": "2026-11-13",
+      "price": 534.06,
+      "dayPct": -8.75,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "SNOW",
+      "name": "Snowflake",
+      "market": "US",
+      "session": "2026-11-13",
+      "price": 291,
+      "dayPct": -2.58,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "MU",
+      "name": "Micron",
+      "market": "US",
+      "session": "2026-11-13",
+      "price": 778.31,
+      "dayPct": -2.52,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "CLS",
+      "name": "Celestica",
+      "market": "US",
+      "session": "2026-11-13",
+      "price": 240.34,
+      "dayPct": -5.39,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ESTC",
+      "name": "Elastic",
+      "market": "US",
+      "session": "2026-11-13",
+      "price": 88.15,
+      "dayPct": -1.02,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike",
+      "market": "US",
+      "session": "2026-11-13",
+      "price": 226.61,
+      "dayPct": -1.42,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2317.TW",
+      "name": "鴻海",
+      "market": "TW",
+      "session": "2026-11-13",
+      "price": 241,
+      "dayPct": 0.42,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2884.TW",
+      "name": "玉山金",
+      "market": "TW",
+      "session": "2026-11-13",
+      "price": 48.3,
+      "dayPct": 2.33,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": []
+}
