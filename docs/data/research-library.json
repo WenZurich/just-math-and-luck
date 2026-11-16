@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-13T10:25:00+08:00",
+    "updated": "2026-11-16T10:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -12213,6 +12213,172 @@
         "bond-stock-correlation",
         "risk-premia",
         "macro-regime",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-tw-firm-tfp-stock-returns-2026",
+      "market": "TW",
+      "type": "paper",
+      "title": "Firm-Level Productivity and Stock Return: Evidence from Taiwan",
+      "titleLocalized": {
+        "zh-Hant": "台股：生產力越高的公司，股票報酬越高",
+        "en": "Taiwan: More Productive Firms Earn Higher Stock Returns",
+        "zh-Hans": "台股：生产力越高的公司，股票报酬越高",
+        "ja": "台湾株：生産性の高い企業ほど株式リターンが高い"
+      },
+      "authors": [
+        "Baek-Chun Kim",
+        "Ming-You Li",
+        "Shun-Fa Wu",
+        "Kendro Vincent"
+      ],
+      "year": 2026,
+      "shelf": "market_analysis",
+      "summary": "An Asia-Pacific Journal of Financial Studies article (online October 2026) that estimates total factor productivity (TFP) — how much output a firm squeezes out of its capital, labour and materials — for Taiwan-listed companies and asks whether it predicts the cross-section of stock returns. The result runs opposite to US evidence, where high-TFP firms tend to earn less: in Taiwan, high-TFP firms earn higher expected returns than low-TFP firms. The authors' explanation is that productive Taiwan firms face high adjustment costs when they invest in intangibles (R&D, know-how), which makes them riskier; consistent with that, the premium is larger among intangible-heavy firms and is concentrated in economic downturns. The abstract gives no trading-cost-adjusted strategy returns or sample length. For this site: a possible quality/fundamental tilt for TW picks to test later, not a buy signal.",
+      "summaryLocalized": {
+        "en": "In Taiwan, firms with higher total factor productivity (TFP) earn higher expected stock returns — the opposite of the US pattern. The authors tie it to high adjustment costs of intangible investment: the premium is stronger in intangible-heavy firms and concentrated in downturns. No after-cost strategy numbers in the abstract. Site use: watch — possible TW fundamental tilt, not a signal.",
+        "ja": "台湾上場企業の全要素生産性（TFP）を推計すると、TFPの高い企業ほど期待リターンが高い（米国の負の関係とは逆）。無形投資の調整コストの高さが理由とされ、無形資産比率の高い企業で強く、景気後退期に集中する。要旨に取引コスト控除後の戦略リターンはない。本サイトはウォッチ：台湾株のファンダメンタル傾斜候補で、売買シグナルではない。",
+        "zh-Hant": "這篇刊在《Asia-Pacific Journal of Financial Studies》（2026 年 10 月上線）的論文，先替台灣上市櫃公司估算「全要素生產力」（TFP，也就是同樣的資本、人力、原料能做出多少產出），再看它能不能預測股票報酬。結果跟美國相反：美國是高 TFP 公司報酬較低，台股則是高 TFP 公司的預期報酬比低 TFP 公司高。作者的解釋是，台灣高生產力公司投資無形資產（研發、技術）時調整成本很高，因此風險較大；符合這個說法的是，無形資產比重高的公司溢酬更明顯，而且溢酬集中在景氣衰退期。摘要沒有提供扣除交易成本後的策略報酬，也沒寫樣本期間。對本站：可作為台股選股日後要測試的基本面加權候選，不是買進訊號。",
+        "zh-Hans": "这篇刊在《Asia-Pacific Journal of Financial Studies》（2026 年 10 月上线）的论文，先替台湾上市柜公司估算“全要素生产力”（TFP，也就是同样的资本、人力、原料能做出多少产出），再看它能不能预测股票报酬。结果跟美国相反：美国是高 TFP 公司报酬较低，台股则是高 TFP 公司的预期报酬比低 TFP 公司高。作者的解释是，台湾高生产力公司投资无形资产（研发、技术）时调整成本很高，因此风险较大；符合这个说法的是，无形资产比重高的公司溢酬更明显，而且溢酬集中在景气衰退期。摘要没有提供扣除交易成本后的策略报酬，也没写样本期间。对本站：可作为台股选股日后要测试的基本面加权候选，不是买进信号。"
+      },
+      "formulas": [
+        "TFP proxy (simple, per firm-year): ln(TFP_i,t) ← ln(Revenue_i,t) − α_K·ln(NetPPE_i,t) − α_L·ln(Employees_i,t) − α_M·ln(COGS_i,t), with α's from an industry-year log regression (the paper's exact estimator is not in the abstract — treat this as an approximation)",
+        "intangible intensity_i,t ← (R&D_i,t + 0.3·SG&A_i,t) ÷ TotalAssets_i,t (common proxy; skip firm if any input missing)",
+        "monthly sort: quintiles of ln(TFP) within TW common stocks; spread_t = R(Q5) − R(Q1), report equal- and value-weighted; repeat within high vs low intangible-intensity halves",
+        "regime check: average spread in TW business-cycle contraction months (NDC monitoring indicator blue/yellow-blue) vs other months",
+        "site use: watch only — no change to live TW screener until the math gate passes and an after-cost (0.1425% fee each side, 0.3% sell tax) paper-book test is done"
+      ],
+      "plainTakeaways": [
+        "台股裡生產力高的公司，股票長期報酬比生產力低的公司好——跟美國剛好相反",
+        "原因可能是這些公司投資研發等無形資產的成本高、風險大，所以要給較多報酬",
+        "溢酬在無形資產多的公司更明顯，而且集中在景氣差的時候",
+        "本站只當觀察：日後可測試的台股基本面加權，不是買進訊號"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "台股裡生產力高的公司，股票長期報酬比生產力低的公司好——跟美國剛好相反",
+          "原因可能是這些公司投資研發等無形資產的成本高、風險大，所以要給較多報酬",
+          "溢酬在無形資產多的公司更明顯，而且集中在景氣差的時候",
+          "本站只當觀察：日後可測試的台股基本面加權，不是買進訊號"
+        ],
+        "zh-Hans": [
+          "台股里生产力高的公司，股票长期报酬比生产力低的公司好——跟美国刚好相反",
+          "原因可能是这些公司投资研发等无形资产的成本高、风险大，所以要给较多报酬",
+          "溢酬在无形资产多的公司更明显，而且集中在景气差的时候",
+          "本站只当观察：日后可测试的台股基本面加权，不是买进信号"
+        ],
+        "en": [
+          "In Taiwan, more productive firms earn higher stock returns than less productive ones — the opposite of the US",
+          "Likely because their intangible (R&D) investment is costly to adjust and therefore riskier",
+          "The premium is stronger in intangible-heavy firms and concentrated in downturns",
+          "Site use: watch — a possible TW fundamental tilt to test later, not a buy signal"
+        ],
+        "ja": [
+          "台湾では生産性の高い企業ほど株式リターンが高い——米国とは逆",
+          "研究開発など無形投資の調整コストが高くリスクが大きいためと考えられる",
+          "プレミアムは無形資産の多い企業で強く、景気後退期に集中",
+          "本サイトはウォッチ：将来検証する台湾株のファンダメンタル傾斜候補で、売買シグナルではない"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed; watch only, no screener or radar math change. Never status=adopted while passedGate=false. TFP premium is a TW fundamental-tilt watch item; needs an after-cost paper-book test first.",
+      "sources": [
+        "https://doi.org/10.1111/ajfs.70063",
+        "https://onlinelibrary.wiley.com/doi/10.1111/ajfs.70063"
+      ],
+      "tags": [
+        "tw",
+        "productivity",
+        "tfp",
+        "intangibles",
+        "cross-section",
+        "business-cycle",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-both-global-seasonality-factor-investing-2026",
+      "market": "BOTH",
+      "type": "paper",
+      "title": "Global Seasonality Factor Investing",
+      "titleLocalized": {
+        "zh-Hant": "全球期貨的季節性因子：慢的季節性才賺得到錢",
+        "en": "Seasonality Across Global Futures: Only the Slow Patterns Survive Costs",
+        "zh-Hans": "全球期货的季节性因子：慢的季节性才赚得到钱",
+        "ja": "世界の先物の季節性ファクター：コスト後に残るのは遅いパターンだけ"
+      },
+      "authors": [
+        "Andrew Butler",
+        "Adam Butler",
+        "Maciej Zawadzki"
+      ],
+      "year": 2026,
+      "shelf": "market_analysis",
+      "summary": "An arXiv working paper (November 2026) that treats calendar seasonality as a factor across global bond, commodity and equity futures. The authors define five calendar anomalies (day-of-week, day-of-month, day-of-quarter, day-of-half-year, day-of-year), show that together they are widespread and not explained by standard global carry, time-series momentum and skewness factors, and fit a separate nonlinear model for each market so every market can have its own seasonal shape. In walk-forward out-of-sample tests the fast patterns (day-of-week, day-of-month) look strong before costs but trade so often that they lose money after costs; the slower ones are positive before costs, and except day-of-quarter also after costs. An equal-weight blend of the seasonality models has an out-of-sample Sharpe comparable to, and uncorrelated with, standard factor portfolios, and adding it raises a global factor portfolio's Sharpe by roughly 30%. For this site: a cost-awareness lesson (short-cycle calendar effects die after costs) and a possible slow calendar overlay for index futures (e.g. TXF/ES context), not a stock signal.",
+      "summaryLocalized": {
+        "en": "Five calendar-seasonality factors across global bond, commodity and equity futures earn returns not explained by carry, momentum or skew. Fast ones (day-of-week/month) die after trading costs; slow ones (half-year, year) survive. An ensemble's out-of-sample Sharpe is uncorrelated with standard factors and adds ~30% to a factor portfolio's Sharpe. Site use: watch — cost lesson and possible slow overlay for index futures.",
+        "ja": "世界の債券・商品・株価指数先物で、5つのカレンダー季節性ファクターがキャリー・モメンタム・歪度で説明できない超過リターンを持つ。曜日・月内日など速いパターンは取引コストで赤字、半期・年など遅いパターンはコスト後もプラス（四半期内日は除く）。アンサンブルのアウトオブサンプルSharpeは既存ファクターと無相関で、ファクターポートフォリオのSharpeを約30%改善。本サイトはウォッチ：コストの教訓と指数先物の遅いオーバーレイ候補。",
+        "zh-Hant": "這篇 arXiv 工作論文（2026 年 11 月）把「日曆季節性」當成一種因子，套用在全球的債券、商品、股價指數期貨。作者定義五種季節性：星期幾、每月第幾天、每季第幾天、每半年第幾天、每年第幾天；整體來看這些效應普遍存在，而且無法用常見的套息（carry）、時間序列動能、偏態因子解釋。他們替每個市場各自擬合非線性模型，讓每個市場有自己的季節形狀。滾動樣本外測試中，快的季節性（星期幾、每月第幾天）扣成本前很好看，但換手太高，扣成本後反而虧錢；慢的季節性扣成本前是正的，除了「每季第幾天」以外，扣成本後也還是正的。把各模型等權重合起來，樣本外夏普值和主流因子組合差不多、而且不相關；加進全球因子組合後，夏普值大約提高 30%。對本站：提醒短週期的日曆效應會被交易成本吃光；慢速日曆效應可作為指數期貨（如台指期、美股期貨）的背景觀察，不是選股訊號。",
+        "zh-Hans": "这篇 arXiv 工作论文（2026 年 11 月）把“日历季节性”当成一种因子，套用在全球的债券、商品、股指期货。作者定义五种季节性：星期几、每月第几天、每季第几天、每半年第几天、每年第几天；整体来看这些效应普遍存在，而且无法用常见的套息（carry）、时间序列动量、偏度因子解释。他们替每个市场各自拟合非线性模型，让每个市场有自己的季节形状。滚动样本外测试中，快的季节性（星期几、每月第几天）扣成本前很好看，但换手太高，扣成本后反而亏钱；慢的季节性扣成本前是正的，除了“每季第几天”以外，扣成本后也还是正的。把各模型等权重合起来，样本外夏普值和主流因子组合差不多、而且不相关；加进全球因子组合后，夏普值大约提高 30%。对本站：提醒短周期的日历效应会被交易成本吃光；慢速日历效应可作为股指期货（如台指期、美股期货）的背景观察，不是选股信号。"
+      },
+      "formulas": [
+        "calendar feature for market m on day t: dow(t), dom(t), doq(t), doh(t), doy(t) (trading-day index within week/month/quarter/half-year/year)",
+        "seasonal mean (walk-forward, expanding window, no look-ahead): μ̂_m(k) ← mean of r_m on past days with feature value k; signal_m,t ← μ̂_m(k_t) ÷ σ̂_m (σ̂ = trailing 60-day vol)",
+        "position_m,t ← clip(signal_m,t, −2, 2) × (target_vol ÷ σ̂_m); net return = position·r − cost·|Δposition|",
+        "ensemble = equal weight of the five seasonal models; report gross vs net Sharpe and correlation with momentum/carry",
+        "site use: watch only — possible slow day-of-year context for TXF/ES; no screener, radar or paper-book rule change while the math gate is closed"
+      ],
+      "plainTakeaways": [
+        "期貨市場有「日曆季節性」：某些日子、某些月份平均比較會漲或跌",
+        "星期幾、每月第幾天這種快的效應，交易太頻繁，扣手續費後反而虧錢",
+        "每半年、每年這種慢的效應扣成本後還有正報酬，而且跟動能等因子不相關",
+        "本站只當觀察：提醒交易成本的重要，不是買賣訊號"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "期貨市場有「日曆季節性」：某些日子、某些月份平均比較會漲或跌",
+          "星期幾、每月第幾天這種快的效應，交易太頻繁，扣手續費後反而虧錢",
+          "每半年、每年這種慢的效應扣成本後還有正報酬，而且跟動能等因子不相關",
+          "本站只當觀察：提醒交易成本的重要，不是買賣訊號"
+        ],
+        "zh-Hans": [
+          "期货市场有“日历季节性”：某些日子、某些月份平均比较会涨或跌",
+          "星期几、每月第几天这种快的效应，交易太频繁，扣手续费后反而亏钱",
+          "每半年、每年这种慢的效应扣成本后还有正报酬，而且跟动量等因子不相关",
+          "本站只当观察：提醒交易成本的重要，不是买卖信号"
+        ],
+        "en": [
+          "Futures markets show calendar seasonality: some days and months tend to be better or worse on average",
+          "Fast effects like day-of-week or day-of-month trade so often they lose money after costs",
+          "Slow half-year and year effects stay positive after costs and are uncorrelated with momentum",
+          "Site use: watch — a reminder about trading costs, not a trade signal"
+        ],
+        "ja": [
+          "先物市場にはカレンダー季節性がある：特定の日や月は平均的に上がりやすい／下がりやすい",
+          "曜日・月内日のような速い効果は売買が多すぎ、コスト後は赤字",
+          "半期・年のような遅い効果はコスト後もプラスで、モメンタムと無相関",
+          "本サイトはウォッチ：取引コストの重要性の教訓で、売買シグナルではない"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed; watch only, no screener or radar math change. Never status=adopted while passedGate=false. Seasonality is a futures-overlay/cost-awareness watch item; arXiv preprint, not peer reviewed.",
+      "sources": [
+        "https://arxiv.org/abs/2611.15657"
+      ],
+      "tags": [
+        "both",
+        "seasonality",
+        "calendar-effects",
+        "futures",
+        "transaction-costs",
+        "factor-investing",
         "watch"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",
