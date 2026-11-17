@@ -2274,6 +2274,20 @@ async function main() {
       else if (missing.length) fail(`Top 5 empty market: i18n keys missing in ${missing.join(", ")}`);
       else ok("Top 5 empty market: plain why + other-market tickers + jump button, overall rank kept, i18n x4");
     }
+    {
+      // 2026-11-17: paper summary — cash under equity (4 KPIs fill the grid), window dates shown,
+      // windows longer than the book's history collapse into one "since inception" cell (no duplicate cells).
+      const paperSrc = fs.readFileSync(path.join(ROOT, "src/paper.js"), "utf8");
+      const langs = ["src/i18n.js", "src/i18n/en.js", "src/i18n/zh-Hans.js", "src/i18n/ja.js"];
+      const missing = langs.filter((f) => !["paperWinDays", "paperWinSince", "paperWinJoin", "paperWinNotYet"]
+        .every((k) => new RegExp(`\\b${k}: "`).test(fs.readFileSync(path.join(ROOT, f), "utf8"))));
+      const kpiCount = (paperSrc.match(/<div class="paper-kpi">/g) || []).length;
+      if (!/class="k-sub-val" data-lq-kpi="cash"/.test(paperSrc)) fail("paper summary: cash must sit inside the equity hero");
+      else if (kpiCount !== 4) fail(`paper summary: expected 4 secondary KPIs (full 2×2 / 1×4 grid), got ${kpiCount}`);
+      else if (!/function renderWindows\(metrics\)/.test(paperSrc) || !/inception\.length > 1/.test(paperSrc)) fail("paper summary: duplicate since-inception windows must collapse");
+      else if (missing.length) fail(`paper summary: i18n keys missing in ${missing.join(", ")}`);
+      else ok("paper summary: cash in hero, 4-KPI grid, dated windows, single since-inception cell, i18n x4");
+    }
     if (!sample.includes("2026-10-08 08:12（台北）") || !sample.includes("台股為 2026-10-07 收盤") || !sample.includes("美股為 2026-10-07 收盤")) fail(`buildTimezoneNote wrong: ${sample}`);
     const tzNote = String(latest.timezoneNote || "");
     const asOfTpe = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" }).format(new Date(latest.asOf));

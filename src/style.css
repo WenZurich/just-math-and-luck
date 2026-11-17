@@ -4246,3 +4246,37 @@ html.marquee-static .macro-strip .index-marquee-group--clone {
 @media (max-width: 480px) {
   .top-elsewhere-btn { width: 100%; }
 }
+
+/* ---- Paper summary layout (2026-11-17): cash sits under equity, 4 KPIs make a full 2×2 / 1×4 grid,
+   period windows show their dates and "since inception" appears once ---- */
+.paper-kpi--equity .k-sub {
+  margin-top: 0.3rem;
+  font-size: var(--fs-xs, 0.78rem);
+  color: color-mix(in srgb, var(--surface) 78%, var(--text));
+  font-variant-numeric: tabular-nums;
+}
+.paper-kpi--equity .k-sub-val { font-weight: 650; color: var(--surface); }
+.paper-kpi .k-val { font-variant-numeric: tabular-nums; }
+.paper-windows {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.paper-windows--n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.paper-windows--n1 { grid-template-columns: 1fr; }
+@media (min-width: 640px) {
+  .paper-windows { grid-template-columns: repeat(var(--win-n, 4), minmax(0, 1fr)); }
+}
+.paper-win-col { min-width: 0; display: flex; flex-direction: column; }
+.paper-win-col .paper-win { flex: 1; }
+.paper-win .w-val { font-variant-numeric: tabular-nums; }
+.paper-win .w-range {
+  margin-top: 0.15rem;
+  font-size: var(--fs-2xs, 0.68rem);
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+.paper-win .w-note {
+  margin-top: 0.2rem;
+  font-size: var(--fs-2xs, 0.68rem);
+  line-height: 1.35;
+  color: var(--text-muted);
+}

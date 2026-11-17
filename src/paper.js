@@ -69,14 +69,45 @@ function reasonLabel(code) {
   return map[code] || code || "";
 }
 
-function windowCell(w) {
-  if (!w) return `<div class="paper-win"><div class="w-label">—</div><div class="w-val">—</div></div>`;
-  const tag = w.sinceInception ? term("sinceInception", t("sinceInception")) : escapeHtml(w.label || "");
+const mmdd = (d) => (typeof d === "string" && /^\d{4}-\d{2}-\d{2}/.test(d) ? `${d.slice(5, 7)}/${d.slice(8, 10)}` : "");
+
+function windowCell(name, w, note = "") {
+  if (!w) return `<div class="paper-win-col"><div class="win-name">${escapeHtml(name)}</div><div class="paper-win"><div class="w-label">—</div><div class="w-val">—</div></div></div>`;
+  const tag = w.sinceInception
+    ? term("sinceInception", t("sinceInception"))
+    : escapeHtml(isFiniteNumber(w.days) ? t("paperWinDays", { n: w.days }) : w.label || "");
+  const range = w.sinceInception
+    ? (w.fromDate ? t("paperWinSince", { date: w.fromDate }) : "")
+    : (w.fromDate && w.toDate ? `${mmdd(w.fromDate)} → ${mmdd(w.toDate)}` : "");
   return `
-    <div class="paper-win">
-      <div class="w-label">${tag}</div>
-      <div class="w-val ${pctClass(w.pct)}">${fmtPct(w.pct)}</div>
+    <div class="paper-win-col">
+      <div class="win-name">${escapeHtml(name)}</div>
+      <div class="paper-win">
+        <div class="w-label">${tag}</div>
+        <div class="w-val ${pctClass(w.pct)}">${fmtPct(w.pct)}</div>
+        ${range ? `<div class="w-range">${escapeHtml(range)}</div>` : ""}
+        ${note ? `<div class="w-note">${escapeHtml(note)}</div>` : ""}
+      </div>
     </div>`;
+}
+
+/** Week / month / quarter / year; windows longer than the book's history all equal "since inception", so show that once. */
+function renderWindows(metrics) {
+  const all = [
+    [t("weekPerf"), metrics?.week],
+    [t("monthPerf"), metrics?.month],
+    [t("quarterPerf"), metrics?.quarter],
+    [t("yearPerf"), metrics?.year],
+  ];
+  const cells = [];
+  const inception = all.filter(([, w]) => w?.sinceInception);
+  for (const [name, w] of all) if (!w?.sinceInception) cells.push(windowCell(name, w));
+  if (inception.length === 1) cells.push(windowCell(inception[0][0], inception[0][1]));
+  else if (inception.length > 1) {
+    const list = inception.map(([n]) => n).join(t("paperWinJoin"));
+    cells.push(windowCell(list, inception[0][1], t("paperWinNotYet")));
+  }
+  return `<div class="paper-windows paper-windows--n${cells.length}" style="--win-n:${cells.length}">${cells.join("")}</div>`;
 }
 
 function impliedAvgCost(row) {
@@ -253,10 +284,7 @@ function renderBookCard(id, book, metrics) {
         <div class="paper-kpi paper-kpi--equity">
           <div class="k-label">${term("position", t("equity"))}</div>
           <div class="k-val" data-lq-kpi="equity">${fmtMoney(book.equity, currency)}</div>
-        </div>
-        <div class="paper-kpi">
-          <div class="k-label">${escapeHtml(t("cash"))}</div>
-          <div class="k-val" data-lq-kpi="cash">${fmtMoney(book.cash, currency)}</div>
+          <div class="k-sub"><span class="k-sub-label">${escapeHtml(t("cash"))}</span> <span class="k-sub-val" data-lq-kpi="cash">${fmtMoney(book.cash, currency)}</span></div>
         </div>
         <div class="paper-kpi">
           <div class="k-label">${escapeHtml(t("totalPnl"))}</div>
@@ -275,24 +303,7 @@ function renderBookCard(id, book, metrics) {
           <div class="k-val ${pctClass(unrealized)}" data-lq-kpi="unrealized">${fmtSignedMoney(unrealized, currency)}</div>
         </div>
       </div>
-      <div class="paper-windows">
-        <div>
-          <div class="win-name">${escapeHtml(t("weekPerf"))}</div>
-          ${windowCell(metrics?.week)}
-        </div>
-        <div>
-          <div class="win-name">${escapeHtml(t("monthPerf"))}</div>
-          ${windowCell(metrics?.month)}
-        </div>
-        <div>
-          <div class="win-name">${escapeHtml(t("quarterPerf"))}</div>
-          ${windowCell(metrics?.quarter)}
-        </div>
-        <div>
-          <div class="win-name">${escapeHtml(t("yearPerf"))}</div>
-          ${windowCell(metrics?.year)}
-        </div>
-      </div>
+      ${renderWindows(metrics)}
     </article>`;
 }
 
