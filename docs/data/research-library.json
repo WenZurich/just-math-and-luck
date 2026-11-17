@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-16T10:30:00+08:00",
+    "updated": "2026-11-17T10:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -12379,6 +12379,173 @@
         "futures",
         "transaction-costs",
         "factor-investing",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-tw-rp-pca-characteristic-free-risk-premia-2026",
+      "market": "TW",
+      "type": "paper",
+      "title": "Capturing Risk Premia in the Taiwanese Market: A Characteristic-Free Approach",
+      "titleLocalized": {
+        "zh-Hant": "台股：不靠財報指標，純統計因子也抓得到風險溢酬",
+        "en": "Taiwan: Purely Statistical Factors Capture Risk Premia Without Firm Characteristics",
+        "zh-Hans": "台股：不靠财报指标，纯统计因子也抓得到风险溢酬",
+        "ja": "台湾株：企業特性なしでも統計的ファクターでリスクプレミアムを捕捉"
+      },
+      "authors": [
+        "Kendro Vincent",
+        "Ching-Ting Lin",
+        "Kuei-Feng Tsai",
+        "Shun-Fa Wu"
+      ],
+      "year": 2026,
+      "shelf": "market_analysis",
+      "summary": "A Pacific-Basin Finance Journal article (vol. 99, article 103199, online May 2026; SSRN preprint 5476348) by NCCU authors. Instead of building factors from chosen firm characteristics (value, size, quality…), it extracts factors statistically from weekly returns of the most liquid Taiwan stocks (2007–2023) using Risk-Premium PCA (RP-PCA), a PCA variant that also rewards components with high average return. The top RP-PCA portfolio reaches an annualized Sharpe ratio of up to about 0.82 versus about 0.54 for an equal-weighted benchmark over the same period. For a no-short-selling version, simply forcing RP-PCA weights to be non-negative keeps Sharpe near 0.78, while a convex non-negative matrix factorization alternative falls to about 0.49. Factor regressions show the RP-PCA factors load positively on momentum and negatively on short-term reversal, i.e. they pick up price dynamics at different horizons. The abstract does not report after-cost results. For this site: a TW long-only statistical-factor idea to test against the paper book later, not a buy signal.",
+      "summaryLocalized": {
+        "en": "Using weekly returns of the most liquid Taiwan stocks (2007–2023), Risk-Premium PCA extracts characteristic-free factors with annualized Sharpe up to ~0.82 vs ~0.54 for equal-weight. Long-only by clipping weights to ≥0 keeps ~0.78; convex-NMF drops to ~0.49. Factors tilt toward momentum and away from short-term reversal. No after-cost numbers in the abstract. Site use: watch.",
+        "ja": "Pacific-Basin Finance Journal 99巻（2026年5月オンライン、政治大学の研究者）。企業特性を使わず、流動性上位の台湾株の週次リターン（2007–2023）からRP-PCA（平均リターンも重視するPCA）で統計的ファクターを抽出。年率Sharpeは最大約0.82で、等ウェイト基準の約0.54を上回る。空売りなしではウェイトを非負に制限する方法で約0.78、convex-NMFでは約0.49。ファクターはモメンタムと正、短期リバーサルと負の関係。要旨にコスト控除後の結果はない。本サイトはウォッチ：台湾株ロングオンリーの統計ファクター候補で、売買シグナルではない。",
+        "zh-Hant": "這篇刊在《Pacific-Basin Finance Journal》第 99 卷（2026 年 5 月上線，政大團隊，SSRN 預印本 5476348）的論文，不先指定本益比、市值、品質等公司特徵，而是直接拿台股流動性最好的一批股票每週報酬（2007–2023），用「風險溢酬主成分分析」（RP-PCA，一種除了看共同波動、也偏好平均報酬高的成分的 PCA）萃取因子。結果最佳組合年化 Sharpe 最高約 0.82，同期等權重基準只有約 0.54。若不能放空，直接把權重限制為非負仍有約 0.78；改用凸非負矩陣分解（convex-NMF）則降到約 0.49。因子迴歸顯示這些統計因子跟動能正相關、跟短期反轉負相關，等於抓到不同週期的價格動態。摘要沒有扣交易成本後的結果。對本站：可日後拿紙上帳本測試的台股只做多統計因子點子，不是買進訊號。",
+        "zh-Hans": "这篇刊在《Pacific-Basin Finance Journal》第 99 卷（2026 年 5 月上线，政大团队，SSRN 预印本 5476348）的论文，不先指定本益比、市值、品质等公司特征，而是直接拿台股流动性最好的一批股票每周报酬（2007–2023），用“风险溢酬主成分分析”（RP-PCA，一种除了看共同波动、也偏好平均报酬高的成分的 PCA）萃取因子。结果最佳组合年化 Sharpe 最高约 0.82，同期等权重基准只有约 0.54。若不能放空，直接把权重限制为非负仍有约 0.78；改用凸非负矩阵分解（convex-NMF）则降到约 0.49。因子回归显示这些统计因子跟动能正相关、跟短期反转负相关，等于抓到不同周期的价格动态。摘要没有扣交易成本后的结果。对本站：可日后拿纸上账本测试的台股只做多统计因子点子，不是买进信号。"
+      },
+      "formulas": [
+        "universe_t: top-N TW common stocks by trailing 20-day average turnover (NT$), rebalanced weekly; R = T×N matrix of weekly excess returns over a rolling estimation window (no look-ahead)",
+        "RP-PCA (Lettau–Pelger): eigen-decompose Σ̂_RP = (1/T)·RᵀR + γ·μ̂μ̂ᵀ (γ ≈ 10 is a common choice — the paper's γ is not in the abstract; γ = −1 gives plain PCA); factor weights w_k = top eigenvectors, factor return f_k,t = w_kᵀ r_t",
+        "tangency/long-only: combine factors by mean-variance on f; long-only variant = clip weights to ≥ 0 and renormalize to sum 1 (paper's 'direct' method)",
+        "evaluate: annualized Sharpe = √52·mean(f)/sd(f) vs equal-weight universe; regress on TW momentum and short-term reversal factors",
+        "site use: watch only — no change to live TW screener until the math gate passes and an after-cost (0.1425% fee each side, 0.3% sell tax) paper-book test is done"
+      ],
+      "plainTakeaways": [
+        "不先挑本益比、市值這些指標，只用流動性最好的台股週報酬做統計（RP-PCA），也能抓到賺錢的共同因子",
+        "2007–2023 年 Sharpe 最高約 0.82，同期等權重大盤只有 0.54",
+        "不能放空時直接把權重限制為非負，Sharpe 仍約 0.78；另一種非負分解法（convex-NMF）掉到 0.49",
+        "這些因子跟動能正相關、跟短期反轉負相關；本站只當觀察，不是買進訊號"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "不先挑本益比、市值這些指標，只用流動性最好的台股週報酬做統計（RP-PCA），也能抓到賺錢的共同因子",
+          "2007–2023 年 Sharpe 最高約 0.82，同期等權重大盤只有 0.54",
+          "不能放空時直接把權重限制為非負，Sharpe 仍約 0.78；另一種非負分解法（convex-NMF）掉到 0.49",
+          "這些因子跟動能正相關、跟短期反轉負相關；本站只當觀察，不是買進訊號"
+        ],
+        "zh-Hans": [
+          "不先挑本益比、市值这些指标，只用流动性最好的台股周报酬做统计（RP-PCA），也能抓到赚钱的共同因子",
+          "2007–2023 年 Sharpe 最高约 0.82，同期等权重大盘只有 0.54",
+          "不能放空时直接把权重限制为非负，Sharpe 仍约 0.78；另一种非负分解法（convex-NMF）掉到 0.49",
+          "这些因子跟动能正相关、跟短期反转负相关；本站只当观察，不是买进信号"
+        ],
+        "en": [
+          "Without picking characteristics like P/E or size, a purely statistical method (RP-PCA) on weekly returns of the most liquid Taiwan stocks finds rewarded common factors",
+          "2007–2023 Sharpe up to about 0.82 vs 0.54 for the equal-weight benchmark",
+          "Long-only by simply forcing weights ≥ 0 still gives about 0.78; the convex-NMF long-only variant drops to 0.49",
+          "The factors load positively on momentum and negatively on short-term reversal; site use: watch, not a buy signal"
+        ],
+        "ja": [
+          "PERや規模などの特性を使わず、流動性上位の台湾株の週次リターンだけで統計的手法（RP-PCA）を当てても報われる共通ファクターが取れる",
+          "2007–2023年のSharpeは最大約0.82、同期間の等ウェイトは0.54",
+          "空売りなしでウェイトを非負に制限しても約0.78、convex-NMF型のロングオンリーは0.49に低下",
+          "ファクターはモメンタムと正、短期リバーサルと負の関係。本サイトはウォッチで、売買シグナルではない"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed; watch only, no screener or radar math change. Never status=adopted while passedGate=false. RP-PCA statistical factors are a TW long-only watch item; abstract has no after-cost returns — needs an after-cost paper-book test first. Retried 11/17 after abstract was unreachable on 11/16 (abstract verified via IDEAS/RePEc and NCCU repository).",
+      "sources": [
+        "https://doi.org/10.1016/j.pacfin.2026.103199",
+        "https://ideas.repec.org/a/eee/pacfin/v99y2026ics0927538x26001459.html",
+        "https://nccur.lib.nccu.edu.tw/handle/140.119/163026",
+        "https://doi.org/10.2139/ssrn.5476348"
+      ],
+      "tags": [
+        "tw",
+        "rp-pca",
+        "statistical-factors",
+        "risk-premia",
+        "long-only",
+        "momentum",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-both-idiosyncratic-global-tsmom-2026",
+      "market": "BOTH",
+      "type": "paper",
+      "title": "Idiosyncratic Market Effects in Global Time Series Momentum",
+      "titleLocalized": {
+        "zh-Hant": "全球時間序列動能：每個市場的動能反應曲線都不一樣",
+        "en": "Global Trend-Following: Each Market Has Its Own Momentum Response Curve",
+        "zh-Hans": "全球时间序列动能：每个市场的动能反应曲线都不一样",
+        "ja": "世界の時系列モメンタム：市場ごとに反応曲線は異なる"
+      },
+      "authors": [
+        "Andrew Butler",
+        "Maciej Zawadzki",
+        "Adam Butler"
+      ],
+      "year": 2026,
+      "shelf": "market_analysis",
+      "summary": "An arXiv working paper (2611.15646, November 2026) from the same team as the Global Seasonality Factor Investing paper already on this shelf. Time-series momentum — a market's own recent average return predicting its next return — is widespread across futures markets, and recent work replaced the classic linear rule with one global nonlinear model shared by all markets. The authors extend that line (building on earlier nonlinear time-series-momentum work by Moskowitz) by fitting the nonlinear model separately for each market and each momentum feature. They find the per-market response curves differ clearly from the global curve, i.e. forward returns react to the same momentum reading in market-specific ways. Despite much smaller samples per market, the per-market fits are robust and give a modest (the authors say marginal) out-of-sample improvement. The abstract gives no Sharpe or cost figures. For this site: a refinement idea for index-futures/leveraged-ETF trend context (TXF, SOXL), not a stock-picking signal.",
+      "summaryLocalized": {
+        "en": "Fitting time-series-momentum response curves separately for each global futures market (instead of one shared nonlinear model) shows clearly market-specific shapes, and despite smaller samples gives a small out-of-sample gain. No Sharpe or cost numbers in the abstract. Site use: watch — possible refinement for TXF/SOXL trend context.",
+        "ja": "arXivワーキングペーパー（2611.15646、2026年11月、季節性ファクター論文と同じ著者陣）。世界の先物で時系列モメンタムを、全市場共通の非線形モデルではなく市場ごと・特徴量ごとに個別に当てはめると、反応曲線の形が市場ごとに明確に異なる。標本が小さくても頑健で、アウトオブサンプル成績は小幅に改善。要旨にSharpeやコストの数値はない。本サイトはウォッチ：TXF/SOXLのトレンド判断の改良候補で、銘柄選択シグナルではない。",
+        "zh-Hant": "這篇 arXiv 工作論文（2611.15646，2026 年 11 月）跟書架上已有的《全球季節性因子》出自同一團隊。時間序列動能是指一個市場自己最近的平均報酬能預測下一期報酬，在全球期貨市場很普遍；近年研究把傳統線性規則換成「所有市場共用一條」的非線性模型。作者延伸 Moskowitz 先前的非線性動能研究，改成每個市場、每個動能特徵各自擬合非線性模型，發現各市場的反應曲線跟全球共用曲線明顯不同——同樣的動能讀數，在不同市場後續報酬的反應不一樣。雖然單一市場樣本少很多，個別擬合仍穩健，樣本外表現有小幅（作者稱「些微」）改善。摘要沒有 Sharpe 或交易成本數字。對本站：可當指數期貨／槓桿 ETF（TXF、SOXL）趨勢判斷日後測試的細節，不是選股訊號。",
+        "zh-Hans": "这篇 arXiv 工作论文（2611.15646，2026 年 11 月）跟书架上已有的《全球季节性因子》出自同一团队。时间序列动能是指一个市场自己最近的平均报酬能预测下一期报酬，在全球期货市场很普遍；近年研究把传统线性规则换成“所有市场共用一条”的非线性模型。作者延伸 Moskowitz 先前的非线性动能研究，改成每个市场、每个动能特征各自拟合非线性模型，发现各市场的反应曲线跟全球共用曲线明显不同——同样的动能读数，在不同市场后续报酬的反应不一样。虽然单一市场样本少很多，个别拟合仍稳健，样本外表现有小幅（作者称“些微”）改善。摘要没有 Sharpe 或交易成本数字。对本站：可当指数期货／杠杆 ETF（TXF、SOXL）趋势判断日后测试的细节，不是选股信号。"
+      },
+      "formulas": [
+        "momentum features for market m: z_m,t(L) ← (mean daily return over last L days) ÷ σ̂_m,t, for L ∈ {21, 63, 126, 252}; σ̂ = trailing 60-day vol (no look-ahead)",
+        "global model: E[r_m,t+1/σ̂_m,t] ≈ g(z_m,t) with one smooth curve g fit on all markets pooled; per-market model: g_m(z) fit on market m only (e.g. spline / small tree ensemble, walk-forward)",
+        "shrinkage blend (practical guard for small samples): ĝ_m = λ·g_m + (1−λ)·g, λ chosen by walk-forward validation",
+        "position_m,t ← clip(ĝ_m(z_m,t), −2, 2) × target_vol ÷ σ̂_m,t; report net Sharpe after cost·|Δposition|, global vs per-market",
+        "site use: watch only — possible TXF/SOXL trend-context refinement; no screener, radar or paper-book rule change while the math gate is closed"
+      ],
+      "plainTakeaways": [
+        "時間序列動能（市場最近漲、接下來較常續漲）在全球期貨普遍存在",
+        "作者把模型改成每個市場各自擬合非線性反應曲線，而不是全部市場共用一條",
+        "各市場的曲線形狀確實不同；雖然每個市場資料少很多，樣本外表現仍略有改善",
+        "本站只當觀察：日後 TXF/SOXL 等趨勢判斷可測試的細節，不是交易訊號"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "時間序列動能（市場最近漲、接下來較常續漲）在全球期貨普遍存在",
+          "作者把模型改成每個市場各自擬合非線性反應曲線，而不是全部市場共用一條",
+          "各市場的曲線形狀確實不同；雖然每個市場資料少很多，樣本外表現仍略有改善",
+          "本站只當觀察：日後 TXF/SOXL 等趨勢判斷可測試的細節，不是交易訊號"
+        ],
+        "zh-Hans": [
+          "时间序列动能（市场最近涨、接下来较常续涨）在全球期货普遍存在",
+          "作者把模型改成每个市场各自拟合非线性反应曲线，而不是全部市场共用一条",
+          "各市场的曲线形状确实不同；虽然每个市场数据少很多，样本外表现仍略有改善",
+          "本站只当观察：日后 TXF/SOXL 等趋势判断可测试的细节，不是交易信号"
+        ],
+        "en": [
+          "Time-series momentum (a market's recent average return predicts its next return) is widespread across global futures",
+          "The authors fit a separate nonlinear response curve for each market instead of one shared global curve",
+          "Curves really differ by market; despite much smaller samples, per-market fits give a small out-of-sample improvement",
+          "Site use: watch — a refinement to test later for TXF/SOXL trend context, not a trading signal"
+        ],
+        "ja": [
+          "時系列モメンタム（直近の平均リターンが次のリターンを予測）は世界の先物で広く見られる",
+          "全市場共通の非線形曲線ではなく、市場ごとに別の非線形反応曲線を当てはめる",
+          "曲線の形は市場ごとに異なり、標本が小さくても市場別モデルはアウトオブサンプルで小幅に改善",
+          "本サイトはウォッチ：TXF/SOXLなどのトレンド判断で将来検証する改良案で、売買シグナルではない"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed; watch only, no screener or radar math change. Never status=adopted while passedGate=false. Per-market nonlinear TSMOM is an index-futures trend-context watch item; arXiv preprint, not peer reviewed; improvement described as marginal and no after-cost figures in the abstract.",
+      "sources": [
+        "https://arxiv.org/abs/2611.15646"
+      ],
+      "tags": [
+        "both",
+        "time-series-momentum",
+        "trend-following",
+        "futures",
+        "nonlinear",
         "watch"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",
