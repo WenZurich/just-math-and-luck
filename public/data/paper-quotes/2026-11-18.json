@@ -1,0 +1,51 @@
+{
+  "sessionSource": {
+    "TW": "加權指數收盤先比 Yahoo ^TWII；Yahoo 該日 close 為空時改用證交所 MI_5MINS_HIST 官方收盤"
+  },
+  "scanAsOf": "2026-11-18T00:03:30Z",
+  "date": "2026-11-18",
+  "sessions": {
+    "US": "2026-11-17",
+    "TW": "2026-11-17"
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft",
+      "market": "US",
+      "session": "2026-11-17",
+      "price": 506.24,
+      "dayPct": -2.27,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "QLYS",
+      "name": "Qualys",
+      "market": "US",
+      "session": "2026-11-17",
+      "price": 174.67,
+      "dayPct": -4.03,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ZS",
+      "name": "Zscaler",
+      "market": "US",
+      "session": "2026-11-17",
+      "price": 185.19,
+      "dayPct": -2.96,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": [
+    {
+      "ticker": "ROKU",
+      "market": "US",
+      "why": "Yahoo 日線沒有 2026-11-17 收盤"
+    }
+  ]
+}

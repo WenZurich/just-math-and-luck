@@ -1,17 +1,17 @@
 {
-  "asOf": "2026-11-17T00:10:54.458Z",
+  "asOf": "2026-11-18T00:04:26.976Z",
   "market": "US",
   "timezone": "America/New_York",
   "timezoneLabel": "US ET",
   "window": {
-    "from": "2026-11-16",
-    "to": "2026-12-21"
+    "from": "2026-11-17",
+    "to": "2026-12-22"
   },
   "source": {
     "name": "XOOMAR",
     "url": "https://xoomar.com/api/markets/calendar",
     "docs": "https://xoomar.com/markets/api/calendar",
-    "remoteUpdatedAt": "2026-11-13T17:30:02.832Z",
+    "remoteUpdatedAt": "2026-11-17T16:00:06.619Z",
     "attribution": "Credit XOOMAR with a link to the dataset page on xoomar.com when you republish this data",
     "license": "https://xoomar.com/terms"
   },
@@ -29,9 +29,9 @@
       "periodLabel": "October 2026",
       "source": "census",
       "officialUrl": "https://www.census.gov/retail/index.html",
-      "actual": null,
-      "previous": null,
-      "unit": null
+      "actual": "0.2000",
+      "previous": "0.8000",
+      "unit": "% m/m"
     },
     {
       "id": "fomcMinutes-2026-11-18T19:00:00.000Z",
