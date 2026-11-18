@@ -131,14 +131,17 @@ function contractRows(block) {
   return rows
     .map(({ tag, c }) => {
       const dir = dirClass(c.changePct ?? c.change);
-      return `<tr>
-        <td><span class="txf-pill">${escapeHtml(tag)}</span> ${escapeHtml(monthLabel(c.month))}</td>
-        <td class="txf-num ${dir}">${escapeHtml(fmtNum(c.last, 0) || "—")}</td>
-        <td class="txf-num">${escapeHtml(fmtNum(c.settle, 0) || "—")}</td>
-        <td class="txf-num ${dir}">${escapeHtml(fmtSigned(c.change, 0) || "—")} (${escapeHtml(fmtPct(c.changePct, 2) || "—")})</td>
-        <td class="txf-num">${escapeHtml(fmtInt(c.volume) || "—")}</td>
-        <td class="txf-num">${escapeHtml(fmtInt(c.openInterest) || "—")}</td>
-        <td class="txf-num">${escapeHtml(c.lastTradingDay || "—")}</td>
+      // data-label: on phones each month becomes a labelled card (txf.css) so
+      // 成交量 / 未平倉 / 最後交易日 are visible without a hidden sideways scroll.
+      const L = (k) => escapeHtml(t(k));
+      return `<tr class="txf-row">
+        <td class="txf-cell-month" data-label="${L("txfColMonth")}"><span class="txf-pill">${escapeHtml(tag)}</span> ${escapeHtml(monthLabel(c.month))}</td>
+        <td class="txf-num ${dir}" data-label="${L("txfColLast")}">${escapeHtml(fmtNum(c.last, 0) || "—")}</td>
+        <td class="txf-num" data-label="${L("txfColSettle")}">${escapeHtml(fmtNum(c.settle, 0) || "—")}</td>
+        <td class="txf-num ${dir}" data-label="${L("txfColChange")}">${escapeHtml(fmtSigned(c.change, 0) || "—")} <span class="txf-chg-pct">(${escapeHtml(fmtPct(c.changePct, 2) || "—")})</span></td>
+        <td class="txf-num" data-label="${L("txfColVolume")}">${escapeHtml(fmtInt(c.volume) || "—")}</td>
+        <td class="txf-num" data-label="${L("txfColOI")}">${escapeHtml(fmtInt(c.openInterest) || "—")}</td>
+        <td class="txf-num" data-label="${L("txfColLTD")}">${escapeHtml(c.lastTradingDay || "—")}</td>
       </tr>`;
     })
     .join("");
@@ -201,12 +204,12 @@ function paintInstitutional(data) {
       const rows = (inst.byContract[code] || [])
         .map((r) => {
           const net = r.openInterestNet;
-          return `<tr>
-            <td>${escapeHtml(r.partyZh || "—")}</td>
-            <td class="txf-num">${escapeHtml(fmtInt(r.openInterestLong) || "—")}</td>
-            <td class="txf-num">${escapeHtml(fmtInt(r.openInterestShort) || "—")}</td>
-            <td class="txf-num ${dirClass(net)}">${escapeHtml(fmtInt(net) || "—")}</td>
-            <td class="txf-num ${dirClass(r.tradingVolumeNet)}">${escapeHtml(fmtInt(r.tradingVolumeNet) || "—")}</td>
+          return `<tr class="txf-row txf-row-inst">
+            <td class="txf-cell-party" data-label="${escapeHtml(t("txfColParty"))}">${escapeHtml(r.partyZh || "—")}</td>
+            <td class="txf-num" data-label="${escapeHtml(t("txfColLongOI"))}">${escapeHtml(fmtInt(r.openInterestLong) || "—")}</td>
+            <td class="txf-num" data-label="${escapeHtml(t("txfColShortOI"))}">${escapeHtml(fmtInt(r.openInterestShort) || "—")}</td>
+            <td class="txf-num ${dirClass(net)}" data-label="${escapeHtml(t("txfColNetOI"))}">${escapeHtml(fmtInt(net) || "—")}</td>
+            <td class="txf-num ${dirClass(r.tradingVolumeNet)}" data-label="${escapeHtml(t("txfColNetVol"))}">${escapeHtml(fmtInt(r.tradingVolumeNet) || "—")}</td>
           </tr>`;
         })
         .join("");

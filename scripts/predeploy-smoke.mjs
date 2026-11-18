@@ -2288,6 +2288,18 @@ async function main() {
       else if (missing.length) fail(`paper summary: i18n keys missing in ${missing.join(", ")}`);
       else ok("paper summary: cash in hero, 4-KPI grid, dated windows, single since-inception cell, i18n x4");
     }
+    {
+      // 2026-11-18: 台指期 tables on phones — every cell carries data-label and the ≤720px rule turns
+      // rows into labelled cards, so 成交量/未平倉/最後交易日 and 法人淨買賣 are not hidden off-screen.
+      const txfSrc = fs.readFileSync(path.join(ROOT, "src/txf.js"), "utf8");
+      const txfCss = fs.readFileSync(path.join(ROOT, "src/txf.css"), "utf8");
+      const keys = ["txfColMonth", "txfColLast", "txfColSettle", "txfColChange", "txfColVolume", "txfColOI", "txfColLTD",
+        "txfColParty", "txfColLongOI", "txfColShortOI", "txfColNetOI", "txfColNetVol"];
+      const unlabeled = keys.filter((k) => !txfSrc.includes(`data-label="\${L("${k}")}"`) && !txfSrc.includes(`data-label="\${escapeHtml(t("${k}"))}"`));
+      if (unlabeled.length) fail(`txf mobile cards: cells missing data-label for ${unlabeled.join(", ")}`);
+      else if (!/\.txf-table thead \{ display: none; \}/.test(txfCss) || !/tr\.txf-row \{[^}]*display: grid/.test(txfCss) || !/content: attr\(data-label\)/.test(txfCss)) fail("txf mobile cards: ≤720px card CSS missing");
+      else ok("txf mobile cards: 12 labelled cells, rows stack as cards ≤720px (no hidden columns)");
+    }
     if (!sample.includes("2026-10-08 08:12（台北）") || !sample.includes("台股為 2026-10-07 收盤") || !sample.includes("美股為 2026-10-07 收盤")) fail(`buildTimezoneNote wrong: ${sample}`);
     const tzNote = String(latest.timezoneNote || "");
     const asOfTpe = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" }).format(new Date(latest.asOf));

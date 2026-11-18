@@ -138,6 +138,8 @@
   white-space: nowrap;
 }
 .txf-table th { color: var(--text-muted); font-weight: 700; font-size: 0.75rem; }
+/* 法人 tables sit 3-up on desktop: tighter cells so 淨買賣 is not clipped by ~7px at 1280px. */
+.txf-inst-grid .txf-table th, .txf-inst-grid .txf-table td { padding-left: 0.3rem; padding-right: 0.3rem; }
 .txf-num { font-family: var(--mono); text-align: right !important; font-variant-numeric: tabular-nums; }
 .txf-inst-grid, .txf-cal-grid {
   display: grid;
@@ -160,4 +162,48 @@
 @media (max-width: 720px) {
   .txf-hero { grid-template-columns: 1fr; }
   .txf-price { font-size: 1.7rem; }
+  /* Phones: every contract month / 法人 row becomes a labelled card, so 成交量・
+     未平倉・最後交易日 and 淨買賣 are on screen instead of hidden behind a sideways
+     scroll with no cue (390px showed only 4 of 7 columns and clipped 漲跌%). */
+  .txf-table-wrap { overflow: visible; }
+  .txf-table, .txf-table tbody { display: block; }
+  .txf-table thead { display: none; }
+  .txf-table tbody { display: grid; gap: 0.5rem; }
+  .txf-table tr.txf-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.45rem 0.6rem;
+    padding: 0.65rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm, 8px);
+    background: var(--surface, #fff);
+  }
+  .txf-table tr.txf-row-inst { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .txf-table tr.txf-row td {
+    display: block;
+    padding: 0;
+    border: 0;
+    white-space: normal;
+    text-align: left !important;
+    font-size: 0.95rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .txf-table tr.txf-row td.txf-cell-month,
+  .txf-table tr.txf-row td.txf-cell-party {
+    grid-column: 1 / -1;
+    font-weight: 700;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px dashed var(--border);
+  }
+  .txf-table tr.txf-row td.txf-num::before {
+    content: attr(data-label);
+    display: block;
+    font-family: var(--font, inherit);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 0.1rem;
+  }
+  .txf-chg-pct { display: block; font-size: 0.82rem; }
 }
