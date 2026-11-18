@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-17T10:30:00+08:00",
+    "updated": "2026-11-18T10:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -12550,6 +12550,166 @@
       ],
       "coverUrl": "./covers/placeholder-paper.svg",
       "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-ewma-pc1-eigenportfolio-beta-hedge-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "EWMA Principal Eigenportfolios of Equity Returns: Market Representation and Beta-Hedging Performance",
+      "titleLocalized": {
+        "zh-Hant": "用 EWMA 第一主成分組合當「市場」：比 SPY 更好的 beta 避險工具？",
+        "en": "An EWMA First-Principal-Component Portfolio as 'the Market': A Better Beta Hedge than SPY?",
+        "zh-Hans": "用 EWMA 第一主成分组合当“市场”：比 SPY 更好的 beta 避险工具？",
+        "ja": "EWMA第1主成分ポートフォリオを「市場」に：SPYより良いベータヘッジか？"
+      },
+      "authors": [
+        "Andrew Kangmin Kim",
+        "Aurora Neyan Zhou"
+      ],
+      "year": 2026,
+      "shelf": "market_analysis",
+      "summary": "An arXiv working paper (2611.20363, November 2026). The authors build a market-like portfolio from the leading principal component of an exponentially weighted second-moment matrix of volatility-standardised S&P 500 member returns (survivorship handled with the historically changing index universe), and call it EWMA-PC1. Using the same beta-hedging procedure on many randomly generated stock portfolios, they compare hedging with EWMA-PC1 against SPY (cap-weighted) and RSP (equal-weighted). EWMA-PC1 beats SPY on variance reduction and leftover pairwise correlation in every configuration tested (e.g. ~92% vs ~79% variance reduction for 50-stock random portfolios), but its edge over equal-weight RSP is small and mixed — RSP even wins for liquidity-tilted portfolios. Results are gross of trading, financing and borrowing costs. For this site: a risk-tool idea (hedge/benchmark for the US paper book), not a return signal.",
+      "summaryLocalized": {
+        "en": "Hedging stock portfolios with a market factor built from the first principal component of an EWMA covariance of vol-scaled S&P 500 returns removes more variance than hedging with SPY in every test, but is only marginally/mixed better than equal-weight RSP. Gross of costs. Site use: watch — risk/benchmark tool, not a return signal.",
+        "zh-Hant": "arXiv 工作論文（2611.20363，2026 年 11 月）。作者把 S&P 500 成分股（使用歷史成分、避免倖存者偏差）先按波動度標準化，再用指數加權（EWMA）的二階動差矩陣取第一主成分，做成一個「像大盤」的組合 EWMA-PC1。拿大量隨機股票組合做同樣的 beta 避險，比較用 EWMA-PC1、SPY（市值加權）、RSP（等權重）當避險工具。EWMA-PC1 在所有測試中都比 SPY 去掉更多變異、殘差相關性更低（例如 50 檔隨機組合變異降低約 92% vs SPY 約 79%），但相對等權 RSP 的優勢很小且不一致，偏流動性的組合甚至 RSP 較好。結果未扣交易、融資與借券成本。對本站：是風險／基準工具（美股模擬倉避險或比較基準）的觀察項目，不是報酬訊號。",
+        "zh-Hans": "arXiv 工作论文（2611.20363，2026 年 11 月）。作者把 S&P 500 成分股（使用历史成分、避免幸存者偏差）先按波动度标准化，再用指数加权（EWMA）的二阶动差矩阵取第一主成分，做成一个“像大盘”的组合 EWMA-PC1。拿大量随机股票组合做同样的 beta 避险，比较用 EWMA-PC1、SPY（市值加权）、RSP（等权重）当避险工具。EWMA-PC1 在所有测试中都比 SPY 去掉更多变异、残差相关性更低（例如 50 只随机组合变异降低约 92% vs SPY 约 79%），但相对等权 RSP 的优势很小且不一致，偏流动性的组合甚至 RSP 较好。结果未扣交易、融资与借券成本。对本站：是风险／基准工具（美股模拟仓避险或比较基准）的观察项目，不是报酬信号。",
+        "ja": "arXivワーキングペーパー（2611.20363、2026年11月）。ボラティリティで標準化したS&P 500構成銘柄（過去の構成を使用）のEWMA二次モーメント行列の第1主成分から市場的ポートフォリオEWMA-PC1を作り、ランダムな株式ポートフォリオのベータヘッジでSPY・RSPと比較。全設定でSPYより分散削減が大きく残差相関も低い（50銘柄で約92%対約79%）が、等ウェイトRSPに対する優位は小さく一貫しない。コスト控除前。本サイトはウォッチ：リスク／ベンチマーク用ツールで、リターンシグナルではない。"
+      },
+      "formulas": [
+        "standardise: x_i,t ← r_i,t ÷ σ̂_i,t, σ̂ = trailing EWMA vol (no look-ahead), universe = point-in-time S&P 500 members",
+        "EWMA second moment: S_t = λ·S_{t−1} + (1−λ)·x_t x_tᵀ; v_t = leading eigenvector of S_t, sign-fixed so Σv > 0",
+        "EWMA-PC1 weights: w_i,t ∝ v_i,t ÷ σ̂_i,t, normalised Σw = 1; factor return f_t = Σ w_i,t r_i,t+1",
+        "hedge: β̂_P = rolling OLS of portfolio P on f; hedged return = r_P − β̂_P·f; compare variance reduction 1 − Var(hedged)/Var(r_P) vs SPY and RSP hedges with paired block bootstrap",
+        "site use: watch only — possible benchmark/hedge diagnostic for the US paper book; no screener or paper-ledger change while the math gate is closed"
+      ],
+      "plainTakeaways": [
+        "用波動標準化後的成分股取第一主成分，做出一個「像大盤」的組合",
+        "拿它當避險工具，所有測試都比用 SPY 避險去掉更多波動",
+        "但跟等權重的 RSP 比只好一點點、而且不穩定，部分情況 RSP 更好",
+        "未扣成本；本站只當風險／基準工具觀察，不是買賣訊號"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed; watch only, no screener or radar math change. Never status=adopted while passedGate=false. EWMA-PC1 is a hedging/benchmark tool, not a return predictor; arXiv preprint, not peer reviewed; results gross of trading/financing/borrowing costs; incremental edge over equal-weight RSP small and mixed.",
+      "sources": [
+        "https://arxiv.org/abs/2611.20363",
+        "https://doi.org/10.48550/arXiv.2611.20363"
+      ],
+      "tags": [
+        "us",
+        "pca",
+        "eigenportfolio",
+        "beta-hedging",
+        "risk",
+        "watch"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "用波動標準化後的成分股取第一主成分，做出一個「像大盤」的組合",
+          "拿它當避險工具，所有測試都比用 SPY 避險去掉更多波動",
+          "但跟等權重的 RSP 比只好一點點、而且不穩定，部分情況 RSP 更好",
+          "未扣成本；本站只當風險／基準工具觀察，不是買賣訊號"
+        ],
+        "zh-Hans": [
+          "用波动标准化后的成分股取第一主成分，做出一个“像大盘”的组合",
+          "拿它当避险工具，所有测试都比用 SPY 避险去掉更多波动",
+          "但跟等权重的 RSP 比只好一点点、而且不稳定，部分情况 RSP 更好",
+          "未扣成本；本站只当风险／基准工具观察，不是买卖信号"
+        ],
+        "en": [
+          "Take the first principal component of vol-scaled S&P 500 members to build a market-like portfolio",
+          "Used as a hedge, it removes more variance than SPY in every test",
+          "Versus equal-weight RSP the gain is small and inconsistent; RSP sometimes wins",
+          "Gross of costs; site use: watch as a risk/benchmark tool, not a trading signal"
+        ],
+        "ja": [
+          "ボラ標準化した構成銘柄の第1主成分で「市場的」ポートフォリオを作る",
+          "ヘッジに使うと、全テストでSPYより多くの分散を除去",
+          "等ウェイトRSPとの差は小さく不安定で、RSPが勝つ場合もある",
+          "コスト控除前；本サイトはリスク／ベンチマーク用にウォッチ、売買シグナルではない"
+        ]
+      }
+    },
+    {
+      "id": "paper-both-llm-trading-papers-evidence-audit-2026",
+      "market": "BOTH",
+      "type": "paper",
+      "title": "Short Windows, Unmodelled Costs, Unknown Cutoffs: A Pre-Registered Evidence Audit of 91 LLM Trading Papers",
+      "titleLocalized": {
+        "zh-Hant": "91 篇 LLM 交易論文體檢：測試期太短、不扣成本、訓練截止日不明",
+        "en": "Auditing 91 LLM Trading Papers: Short Tests, Missing Costs, Unknown Training Cutoffs",
+        "zh-Hans": "91 篇 LLM 交易论文体检：测试期太短、不扣成本、训练截止日不明",
+        "ja": "LLM売買論文91本の監査：短い検証期間・コスト未控除・不明な学習カットオフ"
+      },
+      "authors": [
+        "Henry Zhang"
+      ],
+      "year": 2026,
+      "shelf": "psych_randomness",
+      "summary": "An arXiv paper (2611.18934, November 2026) that audits the evidence behind LLM trading-agent and alpha-mining papers, with a pre-registered sample of 91 papers, coding rubric, hypotheses and script, each code backed by a script-checked quote and a blind second coder on 20%. Of 75 papers with a trading test, about half deduct no trading costs and under a tenth model costs from data; the median test window is 12 months and a quarter are six months or shorter. Among papers whose test window may overlap the model's training data, almost all (98%) neither test after the cutoff, trade live, nor use a time-consistent model, so look-ahead leakage is uncontrolled. Only about 9% adjust for multiple testing and just five combine costs, leakage control and a trial count. The author proposes a six-line minimum reporting standard. For this site: not a strategy — a checklist for judging any AI/LLM-based signal before it gets near the screener.",
+      "summaryLocalized": {
+        "en": "A pre-registered audit of 91 LLM trading papers: about half ignore trading costs, the median test window is only 12 months, nearly all tests that could overlap the model's training data have no leakage control, and few adjust for multiple testing. Site use: a due-diligence checklist for any AI-driven signal, not a strategy.",
+        "zh-Hant": "arXiv 論文（2611.18934，2026 年 11 月），事先登記（pre-registered）樣本 91 篇、編碼規則、假說與分析程式，再逐篇檢查 LLM 交易代理／因子挖掘論文的證據品質；每個判定都附可被程式核對的原文引句，並由第二位盲測編碼者重編 20%。75 篇有交易測試的論文中，約一半完全沒扣交易成本、只有不到一成用資料估算成本；測試期中位數只有 12 個月，四分之一在 6 個月以下。測試期可能和模型訓練資料重疊的論文裡，98% 既沒在截止日之後測、沒實盤、也沒用時間一致的模型——等於「偷看未來」沒被控制。只有約 9% 做多重檢定調整，同時做到扣成本、控制洩漏、報告試驗次數的只有 5 篇。作者提出六行最低揭露標準。對本站：不是策略，而是評估任何 AI／LLM 訊號前的檢查清單。",
+        "zh-Hans": "arXiv 论文（2611.18934，2026 年 11 月），事先登记（pre-registered）样本 91 篇、编码规则、假说与分析程序，再逐篇检查 LLM 交易代理／因子挖掘论文的证据质量；每个判定都附可被程序核对的原文引句，并由第二位盲测编码者重编 20%。75 篇有交易测试的论文中，约一半完全没扣交易成本、只有不到一成用数据估算成本；测试期中位数只有 12 个月，四分之一在 6 个月以下。测试期可能和模型训练数据重叠的论文里，98% 既没在截止日之后测、没实盘、也没用时间一致的模型——等于“偷看未来”没被控制。只有约 9% 做多重检验调整，同时做到扣成本、控制泄漏、报告试验次数的只有 5 篇。作者提出六行最低披露标准。对本站：不是策略，而是评估任何 AI／LLM 信号前的检查清单。",
+        "ja": "arXiv論文（2611.18934、2026年11月）。91本のLLM売買論文を事前登録の基準で監査。売買検証のある75本の約半数はコスト未控除、検証期間の中央値は12か月、学習データと重なりうる論文の98%はリーク対策なし、多重検定調整は約9%。著者は6行の最低報告基準を提案。本サイト：戦略ではなく、AIシグナルを評価する際のチェックリスト。"
+      },
+      "formulas": [
+        "pre-adoption checklist score for any LLM/AI signal: C = 1[net of costs] + 1[test window ≥ 36 months] + 1[test starts after model training cutoff or live] + 1[trial count N reported] + 1[multiplicity-adjusted, e.g. deflated Sharpe] + 1[code/data released]",
+        "leakage guard: require t_test_start > t_model_cutoff; otherwise flag result as 'possibly contaminated'",
+        "multiplicity: report deflated Sharpe DSR(SR̂, N, T, skew, kurt) instead of raw SR when N strategies were searched",
+        "site use: reject/defer any LLM-derived screener idea with C < 6; no screener math change"
+      ],
+      "plainTakeaways": [
+        "作者事先登記方法，檢查 91 篇「用大型語言模型做交易」的論文",
+        "約一半不扣交易成本，測試期中位數只有 12 個月",
+        "幾乎所有可能偷看到訓練資料的研究都沒做防範，很少做多重檢定調整",
+        "本站用途：評估任何 AI 選股訊號前的檢查清單，不是交易策略"
+      ],
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed; methodology/audit paper, not a strategy; used only as a due-diligence checklist for AI/LLM-derived signals. No screener or radar math change. Never status=adopted while passedGate=false. arXiv preprint, single author, not peer reviewed.",
+      "sources": [
+        "https://arxiv.org/abs/2611.18934",
+        "https://doi.org/10.48550/arXiv.2611.18934"
+      ],
+      "tags": [
+        "both",
+        "llm",
+        "backtest-overfitting",
+        "look-ahead-bias",
+        "trading-costs",
+        "methodology"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "作者事先登記方法，檢查 91 篇「用大型語言模型做交易」的論文",
+          "約一半不扣交易成本，測試期中位數只有 12 個月",
+          "幾乎所有可能偷看到訓練資料的研究都沒做防範，很少做多重檢定調整",
+          "本站用途：評估任何 AI 選股訊號前的檢查清單，不是交易策略"
+        ],
+        "zh-Hans": [
+          "作者事先登记方法，检查 91 篇“用大型语言模型做交易”的论文",
+          "约一半不扣交易成本，测试期中位数只有 12 个月",
+          "几乎所有可能偷看到训练数据的研究都没做防范，很少做多重检验调整",
+          "本站用途：评估任何 AI 选股信号前的检查清单，不是交易策略"
+        ],
+        "en": [
+          "A pre-registered audit of 91 papers on LLM-based trading",
+          "About half deduct no trading costs; the median test window is just 12 months",
+          "Almost none of the studies at risk of training-data look-ahead control for it, and few adjust for multiple testing",
+          "Site use: a checklist before trusting any AI stock signal, not a trading strategy"
+        ],
+        "ja": [
+          "LLM売買論文91本を事前登録の方法で監査",
+          "約半数がコスト未控除、検証期間の中央値は12か月",
+          "学習データの先読みリスクがある研究のほぼ全てが対策なし、多重検定調整も少ない",
+          "本サイト用途：AI銘柄シグナルを信用する前のチェックリスト、売買戦略ではない"
+        ]
+      }
     }
   ]
 }
