@@ -760,6 +760,8 @@ const zhHant = {
   researchStatusRejected: "排除",
   researchCounts: "書籍 {books} · 論文 {papers} · Podcast {podcasts} · 顯示 {total}",
   researchEmpty: "此篩選條件下暫無項目",
+  researchShowMore: "顯示更多（再 {n} 項）",
+  researchShownOf: "已顯示 {shown} / {total} 項",
   researchNoFormulas: "尚無公式條目",
   researchLoadError: "無法載入研究庫（{msg}）",
   researchShelfFilters: "書架分類",

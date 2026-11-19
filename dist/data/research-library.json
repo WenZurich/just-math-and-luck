@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-18T10:30:00+08:00",
+    "updated": "2026-11-19T10:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -12708,6 +12708,171 @@
           "約半数がコスト未控除、検証期間の中央値は12か月",
           "学習データの先読みリスクがある研究のほぼ全てが対策なし、多重検定調整も少ない",
           "本サイト用途：AI銘柄シグナルを信用する前のチェックリスト、売買戦略ではない"
+        ]
+      }
+    },
+    {
+      "id": "paper-tw-untradable-ml-alpha-liquidity-2026",
+      "market": "TW",
+      "type": "paper",
+      "title": "Untradable Alpha? Machine-Learning Stock Selection under Investability Constraints: Evidence from Taiwan",
+      "titleLocalized": {
+        "zh-Hant": "台股機器學習選股的超額報酬，多半買不到：流動性門檻一加就消失",
+        "en": "Untradable Alpha: Taiwan ML Stock-Picking Gains Vanish Once a Liquidity Floor Is Applied",
+        "zh-Hans": "台股机器学习选股的超额收益，多半买不到：流动性门槛一加就消失",
+        "ja": "買えないアルファ：台湾株の機械学習銘柄選択は流動性下限を課すと消える"
+      },
+      "authors": [
+        "Liang-Cheng Chang",
+        "Hsiu Hsing Chiu"
+      ],
+      "year": 2026,
+      "shelf": "market_analysis",
+      "summary": "An SSRN working paper (abstract 7397641, posted 2 Sep 2026; Shih Chien University, Kaohsiung). It re-runs tree-ensemble (random forest etc.) stock selection on Taiwan stocks over 2011–2024, rebuilding the investable universe each May from official exchange files so later-delisted firms stay in. Picking a top-10 portfolio from predicted top-quintile next-year returns looks spectacular unconstrained (about 44.6%/yr vs about 7.9% for 0050 and 6.4% for TAIEX), but the gain sits almost entirely in thinly traded TPEx/OTC small caps. Adding a modest NT$100 million liquidity floor turns the random-forest return slightly negative (about −1.3%/yr), ranking skill drops to coin-flip (AUC ≈ 0.50) and Sharpe falls from about 1.29 to 0.02; main-board-only selection roughly halves the return, and estimated capacity is only NT$0.2–0.4 million. Gradient boosting, a wide neural net and richer features do not rescue it. For this site: a strong warning that any TW backtest must apply a liquidity/turnover floor before believing an edge — not a strategy.",
+      "summaryLocalized": {
+        "en": "Taiwan 2011–2024, survivorship-bias-controlled universe: random-forest top-10 picks earn ~44.6%/yr unconstrained vs ~7.9% for 0050, but the edge lives in illiquid TPEx small caps. A NT$100m liquidity floor makes it ~−1.3%/yr, AUC ~0.50, Sharpe 0.02; capacity only NT$0.2–0.4m. Site use: always apply a liquidity floor to TW backtests; not a strategy.",
+        "zh-Hant": "SSRN 工作論文（7397641，2026 年 9 月 2 日上線，實踐大學高雄校區）。作者用隨機森林等樹模型對台股 2011–2024 年做選股，每年 5 月依交易所官方檔案重建「當時可投資」的股票池，連日後下市的公司也保留，避免倖存者偏差。不設限制時，預測隔年前 20% 報酬、挑前 10 檔，年化約 44.6%，遠勝 0050 約 7.9%、加權指數約 6.4%；但超額報酬幾乎都來自成交稀少的上櫃小型股。只要加一個不算嚴格的「成交值至少新台幣 1 億元」流動性門檻，報酬就變成約 −1.3%，排序能力跌到跟丟銅板一樣（AUC 約 0.50），Sharpe 從約 1.29 掉到 0.02；只選上市股報酬約砍半，可承載資金只有約 20–40 萬元。換成梯度提升、較大神經網路或加更多特徵都救不回來。對本站：台股回測一定要先加流動性門檻再相信績效——是警訊，不是策略。",
+        "zh-Hans": "SSRN 工作论文（7397641，2026 年 9 月 2 日上线，实践大学高雄校区）。作者用随机森林等树模型对台股 2011–2024 年做选股，每年 5 月依交易所官方档案重建“当时可投资”的股票池，连日后下市的公司也保留，避免幸存者偏差。不设限制时，预测次年前 20% 收益、挑前 10 只，年化约 44.6%，远胜 0050 约 7.9%、加权指数约 6.4%；但超额收益几乎都来自成交稀少的上柜小型股。只要加一个不算严格的“成交额至少新台币 1 亿元”流动性门槛，收益就变成约 −1.3%，排序能力跌到跟抛硬币一样（AUC 约 0.50），Sharpe 从约 1.29 掉到 0.02；只选上市股收益约砍半，可承载资金只有约 20–40 万元。换成梯度提升、较大神经网络或加更多特征都救不回来。对本站：台股回测一定要先加流动性门槛再相信绩效——是警讯，不是策略。",
+        "ja": "SSRNワーキングペーパー（7397641、2026年9月2日公開、実践大学高雄）。2011–2024年の台湾株で、毎年5月に取引所の公式データから上場廃止銘柄も含めて投資可能ユニバースを再構築し、ランダムフォレスト等で銘柄選択。制約なしの上位10銘柄は年率約44.6%（0050は約7.9%、加重指数は約6.4%）だが、超過リターンはほぼ流動性の低いTPEx小型株に集中。売買代金1億台湾ドルの流動性下限を課すと約−1.3%、AUCは約0.50、Sharpeは約1.29から0.02へ低下。メインボード限定でリターンは約半減、運用可能額は約20–40万台湾ドル。勾配ブースティングやNNでも改善せず。本サイト：台湾株バックテストには必ず流動性下限を入れるべきという警告で、戦略ではない。"
+      },
+      "formulas": [
+        "investable universe at formation t (each May): U_t = {i listed at t (incl. later delisted) : ADV_i(t) ≥ L}, L = NT$100m daily traded value (paper's floor); compare portfolio stats with and without the filter",
+        "edge-collapse check: Δ = R_unconstrained − R_liquid; flag any TW signal whose Sharpe or rank IC/AUC drops toward 0 (AUC≈0.5) once U_t is applied",
+        "capacity proxy: C ≈ min_i (participation_rate × ADV_i) × N_holdings; reject ideas with C below intended position size",
+        "site use: audit only — confirm the TW screener's existing liquidity filter is applied before any backtest claim; no screener math change"
+      ],
+      "plainTakeaways": [
+        "台股用機器學習選股，回測年化看似 44.6%，但幾乎都來自很難買賣的上櫃小型股",
+        "只要要求每天成交值至少 1 億元，報酬就變負、預測能力跟丟銅板差不多",
+        "換更強的模型也救不回來，問題在「能買的股票池」而不是模型",
+        "本站用途：台股回測一定先加流動性門檻；這是警訊，不是策略"
+      ],
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed; the paper's own conclusion is that the ML edge is not investable, so strategyCandidate=no; used only as a liquidity-floor/investability audit rule for TW backtests. No screener or radar math change. Never status=adopted while passedGate=false. SSRN working paper, not peer reviewed; figures from the abstract only.",
+      "sources": [
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7397641",
+        "https://doi.org/10.2139/ssrn.7397641"
+      ],
+      "tags": [
+        "tw",
+        "machine-learning",
+        "liquidity",
+        "investability",
+        "survivorship-bias",
+        "tpex",
+        "capacity"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "台股用機器學習選股，回測年化看似 44.6%，但幾乎都來自很難買賣的上櫃小型股",
+          "只要要求每天成交值至少 1 億元，報酬就變負、預測能力跟丟銅板差不多",
+          "換更強的模型也救不回來，問題在「能買的股票池」而不是模型",
+          "本站用途：台股回測一定先加流動性門檻；這是警訊，不是策略"
+        ],
+        "zh-Hans": [
+          "台股用机器学习选股，回测年化看似 44.6%，但几乎都来自很难买卖的上柜小型股",
+          "只要要求每天成交额至少 1 亿元，收益就变负、预测能力跟抛硬币差不多",
+          "换更强的模型也救不回来，问题在“能买的股票池”而不是模型",
+          "本站用途：台股回测一定先加流动性门槛；这是警讯，不是策略"
+        ],
+        "en": [
+          "Taiwan ML stock picks backtest at ~44.6%/yr, but almost all of it comes from hard-to-trade OTC small caps",
+          "Require NT$100m daily traded value and returns turn negative; prediction skill is coin-flip",
+          "Stronger models don't fix it — the problem is the tradable universe, not the model",
+          "Site use: always apply a liquidity floor to TW backtests; a warning, not a strategy"
+        ],
+        "ja": [
+          "台湾株の機械学習選択はバックテストで年率約44.6%だが、ほぼ売買困難な店頭小型株由来",
+          "1日売買代金1億台湾ドル以上を条件にするとリターンはマイナス、予測力はコイン投げ並み",
+          "強いモデルでも改善せず、問題はモデルではなく投資可能な銘柄群",
+          "本サイト：台湾株バックテストには必ず流動性下限を。戦略ではなく警告"
+        ]
+      }
+    },
+    {
+      "id": "paper-us-equity-bond-etf-tail-risk-diversification-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "Revisiting Equity-Bond Diversification under Tail Risk and Structural Market Change: Evidence from Global ETFs and Model-Implied Option Prices",
+      "titleLocalized": {
+        "zh-Hant": "股債分散再檢視：最佳化組合尾部風險較低，但等權重的風險調整報酬最好",
+        "en": "Equity-Bond Diversification Revisited: Optimizers Cut Tail Risk, Equal Weight Wins on Risk-Adjusted Return",
+        "zh-Hans": "股债分散再检视：优化组合尾部风险较低，但等权重的风险调整收益最好",
+        "ja": "株式・債券分散の再検証：最適化はテイルリスクを下げるが、リスク調整後リターンは等ウェイトが最良"
+      },
+      "authors": [
+        "Farzana Afroz",
+        "Abootaleb Shirvani",
+        "Nicholas Appiah",
+        "Svetlozar T. Rachev",
+        "Frank J. Fabozzi"
+      ],
+      "year": 2026,
+      "shelf": "asset_allocation",
+      "summary": "An arXiv paper (2611.21897, q-fin.PM, November 2026; 51 pages) that studies 30 equity-bond and multi-asset ETFs listed in the US, Canada and Australia using daily US-dollar returns over 2020–2024. With rolling windows it compares minimum-variance and CVaR-optimized portfolios (long-only and long-short) against an equal-weight benchmark. The optimizers deliver lower realized VaR/CVaR, with long-short cutting downside risk most, yet the plain equal-weight mix posts the best Sharpe, Sortino and Rachev ratios. GARCH beats FIGARCH on information criteria, and a Normal Inverse Gaussian model fitted to history is used to price European options and build implied-vol surfaces. The authors stress the trade-off between tail-risk reduction, risk-adjusted return and implementation costs. For this site: supports keeping the paper book's simple equal-weight sizing as the baseline; a CVaR overlay is a watch item for drawdown control, not a return enhancer.",
+      "summaryLocalized": {
+        "en": "30 US/Canada/Australia-listed equity-bond and multi-asset ETFs, 2020–2024: rolling min-variance and CVaR portfolios lower VaR/CVaR (long-short most), but equal weight has the best Sharpe/Sortino/Rachev ratios. GARCH preferred to FIGARCH; NIG model used for option pricing. Site use: keep equal weight as baseline; CVaR overlay = watch for drawdown control.",
+        "zh-Hant": "arXiv 論文（2611.21897，q-fin.PM，2026 年 11 月，51 頁），作者含 Rachev 與 Fabozzi。研究在美國、加拿大、澳洲掛牌的 30 檔股債與多資產 ETF，用 2020–2024 年以美元計的日報酬，以滾動視窗比較「最小變異數」與「CVaR（條件風險值）最佳化」組合（只做多與多空皆有）對上等權重基準。最佳化組合實際的 VaR／CVaR 較低，多空版本降低下檔風險最多；但最單純的等權重組合反而拿到最高的 Sharpe、Sortino 與 Rachev 比率。波動模型方面 GARCH 在資訊準則上勝過 FIGARCH；另用歷史估計的常態逆高斯（NIG）模型替歐式選擇權定價並畫出隱含波動曲面。作者強調降低尾部風險、風險調整後報酬與實作成本之間要取捨。對本站：支持紙上帳本維持簡單等權重為基準；CVaR 疊加層列觀察，用於控制回撤，不是提高報酬。",
+        "zh-Hans": "arXiv 论文（2611.21897，q-fin.PM，2026 年 11 月，51 页），作者含 Rachev 与 Fabozzi。研究在美国、加拿大、澳大利亚挂牌的 30 只股债与多资产 ETF，用 2020–2024 年以美元计的日收益，以滚动窗口比较“最小方差”与“CVaR（条件风险价值）优化”组合（只做多与多空皆有）对比等权重基准。优化组合实际的 VaR／CVaR 较低，多空版本降低下行风险最多；但最简单的等权重组合反而拿到最高的 Sharpe、Sortino 与 Rachev 比率。波动模型方面 GARCH 在信息准则上胜过 FIGARCH；另用历史估计的正态逆高斯（NIG）模型为欧式期权定价并画出隐含波动曲面。作者强调降低尾部风险、风险调整后收益与实施成本之间要取舍。对本站：支持纸上账本维持简单等权重为基准；CVaR 叠加层列观察，用于控制回撤，不是提高收益。",
+        "ja": "arXiv論文（2611.21897、q-fin.PM、2026年11月、51頁、Rachev・Fabozzi ら）。米国・カナダ・豪州上場の株式・債券／マルチアセットETF 30本を2020–2024年の米ドル建て日次リターンで分析。ローリングで最小分散・CVaR最適化（ロングオンリー／ロングショート）と等ウェイトを比較。最適化はVaR/CVaRを下げ、ロングショートが最も下方リスクを削減する一方、Sharpe・Sortino・Rachev比率は等ウェイトが最高。GARCHがFIGARCHより情報量基準で優位、NIGモデルでオプション価格とインプライド・ボラ曲面も算出。本サイト：等ウェイトを基準として維持、CVaRオーバーレイはドローダウン管理のウォッチ項目。"
+      },
+      "formulas": [
+        "rolling min-CVaR weights (Rockafellar–Uryasev LP): min_{w,ζ} ζ + (1/((1−α)T)) Σ_t max(0, −w·r_t − ζ), s.t. Σw=1, w≥0 (long-only), α=0.95, re-estimated on a rolling window",
+        "min-variance weights: w = argmin wᵀΣ̂w s.t. 1ᵀw=1 (w≥0 for long-only)",
+        "benchmark: w_EW = 1/N; compare out-of-sample Sharpe, Sortino, Rachev ratio RR = CVaR_α(−R)/CVaR_β(R), and empirical VaR/CVaR",
+        "site use: test a CVaR-capped variant of the paper book vs equal weight on drawdown only; no screener math change"
+      ],
+      "plainTakeaways": [
+        "比較 30 檔股債與多資產 ETF，2020–2024 年",
+        "用數學最佳化配置的組合，極端下跌時的虧損比較小",
+        "但最簡單的「每檔一樣多」等權重，風險調整後報酬反而最好",
+        "本站用途：維持等權重當基準，尾部風險控管只列觀察"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed; result favors the existing equal-weight baseline on risk-adjusted return, and the CVaR overlay is only a possible drawdown-control test. Short 2020–2024 sample, ETF universe (not single stocks), costs not modelled in the abstract. No screener or radar math change. Never status=adopted while passedGate=false. arXiv preprint, not peer reviewed.",
+      "sources": [
+        "https://arxiv.org/abs/2611.21897",
+        "https://doi.org/10.48550/arXiv.2611.21897"
+      ],
+      "tags": [
+        "us",
+        "etf",
+        "asset-allocation",
+        "cvar",
+        "min-variance",
+        "equal-weight",
+        "tail-risk"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "比較 30 檔股債與多資產 ETF，2020–2024 年",
+          "用數學最佳化配置的組合，極端下跌時的虧損比較小",
+          "但最簡單的「每檔一樣多」等權重，風險調整後報酬反而最好",
+          "本站用途：維持等權重當基準，尾部風險控管只列觀察"
+        ],
+        "zh-Hans": [
+          "比较 30 只股债与多资产 ETF，2020–2024 年",
+          "用数学优化配置的组合，极端下跌时的亏损比较小",
+          "但最简单的“每只一样多”等权重，风险调整后收益反而最好",
+          "本站用途：维持等权重当基准，尾部风险管控只列观察"
+        ],
+        "en": [
+          "Compares 30 equity-bond and multi-asset ETFs over 2020–2024",
+          "Mathematically optimized portfolios lose less in extreme drops",
+          "But plain equal weighting has the best risk-adjusted return",
+          "Site use: keep equal weight as the baseline; tail-risk control is watch only"
+        ],
+        "ja": [
+          "株式・債券／マルチアセットETF 30本を2020–2024年で比較",
+          "数理最適化したポートフォリオは極端な下落時の損失が小さい",
+          "しかし単純な等ウェイトがリスク調整後リターンで最良",
+          "本サイト：等ウェイトを基準に維持、テイルリスク管理はウォッチのみ"
         ]
       }
     }

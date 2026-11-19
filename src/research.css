@@ -524,3 +524,52 @@
 .rl-menu-title { grid-area: title; font-size: var(--fs-sm); font-weight: 600; }
 .rl-menu-count { grid-area: count; font-size: var(--fs-md); font-weight: 700; color: var(--text); }
 .rl-menu-cta { grid-area: cta; font-size: var(--fs-2xs); font-weight: 500; color: var(--accent); margin: 0; }
+
+/* Progressive list: 「顯示更多」 under long paper / shelf grids */
+.rl-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.9rem 0 0.25rem;
+}
+
+.rl-more-count {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.rl-more-btn {
+  min-height: 44px;
+  min-width: min(100%, 16rem);
+  padding: 0.55rem 1.25rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--accent-strong);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.rl-more-btn:hover {
+  background: var(--accent-soft);
+}
+
+.rl-more-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.rl-title[tabindex="-1"]:focus {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rl-more-btn {
+    transition: none;
+  }
+}

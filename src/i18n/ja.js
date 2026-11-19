@@ -662,6 +662,8 @@ export default {
   researchStatusRejected: "除外",
   researchCounts: "書籍 {books} · 論文 {papers} · Podcast {podcasts} · 表示 {total}",
   researchEmpty: "この条件に一致する項目はありません",
+  researchShowMore: "さらに {n} 件表示",
+  researchShownOf: "{total} 件中 {shown} 件を表示",
   researchNoFormulas: "式なし",
   researchLoadError: "研究ライブラリを読み込めません（{msg}）",
   researchShelfFilters: "書棚分類",

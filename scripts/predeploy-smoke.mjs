@@ -2300,6 +2300,21 @@ async function main() {
       else if (!/\.txf-table thead \{ display: none; \}/.test(txfCss) || !/tr\.txf-row \{[^}]*display: grid/.test(txfCss) || !/content: attr\(data-label\)/.test(txfCss)) fail("txf mobile cards: ≤720px card CSS missing");
       else ok("txf mobile cards: 12 labelled cells, rows stack as cards ≤720px (no hidden columns)");
     }
+    {
+      // 2026-11-19: 研究 long lists render in batches with a 「顯示更多」 button (first paint light;
+      // 81 papers made the 390px page ~63,000px tall). No list may map every card in one go.
+      const rlSrc = fs.readFileSync(path.join(ROOT, "src/research.js"), "utf8");
+      const langs = ["src/i18n.js", "src/i18n/en.js", "src/i18n/zh-Hans.js", "src/i18n/ja.js"];
+      const missing = langs.filter((f) => !["researchShowMore", "researchShownOf"]
+        .every((k) => new RegExp(`\\b${k}: "`).test(fs.readFileSync(path.join(ROOT, f), "utf8"))));
+      const fullMaps = (rlSrc.match(/\.map\(\(\w\) => renderResearchCard\(\w, meta\)\)\.join\(""\)/g) || []).length;
+      const batchM = rlSrc.match(/export const RESEARCH_BATCH = (\d+);/);
+      if (!batchM || Number(batchM[1]) < 6) fail("research batches: RESEARCH_BATCH missing or too small");
+      else if (fullMaps !== 1) fail(`research batches: expected only batchedGrid head to map cards, found ${fullMaps} full-list maps`);
+      else if (!/function bindMoreButtons\(root\)/.test(rlSrc) || !/bindMoreButtons\(root\);/.test(rlSrc)) fail("research batches: 顯示更多 buttons not bound");
+      else if (missing.length) fail(`research batches: i18n keys missing in ${missing.join(", ")}`);
+      else ok(`research batches: ${batchM[1]} cards per batch + 顯示更多, i18n x4`);
+    }
     if (!sample.includes("2026-10-08 08:12（台北）") || !sample.includes("台股為 2026-10-07 收盤") || !sample.includes("美股為 2026-10-07 收盤")) fail(`buildTimezoneNote wrong: ${sample}`);
     const tzNote = String(latest.timezoneNote || "");
     const asOfTpe = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" }).format(new Date(latest.asOf));

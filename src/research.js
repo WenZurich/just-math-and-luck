@@ -235,6 +235,67 @@ export function renderResearchCard(item, meta = {}) {
     </article>`;
 }
 
+/**
+ * Progressive rendering: long lists (80+ papers) paint the first RESEARCH_BATCH cards and a
+ * 「顯示更多」 button that appends the next batch in place. Keeps first paint light (fewer DOM
+ * nodes / cover images) and the mobile page from being ~60,000px tall. All items stay reachable.
+ */
+export const RESEARCH_BATCH = 12;
+let batchSeq = 0;
+const batchStore = new Map();
+
+function moreButtonHtml(id, remaining, shown, total) {
+  return `<div class="rl-more" data-rl-more-wrap="${id}">
+    <p class="rl-more-count" aria-live="polite">${escapeHtml(t("researchShownOf", { shown, total }))}</p>
+    <button type="button" class="rl-more-btn" data-rl-more="${id}">${escapeHtml(t("researchShowMore", { n: Math.min(remaining, RESEARCH_BATCH) }))}</button>
+  </div>`;
+}
+
+function batchedGrid(list, meta) {
+  if (!list.length) return `<div class="rl-grid"><p class="rl-empty">${escapeHtml(t("researchEmpty"))}</p></div>`;
+  const head = list.slice(0, RESEARCH_BATCH);
+  const cards = head.map((b) => renderResearchCard(b, meta)).join("");
+  if (list.length <= RESEARCH_BATCH) return `<div class="rl-grid">${cards}</div>`;
+  const id = `rlb${++batchSeq}`;
+  batchStore.set(id, { list, meta, shown: head.length });
+  return `<div class="rl-grid" data-rl-batch="${id}">${cards}</div>${moreButtonHtml(id, list.length - head.length, head.length, list.length)}`;
+}
+
+function bindMoreButtons(root) {
+  root.querySelectorAll("[data-rl-more]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.rlMore;
+      const entry = batchStore.get(id);
+      const grid = root.querySelector(`[data-rl-batch="${id}"]`);
+      const wrap = root.querySelector(`[data-rl-more-wrap="${id}"]`);
+      if (!entry || !grid || !wrap) return;
+      const next = entry.list.slice(entry.shown, entry.shown + RESEARCH_BATCH);
+      const tmp = document.createElement("div");
+      tmp.innerHTML = next.map((b) => renderResearchCard(b, entry.meta)).join("");
+      const added = [...tmp.children];
+      added.forEach((el) => {
+        grid.appendChild(el);
+        bindCoverFallbacks(el); // only the new cards — existing covers already have listeners
+      });
+      entry.shown += next.length;
+      const remaining = entry.list.length - entry.shown;
+      // Keyboard / screen-reader users land on the first newly added card.
+      const firstTitle = added[0]?.querySelector(".rl-title");
+      if (firstTitle) {
+        firstTitle.setAttribute("tabindex", "-1");
+        firstTitle.focus({ preventScroll: true });
+      }
+      if (remaining <= 0) {
+        wrap.remove();
+        batchStore.delete(id);
+      } else {
+        wrap.querySelector(".rl-more-count").textContent = t("researchShownOf", { shown: entry.shown, total: entry.list.length });
+        btn.textContent = t("researchShowMore", { n: Math.min(remaining, RESEARCH_BATCH) });
+      }
+    });
+  });
+}
+
 export function renderResearchSection(placeholder = true) {
   return `
     <section class="section research-section" aria-labelledby="research-heading">
@@ -405,6 +466,7 @@ function paint(root, data, state, { syncUrl = true } = {}) {
     return;
   }
 
+  batchStore.clear();
   const filtered = filterItems(items, state);
   const books = filtered.filter((i) => i.type === "book");
   const papers = filtered.filter((i) => i.type === "paper");
@@ -439,18 +501,18 @@ function paint(root, data, state, { syncUrl = true } = {}) {
   function renderGrouped(list) {
     if (!list.length) return `<p class="rl-empty">${escapeHtml(t("researchEmpty"))}</p>`;
     if (state.shelf && state.shelf !== "all") {
-      return `<div class="rl-grid">${list.map((b) => renderResearchCard(b, meta)).join("")}</div>`;
+      return batchedGrid(list, meta);
     }
     const shelvesInList = order.filter((s) => list.some((it) => (it.shelf || "adjacent") === s));
     if (!shelvesInList.length) {
-      return `<div class="rl-grid">${list.map((b) => renderResearchCard(b, meta)).join("")}</div>`;
+      return batchedGrid(list, meta);
     }
     return shelvesInList
       .map((s) => {
         const group = list.filter((it) => (it.shelf || "adjacent") === s);
         return `<section class="rl-shelf-group" data-shelf="${escapeHtml(s)}" aria-label="${escapeHtml(shelfLabel(s, meta))}">
           <h4 class="rl-shelf-title">${escapeHtml(shelfLabel(s, meta))} <span class="rl-list-count">(${group.length})</span></h4>
-          <div class="rl-grid">${group.map((b) => renderResearchCard(b, meta)).join("")}</div>
+          ${batchedGrid(group, meta)}
         </section>`;
       })
       .join("");
@@ -470,17 +532,13 @@ function paint(root, data, state, { syncUrl = true } = {}) {
   if (showPapers) {
     lists.push(`<section class="rl-list" aria-label="${escapeHtml(t("researchTypePaper"))}">
         <h3 class="rl-list-title">${escapeHtml(t("researchTypePaper"))} <span class="rl-list-count">(${papers.length})</span></h3>
-        <div class="rl-grid">
-          ${papers.length ? papers.map((p) => renderResearchCard(p, meta)).join("") : `<p class="rl-empty">${escapeHtml(t("researchEmpty"))}</p>`}
-        </div>
+        ${batchedGrid(papers, meta)}
       </section>`);
   }
   if (showPodcasts) {
     lists.push(`<section class="rl-list" aria-label="${escapeHtml(t("researchTypePodcast"))}">
         <h3 class="rl-list-title">${escapeHtml(t("researchTypePodcast"))} <span class="rl-list-count">(${podcasts.length})</span></h3>
-        <div class="rl-grid">
-          ${podcasts.length ? podcasts.map((p) => renderResearchCard(p, meta)).join("") : `<p class="rl-empty">${escapeHtml(t("researchEmpty"))}</p>`}
-        </div>
+        ${batchedGrid(podcasts, meta)}
       </section>`);
   }
 
@@ -521,6 +579,7 @@ function paint(root, data, state, { syncUrl = true } = {}) {
     </div>`;
 
   bindCoverFallbacks(root);
+  bindMoreButtons(root);
   bindResearchChrome(root, data, state);
 }
 

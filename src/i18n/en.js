@@ -680,6 +680,8 @@ export default {
   researchStatusRejected: "Rejected",
   researchCounts: "{books} books · {papers} papers · {podcasts} podcasts · showing {total}",
   researchEmpty: "No items match this filter",
+  researchShowMore: "Show {n} more",
+  researchShownOf: "Showing {shown} of {total}",
   researchNoFormulas: "No formulas listed",
   researchLoadError: "Failed to load research library ({msg})",
   researchShelfFilters: "Shelves",

@@ -662,6 +662,8 @@ export default {
   researchStatusRejected: "排除",
   researchCounts: "书籍 {books} · 论文 {papers} · 播客 {podcasts} · 显示 {total}",
   researchEmpty: "此筛选条件下暂无项目",
+  researchShowMore: "显示更多（再 {n} 项）",
+  researchShownOf: "已显示 {shown} / {total} 项",
   researchNoFormulas: "尚无公式条目",
   researchLoadError: "无法加载研究库（{msg}）",
   researchShelfFilters: "书架分类",
