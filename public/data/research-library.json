@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-19T10:30:00+08:00",
+    "updated": "2026-11-20T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -12873,6 +12873,252 @@
           "数理最適化したポートフォリオは極端な下落時の損失が小さい",
           "しかし単純な等ウェイトがリスク調整後リターンで最良",
           "本サイト：等ウェイトを基準に維持、テイルリスク管理はウォッチのみ"
+        ]
+      }
+    },
+    {
+      "id": "paper-us-chart-visual-retrieval-returns-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "When Price Charts Rhyme: Historical Visual Retrieval for Stock Return Prediction",
+      "titleLocalized": {
+        "zh-Hant": "K 線會押韻：用「找相似歷史線圖」預測美股報酬",
+        "en": "When Price Charts Rhyme: Retrieving Similar Historical Charts to Predict US Stock Returns",
+        "zh-Hans": "K 线会押韵：用“找相似历史线图”预测美股收益",
+        "ja": "チャートは韻を踏む：類似した過去チャートの検索による米国株リターン予測"
+      },
+      "authors": [
+        "Hui Chen",
+        "Haoyu Liu",
+        "Ke Wu",
+        "Dexin Zhou"
+      ],
+      "year": 2026,
+      "shelf": "market_analysis",
+      "summary": "An arXiv paper (2611.23723, q-fin.ST, submitted 18 Nov 2026; 155 pages). For each US stock it uses a vision model to retrieve the most visually similar price charts from about three decades of US price histories, and uses the neighbours' realized future returns as a forecast. Even a model pretrained only on natural images retrieves neighbours whose returns predict the cross-section; aligning the representation with subsequent returns more than doubles the strategy's Sharpe ratio and beats a CNN trained directly on chart images. Predictability is concentrated in stocks with greater limits to arbitrage, and order-imbalance evidence suggests the signal picks up temporary selling pressure that partly reverts. Each forecast can be traced back to dated historical charts. For this site: a 'technical pattern' signal with an interpretable audit trail, but likely a short-horizon reversal effect strongest in hard-to-trade names — watch only.",
+      "summaryLocalized": {
+        "en": "For each US stock, a vision model retrieves the most similar charts from ~30 years of US price history; the neighbours' later returns predict the cross-section. Return-aligned retrieval more than doubles Sharpe and beats a chart-image CNN. Edge concentrated in high limits-to-arbitrage stocks; looks like temporary selling pressure that partly reverts. Site use: watch; check liquidity and costs first.",
+        "zh-Hant": "arXiv 論文（2611.23723，q-fin.ST，2026 年 11 月 18 日提交，155 頁），作者 Hui Chen、Haoyu Liu、Ke Wu、Dexin Zhou。做法是：把每檔美股最近的走勢圖交給影像模型，從約 30 年的美股歷史線圖裡找出「長得最像」的幾張，再看那些歷史線圖之後漲跌多少，拿來當預測。即使模型只用一般照片訓練過，找到的相似線圖也能預測股票之間的報酬高低；若再把模型調整成「對齊之後的報酬」，策略的 Sharpe 比率提高一倍以上，也勝過直接拿線圖訓練的卷積神經網路。不過預測力集中在套利限制較大（較難交易）的股票，下單失衡資料顯示它抓到的是「暫時性賣壓、之後部分反彈」。優點是每個預測都能追溯到具體日期的歷史線圖，比黑箱模型透明。對本站：屬於可解釋的技術型態訊號，但多半是短期反轉、且集中在難交易的股票，只列觀察。",
+        "zh-Hans": "arXiv 论文（2611.23723，q-fin.ST，2026 年 11 月 18 日提交，155 页）。把每只美股最近的走势图交给图像模型，从约 30 年美股历史线图里找出最相似的几张，用它们之后的涨跌当预测。即使模型只用普通照片训练过也有预测力；对齐后续收益后 Sharpe 提高一倍以上，并胜过直接用线图训练的 CNN。预测力集中在较难交易的股票，看起来是暂时性卖压后的部分反弹。对本站：可解释的技术形态信号，只列观察。",
+        "ja": "arXiv論文（2611.23723、2026年11月18日投稿、155ページ）。各米国株の直近チャートに最も似た過去チャートを約30年分の履歴から画像モデルで検索し、その後のリターンで予測する。自然画像のみで事前学習したモデルでも予測力があり、リターンに合わせて調整するとシャープレシオは2倍超、チャート画像CNNも上回る。予測力は裁定制約の大きい銘柄に集中し、一時的な売り圧力の部分的な戻りを捉えている模様。本サイト：解釈可能なテクニカル信号として観察のみ。"
+      },
+      "formulas": [
+        "chart embedding: z_i,t = f(image of stock i's normalized price path over the look-back window ending t); f = pretrained vision encoder (optionally fine-tuned to align with forward returns)",
+        "retrieval: N_k(i,t) = top-k historical (j,s) with s + h ≤ t (strictly before t, no look-ahead) by cosine similarity cos(z_i,t, z_j,s)",
+        "forecast: ŷ_i,t = (1/k) Σ_{(j,s)∈N_k} r_j,s→s+h; sort cross-section on ŷ into deciles, long top / short bottom, report Sharpe net of costs",
+        "site test (watch only): restrict to the screener's liquid universe first; compare with a plain short-term-reversal baseline −r_i,t−h→t to see if the chart signal adds anything; no screener math change"
+      ],
+      "plainTakeaways": [
+        "用影像模型幫每檔美股找「過去長得最像的走勢圖」，看它們後來漲跌",
+        "即使模型沒學過股票，找相似線圖也有預測力；再調校後 Sharpe 提高一倍以上",
+        "但效果集中在難交易的股票，像是暫時賣壓後的反彈",
+        "本站用途：可解釋的技術型態訊號，先列觀察，要先過流動性與成本檢查"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed; interesting interpretable chart-similarity signal, but the abstract says the edge is concentrated in limits-to-arbitrage stocks and behaves like temporary selling-pressure reversal, so it must beat a plain short-term-reversal baseline inside the screener's liquid universe net of costs before any test. No screener or radar math change. Never status=adopted while passedGate=false. arXiv preprint, not peer reviewed; claims from the abstract only.",
+      "sources": [
+        "https://arxiv.org/abs/2611.23723",
+        "https://doi.org/10.48550/arXiv.2611.23723"
+      ],
+      "tags": [
+        "us",
+        "technical-analysis",
+        "chart-patterns",
+        "machine-learning",
+        "computer-vision",
+        "short-term-reversal",
+        "limits-to-arbitrage"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "用影像模型幫每檔美股找「過去長得最像的走勢圖」，看它們後來漲跌",
+          "即使模型沒學過股票，找相似線圖也有預測力；再調校後 Sharpe 提高一倍以上",
+          "但效果集中在難交易的股票，像是暫時賣壓後的反彈",
+          "本站用途：可解釋的技術型態訊號，先列觀察，要先過流動性與成本檢查"
+        ],
+        "zh-Hans": [
+          "用图像模型帮每只美股找“过去长得最像的走势图”，看它们后来涨跌",
+          "即使模型没学过股票，找相似线图也有预测力；再调校后 Sharpe 提高一倍以上",
+          "但效果集中在难交易的股票，像是暂时卖压后的反弹",
+          "本站用途：可解释的技术形态信号，先列观察，要先过流动性与成本检查"
+        ],
+        "en": [
+          "A vision model finds each US stock's most similar past charts and looks at what happened next",
+          "Even a model never trained on stocks has predictive power; tuning it more than doubles the Sharpe ratio",
+          "But the edge sits in hard-to-trade stocks and looks like a rebound after temporary selling",
+          "Site use: an interpretable chart-pattern signal — watch only, pending liquidity and cost checks"
+        ],
+        "ja": [
+          "画像モデルで各米国株に最も似た過去チャートを探し、その後の値動きを見る",
+          "株を学習していないモデルでも予測力があり、調整するとシャープレシオは2倍超",
+          "ただし効果は売買しにくい銘柄に集中し、一時的な売り後の戻りに近い",
+          "本サイト：解釈可能なチャート信号として観察のみ。流動性とコストの確認が先"
+        ]
+      }
+    },
+    {
+      "id": "paper-both-in-loop-deflation-strategy-search-2026",
+      "market": "BOTH",
+      "type": "paper",
+      "title": "Can a search hold its own bar? In-loop deflation and its exploits in autonomous strategy discovery",
+      "titleLocalized": {
+        "zh-Hant": "AI 自動找策略能自己把關嗎？把「過度擬合折扣」放進搜尋迴圈的陷阱與防線",
+        "en": "Can a Search Hold Its Own Bar? In-Loop Overfitting Deflation for AI Strategy Discovery",
+        "zh-Hans": "AI 自动找策略能自己把关吗？把“过度拟合折扣”放进搜索循环的陷阱与防线",
+        "ja": "探索は自らの基準を守れるか：AI戦略探索におけるループ内デフレーションの落とし穴と防御"
+      },
+      "authors": [
+        "Eray Gençay"
+      ],
+      "year": 2026,
+      "shelf": "psych_randomness",
+      "summary": "An arXiv paper (2611.14539, stat.AP / q-fin.ST; 19 pages, code and data on Zenodo) on LLM-driven autonomous strategy searches. Overfitting corrections such as the deflated Sharpe ratio are usually applied after a search ends; this paper moves the correction inside the loop, with an acceptance bar indexed to the running number and dispersion of trials. It shows analytically that a naive in-loop bar can be gamed: near-duplicate mediocre candidates shrink the measured dispersion faster than the trial-count penalty grows, lowering the bar ('variance dilution'). Two defences are proposed: a pre-registered variance floor and a monotone high-water-mark bar. In 53 audited 100-candidate searches (two frontier models, two universes, two feature spaces), the gated search reports no certifiable discovery in 36 of 37 runs, while all 16 un-gated controls report a strategy, and every arm's out-of-sample confidence interval includes zero. A hundred nominal trials collapse to about 6–8 effectively independent return streams. For this site: a governance rule for any AI-assisted strategy search — not a strategy.",
+      "summaryLocalized": {
+        "en": "LLM-driven strategy searches run many hidden backtests. Putting the deflated-Sharpe bar inside the loop can be gamed by near-duplicate candidates (variance dilution); fixes are a pre-registered variance floor and a never-falling high-water-mark bar. Gated searches found no certifiable strategy in 36/37 runs; un-gated controls 'found' one every time, and all out-of-sample CIs include zero. Site use: governance rule, not a strategy.",
+        "zh-Hant": "arXiv 論文（2611.14539，stat.AP／q-fin.ST，19 頁，程式與資料公開於 Zenodo），單一作者 Eray Gençay。主題是「讓大型語言模型自動找交易策略」：AI 在回報結果前其實偷偷跑了很多次回測，所以很容易挑到運氣好的假策略。一般的做法是搜尋結束後才用「折扣後 Sharpe」（deflated Sharpe）打折；這篇改成在搜尋過程中就設門檻，門檻依已試過的次數和結果分散程度調整。作者證明這種天真的門檻可以被「鑽漏洞」：只要大量產生差不多、表現普通的近似候選，結果的分散度下降得比次數懲罰上升得快，門檻反而被拉低。防線有兩個：事先登記一個分散度下限，以及「只升不降」的最高水位門檻。在 53 次、每次 100 個候選的實測中，有門檻的搜尋 37 次裡 36 次回報「找不到可認證的策略」，沒門檻的 16 次則每次都「找到」策略，但所有組別的樣本外信賴區間都包含 0。另外 100 次名目試驗實際上只等於約 6–8 條獨立的報酬序列。對本站：這是用 AI 找策略時的把關規則，不是交易策略。",
+        "zh-Hans": "arXiv 论文（2611.14539，19 页，代码与数据公开）。让大型语言模型自动找策略时会偷偷跑很多次回测；把“折扣后 Sharpe”门槛放进搜索过程中，可能被大量近似候选“稀释分散度”而拉低门槛。防线：事先登记分散度下限、只升不降的最高水位门槛。53 次实测中，有门槛的 37 次里 36 次找不到可认证策略，没门槛的 16 次每次都“找到”，但样本外置信区间都包含 0。100 次试验约等于 6–8 条独立序列。对本站：AI 找策略的把关规则，不是策略。",
+        "ja": "arXiv論文（2611.14539、19ページ、コード・データ公開）。LLMによる自動戦略探索は報告前に多数のバックテストを行う。デフレーテッド・シャープの基準をループ内に置くと、似た凡庸な候補で分散が薄まり基準が下がる抜け穴がある。対策は事前登録の分散下限と下がらないハイウォーターマーク基準。53回の検証で、ゲート付きは37回中36回「認証可能な発見なし」、ゲートなし16回は毎回「発見」したが、全てのアウトオブサンプル信頼区間がゼロを含む。本サイト：AI戦略探索のガバナンス規則であり戦略ではない。"
+      },
+      "formulas": [
+        "deflated-Sharpe style bar after N trials: SR* = σ̂_SR · ((1−γ)·Φ⁻¹(1 − 1/N) + γ·Φ⁻¹(1 − 1/(N·e))), γ ≈ 0.5772 (Euler–Mascheroni); accept candidate only if SR̂ > SR*",
+        "variance-dilution guard (pre-registered floor): use σ̂_SR,eff = max(σ̂_SR(trials so far), σ_floor), σ_floor fixed before the search starts",
+        "monotone bar: B_n = max(B_{n−1}, SR*_n) — the acceptance bar never falls as trials accumulate",
+        "effective trials: count N_eff from the correlation of trial return streams (paper finds 100 nominal ≈ 6–8 independent) and report it alongside N",
+        "site use: any AI/LLM-assisted screener-idea search must log every trial, apply floor + monotone bar, and default to 'no discovery'; no screener math change"
+      ],
+      "plainTakeaways": [
+        "讓 AI 自動找交易策略，它其實偷跑了很多次回測，容易挑到運氣好的假策略",
+        "在搜尋中途設「過度擬合」門檻，可被大量相似的普通策略鑽漏洞把門檻拉低",
+        "加上事先固定的下限與「只升不降」門檻後，37 次裡 36 次結論是「沒找到可信策略」",
+        "本站用途：用 AI 幫忙找策略時的把關規則，不是交易策略"
+      ],
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed; methodology/governance paper, not a strategy; adds a trial-logging + variance-floor + monotone-bar rule for any AI-assisted search of screener ideas (complements the deflated-Sharpe and LLM-audit checklist items). No screener or radar math change. Never status=adopted while passedGate=false. arXiv preprint, single author, not peer reviewed; results scoped by the author to the analysed system.",
+      "sources": [
+        "https://arxiv.org/abs/2611.14539",
+        "https://doi.org/10.48550/arXiv.2611.14539",
+        "https://doi.org/10.5281/zenodo.21725589"
+      ],
+      "tags": [
+        "both",
+        "llm",
+        "backtest-overfitting",
+        "deflated-sharpe",
+        "multiple-testing",
+        "methodology",
+        "governance"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "讓 AI 自動找交易策略，它其實偷跑了很多次回測，容易挑到運氣好的假策略",
+          "在搜尋中途設「過度擬合」門檻，可被大量相似的普通策略鑽漏洞把門檻拉低",
+          "加上事先固定的下限與「只升不降」門檻後，37 次裡 36 次結論是「沒找到可信策略」",
+          "本站用途：用 AI 幫忙找策略時的把關規則，不是交易策略"
+        ],
+        "zh-Hans": [
+          "让 AI 自动找交易策略，它其实偷跑了很多次回测，容易挑到运气好的假策略",
+          "在搜索中途设“过度拟合”门槛，可被大量相似的普通策略钻漏洞把门槛拉低",
+          "加上事先固定的下限与“只升不降”门槛后，37 次里 36 次结论是“没找到可信策略”",
+          "本站用途：用 AI 帮忙找策略时的把关规则，不是交易策略"
+        ],
+        "en": [
+          "AI-driven strategy searches quietly run many backtests and easily pick lucky fake strategies",
+          "An in-loop overfitting bar can be gamed by flooding it with similar mediocre candidates",
+          "With a pre-set floor and a never-falling bar, 36 of 37 searches concluded 'no credible strategy found'",
+          "Site use: a governance rule for AI-assisted strategy search, not a trading strategy"
+        ],
+        "ja": [
+          "AIによる自動戦略探索は裏で多数のバックテストを行い、運の良い偽戦略を選びやすい",
+          "探索途中の過剰適合基準は、似た凡庸な候補を大量に出すことで下げられてしまう",
+          "事前固定の下限と下がらない基準を入れると、37回中36回が「信頼できる戦略なし」",
+          "本サイト：AI支援の戦略探索のガバナンス規則であり、売買戦略ではない"
+        ]
+      }
+    },
+    {
+      "id": "paper-tw-asymmetric-fx-stock-dependence-2026",
+      "market": "TW",
+      "type": "paper",
+      "title": "Asymmetric and Time-Varying Dependence Between Effective Exchange Rate and Stock Return: Evidence from Taiwan",
+      "titleLocalized": {
+        "zh-Hant": "新台幣匯率與台股的不對稱關係：貶值助漲、升值拖累，且關係會隨時間變化",
+        "en": "Asymmetric, Time-Varying Links Between Taiwan's Effective Exchange Rate and Stock Returns",
+        "zh-Hans": "新台币汇率与台股的不对称关系：贬值助涨、升值拖累，且关系随时间变化",
+        "ja": "台湾の実効為替レートと株式リターンの非対称・時変的な依存関係"
+      },
+      "authors": [
+        "Hung-Hsi Huang",
+        "Ya-Ting Li",
+        "Ching-Ping Wang"
+      ],
+      "year": 2026,
+      "shelf": "econ_analysis",
+      "summary": "A peer-reviewed article in the Journal of Risk and Financial Management 19(5), 363 (published 16 May 2026). Using monthly and daily Taiwan data from 1994 to 2024, it combines ARDL, nonlinear ARDL and error-correction models with a time-varying copula to study how the effective exchange rate and Taiwan stock returns move together. It finds robust asymmetry — New Taiwan dollar depreciation tends to lift stock returns while appreciation weighs on them, consistent with Taiwan's export-oriented economy — and a dependence that changes over time but is highly persistent. For this site: supports showing the TWD/USD move as context on the Taiwan pages and treating sharp TWD appreciation as a headwind flag; the paper is about index-level co-movement, not a stock-selection rule, so watch only.",
+      "summaryLocalized": {
+        "en": "Taiwan, 1994–2024, monthly and daily data; ARDL/NARDL/ECM plus a time-varying copula. TWD depreciation tends to help stock returns and appreciation hurts (export economy); the link is time-varying but very persistent. Site use: FX as macro context / headwind flag for TW pages — watch, not a picking rule.",
+        "zh-Hant": "期刊論文（Journal of Risk and Financial Management 第 19 卷第 5 期，文章編號 363，2026 年 5 月 16 日出版，經同儕審查），作者 Hung-Hsi Huang、Ya-Ting Li、Ching-Ping Wang。用 1994–2024 年台灣的月資料與日資料，結合 ARDL、非線性 ARDL（NARDL）、誤差修正模型，以及會隨時間變動的 copula（相依結構）模型，研究「有效匯率」與台股報酬的關係。結果：關係明顯不對稱——新台幣貶值傾向推升股市報酬，升值則傾向拖累，符合台灣以出口為主的經濟結構；而且兩者的連動程度會隨時間改變，但一旦形成就相當持久。對本站：支持在台股頁面把新台幣匯率變化當背景資訊，台幣急升時可視為逆風提醒；但這是大盤層級的連動，不是選股規則，只列觀察。",
+        "zh-Hans": "期刊论文（JRFM 19(5) 363，2026 年 5 月 16 日出版）。用 1994–2024 年台湾月、日数据，结合 ARDL、NARDL、误差修正模型与时变 copula。新台币贬值倾向推升股市，升值倾向拖累（出口导向经济）；连动随时间变化但很持久。对本站：汇率作为台股背景／逆风提醒，只列观察，不是选股规则。",
+        "ja": "査読付き論文（JRFM 19(5) 363、2026年5月16日刊）。1994–2024年の台湾の月次・日次データでARDL、NARDL、誤差修正モデルと時変コピュラを用いる。台湾ドル安は株式リターンを押し上げ、台湾ドル高は重しになる非対称性（輸出主導経済）。依存関係は時間とともに変化するが持続性が高い。本サイト：為替を台湾株のマクロ背景・逆風シグナルとして観察のみ。"
+      },
+      "formulas": [
+        "NARDL asymmetry: split Δe_t into e⁺_t = Σ max(Δe_j, 0) and e⁻_t = Σ min(Δe_j, 0); regress stock return on both and test long-run coefficient β⁺ = β⁻ (Wald test)",
+        "error-correction term: Δr_t = α·(r_{t−1} − θ⁺e⁺_{t−1} − θ⁻e⁻_{t−1}) + Σ short-run lags + ε_t, α < 0 means reversion to long-run relation",
+        "site context flag (watch only): TWD 20-day change c = (FX_t / FX_{t−20} − 1) using the site's CBC 台北收 series (TWD per USD); c < 0 = TWD appreciation → show 'FX headwind' note on TW pages; no screener math change"
+      ],
+      "plainTakeaways": [
+        "研究 1994–2024 年新台幣匯率和台股的關係",
+        "新台幣貶值時台股傾向上漲，升值時傾向被拖累，兩邊影響不一樣大",
+        "這種連動會隨時間改變，但一旦形成就很持久",
+        "本站用途：匯率當台股背景資訊或逆風提醒，不是選股規則"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed; index-level macro co-movement evidence (monthly/daily 1994–2024), not a stock-selection signal; at most a display-only FX context/headwind note for TW pages using the existing CBC FX series. Effect sizes not taken from the abstract and not quoted. No screener or radar math change. Never status=adopted while passedGate=false. Peer-reviewed open-access journal article.",
+      "sources": [
+        "https://doi.org/10.3390/jrfm19050363",
+        "https://www.mdpi.com/1911-8074/19/5/363"
+      ],
+      "tags": [
+        "tw",
+        "fx",
+        "twd",
+        "macro",
+        "nardl",
+        "copula",
+        "exchange-rate"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "研究 1994–2024 年新台幣匯率和台股的關係",
+          "新台幣貶值時台股傾向上漲，升值時傾向被拖累，兩邊影響不一樣大",
+          "這種連動會隨時間改變，但一旦形成就很持久",
+          "本站用途：匯率當台股背景資訊或逆風提醒，不是選股規則"
+        ],
+        "zh-Hans": [
+          "研究 1994–2024 年新台币汇率和台股的关系",
+          "新台币贬值时台股倾向上涨，升值时倾向被拖累，两边影响不一样大",
+          "这种连动会随时间改变，但一旦形成就很持久",
+          "本站用途：汇率当台股背景信息或逆风提醒，不是选股规则"
+        ],
+        "en": [
+          "Studies the TWD exchange rate and Taiwan stocks over 1994–2024",
+          "TWD depreciation tends to lift stocks while appreciation drags them — the two effects differ in size",
+          "The link changes over time but is very persistent once formed",
+          "Site use: FX as Taiwan-market context or a headwind flag, not a stock-picking rule"
+        ],
+        "ja": [
+          "1994–2024年の台湾ドル為替と台湾株の関係を分析",
+          "台湾ドル安では株が上がりやすく、台湾ドル高では重しになり、影響の大きさが非対称",
+          "連動は時間とともに変わるが、一度できると持続しやすい",
+          "本サイト：為替は台湾株の背景・逆風シグナルであり、銘柄選択ルールではない"
         ]
       }
     }
