@@ -111,8 +111,18 @@
   font-size: 0.88rem;
 }
 .er-empty { color: var(--text-muted); font-size: 0.9rem; }
+/* 2026-11-20: phone layout — date + last EPS stay as two wide tiles; the four ratio tiles
+   (營收年增 / 獲利年增 / 本益比 / 預估本益比) sit in one row of four, so each card is one row shorter. */
 @media (max-width: 640px) {
-  .er-metrics { grid-template-columns: 1fr 1fr; }
+  .er-metrics { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .er-metric { flex: 1 1 0; min-width: 0; padding: 0.35rem 0.4rem; }
+  .er-metric.er-metric-wide { flex: 1 1 calc(50% - 0.35rem); }
+  .er-metric:not(.er-metric-wide) .m-l { font-size: 0.66rem; line-height: 1.25; }
+  .er-metric:not(.er-metric-wide) .m-v { font-size: 0.82rem; white-space: nowrap; }
+}
+/* very narrow phones (<360px): ratio tiles go two per row so 4-digit % values never clip */
+@media (max-width: 359px) {
+  .er-metric:not(.er-metric-wide) { flex-basis: calc(50% - 0.35rem); }
 }
 /* 2026-10-23: long English company blurbs clamp to 3 lines (full text in title); reported cards dim slightly */
 .er-does {

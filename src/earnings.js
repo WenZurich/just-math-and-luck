@@ -46,9 +46,9 @@ function cell(val, suffix = "") {
   return `<span class="er-val">${escapeHtml(String(val))}${suffix ? escapeHtml(suffix) : ""}</span>`;
 }
 
-function metricBlock(label, html) {
+function metricBlock(label, html, wide = false) {
   if (!html) return "";
-  return `<div class="er-metric">
+  return `<div class="er-metric${wide ? " er-metric-wide" : ""}">
           <div class="m-l">${escapeHtml(label)}</div>
           <div class="m-v">${html}</div>
         </div>`;
@@ -275,8 +275,8 @@ function renderCard(row, { hot = false } = {}) {
         }>${does.text ? escapeHtml(does.text) : ""}</p>
       </div>
       <div class="er-metrics">
-        ${metricBlock(reported ? t("earningsLatestDate") : t("earningsNextDate"), nextHtml)}
-        ${metricBlock(t("earningsLastEps"), cell(lastEps))}
+        ${metricBlock(reported ? t("earningsLatestDate") : t("earningsNextDate"), nextHtml, true)}
+        ${metricBlock(t("earningsLastEps"), cell(lastEps), true)}
         ${metricBlock(t("earningsRevYoy"), cell(fmtPct(row.revenueYoYPct)))}
         ${metricBlock(t("earningsEpsYoy"), cell(fmtPct(row.epsYoYPct)))}
         ${metricBlock(t("earningsPe"), cell(fmtNum(row.pe, 1)))}

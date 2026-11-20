@@ -560,6 +560,12 @@ async function main() {
         const zhSrc = fs.readFileSync(path.join(ROOT, "src/earnings-zh.js"), "utf8");
         if (/\d+(\.\d+)?\s*(%|億|萬|美元)/.test(zhSrc)) fail("earnings-zh.js must not contain numbers/metrics (descriptions only)");
         else ok("earnings-zh.js: plain descriptions, no numbers");
+        // 2026-11-20 phone layout: date + last EPS are wide tiles, ratio tiles share one row (two per row <360px)
+        const erJs = fs.readFileSync(path.join(ROOT, "src/earnings.js"), "utf8");
+        const erCss = fs.readFileSync(path.join(ROOT, "src/earnings.css"), "utf8");
+        if ((erJs.match(/nextHtml, true\)|cell\(lastEps\), true\)/g) || []).length !== 2) fail("讀財報 phone layout: date + last EPS must be er-metric-wide");
+        else if (!/\.er-metric\.er-metric-wide\s*\{\s*flex:\s*1 1 calc\(50%/.test(erCss) || !/max-width:\s*359px[\s\S]{0,120}flex-basis:\s*calc\(50%/.test(erCss)) fail("讀財報 phone layout CSS missing (wide tiles / <360px fallback)");
+        else ok("讀財報 phone layout: wide date/EPS tiles + one-row ratio tiles, <360px two per row");
       }
       // EPS same-basis guard: actual and estimate must be ONE provider pair on ONE basis (never GAAP actual vs
       // adjusted consensus — GOOGL 2026-10-28 showed GAAP 2.12 vs 3.01 = −29.5% while GOOG had 2.67 vs 3.02 = −11.5%).
