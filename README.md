@@ -10,8 +10,6 @@
 
 iPhone 請用 Safari 開啟，點分享後選「加入主畫面」。Android 請用 Chrome 開啟，從選單選「安裝應用程式」。
 
-## 更新資料
+## 資料更新
 
-每天只要跑 `npm run daily`（依序執行 `scripts/daily-scan.mjs`、`npm run strategies`、`npm run paper`，前一步失敗就停）。`npm run paper` 一定要跑，否則模擬交易帳會停在舊日期；`npm run check:live` 會在模擬帳日期落後最新選股資料時直接判定失敗。需要時再執行 `npm run fetch-social`、`npm run fetch-us-options`、`npm run fetch-earnings`。本機 `npm run build` 後，把 `dist/` 的內容放到 `docs/`，再推上 `main`。網站目前由 `docs/` 提供。
-
-紙上模擬把美股與台股分開記帳，不會換成同一種貨幣，也不會送到券商。
+名單與紙上模擬紀錄會定期更新。紙上模擬把美股與台股分開記帳，不會換成同一種貨幣，也不會送到券商。
