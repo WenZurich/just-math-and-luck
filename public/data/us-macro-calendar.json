@@ -1,38 +1,22 @@
 {
-  "asOf": "2026-11-19T00:04:55.279Z",
+  "asOf": "2026-11-20T00:11:32.154Z",
   "market": "US",
   "timezone": "America/New_York",
   "timezoneLabel": "US ET",
   "window": {
-    "from": "2026-11-18",
-    "to": "2026-12-23"
+    "from": "2026-11-19",
+    "to": "2026-12-24"
   },
   "source": {
     "name": "XOOMAR",
     "url": "https://xoomar.com/api/markets/calendar",
     "docs": "https://xoomar.com/markets/api/calendar",
-    "remoteUpdatedAt": "2026-11-18T21:30:04.766Z",
+    "remoteUpdatedAt": "2026-11-19T21:30:06.991Z",
     "attribution": "Credit XOOMAR with a link to the dataset page on xoomar.com when you republish this data",
     "license": "https://xoomar.com/terms"
   },
   "stale": false,
   "events": [
-    {
-      "id": "fomcMinutes-2026-11-18T19:00:00.000Z",
-      "eventKey": "fomcMinutes",
-      "eventName": "FOMC Minutes",
-      "shortName": "FOMC Minutes",
-      "importance": "med",
-      "highImpact": true,
-      "scheduledAt": "2026-11-18T19:00:00.000Z",
-      "dayEt": "2026-11-18",
-      "periodLabel": "October 2026 meeting",
-      "source": "fed",
-      "officialUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
-      "actual": null,
-      "previous": null,
-      "unit": null
-    },
     {
       "id": "joblessClaims-2026-11-19T13:30:00.000Z",
       "eventKey": "joblessClaims",
@@ -45,9 +29,9 @@
       "periodLabel": "Week ending 2026-11-14",
       "source": "dol",
       "officialUrl": "https://www.dol.gov/ui/data.pdf",
-      "actual": null,
-      "previous": null,
-      "unit": null
+      "actual": "203.0000",
+      "previous": "202.0000",
+      "unit": "thousands, week ending Saturday"
     },
     {
       "id": "pce-2026-11-25T13:30:00.000Z",
@@ -256,6 +240,22 @@
       "actual": null,
       "previous": null,
       "unit": "% q/q annualized, real GDP"
+    },
+    {
+      "id": "joblessClaims-2026-12-24T13:30:00.000Z",
+      "eventKey": "joblessClaims",
+      "eventName": "Initial Jobless Claims",
+      "shortName": "Jobless Claims",
+      "importance": "high",
+      "highImpact": true,
+      "scheduledAt": "2026-12-24T13:30:00.000Z",
+      "dayEt": "2026-12-24",
+      "periodLabel": "Week ending 2026-12-19",
+      "source": "dol",
+      "officialUrl": "https://www.dol.gov/ui/data.pdf",
+      "actual": null,
+      "previous": null,
+      "unit": null
     }
   ],
   "refreshHint": "npm run fetch-us-macro  （可選 FETCH_US_MACRO=1 接在 daily-scan 後）"

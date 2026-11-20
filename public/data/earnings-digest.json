@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-19T00:04:16.437Z",
+  "asOf": "2026-11-20T00:10:54.294Z",
   "market": "US",
   "twStub": {
     "status": "planned",
@@ -42,9 +42,9 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 14.1,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 39.25,
-      "forwardPe": 33.34,
-      "marketCap": 5121867513856,
+      "pe": 38.89,
+      "forwardPe": 33.03,
+      "marketCap": 5074783305728,
       "consensusEpsNext": 2.9106,
       "consensusRevNext": 156429989490,
       "whatItDoes": "Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories.",
@@ -90,9 +90,9 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 32.3,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 26.53,
-      "forwardPe": 21.01,
-      "marketCap": 3774660476928,
+      "pe": 26.01,
+      "forwardPe": 20.59,
+      "marketCap": 3700472676352,
       "consensusEpsNext": 4.8557,
       "consensusRevNext": 96702371680,
       "whatItDoes": "Microsoft Corporation, a technology company, develops and supports a portfolio of technology solutions for individuals and businesses worldwide.",
@@ -119,30 +119,30 @@
         "period": "-1q",
         "quarter": "2026-10-31",
         "currency": "USD",
-        "epsGaap": 2.68,
-        "epsGaapSource": "Yahoo earningsHistory (epsActual/epsEstimate) (matches Yahoo net income ÷ latest diluted shares (GAAP check only))",
+        "epsGaap": 2.7,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
         "epsGaapCheck": {
-          "value": 2.6884,
-          "approx": true,
-          "source": "Yahoo net income ÷ latest diluted shares (GAAP check only)"
+          "value": 2.7,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
         },
         "epsActual": 2.68,
         "epsEstimate": 2.4731,
         "epsSurprisePct": 8.37,
         "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
         "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
-        "epsBasis": "provider-pair (equals GAAP)",
+        "epsBasis": "adjusted",
         "epsBasisNote": null
       },
-      "revenueYoYPct": 105.9,
+      "revenueYoYPct": 103.2,
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 127.8,
+      "epsYoYPct": 107.7,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 19.08,
-      "forwardPe": 9.09,
-      "marketCap": 3645231071232,
-      "consensusEpsNext": 2.884,
-      "consensusRevNext": 130800885340,
+      "pe": 15.68,
+      "forwardPe": 8.79,
+      "marketCap": 3524978802688,
+      "consensusEpsNext": 2.8803,
+      "consensusRevNext": 130813828370,
       "whatItDoes": "NVIDIA Corporation operates as a data center scale AI infrastructure company in the United States, Taiwan, China, Hong Kong, Europe, and internationally. It operates through Compute & Networking, and Graphics segments.",
       "missingFields": [],
       "sources": [
@@ -152,9 +152,9 @@
       "notes": [
         "下次財報約 2026-11-17",
         "最近一季（2026-10-31）：EPS 2.68",
-        "市場預估下次 EPS 約 2.884（Yahoo）"
+        "市場預估下次 EPS 約 2.8803（Yahoo）"
       ],
-      "whatToWatch": "關注 2026-11-17 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +105.9%（Yahoo）；獲利成長約 +127.8%（Yahoo earningsGrowth）"
+      "whatToWatch": "關注 2026-11-17 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +103.2%（Yahoo）；獲利成長約 +107.7%（Yahoo earningsGrowth）"
     },
     {
       "ticker": "AMZN",
@@ -186,9 +186,9 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": -3.1,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 21.64,
-      "forwardPe": 24.5,
-      "marketCap": 2895109423104,
+      "pe": 20.81,
+      "forwardPe": 23.56,
+      "marketCap": 2782977327104,
       "consensusEpsNext": 2.4911,
       "consensusRevNext": 244895429820,
       "whatItDoes": "Amazon.com, Inc. engages in the retail sale of consumer products, advertising, and subscriptions service through online and physical stores in North America and internationally.",
@@ -239,10 +239,10 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": -25.3,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 14.75,
-      "forwardPe": 18.46,
-      "marketCap": 3472317218816,
-      "consensusEpsNext": 3.2404,
+      "pe": 14.24,
+      "forwardPe": 17.82,
+      "marketCap": 3352081989632,
+      "consensusEpsNext": 3.2531,
       "consensusRevNext": 142297447630,
       "whatItDoes": "Alphabet Inc. offers various products and platforms in the United States, Europe, the Middle East, Africa, the Asia-Pacific, Canada, and Latin America.",
       "missingFields": [],
@@ -254,7 +254,7 @@
         "Alphabet Class A；GOOG 為 Class C",
         "下次財報約 2026-10-28",
         "最近一季（2026-09-30）：EPS 2.67",
-        "市場預估下次 EPS 約 3.2404（Yahoo）"
+        "市場預估下次 EPS 約 3.2531（Yahoo）"
       ],
       "whatToWatch": "關注 2026-10-28 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +24.7%（Yahoo）；獲利成長約 -25.3%（Yahoo earningsGrowth）"
     },
@@ -288,10 +288,10 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": -25.3,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 14.58,
-      "forwardPe": 18.25,
-      "marketCap": 3432484962304,
-      "consensusEpsNext": 3.2404,
+      "pe": 14.15,
+      "forwardPe": 17.72,
+      "marketCap": 3331919708160,
+      "consensusEpsNext": 3.2531,
       "consensusRevNext": 142297447630,
       "whatItDoes": "Alphabet Inc. offers various products and platforms in the United States, Europe, the Middle East, Africa, the Asia-Pacific, Canada, and Latin America.",
       "missingFields": [],
@@ -303,7 +303,7 @@
         "Alphabet Class C；與 GOOGL 同一公司，財報日通常一致",
         "下次財報約 2026-10-28",
         "最近一季（2026-09-30）：EPS 2.67",
-        "市場預估下次 EPS 約 3.2404（Yahoo）"
+        "市場預估下次 EPS 約 3.2531（Yahoo）"
       ],
       "whatToWatch": "關注 2026-10-28 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +24.7%（Yahoo）；獲利成長約 -25.3%（Yahoo earningsGrowth）"
     },
@@ -342,9 +342,9 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 264.8,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 21.03,
-      "forwardPe": 17.28,
-      "marketCap": 1575615987712,
+      "pe": 20.34,
+      "forwardPe": 16.71,
+      "marketCap": 1524082016256,
       "consensusEpsNext": 8.7188,
       "consensusRevNext": 75138943440,
       "whatItDoes": "Meta Platforms, Inc. engages in the development of products that enable people to connect and share with friends and family through mobile devices, personal computers, virtual reality (VR) headsets, and AI glasses in the…",
@@ -390,9 +390,9 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": -43.6,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 421.67,
-      "forwardPe": 177.71,
-      "marketCap": 1516752338944,
+      "pe": 411.44,
+      "forwardPe": 173.4,
+      "marketCap": 1479952171008,
       "consensusEpsNext": 0.499,
       "consensusRevNext": 29287236330,
       "whatItDoes": "Tesla, Inc. designs, develops, manufactures, leases, and sells electric vehicles, and energy generation and storage systems in the United States, China, and internationally.",
@@ -410,57 +410,6 @@
     }
   ],
   "watchlistHot": [
-    {
-      "ticker": "WMT",
-      "name": "Walmart Inc.",
-      "ok": true,
-      "blocker": null,
-      "nextEarningsDate": "2026-11-19",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-07-31",
-        "currency": "USD",
-        "epsGaap": 0.8,
-        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
-        "epsGaapCheck": {
-          "value": 0.8,
-          "approx": false,
-          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
-        },
-        "epsActual": 0.81,
-        "epsEstimate": 0.7413,
-        "epsSurprisePct": 9.27,
-        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
-        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
-        "epsBasis": "adjusted",
-        "epsBasisNote": null
-      },
-      "revenueYoYPct": 5.9,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": -9.1,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 46.14,
-      "forwardPe": 39.45,
-      "marketCap": 1013540913152,
-      "consensusEpsNext": 0.6363,
-      "consensusRevNext": 187254274740,
-      "whatItDoes": "Walmart Inc. engages in the operation of retail and wholesale stores and clubs, ecommerce websites, and mobile applications worldwide.",
-      "missingFields": [],
-      "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
-        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
-      ],
-      "notes": [
-        "下次財報約 2026-11-19",
-        "最近一季（2026-07-31）：EPS 0.81",
-        "市場預估下次 EPS 約 0.6363（Yahoo）"
-      ],
-      "whatToWatch": "關注 2026-11-19 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +5.9%（Yahoo）；獲利成長約 -9.1%（Yahoo earningsGrowth）",
-      "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 0,
-      "pool": "mega_cap"
-    },
     {
       "ticker": "CRM",
       "name": "Salesforce, Inc.",
@@ -491,9 +440,9 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 118.9,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 17.42,
-      "forwardPe": 11.89,
-      "marketCap": 156699197440,
+      "pe": 16.77,
+      "forwardPe": 11.45,
+      "marketCap": 150864134144,
       "consensusEpsNext": 3.4463,
       "consensusRevNext": 11462305880,
       "whatItDoes": "Salesforce, Inc. provides customer relationship management technology services that connect companies and customers together in the United States, Europe, and the Asia Pacific.",
@@ -509,7 +458,7 @@
       ],
       "whatToWatch": "關注 2026-12-02 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +10.8%（Yahoo）；獲利成長約 +118.9%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 13,
+      "daysToEarnings": 12,
       "pool": "mega_cap"
     },
     {
@@ -543,8 +492,8 @@
       "epsYoYPct": null,
       "epsYoYSource": null,
       "pe": null,
-      "forwardPe": 90.87,
-      "marketCap": 98649931776,
+      "forwardPe": 87.33,
+      "marketCap": 94758551552,
       "consensusEpsNext": 0.6,
       "consensusRevNext": 1654413500,
       "whatItDoes": "Snowflake Inc. provides a cloud-based data platform for various organizations in the United States and internationally.",
@@ -564,7 +513,7 @@
       ],
       "whatToWatch": "關注 2026-12-02 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +35.1%（Yahoo）；本益比暫缺，勿硬套估值",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 13,
+      "daysToEarnings": 12,
       "pool": "mega_cap"
     },
     {
@@ -598,8 +547,8 @@
       "epsYoYPct": null,
       "epsYoYSource": null,
       "pe": null,
-      "forwardPe": 22.24,
-      "marketCap": 6940697600,
+      "forwardPe": 21.36,
+      "marketCap": 6665074688,
       "consensusEpsNext": -0.0289,
       "consensusRevNext": 33164664380,
       "whatItDoes": "NIO Inc. designs, develops, manufactures, and sells smart electric vehicles in China, Europe, and internationally. It offers five and six-seater electric SUVs, as well as smart electric sedans.",
@@ -619,8 +568,112 @@
       ],
       "whatToWatch": "關注 2026-12-01 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +69.1%（Yahoo）；本益比暫缺，勿硬套估值",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 12,
+      "daysToEarnings": 11,
       "pool": "most_actives"
+    },
+    {
+      "ticker": "ANT",
+      "name": "Anthropic, PBC Class A Common Stock",
+      "ok": true,
+      "blocker": null,
+      "nextEarningsDate": null,
+      "nextEarningsDateIsEstimate": null,
+      "lastReport": {
+        "period": "-1q",
+        "quarter": "2026-09-30",
+        "currency": "USD",
+        "epsGaap": null,
+        "epsGaapSource": null,
+        "epsGaapCheck": null,
+        "epsActual": null,
+        "epsEstimate": 1.16,
+        "epsSurprisePct": null,
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "provider-pair",
+        "epsBasisNote": null
+      },
+      "revenueYoYPct": 1126.9,
+      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
+      "epsYoYPct": null,
+      "epsYoYSource": null,
+      "pe": null,
+      "forwardPe": -844.96,
+      "marketCap": 1271631970304,
+      "consensusEpsNext": 1.16,
+      "consensusRevNext": 16870000000,
+      "whatItDoes": "Anthropic, PBC develops and maintains advanced artificial intelligence (AI) models in the United States and internationally.",
+      "missingFields": [
+        "nextEarningsDate",
+        "lastReport.epsActual",
+        "epsYoYPct",
+        "pe"
+      ],
+      "sources": [
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
+      ],
+      "notes": [
+        "下次財報日：資料不足",
+        "最近一季（2026-09-30）：EPS 資料不足",
+        "市場預估下次 EPS 約 1.16（Yahoo）",
+        "缺欄：nextEarningsDate, lastReport.epsActual, epsYoYPct, pe"
+      ],
+      "whatToWatch": "財報日未定時，先核對官方 IR 行事曆；近期營收 YoY 約 +1126.9%（Yahoo）；本益比暫缺，勿硬套估值",
+      "selectionTag": "recently_reported",
+      "daysToEarnings": null,
+      "pool": "most_actives"
+    },
+    {
+      "ticker": "WMT",
+      "name": "Walmart Inc.",
+      "ok": true,
+      "blocker": null,
+      "nextEarningsDate": "2026-11-19",
+      "nextEarningsDateIsEstimate": false,
+      "lastReport": {
+        "period": "-1q",
+        "quarter": "2026-07-31",
+        "currency": "USD",
+        "epsGaap": 0.8,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 0.8,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
+        "epsActual": 0.81,
+        "epsEstimate": 0.7413,
+        "epsSurprisePct": 9.27,
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
+      },
+      "revenueYoYPct": 5.9,
+      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
+      "epsYoYPct": -9.1,
+      "epsYoYSource": "Yahoo financialData.earningsGrowth",
+      "pe": 45.67,
+      "forwardPe": 39.04,
+      "marketCap": 1003036278784,
+      "consensusEpsNext": 0.6363,
+      "consensusRevNext": 187254274740,
+      "whatItDoes": "Walmart Inc. engages in the operation of retail and wholesale stores and clubs, ecommerce websites, and mobile applications worldwide.",
+      "missingFields": [],
+      "sources": [
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
+      ],
+      "notes": [
+        "下次財報約 2026-11-19",
+        "最近一季（2026-07-31）：EPS 0.81",
+        "市場預估下次 EPS 約 0.6363（Yahoo）"
+      ],
+      "whatToWatch": "關注 2026-11-19 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +5.9%（Yahoo）；獲利成長約 -9.1%（Yahoo earningsGrowth）",
+      "selectionTag": "recently_reported",
+      "daysToEarnings": -1,
+      "pool": "mega_cap"
     },
     {
       "ticker": "HD",
@@ -633,12 +686,12 @@
         "period": "-1q",
         "quarter": "2026-10-31",
         "currency": "USD",
-        "epsGaap": null,
-        "epsGaapSource": null,
+        "epsGaap": 3.72,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
         "epsGaapCheck": {
-          "value": 3.7279,
-          "approx": true,
-          "source": "Yahoo net income ÷ latest diluted shares (GAAP check only)"
+          "value": 3.72,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
         },
         "epsActual": 3.86,
         "epsEstimate": 3.838,
@@ -652,11 +705,11 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 2.8,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 23.45,
-      "forwardPe": 21.43,
-      "marketCap": 336859922432,
-      "consensusEpsNext": 2.771,
-      "consensusRevNext": 39123460400,
+      "pe": 23.38,
+      "forwardPe": 21.38,
+      "marketCap": 335902113792,
+      "consensusEpsNext": 2.7706,
+      "consensusRevNext": 39120478560,
       "whatItDoes": "The Home Depot, Inc. operates as a home improvement retailer in the United States and internationally.",
       "missingFields": [],
       "sources": [
@@ -666,119 +719,12 @@
       "notes": [
         "下次財報約 2026-11-17",
         "最近一季（2026-10-31）：EPS 3.86",
-        "市場預估下次 EPS 約 2.771（Yahoo）"
+        "市場預估下次 EPS 約 2.7706（Yahoo）"
       ],
       "whatToWatch": "關注 2026-11-17 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +4.9%（Yahoo）；獲利成長約 +2.8%（Yahoo earningsGrowth）",
       "selectionTag": "recently_reported",
-      "daysToEarnings": -2,
+      "daysToEarnings": -3,
       "pool": "mega_cap"
-    },
-    {
-      "ticker": "NU",
-      "name": "Nu Holdings Ltd.",
-      "ok": true,
-      "blocker": null,
-      "nextEarningsDate": "2026-11-12",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-09-30",
-        "currency": "USD",
-        "epsGaap": 0.2235,
-        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
-        "epsGaapCheck": {
-          "value": 0.2235,
-          "approx": false,
-          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
-        },
-        "epsActual": 0.2235,
-        "epsEstimate": 0.2228,
-        "epsSurprisePct": 0.31,
-        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
-        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
-        "epsBasis": "provider-pair (equals GAAP)",
-        "epsBasisNote": null
-      },
-      "revenueYoYPct": 34.4,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 40.1,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 15.1,
-      "forwardPe": 11.34,
-      "marketCap": 58449494016,
-      "consensusEpsNext": 0.28,
-      "consensusRevNext": 6171589500,
-      "whatItDoes": "Nu Holdings Ltd. provides digital banking platform in Brazil, Mexico, Colombia, the Cayman Islands, and the United States.",
-      "missingFields": [],
-      "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
-        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
-      ],
-      "notes": [
-        "下次財報約 2026-11-12",
-        "最近一季（2026-09-30）：EPS 0.2235",
-        "市場預估下次 EPS 約 0.28（Yahoo）"
-      ],
-      "whatToWatch": "關注 2026-11-12 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +34.4%（Yahoo）；獲利成長約 +40.1%（Yahoo earningsGrowth）",
-      "selectionTag": "recently_reported",
-      "daysToEarnings": -7,
-      "pool": "most_actives"
-    },
-    {
-      "ticker": "SLS",
-      "name": "SELLAS Life Sciences Group, Inc",
-      "ok": true,
-      "blocker": null,
-      "nextEarningsDate": "2026-11-12",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-09-30",
-        "currency": "USD",
-        "epsGaap": -0.05,
-        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
-        "epsGaapCheck": {
-          "value": -0.05,
-          "approx": false,
-          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
-        },
-        "epsActual": -0.05,
-        "epsEstimate": -0.05,
-        "epsSurprisePct": 0,
-        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
-        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
-        "epsBasis": "provider-pair (equals GAAP)",
-        "epsBasisNote": null
-      },
-      "revenueYoYPct": null,
-      "revenueYoYSource": null,
-      "epsYoYPct": null,
-      "epsYoYSource": null,
-      "pe": null,
-      "forwardPe": -73.27,
-      "marketCap": 3659271936,
-      "consensusEpsNext": -0.05,
-      "consensusRevNext": 0,
-      "whatItDoes": "SELLAS Life Sciences Group, Inc., a late-stage clinical biopharmaceutical company, focuses on the development of novel therapeutics for various cancer indications in the United States.",
-      "missingFields": [
-        "revenueYoYPct",
-        "epsYoYPct",
-        "pe"
-      ],
-      "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
-        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
-      ],
-      "notes": [
-        "下次財報約 2026-11-12",
-        "最近一季（2026-09-30）：EPS -0.05",
-        "市場預估下次 EPS 約 -0.05（Yahoo）",
-        "缺欄：revenueYoYPct, epsYoYPct, pe"
-      ],
-      "whatToWatch": "關注 2026-11-12 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值",
-      "selectionTag": "recently_reported",
-      "daysToEarnings": -7,
-      "pool": "most_actives"
     },
     {
       "ticker": "SNPS",
@@ -810,11 +756,11 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 89.3,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 76.68,
-      "forwardPe": 23.28,
-      "marketCap": 83172220928,
-      "consensusEpsNext": 4.1332,
-      "consensusRevNext": 2562189820,
+      "pe": 76.13,
+      "forwardPe": 23.06,
+      "marketCap": 82578145280,
+      "consensusEpsNext": 4.1293,
+      "consensusRevNext": 2561772130,
       "whatItDoes": "Synopsys, Inc. provides design IP solutions in the semiconductor and electronics industries. It operates in two segments, Design Automation and Design IP.",
       "missingFields": [],
       "sources": [
@@ -824,11 +770,11 @@
       "notes": [
         "下次財報約 2026-12-08",
         "最近一季（2026-07-31）：EPS 3.91",
-        "市場預估下次 EPS 約 4.1332（Yahoo）"
+        "市場預估下次 EPS 約 4.1293（Yahoo）"
       ],
       "whatToWatch": "關注 2026-12-08 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +42.4%（Yahoo）；獲利成長約 +89.3%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 19,
+      "daysToEarnings": 18,
       "pool": "mega_cap"
     },
     {
@@ -861,9 +807,9 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 215.3,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 45.22,
-      "forwardPe": 18.24,
-      "marketCap": 1690103578624,
+      "pe": 44.27,
+      "forwardPe": 17.86,
+      "marketCap": 1654778757120,
       "consensusEpsNext": 3.8377,
       "consensusRevNext": 34906205760,
       "whatItDoes": "Broadcom Inc. designs, develops, and supplies various semiconductor devices and infrastructure software solutions internationally.",
@@ -879,7 +825,7 @@
       ],
       "whatToWatch": "關注 2026-12-09 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +85.5%（Yahoo）；獲利成長約 +215.3%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 20,
+      "daysToEarnings": 19,
       "pool": "mega_cap"
     },
     {
@@ -912,9 +858,9 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 15,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 52.82,
-      "forwardPe": 43.79,
-      "marketCap": 485944492032,
+      "pe": 52.69,
+      "forwardPe": 43.68,
+      "marketCap": 484708155392,
       "consensusEpsNext": 4.9036,
       "consensusRevNext": 74444931380,
       "whatItDoes": "Costco Wholesale Corporation, together with its subsidiaries, engages in the operation of membership warehouses in the United States, Puerto Rico, Canada, Mexico, Japan, the United Kingdom, Korea, Australia, Taiwan, Chin…",
@@ -930,7 +876,7 @@
       ],
       "whatToWatch": "關注 2026-12-10 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +11.1%（Yahoo）；獲利成長約 +15%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 21,
+      "daysToEarnings": 20,
       "pool": "mega_cap"
     },
     {
@@ -963,9 +909,9 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 54.5,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 17.85,
-      "forwardPe": 10.3,
-      "marketCap": 355075751936,
+      "pe": 17.33,
+      "forwardPe": 10,
+      "marketCap": 344724963328,
       "consensusEpsNext": 1.89,
       "consensusRevNext": 21325430780,
       "whatItDoes": "Oracle Corporation offers products and services that build, run and support enterprise information technology frameworks worldwide.",
@@ -981,7 +927,58 @@
       ],
       "whatToWatch": "關注 2026-12-14 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +29.6%（Yahoo）；獲利成長約 +54.5%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 25,
+      "daysToEarnings": 24,
+      "pool": "mega_cap"
+    },
+    {
+      "ticker": "MU",
+      "name": "Micron Technology, Inc.",
+      "ok": true,
+      "blocker": null,
+      "nextEarningsDate": "2026-12-17",
+      "nextEarningsDateIsEstimate": false,
+      "lastReport": {
+        "period": "-1q",
+        "quarter": "2026-08-31",
+        "currency": "USD",
+        "epsGaap": 32.87,
+        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
+        "epsGaapCheck": {
+          "value": 32.87,
+          "approx": false,
+          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
+        },
+        "epsActual": 33.42,
+        "epsEstimate": 31.818,
+        "epsSurprisePct": 5.03,
+        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
+        "epsBasis": "adjusted",
+        "epsBasisNote": null
+      },
+      "revenueYoYPct": 379.3,
+      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
+      "epsYoYPct": 1059.5,
+      "epsYoYSource": "Yahoo financialData.earningsGrowth",
+      "pe": 9.29,
+      "forwardPe": 3.32,
+      "marketCap": 781179879424,
+      "consensusEpsNext": 38.2913,
+      "consensusRevNext": 61832643300,
+      "whatItDoes": "Micron Technology, Inc. engages in the provision of semiconductor memory and storage products in the United States, Taiwan, Mainland China, other Asia Pacific countries, Japan, Europe, and internationally.",
+      "missingFields": [],
+      "sources": [
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
+        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
+      ],
+      "notes": [
+        "下次財報約 2026-12-17",
+        "最近一季（2026-08-31）：EPS 33.42",
+        "市場預估下次 EPS 約 38.2913（Yahoo）"
+      ],
+      "whatToWatch": "關注 2026-12-17 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +379.3%（Yahoo）；獲利成長約 +1059.5%（Yahoo earningsGrowth）",
+      "selectionTag": "calendar_highlight_within_45d",
+      "daysToEarnings": 27,
       "pool": "mega_cap"
     },
     {
@@ -1014,11 +1011,11 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": -2.1,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 17.46,
-      "forwardPe": 25.97,
-      "marketCap": 53931565056,
-      "consensusEpsNext": 0.3879,
-      "consensusRevNext": 11098704740,
+      "pe": 16.5,
+      "forwardPe": 24.7,
+      "marketCap": 50990653440,
+      "consensusEpsNext": 0.3841,
+      "consensusRevNext": 11101097420,
       "whatItDoes": "NIKE, Inc., together with its subsidiaries, designs, develops, markets, and sells athletic footwear, apparel, equipment, accessories, and services for men, women, and kids in North America, Europe, the Middle East, Afric…",
       "missingFields": [],
       "sources": [
@@ -1028,62 +1025,11 @@
       "notes": [
         "下次財報約 2026-12-17（預估日）",
         "最近一季（2026-08-31）：EPS 0.48",
-        "市場預估下次 EPS 約 0.3879（Yahoo）"
+        "市場預估下次 EPS 約 0.3841（Yahoo）"
       ],
       "whatToWatch": "關注 2026-12-17 前後的營收與 EPS 是否達預估；近期營收 YoY 約 -4.3%（Yahoo）；獲利成長約 -2.1%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 28,
-      "pool": "mega_cap"
-    },
-    {
-      "ticker": "MU",
-      "name": "Micron Technology, Inc.",
-      "ok": true,
-      "blocker": null,
-      "nextEarningsDate": "2026-12-23",
-      "nextEarningsDateIsEstimate": true,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-08-31",
-        "currency": "USD",
-        "epsGaap": 32.87,
-        "epsGaapSource": "Yahoo timeseries quarterlyDilutedEPS (GAAP)",
-        "epsGaapCheck": {
-          "value": 32.87,
-          "approx": false,
-          "source": "Yahoo timeseries quarterlyDilutedEPS (GAAP)"
-        },
-        "epsActual": 33.42,
-        "epsEstimate": 31.818,
-        "epsSurprisePct": 5.03,
-        "epsActualSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
-        "epsEstimateSource": "Yahoo earningsHistory (epsActual/epsEstimate)",
-        "epsBasis": "adjusted",
-        "epsBasisNote": null
-      },
-      "revenueYoYPct": 379.3,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 1059.5,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 9.49,
-      "forwardPe": 3.39,
-      "marketCap": 797958864896,
-      "consensusEpsNext": 38.2913,
-      "consensusRevNext": 61832643300,
-      "whatItDoes": "Micron Technology, Inc. engages in the provision of semiconductor memory and storage products in the United States, Taiwan, Mainland China, other Asia Pacific countries, Japan, Europe, and internationally.",
-      "missingFields": [],
-      "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)",
-        "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
-      ],
-      "notes": [
-        "下次財報約 2026-12-23（預估日）",
-        "最近一季（2026-08-31）：EPS 33.42",
-        "市場預估下次 EPS 約 38.2913（Yahoo）"
-      ],
-      "whatToWatch": "關注 2026-12-23 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +379.3%（Yahoo）；獲利成長約 +1059.5%（Yahoo earningsGrowth）",
-      "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 34,
+      "daysToEarnings": 27,
       "pool": "mega_cap"
     }
   ],
@@ -1094,6 +1040,6 @@
     "fallbackWindowDays": 45,
     "mostActivesOk": true,
     "mostActivesError": null,
-    "count": 13
+    "count": 12
   }
 }
