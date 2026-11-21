@@ -46,6 +46,33 @@ function fmtMoney(n, d = 2) {
   return `${sign}${fmtNum(n, d)}`;
 }
 
+/** Cards shown before the 「較早的新聞」 disclosure. */
+export const SOXL_NEWS_HEAD = 6;
+
+/** Newest first by YYYY-MM-DD `published`; undated items keep their order at the end. */
+export function sortNewsNewestFirst(list) {
+  return list
+    .map((n, i) => ({ n, i, d: /^\d{4}-\d{2}-\d{2}/.test(n?.published || "") ? n.published.slice(0, 10) : "" }))
+    .sort((a, b) => (a.d === b.d ? a.i - b.i : !a.d ? 1 : !b.d ? -1 : a.d < b.d ? 1 : -1))
+    .map((x) => x.n);
+}
+
+function tpeDay(iso) {
+  try {
+    return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" }).format(new Date(iso));
+  } catch {
+    return null;
+  }
+}
+
+/** Whole days between a news date and the data date (both YYYY-MM-DD); null when unknown. */
+export function newsAgeDays(published, refDay) {
+  const a = /^\d{4}-\d{2}-\d{2}/.test(published || "") ? Date.parse(published.slice(0, 10) + "T00:00:00Z") : NaN;
+  const b = /^\d{4}-\d{2}-\d{2}$/.test(refDay || "") ? Date.parse(refDay + "T00:00:00Z") : NaN;
+  if (!Number.isFinite(a) || !Number.isFinite(b)) return null;
+  return Math.max(0, Math.round((b - a) / 86400000));
+}
+
 /** Taiwan convention: 紅漲綠跌 */
 function dirClass(n) {
   if (n == null || Number.isNaN(n) || n === 0) return "sx-flat";
@@ -129,25 +156,37 @@ function paint(root, data) {
       </section>`
     : "";
 
-  const news = Array.isArray(data?.news) ? data.news : [];
+  // 2026-11-21: news newest-first (the feed arrives unsorted — today's biggest story was 5th,
+  // under September items); first SOXL_NEWS_HEAD visible, older ones in a native <details>.
+  const news = sortNewsNewestFirst(Array.isArray(data?.news) ? data.news : []);
+  const refDay = tpeDay(data?.asOf);
+  const newsCard = (n, i) => {
+    const age = newsAgeDays(n.published, refDay);
+    const ageTxt = age == null ? "" : age <= 0 ? t("soxlNewsAgeToday") : t("soxlNewsAgeDays", { n: String(age) });
+    return `<a class="sx-news-card${i === 0 ? " sx-news-latest" : ""}" href="${escapeHtml(n.url || "#")}" target="_blank" rel="noopener noreferrer">
+              ${i === 0 && age != null && age <= 3 ? `<span class="sx-news-chip">${escapeHtml(t("soxlNewsLatest"))}</span>` : ""}
+              <div class="sx-news-title">${escapeHtml(n.title || "")}</div>
+              ${n.published ? `<div class="sx-news-meta"><time datetime="${escapeHtml(n.published)}">${escapeHtml(n.published)}</time>${ageTxt ? ` · ${escapeHtml(ageTxt)}` : ""}</div>` : ""}
+              ${n.summary ? `<p class="sx-news-sum">${escapeHtml(n.summary)}</p>` : ""}
+            </a>`;
+  };
+  const head = news.slice(0, SOXL_NEWS_HEAD);
+  const rest = news.slice(SOXL_NEWS_HEAD);
   const newsHtml = `
     <section class="sx-news" aria-label="${escapeHtml(t("soxlNewsTitle"))}">
       <h3 class="sx-h3">${escapeHtml(t("soxlNewsTitle"))}</h3>
+      ${news.length ? `<p class="sx-panel-lead sx-news-lead">${escapeHtml(t("soxlNewsLead", { n: String(news.length) }))}</p>` : ""}
       <div class="sx-news-list">
-        ${
-          news.length
-            ? news
-                .map(
-                  (n) => `<a class="sx-news-card" href="${escapeHtml(n.url || "#")}" target="_blank" rel="noopener noreferrer">
-              <div class="sx-news-title">${escapeHtml(n.title || "")}</div>
-              ${n.published ? `<div class="sx-news-meta">${escapeHtml(n.published)}</div>` : ""}
-              ${n.summary ? `<p class="sx-news-sum">${escapeHtml(n.summary)}</p>` : ""}
-            </a>`
-                )
-                .join("")
-            : `<p class="sx-empty">${escapeHtml(t("soxlNewsEmpty"))}</p>`
-        }
+        ${news.length ? head.map(newsCard).join("") : `<p class="sx-empty">${escapeHtml(t("soxlNewsEmpty"))}</p>`}
       </div>
+      ${
+        rest.length
+          ? `<details class="sx-news-more">
+        <summary>${escapeHtml(t("soxlNewsOlder", { n: String(rest.length) }))}</summary>
+        <div class="sx-news-list">${rest.map((n, i) => newsCard(n, i + SOXL_NEWS_HEAD)).join("")}</div>
+      </details>`
+          : ""
+      }
     </section>`;
 
   const holdings = Array.isArray(data?.holdings) ? data.holdings : [];

@@ -2,13 +2,13 @@
   "market": "US",
   "ticker": "SOXL",
   "fundName": "Direxion Daily Semiconductor Bull 3X ETF",
-  "asOf": "2026-11-20T00:14:14.785Z",
+  "asOf": "2026-11-21T01:45:47.974Z",
   "quote": {
-    "price": 45.3,
-    "change": -3.96,
-    "changePct": -8.04,
+    "price": 30.88,
+    "change": -14.42,
+    "changePct": -31.83,
     "currency": "USD",
-    "session": "NYSE Arca regular close (November 19 at 4:00:00 PM EST)",
+    "session": "NYSE Arca regular close (November 20 at 4:00:04 PM EST)",
     "source": "https://finance.yahoo.com/quote/SOXL/",
     "regularClose": null
   },
@@ -29,8 +29,8 @@
     {
       "type": "anomaly",
       "severity": "high",
-      "title": "正規盤大波動 -8.04%",
-      "detail": "Yahoo 顯示 SOXL 正規收盤約 $45.3（-8.04% / -3.96）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
+      "title": "正規盤大波動 -31.83%",
+      "detail": "Yahoo 顯示 SOXL 正規收盤約 $30.88（-31.83% / -14.42）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
       "sources": [
         "https://finance.yahoo.com/quote/SOXL/"
       ]
@@ -87,6 +87,12 @@
       "summary": "DividendInvestor reports a $0.0929 per-share distribution declared September 21, with a September 29 payment date for holders of record September 22.",
       "url": "https://www.dividendinvestor.com/dividend-news/20260921/daily-semiconductor-bull-3x-shs-direxion-shares-exchange-traded-fund-trust-nyse-soxl-declared-a-dividend-of-$0.0929-per-share/",
       "published": "2026-09-21"
+    },
+    {
+      "title": "SOXL Crashes 32% in Its Third-Worst Day Ever and Is Down 90% From Its June Record. The Chip Index It Tracks Is Down 43%",
+      "summary": "SOXL fell 32% on Friday, its third-worst day since 2010, and is 90% below its June record. The chip index it tracks is down 43%. South Korean retail investors held about a third of the fund.",
+      "url": "https://247wallst.com/investing/2026/11/20/soxl-crashes-32-in-its-third-worst-day-ever-and-is-down-90-from-its-june-record-the-chip-index-it-tracks-is-down-43/?.tsrc=rss",
+      "published": "2026-11-20"
     },
     {
       "title": "2 Leveraged ETFs Draw Options Traders as Tech Stocks Rebound",
@@ -147,12 +153,6 @@
       "summary": "In a post on X, The Kobeissi Letter said the 10 largest U.S. leveraged equity ETFs have seen more than $12 billion in inflows over the last month.",
       "url": "https://stocktwits.com/news-articles/markets/equity/soxl-tqqq-attract-record-inflows-amid-leveraged-bets-retail-is-bullish-on-one-etf-s-ai-future/cZUIU7uRBzn?.tsrc=rss",
       "published": "2026-10-27"
-    },
-    {
-      "title": "Nasdaq Futures Rise After Chip Selloff While S&P 500, Dow Track Mixed Open: SLV, GLD, SOXL, BE In Focus",
-      "summary": "Semiconductor stocks were in focus on Thursday as the sector fell sharply after LAM Research CEO Tim Archer cited supply chain concerns.",
-      "url": "https://stocktwits.com/news-articles/markets/equity/nasdaq-futures-rise-after-chip-selloff-while-s-and-p-500-dow-track-mixed-open-slv-gld-soxl-be-in-focus/cZxyG6qRBDq?.tsrc=rss",
-      "published": "2026-10-23"
     },
     {
       "title": "2 Semiconductor ETFs to Watch for Outsized Volume",
@@ -539,7 +539,7 @@
     "Research seed: /workspace/soxl-research/soxl-holdings-raw.json",
     "SEC N-PORT: https://www.sec.gov/Archives/edgar/data/1424958/000119312526404435/0001193125-26-404435.txt",
     "Yahoo quote page: https://finance.yahoo.com/quote/SOXL/",
-    "Yahoo quote HTML refresh @ 2026-11-20T00:14:14.785Z",
+    "Yahoo quote HTML refresh @ 2026-11-21T01:45:47.974Z",
     "https://feeds.finance.yahoo.com/rss/2.0/headline?s=SOXL&region=US&lang=en-US",
     "Yahoo chart daily closes for 14 equity holdings"
   ],

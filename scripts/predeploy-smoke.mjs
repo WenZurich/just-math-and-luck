@@ -2321,6 +2321,28 @@ async function main() {
       else if (missing.length) fail(`research batches: i18n keys missing in ${missing.join(", ")}`);
       else ok(`research batches: ${batchM[1]} cards per batch + 顯示更多, i18n x4`);
     }
+    {
+      // 2026-11-21: SOXL 相關新聞 newest-first (feed arrives unsorted; the day's crash story sat 5th under
+      // September items), first SOXL_NEWS_HEAD cards visible, the rest in a native <details>.
+      const sx = await import(pathToFileURL(path.join(ROOT, "src/soxl.js")).href);
+      const sxSrc = fs.readFileSync(path.join(ROOT, "src/soxl.js"), "utf8");
+      const langs = ["src/i18n.js", "src/i18n/en.js", "src/i18n/zh-Hans.js", "src/i18n/ja.js"];
+      const missing = langs.filter((f) => !["soxlNewsLead", "soxlNewsLatest", "soxlNewsAgeToday", "soxlNewsAgeDays", "soxlNewsOlder"]
+        .every((k) => new RegExp(`\\b${k}: "`).test(fs.readFileSync(path.join(ROOT, f), "utf8"))));
+      const sorted = sx.sortNewsNewestFirst([
+        { published: "2026-09-22", id: "a" }, { id: "u" }, { published: "2026-11-20", id: "b" },
+        { published: "2026-11-13", id: "c" }, { published: "2026-11-20", id: "d" },
+      ]).map((n) => n.id).join("");
+      const desk = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/soxl-desk.json"), "utf8"));
+      const live = sx.sortNewsNewestFirst(desk.news || []).map((n) => n.published || "");
+      const liveSorted = live.every((d, i) => i === 0 || !d || !live[i - 1] || live[i - 1] >= d);
+      if (sorted !== "bdcau") fail(`soxl news sort: expected bdcau (newest first, stable, undated last), got ${sorted}`);
+      else if (sx.newsAgeDays("2026-11-20", "2026-11-21") !== 1 || sx.newsAgeDays("2026-11-21", "2026-11-21") !== 0 || sx.newsAgeDays("", "2026-11-21") !== null) fail("soxl news age days wrong");
+      else if (!liveSorted) fail("soxl news: live feed not newest-first after sort");
+      else if (!(sx.SOXL_NEWS_HEAD >= 3 && sx.SOXL_NEWS_HEAD <= 8) || !/<details class="sx-news-more">/.test(sxSrc)) fail("soxl news: head size / older-news disclosure missing");
+      else if (missing.length) fail(`soxl news: i18n keys missing in ${missing.join(", ")}`);
+      else ok(`soxl news: newest-first (${live.length} items, latest ${live[0] || "—"}), ${sx.SOXL_NEWS_HEAD} shown + 較早的新聞 disclosure, i18n x4`);
+    }
     if (!sample.includes("2026-10-08 08:12（台北）") || !sample.includes("台股為 2026-10-07 收盤") || !sample.includes("美股為 2026-10-07 收盤")) fail(`buildTimezoneNote wrong: ${sample}`);
     const tzNote = String(latest.timezoneNote || "");
     const asOfTpe = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" }).format(new Date(latest.asOf));
