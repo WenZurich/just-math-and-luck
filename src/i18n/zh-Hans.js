@@ -565,7 +565,7 @@ export default {
   optionsGotoResearch: "到研究书库看完整条目",
   optionsUsOnly: "仅美股",
   optionsQualityTitle: "标的轻量财报检核",
-  optionsQualityLead: "次要滤网：本益、净值、负债、ROE、营收／获利趋势。趋势＝最新一季比 3 季前（Yahoo 只给 4 季，不是年增率；±8% 内算持平）。缺栏标「资料不足」，不作荐股。",
+  optionsQualityLead: "次要滤网：本益、净值、负债、ROE、营收／获利趋势。趋势＝年增率（最新一季对去年同一季；至少要 5 季公开资料；±8% 内算持平）。缺年增率就明示，不改用较近的季比；不作荐股。",
   optionsViewTitle: "期权观点（McMillan）",
   optionsViewLead: "公开期权链：ATM 隐含波动、历史波动、量能偏向；策略族为教育说明。",
   optionsMcmillanFirst: "先对齐波动高低与风险形状，再想策略族——不是先猜涨跌再硬套。",

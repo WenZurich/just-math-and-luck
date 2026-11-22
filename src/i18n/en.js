@@ -583,7 +583,7 @@ export default {
   optionsGotoResearch: "Open full entry in Research",
   optionsUsOnly: "US only",
   optionsQualityTitle: "Light underlying quality check",
-  optionsQualityLead: "Secondary filter: PE, PB, debt, ROE, revenue/earnings trend. Trend = latest quarter vs 3 quarters earlier (Yahoo gives only 4 quarters, so not year-over-year; within ±8% = flat). Missing fields omitted — not stock tips.",
+  optionsQualityLead: "Secondary filter: PE, PB, debt, ROE, revenue/earnings trend. Trend = year-over-year (latest quarter vs the same quarter last year; needs at least 5 quarters of public data; within ±8% = flat). If YoY is missing it is shown as missing, with no silent shorter comparison — not stock tips.",
   optionsViewTitle: "Options view (McMillan)",
   optionsViewLead: "Public chain: ATM IV, historical vol, volume skew; strategy families are educational.",
   optionsMcmillanFirst: "Align volatility regime and risk shape before picking a family — do not force a view.",

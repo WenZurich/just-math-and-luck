@@ -2359,13 +2359,107 @@ async function main() {
       if (/-|−/.test(down) || !down.includes("20.37")) fail(`options trend: double negative / wrong value: ${down}`);
       else if (!up.includes("32.81") || /[-−+]/.test(up)) fail(`options trend up wrong: ${up}`);
       else if (!flat.includes("+7.28")) fail(`options trend flat must keep sign: ${flat}`);
-      else if (inc !== null) fail("options trend incomplete must be null");
+      else if (inc !== "資料不足") fail(`options trend incomplete must show 資料不足, got ${inc}`);
       else if (!/<details class="uo-book"/.test(opSrc) || /<aside class="uo-book"/.test(opSrc)) fail("options: book card should be a collapsed <details>");
       else if (/optionsSetupVolAligned"\)\s*\n?\s*:\s*t\("optionsSetupVolNotAligned/.test(opSrc) || !/uo-setups-summary/.test(opSrc)) fail("options: setup cards still repeat the status sentence / summary missing");
       else if (!/repeat\(3, minmax\(0, 1fr\)\)/.test(opCss) || !/min-height: 44px/.test(opCss)) fail("options: 3-col setup grid / 44px chip target missing");
       else if (!/again\.focus\(/.test(opSrc)) fail("options: focus not restored after ticker repaint");
       else if (missing.length) fail(`options page: i18n keys missing in ${missing.join(", ")}`);
-      else ok(`options page: collapsed book card, fit tags + one summary line, 3-col grid, focus kept, trend copy (${down} / ${up} / ${flat}), i18n x4`);
+      else ok(`options page: collapsed book card, fit tags + one summary line, 3-col grid, focus kept, trend copy (${down} / ${up} / ${flat} / incomplete=${inc}), i18n x4`);
+    }
+    {
+      // 2026-11-22: 選擇權 營收／獲利趨勢 = true YoY (latest vs same quarter last year; ≥5 quarters).
+      const optFetchSrc = fs.readFileSync(path.join(ROOT, "scripts/fetch-us-options.mjs"), "utf8");
+      const { yoyTrendFromQuarters, YOY_FLAT_BAND, YOY_MIN_QUARTERS } = await import(
+        pathToFileURL(path.join(ROOT, "scripts/fetch-us-options.mjs")).href
+      );
+      const leadRe = {
+        "src/i18n.js": /趨勢＝年增率（最新一季對去年同一季/,
+        "src/i18n/zh-Hans.js": /趋势＝年增率（最新一季对去年同一季/,
+        "src/i18n/en.js": /Trend = year-over-year \(latest quarter vs the same quarter last year/,
+        "src/i18n/ja.js": /トレンド＝前年同期比（最新四半期と前年の同じ四半期/,
+      };
+      const staleRe = /3 季前|3 quarters earlier|3四半期前|不是年增率|so not year-over-year|前年比ではない/;
+      const staleLangs = Object.keys(leadRe).filter((f) => {
+        const txt = fs.readFileSync(path.join(ROOT, f), "utf8");
+        const lead = (txt.match(/optionsQualityLead: "([^"]+)"/) || [])[1] || "";
+        return !leadRe[f].test(lead) || staleRe.test(lead);
+      });
+      const apple = [
+        { date: "2025-09-30", value: 102466 },
+        { date: "2025-12-31", value: 143756 },
+        { date: "2026-03-31", value: 111184 },
+        { date: "2026-06-30", value: 109417 },
+        { date: "2026-09-30", value: 114477 },
+      ];
+      const yoy = yoyTrendFromQuarters(apple);
+      const expected = Math.round(((114477 - 102466) / Math.abs(102466)) * 10000) / 100;
+      const seasonal = Math.round(((114477 - 143756) / Math.abs(143756)) * 10000) / 100;
+      const fourOnly = yoyTrendFromQuarters(apple.slice(1));
+      const noMatch = yoyTrendFromQuarters([
+        { date: "2026-09-30", value: 10 },
+        { date: "2026-06-30", value: 9 },
+        { date: "2026-03-31", value: 8 },
+        { date: "2025-12-31", value: 7 },
+        { date: "2024-09-30", value: 6 }, // ~730 days, outside the 330–400 window
+      ]);
+      const zeroDenom = yoyTrendFromQuarters([
+        { date: "2025-09-30", value: 0 },
+        { date: "2025-12-31", value: 1 },
+        { date: "2026-03-31", value: 1 },
+        { date: "2026-06-30", value: 1 },
+        { date: "2026-09-30", value: 2 },
+      ]);
+      const flatHi = yoyTrendFromQuarters([
+        { date: "2025-09-30", value: 100 },
+        { date: "2025-12-31", value: 90 },
+        { date: "2026-03-31", value: 90 },
+        { date: "2026-06-30", value: 90 },
+        { date: "2026-09-30", value: 108 },
+      ]);
+      const upHi = yoyTrendFromQuarters([
+        { date: "2025-09-30", value: 100 },
+        { date: "2025-12-31", value: 90 },
+        { date: "2026-03-31", value: 90 },
+        { date: "2026-06-30", value: 90 },
+        { date: "2026-09-30", value: 108.01 },
+      ]);
+      let snapFail = null;
+      try {
+        const snap = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/us-options-snapshot.json"), "utf8"));
+        if (snap.trendBasis && !/year_over_year/.test(String(snap.trendBasis))) snapFail = `snapshot trendBasis not YoY: ${snap.trendBasis}`;
+        for (const row of snap.tickers || []) {
+          for (const key of ["revenueTrend", "earningsTrend"]) {
+            const tr = row.fundamentals?.[key];
+            if (!tr) { snapFail = `${row.ticker} missing ${key}`; break; }
+            if (tr.incomplete) {
+              if (tr.label != null || tr.pct != null) { snapFail = `${row.ticker} ${key} incomplete but has label/pct`; break; }
+              continue;
+            }
+            if (tr.basis !== "yoy") { snapFail = `${row.ticker} ${key} basis ${tr.basis}`; break; }
+            if (!tr.latestQuarter || !tr.yearAgoQuarter) { snapFail = `${row.ticker} ${key} missing quarter dates`; break; }
+            if ((tr.quartersAvailable || 0) < 5) { snapFail = `${row.ticker} ${key} quartersAvailable ${tr.quartersAvailable}`; break; }
+            if (tr.latestValue == null || tr.yearAgoValue == null || tr.yearAgoValue === 0) { snapFail = `${row.ticker} ${key} missing public values`; break; }
+            const rec = Math.round(((tr.latestValue - tr.yearAgoValue) / Math.abs(tr.yearAgoValue)) * 10000) / 100;
+            if (Math.abs(rec - tr.pct) > 0.005) { snapFail = `${row.ticker} ${key} pct ${tr.pct} ≠ ${rec}`; break; }
+          }
+          if (snapFail) break;
+        }
+      } catch (e) {
+        snapFail = `snapshot unreadable: ${e.message}`;
+      }
+      if (YOY_FLAT_BAND !== 8 || YOY_MIN_QUARTERS !== 5) fail(`YoY constants wrong: band ${YOY_FLAT_BAND} min ${YOY_MIN_QUARTERS}`);
+      else if (!yoy || yoy.incomplete || yoy.label !== "up" || yoy.pct !== expected) fail(`Apple-like YoY should be up ${expected}, got ${JSON.stringify(yoy)}`);
+      else if (expected === seasonal) fail("Apple seasonal vs YoY should differ");
+      else if (!fourOnly?.incomplete) fail("YoY with only 4 quarters must be incomplete (no silent fallback)");
+      else if (!noMatch?.incomplete) fail("YoY without a 330–400 day counterpart must be incomplete");
+      else if (!zeroDenom?.incomplete) fail("YoY with a zero year-ago denominator must be incomplete");
+      else if (flatHi.label !== "flat" || upHi.label !== "up") fail(`±8% flat band broken: 8%→${flatHi.label} 8.01%→${upHi.label}`);
+      else if (/yoyTrend\(revs\)|series\[3\]/.test(optFetchSrc) && !/yoyTrendFromQuarters/.test(optFetchSrc)) fail("fetch-us-options still uses the 4-quarter series[3] compare");
+      else if (!/yoyTrendFromQuarters/.test(optFetchSrc) || !/yahoo-timeseries|sec-companyfacts/.test(optFetchSrc)) fail("fetch-us-options missing true YoY sources");
+      else if (staleLangs.length) fail(`optionsQualityLead still describes 3-quarters-earlier compare in ${staleLangs.join(", ")}`);
+      else if (snapFail) fail(`us-options YoY snapshot: ${snapFail}`);
+      else ok(`options YoY trend: latest vs same quarter last year, ≥5 quarters, ±8% flat, 資料不足 when missing, i18n x4, snapshot consistent`);
     }
     if (!sample.includes("2026-10-08 08:12（台北）") || !sample.includes("台股為 2026-10-07 收盤") || !sample.includes("美股為 2026-10-07 收盤")) fail(`buildTimezoneNote wrong: ${sample}`);
     const tzNote = String(latest.timezoneNote || "");

@@ -97,7 +97,7 @@ function gateClass(gate) {
 }
 
 export function trendLabel(tr) {
-  if (!tr || tr.incomplete || tr.label == null) return null;
+  if (!tr || tr.incomplete || tr.label == null) return t("optionsDataMissing");
   // Plain copy: the word carries the direction, so the number is shown unsigned
   // for up/down (no "下滑約 -20%" double negative); flat keeps its sign.
   const n = Number(tr.pct);

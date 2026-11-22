@@ -663,7 +663,7 @@ const zhHant = {
   optionsGotoResearch: "到研究書庫看完整條目",
   optionsUsOnly: "僅美股",
   optionsQualityTitle: "標的輕量財報檢核",
-  optionsQualityLead: "次要濾網：本益、淨值、負債、ROE、營收／獲利趨勢。趨勢＝最新一季比 3 季前（Yahoo 只給 4 季，不是年增率；±8% 內算持平）。缺欄略過；不作薦股。",
+  optionsQualityLead: "次要濾網：本益、淨值、負債、ROE、營收／獲利趨勢。趨勢＝年增率（最新一季對去年同一季；至少要 5 季公開資料；±8% 內算持平）。缺年增率就明示，不改用較近的季比；不作薦股。",
   optionsViewTitle: "選擇權觀點（McMillan）",
   optionsViewLead: "公開期權鏈：ATM 隱含波動、歷史波動、量能偏向；策略族為教育說明。",
   optionsMcmillanFirst: "先對齊波動高低與風險形狀，再想策略族——不是先猜漲跌再硬套。",

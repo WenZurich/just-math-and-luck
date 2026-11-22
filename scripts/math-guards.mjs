@@ -3157,6 +3157,72 @@ function techFromBars(bars) {
   ok(`cross-market top5 + ADR parity (${n} cases: crossMarketTop = verbatim legacy Top5 block on 60,000 random US/TW pick lists (0–14 each, 7 screen sets incl. observe, published-precision ranking scores with forced ties, null/undefined/−1e9) with strict comparator, = independent rank-count spec oracle (${nSpec}), inputs never mutated, length = min(5, eligible), sorted, US→TW stable ties, top-k prefix, market swap keeps key multiset; exhaustive 3+3 picks × scores {null,1,2,missing} × observe (${4 ** 6 * 64 * 3}); junk scores (${junkN} incl. parity) rank as missing, legacy string coercion pinned; adrParity = legacy raw expressions + rounded outputs on ${nPar} published-precision quotes (TW tick grid, 2 dp ADR, 3–6 dp FX), exact BigInt spec: ${parSpecDiff} rounding disagreements, all on an exact half-cent (${parOnHalf}); premium sign exact, ×2/×4 scale invariance, monotone in ADR / 2330 price, zero-premium boundaries, 11/03 hand case; junk / 0 / negative ⇒ null (legacy ∞ / −100% pinned); wiring; live ${live} top5/parity items)`);
 }
 
+// —— Options desk revenue/earnings trend: true year-over-year (not 3-quarters-earlier) ——
+{
+  const { yoyTrendFromQuarters, YOY_FLAT_BAND, YOY_MIN_QUARTERS } = await import(
+    new URL("./fetch-us-options.mjs", import.meta.url)
+  );
+  assert(YOY_FLAT_BAND === 8 && YOY_MIN_QUARTERS === 5, "YoY flat band ±8 and min 5 quarters");
+  const apple = [
+    { date: "2025-09-30", value: 102466 },
+    { date: "2025-12-31", value: 143756 },
+    { date: "2026-03-31", value: 111184 },
+    { date: "2026-06-30", value: 109417 },
+    { date: "2026-09-30", value: 114477 },
+  ];
+  const yoy = yoyTrendFromQuarters(apple);
+  const expected = Math.round(((114477 - 102466) / Math.abs(102466)) * 10000) / 100; // 11.72
+  const seasonal = Math.round(((114477 - 143756) / Math.abs(143756)) * 10000) / 100; // -20.37 (old method)
+  assert(yoy && !yoy.incomplete && yoy.basis === "yoy" && yoy.label === "up" && yoy.pct === expected, `Apple-like true YoY ${JSON.stringify(yoy)} (want up ${expected})`);
+  assert(expected !== seasonal && seasonal < -8, `seasonal 3-quarter-earlier compare must differ (YoY ${expected} vs ${seasonal})`);
+  assert(yoyTrendFromQuarters(apple.slice(1)).incomplete, "4 quarters only → incomplete, no silent fallback");
+  assert(yoyTrendFromQuarters(null).incomplete && yoyTrendFromQuarters("x").incomplete && yoyTrendFromQuarters([]).incomplete, "junk / empty → incomplete");
+  assert(yoyTrendFromQuarters([{ date: "2026-09-30", value: 10 }, { date: "2026-06-30", value: 9 }, { date: "2026-03-31", value: 8 }, { date: "2025-12-31", value: 7 }, { date: "2024-09-30", value: 6 }]).incomplete, "no 330–400 day counterpart → incomplete");
+  assert(yoyTrendFromQuarters([{ date: "2025-09-30", value: 0 }, { date: "2025-12-31", value: 1 }, { date: "2026-03-31", value: 1 }, { date: "2026-06-30", value: 1 }, { date: "2026-09-30", value: 2 }]).incomplete, "zero year-ago denominator → incomplete");
+  const flatAt = yoyTrendFromQuarters([{ date: "2025-09-30", value: 100 }, { date: "2025-12-31", value: 1 }, { date: "2026-03-31", value: 1 }, { date: "2026-06-30", value: 1 }, { date: "2026-09-30", value: 108 }]);
+  const upOver = yoyTrendFromQuarters([{ date: "2025-09-30", value: 100 }, { date: "2025-12-31", value: 1 }, { date: "2026-03-31", value: 1 }, { date: "2026-06-30", value: 1 }, { date: "2026-09-30", value: 108.01 }]);
+  const flatNeg = yoyTrendFromQuarters([{ date: "2025-09-30", value: 100 }, { date: "2025-12-31", value: 1 }, { date: "2026-03-31", value: 1 }, { date: "2026-06-30", value: 1 }, { date: "2026-09-30", value: 92 }]);
+  const downOver = yoyTrendFromQuarters([{ date: "2025-09-30", value: 100 }, { date: "2025-12-31", value: 1 }, { date: "2026-03-31", value: 1 }, { date: "2026-06-30", value: 1 }, { date: "2026-09-30", value: 91.99 }]);
+  assert(flatAt.label === "flat" && upOver.label === "up" && flatNeg.label === "flat" && downOver.label === "down", `±8% band ${flatAt.label}/${upOver.label}/${flatNeg.label}/${downOver.label}`);
+  // unsorted input, extra nulls, duplicate dates: still the same YoY, never invents a missing quarter
+  const messy = yoyTrendFromQuarters([
+    { date: "2026-09-30", value: 114477 },
+    null,
+    { date: "2026-06-30", value: 109417 },
+    { date: "2025-09-30", value: 102466 },
+    { date: "2025-09-30", value: 999999 }, // duplicate date ignored
+    { value: 1 }, // no date
+    { date: "2026-03-31", value: 111184 },
+    { date: "2025-12-31", value: 143756 },
+  ]);
+  assert(messy.pct === expected && messy.yearAgoQuarter === "2025-09-30" && messy.yearAgoValue === 102466, `messy input must not invent or pick the duplicate ${JSON.stringify(messy)}`);
+  // live snapshot consistency (public values only; incomplete is allowed)
+  let nLiveYoy = 0;
+  try {
+    const snap = JSON.parse(readFileSync(join(ROOT_MG, "public/data/us-options-snapshot.json"), "utf8"));
+    for (const row of snap.tickers || []) {
+      for (const key of ["revenueTrend", "earningsTrend"]) {
+        const tr = row.fundamentals?.[key];
+        if (!tr) { fail(`${row.ticker} missing ${key}`); continue; }
+        if (tr.incomplete) {
+          assert(tr.label == null && tr.pct == null, `${row.ticker} ${key} incomplete must not invent a pct`);
+          continue;
+        }
+        assert(tr.basis === "yoy", `${row.ticker} ${key} basis`);
+        assert(tr.quartersAvailable >= 5, `${row.ticker} ${key} needs ≥5 quarters`);
+        const rec = ((tr.latestValue - tr.yearAgoValue) / Math.abs(tr.yearAgoValue)) * 100;
+        assert(Number.isFinite(rec) && Math.abs(Math.round(rec * 100) / 100 - tr.pct) <= 0.005, `${row.ticker} ${key} pct ${tr.pct} vs ${rec}`);
+        const days = (Date.parse(tr.latestQuarter) - Date.parse(tr.yearAgoQuarter)) / 86400000;
+        assert(days >= 330 && days <= 400, `${row.ticker} ${key} year-ago gap ${days}d`);
+        nLiveYoy++;
+      }
+    }
+  } catch (e) {
+    fail(`us-options YoY live snapshot: ${e.message}`);
+  }
+  ok(`options true YoY trend (Apple seasonal counterexample, 4-quarter refusal, ±8% band, live ${nLiveYoy} series)`);
+}
+
 console.log("——");
 if (failures.length) {
   console.error(`▶ math-guards: ${failures.length} failure(s)`);

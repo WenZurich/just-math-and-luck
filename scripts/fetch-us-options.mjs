@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 /**
- * Fetch US equity light fundamentals + options snapshot (Yahoo public APIs).
+ * Fetch US equity light fundamentals + options snapshot (public APIs only).
  * Writes public/data/us-options-snapshot.json (+ docs/data/ when present).
+ *
+ * Revenue / earnings trend = true year-over-year (latest quarter vs the same
+ * quarter one year earlier). Needs ≥5 quarterly points from Yahoo timeseries
+ * (fallback: SEC companyfacts). Never invents numbers and never silently falls
+ * back to a 3-quarters-earlier / 4-quarter compare; missing YoY → incomplete.
  *
  * Primary framework: McMillan《選擇權策略完全手冊》
  *   (research-library id book-mcmillan-options-handbook)
@@ -14,6 +19,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { annualizedHistVol } from "./math-core.mjs";
+import { SEC_UA } from "./sec-contact.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -129,20 +135,225 @@ async function yahooJson(session, urlPath) {
   return { ok: false, status: lastStatus, data: null };
 }
 
-function yoyTrend(series) {
-  if (!Array.isArray(series) || series.length < 4) {
-    return { label: null, pct: null, incomplete: true };
+/** True YoY band: within ±8% counts as flat (same as the previous 4-quarter screen). */
+export const YOY_FLAT_BAND = 8;
+export const YOY_MIN_QUARTERS = 5;
+export const YOY_MIN_DAYS = 330;
+export const YOY_MAX_DAYS = 400;
+
+const INCOMPLETE_YOY = Object.freeze({
+  label: null,
+  pct: null,
+  incomplete: true,
+  basis: "yoy",
+});
+
+function daysBetween(a, b) {
+  const da = Date.parse(a);
+  const db = Date.parse(b);
+  if (!Number.isFinite(da) || !Number.isFinite(db)) return null;
+  return (da - db) / 86_400_000;
+}
+
+function normalizeQuarterPoint(p) {
+  if (p == null) return null;
+  if (typeof p === "number" && Number.isFinite(p)) return null; // date required; never invent a period
+  if (typeof p === "object") {
+    const date = p.date || p.asOfDate || p.end || null;
+    const value = p.value ?? p.val ?? raw(p.reportedValue);
+    if (!date || value == null || !Number.isFinite(value)) return null;
+    return { date: String(date).slice(0, 10), value };
   }
-  const latest = series[0];
-  const yearAgo = series[3];
-  if (latest == null || yearAgo == null || yearAgo === 0) {
-    return { label: null, pct: null, incomplete: true };
+  return null;
+}
+
+/**
+ * True year-over-year: latest quarter vs the same quarter one year earlier.
+ * Requires ≥5 quarterly points and a counterpart 330–400 days earlier.
+ * Missing / unmatched / zero-denominator → incomplete (UI: 資料不足).
+ * Never falls back to a 3-quarters-earlier compare.
+ *
+ * @param {Array<{date:string,value:number}|{asOfDate:string,val:number}>} points
+ */
+export function yoyTrendFromQuarters(points) {
+  if (!Array.isArray(points)) {
+    return { ...INCOMPLETE_YOY, quartersAvailable: 0 };
   }
-  const pct = ((latest - yearAgo) / Math.abs(yearAgo)) * 100;
+  const byDate = new Map();
+  for (const rawPt of points) {
+    const p = normalizeQuarterPoint(rawPt);
+    if (!p) continue;
+    if (!byDate.has(p.date)) byDate.set(p.date, p);
+  }
+  const sorted = [...byDate.values()].sort((a, b) => b.date.localeCompare(a.date));
+  const available = sorted.length;
+  if (available < YOY_MIN_QUARTERS) {
+    return { ...INCOMPLETE_YOY, quartersAvailable: available };
+  }
+  const latest = sorted[0];
+  let yearAgo = null;
+  let bestDiff = Infinity;
+  for (const p of sorted.slice(1)) {
+    const days = daysBetween(latest.date, p.date);
+    if (days == null || days < YOY_MIN_DAYS || days > YOY_MAX_DAYS) continue;
+    const diff = Math.abs(days - 365);
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      yearAgo = p;
+    }
+  }
+  if (!yearAgo) {
+    return { ...INCOMPLETE_YOY, quartersAvailable: available, latestQuarter: latest.date };
+  }
+  if (yearAgo.value === 0) {
+    return {
+      ...INCOMPLETE_YOY,
+      quartersAvailable: available,
+      latestQuarter: latest.date,
+      yearAgoQuarter: yearAgo.date,
+    };
+  }
+  const pct = ((latest.value - yearAgo.value) / Math.abs(yearAgo.value)) * 100;
+  if (!Number.isFinite(pct)) {
+    return {
+      ...INCOMPLETE_YOY,
+      quartersAvailable: available,
+      latestQuarter: latest.date,
+      yearAgoQuarter: yearAgo.date,
+    };
+  }
   let label = "flat";
-  if (pct > 8) label = "up";
-  else if (pct < -8) label = "down";
-  return { label, pct: round(pct, 2), incomplete: false };
+  if (pct > YOY_FLAT_BAND) label = "up";
+  else if (pct < -YOY_FLAT_BAND) label = "down";
+  return {
+    label,
+    pct: round(pct, 2),
+    incomplete: false,
+    basis: "yoy",
+    latestQuarter: latest.date,
+    yearAgoQuarter: yearAgo.date,
+    latestValue: latest.value,
+    yearAgoValue: yearAgo.value,
+    quartersAvailable: available,
+  };
+}
+
+function parseYahooTimeseries(data, typeName) {
+  const out = [];
+  for (const s of data?.timeseries?.result || []) {
+    const k = s?.meta?.type?.[0];
+    if (k !== typeName) continue;
+    for (const x of s[k] || []) {
+      const value = raw(x?.reportedValue);
+      if (x?.asOfDate && value != null) out.push({ date: String(x.asOfDate).slice(0, 10), value });
+    }
+  }
+  return out;
+}
+
+async function fetchYahooQuarterlyIncome(session, ticker) {
+  const p2 = Math.floor(Date.now() / 1000);
+  const p1 = p2 - 86400 * 2000;
+  const res = await yahooJson(
+    session,
+    `/ws/fundamentals-timeseries/v1/finance/timeseries/${encodeURIComponent(ticker)}?type=quarterlyTotalRevenue,quarterlyNetIncome&period1=${p1}&period2=${p2}`
+  );
+  if (!res.ok) return { ok: false, revenue: [], netIncome: [] };
+  return {
+    ok: true,
+    revenue: parseYahooTimeseries(res.data, "quarterlyTotalRevenue"),
+    netIncome: parseYahooTimeseries(res.data, "quarterlyNetIncome"),
+  };
+}
+
+const SEC_REV_CONCEPTS = [
+  "RevenueFromContractWithCustomerExcludingAssessedTax",
+  "Revenues",
+  "SalesRevenueNet",
+  "RevenueFromContractWithCustomerIncludingAssessedTax",
+];
+const SEC_NI_CONCEPTS = [
+  "NetIncomeLoss",
+  "ProfitLoss",
+  "NetIncomeLossAvailableToCommonStockholdersBasic",
+];
+
+function cik10ForTicker(ticker) {
+  try {
+    const j = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/company-profiles.json"), "utf8"));
+    const cik = j?.us?.[String(ticker).toUpperCase()]?.cik;
+    if (!cik) return null;
+    const digits = String(cik).replace(/\D/g, "");
+    return digits ? digits.padStart(10, "0") : null;
+  } catch {
+    return null;
+  }
+}
+
+function quarterlyFromConcept(block) {
+  const units = block?.units || {};
+  const unitKey = units.USD ? "USD" : Object.keys(units)[0];
+  if (!unitKey) return [];
+  const byEnd = new Map();
+  for (const x of units[unitKey] || []) {
+    if (x?.end == null || x?.start == null || !Number.isFinite(x.val)) continue;
+    const start = Date.parse(x.start);
+    const end = Date.parse(x.end);
+    if (!Number.isFinite(start) || !Number.isFinite(end)) continue;
+    const days = (end - start) / 86_400_000;
+    if (days < 70 || days > 110) continue; // skip annual / YTD cumulative
+    const date = String(x.end).slice(0, 10);
+    const formScore = /10-K|10-Q/.test(x.form || "") ? 2 : 0;
+    const prev = byEnd.get(date);
+    if (!prev || formScore > prev.formScore) {
+      byEnd.set(date, { date, value: x.val, formScore });
+    }
+  }
+  return [...byEnd.values()].map(({ date, value }) => ({ date, value }));
+}
+
+function pickSecSeries(facts, concepts) {
+  let best = [];
+  for (const c of concepts) {
+    const rows = quarterlyFromConcept(facts?.[c]);
+    if (!rows.length) continue;
+    const newest = [...rows].sort((a, b) => b.date.localeCompare(a.date))[0].date;
+    const bestNewest = best.length
+      ? [...best].sort((a, b) => b.date.localeCompare(a.date))[0].date
+      : "";
+    // Prefer a series that can actually compute YoY; then the one with the newest quarter.
+    const rowsYoy = !yoyTrendFromQuarters(rows).incomplete;
+    const bestYoy = best.length ? !yoyTrendFromQuarters(best).incomplete : false;
+    if ((rowsYoy && !bestYoy) || (rowsYoy === bestYoy && (rows.length > best.length || (rows.length === best.length && newest > bestNewest)))) {
+      best = rows;
+    }
+  }
+  return best;
+}
+
+async function fetchSecQuarterlyIncome(ticker) {
+  if (!SEC_UA) return { ok: false, revenue: [], netIncome: [] };
+  const cik = cik10ForTicker(ticker);
+  if (!cik) return { ok: false, revenue: [], netIncome: [] };
+  try {
+    const res = await fetch(`https://data.sec.gov/api/xbrl/companyfacts/CIK${cik}.json`, {
+      headers: { "User-Agent": SEC_UA, Accept: "application/json" },
+    });
+    if (!res.ok) return { ok: false, revenue: [], netIncome: [] };
+    const facts = (await res.json())?.facts?.["us-gaap"] || {};
+    return {
+      ok: true,
+      revenue: pickSecSeries(facts, SEC_REV_CONCEPTS),
+      netIncome: pickSecSeries(facts, SEC_NI_CONCEPTS),
+    };
+  } catch {
+    return { ok: false, revenue: [], netIncome: [] };
+  }
+}
+
+function attachTrendSource(trend, source) {
+  if (!trend || trend.incomplete) return trend;
+  return { ...trend, source };
 }
 
 function scoreQuality(f) {
@@ -335,12 +546,14 @@ async function fetchFundamentals(session, ticker) {
     "defaultKeyStatistics",
     "financialData",
     "summaryDetail",
-    "incomeStatementHistoryQuarterly",
   ].join(",");
-  const res = await yahooJson(
-    session,
-    `/v10/finance/quoteSummary/${encodeURIComponent(ticker)}?modules=${modules}`
-  );
+  const [res, yahooTs] = await Promise.all([
+    yahooJson(
+      session,
+      `/v10/finance/quoteSummary/${encodeURIComponent(ticker)}?modules=${modules}`
+    ),
+    fetchYahooQuarterlyIncome(session, ticker),
+  ]);
   if (!res.ok) {
     return { ok: false, blocker: `Yahoo quoteSummary HTTP ${res.status}`, fundamentals: null };
   }
@@ -351,9 +564,31 @@ async function fetchFundamentals(session, ticker) {
   const ks = block.defaultKeyStatistics || {};
   const fd = block.financialData || {};
   const sd = block.summaryDetail || {};
-  const hist = block.incomeStatementHistoryQuarterly?.incomeStatementHistory || [];
-  const revs = hist.map((h) => raw(h.totalRevenue));
-  const nis = hist.map((h) => raw(h.netIncome));
+
+  let revs = yahooTs.revenue || [];
+  let nis = yahooTs.netIncome || [];
+  let revSource = "yahoo-timeseries";
+  let niSource = "yahoo-timeseries";
+  const needSec =
+    yoyTrendFromQuarters(revs).incomplete || yoyTrendFromQuarters(nis).incomplete;
+  if (needSec) {
+    const sec = await fetchSecQuarterlyIncome(ticker);
+    if (yoyTrendFromQuarters(revs).incomplete && !yoyTrendFromQuarters(sec.revenue).incomplete) {
+      revs = sec.revenue;
+      revSource = "sec-companyfacts";
+    }
+    if (yoyTrendFromQuarters(nis).incomplete && !yoyTrendFromQuarters(sec.netIncome).incomplete) {
+      nis = sec.netIncome;
+      niSource = "sec-companyfacts";
+    }
+  }
+
+  const revenueTrend = attachTrendSource(yoyTrendFromQuarters(revs), revSource);
+  const earningsTrend = attachTrendSource(yoyTrendFromQuarters(nis), niSource);
+  const quartersAvailable = Math.max(
+    revenueTrend.quartersAvailable || 0,
+    earningsTrend.quartersAvailable || 0
+  );
 
   return {
     ok: true,
@@ -366,9 +601,10 @@ async function fetchFundamentals(session, ticker) {
       debtToEquity: round(raw(fd.debtToEquity), 2),
       profitMargin: round(raw(fd.profitMargins), 4),
       grossMargin: round(raw(fd.grossMargins), 4),
-      revenueTrend: yoyTrend(revs),
-      earningsTrend: yoyTrend(nis),
-      quartersAvailable: hist.length,
+      revenueTrend,
+      earningsTrend,
+      quartersAvailable,
+      trendBasis: "yoy",
     },
   };
 }
@@ -596,7 +832,10 @@ async function main() {
   const snapshot = {
     asOf,
     market: "US",
-    source: "Yahoo Finance public quoteSummary + options + chart (crumb session)",
+    source:
+      "Yahoo Finance public quoteSummary + fundamentals-timeseries + options + chart (crumb session); YoY trend from quarterly timeseries (SEC companyfacts fallback). Never invents numbers.",
+    trendBasis:
+      "year_over_year: latest quarter vs the same quarter last year; requires ≥5 quarterly points; ±8% = flat; no silent fallback to a 3-quarters-earlier compare",
     disclaimer:
       "非投資建議；選擇權風險高。Educational screen only — not personalized advice.",
     primaryBookId: PRIMARY_BOOK_ID,
@@ -619,7 +858,9 @@ async function main() {
   }
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

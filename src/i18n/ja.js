@@ -565,7 +565,7 @@ export default {
   optionsGotoResearch: "研究ライブラリの条目へ",
   optionsUsOnly: "米国のみ",
   optionsQualityTitle: "原資産の軽い財務チェック",
-  optionsQualityLead: "副次フィルタ：PER、PBR、負債、ROE、売上／利益トレンド。トレンド＝最新四半期と3四半期前の比較（Yahooは4四半期のみ、前年比ではない。±8%以内は横ばい）。欠落は資料不足。",
+  optionsQualityLead: "副次フィルタ：PER、PBR、負債、ROE、売上／利益トレンド。トレンド＝前年同期比（最新四半期と前年の同じ四半期；公開データが5四半期以上；±8%以内は横ばい）。前年比が取れない場合は明示し、短い比較に黙って差し替えません。",
   optionsViewTitle: "オプション観点（McMillan）",
   optionsViewLead: "公開チェーン：ATM IV、実現ボラ、出来高偏り。戦略族は教育用。",
   optionsMcmillanFirst: "先にボラ状態と損益形を合わせ、その後でファミリーを選ぶ。",

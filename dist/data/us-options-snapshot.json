@@ -1,7 +1,8 @@
 {
-  "asOf": "2026-11-21T01:46:23.006Z",
+  "asOf": "2026-11-22T02:00:34.834Z",
   "market": "US",
-  "source": "Yahoo Finance public quoteSummary + options + chart (crumb session)",
+  "source": "Yahoo Finance public quoteSummary + fundamentals-timeseries + options + chart (crumb session); YoY trend from quarterly timeseries (SEC companyfacts fallback). Never invents numbers.",
+  "trendBasis": "year_over_year: latest quarter vs the same quarter last year; requires ≥5 quarterly points; ±8% = flat; no silent fallback to a 3-quarters-earlier compare",
   "disclaimer": "非投資建議；選擇權風險高。Educational screen only — not personalized advice.",
   "primaryBookId": "book-mcmillan-options-handbook",
   "primaryBook": {
@@ -65,15 +66,30 @@
         "grossMargin": 0.6896,
         "revenueTrend": {
           "label": "up",
-          "pct": 32.81,
-          "incomplete": false
+          "pct": 39.25,
+          "incomplete": false,
+          "basis": "yoy",
+          "latestQuarter": "2026-10-31",
+          "yearAgoQuarter": "2025-10-31",
+          "latestValue": 3445000000,
+          "yearAgoValue": 2474000000,
+          "quartersAvailable": 5,
+          "source": "yahoo-timeseries"
         },
         "earningsTrend": {
           "label": "up",
-          "pct": 11.57,
-          "incomplete": false
+          "pct": 44.31,
+          "incomplete": false,
+          "basis": "yoy",
+          "latestQuarter": "2026-10-31",
+          "yearAgoQuarter": "2025-10-31",
+          "latestValue": 482000000,
+          "yearAgoValue": 334000000,
+          "quartersAvailable": 5,
+          "source": "yahoo-timeseries"
         },
-        "quartersAvailable": 4
+        "quartersAvailable": 5,
+        "trendBasis": "yoy"
       },
       "quality": {
         "score": 0.5,
@@ -96,11 +112,11 @@
         "expirationUnix": 1797552000,
         "atmStrikeCall": 345,
         "atmStrikePut": 345,
-        "atmIv": 0.707,
-        "atmIvCall": 0.7265,
-        "atmIvPut": 0.6874,
-        "historicalVol": 0.7116,
-        "ivHvRatio": 0.994,
+        "atmIv": 0.72,
+        "atmIvCall": 0.7398,
+        "atmIvPut": 0.7001,
+        "historicalVol": 0.7315,
+        "ivHvRatio": 0.984,
         "callVolume": 6243,
         "putVolume": 14321,
         "putCallVolumeRatio": 2.294,
@@ -585,15 +601,30 @@
         "grossMargin": 0.7813,
         "revenueTrend": {
           "label": "up",
-          "pct": 8.49,
-          "incomplete": false
+          "pct": 10.58,
+          "incomplete": false,
+          "basis": "yoy",
+          "latestQuarter": "2026-07-31",
+          "yearAgoQuarter": "2025-07-31",
+          "latestValue": 805000000,
+          "yearAgoValue": 728000000,
+          "quartersAvailable": 5,
+          "source": "yahoo-timeseries"
         },
         "earningsTrend": {
           "label": "up",
-          "pct": 169.77,
-          "incomplete": false
+          "pct": 73.13,
+          "incomplete": false,
+          "basis": "yoy",
+          "latestQuarter": "2026-07-31",
+          "yearAgoQuarter": "2025-07-31",
+          "latestValue": 116000000,
+          "yearAgoValue": 67000000,
+          "quartersAvailable": 5,
+          "source": "yahoo-timeseries"
         },
-        "quartersAvailable": 4
+        "quartersAvailable": 5,
+        "trendBasis": "yoy"
       },
       "quality": {
         "score": 0.6,
@@ -616,11 +647,11 @@
         "expirationUnix": 1797552000,
         "atmStrikeCall": 190,
         "atmStrikePut": 190,
-        "atmIv": 1.028,
-        "atmIvCall": 1.0325,
-        "atmIvPut": 1.0235,
-        "historicalVol": 0.8549,
-        "ivHvRatio": 1.202,
+        "atmIv": 1.0469,
+        "atmIvCall": 1.0515,
+        "atmIvPut": 1.0422,
+        "historicalVol": 0.8881,
+        "ivHvRatio": 1.179,
         "callVolume": 2986,
         "putVolume": 1038,
         "putCallVolumeRatio": 0.348,
@@ -1105,15 +1136,30 @@
         "grossMargin": 0.7519,
         "revenueTrend": {
           "label": "up",
-          "pct": 19.17,
-          "incomplete": false
+          "pct": 25.83,
+          "incomplete": false,
+          "basis": "yoy",
+          "latestQuarter": "2026-07-31",
+          "yearAgoQuarter": "2025-07-31",
+          "latestValue": 1470897000,
+          "yearAgoValue": 1168952000,
+          "quartersAvailable": 5,
+          "source": "yahoo-timeseries"
         },
         "earningsTrend": {
           "label": "up",
-          "pct": 115.61,
-          "incomplete": false
+          "pct": 107.56,
+          "incomplete": false,
+          "basis": "yoy",
+          "latestQuarter": "2026-07-31",
+          "yearAgoQuarter": "2025-07-31",
+          "latestValue": 5306000,
+          "yearAgoValue": -70153000,
+          "quartersAvailable": 5,
+          "source": "yahoo-timeseries"
         },
-        "quartersAvailable": 4
+        "quartersAvailable": 5,
+        "trendBasis": "yoy"
       },
       "quality": {
         "score": 0.5,
@@ -1136,11 +1182,11 @@
         "expirationUnix": 1797552000,
         "atmStrikeCall": 230,
         "atmStrikePut": 230,
-        "atmIv": 0.8936,
-        "atmIvCall": 0.8977,
-        "atmIvPut": 0.8895,
-        "historicalVol": 0.6364,
-        "ivHvRatio": 1.404,
+        "atmIv": 0.91,
+        "atmIvCall": 0.9142,
+        "atmIvPut": 0.9058,
+        "historicalVol": 0.6695,
+        "ivHvRatio": 1.359,
         "callVolume": 7192,
         "putVolume": 4976,
         "putCallVolumeRatio": 0.692,
@@ -1625,15 +1671,30 @@
         "grossMargin": 0.7687,
         "revenueTrend": {
           "label": "up",
-          "pct": 13.97,
-          "incomplete": false
+          "pct": 24.88,
+          "incomplete": false,
+          "basis": "yoy",
+          "latestQuarter": "2026-07-31",
+          "yearAgoQuarter": "2025-07-31",
+          "latestValue": 898185000,
+          "yearAgoValue": 719226000,
+          "quartersAvailable": 5,
+          "source": "yahoo-timeseries"
         },
         "earningsTrend": {
           "label": "up",
-          "pct": 70.99,
-          "incomplete": false
+          "pct": 80.83,
+          "incomplete": false,
+          "basis": "yoy",
+          "latestQuarter": "2026-07-31",
+          "yearAgoQuarter": "2025-07-31",
+          "latestValue": -3369000,
+          "yearAgoValue": -17578000,
+          "quartersAvailable": 5,
+          "source": "yahoo-timeseries"
         },
-        "quartersAvailable": 4
+        "quartersAvailable": 5,
+        "trendBasis": "yoy"
       },
       "quality": {
         "score": 0.6,
@@ -1656,11 +1717,11 @@
         "expirationUnix": 1797552000,
         "atmStrikeCall": 195,
         "atmStrikePut": 195,
-        "atmIv": 0.964,
-        "atmIvCall": 0.96,
-        "atmIvPut": 0.968,
-        "historicalVol": 0.613,
-        "ivHvRatio": 1.573,
+        "atmIv": 0.9817,
+        "atmIvCall": 0.9776,
+        "atmIvPut": 0.9858,
+        "historicalVol": 0.6229,
+        "ivHvRatio": 1.576,
         "callVolume": 1265,
         "putVolume": 735,
         "putCallVolumeRatio": 0.581,
@@ -2144,15 +2205,30 @@
         "grossMargin": 0.8878,
         "revenueTrend": {
           "label": "up",
-          "pct": 31.78,
-          "incomplete": false
+          "pct": 55.5,
+          "incomplete": false,
+          "basis": "yoy",
+          "latestQuarter": "2026-09-30",
+          "yearAgoQuarter": "2025-09-30",
+          "latestValue": 2184815000,
+          "yearAgoValue": 1405045000,
+          "quartersAvailable": 5,
+          "source": "yahoo-timeseries"
         },
         "earningsTrend": {
           "label": "up",
-          "pct": 30.54,
-          "incomplete": false
+          "pct": 72.21,
+          "incomplete": false,
+          "basis": "yoy",
+          "latestQuarter": "2026-09-30",
+          "yearAgoQuarter": "2025-09-30",
+          "latestValue": 1438902000,
+          "yearAgoValue": 835545000,
+          "quartersAvailable": 5,
+          "source": "yahoo-timeseries"
         },
-        "quartersAvailable": 4
+        "quartersAvailable": 5,
+        "trendBasis": "yoy"
       },
       "quality": {
         "score": 0.8,
@@ -2175,11 +2251,11 @@
         "expirationUnix": 1797552000,
         "atmStrikeCall": 350,
         "atmStrikePut": 350,
-        "atmIv": 0.702,
-        "atmIvCall": 0.7047,
-        "atmIvPut": 0.6993,
-        "historicalVol": 1.1978,
-        "ivHvRatio": 0.586,
+        "atmIv": 0.715,
+        "atmIvCall": 0.7177,
+        "atmIvPut": 0.7122,
+        "historicalVol": 1.2446,
+        "ivHvRatio": 0.574,
         "callVolume": 2999,
         "putVolume": 2691,
         "putCallVolumeRatio": 0.897,
@@ -2662,29 +2738,44 @@
         "profitMargin": 0.276,
         "grossMargin": 0.4879,
         "revenueTrend": {
-          "label": "down",
-          "pct": -20.37,
-          "incomplete": false
+          "label": "up",
+          "pct": 11.72,
+          "incomplete": false,
+          "basis": "yoy",
+          "latestQuarter": "2026-09-30",
+          "yearAgoQuarter": "2025-09-30",
+          "latestValue": 114477000000,
+          "yearAgoValue": 102466000000,
+          "quartersAvailable": 5,
+          "source": "yahoo-timeseries"
         },
         "earningsTrend": {
-          "label": "down",
-          "pct": -27.05,
-          "incomplete": false
+          "label": "up",
+          "pct": 11.81,
+          "incomplete": false,
+          "basis": "yoy",
+          "latestQuarter": "2026-09-30",
+          "yearAgoQuarter": "2025-09-30",
+          "latestValue": 30711000000,
+          "yearAgoValue": 27466000000,
+          "quartersAvailable": 5,
+          "source": "yahoo-timeseries"
         },
-        "quartersAvailable": 4
+        "quartersAvailable": 5,
+        "trendBasis": "yoy"
       },
       "quality": {
-        "score": 0.4,
-        "scoreRaw": 4,
+        "score": 0.7,
+        "scoreRaw": 7,
         "scoreMax": 10,
-        "gate": "watch",
+        "gate": "pass",
         "notes": [
           "pe_elevated",
           "pb_high",
           "roe_strong",
           "debt_ok",
-          "rev_down",
-          "earn_down"
+          "rev_up",
+          "earn_up"
         ],
         "missingFields": []
       },
@@ -2694,10 +2785,10 @@
         "expirationUnix": 1797552000,
         "atmStrikeCall": 345,
         "atmStrikePut": 345,
-        "atmIv": 0.3203,
-        "atmIvCall": 0.3419,
-        "atmIvPut": 0.2986,
-        "historicalVol": 0.2677,
+        "atmIv": 0.3262,
+        "atmIvCall": 0.3482,
+        "atmIvPut": 0.3041,
+        "historicalVol": 0.2727,
         "ivHvRatio": 1.196,
         "callVolume": 55070,
         "putVolume": 100813,
@@ -3181,28 +3272,44 @@
         "profitMargin": 0.2959,
         "grossMargin": 0.8334,
         "revenueTrend": {
-          "label": "flat",
-          "pct": 7.28,
-          "incomplete": false
+          "label": "up",
+          "pct": 10.69,
+          "incomplete": false,
+          "basis": "yoy",
+          "latestQuarter": "2026-09-30",
+          "yearAgoQuarter": "2025-09-30",
+          "latestValue": 188049000,
+          "yearAgoValue": 169882000,
+          "quartersAvailable": 5,
+          "source": "yahoo-timeseries"
         },
         "earningsTrend": {
-          "label": "flat",
-          "pct": 7.57,
-          "incomplete": false
+          "label": "up",
+          "pct": 13.56,
+          "incomplete": false,
+          "basis": "yoy",
+          "latestQuarter": "2026-09-30",
+          "yearAgoQuarter": "2025-09-30",
+          "latestValue": 57174000,
+          "yearAgoValue": 50346000,
+          "quartersAvailable": 5,
+          "source": "yahoo-timeseries"
         },
-        "quartersAvailable": 4
+        "quartersAvailable": 5,
+        "trendBasis": "yoy"
       },
       "quality": {
-        "score": 0.6,
-        "scoreRaw": 6,
+        "score": 0.8,
+        "scoreRaw": 8,
         "scoreMax": 10,
-        "gate": "watch",
+        "gate": "pass",
         "notes": [
           "pe_elevated",
           "pb_high",
           "roe_strong",
           "debt_low",
-          "rev_flat"
+          "rev_up",
+          "earn_up"
         ],
         "missingFields": []
       },
@@ -3212,11 +3319,11 @@
         "expirationUnix": 1797552000,
         "atmStrikeCall": 185,
         "atmStrikePut": 185,
-        "atmIv": 0.7171,
-        "atmIvCall": 0.7448,
-        "atmIvPut": 0.6894,
-        "historicalVol": 0.9321,
-        "ivHvRatio": 0.769,
+        "atmIv": 0.7302,
+        "atmIvCall": 0.7584,
+        "atmIvPut": 0.702,
+        "historicalVol": 0.9142,
+        "ivHvRatio": 0.799,
         "callVolume": 1121,
         "putVolume": 161,
         "putCallVolumeRatio": 0.144,
@@ -3700,15 +3807,30 @@
         "grossMargin": 0.7975,
         "revenueTrend": {
           "label": "up",
-          "pct": 9.1,
-          "incomplete": false
+          "pct": 20.49,
+          "incomplete": false,
+          "basis": "yoy",
+          "latestQuarter": "2026-09-30",
+          "yearAgoQuarter": "2025-09-30",
+          "latestValue": 2078400000,
+          "yearAgoValue": 1724900000,
+          "quartersAvailable": 5,
+          "source": "yahoo-timeseries"
         },
         "earningsTrend": {
           "label": "up",
-          "pct": 25.59,
-          "incomplete": false
+          "pct": 34.1,
+          "incomplete": false,
+          "basis": "yoy",
+          "latestQuarter": "2026-09-30",
+          "yearAgoQuarter": "2025-09-30",
+          "latestValue": 635500000,
+          "yearAgoValue": 473900000,
+          "quartersAvailable": 5,
+          "source": "yahoo-timeseries"
         },
-        "quartersAvailable": 4
+        "quartersAvailable": 5,
+        "trendBasis": "yoy"
       },
       "quality": {
         "score": 0.8,
@@ -3731,11 +3853,11 @@
         "expirationUnix": 1797552000,
         "atmStrikeCall": 125,
         "atmStrikePut": 125,
-        "atmIv": 0.568,
-        "atmIvCall": 0.5603,
-        "atmIvPut": 0.5757,
-        "historicalVol": 0.9377,
-        "ivHvRatio": 0.606,
+        "atmIv": 0.5784,
+        "atmIvCall": 0.5706,
+        "atmIvPut": 0.5862,
+        "historicalVol": 0.9476,
+        "ivHvRatio": 0.61,
         "callVolume": 1400,
         "putVolume": 1885,
         "putCallVolumeRatio": 1.346,
