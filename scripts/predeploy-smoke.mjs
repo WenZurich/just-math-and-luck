@@ -2343,6 +2343,30 @@ async function main() {
       else if (missing.length) fail(`soxl news: i18n keys missing in ${missing.join(", ")}`);
       else ok(`soxl news: newest-first (${live.length} items, latest ${live[0] || "—"}), ${sx.SOXL_NEWS_HEAD} shown + 較早的新聞 disclosure, i18n x4`);
     }
+    {
+      // 2026-11-22: 選擇權 page — book card collapses, setup cards carry a fit tag (no repeated status
+      // sentence), 3-col desktop grid, focus kept on ticker switch, trend copy has no double negative.
+      const op = await import(pathToFileURL(path.join(ROOT, "src/options.js")).href);
+      const opSrc = fs.readFileSync(path.join(ROOT, "src/options.js"), "utf8");
+      const opCss = fs.readFileSync(path.join(ROOT, "src/options.css"), "utf8");
+      const langs = ["src/i18n.js", "src/i18n/en.js", "src/i18n/zh-Hans.js", "src/i18n/ja.js"];
+      const keys = ["optionsSetupsSummary", "optionsSetupFitYes", "optionsSetupFitNo", "optionsBookMore"];
+      const missing = langs.filter((f) => !keys.every((k) => new RegExp(`\\b${k}: "`).test(fs.readFileSync(path.join(ROOT, f), "utf8"))));
+      const down = String(op.trendLabel({ label: "down", pct: -20.37, incomplete: false }) || "");
+      const up = String(op.trendLabel({ label: "up", pct: 32.81, incomplete: false }) || "");
+      const flat = String(op.trendLabel({ label: "flat", pct: 7.28, incomplete: false }) || "");
+      const inc = op.trendLabel({ label: null, pct: null, incomplete: true });
+      if (/-|−/.test(down) || !down.includes("20.37")) fail(`options trend: double negative / wrong value: ${down}`);
+      else if (!up.includes("32.81") || /[-−+]/.test(up)) fail(`options trend up wrong: ${up}`);
+      else if (!flat.includes("+7.28")) fail(`options trend flat must keep sign: ${flat}`);
+      else if (inc !== null) fail("options trend incomplete must be null");
+      else if (!/<details class="uo-book"/.test(opSrc) || /<aside class="uo-book"/.test(opSrc)) fail("options: book card should be a collapsed <details>");
+      else if (/optionsSetupVolAligned"\)\s*\n?\s*:\s*t\("optionsSetupVolNotAligned/.test(opSrc) || !/uo-setups-summary/.test(opSrc)) fail("options: setup cards still repeat the status sentence / summary missing");
+      else if (!/repeat\(3, minmax\(0, 1fr\)\)/.test(opCss) || !/min-height: 44px/.test(opCss)) fail("options: 3-col setup grid / 44px chip target missing");
+      else if (!/again\.focus\(/.test(opSrc)) fail("options: focus not restored after ticker repaint");
+      else if (missing.length) fail(`options page: i18n keys missing in ${missing.join(", ")}`);
+      else ok(`options page: collapsed book card, fit tags + one summary line, 3-col grid, focus kept, trend copy (${down} / ${up} / ${flat}), i18n x4`);
+    }
     if (!sample.includes("2026-10-08 08:12（台北）") || !sample.includes("台股為 2026-10-07 收盤") || !sample.includes("美股為 2026-10-07 收盤")) fail(`buildTimezoneNote wrong: ${sample}`);
     const tzNote = String(latest.timezoneNote || "");
     const asOfTpe = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" }).format(new Date(latest.asOf));

@@ -96,11 +96,17 @@ function gateClass(gate) {
   return "uo-gate-incomplete";
 }
 
-function trendLabel(tr) {
+export function trendLabel(tr) {
   if (!tr || tr.incomplete || tr.label == null) return null;
-  if (tr.label === "up") return t("optionsTrendUp", { pct: tr.pct != null ? tr.pct : "—" });
-  if (tr.label === "down") return t("optionsTrendDown", { pct: tr.pct != null ? tr.pct : "—" });
-  return t("optionsTrendFlat", { pct: tr.pct != null ? tr.pct : "—" });
+  // Plain copy: the word carries the direction, so the number is shown unsigned
+  // for up/down (no "下滑約 -20%" double negative); flat keeps its sign.
+  const n = Number(tr.pct);
+  const has = tr.pct != null && Number.isFinite(n);
+  const abs = has ? Math.abs(n).toFixed(2).replace(/\.?0+$/, "") : "—";
+  if (tr.label === "up") return t("optionsTrendUp", { pct: abs });
+  if (tr.label === "down") return t("optionsTrendDown", { pct: abs });
+  const signed = has ? `${n > 0 ? "+" : n < 0 ? "−" : ""}${abs}` : "—";
+  return t("optionsTrendFlat", { pct: signed });
 }
 
 function skewLabel(ratio) {
@@ -131,18 +137,19 @@ function renderBookBanner(data) {
     ? `<ul class="uo-takeaways">${takeaways.map((b) => `<li>${escapeHtml(b)}</li>`).join("")}</ul>`
     : `<p class="uo-muted">${escapeHtml(t("researchNoTakeaways"))}</p>`;
   return `
-    <aside class="uo-book" aria-label="${escapeHtml(t("optionsBookCite"))}">
-      <div class="uo-book-head">
+    <details class="uo-book" aria-label="${escapeHtml(t("optionsBookCite"))}">
+      <summary class="uo-book-head">
         <span class="uo-book-badge">${escapeHtml(t("optionsBookBadge"))}</span>
-        <h3 class="uo-book-title">${escapeHtml(title)}</h3>
-      </div>
+        <span class="uo-book-title">${escapeHtml(title)}</span>
+        <span class="uo-book-more">${escapeHtml(t("optionsBookMore"))}</span>
+      </summary>
       <p class="uo-book-lead">${escapeHtml(t("optionsBookLead"))}</p>
       ${list}
       <p class="uo-book-link">
         <button type="button" class="uo-link-btn" data-jump="research">${escapeHtml(t("optionsGotoResearch"))}</button>
         <span class="uo-muted">· ${escapeHtml(PRIMARY_BOOK_ID)}</span>
       </p>
-    </aside>`;
+    </details>`;
 }
 
 function renderQualityRow(row) {
@@ -215,25 +222,32 @@ function renderGlossary() {
 }
 
 function renderSetups(row) {
-  const setups = row.setups || [];
+  const setups = (row.setups || []).filter((s) => SETUP_I18N[s.id]);
   if (!setups.length) {
     return `<p class="uo-muted">${escapeHtml(t("optionsNoSetups"))}</p>`;
   }
-  return `<div class="uo-setups">
+  const nAligned = setups.filter((s) => s.volAligned).length;
+  const regime = setups.find((s) => s.volRegime)?.volRegime;
+  // One summary line instead of repeating the same status sentence on every card.
+  const summary = t("optionsSetupsSummary", {
+    ticker: row.ticker || "",
+    regime: regimeLabel(regime),
+    n: nAligned,
+    total: setups.length,
+  });
+  return `<p class="uo-setups-summary" role="note">${escapeHtml(summary)}</p>
+  <div class="uo-setups">
     ${setups
       .map((s) => {
-        const keys = SETUP_I18N[s.id];
-        if (!keys) return "";
-        const [titleK, bodyK, warnK] = keys;
-        const align = s.volAligned
-          ? t("optionsSetupVolAligned")
-          : t("optionsSetupVolNotAligned");
+        const [titleK, bodyK, warnK] = SETUP_I18N[s.id];
+        const tag = s.volAligned
+          ? `<span class="uo-fit uo-fit-yes">${escapeHtml(t("optionsSetupFitYes"))}</span>`
+          : `<span class="uo-fit uo-fit-no">${escapeHtml(t("optionsSetupFitNo"))}</span>`;
         return `
         <article class="uo-setup${s.volAligned ? " is-aligned" : ""}">
-          <h4>${escapeHtml(t(titleK))}</h4>
+          <div class="uo-setup-head"><h4>${escapeHtml(t(titleK))}</h4>${tag}</div>
           <p>${escapeHtml(t(bodyK))}</p>
-          <p class="uo-risk-shape">${escapeHtml(t("optionsRiskShape"))}: ${escapeHtml(t(warnK))}</p>
-          <p class="uo-muted">${escapeHtml(align)} · ${escapeHtml(regimeLabel(s.volRegime))}</p>
+          <p class="uo-risk-shape"><span class="uo-risk-k">${escapeHtml(t("optionsRiskShape"))}</span>${escapeHtml(t(warnK))}</p>
         </article>`;
       })
       .join("")}
@@ -369,7 +383,15 @@ function paint(root, data, state) {
   root.querySelectorAll("[data-uo-select]").forEach((btn) => {
     btn.addEventListener("click", () => {
       state.ticker = btn.getAttribute("data-uo-select");
+      const cls = btn.classList.contains("uo-chip") ? "uo-chip" : btn.closest(".uo-mobile") ? "uo-mobile-btn" : "uo-table-btn";
       paint(root, data, state);
+      // innerHTML repaint drops focus; return it to the same control (keyboard / screen reader users).
+      const scope =
+        cls === "uo-chip" ? root.querySelectorAll(".uo-chip")
+        : cls === "uo-mobile-btn" ? root.querySelectorAll(".uo-mobile [data-uo-select]")
+        : root.querySelectorAll(".uo-table [data-uo-select]");
+      const again = Array.from(scope).find((el) => el.getAttribute("data-uo-select") === state.ticker);
+      if (again && typeof again.focus === "function") again.focus({ preventScroll: true });
     });
   });
 
