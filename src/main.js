@@ -136,13 +136,20 @@ function fmtAsOf(iso) {
   }
 }
 
+/** Plain-language chip: visible short label + full sentence as tooltip / accessible name. */
+function chip(cls, label, tip) {
+  const tipEsc = escapeHtml(tip);
+  return `<span class="badge ${cls}" title="${tipEsc}" aria-label="${tipEsc}">${escapeHtml(label)}</span>`;
+}
+
 function smaBadges(stock) {
+  // 2026-11-23: was cryptic 「SMA20↓」; now 「20日線下」 + a full sentence for hover / screen readers.
   const a20 = stock.aboveSma20
-    ? `<span class="badge sma-on">${term("sma20", "SMA20")}↑</span>`
-    : `<span class="badge sma-off">${term("sma20", "SMA20")}↓</span>`;
+    ? chip("sma-on", `${t("chipMa20Above")}↑`, t("chipMa20AboveTip"))
+    : chip("sma-off", `${t("chipMa20Below")}↓`, t("chipMa20BelowTip"));
   const a50 = stock.aboveSma50
-    ? `<span class="badge sma-on">${term("sma50", "SMA50")}↑</span>`
-    : `<span class="badge sma-off">${term("sma50", "SMA50")}↓</span>`;
+    ? chip("sma-on", `${t("chipMa50Above")}↑`, t("chipMa50AboveTip"))
+    : chip("sma-off", `${t("chipMa50Below")}↓`, t("chipMa50BelowTip"));
   return a20 + a50;
 }
 
@@ -151,13 +158,19 @@ function screenBadges(screens) {
   return screens
     .map((s) => {
       const key = String(s);
-      if (key === "A") return `<span class="badge screen">${term("screenA", "A")}</span>`;
-      if (key === "B") return `<span class="badge screen">${term("screenB", "B")}</span>`;
+      // 2026-11-23: bare 「A」「B」 had no explanation anywhere on the page.
+      if (key === "A") return chip("screen", t("chipScreenA"), t("chipScreenATip"));
+      if (key === "B") return chip("screen", t("chipScreenB"), t("chipScreenBTip"));
       if (key === "C") return `<span class="badge screen">${term("screenC", "C")}</span>`;
-      if (key === "observe") return `<span class="badge screen">${escapeHtml(t("observe"))}</span>`;
+      if (key === "observe") return chip("screen observe", t("observe"), t("chipObserveTip"));
       return `<span class="badge screen">${escapeHtml(key)}</span>`;
     })
     .join("");
+}
+
+/** One-line legend under the list title so phone users (no hover) can read what the chips mean. */
+function chipLegend() {
+  return `<p class="chip-legend">${escapeHtml(t("chipLegend"))}</p>`;
 }
 
 
@@ -785,6 +798,7 @@ function renderApp(data, paper) {
           <button type="button" class="tab-btn active" data-tab="us" role="tab" aria-selected="true">${term("usStock", t("usStock"))}（${us.length}）</button>
           <button type="button" class="tab-btn" data-tab="tw" role="tab" aria-selected="false">${term("twStock", t("twStock"))}（${tw.length}）</button>
         </div>
+        ${chipLegend()}
         <div class="panel active" id="panel-us" role="tabpanel">
           <section class="section">
             <h2 class="section-title">${escapeHtml(t("usTop"))}</h2>

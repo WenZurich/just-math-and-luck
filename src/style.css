@@ -4280,3 +4280,25 @@ html.marquee-static .macro-strip .index-marquee-group--clone {
   line-height: 1.35;
   color: var(--text-muted);
 }
+
+/* 2026-11-23 今日選股 chip legend + plain chips (強勢 / 放量 / 觀察 / 20日線上下) */
+.chip-legend {
+  margin: 0.6rem 0 0.2rem;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  max-width: 62rem;
+}
+.badge.screen.observe {
+  background: var(--warn-bg);
+  color: var(--text-muted);
+  border-color: color-mix(in srgb, var(--warn) 30%, transparent);
+}
+.badge[title] { cursor: help; }
+.pick-table .badge { white-space: nowrap; }
+/* Top cards sit under 「美股 Top」/「台股 Top」 already: the market chip was redundant and pushed the
+   plain-language chips onto a 2nd row on desktop (uneven card metrics). Kept for screen readers. */
+.pick-card { position: relative; }
+.pick-card .flags .badge.market {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}

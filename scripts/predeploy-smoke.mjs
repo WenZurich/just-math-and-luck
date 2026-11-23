@@ -2368,6 +2368,19 @@ async function main() {
       else ok(`options page: collapsed book card, fit tags + one summary line, 3-col grid, focus kept, trend copy (${down} / ${up} / ${flat} / incomplete=${inc}), i18n x4`);
     }
     {
+      // 2026-11-23: 今日選股 chips are plain language (強勢 / 放量 / 觀察 / 20日線上下) with a tooltip +
+      // aria-label sentence each, and a one-line legend under the market tabs (phones have no hover).
+      const mSrc = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+      const langs = ["src/i18n.js", "src/i18n/en.js", "src/i18n/zh-Hans.js", "src/i18n/ja.js"];
+      const keys = ["chipMa20Above", "chipMa20Below", "chipMa50Above", "chipMa50Below", "chipMa20AboveTip", "chipMa20BelowTip",
+        "chipMa50AboveTip", "chipMa50BelowTip", "chipScreenA", "chipScreenATip", "chipScreenB", "chipScreenBTip", "chipObserveTip", "chipLegend"];
+      const missing = langs.filter((f) => !keys.every((k) => new RegExp(`\\b${k}: "`).test(fs.readFileSync(path.join(ROOT, f), "utf8"))));
+      if (/term\("screenA", "A"\)|term\("sma20", "SMA20"\)\}↓/.test(mSrc)) fail("today chips: cryptic A / SMA20↓ labels are back");
+      else if (!/aria-label="\$\{tipEsc\}"/.test(mSrc) || !/\$\{chipLegend\(\)\}/.test(mSrc)) fail("today chips: aria-label sentence or legend missing");
+      else if (missing.length) fail(`today chips: i18n keys missing in ${missing.join(", ")}`);
+      else ok("today chips: plain labels + aria-label/tooltip sentences + legend, i18n x4");
+    }
+    {
       // 2026-11-22: 選擇權 營收／獲利趨勢 = true YoY (latest vs same quarter last year; ≥5 quarters).
       const optFetchSrc = fs.readFileSync(path.join(ROOT, "scripts/fetch-us-options.mjs"), "utf8");
       const { yoyTrendFromQuarters, YOY_FLAT_BAND, YOY_MIN_QUARTERS } = await import(
