@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-20T09:30:00+08:00",
+    "updated": "2026-11-23T10:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -13121,6 +13121,167 @@
           "本サイト：為替は台湾株の背景・逆風シグナルであり、銘柄選択ルールではない"
         ]
       }
+    },
+    {
+      "id": "paper-us-roll-r2-wsj-reasons-explain-returns-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "Explaining Realized Returns: Roll's R² 40 Years Later",
+      "titleLocalized": {
+        "zh-Hant": "事後能解釋股市漲跌嗎？Roll 的 R² 四十年後：用 AI 從《華爾街日報》盤後評論抽出「理由」",
+        "en": "Explaining Realized Returns: Roll's R² 40 Years Later",
+        "zh-Hans": "事后能解释股市涨跌吗？Roll 的 R² 四十年后：用 AI 从《华尔街日报》盘后评论抽出“理由”",
+        "ja": "実現リターンは説明できるか：Roll の R² から40年、WSJ 市況記事の「理由」をAIで抽出"
+      },
+      "authors": [
+        "Bryan Kelly",
+        "Yinan Su",
+        "Chao Zhang"
+      ],
+      "year": 2026,
+      "shelf": "market_analysis",
+      "summary": "An arXiv paper (2611.22277, q-fin.GN, posted 2026-11-17) that revisits Richard Roll's 1988 'R²' address as an out-of-sample test: even with hindsight, how much of US stock-market moves can be explained? Standard macro, cash-flow, expectations and fund-flow variables explain under 10% of monthly US equity return variation out of sample (often negative R²) and are not available daily. The authors instead use generative AI to pull the stated reasons for each day's move out of Wall Street Journal market summaries, filtering out wording that merely describes prices; those extracted reasons explain roughly 30–40% of daily and monthly return variation out of sample, spanning corporate news, macro, monetary policy, sentiment and geopolitics. This is contemporaneous explanation, not a forecast. For this site: context for the news radar ('why did the market move'), not a stock-picking signal.",
+      "summaryLocalized": {
+        "en": "Kelly/Su/Zhang revisit Roll (1988): classic macro, cash-flow, expectations and flow variables explain <10% of monthly US equity return variation out of sample. Reasons extracted by generative AI from WSJ market summaries (price wording filtered out) explain ~30–40% of daily and monthly variation out of sample. Explanation after the fact, not prediction. Site use: news-radar context, not a screener rule.",
+        "zh-Hant": "arXiv 論文（2611.22277，q-fin.GN，2026-11-17 上線），作者 Bryan Kelly、Yinan Su、Chao Zhang。重新檢驗 Roll 在 1988 年的經典問題：就算事後諸葛，美股的漲跌到底能被解釋多少？傳統的總經、現金流、預期和資金流變數，在樣本外只能解釋美股月報酬變動不到一成（常常 R² 還是負的），而且沒有每日資料。作者改用生成式 AI 從《華爾街日報》每日盤後市場評論裡抽出「當天漲跌的理由」，並濾掉只是在描述價格的字眼；這些理由在樣本外可以解釋大約三到四成的日、月報酬變動，內容涵蓋公司消息、總體經濟、貨幣政策、市場情緒和地緣政治。注意這是事後解釋，不是預測。對本站：適合當新聞雷達「今天為什麼漲跌」的背景，不是選股訊號。",
+        "zh-Hans": "arXiv 论文（2611.22277，q-fin.GN，2026-11-17 上线），作者 Bryan Kelly、Yinan Su、Chao Zhang。传统总经、现金流、预期和资金流变量在样本外只能解释美股月报酬变动不到一成；用生成式 AI 从《华尔街日报》盘后评论抽出的“涨跌理由”（滤掉价格描述）可在样本外解释约三到四成的日、月报酬变动。这是事后解释，不是预测。对本站：新闻雷达背景，不是选股规则。",
+        "ja": "arXiv 論文（2611.22277）。Kelly・Su・Zhang は Roll（1988）を再検証：従来のマクロ・キャッシュフロー・期待・資金フロー変数はサンプル外で米国株の月次リターン変動の1割未満しか説明しない。生成AIで WSJ 市況記事から抽出した「理由」（価格表現は除外）はサンプル外で日次・月次変動の約3〜4割を説明。事後説明であり予測ではない。本サイト：ニュースレーダーの背景情報で、銘柄選択ルールではない。"
+      },
+      "formulas": [
+        "out-of-sample R²: R²_oos = 1 − Σ_t (r_t − r̂_t)² / Σ_t (r_t − r̄_train)², r̂_t fitted only on training window; negative when worse than the training mean",
+        "contemporaneous (not predictive) regression: r_t = a + Σ_k b_k · x_{k,t} + ε_t, where x_{k,t} = indicator/intensity of reason-theme k extracted from same-day market summary text (price-describing words removed)",
+        "site context only (watch): tag each news-radar day with top reason themes; never use x_{k,t} to rank stocks because it is observed at/after r_t (look-ahead)"
+      ],
+      "plainTakeaways": [
+        "傳統總經、財報、資金流數據，事後也只能解釋美股月漲跌不到一成",
+        "用 AI 讀《華爾街日報》盤後評論抽出的「漲跌理由」，樣本外能解釋約三到四成",
+        "這是事後解釋，不是預測未來",
+        "本站用途：當新聞雷達「為什麼漲跌」的背景，不是選股規則"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "傳統總經、財報、資金流數據，事後也只能解釋美股月漲跌不到一成",
+          "用 AI 讀《華爾街日報》盤後評論抽出的「漲跌理由」，樣本外能解釋約三到四成",
+          "這是事後解釋，不是預測未來",
+          "本站用途：當新聞雷達「為什麼漲跌」的背景，不是選股規則"
+        ],
+        "zh-Hans": [
+          "传统总经、财报、资金流数据，事后也只能解释美股月涨跌不到一成",
+          "用 AI 读《华尔街日报》盘后评论抽出的“涨跌理由”，样本外能解释约三到四成",
+          "这是事后解释，不是预测未来",
+          "本站用途：当新闻雷达“为什么涨跌”的背景，不是选股规则"
+        ],
+        "en": [
+          "Classic macro, earnings and flow data explain under 10% of monthly US market moves, even after the fact",
+          "AI-extracted 'reasons' from WSJ market summaries explain about 30–40% out of sample",
+          "This explains moves after the fact — it does not predict them",
+          "Site use: 'why did the market move' context for the news radar, not a stock-picking rule"
+        ],
+        "ja": [
+          "従来のマクロ・決算・資金フローデータは、事後でも米国株の月次変動の1割未満しか説明できない",
+          "WSJ 市況記事からAIで抽出した「理由」はサンプル外で約3〜4割を説明",
+          "事後の説明であり、将来の予測ではない",
+          "本サイト：ニュースレーダーの「なぜ動いたか」の背景で、銘柄選択ルールではない"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed; contemporaneous explanatory R² (reasons observed same day as returns), so any use as a ranking input would be look-ahead. At most a display-only 'reason theme' tag on news-radar pages. Figures (<10%, ~30–40% OOS R²) paraphrased from the arXiv abstract only; full-paper details not verified. No screener, picks or paper-ledger change. Never status=adopted while passedGate=false. arXiv preprint, not peer-reviewed.",
+      "sources": [
+        "https://arxiv.org/abs/2611.22277"
+      ],
+      "tags": [
+        "us",
+        "news",
+        "llm",
+        "r-squared",
+        "explanation",
+        "macro",
+        "wsj",
+        "context"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-equity-transformer-training-history-horizon-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "Which Past Matters? Training History and Multi-Forecast Horizon in Equity Transformers",
+      "titleLocalized": {
+        "zh-Hant": "哪段歷史比較有用？股票 Transformer 模型的訓練資料長度與預測時距",
+        "en": "Which Past Matters? Training History and Forecast Horizon in Equity Transformers",
+        "zh-Hans": "哪段历史比较有用？股票 Transformer 模型的训练数据长度与预测时距",
+        "ja": "どの過去が効くか：株式 Transformer における学習履歴と予測ホライズン"
+      },
+      "authors": [
+        "Chariton Chalvatzis"
+      ],
+      "year": 2026,
+      "shelf": "market_analysis",
+      "summary": "An arXiv paper (2611.23126, q-fin.ST / cs.LG, posted 2026-11-17) asking whether more training history helps an intraday cross-sectional stock model, or whether older data teaches relationships that no longer hold. Using one fixed cross-sectional Transformer and feature library on up to ~1,000 liquid US common stocks (ranked by dollar volume, price and liquidity floors), it compares 12 configurations — four sampling/validation policies (contiguous, uniform, recency-weighted) times 6/12/24-month training windows — in a monthly walk-forward with 264 refits, forecasting 5- to 120-minute residual returns, evaluated January 2025–October 2026 by Spearman IC. Recent-6-month sampling leads at the shortest horizons, mixed-recency at 20–30 minutes and uniform sampling at 60–120 minutes; more data does not uniformly help, and an equal-weight ensemble of all 12 beats every single model only at 15–25 minutes. Turnover is extreme (daily two-way target turnover above 2,000% of NAV, costs ignored). For this site: a methodology reminder that the best training window depends on the forecast horizon — not a tradable daily strategy.",
+      "summaryLocalized": {
+        "en": "One Transformer, ~1,000 liquid US stocks, 12 training-history setups (6/12/24 months × sampling policies), 264 monthly walk-forward refits, 5–120-minute horizons (Jan 2025–Oct 2026). Recent data wins at very short horizons, uniform history at longer ones; more data is not always better; an ensemble wins only at 15–25 minutes. Turnover >2,000% of NAV per day, costs ignored. Site use: methodology note, not a strategy.",
+        "zh-Hant": "arXiv 論文（2611.23126，q-fin.ST／cs.LG，2026-11-17 上線），單一作者 Chariton Chalvatzis。問題是：訓練盤中選股模型時，歷史資料越多越好嗎？還是太舊的資料會教模型一些現在已經不成立的關係？作者固定同一個橫斷面 Transformer 模型和特徵，針對約 1,000 檔流動性最好的美股，比較 12 種設定（三種抽樣方式：連續、均勻、偏重近期，搭配 6／12／24 個月訓練長度），每月滾動重訓共 264 次，預測未來 5 到 120 分鐘扣除五因子後的報酬，2025 年 1 月到 2026 年 10 月用排名相關係數（IC）評分。結果：最短時距（5–15 分鐘）偏重近 6 個月資料最好；20–30 分鐘混合近期設定較好；60–120 分鐘均勻抽樣較好。資料多不一定比較好；12 個模型平均起來只有在 15–25 分鐘勝過每個單一模型。換手率極高（每日雙邊目標換手超過淨值 2,000%），且未計交易成本。對本站：提醒「訓練用多長的歷史要看預測多遠」，不是可交易的日線策略。",
+        "zh-Hans": "arXiv 论文（2611.23126），单一作者 Chariton Chalvatzis。固定同一 Transformer，约 1,000 档流动性最好的美股，比较 12 种训练历史设定，每月滚动重训 264 次，预测 5–120 分钟报酬（2025-01 至 2026-10）。超短时距偏重近期资料较好，较长时距均匀抽样较好；资料多不一定好；集成只在 15–25 分钟胜出。每日换手超过净值 2,000%，未计成本。对本站：方法提醒，不是策略。",
+        "ja": "arXiv 論文（2611.23126）、著者 Chariton Chalvatzis。固定 Transformer と約1,000の流動性の高い米国株で、12通りの学習履歴設定を月次ウォークフォワード（264回）で比較し、5〜120分先リターンを予測（2025年1月〜2026年10月）。超短期は直近データ、長めのホライズンは均一サンプリングが有利。データ量増加は常に有利ではなく、アンサンブルは15〜25分でのみ優位。日次回転率は NAV の2,000%超、コスト未考慮。本サイト：手法上の注意点で、戦略ではない。"
+      },
+      "formulas": [
+        "cross-sectional Spearman IC per origin t: IC_t = corr_rank( ŷ_{i,t}, r^{resid}_{i,t→t+h} ) over stocks i, r^{resid} = residual after five-factor regression; report mean_t IC_t per horizon h ∈ {5,…,120} min",
+        "recency-weighted sampling: P(select training day d) ∝ w(d), w decreasing in age(d); uniform: w = const over the 6/12/24-month pool",
+        "equal-weight ensemble: ŷ^{ens}_{i,t} = (1/12) Σ_{m=1}^{12} ŷ^{(m)}_{i,t}",
+        "site audit rule (no): when any model is refit, choose training-window length per forecast horizon on a walk-forward validation, never one global default; daily screener unaffected"
+      ],
+      "plainTakeaways": [
+        "比較用 6、12、24 個月歷史訓練盤中美股預測模型，哪種比較準",
+        "預測越短（幾分鐘）越該用近期資料；預測一兩小時，用較平均的長歷史比較好",
+        "資料越多不一定越準，多模型平均也只在部分時距有幫助",
+        "換手率極高、未計成本；本站只當方法提醒，不是日線選股策略"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "比較用 6、12、24 個月歷史訓練盤中美股預測模型，哪種比較準",
+          "預測越短（幾分鐘）越該用近期資料；預測一兩小時，用較平均的長歷史比較好",
+          "資料越多不一定越準，多模型平均也只在部分時距有幫助",
+          "換手率極高、未計成本；本站只當方法提醒，不是日線選股策略"
+        ],
+        "zh-Hans": [
+          "比较用 6、12、24 个月历史训练盘中美股预测模型，哪种比较准",
+          "预测越短（几分钟）越该用近期资料；预测一两小时，用较平均的长历史比较好",
+          "资料越多不一定越准，多模型平均也只在部分时距有帮助",
+          "换手率极高、未计成本；本站只当方法提醒，不是日线选股策略"
+        ],
+        "en": [
+          "Compares 6-, 12- and 24-month training histories for an intraday US stock model",
+          "Very short horizons favor recent data; 1–2 hour horizons favor evenly sampled longer history",
+          "More data is not always better, and averaging models helps only at some horizons",
+          "Extreme turnover, costs ignored — a methodology note for this site, not a daily stock-picking strategy"
+        ],
+        "ja": [
+          "日中の米国株予測モデルで6・12・24か月の学習履歴を比較",
+          "数分先なら直近データ、1〜2時間先なら均等にサンプルした長い履歴が有利",
+          "データを増やせば良いとは限らず、モデル平均も一部のホライズンでのみ有効",
+          "回転率が極端に高くコスト未考慮。本サイトでは手法上の注意点で、日足の銘柄選択戦略ではない"
+        ]
+      },
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed; intraday 5–120-minute horizon with >2,000%/day two-way target turnover and no costs, incompatible with the site's daily screener. Kept only as a methodology/audit rule (pick training-window length per horizon via walk-forward). Single-author arXiv preprint; figures paraphrased from the abstract and HTML full text (universe ~1,000 US stocks, 264 refits, Jan 2025–Oct 2026). No screener, picks or paper-ledger change. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.23126",
+        "https://arxiv.org/html/2611.23126v1"
+      ],
+      "tags": [
+        "us",
+        "intraday",
+        "transformer",
+        "machine-learning",
+        "walk-forward",
+        "training-window",
+        "methodology"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
     }
   ]
 }
