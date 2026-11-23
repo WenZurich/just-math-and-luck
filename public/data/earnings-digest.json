@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-21T01:46:38.328Z",
+  "asOf": "2026-11-23T00:13:10.298Z",
   "market": "US",
   "twStub": {
     "status": "planned",
@@ -458,7 +458,7 @@
       ],
       "whatToWatch": "關注 2026-12-02 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +10.8%（Yahoo）；獲利成長約 +118.9%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 11,
+      "daysToEarnings": 9,
       "pool": "mega_cap"
     },
     {
@@ -513,7 +513,7 @@
       ],
       "whatToWatch": "關注 2026-12-02 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +35.1%（Yahoo）；本益比暫缺，勿硬套估值",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 11,
+      "daysToEarnings": 9,
       "pool": "mega_cap"
     },
     {
@@ -568,7 +568,7 @@
       ],
       "whatToWatch": "關注 2026-12-01 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +69.1%（Yahoo）；本益比暫缺，勿硬套估值",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 10,
+      "daysToEarnings": 8,
       "pool": "most_actives"
     },
     {
@@ -599,7 +599,7 @@
       "epsYoYSource": null,
       "pe": null,
       "forwardPe": 2452.69,
-      "marketCap": 1175358406656,
+      "marketCap": 1188428251136,
       "consensusEpsNext": 1.16,
       "consensusRevNext": 16870000000,
       "whatItDoes": "Anthropic, PBC develops and maintains advanced artificial intelligence (AI) models in the United States and internationally.",
@@ -672,7 +672,7 @@
       ],
       "whatToWatch": "關注 2026-11-17 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +4.9%（Yahoo）；獲利成長約 +2.8%（Yahoo earningsGrowth）",
       "selectionTag": "recently_reported",
-      "daysToEarnings": -4,
+      "daysToEarnings": -6,
       "pool": "mega_cap"
     },
     {
@@ -723,7 +723,7 @@
       ],
       "whatToWatch": "關注 2026-12-08 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +42.4%（Yahoo）；獲利成長約 +89.3%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 17,
+      "daysToEarnings": 15,
       "pool": "mega_cap"
     },
     {
@@ -774,7 +774,7 @@
       ],
       "whatToWatch": "關注 2026-12-09 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +85.5%（Yahoo）；獲利成長約 +215.3%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 18,
+      "daysToEarnings": 16,
       "pool": "mega_cap+most_actives"
     },
     {
@@ -825,7 +825,7 @@
       ],
       "whatToWatch": "關注 2026-12-10 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +11.1%（Yahoo）；獲利成長約 +15%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 19,
+      "daysToEarnings": 17,
       "pool": "mega_cap"
     },
     {
@@ -876,7 +876,7 @@
       ],
       "whatToWatch": "關注 2026-12-14 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +29.6%（Yahoo）；獲利成長約 +54.5%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 23,
+      "daysToEarnings": 21,
       "pool": "mega_cap"
     },
     {
@@ -927,7 +927,7 @@
       ],
       "whatToWatch": "關注 2026-12-17 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +379.3%（Yahoo）；獲利成長約 +1059.5%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 26,
+      "daysToEarnings": 24,
       "pool": "mega_cap+most_actives"
     },
     {
@@ -978,7 +978,7 @@
       ],
       "whatToWatch": "關注 2026-12-17 前後的營收與 EPS 是否達預估；近期營收 YoY 約 -4.3%（Yahoo）；獲利成長約 -2.1%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 26,
+      "daysToEarnings": 24,
       "pool": "mega_cap"
     }
   ],
