@@ -40,6 +40,8 @@ export default {
   earningsSchedDone: "発表済み",
   earningsWhatToWatch: "次に見る点",
   earningsNextDate: "次回決算",
+  earningsLatestDate: "直近の決算",
+  earningsReportedOn: "{date} 発表済み",
   earningsLastEps: "前回 EPS",
   earningsRevYoy: "売上高 YoY",
   earningsEpsYoy: "利益 YoY",

@@ -1128,6 +1128,18 @@ export async function lookupStock(input, marketHint = "US") {
   };
 }
 
+/**
+ * Yahoo keeps the date of a report that already happened as "next earnings" for days or weeks
+ * (e.g. NVDA 11/17 still listed on 11/24). Same rule as the 讀財報 page: a date before today (US Eastern)
+ * is shown as 「最近財報 · {date} 已公布」, never as 「下次財報」.
+ */
+export function earningsDateMetric(date, isEstimate = false, now = new Date()) {
+  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return null;
+  const todayEt = new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York" }).format(now);
+  if (date < todayEt) return { label: t("earningsLatestDate"), text: t("earningsReportedOn", { date }), reported: true };
+  return { label: t("earningsNextDate"), text: `${date}${isEstimate ? t("lookupEstSuffix") : ""}`, reported: false };
+}
+
 function metric(label, valueHtml) {
   if (!valueHtml) return "";
   return `<div class="lk-metric">
@@ -1239,7 +1251,7 @@ function paintUnreachable(root, result) {
     ? `<section class="lk-block" aria-label="${escapeHtml(t("lookupEarnings"))}">
         <h4 class="lk-h4">${escapeHtml(t("lookupEarnings"))}</h4>
         <div class="lk-metrics">
-          ${metric(t("earningsNextDate"), val(e.nextEarningsDate ? `${e.nextEarningsDate}${e.nextIsEstimate ? t("lookupEstSuffix") : ""}` : null))}
+          ${(() => { const m = earningsDateMetric(e.nextEarningsDate, e.nextIsEstimate); return m ? metric(m.label, val(m.text)) : ""; })()}
           ${metric(t("earningsLastEps"), e.lastEpsActual != null
             ? val(`${fmtNum(e.lastEpsActual, 2)}${e.lastEpsQuarter ? ` · ${e.lastEpsQuarter}` : ""}`)
             : null)}
@@ -1378,7 +1390,7 @@ function paintResult(root, result) {
       <section class="lk-block" aria-label="${escapeHtml(t("lookupEarnings"))}">
         <h4 class="lk-h4">${escapeHtml(t("lookupEarnings"))}</h4>
         <div class="lk-metrics">
-          ${metric(t("earningsNextDate"), val(s.nextEarningsDate))}
+          ${(() => { const m = earningsDateMetric(s.nextEarningsDate); return m ? metric(m.label, val(m.text)) : ""; })()}
           ${metric(t("lookupEpsConsensus"), val(fmtNum(s.nextEarningsEstimate, 2)))}
           ${metric(t("earningsLastEps"), s.lastEpsActual != null
             ? val(`${fmtNum(s.lastEpsActual, 2)}${s.lastEpsQuarter ? ` · ${s.lastEpsQuarter}` : ""}`)

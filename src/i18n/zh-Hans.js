@@ -40,6 +40,8 @@ export default {
   earningsSchedDone: "已公布",
   earningsWhatToWatch: "下一步看什么",
   earningsNextDate: "下次财报",
+  earningsLatestDate: "最近财报",
+  earningsReportedOn: "{date} 已公布",
   earningsLastEps: "上次 EPS",
   earningsRevYoy: "营收 YoY",
   earningsEpsYoy: "获利 YoY",

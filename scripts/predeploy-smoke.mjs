@@ -553,6 +553,21 @@ async function main() {
       else if (daysBetweenYmd("2026-03-07", "2026-03-09") !== 2) fail("daysBetweenYmd across US DST change wrong");
       else if (tt(null, "2026-10-22").state !== "unknown") fail("earningsTiming: missing date not unknown");
       else ok("earningsTiming: past next-date shown as 已公布, countdown days exact");
+      // 2026-11-24: 查股 card used to label Yahoo's stale past date (NVDA 11/17 on 11/24) as 下次財報.
+      {
+        const { earningsDateMetric } = await import(pathToFileURL(path.join(ROOT, "src/lookup.js")).href);
+        const now = new Date("2026-11-24T02:00:00Z"); // 11/23 21:00 ET
+        const past = earningsDateMetric("2026-11-17", false, now);
+        const sameEt = earningsDateMetric("2026-11-23", false, now);
+        const fut = earningsDateMetric("2027-01-28", true, now);
+        if (!past?.reported || past.label === fut?.label || !String(past.text).includes("2026-11-17")) fail(`lookup earningsDateMetric: past date must be 最近財報/已公布: ${JSON.stringify(past)}`);
+        else if (sameEt?.reported) fail("lookup earningsDateMetric: same ET day must not be 已公布 yet");
+        else if (fut?.reported || !String(fut.text).startsWith("2027-01-28")) fail(`lookup earningsDateMetric: future date wrong: ${JSON.stringify(fut)}`);
+        else if (earningsDateMetric(null) !== null || earningsDateMetric("11/17") !== null) fail("lookup earningsDateMetric: missing/malformed must be null");
+        else ok("查股: past Yahoo next-earnings date shown as 最近財報 · 已公布 (ET), future keeps 下次財報");
+        const lkSrc = fs.readFileSync(path.join(ROOT, "src/lookup.js"), "utf8");
+        if (/metric\(t\("earningsNextDate"\)/.test(lkSrc)) fail("lookup.js must route earnings dates through earningsDateMetric");
+      }
       // Same-day after-close report already in (e.g. MSFT 10/28 seen 10/29 Taipei): 已公布, not 今天公布.
       {
         const { sameDayResultIn, scheduleGroups, whatItDoesText } = await import(pathToFileURL(path.join(ROOT, "src/earnings.js")).href);
