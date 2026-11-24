@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-23T10:30:00+08:00",
+    "updated": "2026-11-24T09:30:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -13278,6 +13278,172 @@
         "machine-learning",
         "walk-forward",
         "training-window",
+        "methodology"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-social-trust-max-lottery-anomaly-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "Trust and Lottery-Related Anomalies",
+      "titleLocalized": {
+        "zh-Hant": "社會信任與「樂透型股票」異常",
+        "en": "Trust and Lottery-Related Anomalies",
+        "zh-Hans": "社会信任与“彩票型股票”异常",
+        "ja": "社会的信頼と宝くじ型株式アノマリー"
+      },
+      "authors": [
+        "Reza Bradrania",
+        "Ya Gao"
+      ],
+      "year": 2026,
+      "shelf": "market_analysis",
+      "summary": "An arXiv paper (2611.27020, q-fin.PR / q-fin.PM / econ.GN, posted 2026-11-20) asking whether local social trust changes how lottery-like stocks are priced. Lottery-like stocks are proxied by MAX, the largest daily return in the previous month (Bali, Cakici and Whitelaw style). The sample is Nasdaq-listed, US-headquartered common stocks, 1996–2018 (8,875 firms in 10 regions covering 49 states), with a regional trust index built from World Values Survey answers. Sorting into MAX deciles, the high-minus-low MAX portfolio loses about 1.03% per month value-weighted (marginally significant raw, significant after CAPM/FF3/FF4 adjustment; weaker equal-weighted). The loss is concentrated where trust is high (about −1.34%/month, CAPM alpha about −1.85%) and weak or insignificant where trust is low (about −0.87%/month), and the trust effect is stronger in lower-education / lower-income regions. The authors' story: trusting investors are less skeptical of optimistic 'jackpot' stories, overpay, and earn less later. For this site: supports a possible risk flag against stocks with an extreme one-day spike last month, but old sample (ends 2018), Nasdaq only, monthly rebalance — watch, not a screener rule.",
+      "summaryLocalized": {
+        "en": "Nasdaq stocks 1996–2018: stocks with last month's biggest one-day jump (MAX) underperform next month (high-minus-low ≈ −1.03%/month value-weighted). The effect sits mostly in high-trust US regions (≈ −1.34%/month) and is weak in low-trust ones (≈ −0.87%, insignificant), stronger where education/income are lower. Site use: possible 'extreme spike' risk flag to watch, not a rule.",
+        "zh-Hant": "arXiv 論文（2611.27020，2026-11-20 上線），作者 Reza Bradrania、Ya Gao。研究「樂透型股票」（上個月單日最大漲幅 MAX 很高的股票）會不會被高估，以及當地社會信任程度有沒有影響。樣本是 1996–2018 年總部在美國的 Nasdaq 普通股（8,875 家公司、10 個地區涵蓋 49 州），信任指標來自世界價值觀調查。依 MAX 分十組：MAX 最高組減最低組，市值加權每月約 −1.03%（原始報酬勉強顯著，經 CAPM／三因子／四因子調整後顯著；等權重較弱）。這個「追高爆漲股後來會輸」的現象主要出現在高信任地區（每月約 −1.34%，CAPM alpha 約 −1.85%），低信任地區較弱且不顯著（約 −0.87%）；教育或所得較低的地區更明顯。作者解釋：信任度高的投資人比較不懷疑「一夕暴富」的樂觀消息，買太貴，之後報酬較差。對本站：可作為「上個月單日暴漲過頭」的風險提醒觀察，但樣本舊（到 2018）、只有 Nasdaq、月頻調整，只列觀察，不改選股。",
+        "zh-Hans": "arXiv 论文（2611.27020），作者 Reza Bradrania、Ya Gao。1996–2018 年 Nasdaq 美股：上个月单日最大涨幅（MAX）最高的股票下个月表现较差（高减低市值加权每月约 −1.03%）。现象集中在美国高信任地区（约 −1.34%/月），低信任地区较弱且不显著（约 −0.87%），教育/收入较低地区更明显。对本站：可作“单日暴涨过头”风险提醒观察，不改选股。",
+        "ja": "arXiv 論文（2611.27020）、著者 Reza Bradrania・Ya Gao。1996〜2018年の Nasdaq 株で、前月の最大日次上昇率（MAX）が高い銘柄は翌月アンダーパフォーム（高MAX−低MAX、時価加重で月約−1.03%）。効果は社会的信頼の高い米国地域に集中（月約−1.34%）し、低信頼地域では弱く有意でない（約−0.87%）。教育・所得の低い地域で強い。本サイト：「急騰しすぎ」リスク警告の観察候補で、ルールではない。"
+      },
+      "formulas": [
+        "MAX_{i,m} = max_{d ∈ month m} r_{i,d} (largest daily simple return of stock i in month m); sort stocks at end of m into deciles by MAX_{i,m}",
+        "lottery spread_{m+1} = R^{VW}_{D10,m+1} − R^{VW}_{D1,m+1} (value-weighted next-month return, high-MAX minus low-MAX decile); alpha = intercept of spread on CAPM / FF3 / FF4 / FF5 / FF6 factors, Newey-West(6) t-stats",
+        "conditioning: split firm-months by region TRUST ≥ median vs < median (TRUST from World Values Survey 'most people can be trusted' share), compute spread within each group",
+        "site watch flag (not live): flag = 1 if MAX over last ~21 trading days ≥ cross-sectional 90th percentile of the screened universe; display-only risk note, never changes picks while passedGate=false"
+      ],
+      "plainTakeaways": [
+        "上個月單日暴漲最多的「樂透型」股票，下個月平均表現較差",
+        "這個現象在美國社會信任度高的地區最明顯，低信任地區幾乎沒有",
+        "作者認為：越相信別人，越容易被「一夕暴富」的故事吸引而買貴",
+        "樣本舊（到 2018）、只看 Nasdaq；本站只列為「暴漲過頭」風險觀察，不改選股"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "上個月單日暴漲最多的「樂透型」股票，下個月平均表現較差",
+          "這個現象在美國社會信任度高的地區最明顯，低信任地區幾乎沒有",
+          "作者認為：越相信別人，越容易被「一夕暴富」的故事吸引而買貴",
+          "樣本舊（到 2018）、只看 Nasdaq；本站只列為「暴漲過頭」風險觀察，不改選股"
+        ],
+        "zh-Hans": [
+          "上个月单日暴涨最多的“彩票型”股票，下个月平均表现较差",
+          "这个现象在美国社会信任度高的地区最明显，低信任地区几乎没有",
+          "作者认为：越相信别人，越容易被“一夜暴富”的故事吸引而买贵",
+          "样本旧（到 2018）、只看 Nasdaq；本站只列为“暴涨过头”风险观察，不改选股"
+        ],
+        "en": [
+          "Stocks with last month's biggest one-day jump ('lottery-like') tend to do worse the next month",
+          "The effect is strongest in high-trust US regions and nearly absent in low-trust ones",
+          "Authors' view: trusting investors are drawn to 'jackpot' stories and overpay",
+          "Old sample (to 2018), Nasdaq only — kept as an 'over-spiked' risk watch, picks unchanged"
+        ],
+        "ja": [
+          "前月に1日で最も急騰した「宝くじ型」株は、翌月平均して劣後しやすい",
+          "効果は社会的信頼の高い米国地域で最も強く、低信頼地域ではほぼ見られない",
+          "著者の解釈：人を信じやすい投資家ほど「一攫千金」話に惹かれ割高に買う",
+          "サンプルが古く（2018年まで）Nasdaq のみ。本サイトでは「急騰しすぎ」リスク観察のみ、銘柄選択は変更なし"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed. Watch only: a possible display-only 'extreme one-day spike (high MAX)' risk note for the US screener. Caveats: sample ends 2018, Nasdaq-listed US-HQ firms only, monthly decile sorts, value-weighted raw spread only marginally significant (−1.03%/month) and equal-weighted FF5/FF6 alphas insignificant; trust conditioning is a regional US variable with no direct TW analogue. Figures paraphrased from the arXiv abstract and PDF (v1). No screener, picks or paper-ledger change. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.27020",
+        "https://arxiv.org/pdf/2611.27020v1"
+      ],
+      "tags": [
+        "us",
+        "nasdaq",
+        "lottery",
+        "max-effect",
+        "anomaly",
+        "behavioral",
+        "social-trust",
+        "cross-section"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-nasdaq100-llm-probability-calibration-markov-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "Are Calibrated Decision Models Calibrated on Markets? Geolocated News, Markov Switching and a System One Model for Nasdaq-100 Allocation",
+      "titleLocalized": {
+        "zh-Hant": "在市場上也校準嗎？地理新聞、馬可夫轉換與決策模型的 Nasdaq-100 配置",
+        "en": "Are Calibrated Decision Models Calibrated on Markets? Nasdaq-100 Allocation",
+        "zh-Hans": "在市场上也校准吗？地理新闻、马尔可夫转换与决策模型的 Nasdaq-100 配置",
+        "ja": "較正済み意思決定モデルは市場でも較正されているか：Nasdaq-100 配分"
+      },
+      "authors": [
+        "Jakub Zając",
+        "Michał Dyrek"
+      ],
+      "year": 2026,
+      "shelf": "market_analysis",
+      "summary": "An arXiv paper (2611.26716, q-fin.ST / q-fin.PM, posted 2026-11-19) testing whether an AI decision model (Jev) that outputs yes/no probabilities, and is reported as well calibrated on benchmarks, is also calibrated on real market outcomes. Every Friday it asks: will the Nasdaq-100 close lower four weeks from now? It compares a two-regime Markov-switching model (estimated on 1990–2026 data), Jev reading weekly headlines plus geolocated news features, and their combination, evaluated on 88 weeks from January 2025 (after Jev's knowledge cutoff). No model beats the historical base rate on direction. Raw Jev is too pessimistic (mean 0.48 vs actual 0.38; ECE 0.10); simply shifting its logit toward the past base rate cuts ECE to 0.015, while Platt scaling, isotonic regression and combining with the Markov model make things worse. In a weekly half-Kelly QQQ / T-bill allocation (5 bp costs), raw Jev earns 3.1%/year, base-rate-shifted 14.5%, buy-and-hold QQQ 15.3%. The Markov model is good at flagging >10% declines (AUC 0.81) and has the best Sharpe over 1999–2026. For this site: any probability (from AI, news radar or models) must be anchored to the market's base rate before it sizes a position — a methodology rule, not a trading strategy.",
+      "summaryLocalized": {
+        "en": "Weekly 'will Nasdaq-100 be lower in 4 weeks?' forecasts, 88 weeks from Jan 2025. No model beats the base rate on direction; the AI model is too pessimistic (0.48 vs 0.38), fixed by a simple base-rate logit shift (ECE 0.10 → 0.015). Half-Kelly QQQ: raw 3.1%/yr, shifted 14.5%, buy-and-hold 15.3%. Markov model flags >10% drops well (AUC 0.81). Site use: anchor probabilities to base rates before sizing.",
+        "zh-Hant": "arXiv 論文（2611.26716，2026-11-19 上線），作者 Jakub Zając、Michał Dyrek。測試一個號稱「機率很準」的 AI 決策模型（Jev），在真實市場上準不準。每週五問：「Nasdaq-100 四週後會比現在低嗎？」比較：兩狀態馬可夫轉換模型（1990–2026 資料）、讀每週新聞標題加地理新聞特徵的 Jev、兩者合併。用 2025 年 1 月起 88 週（Jev 知識截止之後）評估。結果：沒有任何模型猜方向比「歷史基本比率」更準。原始 Jev 太悲觀（平均預測下跌機率 0.48，實際 0.38，校準誤差 ECE 0.10）；只要把它往歷史基本比率平移，ECE 降到 0.015；其他校準法（Platt、isotonic）和跟馬可夫合併反而更差。每週半凱利配置 QQQ／短期國庫券（含 5bp 成本）：原始 Jev 年化 3.1%，平移後 14.5%，直接買進持有 QQQ 15.3%。馬可夫模型抓「跌超過 10%」不錯（AUC 0.81），1999–2026 夏普最高。對本站：任何機率（AI、新聞雷達、模型）用來決定部位前，都要先對齊市場的歷史基本比率——方法規則，不是交易策略。",
+        "zh-Hans": "arXiv 论文（2611.26716），作者 Jakub Zając、Michał Dyrek。每周预测“Nasdaq-100 四周后会更低吗？”，2025-01 起 88 周。没有模型猜方向胜过历史基本比率；AI 模型太悲观（0.48 vs 实际 0.38），简单向基本比率平移即修正（ECE 0.10→0.015）。半凯利 QQQ：原始 3.1%/年，平移后 14.5%，买入持有 15.3%。马尔可夫模型抓大跌较好（AUC 0.81）。对本站：机率决定部位前先对齐基本比率。",
+        "ja": "arXiv 論文（2611.26716）、著者 Jakub Zając・Michał Dyrek。毎週「Nasdaq-100 は4週間後に下がっているか」を予測、2025年1月以降88週で評価。方向は過去の基本比率を上回るモデルなし。AI モデルは悲観的すぎ（0.48 対 実績0.38）、基本比率へのロジット平行移動で修正（ECE 0.10→0.015）。ハーフ・ケリー QQQ：生 3.1%/年、補正後 14.5%、バイ・アンド・ホールド 15.3%。マルコフモデルは10%超の下落検知が良好（AUC 0.81）。本サイト：確率でポジションを決める前に基本比率に合わせる。"
+      },
+      "formulas": [
+        "event: Y_t = 1 if NDX close at t+4 weeks < close at t (Friday t); base rate ȳ_{≤t−H} = mean of resolved Y_s, s ≤ t−H, H = 4 weeks (no look-ahead)",
+        "prior shift: logit p̃_t = logit p_t − (1/t′) Σ_{s≤t} logit p_s + logit ȳ_{≤t−H}, t′ = number of model forecasts so far",
+        "calibration: ECE = Σ_bins (n_b/N)·|mean(p in b) − mean(Y in b)|; Brier = mean (p_t − Y_t)²",
+        "half-Kelly allocation: w_t = clip( f·(μ̂(p_t) − r_{f,t}) / σ̂²(p_t), 0, 1 ), f = 0.5; rest in T-bills; cost 5 bp × |Δw|",
+        "site audit rule (no): before any probability (AI / news-radar / model) sizes a position, shift its mean logit to the event's historical base rate and report ECE vs base rate; screener unaffected"
+      ],
+      "plainTakeaways": [
+        "每週預測「Nasdaq-100 四週後會更低嗎」，所有模型猜方向都沒贏過歷史平均機率",
+        "AI 模型太悲觀；把機率對齊歷史基本比率就大幅變準",
+        "對齊後的配置年化 14.5%，仍略輸直接買進持有 QQQ 的 15.3%",
+        "本站規則：任何機率拿來決定部位前，先對齊歷史基本比率；不是交易策略"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "每週預測「Nasdaq-100 四週後會更低嗎」，所有模型猜方向都沒贏過歷史平均機率",
+          "AI 模型太悲觀；把機率對齊歷史基本比率就大幅變準",
+          "對齊後的配置年化 14.5%，仍略輸直接買進持有 QQQ 的 15.3%",
+          "本站規則：任何機率拿來決定部位前，先對齊歷史基本比率；不是交易策略"
+        ],
+        "zh-Hans": [
+          "每周预测“Nasdaq-100 四周后会更低吗”，所有模型猜方向都没赢过历史平均机率",
+          "AI 模型太悲观；把机率对齐历史基本比率就大幅变准",
+          "对齐后的配置年化 14.5%，仍略输直接买入持有 QQQ 的 15.3%",
+          "本站规则：任何机率拿来决定部位前，先对齐历史基本比率；不是交易策略"
+        ],
+        "en": [
+          "Weekly 'will Nasdaq-100 be lower in 4 weeks?' forecasts: no model beat the historical base rate on direction",
+          "The AI model was too pessimistic; anchoring to the base rate fixed most of the error",
+          "Anchored allocation made 14.5%/yr, still slightly below buy-and-hold QQQ at 15.3%",
+          "Site rule: anchor any probability to the base rate before sizing — not a trading strategy"
+        ],
+        "ja": [
+          "毎週「Nasdaq-100 は4週間後に下がるか」を予測。方向はどのモデルも過去の平均確率に勝てず",
+          "AI モデルは悲観的すぎ。基本比率に合わせるだけで大きく改善",
+          "補正後の配分は年14.5%で、QQQ のバイ・アンド・ホールド15.3%にわずかに及ばず",
+          "本サイトのルール：確率でポジションを決める前に基本比率に合わせる。取引戦略ではない"
+        ]
+      },
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed. No direction edge over the base rate in 88 test weeks; best AI-driven allocation (14.5%/yr) still trails buy-and-hold QQQ (15.3%/yr); short out-of-sample window and a single proprietary decision model. Kept only as a methodology/audit rule: anchor any probability to the event's historical base rate (prior shift) before position sizing, and track ECE. Figures paraphrased from the arXiv abstract and HTML full text (v1). No screener, picks or paper-ledger change. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.26716",
+        "https://arxiv.org/html/2611.26716v1"
+      ],
+      "tags": [
+        "us",
+        "nasdaq-100",
+        "qqq",
+        "calibration",
+        "base-rate",
+        "markov-switching",
+        "llm",
+        "kelly",
         "methodology"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",
