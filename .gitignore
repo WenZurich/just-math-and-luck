@@ -4,3 +4,4 @@ node_modules/
 scripts/.mops-cache/
 
 scripts/cache/
+daily-check-shots/

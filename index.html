@@ -19,10 +19,12 @@
     <link rel="preload" href="%BASE_URL%data/paper-portfolio.json" as="fetch" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Load speed: the Google Fonts CSS (~100KB with the Noto Sans TC subsets) no longer blocks first render
-         or competes with the app bundle; text shows in the system font and swaps in (display=swap). -->
-    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" fetchpriority="low" />
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" /></noscript>
+    <!-- Load speed: only the small Latin face (Titillium Web, ~36KB) is a web font. Chinese / Japanese text uses the
+         phone's / computer's own CJK font (PingFang TC on iPhone/Mac, Noto Sans CJK on Android, 微軟正黑體 on Windows):
+         the Noto Sans TC web font was ~1MB of subsets per first visit (≈80% of the page's bytes) and re-flowed the
+         page when it swapped in. Guarded in scripts/predeploy-smoke.mjs. -->
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" fetchpriority="low" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet" /></noscript>
   </head>
   <body>
     <div id="app">

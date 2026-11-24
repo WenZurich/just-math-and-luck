@@ -148,6 +148,21 @@ async function main() {
     else ok(`view shell ${id}`);
   }
 
+  // —— Load speed: no CJK web font (≈1MB of Noto Sans TC subsets per first visit) ——
+  {
+    const indexHtml = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+    const styleCss = fs.readFileSync(path.join(ROOT, "src/style.css"), "utf8");
+    const fontHrefs = [...indexHtml.matchAll(/fonts\.googleapis\.com\/css2\?[^"']+/g)].map((m) => m[0]);
+    if (!fontHrefs.length) fail("index.html lost the Titillium Web font link");
+    else if (fontHrefs.some((h) => /Noto\+Sans|Noto%20Sans|CJK|TC\b|JP\b|SC\b/i.test(h))) fail(`index.html loads a CJK web font again: ${fontHrefs.join(" | ")}`);
+    else if (!fontHrefs.every((h) => /family=Titillium\+Web/.test(h))) fail("index.html font link should only load Titillium Web");
+    else ok("fonts: only Titillium Web is a web font (CJK uses device fonts)");
+    if (!/--cjk:\s*"PingFang TC",\s*"Noto Sans CJK TC"/.test(styleCss) || !/--font:\s*"Titillium Web",\s*var\(--cjk\)/.test(styleCss)) fail("style.css --font must be Titillium Web + device CJK stack (--cjk)");
+    else ok("fonts: --font = Titillium Web + device CJK stack");
+    if (!/html:lang\(ja\)\s*\{\s*--cjk:/.test(styleCss) || !/html:lang\(zh-Hans\)\s*\{\s*--cjk:/.test(styleCss)) fail("style.css missing ja / zh-Hans device CJK stacks");
+    else ok("fonts: ja / zh-Hans regional device CJK stacks");
+  }
+
   const letters = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/berkshire-letters.json"), "utf8"));
   const yrs = letters.letters.filter((x) => x.access === "read");
   if (yrs.length !== 49) fail(`berkshire read letters ${yrs.length} expected 49`);

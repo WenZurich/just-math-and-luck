@@ -54,11 +54,12 @@
   --shadow-soft: 0 1px 0 color-mix(in srgb, var(--ink-shadow) 5%, transparent);
   --shadow-pop: 0 8px 24px -8px color-mix(in srgb, var(--ink-shadow) 22%, transparent);
 
-  /* Type: Titillium Web (Urbino, Italy) for Latin + tabular figures,
-     Noto Sans TC for Chinese. */
-  --font: "Titillium Web", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, -apple-system, sans-serif;
+  /* Type: Titillium Web (Urbino, Italy) for Latin + tabular figures (the only web font);
+     Chinese uses the device's own CJK face — no ~1MB CJK web-font download, no late re-flow. */
+  --cjk: "PingFang TC", "Noto Sans CJK TC", "Noto Sans TC", "Source Han Sans TC", "Microsoft JhengHei", "Heiti TC";
+  --font: "Titillium Web", var(--cjk), system-ui, -apple-system, sans-serif;
   --serif: var(--font);
-  --mono: "Titillium Web", "Noto Sans TC", ui-monospace, monospace;
+  --mono: "Titillium Web", var(--cjk), ui-monospace, monospace;
   --fs-2xs: 0.6875rem;  /* 11 */
   --fs-xs: 0.75rem;     /* 12 */
   --fs-sm: 0.8125rem;   /* 13 */
@@ -93,6 +94,10 @@
   margin: 0;
   padding: 0;
 }
+
+/* Same device-font rule for the other UI languages, so kanji / simplified glyphs use the right regional shapes. */
+html:lang(ja) { --cjk: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans CJK JP", "Noto Sans JP", "Yu Gothic UI", "Meiryo"; }
+html:lang(zh-Hans) { --cjk: "PingFang SC", "Noto Sans CJK SC", "Noto Sans SC", "Source Han Sans SC", "Microsoft YaHei"; }
 
 html {
   font-size: 16px;
