@@ -1,0 +1,171 @@
+{
+  "sessionSource": {
+    "TW": "加權指數收盤先比 Yahoo ^TWII；Yahoo 該日 close 為空時改用證交所 MI_5MINS_HIST 官方收盤"
+  },
+  "scanAsOf": "2026-11-24T00:12:29Z",
+  "date": "2026-11-24",
+  "sessions": {
+    "US": "2026-11-23",
+    "TW": "2026-11-23"
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "market": "US",
+      "session": "2026-11-23",
+      "price": 349.08,
+      "dayPct": 1.9,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "LLY",
+      "name": "Eli Lilly",
+      "market": "US",
+      "session": "2026-11-23",
+      "price": 1364.6,
+      "dayPct": 1.3,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "PANW",
+      "name": "Palo Alto Networks",
+      "market": "US",
+      "session": "2026-11-23",
+      "price": 353.43,
+      "dayPct": 2.94,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft",
+      "market": "US",
+      "session": "2026-11-23",
+      "price": 492.5,
+      "dayPct": 1.65,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ISRG",
+      "name": "Intuitive Surgical",
+      "market": "US",
+      "session": "2026-11-23",
+      "price": 416.23,
+      "dayPct": 4.31,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "NFLX",
+      "name": "Netflix",
+      "market": "US",
+      "session": "2026-11-23",
+      "price": 58.1,
+      "dayPct": 2.41,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ESTC",
+      "name": "Elastic",
+      "market": "US",
+      "session": "2026-11-23",
+      "price": 81.45,
+      "dayPct": 8.9,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet",
+      "market": "US",
+      "session": "2026-11-23",
+      "price": 282.1,
+      "dayPct": 6.34,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2468.TW",
+      "name": "華經",
+      "market": "TW",
+      "session": "2026-11-23",
+      "price": 64.9,
+      "dayPct": -6.08,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2884.TW",
+      "name": "玉山金",
+      "market": "TW",
+      "session": "2026-11-23",
+      "price": 38.7,
+      "dayPct": -2.27,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2317.TW",
+      "name": "鴻海",
+      "market": "TW",
+      "session": "2026-11-23",
+      "price": 206,
+      "dayPct": -1.9,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2891.TW",
+      "name": "中信金",
+      "market": "TW",
+      "session": "2026-11-23",
+      "price": 63.8,
+      "dayPct": -6.18,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2882.TW",
+      "name": "國泰金",
+      "market": "TW",
+      "session": "2026-11-23",
+      "price": 95,
+      "dayPct": -1.96,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2881.TW",
+      "name": "富邦金",
+      "market": "TW",
+      "session": "2026-11-23",
+      "price": 130.5,
+      "dayPct": -4.4,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "3231.TW",
+      "name": "緯創",
+      "market": "TW",
+      "session": "2026-11-23",
+      "price": 148.5,
+      "dayPct": 1.02,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": [
+    {
+      "ticker": "ROKU",
+      "market": "US",
+      "why": "Yahoo 日線沒有 2026-11-23 收盤"
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 {
-  "asOf": "2026-11-23T00:13:47.381Z",
+  "asOf": "2026-11-24T00:13:20.980Z",
   "market": "TW",
   "timezone": "Asia/Taipei",
   "timezoneLabel": "台北時間",
   "window": {
-    "from": "2026-11-23",
-    "to": "2026-12-28"
+    "from": "2026-11-24",
+    "to": "2026-12-29"
   },
   "source": {
     "name": "DGBAS / CBC / TWSE / MOEA",
@@ -22,19 +22,6 @@
   },
   "stale": false,
   "events": [
-    {
-      "id": "dgbasUnemployment-2026-11-23T16:00:00+08:00",
-      "eventKey": "dgbasUnemployment",
-      "eventName": "勞動力、就業人數、失業人數、非勞動力、失業率、勞動力參與率",
-      "shortName": "失業率",
-      "importance": "high",
-      "highImpact": true,
-      "scheduledAt": "2026-11-23T08:00:00.000Z",
-      "dayTw": "2026-11-23",
-      "periodLabel": "(11607)",
-      "source": "行政院主計總處",
-      "officialUrl": "https://www.stat.gov.tw/cl.aspx?n=2700"
-    },
     {
       "id": "moeaIndustrialProd-2026-11-24T16:00:00+08:00",
       "eventKey": "moeaIndustrialProd",
