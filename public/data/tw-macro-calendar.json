@@ -1,11 +1,11 @@
 {
-  "asOf": "2026-11-24T00:13:20.980Z",
+  "asOf": "2026-11-25T00:12:36.905Z",
   "market": "TW",
   "timezone": "Asia/Taipei",
   "timezoneLabel": "台北時間",
   "window": {
-    "from": "2026-11-24",
-    "to": "2026-12-29"
+    "from": "2026-11-25",
+    "to": "2026-12-30"
   },
   "source": {
     "name": "DGBAS / CBC / TWSE / MOEA",
@@ -22,19 +22,6 @@
   },
   "stale": false,
   "events": [
-    {
-      "id": "moeaIndustrialProd-2026-11-24T16:00:00+08:00",
-      "eventKey": "moeaIndustrialProd",
-      "eventName": "工業生產統計",
-      "shortName": "工業生產",
-      "importance": "high",
-      "highImpact": true,
-      "scheduledAt": "2026-11-24T08:00:00.000Z",
-      "dayTw": "2026-11-24",
-      "periodLabel": "(11607)",
-      "source": "經濟部",
-      "officialUrl": "https://www.moea.gov.tw/mns/dos/bulletin/bulletin.aspx?kind=6&html=1&menu_id=6725"
-    },
     {
       "id": "dgbasGdp-2026-11-30T16:00:00+08:00",
       "eventKey": "dgbasGdp",

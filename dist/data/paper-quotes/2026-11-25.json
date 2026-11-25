@@ -1,0 +1,101 @@
+{
+  "sessionSource": {
+    "TW": "加權指數收盤先比 Yahoo ^TWII；Yahoo 該日 close 為空時改用證交所 MI_5MINS_HIST 官方收盤"
+  },
+  "scanAsOf": "2026-11-25T00:11:44Z",
+  "date": "2026-11-25",
+  "sessions": {
+    "US": "2026-11-24",
+    "TW": "2026-11-24"
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "QLYS",
+      "name": "Qualys",
+      "market": "US",
+      "session": "2026-11-24",
+      "price": 192.16,
+      "dayPct": -2.8,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet",
+      "market": "US",
+      "session": "2026-11-24",
+      "price": 279.05,
+      "dayPct": -1.08,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "OKTA",
+      "name": "Okta",
+      "market": "US",
+      "session": "2026-11-24",
+      "price": 198.12,
+      "dayPct": -3.96,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA",
+      "market": "US",
+      "session": "2026-11-24",
+      "price": 155.38,
+      "dayPct": -5.86,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "INTC",
+      "name": "Intel",
+      "market": "US",
+      "session": "2026-11-24",
+      "price": 54.8,
+      "dayPct": -8.15,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro",
+      "market": "US",
+      "session": "2026-11-24",
+      "price": 22.62,
+      "dayPct": -7.79,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2468.TW",
+      "name": "華經",
+      "market": "TW",
+      "session": "2026-11-24",
+      "price": 66.4,
+      "dayPct": 2.31,
+      "aboveSma20": true,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2303.TW",
+      "name": "聯電",
+      "market": "TW",
+      "session": "2026-11-24",
+      "price": 97.1,
+      "dayPct": 9.97,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": [
+    {
+      "ticker": "ROKU",
+      "market": "US",
+      "why": "Yahoo 日線沒有 2026-11-24 收盤"
+    }
+  ]
+}
