@@ -765,6 +765,8 @@ export default {
   usTop: "US Top",
   twTop: "TW Top",
   emptyTop: "No Top picks for {market}",
+  topMixedNote: "Top 5 ranks US and TW together (not 5 per market), so ranks here can skip; #{ranks} is in {other}:",
+  topMixedBtn: "See {other} →",
   topElsewhereLead: "No {market} stock made today's Top 5 — all {n} are {other}.",
   topElsewhereWhy: "Top 5 ranks US and TW together; it is not 5 per market. The {market} list below is still today's screened picks.",
   topElsewhereListLabel: "Today's Top 5 ({other})",

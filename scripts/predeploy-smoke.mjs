@@ -2311,6 +2311,20 @@ async function main() {
       else ok("Top 5 empty market: plain why + other-market tickers + jump button, overall rank kept, i18n x4");
     }
     {
+      // 2026-11-25: Top 5 split across markets → ranks in one tab skip (1·2·3·5); a one-line note names the
+      // missing rank(s) + other-market ticker and a 44px jump button (no "where is TOP 4?" confusion).
+      const mainSrc = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+      const css = fs.readFileSync(path.join(ROOT, "src/style.css"), "utf8");
+      const langs = ["src/i18n.js", "src/i18n/en.js", "src/i18n/zh-Hans.js", "src/i18n/ja.js"];
+      const missing = langs.filter((f) => !["topMixedNote", "topMixedBtn"]
+        .every((k) => new RegExp(`\\b${k}: "`).test(fs.readFileSync(path.join(ROOT, f), "utf8"))));
+      if (!/class="top-mixed-note" role="note"/.test(mainSrc)) fail("Top 5 mixed markets: needs a role=note explaining skipped ranks");
+      else if (!/class="top-mixed-btn" data-tab-jump=/.test(mainSrc)) fail("Top 5 mixed markets: needs a jump button to the other tab");
+      else if (!/\.top-mixed-btn \{[^}]*min-height: 44px/.test(css)) fail("Top 5 mixed markets: jump button must be >=44px tall");
+      else if (missing.length) fail(`Top 5 mixed markets: i18n keys missing in ${missing.join(", ")}`);
+      else ok("Top 5 mixed markets: skipped ranks explained + other-market ticker + 44px jump, i18n x4");
+    }
+    {
       // 2026-11-17: paper summary — cash under equity (4 KPIs fill the grid), window dates shown,
       // windows longer than the book's history collapse into one "since inception" cell (no duplicate cells).
       const paperSrc = fs.readFileSync(path.join(ROOT, "src/paper.js"), "utf8");

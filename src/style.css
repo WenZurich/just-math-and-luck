@@ -4252,6 +4252,53 @@ html.marquee-static .macro-strip .index-marquee-group--clone {
   .top-elsewhere-btn { width: 100%; }
 }
 
+/* 今日: Top 5 mixes US + TW → ranks in one tab skip (1·2·3·5); one-line why + jump (2026-11-25) */
+.top-mixed-note {
+  margin: 0 0 0.85rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+.top-mixed-text {
+  margin: 0 0 0.45rem;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+.top-mixed-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+}
+.top-mixed-pick {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.top-mixed-btn {
+  margin-left: auto;
+  font-family: var(--font);
+  font-size: 0.85rem;
+  font-weight: 600;
+  min-height: 44px;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.top-mixed-btn:hover { background: var(--accent); color: #fff; }
+.top-mixed-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
 /* ---- Paper summary layout (2026-11-17): cash sits under equity, 4 KPIs make a full 2×2 / 1×4 grid,
    period windows show their dates and "since inception" appears once ---- */
 .paper-kpi--equity .k-sub {

@@ -472,7 +472,24 @@ function renderTop5ByMarket(top5, market) {
         <button type="button" class="top-elsewhere-btn" data-tab-jump="${otherMarket.toLowerCase()}">${escapeHtml(t("topElsewhereBtn", { other: otherLabel }))}</button>
       </div>`;
   }
-  return `<div class="top5-grid">${list
+  // Some of today's Top 5 sit in the other market → ranks here skip (e.g. 1·2·3·5). Say why in one line
+  // and name the missing ranks, with a jump to the other tab (2026-11-25).
+  const otherMarket = market === "US" ? "TW" : "US";
+  const missing = top5.filter((s) => stockMarket(s) === otherMarket);
+  let mixedNote = "";
+  if (missing.length) {
+    const otherLabel = otherMarket === "US" ? t("usStock") : t("twStock");
+    const ranks = missing.map((s) => top5.indexOf(s) + 1).join("、");
+    const names = missing
+      .map((s) => `<span class="top-mixed-pick"><span class="top-elsewhere-rank">${top5.indexOf(s) + 1}</span>${escapeHtml(String(s.ticker || "").replace(/\.TW(O)?$/i, ""))}${s.name ? ` <span class="top-elsewhere-name">${escapeHtml(s.name)}</span>` : ""}</span>`)
+      .join("");
+    mixedNote = `
+      <div class="top-mixed-note" role="note">
+        <p class="top-mixed-text">${escapeHtml(t("topMixedNote", { ranks, other: otherLabel }))}</p>
+        <div class="top-mixed-row">${names}<button type="button" class="top-mixed-btn" data-tab-jump="${otherMarket.toLowerCase()}">${escapeHtml(t("topMixedBtn", { other: otherLabel }))}</button></div>
+      </div>`;
+  }
+  return `${mixedNote}<div class="top5-grid">${list
     .map((s) => renderTopCard(s, top5.indexOf(s) + 1))
     .join("")}</div>`;
 }

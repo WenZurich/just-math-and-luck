@@ -749,6 +749,8 @@ export default {
   usTop: "美股 Top",
   twTop: "台股 Top",
   emptyTop: "{market} 暂无 Top 候选",
+  topMixedNote: "Top 5 是美股、台股一起排名次（不是各选 5 只），所以这里的名次会跳号；第 {ranks} 名在{other}：",
+  topMixedBtn: "看{other} →",
   topElsewhereLead: "今天{market}没有进 Top 5：{n} 只全在{other}。",
   topElsewhereWhy: "Top 5 是美股、台股放在一起排名，不是各选 5 只；下面的{market}清单仍是今天过筛的股票。",
   topElsewhereListLabel: "今日 Top 5（{other}）",

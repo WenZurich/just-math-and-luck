@@ -749,6 +749,8 @@ export default {
   usTop: "米国 Top",
   twTop: "台湾 Top",
   emptyTop: "{market} の Top 候補はありません",
+  topMixedNote: "Top 5 は米国株と台湾株をまとめた順位（市場ごとに 5 銘柄ではありません）なので、ここの順位は飛びます。{ranks} 位は{other}：",
+  topMixedBtn: "{other}を見る →",
   topElsewhereLead: "今日は{market}から Top 5 入りなし：{n} 銘柄すべて{other}です。",
   topElsewhereWhy: "Top 5 は米国株と台湾株をまとめた順位で、市場ごとに 5 銘柄ではありません。下の{market}リストは今日のスクリーン通過銘柄です。",
   topElsewhereListLabel: "今日の Top 5（{other}）",

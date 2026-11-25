@@ -845,6 +845,8 @@ const zhHant = {
   usTop: "美股 Top",
   twTop: "台股 Top",
   emptyTop: "{market} 暫無 Top 候選",
+  topMixedNote: "Top 5 是美股、台股一起排名次（不是各選 5 檔），所以這裡的名次會跳號；第 {ranks} 名在{other}：",
+  topMixedBtn: "看{other} →",
   topElsewhereLead: "今天{market}沒有進 Top 5：{n} 檔全在{other}。",
   topElsewhereWhy: "Top 5 是美股、台股放在一起排名，不是各選 5 檔；下面的{market}清單仍是今天過篩的股票。",
   topElsewhereListLabel: "今日 Top 5（{other}）",
