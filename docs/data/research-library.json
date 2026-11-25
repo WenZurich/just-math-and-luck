@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-24T09:30:00+08:00",
+    "updated": "2026-11-25T10:15:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -13444,6 +13444,170 @@
         "markov-switching",
         "llm",
         "kelly",
+        "methodology"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-both-candlestick-vs-technical-indicators-cnn-2026",
+      "market": "BOTH",
+      "type": "paper",
+      "title": "Do Candlestick Charts Suffice? The Incremental Economic Value of Technical Indicators in Stock Return Prediction",
+      "titleLocalized": {
+        "zh-Hant": "K 線圖就夠了嗎？技術指標在股票報酬預測中的增量經濟價值",
+        "en": "Do Candlestick Charts Suffice? Incremental Value of Technical Indicators",
+        "zh-Hans": "K 线图就够了吗？技术指标在股票收益预测中的增量经济价值",
+        "ja": "ローソク足チャートで十分か？株式リターン予測におけるテクニカル指標の追加的価値"
+      },
+      "authors": [
+        "Peng Liu",
+        "Yanyan Zheng"
+      ],
+      "year": 2026,
+      "shelf": "market_analysis",
+      "summary": "An arXiv paper (2611.30584, q-fin.PM / q-fin.TR) asking whether hand-built technical indicators still add value once a deep model can read raw OHLC candlesticks. Using daily data for 1,707 Chinese A-share stocks (2013–2025, about 3.36 million stock-window samples), it encodes each window as a multi-channel image (candlesticks, volume and seven common indicator groups) and trains a 2D CNN, with logistic regression, 1D CNN and LSTM as cross-checks. Out-of-sample 2021–2025 decile portfolios: OHLC-only, volume-only and each indicator group alone all give significantly positive high-minus-low returns and Fama–French alphas (2D CNN OHLC-only: annualized H–L ≈ 0.38, Sharpe ≈ 3.37; volume/trend/momentum/volatility alone ≈ 0.20/0.27/0.26/0.17). But adding the indicator groups on top of OHLC does not systematically improve returns, Sharpe or alpha. Caveat: China A-shares, gross of realistic costs for a daily decile long-short; not tested on US or TW. For this site: evidence that stacking more indicators (MACD/KD/RSI on top of price) is mostly redundant — a feature-pruning audit idea, not a new signal.",
+      "summaryLocalized": {
+        "en": "1,707 China A-shares 2013–2025, ~3.36M chart-image samples, 2D CNN plus LR/1D-CNN/LSTM checks; out-of-sample 2021–2025. Price-only (OHLC), volume-only and each indicator group alone all predict (OHLC-only H–L ≈ 0.38/yr, Sharpe ≈ 3.37), but adding indicators to OHLC adds no systematic value. Not tested on US/TW. Site use: indicator-redundancy audit.",
+        "zh-Hant": "arXiv 論文（2611.30584），作者 Peng Liu、Yanyan Zheng。問題：深度模型能直接看 K 線（開高低收）時，人工技術指標還有沒有額外價值？用中國 A 股 1,707 檔 2013–2025 日資料（約 336 萬個樣本視窗），把 K 線、成交量和七組常見技術指標畫成多通道圖片，用 2D CNN 訓練，再用邏輯迴歸、1D CNN、LSTM 交叉驗證。2021–2025 樣本外十分位組合：只看 K 線、只看量、或單獨任一組指標，都有顯著正的多空報酬和 Fama–French alpha（2D CNN 只看 K 線：年化多空約 0.38、夏普約 3.37；量／趨勢／動能／波動單獨約 0.20／0.27／0.26／0.17）。但在 K 線上「再加」指標，報酬、夏普、alpha 都沒有系統性變好。注意：中國 A 股、每日十分位多空未扣實際成本，沒測美股或台股。對本站：疊一堆指標（MACD／KD／RSI 加在價格上）大多重複——是指標精簡的稽核想法，不是新訊號。",
+        "zh-Hans": "arXiv 论文（2611.30584），作者 Peng Liu、Yanyan Zheng。中国 A 股 1,707 档 2013–2025，约 336 万图像样本，2D CNN 加 LR/1D-CNN/LSTM 交叉验证；2021–2025 样本外。只看 K 线、只看量或单组指标都有预测力（只看 K 线多空年化约 0.38、夏普约 3.37），但在 K 线上再加指标没有系统性增益。未测美股/台股。对本站：指标冗余稽核。",
+        "ja": "arXiv 論文（2611.30584）、著者 Peng Liu・Yanyan Zheng。中国A株1,707銘柄 2013–2025、約336万の画像サンプル、2D CNN と LR/1D-CNN/LSTM で検証、2021–2025 アウトオブサンプル。OHLCのみ・出来高のみ・各指標群単独でも予測力あり（OHLCのみ H–L 年約0.38、シャープ約3.37）だが、OHLC に指標を追加しても体系的な改善なし。米国・台湾は未検証。本サイト：指標の冗長性監査。"
+      },
+      "formulas": [
+        "sample: window of W trading days per stock → image channels {OHLC candlestick, volume, trend, momentum, volatility, … (7 indicator groups)}; label = sign of next-period return",
+        "portfolio: each day sort stocks by predicted up-probability p̂ into deciles; H–L return = mean r(top decile) − mean r(bottom decile)",
+        "incremental test: Δ = metric(OHLC + group g) − metric(OHLC only) for metric ∈ {H–L return, Sharpe, FF alpha}; paper finds Δ not systematically > 0",
+        "site audit idea (watch): for screener features, drop an indicator if adding it to price-only inputs gives Δ Sharpe ≤ 0 out-of-sample (display-only check; screener unchanged)"
+      ],
+      "plainTakeaways": [
+        "中國 A 股大樣本：只看 K 線（開高低收）的模型就有預測力",
+        "單獨用成交量或某組技術指標也有效，但都比只看 K 線差",
+        "把技術指標加到 K 線上，沒有讓績效系統性變好",
+        "本站想法：檢查選股是否疊了重複指標；沒測過美股台股，只是候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "中國 A 股大樣本：只看 K 線（開高低收）的模型就有預測力",
+          "單獨用成交量或某組技術指標也有效，但都比只看 K 線差",
+          "把技術指標加到 K 線上，沒有讓績效系統性變好",
+          "本站想法：檢查選股是否疊了重複指標；沒測過美股台股，只是候選"
+        ],
+        "zh-Hans": [
+          "中国 A 股大样本：只看 K 线（开高低收）的模型就有预测力",
+          "单独用成交量或某组技术指标也有效，但都比只看 K 线差",
+          "把技术指标加到 K 线上，没有让绩效系统性变好",
+          "本站想法：检查选股是否叠了重复指标；没测过美股台股，只是候选"
+        ],
+        "en": [
+          "Large China A-share sample: a price-only (OHLC candlestick) model already predicts returns",
+          "Volume or any single indicator group alone also works, but worse than price-only",
+          "Adding technical indicators on top of candlesticks gave no systematic improvement",
+          "Site idea: audit the screener for redundant indicators; untested on US/TW, candidate only"
+        ],
+        "ja": [
+          "中国A株の大規模サンプル：ローソク足（OHLC）だけのモデルで予測力あり",
+          "出来高や指標群単独でも有効だが、OHLCのみより劣る",
+          "ローソク足にテクニカル指標を足しても体系的な改善なし",
+          "本サイト案：スクリーナーの冗長な指標を点検。米台は未検証、候補のみ"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed. Evidence is China A-shares only (2013–2025, OOS 2021–2025), daily decile long-short with high turnover and no realistic US/TW cost model; very high Sharpe (≈3.37) is likely not transportable. Kept as a watch-level feature-redundancy audit idea (does each indicator add out-of-sample value over price alone?). Figures paraphrased from the arXiv abstract and HTML full text (v1). No screener, picks or paper-ledger change. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.30584",
+        "https://arxiv.org/html/2611.30584v1"
+      ],
+      "tags": [
+        "china-a-shares",
+        "technical-indicators",
+        "candlestick",
+        "cnn",
+        "deep-learning",
+        "feature-redundancy",
+        "methodology"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-uncertainty-not-regime-detector-rankic-cusum-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "Per-Prediction Uncertainty Is Not a Regime Detector: A Detectability Bound and Two-Level Deployment for Cross-Sectional Equity Rankers",
+      "titleLocalized": {
+        "zh-Hant": "單筆預測不確定性不是狀態偵測器：橫斷面選股排序模型的可偵測性界限與兩層部署",
+        "en": "Per-Prediction Uncertainty Is Not a Regime Detector",
+        "zh-Hans": "单笔预测不确定性不是状态检测器：横截面选股排序模型的可检测性界限与两层部署",
+        "ja": "個別予測の不確実性はレジーム検知器ではない：クロスセクション株式ランカーの検知可能性限界と二層運用"
+      },
+      "authors": [
+        "Ursina Sanderink"
+      ],
+      "year": 2026,
+      "shelf": "market_analysis",
+      "summary": "An arXiv paper (2611.27992, q-fin.PM / q-fin.ST) on when to stop trusting a stock-ranking model after a silent regime shift that volatility does not show. On a walk-forward LightGBM ranker over a US AI-exposure universe (≲100 stocks, through Feb 2025), it proves a bound: averaging per-stock uncertainty scores cannot detect a pure 'the relationship changed' (concept) shift better than chance — confirmed empirically (equity bad-day AUROC ≈ 0.55, near chance). What works is conditioning on realized outcomes: monitoring partial-horizon RankIC (rank correlation between scores and later returns) with a sequential CUSUM (AUROC ≈ 0.796), plus a strategy gate on realized efficacy. Uncertainty is strongly tied to score size (ρ ≈ 0.62), so inverse-uncertainty position sizing backfires; a hard cap works better. Honest limits: one thematic universe, simulation only, no live test, and the base ranker's final median RankIC failed its own pre-registered threshold. For this site: monitor the screener's realized rank-IC with a CUSUM alarm rather than trusting model-confidence or volatility alone — a monitoring rule, not alpha.",
+      "summaryLocalized": {
+        "en": "Walk-forward LightGBM ranker on a US AI-exposure universe (≲100 stocks, to Feb 2025). Proves pooled per-stock uncertainty can't detect pure concept shift (AUROC ≈ 0.55 in equities); realized RankIC monitoring with CUSUM works better (AUROC ≈ 0.796). Inverse-uncertainty sizing backfires (ρ ≈ 0.62 with score size). Simulation only; base ranker failed its own RankIC threshold. Site use: CUSUM alarm on realized rank-IC.",
+        "zh-Hant": "arXiv 論文（2611.27992），作者 Ursina Sanderink。主題：市場「規則悄悄變了」但波動率沒反應時，什麼時候該停止相信選股排序模型？用美股 AI 題材股池（約 100 檔以內，到 2025 年 2 月）的滾動 LightGBM 排序模型。證明一個界限：把每檔股票的「模型不確定分數」平均起來，偵測不到純粹的「關係改變」——實證也接近亂猜（AUROC 約 0.55）。有效的方法是看「實際結果」：持續追蹤分數和之後報酬的排名相關（RankIC），用 CUSUM 累積警報（AUROC 約 0.796），再加上依實際成效開關策略的閘門。不確定性和分數大小高度相關（ρ 約 0.62），所以「越不確定買越少」反而有害，硬上限較好。限制：只一個題材股池、純模擬、沒有實盤，且基礎模型最終 RankIC 沒達到自己事先設定的門檻。對本站：用 CUSUM 監控選股實際 RankIC 來發警報，不要只信模型信心或波動率——監控規則，不是賺錢訊號。",
+        "zh-Hans": "arXiv 论文（2611.27992），作者 Ursina Sanderink。美股 AI 题材股池（约 100 档内，到 2025-02）的滚动 LightGBM 排序模型。证明平均个股不确定分数侦测不到纯“关系改变”（股票 AUROC 约 0.55）；用 CUSUM 监控实际 RankIC 较好（AUROC 约 0.796）。不确定性与分数大小相关（ρ≈0.62），反向不确定加权有害。纯模拟，基础模型未达自身 RankIC 门槛。对本站：CUSUM 监控实际 RankIC。",
+        "ja": "arXiv 論文（2611.27992）、著者 Ursina Sanderink。米国AI関連銘柄群（約100以内、2025年2月まで）のウォークフォワード LightGBM ランカー。個別不確実性の集計では純粋なコンセプトシフトを検知できない（株式 AUROC 約0.55）と証明。実現 RankIC を CUSUM で監視する方が有効（AUROC 約0.796）。不確実性はスコアの大きさと相関（ρ≈0.62）し、逆不確実性サイジングは逆効果。シミュレーションのみ、ベースモデルは自らの RankIC 基準未達。本サイト：実現 RankIC の CUSUM 監視。"
+      },
+      "formulas": [
+        "RankIC_t = Spearman ρ( score_{i,t}, r_{i,t→t+h} ) across stocks i; partial-horizon version uses returns realized so far",
+        "CUSUM alarm: S_t = max(0, S_{t−1} + (μ₀ − RankIC_t) − k·σ̂), alarm when S_t > threshold (paper uses k = 5 setting; AUROC ≈ 0.796)",
+        "detectability bound (paper's Theorem 1): under strict concept shift, any aggregate of fixed per-prediction error scores g(x_i) has AUROC → 0.5",
+        "sizing caution: corr(ê, |score|) ≈ 0.62 ⇒ weight ∝ 1/ê shrinks the strongest signals; prefer discrete cap ê ≤ c",
+        "site monitor idea (watch): track daily realized RankIC of the screener's picks vs next-5-day returns, raise a display-only CUSUM warning; no auto-switch while passedGate=false"
+      ],
+      "plainTakeaways": [
+        "市場規則悄悄改變時，平均「模型不確定度」幾乎偵測不到（接近亂猜）",
+        "較有效的是追蹤選股分數和之後實際漲跌的排名相關，下滑就發警報",
+        "「越不確定就買越少」可能反而砍掉最強的訊號",
+        "本站想法：加一個選股實際命中度的監控警報；純模擬研究，只是候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "市場規則悄悄改變時，平均「模型不確定度」幾乎偵測不到（接近亂猜）",
+          "較有效的是追蹤選股分數和之後實際漲跌的排名相關，下滑就發警報",
+          "「越不確定就買越少」可能反而砍掉最強的訊號",
+          "本站想法：加一個選股實際命中度的監控警報；純模擬研究，只是候選"
+        ],
+        "zh-Hans": [
+          "市场规则悄悄改变时，平均“模型不确定度”几乎侦测不到（接近乱猜）",
+          "较有效的是追踪选股分数和之后实际涨跌的排名相关，下滑就发警报",
+          "“越不确定就买越少”可能反而砍掉最强的讯号",
+          "本站想法：加一个选股实际命中度的监控警报；纯模拟研究，只是候选"
+        ],
+        "en": [
+          "When market rules shift silently, averaged model uncertainty barely detects it (near chance)",
+          "Tracking rank correlation between scores and later returns, with an alarm on decline, works better",
+          "'Buy less when uncertain' can cut the strongest signals",
+          "Site idea: add a realized hit-rate monitor alarm for the screener; simulation-only study, candidate only"
+        ],
+        "ja": [
+          "市場ルールが静かに変わると、モデル不確実性の平均ではほぼ検知できない（偶然並み）",
+          "スコアとその後のリターンの順位相関を追い、低下で警報を出す方が有効",
+          "「不確かなら少なく買う」は最強のシグナルを削りかねない",
+          "本サイト案：スクリーナーの実現的中度の監視アラーム。シミュレーションのみ、候補のみ"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed. Single thematic US universe (≲100 stocks), historical walk-forward simulation only through Feb 2025, no live validation, and the base ranker's final median RankIC failed its pre-registered threshold — the validated object is a monitoring architecture, not alpha. Kept as a watch-level monitoring idea (display-only CUSUM alarm on the screener's realized RankIC). Figures paraphrased from the arXiv abstract (v1). No screener, picks or paper-ledger change. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.27992",
+        "https://arxiv.org/html/2611.27992v1"
+      ],
+      "tags": [
+        "us",
+        "ai-exposure",
+        "lightgbm",
+        "rank-ic",
+        "cusum",
+        "regime-shift",
+        "uncertainty",
+        "monitoring",
         "methodology"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",
