@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-25T10:15:00+08:00",
+    "updated": "2026-11-26T10:20:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -13608,6 +13608,173 @@
         "regime-shift",
         "uncertainty",
         "monitoring",
+        "methodology"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-semivolatility-downside-risk-portfolios-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "Semivariance and Semivolatility in Portfolio Selection: A Unified Framework for Downside-Risk Portfolio Models",
+      "titleLocalized": {
+        "zh-Hant": "投資組合選擇中的半變異數與半波動度：下檔風險組合模型的統一框架",
+        "en": "Semivariance and Semivolatility in Portfolio Selection",
+        "zh-Hans": "投资组合选择中的半方差与半波动率：下行风险组合模型的统一框架",
+        "ja": "ポートフォリオ選択におけるセミバリアンスとセミボラティリティ：下方リスク・ポートフォリオモデルの統一枠組み"
+      },
+      "authors": [
+        "Francesco Cesarone",
+        "Massimiliano Corradini",
+        "Nicolò Giunta"
+      ],
+      "year": 2026,
+      "shelf": "asset_allocation",
+      "summary": "An arXiv paper (2611.32638, q-fin.PM) asking whether swapping ordinary volatility for downside-only risk (semivolatility = square root of semivariance, counting only returns below a threshold) actually improves long-only portfolios. Theory: risk measures that scale linearly with weights (semivolatility, not semivariance) make risk contributions add up and keep Sortino / diversification ratios scale-free; it states when risk-parity, most-diversified and Sortino problems are well posed for three thresholds (portfolio mean, zero, market-index return) and turn into convex programs. Out of sample on Dow Jones and Nasdaq-100 current constituents, 17 long-only strategies with block-bootstrap tests: replacing volatility with below-mean semivolatility gives no significant Sharpe difference; risk parity with volatility vs semivolatility is practically the same; on Nasdaq-100 the plain equal-weight portfolio ranked first. The only significant change was a 0.148 Sharpe drop for risk parity on the Dow when using the market-index threshold. Honest limits: current constituents ⇒ survivorship/look-ahead bias. For this site: 'downside risk' sounds smarter but did not beat plain volatility or equal weight — keep it as a display metric (Sortino), not a sizing change.",
+      "summaryLocalized": {
+        "en": "arXiv 2611.32638. Theory for downside-risk portfolios (semivolatility keeps risk contributions additive; well-posed conditions for risk-parity / most-diversified / Sortino at mean, zero, index thresholds). OOS on Dow Jones + Nasdaq-100 constituents, 17 long-only strategies, block bootstrap: below-mean semivolatility vs volatility — no significant Sharpe difference; equal weight ranked first on Nasdaq-100; only significant change −0.148 Sharpe (risk parity, Dow, index threshold). Survivorship bias. Site use: Sortino as display metric only.",
+        "zh-Hant": "arXiv 論文（2611.32638），作者 Cesarone、Corradini、Giunta（羅馬第三大學）。問題：把一般波動度換成「只算下跌那一側」的風險（半波動度＝半變異數開根號，只計低於門檻的報酬），長期只做多的投資組合會不會比較好？理論：只有和權重成比例的半波動度（不是半變異數）能讓各股風險貢獻加總等於總風險，並列出用三種門檻（組合平均、零、大盤報酬）時風險平價、最分散、Sortino 問題何時有解、可轉為凸最佳化。實證：道瓊與那斯達克100 現有成分股、17 種只做多策略、區塊自助法檢定——用低於平均的半波動度取代波動度，Sharpe 沒有顯著差異；風險平價兩種版本幾乎一樣；那斯達克100 上最簡單的等權重反而第一。唯一顯著的是道瓊風險平價改用大盤門檻時 Sharpe 下降 0.148。限制：用現有成分股，有倖存者／前視偏誤。對本站：「只看下檔風險」聽起來較聰明，但沒有贏過普通波動度或等權重——適合當顯示指標（Sortino），不改部位配置。",
+        "zh-Hans": "arXiv 论文（2611.32638）。下行风险组合理论（半波动率使风险贡献可加；给出均值、零、指数三种门槛下风险平价／最分散／Sortino 问题有解条件）。道琼斯与纳斯达克100 现有成分股、17 种只做多策略、区块自助法：低于均值半波动率 vs 波动率，Sharpe 无显著差异；纳指100 等权重第一；唯一显著为道琼斯风险平价用指数门槛 Sharpe −0.148。有幸存者偏误。对本站：Sortino 仅作显示指标。",
+        "ja": "arXiv 論文（2611.32638）。下方リスク型ポートフォリオの理論（セミボラはリスク寄与が加法的；平均・ゼロ・指数の3閾値でリスクパリティ／最大分散／Sortino 問題が適切に定まる条件）。ダウ・ナスダック100 現構成銘柄、17 のロングオンリー戦略、ブロック・ブートストラップ：平均以下セミボラ vs ボラで Sharpe に有意差なし；ナスダック100 では等ウェイトが首位；唯一有意なのはダウのリスクパリティで指数閾値時 Sharpe −0.148。生存者バイアスあり。本サイト：Sortino は表示指標のみ。"
+      },
+      "formulas": [
+        "semivolatility below threshold τ: SVol_τ(w) = sqrt( E[ min(0, R_p − τ)² ] ), R_p = wᵀR; τ ∈ {portfolio mean μ_p, 0, market-index return}",
+        "Sortino ratio = (E[R_p] − r_f) / SVol_0(w) — degree-1 homogeneous ⇒ scale invariant",
+        "risk contribution (Euler): RC_i = w_i · ∂SVol/∂w_i, Σ_i RC_i = SVol(w) (holds for semivolatility, not semivariance)",
+        "risk parity: choose w ≥ 0, Σw = 1 with RC_i = SVol(w)/N for all i",
+        "most-diversified ratio: DR(w) = Σ_i w_i·SVol(R_i) / SVol(R_p)",
+        "site display idea (watch): show each pick's 1-year Sortino (τ=0, daily returns, annualized ×√252) next to volatility; no change to ranking or sizing while passedGate=false"
+      ],
+      "plainTakeaways": [
+        "只算「下跌風險」的半波動度，換掉普通波動度後績效沒有顯著變好",
+        "那斯達克100 上最簡單的平均分配反而排第一",
+        "門檻選「大盤報酬」時結果不穩，比較時要先講清楚門檻",
+        "本站想法：個股卡可顯示 Sortino 比率當參考；只是候選，不改選股"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "只算「下跌風險」的半波動度，換掉普通波動度後績效沒有顯著變好",
+          "那斯達克100 上最簡單的平均分配反而排第一",
+          "門檻選「大盤報酬」時結果不穩，比較時要先講清楚門檻",
+          "本站想法：個股卡可顯示 Sortino 比率當參考；只是候選，不改選股"
+        ],
+        "zh-Hans": [
+          "只算“下跌风险”的半波动率，换掉普通波动率后绩效没有显著变好",
+          "纳斯达克100 上最简单的平均分配反而排第一",
+          "门槛选“大盘报酬”时结果不稳，比较时要先讲清楚门槛",
+          "本站想法：个股卡可显示 Sortino 比率当参考；只是候选，不改选股"
+        ],
+        "en": [
+          "Swapping volatility for downside-only semivolatility did not significantly improve results",
+          "On Nasdaq-100 the simple equal-weight portfolio ranked first",
+          "Using the market return as threshold gave unstable results — always state the threshold",
+          "Site idea: show a Sortino ratio on stock cards as reference; candidate only, no picking change"
+        ],
+        "ja": [
+          "通常のボラを下方のみのセミボラに替えても成績は有意に改善しなかった",
+          "ナスダック100 では単純な等ウェイトが首位",
+          "閾値を市場リターンにすると結果が不安定 — 閾値を必ず明記",
+          "本サイト案：銘柄カードに Sortino を参考表示。候補のみ、選定は変えない"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed. Main empirical finding is a null result (no significant Sharpe gain from semivolatility vs volatility; equal weight first on Nasdaq-100), on current index constituents with survivorship/look-ahead bias. Kept as watch: a display-only Sortino metric idea, no sizing or ranking change. Figures paraphrased from the arXiv paper (v1) abstract and conclusions. No screener, picks or paper-ledger change. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.32638",
+        "https://arxiv.org/html/2611.32638v1"
+      ],
+      "tags": [
+        "us",
+        "dow-jones",
+        "nasdaq-100",
+        "semivolatility",
+        "downside-risk",
+        "sortino",
+        "risk-parity",
+        "portfolio-construction",
+        "null-result"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-tabular-foundation-model-peer-proximity-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "Pretrained Tabular Features and the Measurement of Financial Proximity",
+      "titleLocalized": {
+        "zh-Hant": "預訓練表格特徵與企業「財務距離」的衡量",
+        "en": "Pretrained Tabular Features and the Measurement of Financial Proximity",
+        "zh-Hans": "预训练表格特征与企业“财务距离”的衡量",
+        "ja": "事前学習済み表形式特徴量と財務的近接性の測定"
+      },
+      "authors": [
+        "Marcus Gawronsky"
+      ],
+      "year": 2026,
+      "shelf": "market_analysis",
+      "summary": "An arXiv paper (2611.31491, q-fin.PR, Nov 2026) on picking a stock's 'peers' — the firms whose returns spill over to it — in a spatial arbitrage pricing (S-APT) model of US equities, 2011–2025. It uses frozen internal representations from four tabular foundation models (pretrained models for spreadsheet-style data) as a distance between firms' SEC disclosures. With only four financial ratios, the models beat an older characteristic-history distance, but a simple direct distance on the same standardized ratios does just as well — no encoder needed. Once broad SEC filing data are added, all four models gain over the direct distance, and the largest gain survives Fama–French five factors plus momentum. The embeddings' main axis is valuation (almost no market-beta information), yet peers chosen on that axis alone fit worse. Honest limits: in-sample and retrospective, no held-out test at each formation date. For this site: a peer-group idea (compare a pick with its closest firms on standardized fundamentals) — start with plain distance on ratios; not alpha.",
+      "summaryLocalized": {
+        "en": "arXiv 2611.31491. S-APT model of US equities 2011–2025; frozen embeddings of 4 tabular foundation models as firm-to-firm distance. On 4 ratios, a direct standardized-ratio distance matches them; with broad SEC filing data, all 4 beat the direct distance and the best survives FF5 + momentum. Main embedding axis = valuation, but peers along it alone fit worse. In-sample only. Site use: peer groups via plain distance on standardized fundamentals.",
+        "zh-Hant": "arXiv 論文（2611.31491），作者 Marcus Gawronsky。主題：怎麼替一檔股票找「同類股」——報酬會互相傳染的公司。用美股 2011–2025 年的「空間套利定價」模型，拿四個表格型基礎模型（處理試算表資料的預訓練 AI）的內部表示，當作公司 SEC 揭露資料之間的距離。只用四個財務比率時，AI 表示雖勝過舊方法，但直接對同樣標準化比率算距離一樣好——不需要 AI。加入大量 SEC 申報資料後，四個模型都勝過直接距離，最好的在控制 Fama–French 五因子加動能後仍成立。AI 表示的主軸是「估值」（幾乎沒有 beta 資訊），但只用這條軸挑同類股反而較差。限制：全部是樣本內、事後回顧，沒有在每個時點做樣本外測試。對本站：同類股比較的想法——先用標準化基本面的直接距離即可；不是賺錢訊號。",
+        "zh-Hans": "arXiv 论文（2611.31491）。美股 2011–2025 空间套利定价模型，用 4 个表格基础模型的冻结表示当公司间距离。只用 4 个比率时，直接标准化比率距离同样好；加入大量 SEC 申报资料后 4 个模型都胜过直接距离，最佳者控制 FF5+动能仍成立。主轴为估值，但只沿主轴选同类股较差。纯样本内。对本站：用标准化基本面直接距离做同类股比较。",
+        "ja": "arXiv 論文（2611.31491）。米国株 2011–2025 の空間裁定価格モデルで、4 つの表形式基盤モデルの凍結表現を企業間距離に利用。比率 4 つだけなら標準化比率の直接距離で同等；SEC 提出データを広く加えると 4 モデルとも直接距離を上回り、最良は FF5+モメンタム後も残る。主軸はバリュエーションだが、その軸だけで選ぶと適合は悪化。サンプル内のみ。本サイト：標準化ファンダメンタルの直接距離でピア比較。"
+      },
+      "formulas": [
+        "S-APT (spatial) return model: r_t = ρ·W·r_t + B·f_t + ε_t, W = row-normalized peer weights from firm distance d_ij",
+        "direct distance baseline: d_ij = ‖ z_i − z_j ‖₂, z = cross-sectionally standardized ratios (e.g. P/E, P/B, ROE, leverage)",
+        "embedding distance: d_ij = ‖ h(x_i) − h(x_j) ‖ with h = frozen tabular-foundation-model representation of filing data",
+        "peer set: k nearest firms by d_ij at each formation date (paper is in-sample; a fair test uses only data available then)",
+        "site display idea (watch): for each pick, list 3–5 nearest same-market peers by standardized fundamentals and show relative valuation; display only while passedGate=false"
+      ],
+      "plainTakeaways": [
+        "找「同類股」時，用 AI 模型的內部表示當距離是可行的",
+        "只用少數財務比率時，直接算比率距離就跟 AI 一樣好",
+        "加入大量申報資料後 AI 表示才明顯勝出，但都是事後回測",
+        "本站想法：個股卡可加「最像的同類股」比較估值；只是候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "找「同類股」時，用 AI 模型的內部表示當距離是可行的",
+          "只用少數財務比率時，直接算比率距離就跟 AI 一樣好",
+          "加入大量申報資料後 AI 表示才明顯勝出，但都是事後回測",
+          "本站想法：個股卡可加「最像的同類股」比較估值；只是候選"
+        ],
+        "zh-Hans": [
+          "找“同类股”时，用 AI 模型的内部表示当距离是可行的",
+          "只用少数财务比率时，直接算比率距离就跟 AI 一样好",
+          "加入大量申报资料后 AI 表示才明显胜出，但都是事后回测",
+          "本站想法：个股卡可加“最像的同类股”比较估值；只是候选"
+        ],
+        "en": [
+          "AI-model internal representations can serve as a distance for finding peer stocks",
+          "With only a few ratios, a plain ratio distance works just as well",
+          "AI representations win only after adding broad filing data — and all tests are retrospective",
+          "Site idea: add 'closest peers' valuation comparison on stock cards; candidate only"
+        ],
+        "ja": [
+          "ピア銘柄探しに AI モデルの内部表現を距離として使える",
+          "比率が少数なら単純な比率距離で同等",
+          "AI 表現が勝つのは提出データを広く加えた後のみ、しかも事後検証",
+          "本サイト案：銘柄カードに「最も近いピア」とのバリュエーション比較。候補のみ"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — not adopted because the math gate is closed. Results are in-sample and retrospective (no held-out evaluation at each formation date), and on simple ratios a direct distance matches the AI encoders. Kept as watch: a display-only peer-comparison idea using plain standardized-fundamental distance. Figures paraphrased from the arXiv paper (v1) abstract and conclusion. No screener, picks or paper-ledger change. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.31491"
+      ],
+      "tags": [
+        "us",
+        "peer-selection",
+        "spatial-apt",
+        "tabular-foundation-models",
+        "sec-filings",
+        "embeddings",
+        "valuation",
         "methodology"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",
