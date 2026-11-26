@@ -1,0 +1,121 @@
+{
+  "sessionSource": {
+    "TW": "加權指數收盤先比 Yahoo ^TWII；Yahoo 該日 close 為空時改用證交所 MI_5MINS_HIST 官方收盤"
+  },
+  "scanAsOf": "2026-11-26T00:08:04Z",
+  "date": "2026-11-26",
+  "sessions": {
+    "US": "2026-11-25",
+    "TW": "2026-11-25"
+  },
+  "note": "只補持有中、但當天掃描沒有的股票；掃描有報價的一律用掃描價。抓不到就列在 missing，當天不對該檔做買賣。",
+  "quotes": [
+    {
+      "ticker": "LLY",
+      "name": "Eli Lilly",
+      "market": "US",
+      "session": "2026-11-25",
+      "price": 1392.22,
+      "dayPct": -1.09,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft",
+      "market": "US",
+      "session": "2026-11-25",
+      "price": 489.93,
+      "dayPct": -1.25,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ISRG",
+      "name": "Intuitive Surgical",
+      "market": "US",
+      "session": "2026-11-25",
+      "price": 427.18,
+      "dayPct": -1.68,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "ESTC",
+      "name": "Elastic",
+      "market": "US",
+      "session": "2026-11-25",
+      "price": 82.94,
+      "dayPct": 1.11,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet",
+      "market": "US",
+      "session": "2026-11-25",
+      "price": 273.1,
+      "dayPct": -2.13,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "3231.TW",
+      "name": "緯創",
+      "market": "TW",
+      "session": "2026-11-25",
+      "price": 152,
+      "dayPct": -6.75,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2303.TW",
+      "name": "聯電",
+      "market": "TW",
+      "session": "2026-11-25",
+      "price": 87.4,
+      "dayPct": -9.99,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "1303.TW",
+      "name": "南亞",
+      "market": "TW",
+      "session": "2026-11-25",
+      "price": 226.5,
+      "dayPct": -9.04,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "6226.TW",
+      "name": "光鼎",
+      "market": "TW",
+      "session": "2026-11-25",
+      "price": 24.3,
+      "dayPct": -9.83,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    },
+    {
+      "ticker": "2891.TW",
+      "name": "中信金",
+      "market": "TW",
+      "session": "2026-11-25",
+      "price": 65.9,
+      "dayPct": -5.72,
+      "aboveSma20": false,
+      "source": "Yahoo Finance 日線收盤（一般交易時段）"
+    }
+  ],
+  "missing": [
+    {
+      "ticker": "ROKU",
+      "market": "US",
+      "why": "Yahoo 日線沒有 2026-11-25 收盤"
+    }
+  ]
+}
