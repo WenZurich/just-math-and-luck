@@ -162,7 +162,7 @@ function tradeRows(trades, currency) {
         <td class="num">${fmtPrice(row.price, currency)}</td>
         <td class="num ${rp.cls}">${rp.html}${costHint}</td>
         <td><span class="badge reason ${escapeHtml(row.reason || "")}">${escapeHtml(reasonLabel(row.reason))}</span></td>
-        <td class="why-cell">${escapeHtml(row.reasonText || "")}</td>
+        <td class="why-cell"${row.reasonText && reasonDetail(row) !== row.reasonText ? ` title="${escapeHtml(row.reasonText)}"` : ""}>${escapeHtml(reasonDetail(row))}</td>
       </tr>`;
     })
     .join("");
@@ -307,36 +307,58 @@ function renderBookCard(id, book, metrics) {
     </article>`;
 }
 
+/**
+ * 交易明細的「說明」：帳本 reasonText 是 paper-trade.mjs 寫死的中文規則句（例如
+ * 「停損：未實現報酬 ≤ −3%」），開頭又重複了旁邊的理由標籤。這裡只換成白話、
+ * 四種語言的說明；帳本原句放在 title 供對照。未知句子：只去掉重複的標籤前綴，原樣顯示。
+ * 純顯示，不改規則、不改帳本數字。
+ */
+const REASON_PLAIN = {
+  "停損：未實現報酬 ≤ −3%": "reasonPlainStop",
+  "漲停追價隔日急殺：買進時近漲停，今日日漲跌 ≤ −5%": "reasonPlainLimitUpChase",
+  "動能轉弱：未站上 SMA20 且當日跌超過 2%": "reasonPlainMomentumBreak",
+  "離開當日名單且未實現虧損": "reasonPlainOffList",
+  "停利：未實現報酬 ≥ +12%（賣一半或全數）": "reasonPlainTakeProfit",
+  "名單新開倉（單檔上限 8%）": "reasonPlainScreenBuy",
+  "名單新開倉（風險 1%、上限 8%）": "reasonPlainScreenBuyRisk",
+  "持續買進：仍在名單且未滿 8% 權益上限": "reasonPlainAdd",
+};
+
+export function reasonDetail(row) {
+  const raw = String(row?.reasonText || "").trim();
+  if (!raw) return "";
+  const key = REASON_PLAIN[raw];
+  if (key) return t(key);
+  const label = reasonLabel(row?.reason);
+  if (label && raw.startsWith(label + "：")) return raw.slice(label.length + 1);
+  return raw;
+}
+
 function tradeCards(trades, currency) {
   if (!trades.length) {
     return `<div class="list-card empty-card">${escapeHtml(t("noTradesToday"))}</div>`;
   }
   return trades
     .map((row) => {
-      const side = row.side === "SELL" ? t("sell") : t("buy");
+      const isSell = String(row.side || "").toUpperCase() === "SELL";
+      const side = isSell ? t("sell") : t("buy");
       const rp = realizedCell(row, currency);
+      const detail = reasonDetail(row);
+      const raw = String(row.reasonText || "");
       const costLine =
-        row.side === "SELL" && isFiniteNumber(rp.avgCost)
-          ? `<div style="font-family:var(--mono);font-size:0.82rem;color:var(--text-muted)">${escapeHtml(t("avgCost"))} ${fmtPrice(rp.avgCost, currency)}</div>`
+        isSell && isFiniteNumber(rp.avgCost)
+          ? `<span class="pc-cost">${escapeHtml(t("avgCost"))} ${fmtPrice(rp.avgCost, currency)}</span>`
           : "";
       return `
       <div class="list-card paper-card">
-        <div class="lc-head">
-          <div>
-            <span class="ticker" style="font-family:var(--mono);font-weight:600">${escapeHtml(row.ticker)}</span>
-            <span style="color:var(--text-muted);font-size:0.85rem;margin-left:0.35rem">${escapeHtml(row.name || "")}</span>
-          </div>
-          <div style="text-align:right">
-            <div style="font-family:var(--mono)">${escapeHtml(side)} ${row.qty?.toLocaleString(numberLocale())} ${escapeHtml(t("shares"))}</div>
-            <div style="font-family:var(--mono)">${fmtPrice(row.price, currency)}</div>
-            ${row.side === "SELL" ? `<div style="font-family:var(--mono)" class="${rp.cls}">${escapeHtml(t("realizedPnl"))} ${rp.html}</div>` : ""}
-            ${costLine}
-          </div>
+        <div class="pc-row">
+          <span class="pc-id"><span class="ticker">${escapeHtml(row.ticker)}</span><span class="pc-name">${escapeHtml(row.name || "")}</span></span>
+          <span class="pc-fill">${escapeHtml(side)} ${row.qty?.toLocaleString(numberLocale())} ${escapeHtml(t("shares"))} <span class="pc-at">@</span> ${fmtPrice(row.price, currency)}</span>
         </div>
-        <div class="flags" style="margin-bottom:0.35rem">
-          <span class="badge reason ${escapeHtml(row.reason || "")}">${escapeHtml(reasonLabel(row.reason))}</span>
+        <div class="pc-row pc-row--sub">
+          <span class="pc-why"><span class="badge reason ${escapeHtml(row.reason || "")}">${escapeHtml(reasonLabel(row.reason))}</span>${detail ? ` <span class="pc-detail"${raw && raw !== detail ? ` title="${escapeHtml(raw)}"` : ""}>${escapeHtml(detail)}</span>` : ""}</span>
+          ${isSell ? `<span class="pc-pnl"><span class="${rp.cls}"><span class="pc-lbl">${escapeHtml(t("realizedPnl"))} </span>${rp.html}</span>${costLine}</span>` : ""}
         </div>
-        ${row.reasonText ? `<p class="lc-why">${escapeHtml(row.reasonText)}</p>` : ""}
       </div>`;
     })
     .join("");

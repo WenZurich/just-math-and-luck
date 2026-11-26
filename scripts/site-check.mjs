@@ -38,6 +38,8 @@ const JINA_HOST = "r.jina.ai";
 /** Live-quote polling endpoints; blocked on every route except 今日 so 32 reloads don't get the proxy rate-limited. */
 const LIVE_QUOTE_RE = /\/v7\/finance\/spark|mis\.twse\.com\.tw\/stock\/api\/getStockInfo/i;
 const BANNED_TEXT = ["資料不足", "資料不全"];
+/** Page ids (vp/route) where the page's own r.jina.ai request was refused (401/403/429). */
+const relayRefusedOn = new Map();
 
 const VIEWPORTS = [
   { id: "m390", width: 390, height: 844, isMobile: true, hasTouch: true, deviceScaleFactor: 2 },
@@ -160,6 +162,11 @@ async function checkLookup(page, where, { market, q }) {
     // r.jina.ai can start refusing this checker's IP partway through a run (its own traffic trips
     // "bad IP reputation"), so re-probe before blaming the site.
     if (!report.relayBlockedForChecker) await probeRelay();
+    // The probe can pass while the lookup's own relay call was refused moments earlier (the relay
+    // rates this checker's IP request by request). The page's own 401/403/429 is direct evidence.
+    if (!report.relayBlockedForChecker && relayRefusedOn.has(where)) {
+      report.relayBlockedForChecker = `${relayRefusedOn.get(where)} on the page's own relay request`;
+    }
     if (!report.relayBlockedForChecker) return fail(where, `lookup ${market} ${q} says quote source unreachable, but the relay probe was fine`);
     if (!r.badge.includes(market === "TW" ? "lk-badge-tw" : "lk-badge-us")) fail(where, `lookup ${market} ${q} offline card: wrong/missing market badge`);
     if (!r.retry) fail(where, `lookup ${market} ${q} offline card: no 重試 button`);
@@ -339,6 +346,9 @@ async function main() {
     page.on("pageerror", (e) => fail(where, `uncaught error: ${String(e.message || e).slice(0, 300)}`));
     page.on("response", (r) => {
       if (r.status() < 400) return;
+      try {
+        if (new URL(r.url()).hostname === JINA_HOST && [401, 403, 429].includes(r.status())) relayRefusedOn.set(where, `HTTP ${r.status()}`);
+      } catch { /* ignore */ }
       if (sameOrigin(r.url())) fail(where, `HTTP ${r.status()} ${r.url()}`);
       else if (isExpectedHost(r.url())) {
         const k = `${hostOf(r.url())} HTTP ${r.status()}`;

@@ -4354,3 +4354,19 @@ html.marquee-static .macro-strip .index-marquee-group--clone {
 .pick-card .flags .badge.market {
   position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
 }
+
+/* 模擬 交易明細（手機卡片）：兩行就讀完一筆——第一行 代號/名稱 ↔ 買賣 股數 @ 價格；
+   第二行 理由標籤 + 白話說明 ↔ 實現損益（賣出才有）與成本。原本每筆 4–6 行、約 175px。 */
+.paper-card { display: grid; gap: 0.3rem; padding: 0.6rem 0.85rem; }
+.paper-card .pc-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; min-width: 0; }
+.paper-card .pc-id { display: inline-flex; align-items: baseline; gap: 0.4rem; min-width: 0; }
+.paper-card .pc-id .ticker { font-family: var(--mono); font-weight: 700; white-space: nowrap; }
+.paper-card .pc-name { color: var(--text-muted); font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.paper-card .pc-fill { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+.paper-card .pc-at { color: var(--text-muted); }
+.paper-card .pc-row--sub { align-items: flex-start; }
+.paper-card .pc-why { font-size: var(--fs-xs, 0.8rem); line-height: 1.45; color: var(--text-muted); min-width: 0; }
+.paper-card .pc-why .badge { margin-right: 0.3rem; vertical-align: 0.05em; }
+.paper-card .pc-pnl { display: grid; justify-items: end; flex: none; font-family: var(--mono); font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+.paper-card .pc-cost { font-size: 0.75rem; font-weight: 400; color: var(--text-muted); }
+.paper-card .pc-lbl { font-family: var(--font); font-size: 0.72rem; font-weight: 400; color: var(--text-muted); }

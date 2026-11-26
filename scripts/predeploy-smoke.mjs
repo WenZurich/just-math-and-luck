@@ -1827,6 +1827,29 @@ async function main() {
       if (missing.length) fail(`macro meta / fold chevrons: ${missing.join("; ")}`);
       else ok("macro strip meta shows update time + stale on phones; fold cards show an open/close chevron");
     }
+    {
+      // 2026-11-26: 模擬 trade log — plain-language reason (no label repeated, 4 locales), 2-row phone cards.
+      const errs = [];
+      const mapSrc = (paperSrc.match(/const REASON_PLAIN = \{([\s\S]*?)\n\};/) || [])[1] || "";
+      const mapped = new Map([...mapSrc.matchAll(/^\s*"([^"]+)": "(\w+)",?$/gm)].map((m) => [m[1], m[2]]));
+      if (!mapped.size) errs.push("REASON_PLAIN map missing");
+      const pp = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/paper-portfolio.json"), "utf8"));
+      const texts = new Set();
+      for (const b of Object.values(pp.books || {})) for (const tr of b.trades || []) if (tr.reasonText) texts.add(tr.reasonText);
+      // A new rule sentence from paper-trade.mjs still renders (label prefix stripped), so only note it.
+      for (const tx of texts) if (!mapped.has(tx)) console.log(`NOTE: ledger reasonText has no plain copy yet (shown as-is): ${tx}`);
+      for (const f of ["src/i18n.js", "src/i18n/en.js", "src/i18n/zh-Hans.js", "src/i18n/ja.js"]) {
+        const src = fs.readFileSync(path.join(ROOT, f), "utf8");
+        for (const k of new Set(mapped.values())) if (!new RegExp(`\\b${k}: "`).test(src)) errs.push(`${f}: ${k} missing`);
+      }
+      const cards = paperSrc.slice(paperSrc.indexOf("function tradeCards("), paperSrc.indexOf("function sellSessionFoot("));
+      if (/style="/.test(cards)) errs.push("tradeCards should not use inline styles");
+      if ((cards.match(/class="pc-row/g) || []).length !== 2) errs.push("tradeCards should be two rows (pc-row)");
+      if (!/reasonDetail\(row\)/.test(cards) || !/why-cell[^\n]*reasonDetail\(row\)/.test(paperSrc)) errs.push("cards + desktop 說明 column should use reasonDetail()");
+      if (/escapeHtml\(row\.reasonText \|\| ""\)\}<\/td>/.test(paperSrc)) errs.push("desktop 說明 column still prints raw reasonText");
+      if (errs.length) fail(`paper trade log plain reasons: ${errs.join("; ")}`);
+      else ok(`paper trade log: ${[...texts].filter((x) => mapped.has(x)).length}/${texts.size} ledger reason texts → plain copy x4 locales; phone cards 2 rows, no inline styles`);
+    }
     if (!/function renderTradeHistory/.test(paperSrc) || !/<details class="trade-day"/.test(paperSrc)) fail("paper.js trade history should be grouped by day (details.trade-day)");
     else ok("paper trade history grouped by trading day");
     if (!/function fmtSignedMoney/.test(paperSrc) || /fmtMoney\(r\.value/.test(paperSrc)) fail("realized P&L must use signed money (+NT$ / −NT$), not NT$-");
