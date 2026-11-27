@@ -2438,10 +2438,10 @@
       "market": "US",
       "currency": "USD",
       "startCash": 100000,
-      "cash": 46.36,
-      "equity": 104630.18,
-      "positionsValue": 104583.82,
-      "realizedPnl": 96.89,
+      "cash": 8989.77,
+      "equity": 104584.47,
+      "positionsValue": 95594.7,
+      "realizedPnl": 375.46,
       "positions": [
         {
           "ticker": "AAPL",
@@ -2456,20 +2456,6 @@
           "dayPct": 0.43,
           "aboveSma20": true,
           "volRatio": 1.07
-        },
-        {
-          "ticker": "ROKU",
-          "name": "Roku",
-          "qty": 56,
-          "avgCost": 154.72928571428568,
-          "mark": 160.52,
-          "currency": "USD",
-          "openedOn": "2026-10-16",
-          "lastAddDate": "2026-10-30",
-          "limitUpStyle": false,
-          "dayPct": 0.09,
-          "aboveSma20": true,
-          "volRatio": 4.11
         },
         {
           "ticker": "LLY",
@@ -5697,6 +5683,115 @@
         {
           "date": "2026-11-09",
           "asOf": "2026-11-09T00:13:56Z",
+          "side": "CONVERT",
+          "ticker": "ROKU",
+          "name": "Roku",
+          "qty": 56,
+          "price": 160.600536,
+          "avgCostAtSale": 154.729286,
+          "reason": "merger-conversion",
+          "reasonText": "併購換股：ROKU 每股換 95.3 美元現金＋0.9799 股 FOXA（2026-11-06 生效），零股 0.8744 股按 FOXA 當日收盤 66.64 折現",
+          "realizedPnl": 328.79,
+          "corporateActionId": "ROKU-FOXA-2026-11-06",
+          "conversion": {
+            "effectiveSession": "2026-11-06",
+            "acquirerTicker": "FOXA",
+            "acquirer": "Fox Corporation",
+            "cashPerShare": 95.3,
+            "sharesPerShare": 0.9799,
+            "entitledShares": 54.8744,
+            "wholeShares": 54,
+            "fractionalShares": 0.8744,
+            "acquirerPrice": 66.64,
+            "cashConsideration": 5336.8,
+            "cashInLieu": 58.27,
+            "cashTotal": 5395.07,
+            "stockValue": 3598.56,
+            "considerationValue": 8993.63,
+            "costBasis": 8664.84,
+            "lastMarkBefore": 160.52,
+            "markValueBefore": 8989.12,
+            "equityDelta": 4.51,
+            "priceSources": [
+              {
+                "label": "Yahoo Finance FOXA daily close 2026-11-06 (regular session)",
+                "url": "https://finance.yahoo.com/quote/FOXA/history/"
+              },
+              {
+                "label": "Nasdaq FOXA historical quotes (Close/Last 11/06/2026 $66.64)",
+                "url": "https://www.nasdaq.com/market-activity/stocks/foxa/historical"
+              }
+            ],
+            "sources": [
+              {
+                "label": "Nasdaq Equity Corporate Actions Alert #2026-806",
+                "url": "https://www.nasdaqtrader.com/TraderNews.aspx?id=eca2026-806"
+              },
+              {
+                "label": "SEC Form 8-K (Roku, 2026-11-06)",
+                "url": "https://www.sec.gov/Archives/edgar/data/1428439/000119312526451874/d181620d8k.htm"
+              }
+            ],
+            "restatement": {
+              "restatedOn": "2026-11-27",
+              "reason": "The engine had no merger rule when the deal closed; the ledger kept the source marked at its frozen last close. Restated from the conversion date with the same rules the engine now applies.",
+              "fromDate": "2026-11-09",
+              "toDate": "2026-11-27",
+              "acquirerReplay": [
+                {
+                  "date": "2026-11-09",
+                  "session": "2026-11-06",
+                  "price": 66.64,
+                  "action": "converted (no sell rule on conversion day)"
+                },
+                {
+                  "date": "2026-11-10",
+                  "session": "2026-11-09",
+                  "price": 67.69,
+                  "dayPct": 1.58,
+                  "aboveSma20": true,
+                  "inList": false,
+                  "source": "Yahoo FOXA daily close 2026-11-09",
+                  "action": "hold"
+                },
+                {
+                  "date": "2026-11-11",
+                  "session": "2026-11-10",
+                  "price": 67.37,
+                  "dayPct": -0.47,
+                  "aboveSma20": true,
+                  "inList": false,
+                  "source": "Yahoo FOXA daily close 2026-11-10",
+                  "action": "hold"
+                },
+                {
+                  "date": "2026-11-12",
+                  "session": "2026-11-11",
+                  "price": 67.98,
+                  "dayPct": 0.91,
+                  "aboveSma20": true,
+                  "inList": false,
+                  "source": "Yahoo FOXA daily close 2026-11-11",
+                  "action": "hold"
+                },
+                {
+                  "date": "2026-11-13",
+                  "session": "2026-11-12",
+                  "price": 65.71,
+                  "dayPct": -3.34,
+                  "aboveSma20": false,
+                  "inList": false,
+                  "source": "Yahoo FOXA daily close 2026-11-12",
+                  "action": "momentum-break sell 54"
+                }
+              ],
+              "otherTradesNote": "Fills of other tickers between these dates are unchanged (not re-simulated); the cash received stayed in the book and is available from the next scan."
+            }
+          }
+        },
+        {
+          "date": "2026-11-09",
+          "asOf": "2026-11-09T00:13:56Z",
           "side": "SELL",
           "ticker": "NFLX",
           "name": "Netflix",
@@ -6172,6 +6267,20 @@
           "reason": "stop",
           "reasonText": "停損：未實現報酬 ≤ −3%",
           "realizedPnl": -20.64
+        },
+        {
+          "date": "2026-11-13",
+          "asOf": "2026-11-13T00:07:31Z",
+          "side": "SELL",
+          "ticker": "FOXA",
+          "name": "Fox Corp Class A",
+          "qty": 54,
+          "price": 65.71,
+          "avgCostAtSale": 66.64,
+          "reason": "momentum-break",
+          "reasonText": "動能轉弱：未站上 SMA20 且當日跌超過 2%",
+          "realizedPnl": -50.22,
+          "fromCorporateAction": "ROKU-FOXA-2026-11-06"
         },
         {
           "date": "2026-11-13",
@@ -7459,93 +7568,93 @@
         },
         {
           "date": "2026-11-09",
-          "equity": 108359.67,
-          "cash": 84.52,
-          "positionsValue": 108275.15
+          "equity": 108364.18,
+          "cash": 5479.59,
+          "positionsValue": 102884.59
         },
         {
           "date": "2026-11-10",
-          "equity": 112346.11,
-          "cash": 204.84,
-          "positionsValue": 112141.27
+          "equity": 112407.32,
+          "cash": 5599.91,
+          "positionsValue": 106807.41
         },
         {
           "date": "2026-11-11",
-          "equity": 111504.33,
-          "cash": 77.79,
-          "positionsValue": 111426.54
+          "equity": 111548.26,
+          "cash": 5472.86,
+          "positionsValue": 106075.4
         },
         {
           "date": "2026-11-12",
-          "equity": 112705.48,
-          "cash": 45.73,
-          "positionsValue": 112659.75
+          "equity": 112782.35,
+          "cash": 5440.8,
+          "positionsValue": 107341.55
         },
         {
           "date": "2026-11-13",
-          "equity": 112458.23,
-          "cash": 5567.6,
-          "positionsValue": 106890.63
+          "equity": 112412.52,
+          "cash": 14511.01,
+          "positionsValue": 97901.51
         },
         {
           "date": "2026-11-16",
-          "equity": 110843.11,
-          "cash": 238.79,
-          "positionsValue": 110604.32
+          "equity": 110797.4,
+          "cash": 9182.2,
+          "positionsValue": 101615.2
         },
         {
           "date": "2026-11-17",
-          "equity": 108226.43,
-          "cash": 13677.03,
-          "positionsValue": 94549.4
+          "equity": 108180.72,
+          "cash": 22620.44,
+          "positionsValue": 85560.28
         },
         {
           "date": "2026-11-18",
-          "equity": 106979.07,
-          "cash": 4309.7,
-          "positionsValue": 102669.37
+          "equity": 106933.36,
+          "cash": 13253.11,
+          "positionsValue": 93680.25
         },
         {
           "date": "2026-11-19",
-          "equity": 108012.88,
-          "cash": 56.92,
-          "positionsValue": 107955.96
+          "equity": 107967.17,
+          "cash": 9000.33,
+          "positionsValue": 98966.84
         },
         {
           "date": "2026-11-20",
-          "equity": 107549.31,
-          "cash": 100.57,
-          "positionsValue": 107448.74
+          "equity": 107503.6,
+          "cash": 9043.98,
+          "positionsValue": 98459.62
         },
         {
           "date": "2026-11-23",
-          "equity": 100480.3,
-          "cash": 4746.7,
-          "positionsValue": 95733.6
+          "equity": 100434.59,
+          "cash": 13690.11,
+          "positionsValue": 86744.48
         },
         {
           "date": "2026-11-24",
-          "equity": 104547.87,
-          "cash": 41.11,
-          "positionsValue": 104506.76
+          "equity": 104502.16,
+          "cash": 8984.52,
+          "positionsValue": 95517.64
         },
         {
           "date": "2026-11-25",
-          "equity": 104694.75,
-          "cash": 94.86,
-          "positionsValue": 104599.89
+          "equity": 104649.04,
+          "cash": 9038.27,
+          "positionsValue": 95610.77
         },
         {
           "date": "2026-11-26",
-          "equity": 104630.18,
-          "cash": 46.36,
-          "positionsValue": 104583.82
+          "equity": 104584.47,
+          "cash": 8989.77,
+          "positionsValue": 95594.7
         },
         {
           "date": "2026-11-27",
-          "equity": 104630.18,
-          "cash": 46.36,
-          "positionsValue": 104583.82
+          "equity": 104584.47,
+          "cash": 8989.77,
+          "positionsValue": 95594.7
         }
       ],
       "startDate": "2026-09-15"
@@ -7595,12 +7704,12 @@
       }
     },
     "US": {
-      "totalPnl": 4630.18,
-      "totalPnlPct": 4.6302,
-      "realizedPnl": 96.89,
-      "unrealizedPnl": 4533.3,
+      "totalPnl": 4584.47,
+      "totalPnlPct": 4.5845,
+      "realizedPnl": 375.46,
+      "unrealizedPnl": 4209.02,
       "week": {
-        "pct": -2.7142,
+        "pct": -2.7154,
         "pnl": -2919.13,
         "label": "7日",
         "sinceInception": false,
@@ -7609,8 +7718,8 @@
         "toDate": "2026-11-27"
       },
       "month": {
-        "pct": -5.6124,
-        "pnl": -6221.42,
+        "pct": -5.6536,
+        "pnl": -6267.13,
         "label": "30日",
         "sinceInception": false,
         "days": 30,
@@ -7618,8 +7727,8 @@
         "toDate": "2026-11-27"
       },
       "quarter": {
-        "pct": 4.6302,
-        "pnl": 4630.18,
+        "pct": 4.5845,
+        "pnl": 4584.47,
         "label": "成立以來",
         "sinceInception": true,
         "days": 90,
@@ -7627,8 +7736,8 @@
         "toDate": "2026-11-27"
       },
       "year": {
-        "pct": 4.6302,
-        "pnl": 4630.18,
+        "pct": 4.5845,
+        "pnl": 4584.47,
         "label": "成立以來",
         "sinceInception": true,
         "days": 365,

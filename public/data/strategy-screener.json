@@ -20150,24 +20150,6 @@
       ],
       "hits": [
         {
-          "ticker": "ROKU",
-          "name": "Roku",
-          "market": "US",
-          "currency": "USD",
-          "metrics": {
-            "price": 160.52,
-            "dayPct": 0.09,
-            "pct5d": 3.48,
-            "pct1m": 4.36,
-            "volRatio": 3.44,
-            "aboveSma20": true,
-            "aboveSma50": true,
-            "aboveSma200": true,
-            "pack": "us_fomo_filter"
-          },
-          "ohlcvBarDate": "2026-11-06"
-        },
-        {
           "ticker": "ZS",
           "name": "Zscaler",
           "market": "US",
@@ -20208,7 +20190,7 @@
       "incomplete": false,
       "notes": [
         "G2/G6；candidate",
-        "技術欄位 OHLCV 最後一根日K：2026-11-06, 2026-11-25（證交所 session 2026-11-26）"
+        "技術欄位 OHLCV 最後一根日K：2026-11-25（證交所 session 2026-11-26；非「今日」若不同日）"
       ],
       "calibrationNotes": {
         "status": "candidate",
@@ -20224,14 +20206,12 @@
         "dataAsOf": {
           "sessionDate": "2026-11-26",
           "ohlcvBarDates": [
-            "2026-11-06",
             "2026-11-25"
           ],
           "generatedAt": "2026-11-27T00:14:30.604Z"
         }
       },
       "ohlcvBarDates": [
-        "2026-11-06",
         "2026-11-25"
       ]
     },
@@ -20598,27 +20578,6 @@
             "aboveSma20": false,
             "aboveSma50": false,
             "aboveSma200": false,
-            "cycleStance": "balanced",
-            "psychologyPhase": "mid_cycle",
-            "liquidityBias": "risk_on",
-            "tags": "screen_A",
-            "sizeMult": 1
-          }
-        },
-        {
-          "ticker": "ROKU",
-          "name": "Roku",
-          "market": "US",
-          "currency": "USD",
-          "metrics": {
-            "price": 160.52,
-            "dayPct": 0.09,
-            "pct5d": 3.48,
-            "pct1m": 4.36,
-            "volRatio": 4.11,
-            "aboveSma20": true,
-            "aboveSma50": true,
-            "aboveSma200": true,
             "cycleStance": "balanced",
             "psychologyPhase": "mid_cycle",
             "liquidityBias": "risk_on",

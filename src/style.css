@@ -4385,3 +4385,26 @@ html.marquee-static .macro-strip .index-marquee-group--clone {
 .pick-row--delisted td { background: var(--bg-elevated); color: var(--text-muted); }
 .pick-table td:first-child .ticker { white-space: nowrap; }
 .pick-row--delisted .pick-delisted-note { max-width: 62rem; }
+
+/* 2026-11-27 公司行動（併購換股）＋掃描排除已下市：帳本事件卡、交易卡、名單下方說明 */
+.badge.reason.merger-conversion {
+  background: var(--surface-2, transparent);
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+.paper-ca-events .paper-ca-event { border-left-color: var(--accent); }
+.paper-ca-event .pos-ca-title { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
+.paper-ca-event .ca-pnl { margin-left: auto; font-weight: 700; font-variant-numeric: tabular-nums; }
+.paper-ca-event .ca-restated { color: var(--text-muted); }
+.paper-card--convert { border-left: 3px solid var(--accent); }
+.pick-excluded-note {
+  margin: 0.5rem 0 0;
+  padding: 0.4rem 0.6rem;
+  border: 1px dashed var(--border, currentColor);
+  border-radius: 4px;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.pick-excluded-note a { color: inherit; text-decoration: underline; }

@@ -1071,3 +1071,59 @@ export function adrParity(localPrice, adrPrice, fx, adsRatio = 5) {
   if (!isFiniteNumber(implied) || !isFiniteNumber(premiumPct) || implied <= 0) return null;
   return { implied, premiumPct };
 }
+
+/**
+ * Merger conversion (cash + stock election-free deal) for a paper position.
+ *   qty source shares (positive integer) at avgCost →
+ *     cash        = qty · cashPerShare
+ *     entitlement = qty · sharesPerShare acquirer shares (exact: ratio scaled to integer micro-shares,
+ *                   so 56 × 0.9799 = 54.8744 exactly, never 54.874399999…)
+ *     whole       = ⌊entitlement⌋ shares delivered; fractional = entitlement − whole
+ *     cashInLieu  = fractional · acquirerPrice (no fractional shares are issued)
+ *   considerationValue = cash + cashInLieu + whole · acquirerPrice   (all money rounded to cents, half away)
+ *   realizedPnl        = considerationValue − round(qty · avgCost)   (disposal at fair value)
+ *   new acquirer lot   = whole shares at avgCost = acquirerPrice (so its unrealized P&L starts at 0)
+ * Identity (exact in cents): considerationValue = cashTotal + stockValue; realizedPnl + costBasis = considerationValue.
+ * Off-domain (qty not a positive integer, negative terms, ratio with > 6 decimals, missing acquirer price
+ * when shares are delivered, both terms zero) ⇒ null.
+ */
+export function mergerConversion({ qty, avgCost, cashPerShare, sharesPerShare, acquirerPrice }) {
+  if (!(Number.isInteger(qty) && qty > 0 && qty <= 1e9)) return null;
+  if (!(isFiniteNumber(avgCost) && avgCost > 0)) return null;
+  if (!(isFiniteNumber(cashPerShare) && cashPerShare >= 0)) return null;
+  if (!(isFiniteNumber(sharesPerShare) && sharesPerShare >= 0)) return null;
+  if (cashPerShare === 0 && sharesPerShare === 0) return null;
+  const SCALE = 1_000_000;
+  const ratioMicro = Math.round(sharesPerShare * SCALE);
+  if (Math.abs(ratioMicro / SCALE - sharesPerShare) > 1e-12) return null; // > 6 decimals: refuse rather than guess
+  if (ratioMicro > 0 && !(isFiniteNumber(acquirerPrice) && acquirerPrice > 0)) return null;
+  const entitledMicro = qty * ratioMicro; // exact integer (≤ 1e9 · 1e8 < 2^53 for any sane ratio)
+  if (!Number.isSafeInteger(entitledMicro)) return null;
+  const wholeShares = Math.floor(entitledMicro / SCALE);
+  const fracMicro = entitledMicro - wholeShares * SCALE;
+  const px = ratioMicro > 0 ? acquirerPrice : 0;
+  const cashConsideration = roundHalfAway(qty * cashPerShare, 2);
+  const cashInLieu = roundHalfAway((fracMicro * px) / SCALE, 2);
+  const stockValue = roundHalfAway(wholeShares * px, 2);
+  const cashTotal = roundHalfAway(cashConsideration + cashInLieu, 2);
+  const considerationValue = roundHalfAway(cashTotal + stockValue, 2);
+  const costBasis = roundHalfAway(qty * avgCost, 2);
+  const realized = roundHalfAway(considerationValue - costBasis, 2);
+  if ([cashConsideration, cashInLieu, stockValue, cashTotal, considerationValue, costBasis, realized].some((x) => x == null)) return null;
+  return {
+    qty,
+    entitledShares: entitledMicro / SCALE,
+    wholeShares,
+    fractionalShares: fracMicro / SCALE,
+    acquirerPrice: ratioMicro > 0 ? acquirerPrice : null,
+    cashConsideration,
+    cashInLieu,
+    cashTotal,
+    stockValue,
+    considerationValue,
+    costBasis,
+    realizedPnl: realized,
+    valuePerShare: considerationValue / qty,
+    newAvgCost: wholeShares > 0 ? acquirerPrice : null,
+  };
+}

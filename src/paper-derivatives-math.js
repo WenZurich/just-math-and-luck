@@ -251,7 +251,8 @@ export function resolveTradeRealizedPnl(trade) {
 }
 
 /**
- * Sum realized P&L for SELL (or CLOSE) trades. Skips open/BUY.
+ * Sum realized P&L for SELL (or CLOSE, or merger CONVERT) trades. Skips open/BUY.
+ * CONVERT = paper merger conversion (disposal at deal value; realizedPnl is booked on the row).
  * Returns { ok, sum, missing } — ok false only if sum becomes non-finite.
  */
 export function sumSellRealizedPnl(trades) {
@@ -260,7 +261,7 @@ export function sumSellRealizedPnl(trades) {
   let counted = 0;
   for (const tr of trades || []) {
     const side = String(tr?.side || "").toUpperCase();
-    if (side !== "SELL" && side !== "CLOSE") continue;
+    if (side !== "SELL" && side !== "CLOSE" && side !== "CONVERT") continue;
     const r = resolveTradeRealizedPnl(tr);
     if (r.status === "ok") {
       sum += r.value;

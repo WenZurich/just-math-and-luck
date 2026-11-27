@@ -15,6 +15,7 @@ import { buildAllMasters } from "./master-strategies.mjs";
 import { buildAllGooayePacks, gooayeUniverseBoost } from "./gooaye-strategies.mjs";
 import { seriesDelta } from "./market-regime.mjs";
 import { fetchUs10yHistory, us10y20dFromRegime } from "./us10y.mjs";
+import { loadCorporateActions, delistingFor, filterStrategyHits, sessionDatesFromPanel } from "./listing-status.mjs";
 // Peter Lynch now lives in master-strategies (TW MOPS, skip-if-missing).
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -1540,6 +1541,18 @@ async function main() {
   for (const t of ["AAPL", "NVDA", "MSFT", "META", "AMD", "CRWD", "ZS", "ARM", "LLY", "PANW"]) {
     if (!usSet.has(t)) usSet.set(t, { ticker: t, name: t, market: "US" });
   }
+  // Names the scan excluded as delisted / stale (latest.excludedFromScan) or that corporate-actions.json
+  // lists as delisted before the scan's session never enter the strategy universe.
+  const corpActions = loadCorporateActions(ROOT);
+  const scanExcluded = new Set((latest.excludedFromScan?.items || []).map((x) => x.ticker));
+  for (const [set, market, ses] of [[usSet, "US", latest.usCloseDate], [twSet, "TW", latest.twCloseDate || asOfYmd]]) {
+    for (const t of [...set.keys()]) {
+      if (scanExcluded.has(t) || delistingFor(corpActions, t, market, ses)) {
+        set.delete(t);
+        console.log(`universe: drop ${market} ${t} (delisted / stale per scan)`);
+      }
+    }
+  }
 
   const universe = [...twSet.values(), ...usSet.values()];
   console.log("Universe TW", twSet.size, "US", usSet.size, "total", universe.length);
@@ -1825,6 +1838,24 @@ async function main() {
     console.log(`Gooaye long charts (${YAHOO_LONG_RANGE}): ${nLong1 + nLong2} fetched`);
     strategies.push(...gooayePacks);
     console.log("Gooaye packs", gooayePacks.map((p) => `${p.id}:${p.hits.length}`).join(", "));
+  }
+
+  // Defense in depth: drop hits whose ticker is officially delisted or whose daily bars stopped
+  // ≥3 market sessions ago (sessions = dates most of the market's universe traded; holidays excluded).
+  {
+    const lastDate = (tk) => {
+      const ch = ohlcvMap.get(tk);
+      return ch?.bars?.length ? barYmdTaipei(ch.bars[ch.bars.length - 1].t) : null;
+    };
+    const panel = (mk) =>
+      universe.filter((u) => u.market === mk).map((u) => (ohlcvMap.get(u.ticker)?.bars || []).slice(-15).map((b) => barYmdTaipei(b.t)));
+    const { strategies: kept, removed } = filterStrategyHits(strategies, {
+      actions: corpActions,
+      sessionDatesByMarket: { US: sessionDatesFromPanel(panel("US")), TW: sessionDatesFromPanel(panel("TW")) },
+      lastBarDateOf: (h) => lastDate(h.ticker),
+    });
+    strategies.splice(0, strategies.length, ...kept);
+    for (const r of removed) console.log(`strategy hit dropped: ${r.id} ${r.market} ${r.ticker} — ${r.status}: ${r.reason}`);
   }
 
   // Attach latest OHLCV bar date (Asia/Taipei) — never claim「今日」if bar is prior session

@@ -63,7 +63,9 @@
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { applyCorporateActions } from "./paper-corporate-actions.mjs";
+import { loadCorporateActions } from "./listing-status.mjs";
 import { avgCostAfterBuy, realizedPnl, roundHalfAway, positionSizeShares, unrealizedReturn, bookMarkValue, unrealizedPnlOf, windowPerformance, paperExitAction, limitUpStyleFlag, addOnRoom } from "./math-core.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -95,8 +97,8 @@ const TAKE_PROFIT_RET = 0.12; // 未實現 >= +12% 停利
 const MOMENTUM_DAY_PCT = -2; // 未站上 SMA20 且日漲跌 < -2%
 const LIMIT_UP_DAY_PCT = 9.5; // 接近漲停
 const LIMIT_UP_CHASE_DROP = -5; // 隔日急殺
-const EXIT_RULES = { stopLossRet: STOP_LOSS_RET, takeProfitRet: TAKE_PROFIT_RET, momentumDayPct: MOMENTUM_DAY_PCT, limitUpChaseDrop: LIMIT_UP_CHASE_DROP };
-const EXIT_TEXT = {
+export const EXIT_RULES = { stopLossRet: STOP_LOSS_RET, takeProfitRet: TAKE_PROFIT_RET, momentumDayPct: MOMENTUM_DAY_PCT, limitUpChaseDrop: LIMIT_UP_CHASE_DROP };
+export const EXIT_TEXT = {
   stop: "停損：未實現報酬 ≤ −3%",
   "limit-up-chase": "漲停追價隔日急殺：買進時近漲停，今日日漲跌 ≤ −5%",
   "momentum-break": "動能轉弱：未站上 SMA20 且當日跌超過 2%",
@@ -119,6 +121,7 @@ const RULES_ZH = {
     "startDate 固定 2026-09-15；現金與持股跨日保留。",
     "同一 asOf 冪等（不重複下單）；asOf 前進才處理。",
     "成交價＝latest.json 該標的 price；買進／賣出即成交。",
+    "併購換股（corporate-actions.json 官方條件）：生效後第一次掃描把持股換成現金＋收購方整數股，零股按生效日收盤折現；記成「併購換股」事件，不是賣出；之後收購方股票照一般賣出規則處理。",
   ],
   buy: [
     "宇宙＝當日 us[]／tw[]；純 observe 不買；先 Top5 再其餘。",
@@ -628,7 +631,24 @@ function weekdaysBetween(fromYmd, toYmd) {
   return out;
 }
 
+/** Market close date this scan's prices belong to (US: latest.usCloseDate; TW: twCloseDate / timezoneNote). */
+function closeDateOf(latest, market) {
+  if (market === "US") return /^\d{4}-\d{2}-\d{2}$/.test(latest?.usCloseDate || "") ? latest.usCloseDate : null;
+  return twCloseDateOf(latest);
+}
+
 function processBook(book, latest, market, quotes) {
+  // Corporate actions first (a merged stock no longer trades): convert per official terms, then mark/trade.
+  const conversions = applyCorporateActions(book, loadCorporateActions(ROOT), {
+    market,
+    closeDate: closeDateOf(latest, market),
+    date: taipeiDate(latest.asOf),
+    asOf: latest.asOf,
+    recordTrade,
+  });
+  for (const c of conversions) {
+    console.log(`${market} CONVERT ${c.ticker} x${c.qty} → cash ${c.conversion.cashTotal} + ${c.conversion.wholeShares} ${c.conversion.acquirerTicker} (realized ${c.realizedPnl})`);
+  }
   markPositions(book, quotes);
   if (market === "TW") {
     const date = taipeiDate(latest.asOf);
@@ -789,4 +809,5 @@ function main() {
   printBookSummary("US", portfolio.books.US, portfolio.metrics.US, date);
 }
 
-main();
+// Run only when executed directly (EXIT_RULES / EXIT_TEXT are imported by the corporate-action restatement).
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

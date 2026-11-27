@@ -414,6 +414,28 @@ function pickDelistedNote(s, ca, cls) {
   return `<p class="${cls}" role="note"><span class="badge pick-delisted-badge">${escapeHtml(t("pickDelistedBadge"))}</span> ${escapeHtml(note)}${links ? `<span class="pick-delisted-src">${escapeHtml(t("delistedSource"))}${links}</span>` : ""}</p>`;
 }
 
+/** 掃描排除的已下市／價格停住股票（latest.excludedFromScan）：一行白話＋官方來源。 */
+function excludedFromScanNote(data, market) {
+  const items = (data?.excludedFromScan?.items || []).filter((x) => x && x.market === market);
+  if (!items.length) return "";
+  const list = items
+    .map((x) => {
+      if (x.status === "delisted") {
+        const ca = pickDelisted.get(String(x.ticker || "").toUpperCase());
+        return t("excludedDelisted", { ticker: x.ticker, date: x.lastTradingDate || x.lastBarDate || "", acquirer: ca?.acquirer || ca?.acquirerTicker || "—" });
+      }
+      if (x.status === "stale") return t("excludedStale", { ticker: x.ticker, date: x.lastBarDate || "", n: String(x.sessionsBehind ?? "") });
+      return t("excludedFrozen", { ticker: x.ticker, n: String(x.frozenSessions ?? x.sessionsBehind ?? "") });
+    })
+    .join(t("listSep"));
+  const links = items
+    .flatMap((x) => x.sources || [])
+    .filter((x) => /^https:\/\//.test(x?.url || ""))
+    .map((x) => `<a href="${escapeHtml(x.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(x.label || x.url)}</a>`)
+    .join("、");
+  return `<p class="pick-excluded-note" role="note">${escapeHtml(t("pickExcludedNote", { n: String(items.length), list }))}${links ? ` <span class="pick-delisted-src">${escapeHtml(t("delistedSource"))}${links}</span>` : ""}</p>`;
+}
+
 function delistedPriceHtml(s, ca) {
   return `<span class="pick-delisted-price">${fmtPrice(s.price, s.currency)}</span><span class="pick-delisted-last">${escapeHtml(t("pickDelistedLast", { date: ca.lastTradingDate || "" }))}</span>`;
 }
@@ -912,6 +934,7 @@ function renderApp(data, paper) {
               </table>
             </div>
             <div class="mobile-list">${mobileCards(us)}</div>
+            ${excludedFromScanNote(data, "US")}
           </section>
         </div>
         <div class="panel" id="panel-tw" role="tabpanel">
@@ -928,6 +951,7 @@ function renderApp(data, paper) {
               </table>
             </div>
             <div class="mobile-list">${mobileCards(tw)}</div>
+            ${excludedFromScanNote(data, "TW")}
           </section>
         </div>
       </div>

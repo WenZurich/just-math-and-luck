@@ -65,6 +65,7 @@ function reasonLabel(code) {
     "momentum-break": t("reasonMomentumBreak"),
     "off-list": t("reasonOffList"),
     "limit-up-chase": t("reasonLimitUpChase"),
+    "merger-conversion": t("reasonMergerConversion"),
   };
   return map[code] || code || "";
 }
@@ -154,12 +155,13 @@ function tradeRows(trades, currency) {
         isFiniteNumber(rp.avgCost)
           ? `<div class="rp-cost">${escapeHtml(t("avgCost"))} ${fmtPrice(rp.avgCost, currency)}</div>`
           : "";
+      const cv = isConvert(row) ? row.conversion : null;
       return `
-      <tr>
+      <tr${cv ? ' class="trade-row--convert"' : ""}>
         <td><span class="ticker">${escapeHtml(row.ticker)}</span></td>
         <td class="name-cell">${escapeHtml(row.name || "")}</td>
         <td class="num">${row.qty?.toLocaleString(numberLocale())}</td>
-        <td class="num">${fmtPrice(row.price, currency)}</td>
+        <td class="num"${cv ? ` title="${escapeHtml(t("convertValuePer", { value: fmtPrice(row.price, currency) }))}"` : ""}>${fmtPrice(row.price, currency)}</td>
         <td class="num ${rp.cls}">${rp.html}${costHint}</td>
         <td><span class="badge reason ${escapeHtml(row.reason || "")}">${escapeHtml(reasonLabel(row.reason))}</span></td>
         <td class="why-cell"${row.reasonText && reasonDetail(row) !== row.reasonText ? ` title="${escapeHtml(row.reasonText)}"` : ""}>${escapeHtml(reasonDetail(row))}</td>
@@ -177,7 +179,7 @@ function dayPnlOf(p) {
 // 每檔持股的市價從哪來：當天選股名單（scan）、補抓的同時段收盤（paper-quotes 的 quotes），
 // 或當天抓不到（missing：市價沿用上次、當天不買賣）。資料來自 paper-quotes/<台北日期>.json。
 // 已下市（例如被併購）：官方公告的最後交易日早於帳本日期 → 標「已下市」並說明換股條件。
-// 只顯示，帳本數字不動（paper-trade 目前沒有併購規則）。
+// paper-trade 在生效後第一次掃描會照官方條件換股（CONVERT），之後就不會再持有這檔。
 function delistingOf(ticker, held) {
   const ca = (held?.corporateActions || []).find((a) => a.ticker === ticker);
   if (!ca || !ca.lastTradingDate || !held.asOfDate || ca.lastTradingDate >= held.asOfDate) return null;
@@ -324,7 +326,31 @@ const REASON_PLAIN = {
   "持續買進：仍在名單且未滿 8% 權益上限": "reasonPlainAdd",
 };
 
+/** Merger conversion rows (side CONVERT): booked event, not a normal sell. */
+function isConvert(row) {
+  return String(row?.side || "").toUpperCase() === "CONVERT" && row?.conversion && typeof row.conversion === "object";
+}
+
+function convertFillText(row, currency) {
+  const c = row.conversion;
+  return t("convertFill", {
+    qty: (row.qty ?? 0).toLocaleString(numberLocale()),
+    cash: fmtMoney(c.cashTotal, currency),
+    whole: (c.wholeShares ?? 0).toLocaleString(numberLocale()),
+    into: c.acquirerTicker || "",
+  });
+}
+
 export function reasonDetail(row) {
+  if (isConvert(row)) {
+    const c = row.conversion;
+    return t("convertFill", {
+      qty: (row.qty ?? 0).toLocaleString(numberLocale()),
+      cash: fmtMoney(c.cashTotal, row.currency || (/\.(TW|TWO)$/i.test(row.ticker || "") ? "TWD" : "USD")),
+      whole: (c.wholeShares ?? 0).toLocaleString(numberLocale()),
+      into: c.acquirerTicker || "",
+    });
+  }
   const raw = String(row?.reasonText || "").trim();
   if (!raw) return "";
   const key = REASON_PLAIN[raw];
@@ -340,20 +366,21 @@ function tradeCards(trades, currency) {
   }
   return trades
     .map((row) => {
-      const isSell = String(row.side || "").toUpperCase() === "SELL";
-      const side = isSell ? t("sell") : t("buy");
+      const conv = isConvert(row);
+      const isSell = String(row.side || "").toUpperCase() === "SELL" || conv;
+      const side = conv ? t("convertTitle") : isSell ? t("sell") : t("buy");
       const rp = realizedCell(row, currency);
-      const detail = reasonDetail(row);
+      const detail = conv ? t("convertValuePer", { value: fmtPrice(row.price, currency) }) : reasonDetail(row);
       const raw = String(row.reasonText || "");
       const costLine =
         isSell && isFiniteNumber(rp.avgCost)
           ? `<span class="pc-cost">${escapeHtml(t("avgCost"))} ${fmtPrice(rp.avgCost, currency)}</span>`
           : "";
       return `
-      <div class="list-card paper-card">
+      <div class="list-card paper-card${conv ? " paper-card--convert" : ""}">
         <div class="pc-row">
           <span class="pc-id"><span class="ticker">${escapeHtml(row.ticker)}</span><span class="pc-name">${escapeHtml(row.name || "")}</span></span>
-          <span class="pc-fill">${escapeHtml(side)} ${row.qty?.toLocaleString(numberLocale())} ${escapeHtml(t("shares"))} <span class="pc-at">@</span> ${fmtPrice(row.price, currency)}</span>
+          <span class="pc-fill">${conv ? `${escapeHtml(side)} ${escapeHtml(convertFillText(row, currency))}` : `${escapeHtml(side)} ${row.qty?.toLocaleString(numberLocale())} ${escapeHtml(t("shares"))} <span class="pc-at">@</span> ${fmtPrice(row.price, currency)}`}</span>
         </div>
         <div class="pc-row pc-row--sub">
           <span class="pc-why"><span class="badge reason ${escapeHtml(row.reason || "")}">${escapeHtml(reasonLabel(row.reason))}</span>${detail ? ` <span class="pc-detail"${raw && raw !== detail ? ` title="${escapeHtml(raw)}"` : ""}>${escapeHtml(detail)}</span>` : ""}</span>
@@ -423,8 +450,9 @@ function renderTradeHistory(all, currency, asOfDate) {
   const groups = days
     .map(([date, trades], i) => {
       const buys = trades.filter((tr) => String(tr.side || "").toUpperCase() === "BUY").length;
-      const sells = trades.length - buys;
-      const sellRows = trades.filter((tr) => String(tr.side || "").toUpperCase() === "SELL");
+      const converts = trades.filter((tr) => String(tr.side || "").toUpperCase() === "CONVERT").length;
+      const sells = trades.length - buys - converts;
+      const sellRows = trades.filter((tr) => ["SELL", "CONVERT"].includes(String(tr.side || "").toUpperCase()));
       const agg = sellRows.length ? sumSellRealizedPnl(sellRows) : null;
       const pnl =
         agg && agg.ok
@@ -434,7 +462,7 @@ function renderTradeHistory(all, currency, asOfDate) {
       <details class="trade-day"${i === 0 && date !== asOfDate ? " open" : ""}>
         <summary>
           <span class="th-date">${escapeHtml(date)}</span>
-          <span class="th-count">${escapeHtml(t("histDayCount", { b: String(buys), s: String(sells) }))}</span>
+          <span class="th-count">${escapeHtml(t("histDayCount", { b: String(buys), s: String(sells) }))}${converts ? ` · ${escapeHtml(t("histDayConvert", { n: String(converts) }))}` : ""}</span>
           ${pnl}
         </summary>
         <div class="table-wrap">
@@ -499,6 +527,7 @@ function delistedNote(ca, pos) {
   const ledger = t("delistedLedger", {
     mark: fmtPrice(pos?.mark ?? ca.lastClose, ccy),
     last: shortDate(ca.lastTradingDate),
+    into: ca.acquirerTicker || "",
   });
   return `<div class="pos-ca-note" role="note">
       <p class="pos-ca-title"><strong>${escapeHtml(t("delistedTitle", { ticker: ca.ticker }))}</strong></p>
@@ -542,6 +571,85 @@ function renderPosTable(positions, currency, positionsValue, held) {
     </div>`;
 }
 
+const srcLinksHtml = (list) =>
+  (list || [])
+    .filter((s) => /^https:\/\//.test(s?.url || ""))
+    .map((s) => `<a href="${escapeHtml(s.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(s.label || s.url)}</a>`)
+    .join("、");
+
+/**
+ * 公司行動（併購換股）白話說明：每筆 CONVERT 事件一張卡，寫清楚換到多少現金、多少股、
+ * 零股怎麼折現、實現損益，以及換到的股票後來怎麼處理（照一般賣出規則）。數字全部來自帳本。
+ */
+function renderCorpEvents(book, currency) {
+  const trades = book.trades || [];
+  const events = trades.filter(isConvert);
+  if (!events.length) return "";
+  const cards = events
+    .slice()
+    .reverse()
+    .map((ev) => {
+      const c = ev.conversion;
+      const ca = { ticker: ev.ticker, acquirer: c.acquirer || c.acquirerTicker };
+      const body = t("caEventBody", {
+        ticker: ev.ticker,
+        acquirer: ca.acquirer,
+        eff: c.effectiveSession,
+        date: ev.date,
+        qty: (ev.qty ?? 0).toLocaleString(numberLocale()),
+        cashPer: fmtPrice(c.cashPerShare, currency),
+        ratio: String(c.sharesPerShare),
+        into: c.acquirerTicker,
+        cash: fmtMoney(c.cashConsideration, currency),
+        whole: (c.wholeShares ?? 0).toLocaleString(numberLocale()),
+        frac: String(c.fractionalShares),
+        px: fmtPrice(c.acquirerPrice, currency),
+        cil: fmtMoney(c.cashInLieu, currency),
+      });
+      const pnl = t("caEventPnl", {
+        value: fmtMoney(c.considerationValue, currency),
+        per: fmtPrice(ev.price, currency),
+        cost: fmtMoney(c.costBasis, currency),
+        pnl: fmtSignedMoney(ev.realizedPnl, currency),
+      });
+      const later = trades.filter((tr) => tr.ticker === c.acquirerTicker && tr.date >= ev.date && String(tr.side).toUpperCase() === "SELL");
+      const stillHeld = (book.positions || []).find((p) => p.ticker === c.acquirerTicker);
+      const follow = later
+        .map((s) =>
+          t("caEventFollowSold", {
+            into: c.acquirerTicker,
+            date: s.date,
+            rule: reasonLabel(s.reason),
+            qty: (s.qty ?? 0).toLocaleString(numberLocale()),
+            price: fmtPrice(s.price, currency),
+            pnl: fmtSignedMoney(s.realizedPnl, currency),
+          })
+        )
+        .concat(stillHeld ? [t("caEventFollowHeld", { into: c.acquirerTicker, qty: (stillHeld.qty ?? 0).toLocaleString(numberLocale()) })] : [])
+        .join(" ");
+      const rs = c.restatement;
+      const restated = rs ? t("caEventRestated", { restatedOn: rs.restatedOn, ticker: ev.ticker, from: rs.fromDate }) : "";
+      const off = srcLinksHtml(c.sources);
+      const px = srcLinksHtml(c.priceSources);
+      return `
+      <div class="pos-ca-note paper-ca-event" role="note" data-ca-id="${escapeHtml(ev.corporateActionId || "")}">
+        <p class="pos-ca-title"><strong>${escapeHtml(ev.ticker)} → ${escapeHtml(c.acquirerTicker)}</strong> <span class="badge reason merger-conversion">${escapeHtml(t("reasonMergerConversion"))}</span> <span class="ca-pnl ${pctClass(ev.realizedPnl)}">${fmtSignedMoney(ev.realizedPnl, currency)}</span></p>
+        <p>${escapeHtml(body)}</p>
+        <p>${escapeHtml(pnl)}</p>
+        ${follow ? `<p>${escapeHtml(follow)}</p>` : ""}
+        ${restated ? `<p class="ca-restated">${escapeHtml(restated)}</p>` : ""}
+        ${off ? `<p class="pos-ca-src">${escapeHtml(t("delistedSource"))}${off}</p>` : ""}
+        ${px ? `<p class="pos-ca-src">${escapeHtml(t("caEventPriceSrc"))}${px}</p>` : ""}
+      </div>`;
+    })
+    .join("");
+  return `
+    <div class="paper-table-block paper-ca-events">
+      <h4>${escapeHtml(t("caEventsTitle"))}</h4>
+      ${cards}
+    </div>`;
+}
+
 function renderBookPanel(id, book, metrics, asOfDate, active, startDate, held) {
   if (!book) return "";
   const currency = book.currency;
@@ -551,6 +659,7 @@ function renderBookPanel(id, book, metrics, asOfDate, active, startDate, held) {
   const today = all.filter((tr) => tr.date === asOfDate);
   const todayBuys = today.filter((tr) => tr.side === "BUY");
   const todaySells = today.filter((tr) => tr.side === "SELL");
+  const todayConverts = today.filter((tr) => tr.side === "CONVERT");
   const inception = startDate || book.startDate || "2026-09-15";
   return `
     <div class="paper-panel ${active ? "active" : ""}" id="paper-panel-${id}" role="tabpanel"
@@ -560,6 +669,8 @@ function renderBookPanel(id, book, metrics, asOfDate, active, startDate, held) {
       <p class="paper-session-note">${escapeHtml(t("paperSession", { date: asOfDate || "—", inception }))}</p>
       ${renderTradeTable(`${t("buy")} ${asOfDate || ""}`, todayBuys, currency)}
       ${renderTradeTable(`${t("sell")} ${asOfDate || ""}`, todaySells, currency, { showSessionRealized: true })}
+      ${todayConverts.length ? renderTradeTable(`${t("convertTitle")} ${asOfDate || ""}`, todayConverts, currency) : ""}
+      ${renderCorpEvents(book, currency)}
       ${renderPosTable(book.positions || [], currency, book.positionsValue, held)}
       ${renderTradeHistory(all, currency, asOfDate)}
     </div>`;
@@ -612,6 +723,7 @@ export function renderPaperSection(paper) {
           <li>${escapeHtml(t("paperRuleUs"))}</li>
           <li>${escapeHtml(t("paperRuleBuy"))}</li>
           <li>${escapeHtml(t("paperRuleSell"))}</li>
+          <li>${escapeHtml(t("paperRuleCorp"))}</li>
           <li>${escapeHtml(t("paperRuleOpt"))}</li>
           <li>${escapeHtml(t("paperRuleTxf"))}</li>
         </ul>

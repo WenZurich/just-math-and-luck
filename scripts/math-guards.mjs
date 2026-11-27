@@ -750,6 +750,15 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
   for (const [mid, book] of Object.entries(folio.books || {})) {
     let sum = 0;
     for (const tr of book.trades || []) {
+      if (tr.side === "CONVERT") {
+        // merger conversion: realized = consideration value − cost basis (cents), counted in the book total
+        const c = tr.conversion || {};
+        assert(pdFinite(tr.realizedPnl) && pdFinite(c.considerationValue) && pdFinite(c.costBasis), `${mid} ${tr.ticker} CONVERT fields finite`);
+        assert(approx(c.considerationValue - c.costBasis, tr.realizedPnl, 0.005), `${mid} ${tr.ticker} CONVERT realized = value − cost`);
+        assert(approx(c.costBasis, tr.qty * tr.avgCostAtSale, 0.01), `${mid} ${tr.ticker} CONVERT cost basis = qty × avgCostAtSale`);
+        sum += tr.realizedPnl;
+        continue;
+      }
       if (tr.side !== "SELL") continue;
       assert(pdFinite(tr.realizedPnl), `${mid} ${tr.ticker} ${tr.date} realizedPnl finite`);
       assert(pdFinite(tr.price) && pdFinite(tr.qty) && tr.qty > 0, `${mid} sell qty/price ok`);
@@ -807,6 +816,16 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
         const nAvg = avgCostAfterBuy(s.qty, s.avg, tr.qty, tr.price);
         assert(nAvg != null, `${mid} ${tr.ticker} ${tr.date} replay buy in-domain`);
         s.avg = nAvg; s.qty += tr.qty;
+      } else if (tr.side === "CONVERT") {
+        // source lot leaves the book in full; the acquirer lot opens at the effective-date close
+        if (s && s.complete) assert(approx(s.qty, tr.qty, 1e-9) && approx(s.avg, tr.avgCostAtSale, 0.006), `${mid} ${tr.ticker} CONVERT qty/avg = replayed lot`);
+        st.delete(tr.ticker);
+        const c = tr.conversion || {};
+        if (c.wholeShares > 0) {
+          let a = st.get(c.acquirerTicker);
+          if (!a) { a = { qty: 0, avg: null, complete: true }; st.set(c.acquirerTicker, a); }
+          a.avg = avgCostAfterBuy(a.qty, a.avg, c.wholeShares, c.acquirerPrice); a.qty += c.wholeShares;
+        }
       } else if (tr.side === "SELL") {
         if (!s) { st.set(tr.ticker, { qty: 0, avg: null, complete: false }); continue; }
         if (s.complete && tr.avgCostAtSale != null) {
@@ -854,7 +873,7 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
     for (const tr of trades) assert(fin(tr.qty) && tr.qty > 0 && fin(tr.price) && tr.price > 0, `${mid} ${tr.ticker} ${tr.date} trade qty/price > 0`);
     if (trades.length < 400) {
       let c = book.startCash;
-      for (const tr of trades) c += tr.side === "BUY" ? -tr.qty * tr.price : tr.side === "SELL" ? tr.qty * tr.price : 0;
+      for (const tr of trades) c += tr.side === "BUY" ? -tr.qty * tr.price : tr.side === "SELL" ? tr.qty * tr.price : tr.side === "CONVERT" ? tr.conversion.cashTotal : 0;
       assert(approx(c, book.cash, 0.01 * Math.max(1, trades.length)), `${mid} cash ledger replay ${c} = cash ${book.cash}`);
       n++;
     }
@@ -1251,6 +1270,7 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
     for (const [id, book] of Object.entries(pp.books || {})) {
       let sum = 0;
       for (const tr of book.trades || []) {
+        if (String(tr.side).toUpperCase() === "CONVERT") { sum += tr.realizedPnl; continue; } // checked in the merger block
         if (String(tr.side).toUpperCase() !== "SELL") continue;
         for (const k of ["price", "qty", "avgCostAtSale", "realizedPnl"]) {
           if (!isFiniteNumber(tr[k])) fail(`paper ${id} SELL ${tr.ticker} ${tr.date}: ${k} not finite`);
@@ -2213,7 +2233,9 @@ assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) ===
     try { raw = JSON.parse(readFileSync(rawPath, "utf8")); } catch { /* CI / fresh box: dump absent */ }
     const sameScan = raw && Math.abs(Date.parse(raw.fetched_at_utc) - Date.parse(latest.asOf)) < 6 * 3600e3;
     if (sameScan) {
-      for (const [mkt, uni] of [["us", "US"], ["tw", "TW"]]) { const v = breadthShare(raw.quotes.filter((q) => q.universe === uni), "above50"); n++; if (r4(v, 3) !== latest.marketRegime[mkt].features.breadthProxy) bad(`live ${mkt} breadth ${r4(v, 3)} ≠ published ${latest.marketRegime[mkt].features.breadthProxy}`); }
+      // names the scan's listing filter removed (delisted / stale) are not part of breadth
+      const gone = new Set([...(latest.excludedFromScan?.items || []).map((x) => x.ticker), ...raw.quotes.filter((q) => q.excludedFromScan).map((q) => q.symbol)]);
+      for (const [mkt, uni] of [["us", "US"], ["tw", "TW"]]) { const v = breadthShare(raw.quotes.filter((q) => q.universe === uni && !gone.has(q.symbol)), "above50"); n++; if (r4(v, 3) !== latest.marketRegime[mkt].features.breadthProxy) bad(`live ${mkt} breadth ${r4(v, 3)} ≠ published ${latest.marketRegime[mkt].features.breadthProxy}`); }
     }
     for (const mkt of ["us", "tw"]) { const F = latest.marketRegime?.[mkt]?.features; n++; if (!F) { bad(`live ${mkt} features missing`); continue; } if (F.prior10dDd != null && !(F.prior10dDd <= 0 && F.prior10dDd > -1)) bad(`live ${mkt} prior10dDd ${F.prior10dDd} out of (−1, 0]`); if (F.breadthProxy != null && !(F.breadthProxy >= 0 && F.breadthProxy <= 1)) bad(`live ${mkt} breadth out of [0,1]`); if (![true, false, null].includes(F.atrBottomQuartile)) bad(`live ${mkt} atrBottomQuartile not boolean/null`); }
   } catch (e) { bad(`live regime check: ${e.message}`); }
@@ -3221,6 +3243,143 @@ function techFromBars(bars) {
     fail(`us-options YoY live snapshot: ${e.message}`);
   }
   ok(`options true YoY trend (Apple seasonal counterexample, 4-quarter refusal, ±8% band, live ${nLiveYoy} series)`);
+}
+
+// ── Corporate actions (2026-11-27): merger conversion math, paper conversion identity, listing filter ──
+{
+  const { mergerConversion: mc, bookMarkValue: bmv } = await import("./math-core.mjs");
+  const { convertPosition, applyCorporateActions } = await import("./paper-corporate-actions.mjs");
+  const LS = await import("./listing-status.mjs");
+  let n = 0;
+  const bad = (m) => fail(`corporate actions: ${m}`);
+  const eqc = (a, b, tol = 0.005) => Math.abs(a - b) <= tol;
+  // 1) hand case = published ROKU → FOXA terms (8-K: $95.30 + 0.9799 FOXA; FOXA close 11/06 $66.64)
+  const R = mc({ qty: 56, avgCost: (54 * 154.67 + 2 * 156.33) / 56, cashPerShare: 95.3, sharesPerShare: 0.9799, acquirerPrice: 66.64 });
+  n++; if (!R || R.entitledShares !== 54.8744 || R.wholeShares !== 54 || R.fractionalShares !== 0.8744) bad(`ROKU entitlement ${JSON.stringify(R)}`);
+  n++; if (R.cashConsideration !== 5336.8 || R.cashInLieu !== 58.27 || R.cashTotal !== 5395.07 || R.stockValue !== 3598.56) bad(`ROKU cash legs ${JSON.stringify(R)}`);
+  n++; if (R.considerationValue !== 8993.63 || R.costBasis !== 8664.84 || R.realizedPnl !== 328.79 || R.newAvgCost !== 66.64) bad(`ROKU value/realized ${JSON.stringify(R)}`);
+  // 2) exact entitlement (BigInt oracle) + identities on random deals
+  let seed = 20261127;
+  const rnd = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
+  for (let i = 0; i < 20000; i++) {
+    const qty = 1 + Math.floor(rnd() * 20000);
+    const ratioMicro = Math.floor(rnd() * 3_000_000); // 0 … 3 shares, 6 dp
+    const ratio = ratioMicro / 1e6;
+    const cashPer = Math.round(rnd() * 20000) / 100;
+    if (ratioMicro === 0 && cashPer === 0) continue;
+    const px = 1 + Math.round(rnd() * 50000) / 100;
+    const avg = 1 + rnd() * 400;
+    const r = mc({ qty, avgCost: avg, cashPerShare: cashPer, sharesPerShare: ratio, acquirerPrice: px });
+    n++; if (!r) { bad(`random deal refused qty=${qty} ratio=${ratio}`); continue; }
+    const ent = BigInt(qty) * BigInt(Math.round(ratio * 1e6));
+    const whole = Number(ent / 1000000n), frac = Number(ent % 1000000n) / 1e6;
+    if (r.wholeShares !== whole || r.fractionalShares !== frac) bad(`entitlement ≠ BigInt oracle qty=${qty} ratio=${ratio}`);
+    if (!(r.fractionalShares >= 0 && r.fractionalShares < 1)) bad(`fraction out of [0,1)`);
+    if (!eqc(r.cashTotal, r.cashConsideration + r.cashInLieu) || !eqc(r.considerationValue, r.cashTotal + r.stockValue) || !eqc(r.costBasis + r.realizedPnl, r.considerationValue)) bad(`identity broken #${i}`);
+    if (!eqc(r.cashInLieu, roundHalfAway(frac * px, 2)) || !eqc(r.cashConsideration, roundHalfAway(qty * cashPer, 2))) bad(`cash legs #${i}`);
+    if (r.cashInLieu > px + 0.005) bad(`cash in lieu above one acquirer share #${i}`);
+  }
+  // 3) boundaries / units / refusals
+  { const r = mc({ qty: 10000, avgCost: 150, cashPerShare: 95.3, sharesPerShare: 0.9799, acquirerPrice: 66.64 }); n++; if (r.wholeShares !== 9799 || r.fractionalShares !== 0 || r.cashInLieu !== 0) bad(`integral entitlement must have no cash in lieu`); }
+  { const r = mc({ qty: 1, avgCost: 150, cashPerShare: 95.3, sharesPerShare: 0.9799, acquirerPrice: 66.64 }); n++; if (r.wholeShares !== 0 || r.fractionalShares !== 0.9799 || r.newAvgCost !== null || r.cashInLieu !== 65.3) bad(`1 share → all cash in lieu ${JSON.stringify(r)}`); }
+  { const r = mc({ qty: 7, avgCost: 10, cashPerShare: 12.5, sharesPerShare: 0, acquirerPrice: null }); n++; if (!r || r.considerationValue !== 87.5 || r.realizedPnl !== 17.5 || r.wholeShares !== 0) bad(`cash-only deal`); }
+  { const r = mc({ qty: 3, avgCost: 10, cashPerShare: 0, sharesPerShare: 2, acquirerPrice: 6 }); n++; if (!r || r.wholeShares !== 6 || r.considerationValue !== 36 || r.realizedPnl !== 6) bad(`stock-only deal`); }
+  { const a = mc({ qty: 100, avgCost: 10, cashPerShare: 1.23, sharesPerShare: 0.5, acquirerPrice: 8 }), b = mc({ qty: 200, avgCost: 10, cashPerShare: 1.23, sharesPerShare: 0.5, acquirerPrice: 8 }); n++; if (!eqc(b.considerationValue, 2 * a.considerationValue) || !eqc(b.realizedPnl, 2 * a.realizedPnl)) bad(`qty scaling`); }
+  for (const bad1 of [{ qty: 0 }, { qty: -1 }, { qty: 1.5 }, { avgCost: NaN }, { avgCost: 0 }, { cashPerShare: -1 }, { sharesPerShare: 0.12345678 }, { acquirerPrice: null }, { acquirerPrice: 0 }, { cashPerShare: 0, sharesPerShare: 0 }, { qty: "56" }]) {
+    n++; if (mc({ qty: 56, avgCost: 150, cashPerShare: 95.3, sharesPerShare: 0.9799, acquirerPrice: 66.64, ...bad1 }) !== null) bad(`not refused ${JSON.stringify(bad1)}`);
+  }
+  // 4) paper conversion on random books: equity_after = equity_before − qty·mark + consideration (cents); no double booking
+  const act = { id: "T-1", ticker: "SRC", market: "US", type: "merger", acquirer: "Acq", acquirerTicker: "ACQ", cashPerShare: 95.3, sharesPerShare: 0.9799, paperConversion: { effectiveSession: "2026-11-06", acquirerClose: 66.64 } };
+  for (let i = 0; i < 2000; i++) {
+    const qty = 1 + Math.floor(rnd() * 500), mark = 100 + Math.round(rnd() * 10000) / 100, avg = 100 + rnd() * 100;
+    const holdAcq = rnd() < 0.3;
+    const book = { market: "US", currency: "USD", cash: Math.round(rnd() * 1e6) / 100, realizedPnl: 0, trades: [],
+      positions: [{ ticker: "OTHER", qty: 10, avgCost: 50, mark: 55 }, { ticker: "SRC", qty, avgCost: avg, mark }, ...(holdAcq ? [{ ticker: "ACQ", qty: 7, avgCost: 60, mark: 66.64 }] : [])] };
+    const before = bmv(book.positions, book.cash).equity;
+    const t = convertPosition(book, act, { date: "2026-11-09", asOf: "x", recordTrade: (b, tr) => b.trades.push(tr) });
+    const after = bmv(book.positions, book.cash).equity;
+    n++;
+    if (!t || book.positions.some((p) => p.ticker === "SRC")) { bad(`conversion #${i} did not remove source`); continue; }
+    if (!(Math.abs(after - (before - qty * mark + t.conversion.considerationValue)) <= 0.011)) bad(`equity bridge #${i}`);
+    if (!eqc(book.realizedPnl, t.realizedPnl)) bad(`realized not booked #${i}`);
+    const acq = book.positions.find((p) => p.ticker === "ACQ");
+    const expQty = (holdAcq ? 7 : 0) + t.conversion.wholeShares;
+    if ((acq?.qty ?? 0) !== expQty) bad(`acquirer qty #${i}`);
+    if (holdAcq && acq && !eqc(acq.avgCost * acq.qty, 7 * 60 + t.conversion.wholeShares * 66.64, 1e-6)) bad(`acquirer blended cost #${i}`);
+    let threw = false; book.positions.push({ ticker: "SRC", qty: 1, avgCost: 1, mark: 1 });
+    try { convertPosition(book, act, { date: "2026-11-10", asOf: "y", recordTrade: () => {} }); } catch { threw = true; }
+    if (!threw) bad(`double conversion not refused #${i}`);
+  }
+  { // engine gate: before the effective session nothing happens; on/after it converts once; other market untouched
+    const mk = () => ({ market: "US", currency: "USD", cash: 0, realizedPnl: 0, trades: [], positions: [{ ticker: "SRC", qty: 56, avgCost: 150, mark: 160.52 }] });
+    const rec = (b, tr) => b.trades.push(tr);
+    let b = mk(); n++; if (applyCorporateActions(b, [act], { market: "US", closeDate: "2026-11-05", date: "2026-11-06", asOf: "a", recordTrade: rec }).length !== 0) bad(`converted before effective session`);
+    b = mk(); n++; if (applyCorporateActions(b, [act], { market: "TW", closeDate: "2026-11-09", date: "2026-11-09", asOf: "a", recordTrade: rec }).length !== 0) bad(`converted in the other market's book`);
+    b = mk(); n++; if (applyCorporateActions(b, [act], { market: "US", closeDate: "2026-11-06", date: "2026-11-09", asOf: "a", recordTrade: rec }).length !== 1 || b.cash !== 5395.07) bad(`no conversion on the effective session`);
+    b = mk(); n++; if (applyCorporateActions(b, [{ ...act, paperConversion: undefined }], { market: "US", closeDate: "2026-11-09", date: "2026-11-09", asOf: "a", recordTrade: rec }).length !== 0) bad(`converted without official price data`);
+  }
+  // 5) listing filter: holidays, half days, short halts, stale, frozen, delisted
+  const usSes = ["2026-11-16", "2026-11-17", "2026-11-18", "2026-11-19", "2026-11-20", "2026-11-23", "2026-11-24", "2026-11-25"]; // 11/26 Thanksgiving: no index bar
+  const chk = (o) => LS.listingCheck({ market: "US", sessionDates: usSes, actions: [], ...o });
+  n++; if (!chk({ ticker: "A", lastBarDate: "2026-11-25" }).ok) bad(`holiday 11/26 must not count`);
+  n++; if (!LS.listingCheck({ ticker: "A", market: "US", lastBarDate: "2026-11-27", sessionDates: [...usSes, "2026-11-27"] }).ok) bad(`half day 11/27 is a normal session`);
+  n++; if (!chk({ ticker: "A", lastBarDate: "2026-11-24" }).ok || chk({ ticker: "A", lastBarDate: "2026-11-24" }).sessionsBehind !== 1) bad(`1-day halt must be kept`);
+  n++; if (!chk({ ticker: "A", lastBarDate: "2026-11-23" }).ok) bad(`2-day halt must be kept`);
+  n++; { const r = chk({ ticker: "A", lastBarDate: "2026-11-20" }); if (r.ok || r.status !== "stale" || r.sessionsBehind !== 3) bad(`3 sessions behind must be stale ${JSON.stringify(r)}`); }
+  n++; { const r = chk({ ticker: "ROKU", lastBarDate: "2026-11-06" }); if (r.ok || r.status !== "stale") bad(`ROKU frozen 11/06 bar must be stale even without the official list`); }
+  const roku = { id: "x", ticker: "ROKU", market: "US", type: "merger", acquirer: "Fox Corporation", lastTradingDate: "2026-11-06", sources: [] };
+  n++; if (chk({ ticker: "ROKU", lastBarDate: "2026-11-06", actions: [roku] }).status !== "delisted") bad(`official delisting not applied`);
+  n++; if (!LS.listingCheck({ ticker: "ROKU", market: "US", lastBarDate: "2026-11-06", sessionDates: ["2026-11-04", "2026-11-05", "2026-11-06"], actions: [roku] }).ok) bad(`last trading day itself is a real close`);
+  n++; if (!LS.listingCheck({ ticker: "ROKU", market: "TW", lastBarDate: "2026-11-25", sessionDates: usSes, actions: [roku] }).ok) bad(`delisting applied to the wrong market`);
+  const pad = (k, v) => usSes.slice(-k).map((d) => ({ date: d, c: 10, v }));
+  n++; if (chk({ ticker: "F", lastBarDate: "2026-11-25", recent: pad(5, 0) }).status !== "frozen") bad(`5 padded bars must be frozen`);
+  n++; if (!chk({ ticker: "F", lastBarDate: "2026-11-25", recent: pad(4, 0) }).ok) bad(`4 padded bars kept`);
+  n++; if (!chk({ ticker: "F", lastBarDate: "2026-11-25", recent: pad(6, 1200) }).ok) bad(`flat but traded must be kept`);
+  n++; if (!chk({ ticker: "F", lastBarDate: null }).ok || !chk({ ticker: "F", lastBarDate: "2026-11-25", sessionDates: [] }).ok) bad(`unjudgeable input must keep the name`);
+  n++; if (LS.sessionsBehind("2026-11-20", [...usSes, "2026-11-25"]) !== 3) bad(`duplicate session dates counted twice`);
+  { const panel = [["2026-11-24", "2026-11-25", "2026-11-27"], ["2026-11-24", "2026-11-25", "2026-11-27"], ["2026-11-24", "2026-11-25"], ["2026-11-25", "2026-11-26"]];
+    const d = LS.sessionDatesFromPanel(panel); n++; if (JSON.stringify(d) !== JSON.stringify(["2026-11-24", "2026-11-25", "2026-11-27"])) bad(`panel sessions ${d}`); }
+  { const st = [{ id: "s", hits: [{ ticker: "ROKU", market: "US", ohlcvBarDate: "2026-11-06" }, { ticker: "ZS", market: "US", ohlcvBarDate: "2026-11-25" }] }];
+    const r = LS.filterStrategyHits(st, { actions: [roku], sessionDatesByMarket: { US: usSes } }); n++; if (r.strategies[0].hits.length !== 1 || r.strategies[0].hits[0].ticker !== "ZS" || r.removed.length !== 1 || st[0].hits.length !== 2) bad(`strategy hit filter`); }
+  // 6) live data: no delisted / stale name anywhere in today's picks, strategy hits or paper positions
+  try {
+    const latest = JSON.parse(readFileSync(join(ROOT_MG, "public/data/latest.json"), "utf8"));
+    const acts = LS.loadCorporateActions(ROOT_MG);
+    const ses = { US: latest.usCloseDate, TW: latest.twCloseDate };
+    for (const s of [...(latest.us || []), ...(latest.tw || []), ...(latest.top5 || [])]) {
+      const mk = /\.(TW|TWO)$/i.test(s.ticker) ? "TW" : "US"; n++;
+      if (LS.delistingFor(acts, s.ticker, mk, ses[mk])) bad(`live pick ${s.ticker} is delisted as of ${ses[mk]}`);
+    }
+    const ex = new Set((latest.excludedFromScan?.items || []).map((x) => x.ticker));
+    for (const s of [...(latest.us || []), ...(latest.tw || []), ...(latest.top5 || [])]) { n++; if (ex.has(s.ticker)) bad(`excluded ${s.ticker} still listed`); }
+    const sp = JSON.parse(readFileSync(join(ROOT_MG, "public/data/strategy-screener.json"), "utf8"));
+    for (const st of sp.strategies || []) for (const h of st.hits || []) {
+      const mk = h.market || (/\.(TW|TWO)$/i.test(h.ticker) ? "TW" : "US"); n++;
+      if (LS.delistingFor(acts, h.ticker, mk, ses[mk])) bad(`live strategy ${st.id} hit ${h.ticker} is delisted`);
+    }
+    const folio = JSON.parse(readFileSync(join(ROOT_MG, "public/data/paper-portfolio.json"), "utf8"));
+    let nConv = 0;
+    for (const [mk, book] of Object.entries(folio.books || {})) {
+      for (const a of acts.filter((x) => x.market === mk && x.paperConversion)) {
+        n++; if (ses[mk] && ses[mk] >= a.paperConversion.effectiveSession && book.positions.some((p) => p.ticker === a.ticker)) bad(`live ${mk} still holds ${a.ticker} after its merger took effect`);
+      }
+      for (const tr of (book.trades || []).filter((x) => x.side === "CONVERT")) {
+        nConv++;
+        const c = tr.conversion, a = acts.find((x) => x.id === tr.corporateActionId);
+        n++; if (!a) { bad(`CONVERT ${tr.ticker} has no corporate action`); continue; }
+        const ent = BigInt(tr.qty) * BigInt(Math.round(a.sharesPerShare * 1e6));
+        n++; if (c.wholeShares !== Number(ent / 1000000n) || c.fractionalShares !== Number(ent % 1000000n) / 1e6) bad(`live CONVERT entitlement`);
+        n++; if (c.acquirerPrice !== a.paperConversion.acquirerClose || c.cashPerShare !== a.cashPerShare || c.sharesPerShare !== a.sharesPerShare) bad(`live CONVERT terms ≠ corporate-actions.json`);
+        n++; if (c.cashConsideration !== roundHalfAway(tr.qty * a.cashPerShare, 2) || c.cashInLieu !== roundHalfAway(c.fractionalShares * c.acquirerPrice, 2) || c.stockValue !== roundHalfAway(c.wholeShares * c.acquirerPrice, 2)) bad(`live CONVERT cash legs`);
+        n++; if (!eqc(c.considerationValue, c.cashTotal + c.stockValue) || !eqc(c.cashTotal, c.cashConsideration + c.cashInLieu) || !eqc(c.costBasis + tr.realizedPnl, c.considerationValue)) bad(`live CONVERT identities`);
+        n++; if (!eqc(c.equityDelta, c.considerationValue - c.markValueBefore) || !eqc(c.markValueBefore, tr.qty * c.lastMarkBefore)) bad(`live CONVERT equity bridge`);
+        n++; if (!eqc(tr.price * tr.qty, c.considerationValue, 0.01)) bad(`live CONVERT value per share × qty ≠ consideration`);
+      }
+      for (const r of book.dailyEquity || []) { n++; if (!eqc(r.equity, roundHalfAway(r.cash + r.positionsValue, 2), 0.011)) bad(`live ${mk} dailyEquity ${r.date} equity ≠ cash + positionsValue`); }
+    }
+    n++; if (!nConv) bad(`live ledger has no CONVERT event (ROKU → FOXA expected)`);
+  } catch (e) { bad(`live corporate-action check: ${e.message}`); }
+  ok(`corporate actions (${n} cases: ROKU→FOXA hand case 56 sh → US$5,336.80 + 54 FOXA + 0.8744 sh cash-in-lieu US$58.27, realized +US$328.79; 20000 random deals = BigInt entitlement oracle, cents identities value = cash + stock, cost + realized = value, cash-in-lieu < 1 share; integral / 1-share / cash-only / stock-only / qty scaling; 11 refusals; 2000 random books equity bridge to the cent, acquirer blend, double-booking refused; engine date gate & market; listing filter holiday / half day / 1–2-day halt kept, 3 sessions stale, ROKU stale w/o list, delisted, last-day kept, wrong market, frozen 5 vs 4, flat-but-traded kept, unjudgeable kept, panel sessions, strategy-hit filter; live picks / strategy hits / positions / CONVERT terms & identities / dailyEquity)`);
 }
 
 console.log("——");

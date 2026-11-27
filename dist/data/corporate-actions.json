@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-11-10",
-  "note": "Display-only corporate actions for paper-book holdings (official sources only). Does not change paper-portfolio.json or any picking math; the paper engine has no merger rule yet, so a delisted holding keeps its last official close as mark and is not traded.",
+  "asOf": "2026-11-27",
+  "note": "Official corporate actions (merger / delisting). Used by (1) the daily scan: a ticker whose lastTradingDate is before the market's latest session is excluded before scoring; (2) the paper ledger: a held position is converted per paperConversion on the first scan whose market close date ≥ effectiveSession (cash + whole acquirer shares + cash in lieu of the fraction at the acquirer's official close on the effective date). Prices come from public sources listed per action; nothing is estimated.",
   "actions": [
     {
       "ticker": "ROKU",
@@ -16,9 +16,34 @@
       "sharesPerShare": 0.9799,
       "currency": "USD",
       "sources": [
-        { "label": "Nasdaq Equity Corporate Actions Alert #2026-806", "url": "https://www.nasdaqtrader.com/TraderNews.aspx?id=eca2026-806" },
-        { "label": "SEC Form 8-K (Roku, 2026-11-06)", "url": "https://www.sec.gov/Archives/edgar/data/1428439/000119312526451874/d181620d8k.htm" }
-      ]
+        {
+          "label": "Nasdaq Equity Corporate Actions Alert #2026-806",
+          "url": "https://www.nasdaqtrader.com/TraderNews.aspx?id=eca2026-806"
+        },
+        {
+          "label": "SEC Form 8-K (Roku, 2026-11-06)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1428439/000119312526451874/d181620d8k.htm"
+        }
+      ],
+      "id": "ROKU-FOXA-2026-11-06",
+      "acquirerName": "Fox Corp Class A",
+      "paperConversion": {
+        "effectiveSession": "2026-11-06",
+        "acquirerClose": 66.64,
+        "acquirerCloseDate": "2026-11-06",
+        "acquirerCloseSources": [
+          {
+            "label": "Yahoo Finance FOXA daily close 2026-11-06 (regular session)",
+            "url": "https://finance.yahoo.com/quote/FOXA/history/"
+          },
+          {
+            "label": "Nasdaq FOXA historical quotes (Close/Last 11/06/2026 $66.64)",
+            "url": "https://www.nasdaq.com/market-activity/stocks/foxa/historical"
+          }
+        ],
+        "cashInLieuBasis": "fractional FOXA entitlement × FOXA official close on the effective date (the 8-K says cash in lieu is paid per the Merger Agreement; the agreement's exact averaging formula is not applied here)",
+        "fractionalPolicy": "whole FOXA shares only; the fraction is paid in cash"
+      }
     }
   ]
 }

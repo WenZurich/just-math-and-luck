@@ -1858,7 +1858,8 @@ async function main() {
       if (!mapped.size) errs.push("REASON_PLAIN map missing");
       const pp = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/paper-portfolio.json"), "utf8"));
       const texts = new Set();
-      for (const b of Object.values(pp.books || {})) for (const tr of b.trades || []) if (tr.reasonText) texts.add(tr.reasonText);
+      // CONVERT (merger) rows render their own plain copy from tr.conversion (4 locales), not REASON_PLAIN.
+      for (const b of Object.values(pp.books || {})) for (const tr of b.trades || []) if (tr.reasonText && tr.side !== "CONVERT") texts.add(tr.reasonText);
       // A new rule sentence from paper-trade.mjs still renders (label prefix stripped), so only note it.
       for (const tx of texts) if (!mapped.has(tx)) console.log(`NOTE: ledger reasonText has no plain copy yet (shown as-is): ${tx}`);
       for (const f of ["src/i18n.js", "src/i18n/en.js", "src/i18n/zh-Hans.js", "src/i18n/ja.js"]) {
@@ -2613,6 +2614,50 @@ async function main() {
     await Promise.all([raceMod.setLang("ja"), raceMod.setLang("en")]);
     if (raceMod.getLang() !== "en") fail(`i18n rapid switch ja→en ended on ${raceMod.getLang()}`);
     else ok("i18n rapid language switch: last pick wins");
+  }
+
+  // —— 2026-11-27: merger conversion (CONVERT) + scan exclusion of delisted names, rendered in 4 locales ——
+  {
+    const errs = [];
+    const i18nPlain = await import(pathToFileURL(path.join(ROOT, "src/i18n.js")).href);
+    const paperMod = await import(pathToFileURL(path.join(ROOT, "src/paper.js")).href);
+    const pp = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/paper-portfolio.json"), "utf8"));
+    pp.corporateActions = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/corporate-actions.json"), "utf8"));
+    const conv = Object.values(pp.books).flatMap((b) => (b.trades || []).filter((tr) => tr.side === "CONVERT"));
+    if (!conv.length) errs.push("ledger has no CONVERT event");
+    const keys = ["reasonMergerConversion", "convertFill", "convertValuePer", "convertTitle", "histDayConvert", "caEventsTitle", "caEventBody", "caEventPnl", "caEventFollowSold", "caEventFollowHeld", "caEventRestated", "caEventPriceSrc", "pickExcludedNote", "excludedDelisted", "excludedStale", "excludedFrozen", "paperRuleCorp"];
+    const seen = new Set();
+    for (const lang of ["zh-Hant", "en", "zh-Hans", "ja"]) {
+      if (lang !== "zh-Hant") await i18nPlain.ensureLang(lang);
+      await i18nPlain.setLang(lang);
+      for (const k of keys) if (i18nPlain.t(k) === k) errs.push(`${lang}: ${k} missing`);
+      const html = paperMod.renderPaperSection(pp);
+      const ca = html.slice(html.indexOf('class="paper-table-block paper-ca-events"'));
+      if (!/paper-ca-events/.test(html)) { errs.push(`${lang}: no 公司行動 block`); continue; }
+      const block = ca.slice(0, ca.indexOf("</div>\n    </div>") + 1 || 4000);
+      for (const c of conv) {
+        const cc = c.conversion;
+        for (const needle of [`${c.ticker} → ${cc.acquirerTicker}`, "5,336.80", "58.27", "8,993.63", "8,664.84", "328.79", String(cc.fractionalShares)]) {
+          if (!ca.includes(needle)) errs.push(`${lang}: 公司行動 block missing ${needle}`);
+        }
+      }
+      if (/\{[a-zA-Z]+\}/.test(block)) errs.push(`${lang}: unreplaced placeholder in 公司行動 block`);
+      if (/style="/.test(block)) errs.push(`${lang}: inline style in 公司行動 block`);
+      if (!/paper-card--convert/.test(html)) errs.push(`${lang}: CONVERT trade card missing in history`);
+      seen.add(i18nPlain.t("caEventsTitle"));
+    }
+    await i18nPlain.setLang("zh-Hant");
+    if (seen.size !== 4) errs.push(`公司行動 title not localized (${seen.size}/4 distinct)`);
+    const mainSrc = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+    if ((mainSrc.match(/\$\{excludedFromScanNote\(data, "(US|TW)"\)\}/g) || []).length !== 2) errs.push("今日選股 should show the scan-exclusion note under both lists");
+    const lj = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/latest.json"), "utf8"));
+    if (lj.excludedFromScan && !Array.isArray(lj.excludedFromScan.items)) errs.push("latest.excludedFromScan.items must be an array");
+    const pt = fs.readFileSync(path.join(ROOT, "scripts/paper-trade.mjs"), "utf8");
+    if (!/applyCorporateActions\(book, loadCorporateActions\(ROOT\)/.test(pt)) errs.push("paper-trade must apply corporate actions before marking");
+    const ds = fs.readFileSync(path.join(ROOT, "scripts/daily-scan.mjs"), "utf8");
+    if (!/applyListingFilter\(\{/.test(ds) || ds.indexOf("applyListingFilter({") > ds.indexOf("breadthShare(usMetrics")) errs.push("daily-scan must apply the listing filter before breadth / scoring");
+    if (errs.length) fail(`corporate actions UI/wiring: ${errs.join("; ")}`);
+    else ok(`corporate actions: ${conv.length} CONVERT event(s) explained in plain words x4 locales (cash, shares, cash in lieu, realized, follow-up), history card, scan-exclusion note, engine + scan wiring`);
   }
 
   if (errors.length) {

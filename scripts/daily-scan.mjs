@@ -8,7 +8,8 @@ import { fetchUs10yHistory } from "./us10y.mjs";
 import { buildTimezoneNote, closeLabel } from "./timezone-note.mjs";
 import { writeFileSync, mkdirSync, existsSync, readFileSync, copyFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { filterListed, loadCorporateActions, STALE_MIN_SESSIONS, FROZEN_MIN_SESSIONS } from "./listing-status.mjs";
 import {
   indexFeaturesFromChart,
   seriesDelta,
@@ -41,7 +42,7 @@ const STUDY = "/workspace/stock-ops-study";
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
 
-const US_UNIVERSE = [
+export const US_UNIVERSE = [
   ["AAPL", "Apple", "消費電子／服務與手機生態系。"],
   ["AMD", "Advanced Micro Devices", "CPU／GPU 與資料中心加速晶片。"],
   ["AMZN", "Amazon", "電商、雲端 AWS 與廣告。"],
@@ -76,7 +77,7 @@ const US_UNIVERSE = [
   ["APP", "AppLovin", "行動廣告與應用變現平台。"],
 ];
 
-const TW_UNIVERSE = [
+export const TW_UNIVERSE = [
   ["1303.TW", "南亞", "塑膠／電子材料與化工業。"],
   ["2303.TW", "聯電", "成熟製程晶圓代工。"],
   ["2308.TW", "台達電", "電源、散熱、工控與資料中心電力解決方案。"],
@@ -385,6 +386,123 @@ function toPick(m, meta, indexDayPct, market, regime = null) {
   return pick;
 }
 
+/**
+ * Score → shortlist → picks → cross-market top5 (unchanged math; moved out of main so a stored
+ * scan can be re-selected offline, e.g. after a listing-status fix). Metrics must already be
+ * listing-filtered.
+ */
+export function selectPicks({ usMetrics, twMetrics, usMeta, twMeta, spxIdx, twIdx, marketRegime }) {
+  // Score and select (weights by cycleStance)
+  const usScored = usMetrics
+    .map((m) => ({
+      m,
+      score: scorePick(m, spxIdx, { regime: marketRegime.us }),
+      screens: screensFor(m, spxIdx, { regime: marketRegime.us }),
+    }))
+    .sort((a, b) => b.score - a.score);
+
+  const twScored = twMetrics
+    .map((m) => ({
+      m,
+      score: scorePick(m, twIdx, { regime: marketRegime.tw }),
+      screens: screensFor(m, twIdx, { regime: marketRegime.tw }),
+    }))
+    .sort((a, b) => b.score - a.score);
+
+  const usPass = usScored.filter((x) => x.screens.includes("A"));
+  const twPass = twScored.filter((x) => x.screens.includes("A"));
+
+  // Build shortlists ~8-12, ensure TSM / 2330 present; size by stance
+  function takeList(scored, pass, mustTickers, n = 12) {
+    const out = [];
+    const seen = new Set();
+    for (const x of pass) {
+      if (out.length >= n) break;
+      out.push(x);
+      seen.add(x.m.symbol);
+    }
+    for (const t of mustTickers) {
+      if (seen.has(t)) continue;
+      const hit = scored.find((x) => x.m.symbol === t);
+      if (hit) {
+        if (out.length >= n) out.pop();
+        // mark observe if not passing A strongly
+        if (!hit.screens.includes("A")) {
+          hit.forceObserve = true;
+          hit.screens = ["observe"];
+        }
+        out.push(hit);
+        seen.add(t);
+      }
+    }
+    // fill with next best if short
+    for (const x of scored) {
+      if (out.length >= n) break;
+      if (seen.has(x.m.symbol)) continue;
+      out.push(x);
+      seen.add(x.m.symbol);
+    }
+    return out;
+  }
+
+  const usN = listSizeForStance(marketRegime.us.cycleStance, 12);
+  const twN = listSizeForStance(marketRegime.tw.cycleStance, 12);
+  const usList = takeList(usScored, usPass, ["TSM"], usN);
+  const twList = takeList(twScored, twPass, ["2330.TW"], twN);
+
+  const usPicks = usList.map((x) => {
+    const meta = {
+      ...(usMeta[x.m.symbol] || { ticker: x.m.symbol, name: x.m.name, nameZh: x.m.name, business: "" }),
+      forceObserve: x.forceObserve,
+    };
+    const pick = toPick(x.m, meta, spxIdx, "US", marketRegime.us);
+    pick._score = x.score;
+    return pick;
+  });
+  const twPicks = twList.map((x) => {
+    const meta = {
+      ...(twMeta[x.m.symbol] || { ticker: x.m.symbol, name: x.m.name, nameZh: x.m.name, business: "" }),
+      forceObserve: x.forceObserve,
+    };
+    const pick = toPick(x.m, meta, twIdx, "TW", marketRegime.tw);
+    pick._score = x.score;
+    return pick;
+  });
+
+  // Top5 across markets — math-core.crossMarketTop (guarded 2026-11-04): non-observe, US then TW, stable score sort
+  const top5 = crossMarketTop(usPicks, twPicks, 5);
+  // do not leak internal scores into published picks
+  for (const p of usPicks) delete p._score;
+  for (const p of twPicks) delete p._score;
+
+  return { usPicks, twPicks, top5 };
+}
+
+/** Listing filter for both markets (see listing-status.mjs). */
+export function applyListingFilter({ usMetrics, twMetrics, usSessionDates, twSessionDates, actions }) {
+  const us = filterListed(usMetrics, { market: "US", sessionDates: usSessionDates, actions });
+  const tw = filterListed(twMetrics, { market: "TW", sessionDates: twSessionDates, actions });
+  return { usMetrics: us.kept, twMetrics: tw.kept, excluded: [...us.excluded, ...tw.excluded] };
+}
+
+/** Published record of what the listing filter removed (plain zh reason + official links). */
+export function excludedFromScanRecord(excluded) {
+  return {
+    rule: `排除已下市（corporate-actions.json 官方公告）或價格停住的股票：大盤之後已交易 ≥${STALE_MIN_SESSIONS} 個交易日都沒有日K，或最後 ${FROZEN_MIN_SESSIONS} 個交易日收盤相同且無量。休市日不算交易日；停牌 1–2 天不排除。`,
+    items: excluded.map((x) => ({
+      ticker: x.ticker,
+      market: x.market,
+      status: x.status,
+      reason: x.reason,
+      lastBarDate: x.lastBarDate,
+      lastPrice: x.lastPrice,
+      sessionDate: x.sessionDate,
+      sessionsBehind: x.sessionsBehind,
+      ...(x.action ? { lastTradingDate: x.action.lastTradingDate, sources: x.action.sources } : {}),
+    })),
+  };
+}
+
 async function main() {
   mkdirSync(STUDY, { recursive: true });
   const fetchedAt = new Date();
@@ -461,6 +579,24 @@ async function main() {
       twMetrics.push(m);
       console.log(t, m.price, m.dayPct, m.lastBarDate);
     } else console.warn("missing TW", t);
+  }
+
+  // Drop delisted / stale-price names before anything is scored (breadth, regime, lists, top5,
+  // strategy packs). Sessions are the index's own daily bars, so holidays never count.
+  const corpActions = loadCorporateActions(ROOT);
+  const listing = applyListingFilter({
+    usMetrics,
+    twMetrics,
+    usSessionDates: (chartBySym["^GSPC"]?.bars || []).map((b) => b.date),
+    twSessionDates: (chartBySym["^TWII"]?.bars || []).map((b) => b.date),
+    actions: corpActions,
+  });
+  usMetrics.splice(0, usMetrics.length, ...listing.usMetrics);
+  twMetrics.splice(0, twMetrics.length, ...listing.twMetrics);
+  for (const x of listing.excluded) {
+    console.warn(`EXCLUDED ${x.market} ${x.ticker}: ${x.status} — ${x.reason}`);
+    const q = quotes.find((qq) => qq.symbol === x.ticker);
+    if (q) q.excludedFromScan = x.status;
   }
 
   const twIdx = bySym["^TWII"].dayPct;
@@ -547,88 +683,7 @@ async function main() {
     marketRegime.tw.liquidityBias
   );
 
-  // Score and select (weights by cycleStance)
-  const usScored = usMetrics
-    .map((m) => ({
-      m,
-      score: scorePick(m, spxIdx, { regime: marketRegime.us }),
-      screens: screensFor(m, spxIdx, { regime: marketRegime.us }),
-    }))
-    .sort((a, b) => b.score - a.score);
-
-  const twScored = twMetrics
-    .map((m) => ({
-      m,
-      score: scorePick(m, twIdx, { regime: marketRegime.tw }),
-      screens: screensFor(m, twIdx, { regime: marketRegime.tw }),
-    }))
-    .sort((a, b) => b.score - a.score);
-
-  const usPass = usScored.filter((x) => x.screens.includes("A"));
-  const twPass = twScored.filter((x) => x.screens.includes("A"));
-
-  // Build shortlists ~8-12, ensure TSM / 2330 present; size by stance
-  function takeList(scored, pass, mustTickers, n = 12) {
-    const out = [];
-    const seen = new Set();
-    for (const x of pass) {
-      if (out.length >= n) break;
-      out.push(x);
-      seen.add(x.m.symbol);
-    }
-    for (const t of mustTickers) {
-      if (seen.has(t)) continue;
-      const hit = scored.find((x) => x.m.symbol === t);
-      if (hit) {
-        if (out.length >= n) out.pop();
-        // mark observe if not passing A strongly
-        if (!hit.screens.includes("A")) {
-          hit.forceObserve = true;
-          hit.screens = ["observe"];
-        }
-        out.push(hit);
-        seen.add(t);
-      }
-    }
-    // fill with next best if short
-    for (const x of scored) {
-      if (out.length >= n) break;
-      if (seen.has(x.m.symbol)) continue;
-      out.push(x);
-      seen.add(x.m.symbol);
-    }
-    return out;
-  }
-
-  const usN = listSizeForStance(marketRegime.us.cycleStance, 12);
-  const twN = listSizeForStance(marketRegime.tw.cycleStance, 12);
-  const usList = takeList(usScored, usPass, ["TSM"], usN);
-  const twList = takeList(twScored, twPass, ["2330.TW"], twN);
-
-  const usPicks = usList.map((x) => {
-    const meta = {
-      ...(usMeta[x.m.symbol] || { ticker: x.m.symbol, name: x.m.name, nameZh: x.m.name, business: "" }),
-      forceObserve: x.forceObserve,
-    };
-    const pick = toPick(x.m, meta, spxIdx, "US", marketRegime.us);
-    pick._score = x.score;
-    return pick;
-  });
-  const twPicks = twList.map((x) => {
-    const meta = {
-      ...(twMeta[x.m.symbol] || { ticker: x.m.symbol, name: x.m.name, nameZh: x.m.name, business: "" }),
-      forceObserve: x.forceObserve,
-    };
-    const pick = toPick(x.m, meta, twIdx, "TW", marketRegime.tw);
-    pick._score = x.score;
-    return pick;
-  });
-
-  // Top5 across markets — math-core.crossMarketTop (guarded 2026-11-04): non-observe, US then TW, stable score sort
-  const top5 = crossMarketTop(usPicks, twPicks, 5);
-  // do not leak internal scores into published picks
-  for (const p of usPicks) delete p._score;
-  for (const p of twPicks) delete p._score;
+  const { usPicks, twPicks, top5 } = selectPicks({ usMetrics, twMetrics, usMeta, twMeta, spxIdx, twIdx, marketRegime });
 
   // Parity TSM / 2330
   const tw2330 = twMetrics.find((m) => m.symbol === "2330.TW");
@@ -708,6 +763,7 @@ async function main() {
     top5,
     us: usPicks,
     tw: twPicks,
+    excludedFromScan: excludedFromScanRecord(listing.excluded),
     parity,
     method: {
       A: "動能／相對強度：日漲跌 vs 指數；5日／約1個月；SMA20／SMA50／SMA200（依 cycleStance 調整門檻）",
@@ -1136,7 +1192,10 @@ function fmtNum(n) {
   return Number(n).toLocaleString("en-US", { maximumFractionDigits: 4 });
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+// Run only when executed directly (importable for offline re-selection / tests).
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

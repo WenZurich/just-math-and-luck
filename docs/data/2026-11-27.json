@@ -82,7 +82,7 @@
         "dUs10y20d": -0.197,
         "dUs10y60d": 0.052,
         "dUsdtwd20d": null,
-        "breadthProxy": 0.25,
+        "breadthProxy": 0.226,
         "hygVsLqd20d": -0.0159,
         "lastBarDate": "2026-11-25"
       },
@@ -250,29 +250,6 @@
     }
   ],
   "us": [
-    {
-      "ticker": "ROKU",
-      "name": "Roku",
-      "price": 160.52,
-      "currency": "USD",
-      "dayPct": 0.09,
-      "pct5d": 3.48,
-      "pct1m": 4.36,
-      "volRatio": 4.11,
-      "aboveSma20": true,
-      "aboveSma50": true,
-      "aboveSma200": true,
-      "screens": [
-        "A",
-        "B"
-      ],
-      "business": "串流裝置與廣告平台。",
-      "why": "日漲跌 +0.09%（相對 S&P 約 +0.34pp）；五日約 +3.48%；一個月約 +4.36%；量比約 4.11×；站上雙均線；站上 SMA200；市場週期姿態 balanced（相位 mid_cycle）。",
-      "risk": "—",
-      "cycleStance": "balanced",
-      "sizeMult": 1,
-      "rsVsIndexPp": 0.34
-    },
     {
       "ticker": "ZS",
       "name": "Zscaler",
@@ -493,6 +470,28 @@
       "cycleStance": "balanced",
       "sizeMult": 1,
       "rsVsIndexPp": 1.17
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro",
+      "price": 23.31,
+      "currency": "USD",
+      "dayPct": 3.05,
+      "pct5d": -4.35,
+      "pct1m": -33.57,
+      "volRatio": 0.89,
+      "aboveSma20": false,
+      "aboveSma50": false,
+      "aboveSma200": false,
+      "screens": [
+        "A"
+      ],
+      "business": "AI／高效能伺服器與機架。",
+      "why": "日漲跌 +3.05%（相對 S&P 約 +3.3pp）；五日約 -4.35%；一個月約 -33.57%；市場週期姿態 balanced（相位 mid_cycle）。",
+      "risk": "低於 SMA50 或近月偏弱",
+      "cycleStance": "balanced",
+      "sizeMult": 1,
+      "rsVsIndexPp": 3.3
     },
     {
       "ticker": "TSM",
@@ -829,6 +828,32 @@
       "rsVsIndexPp": -2.73
     }
   ],
+  "excludedFromScan": {
+    "rule": "排除已下市（corporate-actions.json 官方公告）或價格停住的股票：大盤之後已交易 ≥3 個交易日都沒有日K，或最後 5 個交易日收盤相同且無量。休市日不算交易日；停牌 1–2 天不排除。",
+    "items": [
+      {
+        "ticker": "ROKU",
+        "market": "US",
+        "status": "delisted",
+        "reason": "官方公告 2026-11-06 是最後交易日（被 Fox Corporation 併購）",
+        "lastBarDate": "2026-11-06",
+        "lastPrice": 160.52,
+        "sessionDate": "2026-11-25",
+        "sessionsBehind": 8,
+        "lastTradingDate": "2026-11-06",
+        "sources": [
+          {
+            "label": "Nasdaq Equity Corporate Actions Alert #2026-806",
+            "url": "https://www.nasdaqtrader.com/TraderNews.aspx?id=eca2026-806"
+          },
+          {
+            "label": "SEC Form 8-K (Roku, 2026-11-06)",
+            "url": "https://www.sec.gov/Archives/edgar/data/1428439/000119312526451874/d181620d8k.htm"
+          }
+        ]
+      }
+    ]
+  },
   "parity": {
     "adsRatio": "5:1",
     "tw2330": 2145,
