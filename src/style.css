@@ -4370,3 +4370,18 @@ html.marquee-static .macro-strip .index-marquee-group--clone {
 .paper-card .pc-pnl { display: grid; justify-items: end; flex: none; font-family: var(--mono); font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
 .paper-card .pc-cost { font-size: 0.75rem; font-weight: 400; color: var(--text-muted); }
 .paper-card .pc-lbl { font-family: var(--font); font-size: 0.72rem; font-weight: 400; color: var(--text-muted); }
+
+/* —— 今日選股: delisted pick (corporate-actions.json, display-only) —— */
+.list-card .lc-ticker { font-family: var(--mono); font-weight: 600; }
+.list-card .lc-name { color: var(--text-muted); font-size: 0.85rem; margin-left: 0.35rem; }
+.list-card .lc-price { text-align: right; }
+.list-card--delisted { background: var(--bg-elevated); border-style: dashed; }
+.pick-delisted-price { display: block; font-family: var(--mono); color: var(--text-muted); text-decoration: line-through; }
+.pick-delisted-last { display: block; font-size: 0.72rem; color: var(--text-muted); }
+.pick-delisted-note { margin: 0; font-size: 0.8rem; line-height: 1.55; color: var(--text); }
+.pick-delisted-badge { margin-right: 0.25rem; background: var(--bg-card); border: 1px solid var(--border); color: var(--text); font-weight: 600; }
+.pick-delisted-src { display: block; margin-top: 0.3rem; font-size: 0.74rem; color: var(--text-muted); }
+.pick-delisted-src a { color: inherit; text-decoration: underline; text-underline-offset: 2px; overflow-wrap: anywhere; }
+.pick-row--delisted td { background: var(--bg-elevated); color: var(--text-muted); }
+.pick-table td:first-child .ticker { white-space: nowrap; }
+.pick-row--delisted .pick-delisted-note { max-width: 62rem; }

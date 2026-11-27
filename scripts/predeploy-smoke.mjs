@@ -1780,6 +1780,29 @@ async function main() {
           else ok(`paper positions: delisted (merger) holdings tagged + explained with official sources (${(ca.actions || []).map((a) => a.ticker).join(", ") || "none"}), 4 locales`);
         }
       }
+      // 今日選股：已下市的股票（併購）不能當成今天的選股顯示（價格停在最後交易日）。
+      {
+        const mainSrcD = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+        const keysD = ["pickDelistedBadge", "pickDelistedLast", "pickDelistedNote", "delistedSource"];
+        const missD = locs.flatMap(([f, src]) => keysD.filter((k) => !new RegExp(`\\b${k}:`).test(src)).map((k) => `${f}:${k}`));
+        const tr = mainSrcD.slice(mainSrcD.indexOf("function tableRows("), mainSrcD.indexOf("function renderListHeaders("));
+        const delRowTr = (tr.match(/<tr class="pick-row--delisted">[\s\S]*?<\/tr>/) || [""])[0];
+        const delCard = (tr.match(/<div class="list-card list-card--delisted">[\s\S]*?pickDelistedNote\(/) || [""])[0];
+        if (!/function buildPickDelisted\(/.test(mainSrcD) || !/pickDelisted = buildPickDelisted\(paper, data\.asOf\)/.test(mainSrcD)) fail("main.js should build the delisted-pick map from corporate-actions (paper.corporateActions)");
+        else if ((tr.match(/return liveFirst\(list\)/g) || []).length !== 2) fail("tableRows + mobileCards should both sort delisted picks last (liveFirst)");
+        else if (!delRowTr || !delCard || /data-lq/.test(delRowTr) || /data-lq/.test(delCard)) fail("delisted pick rows/cards must exist and must not carry data-lq (no live quote for a delisted ticker)");
+        else if (missD.length) fail(`delisted-pick i18n keys missing: ${missD.join(", ")}`);
+        else {
+          const ca = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/corporate-actions.json"), "utf8"));
+          const lj = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/latest.json"), "utf8"));
+          const day = new Date(lj.asOf).toLocaleDateString("en-CA", { timeZone: "Asia/Taipei" });
+          const gone = new Set((ca.actions || []).filter((a) => day >= (a.suspendedFrom || a.lastTradingDate)).map((a) => a.ticker));
+          const hit = [...(lj.us || []), ...(lj.tw || [])].filter((s) => gone.has(s.ticker)).map((s) => s.ticker);
+          const inTop = (lj.top5 || []).filter((s) => gone.has(s.ticker)).map((s) => s.ticker);
+          if (inTop.length) console.log(`WARN: delisted ticker in today's Top 5 (scan data): ${inTop.join(",")}`);
+          ok(`今日選股: delisted picks tagged 已下市 + moved last, no live quote, 4 locales (today: ${hit.join(",") || "none"})`);
+        }
+      }
       // Held-quote TW session must resolve when the scan has a TW close date (Yahoo null-close bars fall back to TWSE official close).
       const latestJ = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/latest.json"), "utf8"));
       const pp = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/paper-portfolio.json"), "utf8"));

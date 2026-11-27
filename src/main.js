@@ -362,9 +362,76 @@ function riskLine(s, cls) {
   return risk ? `<p class="${cls}">${escapeHtml(t("risk"))}：${risk}</p>` : "";
 }
 
+/* —— Delisted picks (display-only) ——
+ * corporate-actions.json lists official mergers/delistings. A delisted ticker
+ * can still come back from the price feed with its frozen last bars (ROKU kept
+ * re-appearing with its 11/06 numbers), so on 今日選股 such a row is shown as
+ * 已下市 with the official facts, moved to the end of its list, and skipped by
+ * live quotes. Picks data and math are untouched. */
+let pickDelisted = new Map();
+
+function taipeiDay(iso) {
+  try {
+    return new Date(iso).toLocaleDateString("en-CA", { timeZone: "Asia/Taipei" });
+  } catch {
+    return "";
+  }
+}
+
+function buildPickDelisted(paper, asOf) {
+  const day = taipeiDay(asOf);
+  const m = new Map();
+  for (const a of paper?.corporateActions?.actions || []) {
+    const from = a.suspendedFrom || a.lastTradingDate;
+    if (a?.ticker && from && day && day >= from) m.set(String(a.ticker).toUpperCase(), a);
+  }
+  return m;
+}
+
+function delistedOfPick(s) {
+  return pickDelisted.get(String(s?.ticker || "").toUpperCase()) || null;
+}
+
+/** Live rows first, delisted rows last (stable order otherwise). */
+function liveFirst(list) {
+  return [...list.filter((s) => !delistedOfPick(s)), ...list.filter((s) => delistedOfPick(s))];
+}
+
+function pickDelistedNote(s, ca, cls) {
+  const cur = ca.currency || s.currency || "USD";
+  const note = t("pickDelistedNote", {
+    date: ca.lastTradingDate || "",
+    acquirer: ca.acquirer || "",
+    into: ca.acquirerTicker || "",
+    cash: fmtPrice(ca.cashPerShare, cur),
+    shares: ca.sharesPerShare != null ? fmtNum(ca.sharesPerShare, 4) : "—",
+    suspended: ca.suspendedFrom || "",
+  });
+  const links = (ca.sources || [])
+    .filter((x) => /^https:\/\//.test(x?.url || ""))
+    .map((x) => `<a href="${escapeHtml(x.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(x.label || x.url)}</a>`)
+    .join("、");
+  return `<p class="${cls}" role="note"><span class="badge pick-delisted-badge">${escapeHtml(t("pickDelistedBadge"))}</span> ${escapeHtml(note)}${links ? `<span class="pick-delisted-src">${escapeHtml(t("delistedSource"))}${links}</span>` : ""}</p>`;
+}
+
+function delistedPriceHtml(s, ca) {
+  return `<span class="pick-delisted-price">${fmtPrice(s.price, s.currency)}</span><span class="pick-delisted-last">${escapeHtml(t("pickDelistedLast", { date: ca.lastTradingDate || "" }))}</span>`;
+}
+
 function tableRows(list) {
-  return list
+  return liveFirst(list)
     .map((s) => {
+      const ca = delistedOfPick(s);
+      if (ca) {
+        return `
+      <tr class="pick-row--delisted">
+        <td><span class="ticker">${escapeHtml(s.ticker)}</span></td>
+        <td class="name-cell">${escapeHtml(s.name || "")}</td>
+        <td class="num">${delistedPriceHtml(s, ca)}</td>
+        <td class="num">—</td>
+        <td colspan="7">${pickDelistedNote(s, ca, "pick-delisted-note")}</td>
+      </tr>`;
+      }
       const rsVal = s.rsVsIndexPp ?? s.priorClosePct;
       const rsLabel =
         s.rsVsIndexPp != null
@@ -391,8 +458,22 @@ function tableRows(list) {
 }
 
 function mobileCards(list) {
-  return list
+  return liveFirst(list)
     .map((s) => {
+      const ca = delistedOfPick(s);
+      if (ca) {
+        return `
+      <div class="list-card list-card--delisted">
+        <div class="lc-head">
+          <div>
+            <span class="ticker lc-ticker">${escapeHtml(s.ticker)}</span>
+            <span class="lc-name">${escapeHtml(s.name || "")}</span>
+          </div>
+          <div class="lc-price">${delistedPriceHtml(s, ca)}</div>
+        </div>
+        ${pickDelistedNote(s, ca, "pick-delisted-note")}
+      </div>`;
+      }
       const rs =
         s.rsVsIndexPp != null
           ? `<span class="${pctClass(s.rsVsIndexPp)}">${term("rs", "RS")} ${fmtPct(s.rsVsIndexPp)}</span>`
@@ -772,6 +853,7 @@ function renderApp(data, paper) {
   const disclaimer = escapeHtml(t("disclaimer"));
   const headers = renderListHeaders();
   const logoUrl = `${import.meta.env.BASE_URL}logo.svg?v=5`;
+  pickDelisted = buildPickDelisted(paper, data.asOf);
 
   return `
     <a class="skip-link" href="#main-content">${escapeHtml(t("skipToContent"))}</a>
