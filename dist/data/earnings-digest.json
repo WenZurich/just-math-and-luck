@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-26T00:08:19.472Z",
+  "asOf": "2026-11-27T00:08:59.686Z",
   "market": "US",
   "twStub": {
     "status": "planned",
@@ -162,7 +162,7 @@
       "ok": true,
       "blocker": null,
       "nextEarningsDate": "2027-02-04",
-      "nextEarningsDateIsEstimate": true,
+      "nextEarningsDateIsEstimate": false,
       "lastReport": {
         "period": "-1q",
         "quarter": "2026-09-30",
@@ -198,7 +198,7 @@
         "EPS basis check: Yahoo timeseries GAAP diluted EPS; Nasdaq earnings-surprise only when the Yahoo pair looks GAAP-vs-adjusted"
       ],
       "notes": [
-        "下次財報約 2027-02-04（預估日）",
+        "下次財報約 2027-02-04",
         "最近一季（2026-09-30）：EPS 1.89",
         "市場預估下次 EPS 約 2.4911（Yahoo）"
       ],
@@ -240,7 +240,7 @@
       "epsYoYPct": -25.3,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 14.26,
-      "forwardPe": 17.85,
+      "forwardPe": 17.86,
       "marketCap": 3357491331072,
       "consensusEpsNext": 3.2531,
       "consensusRevNext": 142333501680,
@@ -289,7 +289,7 @@
       "epsYoYPct": -25.3,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 14.15,
-      "forwardPe": 17.71,
+      "forwardPe": 17.72,
       "marketCap": 3331428188160,
       "consensusEpsNext": 3.2531,
       "consensusRevNext": 142333501680,
@@ -391,7 +391,7 @@
       "epsYoYPct": -43.6,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 417.74,
-      "forwardPe": 176.05,
+      "forwardPe": 175.68,
       "marketCap": 1502601543680,
       "consensusEpsNext": 0.5047,
       "consensusRevNext": 29284898640,
@@ -441,7 +441,7 @@
       "epsYoYPct": 215.3,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 38.42,
-      "forwardPe": 15.52,
+      "forwardPe": 15.56,
       "marketCap": 1436194177024,
       "consensusEpsNext": 3.8302,
       "consensusRevNext": 34906205760,
@@ -458,7 +458,7 @@
       ],
       "whatToWatch": "關注 2026-12-09 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +85.5%（Yahoo）；獲利成長約 +215.3%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 13,
+      "daysToEarnings": 12,
       "pool": "mega_cap"
     },
     {
@@ -492,7 +492,7 @@
       "epsYoYPct": 15,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 52.35,
-      "forwardPe": 43.4,
+      "forwardPe": 43.37,
       "marketCap": 481597423616,
       "consensusEpsNext": 4.9036,
       "consensusRevNext": 74519076690,
@@ -509,7 +509,7 @@
       ],
       "whatToWatch": "關注 2026-12-10 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +11.1%（Yahoo）；獲利成長約 +15%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 14,
+      "daysToEarnings": 13,
       "pool": "mega_cap"
     },
     {
@@ -543,7 +543,7 @@
       "epsYoYPct": 118.9,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 18.04,
-      "forwardPe": 12.32,
+      "forwardPe": 12.3,
       "marketCap": 162303836160,
       "consensusEpsNext": 3.4466,
       "consensusRevNext": 11462939140,
@@ -560,7 +560,7 @@
       ],
       "whatToWatch": "關注 2026-12-02 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +10.8%（Yahoo）；獲利成長約 +118.9%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 6,
+      "daysToEarnings": 5,
       "pool": "mega_cap"
     },
     {
@@ -594,7 +594,7 @@
       "epsYoYPct": null,
       "epsYoYSource": null,
       "pe": null,
-      "forwardPe": 86.91,
+      "forwardPe": 86.64,
       "marketCap": 94451613696,
       "consensusEpsNext": 0.5976,
       "consensusRevNext": 1654470430,
@@ -615,7 +615,7 @@
       ],
       "whatToWatch": "關注 2026-12-02 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +35.1%（Yahoo）；本益比暫缺，勿硬套估值",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 6,
+      "daysToEarnings": 5,
       "pool": "mega_cap"
     },
     {
@@ -666,7 +666,7 @@
       ],
       "whatToWatch": "關注 2026-12-08 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +42.4%（Yahoo）；獲利成長約 +89.3%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 12,
+      "daysToEarnings": 11,
       "pool": "mega_cap"
     },
     {
@@ -721,7 +721,7 @@
       ],
       "whatToWatch": "關注 2026-12-01 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +69.1%（Yahoo）；本益比暫缺，勿硬套估值",
       "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 5,
+      "daysToEarnings": 4,
       "pool": "most_actives"
     },
     {
@@ -825,7 +825,7 @@
       ],
       "whatToWatch": "關注 2026-12-14 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +29.6%（Yahoo）；獲利成長約 +54.5%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 18,
+      "daysToEarnings": 17,
       "pool": "mega_cap"
     },
     {
@@ -860,7 +860,7 @@
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 8.09,
       "forwardPe": 2.93,
-      "marketCap": 680268201984,
+      "marketCap": 682379247616,
       "consensusEpsNext": 38.2464,
       "consensusRevNext": 61756168190,
       "whatItDoes": "Micron Technology, Inc. engages in the provision of semiconductor memory and storage products in the United States, Taiwan, Mainland China, other Asia Pacific countries, Japan, Europe, and internationally.",
@@ -876,7 +876,7 @@
       ],
       "whatToWatch": "關注 2026-12-17 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +379.3%（Yahoo）；獲利成長約 +1059.5%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 21,
+      "daysToEarnings": 20,
       "pool": "mega_cap+most_actives"
     },
     {
@@ -910,7 +910,7 @@
       "epsYoYPct": -2.1,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
       "pe": 17.63,
-      "forwardPe": 26.38,
+      "forwardPe": 26.68,
       "marketCap": 54451421184,
       "consensusEpsNext": 0.3836,
       "consensusRevNext": 11099301000,
@@ -927,7 +927,7 @@
       ],
       "whatToWatch": "關注 2026-12-17 前後的營收與 EPS 是否達預估；近期營收 YoY 約 -4.3%（Yahoo）；獲利成長約 -2.1%（Yahoo earningsGrowth）",
       "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 21,
+      "daysToEarnings": 20,
       "pool": "mega_cap"
     }
   ],

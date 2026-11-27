@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-11-26T00:08:04Z",
-  "lastProcessedAsOf": "2026-11-26T00:08:04Z",
+  "asOf": "2026-11-27T00:08:47Z",
+  "lastProcessedAsOf": "2026-11-27T00:08:47Z",
   "startDate": "2026-09-15",
   "disclaimer": "累積模擬帳戶（自 2026-09-15 起）。成交價＝當日 latest 標的價，下單即成交；不會每日歸零。非真實券商委託。兩本帳分開計價。",
   "rules": {
@@ -32,42 +32,59 @@
       "market": "TW",
       "currency": "TWD",
       "startCash": 3000000,
-      "cash": 2348350,
-      "equity": 2870250,
-      "positionsValue": 521900,
-      "realizedPnl": -129750,
+      "cash": 2160350,
+      "equity": 2881550,
+      "positionsValue": 721200,
+      "realizedPnl": -132450,
       "positions": [
         {
           "ticker": "2882.TW",
           "name": "國泰金",
           "qty": 2000,
           "avgCost": 100.5,
-          "mark": 100.5,
+          "mark": 104.5,
           "currency": "TWD",
           "openedOn": "2026-11-26",
           "lastAddDate": "2026-11-26",
-          "limitUpStyle": false
+          "limitUpStyle": false,
+          "dayPct": 3.98,
+          "aboveSma20": false,
+          "volRatio": 1.94
         },
         {
           "ticker": "2881.TW",
           "name": "富邦金",
           "qty": 1000,
           "avgCost": 132.5,
-          "mark": 132.5,
+          "mark": 138.5,
           "currency": "TWD",
           "openedOn": "2026-11-26",
           "lastAddDate": "2026-11-26",
-          "limitUpStyle": false
+          "limitUpStyle": false,
+          "dayPct": 4.53,
+          "aboveSma20": false,
+          "volRatio": 0.68
         },
         {
-          "ticker": "2468.TW",
-          "name": "華經",
-          "qty": 3000,
-          "avgCost": 62.8,
-          "mark": 62.8,
+          "ticker": "3231.TW",
+          "name": "緯創",
+          "qty": 1000,
+          "avgCost": 167,
+          "mark": 167,
           "currency": "TWD",
-          "openedOn": "2026-11-26",
-          "lastAddDate": "2026-11-26",
+          "openedOn": "2026-11-27",
+          "lastAddDate": "2026-11-27",
+          "limitUpStyle": true
+        },
+        {
+          "ticker": "2891.TW",
+          "name": "中信金",
+          "qty": 3000,
+          "avgCost": 68.9,
+          "mark": 68.9,
+          "currency": "TWD",
+          "openedOn": "2026-11-27",
+          "lastAddDate": "2026-11-27",
           "limitUpStyle": false
         }
       ],
@@ -2098,6 +2115,43 @@
           "reason": "screen-buy",
           "reasonText": "名單新開倉（單檔上限 8%）",
           "realizedPnl": 0
+        },
+        {
+          "date": "2026-11-27",
+          "asOf": "2026-11-27T00:08:47Z",
+          "side": "SELL",
+          "ticker": "2468.TW",
+          "name": "華經",
+          "qty": 3000,
+          "price": 61.9,
+          "avgCostAtSale": 62.8,
+          "reason": "off-list",
+          "reasonText": "離開當日名單且未實現虧損",
+          "realizedPnl": -2700
+        },
+        {
+          "date": "2026-11-27",
+          "asOf": "2026-11-27T00:08:47Z",
+          "side": "BUY",
+          "ticker": "3231.TW",
+          "name": "緯創",
+          "qty": 1000,
+          "price": 167,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（單檔上限 8%）",
+          "realizedPnl": 0
+        },
+        {
+          "date": "2026-11-27",
+          "asOf": "2026-11-27T00:08:47Z",
+          "side": "BUY",
+          "ticker": "2891.TW",
+          "name": "中信金",
+          "qty": 3000,
+          "price": 68.9,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（單檔上限 8%）",
+          "realizedPnl": 0
         }
       ],
       "dailyEquity": [
@@ -2370,6 +2424,12 @@
           "equity": 2870250,
           "cash": 2348350,
           "positionsValue": 521900
+        },
+        {
+          "date": "2026-11-27",
+          "equity": 2881550,
+          "cash": 2160350,
+          "positionsValue": 721200
         }
       ],
       "startDate": "2026-09-15"
@@ -2395,7 +2455,7 @@
           "limitUpStyle": false,
           "dayPct": 0.43,
           "aboveSma20": true,
-          "volRatio": 1.05
+          "volRatio": 1.07
         },
         {
           "ticker": "ROKU",
@@ -2436,7 +2496,7 @@
           "limitUpStyle": false,
           "dayPct": 0.89,
           "aboveSma20": true,
-          "volRatio": 0.81
+          "volRatio": 0.83
         },
         {
           "ticker": "MSFT",
@@ -2476,7 +2536,7 @@
           "limitUpStyle": false,
           "dayPct": 0.92,
           "aboveSma20": false,
-          "volRatio": 1.13
+          "volRatio": 1.14
         },
         {
           "ticker": "ESTC",
@@ -2556,7 +2616,10 @@
           "currency": "USD",
           "openedOn": "2026-11-26",
           "lastAddDate": "2026-11-26",
-          "limitUpStyle": false
+          "limitUpStyle": false,
+          "dayPct": 3.4,
+          "aboveSma20": false,
+          "volRatio": 0.98
         },
         {
           "ticker": "QLYS",
@@ -2567,7 +2630,10 @@
           "currency": "USD",
           "openedOn": "2026-11-26",
           "lastAddDate": "2026-11-26",
-          "limitUpStyle": false
+          "limitUpStyle": false,
+          "dayPct": 2.2,
+          "aboveSma20": true,
+          "volRatio": 0.54
         },
         {
           "ticker": "SMCI",
@@ -2578,7 +2644,9 @@
           "currency": "USD",
           "openedOn": "2026-11-26",
           "lastAddDate": "2026-11-26",
-          "limitUpStyle": false
+          "limitUpStyle": false,
+          "dayPct": 3.05,
+          "aboveSma20": false
         }
       ],
       "trades": [
@@ -7472,6 +7540,12 @@
           "equity": 104630.18,
           "cash": 46.36,
           "positionsValue": 104583.82
+        },
+        {
+          "date": "2026-11-27",
+          "equity": 104630.18,
+          "cash": 46.36,
+          "positionsValue": 104583.82
         }
       ],
       "startDate": "2026-09-15"
@@ -7479,45 +7553,45 @@
   },
   "metrics": {
     "TW": {
-      "totalPnl": -129750,
-      "totalPnlPct": -4.325,
-      "realizedPnl": -129750,
-      "unrealizedPnl": 0,
+      "totalPnl": -118450,
+      "totalPnlPct": -3.9483,
+      "realizedPnl": -132450,
+      "unrealizedPnl": 14000,
       "week": {
-        "pct": -6.1396,
-        "pnl": -187750,
+        "pct": -4.0219,
+        "pnl": -120750,
         "label": "7日",
         "sinceInception": false,
         "days": 7,
-        "fromDate": "2026-11-19",
-        "toDate": "2026-11-26"
+        "fromDate": "2026-11-20",
+        "toDate": "2026-11-27"
       },
       "month": {
-        "pct": -7.6793,
-        "pnl": -238750,
+        "pct": -7.5033,
+        "pnl": -233750,
         "label": "30日",
         "sinceInception": false,
         "days": 30,
-        "fromDate": "2026-10-27",
-        "toDate": "2026-11-26"
+        "fromDate": "2026-10-28",
+        "toDate": "2026-11-27"
       },
       "quarter": {
-        "pct": -4.325,
-        "pnl": -129750,
+        "pct": -3.9483,
+        "pnl": -118450,
         "label": "成立以來",
         "sinceInception": true,
         "days": 90,
         "fromDate": "2026-09-15",
-        "toDate": "2026-11-26"
+        "toDate": "2026-11-27"
       },
       "year": {
-        "pct": -4.325,
-        "pnl": -129750,
+        "pct": -3.9483,
+        "pnl": -118450,
         "label": "成立以來",
         "sinceInception": true,
         "days": 365,
         "fromDate": "2026-09-15",
-        "toDate": "2026-11-26"
+        "toDate": "2026-11-27"
       }
     },
     "US": {
@@ -7526,22 +7600,22 @@
       "realizedPnl": 96.89,
       "unrealizedPnl": 4533.3,
       "week": {
-        "pct": -3.1318,
-        "pnl": -3382.7,
+        "pct": -2.7142,
+        "pnl": -2919.13,
         "label": "7日",
         "sinceInception": false,
         "days": 7,
-        "fromDate": "2026-11-19",
-        "toDate": "2026-11-26"
+        "fromDate": "2026-11-20",
+        "toDate": "2026-11-27"
       },
       "month": {
-        "pct": -5.0919,
-        "pnl": -5613.46,
+        "pct": -5.6124,
+        "pnl": -6221.42,
         "label": "30日",
         "sinceInception": false,
         "days": 30,
-        "fromDate": "2026-10-27",
-        "toDate": "2026-11-26"
+        "fromDate": "2026-10-28",
+        "toDate": "2026-11-27"
       },
       "quarter": {
         "pct": 4.6302,
@@ -7550,7 +7624,7 @@
         "sinceInception": true,
         "days": 90,
         "fromDate": "2026-09-15",
-        "toDate": "2026-11-26"
+        "toDate": "2026-11-27"
       },
       "year": {
         "pct": 4.6302,
@@ -7559,7 +7633,7 @@
         "sinceInception": true,
         "days": 365,
         "fromDate": "2026-09-15",
-        "toDate": "2026-11-26"
+        "toDate": "2026-11-27"
       }
     },
     "combinedNote": "台股帳與美股帳完全獨立；不做匯率加總。"
