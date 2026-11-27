@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-11-26T10:20:00+08:00",
+    "updated": "2026-11-27T10:15:00+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-08)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -13775,6 +13775,173 @@
         "sec-filings",
         "embeddings",
         "valuation",
+        "methodology"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-news-embeddings-information-content-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "The Information Content of News Embeddings",
+      "titleLocalized": {
+        "zh-Hant": "新聞嵌入向量到底含有什麼資訊",
+        "en": "The Information Content of News Embeddings",
+        "zh-Hans": "新闻嵌入向量到底含有什么信息",
+        "ja": "ニュース埋め込みの情報内容"
+      },
+      "authors": [
+        "Chun He"
+      ],
+      "year": 2026,
+      "shelf": "market_analysis",
+      "summary": "An arXiv paper (2611.33458, q-fin.PR, Nov 2026) asking why AI 'news embeddings' (language-model vectors of headlines) predict stock returns. Using Dow Jones headlines (via RavenPack) matched to CRSP US common stocks, with out-of-sample evaluation 2004–2025 and RoBERTa / Llama-2 encoders, it splits embeddings into event-category, firm-identity and idiosyncratic parts, and into historical level vs current deviation. Short horizon: event categories carry most of the predictive power, and a simple forecast using the historical average return after each news category beats the embedding forecast. Longer horizon: much of the predictability comes from firm information already present in earlier coverage, even after controlling for firm characteristics. Llama-2's edge over RoBERTa sits in firm identity and history and mostly fades by its pretraining cutoff; a calibration shows pretraining memory (look-ahead bias) can explain this. Takeaway: richer text description is not the same as measuring news surprise. For this site: if a news tag is ever used, start with a plain event-category average-return table and treat LLM-based news signals with look-ahead suspicion; not alpha.",
+      "summaryLocalized": {
+        "en": "arXiv 2611.33458. Dow Jones headlines (RavenPack) on CRSP US stocks, OOS 2004–2025, RoBERTa/Llama-2. Short horizon: event category explains most embedding predictability, and the historical average return per category beats the embedding forecast. Long horizon: earlier firm coverage drives much of it. Llama-2's edge fades by its pretraining cutoff — consistent with look-ahead from pretraining memory. Site use: category-average baseline first; distrust LLM news signals.",
+        "zh-Hant": "arXiv 論文（2611.33458），作者 Chun He。問題：用 AI 把新聞標題轉成向量（嵌入）能預測股價，到底是靠什麼？樣本是 Dow Jones 新聞（經 RavenPack）對應美股 CRSP 普通股，樣本外 2004–2025，用 RoBERTa 與 Llama-2。結果：短期的預測力大多來自「新聞屬於哪一類事件」，而且直接用「這類新聞過去之後的平均報酬」來預測，比 AI 向量還準。長期的預測力有很大一部分來自「這家公司以前的新聞」，控制公司特徵後仍在。Llama-2 勝過 RoBERTa 的部分集中在公司身分與歷史，過了它的訓練資料截止日就大多消失——作者校準顯示這可用「模型記住了未來」（前視偏誤）解釋。對本站：若要做新聞標籤，先用「事件類別平均報酬表」當基準，對大型語言模型的新聞訊號要提防偷看答案；不是賺錢訊號。",
+        "zh-Hans": "arXiv 论文（2611.33458）。Dow Jones 新闻（RavenPack）对应美股 CRSP，样本外 2004–2025，RoBERTa/Llama-2。短期：预测力主要来自事件类别，用该类新闻历史平均报酬预测反而胜过嵌入。长期：大量来自公司以前的新闻。Llama-2 的优势在训练截止日后大多消失，与预训练记忆造成的前视偏误一致。对本站：先用类别平均基准，提防 LLM 新闻讯号。",
+        "ja": "arXiv 論文（2611.33458）。Dow Jones ニュース（RavenPack）×CRSP 米国株、サンプル外 2004–2025、RoBERTa/Llama-2。短期は予測力の大半がイベント分類由来で、分類別の過去平均リターン予測が埋め込みを上回る。長期は過去の企業報道が大きく寄与。Llama-2 の優位は事前学習カットオフ後にほぼ消え、事前学習記憶による先読みバイアスと整合。本サイト：まず分類平均を基準に、LLM ニュース信号は疑ってかかる。"
+      },
+      "formulas": [
+        "embedding forecast: ŷ_{i,t+h} = f(e(headline_{i,t})), e = frozen language-model embedding (RoBERTa / Llama-2)",
+        "decomposition by content: e = e_category + e_firm + e_idiosyncratic; by timing: e = historical level + current deviation",
+        "category benchmark: ŷ_{i,t+h} = mean realized return after past news in the same event category c(i,t) (using only data before t)",
+        "look-ahead check: compare predictive gain before vs after the model's pretraining cutoff date",
+        "site idea (watch): event-category → historical average next-day/next-week return table as a context tag; display only while passedGate=false"
+      ],
+      "plainTakeaways": [
+        "AI 新聞向量的短期預測力，大多只是「這是哪一類新聞」",
+        "用「這類新聞過去平均漲跌」來預測，反而比 AI 向量準",
+        "大型語言模型可能「記住」訓練期間的行情，回測會偷看答案",
+        "本站想法：新聞標籤先用事件類別平均報酬；只是候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "AI 新聞向量的短期預測力，大多只是「這是哪一類新聞」",
+          "用「這類新聞過去平均漲跌」來預測，反而比 AI 向量準",
+          "大型語言模型可能「記住」訓練期間的行情，回測會偷看答案",
+          "本站想法：新聞標籤先用事件類別平均報酬；只是候選"
+        ],
+        "zh-Hans": [
+          "AI 新闻向量的短期预测力，大多只是“这是哪一类新闻”",
+          "用“这类新闻过去平均涨跌”来预测，反而比 AI 向量准",
+          "大型语言模型可能“记住”训练期间的行情，回测会偷看答案",
+          "本站想法：新闻标签先用事件类别平均报酬；只是候选"
+        ],
+        "en": [
+          "Most short-term predictive power of AI news embeddings is just the news category",
+          "A simple 'average return after this kind of news' forecast beats the embeddings",
+          "LLMs may remember market history from pretraining — backtests can peek at answers",
+          "Site idea: news tags start from event-category average returns; candidate only"
+        ],
+        "ja": [
+          "AI ニュース埋め込みの短期予測力の大半は「ニュースの種類」だけ",
+          "「この種のニュース後の平均リターン」予測のほうが埋め込みより優秀",
+          "LLM は事前学習期間の相場を記憶している恐れ — バックテストが答えを覗く",
+          "本サイト案：ニュースタグはイベント分類の平均リターンから。候補のみ"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — candidate only, not adopted because the math gate is not passed. Methodology/context item: shows LLM news signals can carry pretraining look-ahead bias and that a category-average baseline beats embeddings at short horizons. Kept as watch for a display-only news-category context tag and as a look-ahead guard rule for any future LLM signal. Paraphrased from the arXiv abstract (v1) and data section. No screener, picks or paper-ledger change. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.33458",
+        "https://arxiv.org/html/2611.33458v1"
+      ],
+      "tags": [
+        "us",
+        "news",
+        "text-embeddings",
+        "llm",
+        "look-ahead-bias",
+        "event-categories",
+        "return-predictability",
+        "methodology"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg"
+    },
+    {
+      "id": "paper-us-graph-informed-deep-factor-stat-arb-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "Graph-Informed Deep Factor Model for Statistical Arbitrage",
+      "titleLocalized": {
+        "zh-Hant": "結合股票關係網路的深度因子模型：統計套利",
+        "en": "Graph-Informed Deep Factor Model for Statistical Arbitrage",
+        "zh-Hans": "结合股票关系网络的深度因子模型：统计套利",
+        "ja": "グラフ情報付きディープファクターモデルによる統計的裁定"
+      },
+      "authors": [
+        "Evelyn Zhu",
+        "Mucheng Zhu",
+        "Brendan Martin",
+        "Mihai Cucuringu"
+      ],
+      "year": 2026,
+      "shelf": "market_analysis",
+      "summary": "An arXiv paper (2611.34209, q-fin.ST, Nov 2026) on daily statistical arbitrage — betting that a stock's temporary deviation from similar stocks will revert. It proposes a nonlinear single-factor model (GIDF) whose stock loadings depend on a latent network built from return correlations left over after removing the dominant market eigenmodes (a new 'FADE' EWMA reconstruction), combined via signed-edge graph attention with firm characteristics and macro variables. On daily US equities (CRSP point-in-time universe of roughly 1,069 stocks), out-of-sample 2015–2024, it reports an annualized Sharpe of 1.78 under the Avellaneda–Lee trading rule, beating classical factor and deep-learning baselines; headline figures are gross of costs, daily turnover is about 154%, and the paper adds a 1/2/5 bp cost sensitivity where it stays ahead of baselines. Limits for this site: daily long-short market-neutral trading with heavy turnover and GPU-trained models — not something a retail daily screener can run. For this site: idea only — a 'residual vs peers' (how far a pick has moved relative to similar stocks after removing the market) display; not alpha.",
+      "summaryLocalized": {
+        "en": "arXiv 2611.34209. GIDF: nonlinear single-factor model with loadings conditioned on a residual-correlation network (FADE EWMA after removing top eigenmodes) + graph attention over characteristics/macro. CRSP US ~1,069 stocks, OOS 2015–2024: Sharpe 1.78 under Avellaneda–Lee, beats classical/deep baselines; gross of costs, ~154% daily turnover, 1/2/5 bp cost sensitivity reported. Site use: display-only 'residual vs peers' idea.",
+        "zh-Hant": "arXiv 論文（2611.34209），作者 Evelyn Zhu、Mucheng Zhu、Brendan Martin、Mihai Cucuringu。主題：每日「統計套利」——賭一檔股票暫時偏離相似股票後會回來。方法：先拿掉大盤等主要共同波動，再從剩下的報酬相關性重建股票之間的關係網路（新方法 FADE），用圖注意力結合公司特徵與總經變數，產生非線性的單因子模型（GIDF）。美股約 1,069 檔（CRSP 時點資料），樣本外 2015–2024，用經典 Avellaneda–Lee 交易規則，年化夏普 1.78，勝過傳統因子與深度學習方法。但主要數字未扣成本，每日週轉約 154%；論文另測每單位 1/2/5 個基點成本，仍領先其他方法。對本站：這是每天多空對沖、高週轉、要 GPU 訓練的做法，散戶日掃描跑不了；只取想法——顯示「扣掉大盤後，相對同類股偏離多少」；不是賺錢訊號。",
+        "zh-Hans": "arXiv 论文（2611.34209）。GIDF：去掉主要共同波动后，用残差相关网络（FADE）+ 图注意力结合公司特征与宏观变量的非线性单因子模型。美股约 1,069 档，样本外 2015–2024，Avellaneda–Lee 规则下年化夏普 1.78，胜过传统与深度方法；未扣成本，日周转约 154%，另有 1/2/5 基点成本敏感度。对本站：仅显示“相对同类股残差偏离”的想法。",
+        "ja": "arXiv 論文（2611.34209）。GIDF：主要固有モードを除いた残差相関ネットワーク（FADE）＋グラフアテンションで企業特性・マクロを結合する非線形単一ファクターモデル。米国株約 1,069 銘柄、サンプル外 2015–2024、Avellaneda–Lee ルールで年率シャープ 1.78、従来・深層手法を上回る。コスト控除前、日次回転約 154%、1/2/5bp のコスト感応度あり。本サイト：「ピア対比の残差乖離」を表示するアイデアのみ。"
+      },
+      "formulas": [
+        "residual network: remove top eigenmodes of return correlation, then A_t = signed sparse adjacency from factor-adjusted EWMA residual correlations (FADE)",
+        "GIDF single factor: R_{i,t} = β_{i,t}·F_t + ε_{i,t}, β_{i,t} = g(graph-attention over A_t, firm characteristics x_{i,t}, macro m_t)",
+        "Avellaneda–Lee s-score: s_i = (X_i(t) − m_i)/σ_eq,i from OU fit of cumulative residuals; open when |s| exceeds threshold, close near 0",
+        "reported: OOS 2015–2024 annualized Sharpe 1.78 gross; daily turnover ≈154%; net Sharpe tested at 1/2/5 bp per unit traded",
+        "site idea (watch): show a pick's market-adjusted return gap vs its closest peers as context; display only while passedGate=false"
+      ],
+      "plainTakeaways": [
+        "股票跟「相似股票」暫時拉開距離後，常會再靠回來",
+        "先扣掉大盤共同波動，再看股票之間的關係網路，訊號較乾淨",
+        "論文夏普 1.78 是未扣成本、每天高週轉的多空對沖結果",
+        "本站想法：個股卡可顯示「相對同類股偏離多少」；只是候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "股票跟「相似股票」暫時拉開距離後，常會再靠回來",
+          "先扣掉大盤共同波動，再看股票之間的關係網路，訊號較乾淨",
+          "論文夏普 1.78 是未扣成本、每天高週轉的多空對沖結果",
+          "本站想法：個股卡可顯示「相對同類股偏離多少」；只是候選"
+        ],
+        "zh-Hans": [
+          "股票跟“相似股票”暂时拉开距离后，常会再靠回来",
+          "先扣掉大盘共同波动，再看股票之间的关系网络，讯号较干净",
+          "论文夏普 1.78 是未扣成本、每天高周转的多空对冲结果",
+          "本站想法：个股卡可显示“相对同类股偏离多少”；只是候选"
+        ],
+        "en": [
+          "When a stock drifts away from similar stocks, it often moves back",
+          "Removing market-wide moves before mapping stock relationships gives a cleaner signal",
+          "The 1.78 Sharpe is gross of costs from high-turnover daily long-short trading",
+          "Site idea: show how far a pick has drifted from its peers; candidate only"
+        ],
+        "ja": [
+          "類似銘柄から一時的に乖離した株は戻ることが多い",
+          "市場全体の動きを除いてから銘柄間ネットワークを見るとシグナルが明瞭に",
+          "シャープ 1.78 はコスト控除前・高回転の日次ロングショート結果",
+          "本サイト案：銘柄カードに「ピアからの乖離」を表示。候補のみ"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — candidate only, not adopted because the math gate is not passed. Daily market-neutral long-short with ~154% daily turnover, GPU-trained graph model and headline Sharpe gross of costs — not runnable by this site's daily long-only screener. Kept as watch only for a display-only 'residual vs peers' context idea. Figures paraphrased from the arXiv abstract (v1) and results section. No screener, picks or paper-ledger change. Never status=adopted while passedGate=false.",
+      "sources": [
+        "https://arxiv.org/abs/2611.34209",
+        "https://arxiv.org/html/2611.34209v1"
+      ],
+      "tags": [
+        "us",
+        "statistical-arbitrage",
+        "factor-models",
+        "graph-neural-networks",
+        "mean-reversion",
+        "residual-returns",
+        "high-turnover",
         "methodology"
       ],
       "coverUrl": "./covers/placeholder-paper.svg",
