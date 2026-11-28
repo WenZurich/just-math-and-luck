@@ -687,7 +687,7 @@ async function main() {
       if (p.risk && p.risk !== "—" && !riskPoints(p.risk, "TW").length) errs.push(`${p.ticker}: risk dropped`);
     }
     const mainSrc = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
-    if (!/why-cell">\$\{whyListHtml\(s\.why, escapeHtml\)\}\$\{riskLine\(s, "why-risk"\)\}/.test(mainSrc)) errs.push("desktop list why-cell lost 風險 line");
+    if (!/why-cell">\$\{whyFoldHtml\(s, "why-fold--table"\)\}\$\{riskLine\(s, "why-risk"\)\}/.test(mainSrc)) errs.push("desktop list why-cell lost 風險 line");
     if (errs.length) for (const e of errs.slice(0, 5)) fail(`risk-plain: ${e}`);
     else ok("risk-plain: 風險 in plain words, US never says 漲停, desktop list shows 風險 like mobile");
   } catch (e) {
@@ -2324,11 +2324,26 @@ async function main() {
       const m = mainSrc.match(/function mobileCards[\s\S]*?\n}\n/);
       const body = m ? m[0] : "";
       const riskAt = body.indexOf('riskLine(s, "lc-why lc-risk")');
-      const foldAt = body.indexOf('<details class="fold-block card-fold lc-why-fold">');
+      const foldAt = body.indexOf('<details class="fold-block card-fold lc-why-fold why-fold">');
       if (foldAt < 0) fail("mobile list cards: 入選理由 should be a collapsed <details> (lc-why-fold)");
       else if (riskAt < 0 || riskAt > foldAt) fail("mobile list cards: 風險 line must stay visible above the folded 入選理由");
       else if (/lc-why-fold" open/.test(body)) fail("mobile list cards: 入選理由 fold should start closed");
       else ok("mobile list cards: 入選理由 folded, 風險 stays visible");
+    }
+    {
+      // 2026-11-28: desktop 清單 理由 column folds 入選理由 (closed <details>, count), 風險 stays visible outside
+      // the fold; one 「展開全部入選理由」 button per list (aria-expanded, 44px) opens/closes every fold. i18n x4.
+      const mainSrc = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+      const css = fs.readFileSync(path.join(ROOT, "src/style.css"), "utf8");
+      const langs = ["src/i18n.js", "src/i18n/en.js", "src/i18n/zh-Hans.js", "src/i18n/ja.js"];
+      const missing = langs.filter((f) => !["whyExpandAll", "whyCollapseAll"].every((k) => new RegExp(`\\b${k}: "`).test(fs.readFileSync(path.join(ROOT, f), "utf8"))));
+      const fold = (mainSrc.match(/function whyFoldHtml[\s\S]*?\n}\n/) || [""])[0];
+      if (!/<details class="fold-block card-fold why-fold \$\{extra\}">/.test(fold)) fail("desktop why fold: whyFoldHtml must render a closed <details class=why-fold>");
+      else if ((mainSrc.match(/\$\{whyAllButton\((us|tw)\)\}/g) || []).length !== 2) fail("desktop why fold: US and TW lists each need the expand-all button");
+      else if (!/bindWhyAll\(app\)/.test(mainSrc) || !/data-why-all aria-expanded="false"/.test(mainSrc)) fail("desktop why fold: expand-all button not bound / missing aria-expanded");
+      else if (!/\.why-all-btn \{\s*min-height: 44px;/.test(css)) fail("desktop why fold: expand-all button must be a 44px target");
+      else if (missing.length) fail(`desktop why fold: i18n keys missing in ${missing.join(", ")}`);
+      else ok("desktop 清單 理由: 入選理由 folded (風險 visible), expand-all button per list, i18n x4");
     }
     {
       // 2026-11-14: header tickers get a real stop button (WCAG 2.2.2), not only press-and-hold.

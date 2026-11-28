@@ -768,6 +768,8 @@ export default {
   screening: "筛选",
   reason: "理由",
   whyPicked: "入选理由",
+  whyExpandAll: "展开全部入选理由",
+  whyCollapseAll: "收起全部入选理由",
   marqueePause: "暂停",
   marqueePlay: "播放",
   marqueePauseHint: "停止跑马灯滚动，改成可左右滑动查看",

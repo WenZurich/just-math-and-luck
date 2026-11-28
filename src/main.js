@@ -440,6 +440,42 @@ function delistedPriceHtml(s, ca) {
   return `<span class="pick-delisted-price">${fmtPrice(s.price, s.currency)}</span><span class="pick-delisted-last">${escapeHtml(t("pickDelistedLast", { date: ca.lastTradingDate || "" }))}</span>`;
 }
 
+/* 2026-11-28 site check: desktop 清單 rows printed every 入選理由 bullet (5–7 lines that mostly
+ * repeat the 今日／比大盤／5 日／約 1 月／量比 columns), so one row was 100–180px tall and 12 US picks
+ * filled ~3 screens. The 理由 column now folds them like the phone cards (native <details>, count
+ * badge) and keeps the 風險 line visible; a 「展開全部入選理由」 button per list opens them all. */
+function whyFoldHtml(s, extra) {
+  if (!s.why) return "";
+  const n = whyPoints(s.why).length;
+  if (!n) return "";
+  return `<details class="fold-block card-fold why-fold ${extra}"><summary>${escapeHtml(t("whyPicked"))}<span class="lc-why-count">${n}</span></summary>${whyListHtml(s.why, escapeHtml)}</details>`;
+}
+
+function whyAllButton(list) {
+  if (!list.some((s) => s.why && !delistedOfPick(s))) return "";
+  return `<button type="button" class="why-all-btn" data-why-all aria-expanded="false">${escapeHtml(t("whyExpandAll"))}</button>`;
+}
+
+function bindWhyAll(root) {
+  root.querySelectorAll("[data-why-all]").forEach((btn) => {
+    const section = btn.closest(".section");
+    if (!section) return;
+    const folds = () => [...section.querySelectorAll("details.why-fold")];
+    const sync = () => {
+      const all = folds();
+      const open = all.length > 0 && all.every((d) => d.open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.textContent = t(open ? "whyCollapseAll" : "whyExpandAll");
+    };
+    btn.addEventListener("click", () => {
+      const want = btn.getAttribute("aria-expanded") !== "true";
+      for (const d of folds()) d.open = want;
+      sync();
+    });
+    section.addEventListener("toggle", sync, true);
+  });
+}
+
 function tableRows(list) {
   return liveFirst(list)
     .map((s) => {
@@ -473,7 +509,7 @@ function tableRows(list) {
         <td class="num">${s.volRatio != null ? fmtNum(s.volRatio, 2) + "×" : "—"}</td>
         <td>${smaBadges(s)}</td>
         <td>${screenBadges(s.screens)}</td>
-        <td class="why-cell">${whyListHtml(s.why, escapeHtml)}${riskLine(s, "why-risk")}</td>
+        <td class="why-cell">${whyFoldHtml(s, "why-fold--table")}${riskLine(s, "why-risk")}</td>
       </tr>`;
     })
     .join("");
@@ -522,7 +558,7 @@ function mobileCards(list) {
         </div>
         <div class="flags" style="margin-bottom:0.4rem">${smaBadges(s)}${screenBadges(s.screens)}</div>
         ${riskLine(s, "lc-why lc-risk")}
-        ${s.why ? `<details class="fold-block card-fold lc-why-fold"><summary>${escapeHtml(t("whyPicked"))}<span class="lc-why-count">${whyPoints(s.why).length}</span></summary><div class="lc-why">${whyListHtml(s.why, escapeHtml)}</div></details>` : ""}
+        ${s.why ? `<details class="fold-block card-fold lc-why-fold why-fold"><summary>${escapeHtml(t("whyPicked"))}<span class="lc-why-count">${whyPoints(s.why).length}</span></summary><div class="lc-why">${whyListHtml(s.why, escapeHtml)}</div></details>` : ""}
       </div>`;
     })
     .join("");
@@ -926,7 +962,7 @@ function renderApp(data, paper) {
             ${renderTop5ByMarket(top5, "US")}
           </section>
           <section class="section">
-            <h2 class="section-title">${escapeHtml(t("usList"))}</h2>
+            <div class="section-head-row"><h2 class="section-title">${escapeHtml(t("usList"))}</h2>${whyAllButton(us)}</div>
             <div class="table-wrap table-wrap--picks" role="region" tabindex="0" aria-label="${escapeHtml(t("usList"))}">
               <table class="stock-table pick-table">
                 <thead>${headers}</thead>
@@ -943,7 +979,7 @@ function renderApp(data, paper) {
             ${renderTop5ByMarket(top5, "TW")}
           </section>
           <section class="section">
-            <h2 class="section-title">${escapeHtml(t("twList"))}</h2>
+            <div class="section-head-row"><h2 class="section-title">${escapeHtml(t("twList"))}</h2>${whyAllButton(tw)}</div>
             <div class="table-wrap table-wrap--picks" role="region" tabindex="0" aria-label="${escapeHtml(t("twList"))}">
               <table class="stock-table pick-table">
                 <thead>${headers}</thead>
@@ -1313,6 +1349,7 @@ async function mountUi(app) {
   const keepNested = Boolean(routeAtMount.sub || routeAtMount.shelf);
   showView(app, viewBefore, { updateHash: !keepNested, scrollTop: false });
   bindTabs(app);
+  bindWhyAll(app);
   bindMarketMarquee(app);
   bindMarqueeToggle(app);
   bindPaperTabs(app);

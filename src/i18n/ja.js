@@ -768,6 +768,8 @@ export default {
   screening: "スクリーニング",
   reason: "理由",
   whyPicked: "選ばれた理由",
+  whyExpandAll: "選ばれた理由をすべて開く",
+  whyCollapseAll: "選ばれた理由をすべて閉じる",
   marqueePause: "停止",
   marqueePlay: "再生",
   marqueePauseHint: "ティッカーの自動スクロールを止め、横スワイプで見られるようにします",

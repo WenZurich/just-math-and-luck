@@ -4408,3 +4408,43 @@ html.marquee-static .macro-strip .index-marquee-group--clone {
   overflow-wrap: anywhere;
 }
 .pick-excluded-note a { color: inherit; text-decoration: underline; }
+
+/* 2026-11-28 site check: desktop 清單 理由 column folds 入選理由 (bullets repeat the numeric columns),
+   風險 stays visible; 「展開全部入選理由」 opens every fold in that list at once. Rows ~100–180px → ~44–70px. */
+.section-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.85rem;
+}
+.section-head-row > .section-title { margin-bottom: 0; }
+.why-all-btn {
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface, #fff);
+  color: var(--accent);
+  font: inherit;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  cursor: pointer;
+}
+.why-all-btn:hover { background: var(--surface-2); }
+.why-all-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.stock-table .why-cell .why-fold--table { border-top: 0; }
+.stock-table .why-cell .why-fold--table > summary {
+  min-height: 24px; /* WCAG 2.5.8 target size; text lines up with the row's first line */
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.4;
+}
+.stock-table .why-cell .why-fold--table .why-list { margin: 0.15rem 0 0.35rem; }
+.stock-table .why-cell .why-fold--table + .why-risk { margin-top: 0.15rem; }
+.pick-table td { vertical-align: top; }
+@media print {
+  .why-all-btn { display: none; }
+}

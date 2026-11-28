@@ -785,6 +785,8 @@ export default {
   screening: "Screen",
   reason: "Why",
   whyPicked: "Why it was picked",
+  whyExpandAll: "Show all reasons",
+  whyCollapseAll: "Hide all reasons",
   marqueePause: "Pause",
   marqueePlay: "Play",
   marqueePauseHint: "Stop the scrolling tickers; swipe or scroll them instead",

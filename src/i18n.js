@@ -865,6 +865,8 @@ const zhHant = {
   screening: "篩選",
   reason: "理由",
   whyPicked: "入選理由",
+  whyExpandAll: "展開全部入選理由",
+  whyCollapseAll: "收合全部入選理由",
   marqueePause: "暫停",
   marqueePlay: "播放",
   marqueePauseHint: "停止跑馬燈捲動，改成可左右滑動查看",
